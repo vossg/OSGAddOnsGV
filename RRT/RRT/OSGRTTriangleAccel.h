@@ -112,7 +112,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentric
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void putToStream(OutStream &str) const;
+    void putToStream   (      OutStream &str  ) const;
+    bool getFromCString(const Char8     *inVal);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

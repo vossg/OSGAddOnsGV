@@ -253,6 +253,20 @@ void RTCacheKDNode::putToStream(OutStream &str) const
 }
 
 inline
+bool RTCacheKDNode::getFromCString(const Char8 *inVal)
+{
+    if(inVal == NULL)
+        return false;
+
+    UInt32 rc = sscanf(inVal, "%u %u", &_uiFlags, &_uiAboveChild);
+
+    if(rc != 2)
+        return false;
+
+    return true;
+}
+
+inline
 bool RTCacheKDNode::operator ==(const RTCacheKDNode &rhs) const
 {
     return 

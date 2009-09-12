@@ -193,6 +193,56 @@ void RTTriAccelBarycentric::putToStream(OutStream &str) const
 }
 
 inline
+bool RTTriAccelBarycentric::getFromCString(const Char8 *inVal)
+{
+    if(inVal ==  NULL)
+        return false;
+
+    union
+    {
+        Real32 rVal [12];
+        UInt32 uiVal[12];
+    };
+
+
+    UInt32 rc = sscanf(inVal, "%u %u %u %u %u %u %u %u %u %u %u %u",
+                       &(uiVal[0]),
+                       &(uiVal[1]),
+                       &(uiVal[2]),
+                       &(uiVal[3]),
+                       &(uiVal[4]),
+                       &(uiVal[5]),
+                       &(uiVal[6]),
+                       &(uiVal[7]),
+                       &(uiVal[8]),
+                       &(uiVal[9]),
+                       &(uiVal[10]),
+                       &(uiVal[11]));
+
+    if(rc != 12)
+    {
+        return false;
+    }
+
+    _nU      = rVal [0 ];
+    _nV      = rVal [1 ];
+    _nD      = rVal [2 ];
+    _uiProj  = uiVal[3 ];
+
+    _bNU     = rVal [4 ];
+    _bNV     = rVal [5 ];
+    _bD      = rVal [6 ];
+    _uiObjId = uiVal[7 ];
+
+    _cNU     = rVal [8 ];
+    _cNV     = rVal [9 ];
+    _cD      = rVal [10];
+    _uiTriId = uiVal[11];
+
+    return true;
+}
+
+inline
 void RTTriAccelBarycentric::setup(Pnt3f  A, 
                                   Pnt3f  B, 
                                   Pnt3f  C, 

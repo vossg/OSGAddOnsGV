@@ -120,6 +120,14 @@ RTCacheAttachmentInst<DescT>::~RTCacheAttachmentInst(void)
 }
 
 template<typename DescT> inline
+void RTCacheAttachmentInst<DescT>::setCache(typename RTCache::ObjPtr pCache)
+{
+    editSField(CacheFieldMask);
+
+    OSG::setRefd(_sfCache.getValue(), pCache);
+}
+
+template<typename DescT> inline
 EditFieldHandlePtr RTCacheAttachmentInst<DescT>::editHandleCache(void) 
 {
     typename RTCacheField::EditHandlePtr returnValue(
@@ -127,9 +135,9 @@ EditFieldHandlePtr RTCacheAttachmentInst<DescT>::editHandleCache(void)
              &_sfCache, 
              this->getType().getFieldDesc(CacheFieldId)));
 
-//    returnValue->setSetMethod(boost::bind(&Node::setCore, this, _1));
-
-    editSField(CacheFieldMask);
+    returnValue->setSetMethod(boost::bind(&RTCacheAttachmentInst::setCache, 
+                                          this, 
+                                          _1));
 
     return returnValue;
 }

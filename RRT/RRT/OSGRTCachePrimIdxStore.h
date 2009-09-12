@@ -87,81 +87,90 @@ struct FieldTraits<RTCachePrimIdxStore> :
     static bool getFromCString(      RTCachePrimIdxStore  &outVal,
                                const Char8               *&inVal)
     {
-#if 0
-        Real32 valStore[  6];
-        Char8  str     [256];
-
-        UInt32  length = strlen(inVal);
-        Char8  *c      = str;
-    
-        if(length > 256)
-        {
-            std::cerr << "FieldDataTraits<DynamicVolume>::getFromString(): "
-                      << "Input too long" << std::endl;
-
+        if(inVal == NULL)
             return false;
-        }
 
-        strncpy(str, inVal, length);
+        UInt32 uiNum  = 0;
 
-        while(*c != '\0')
-        {
-            if(*c == '[')
-                *c = ' ';
-            if(*c == ']')
-                *c = ' ';
-            if(*c == ',')
-                *c = ' ';
-
-            c++;
-        }
+        Char8 *c      = const_cast<Char8 *>(inVal);
+        Char8 *tokenC = 0;
         
-        Int16 count = sscanf(str, "%f %f %f %f %f %f",
-                             &valStore[0], &valStore[1], &valStore[2],
-                             &valStore[3], &valStore[4], &valStore[5]);
+        Char8  token[256];
+        bool   bFinished = false;
+        bool   bFoundNum = false;
         
-        if(count == 4)
+        while(bFinished == false)
         {
-            outVal.setVolumeType(DynamicVolume::SPHERE_VOLUME);
+            switch (*c)
+            {
+                case '\0':
 
-            SphereVolume *pSVol = 
-                    dynamic_cast<SphereVolume *>(&(outVal.getInstance()));
+                    if(tokenC)
+                    {
+                        *tokenC = 0;
 
-            pSVol->setCenter(Pnt3r(valStore[0], valStore[1], valStore[2]));
-            pSVol->setRadius(valStore[3]);
-            
-            outVal.instanceChanged();
+                        if(bFoundNum == false)
+                        {
+                            uiNum = TypeTraits<UInt32>::getFromCString(token);
 
-            return true;
+                            bFoundNum = true;
+                        }
+                        else
+                        {
+                            outVal.push_back(
+                                TypeTraits<UInt32>::getFromCString(token));
+                        }
+                    }
+
+                    if(bFoundNum == true && outVal.size() < uiNum)
+                    {
+                        outVal.resize(uiNum, 
+                                      TypeTraits<UInt32>::getZeroElement());
+                    }
+
+                    bFinished = true;
+
+                    break;
+
+                case ' ' :
+                case '\t':
+                case '\n':
+                case ',':
+                    if(tokenC)
+                    {
+                        *tokenC = 0;
+
+                        if(bFoundNum == false)
+                        {
+                            uiNum = TypeTraits<UInt32>::getFromCString(token);
+
+                            if(uiNum != 0)
+                            {
+                                outVal.reserve(uiNum);
+                            }
+
+                            bFoundNum = true;
+                        }
+                        else
+                        {
+                            outVal.push_back(
+                                TypeTraits<UInt32>::getFromCString(token));
+                        }
+
+                        tokenC = 0;
+                    }
+                break;
+
+                default:
+                    if(!tokenC)
+                    {
+                        tokenC = token;
+                    }
+                    *tokenC++ = *c;
+                    break;
+            }
+            ++c;
         }
-        else if(count == 6)
-        {
-            outVal.setVolumeType(DynamicVolume::BOX_VOLUME);
-
-            BoxVolume *pBVol = 
-                dynamic_cast<BoxVolume *>(&(outVal.getInstance()));
-
-            pBVol->setBounds(valStore[0], valStore[1], valStore[2],
-                             valStore[3], valStore[4], valStore[5]);
-            
-            outVal.instanceChanged();
-
-            return true;
-        }
-        else
-        {
-            outVal.setVolumeType(DynamicVolume::BOX_VOLUME);
-
-            BoxVolume *pBVol = 
-                dynamic_cast<BoxVolume *>(&(outVal.getInstance()));
-
-            pBVol->setBounds(0.f,0.f,0.f, 0.f,0.f,0.f);
-            
-            outVal.instanceChanged();
-
-            return false;
-        }
-#endif
     }
 
 

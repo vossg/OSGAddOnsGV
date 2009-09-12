@@ -162,6 +162,13 @@ class  RTCacheAttachmentInst : public RTCacheAttachment
     /*! \name                      Init                                    */
     /*! \{                                                                 */
 
+    void setCache(typename RTCache::ObjPtr pCache);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
     EditFieldHandlePtr editHandleCache(void);
     GetFieldHandlePtr  getHandleCache (void) const;
 

@@ -83,84 +83,10 @@ struct FieldTraits<RTTriAccelBarycentric> :
     }
 
 
-    static bool getFromCString(      RTTriAccelBarycentric &outVal,
-                               const Char8         *&inVal)
+    static bool getFromCString(      RTTriAccelBarycentric  &outVal,
+                               const Char8                 *&inVal)
     {
-#if 0
-        Real32 valStore[  6];
-        Char8  str     [256];
-
-        UInt32  length = strlen(inVal);
-        Char8  *c      = str;
-    
-        if(length > 256)
-        {
-            std::cerr << "FieldDataTraits<DynamicVolume>::getFromString(): "
-                      << "Input too long" << std::endl;
-
-            return false;
-        }
-
-        strncpy(str, inVal, length);
-
-        while(*c != '\0')
-        {
-            if(*c == '[')
-                *c = ' ';
-            if(*c == ']')
-                *c = ' ';
-            if(*c == ',')
-                *c = ' ';
-
-            c++;
-        }
-        
-        Int16 count = sscanf(str, "%f %f %f %f %f %f",
-                             &valStore[0], &valStore[1], &valStore[2],
-                             &valStore[3], &valStore[4], &valStore[5]);
-        
-        if(count == 4)
-        {
-            outVal.setVolumeType(DynamicVolume::SPHERE_VOLUME);
-
-            SphereVolume *pSVol = 
-                    dynamic_cast<SphereVolume *>(&(outVal.getInstance()));
-
-            pSVol->setCenter(Pnt3r(valStore[0], valStore[1], valStore[2]));
-            pSVol->setRadius(valStore[3]);
-            
-            outVal.instanceChanged();
-
-            return true;
-        }
-        else if(count == 6)
-        {
-            outVal.setVolumeType(DynamicVolume::BOX_VOLUME);
-
-            BoxVolume *pBVol = 
-                dynamic_cast<BoxVolume *>(&(outVal.getInstance()));
-
-            pBVol->setBounds(valStore[0], valStore[1], valStore[2],
-                             valStore[3], valStore[4], valStore[5]);
-            
-            outVal.instanceChanged();
-
-            return true;
-        }
-        else
-        {
-            outVal.setVolumeType(DynamicVolume::BOX_VOLUME);
-
-            BoxVolume *pBVol = 
-                dynamic_cast<BoxVolume *>(&(outVal.getInstance()));
-
-            pBVol->setBounds(0.f,0.f,0.f, 0.f,0.f,0.f);
-            
-            outVal.instanceChanged();
-
-            return false;
-        }
-#endif
+        return outVal.getFromCString(inVal);
     }
 
 
@@ -170,59 +96,6 @@ struct FieldTraits<RTTriAccelBarycentric> :
         str << "\"";
         val.putToStream(str);
         str << "\"";
-        
-#if 0
-        Pnt3r min, max;
-
-        switch(val.getType())
-        {
-            case DynamicVolume::BOX_VOLUME:
-
-				typedef TypeTraits<Pnt3r::ValueType> TypeTrait;
-
-                val.getBounds(min, max);
-
-                TypeTrait::putToStream(min[0], str);
-                str << " ";
-                
-                TypeTrait::putToStream(min[1], str);
-                str << " ";
-
-                TypeTrait::putToStream(min[2], str);
-                str << " ";
-
-                TypeTrait::putToStream(max[0], str);
-                str << " ";
-
-                TypeTrait::putToStream(max[1], str);
-                str << " ";
-
-                TypeTrait::putToStream(max[2], str);
-
-                break;
-
-
-            case DynamicVolume::SPHERE_VOLUME:
-
-				typedef TypeTraits<Pnt3r::ValueType> TypeTrait;
-
-                const SphereVolume &sVol = 
-                    dynamic_cast<const SphereVolume&>(val.getInstance());
-
-                TypeTrait::putToStream(sVol.getCenter()[0], str);
-                str << " ";
-
-                TypeTrait::putToStream(sVol.getCenter()[1], str);
-                str << " ";
- 
-                TypeTrait::putToStream(sVol.getCenter()[2], str);
-                str << " ";
-
-				TypeTraits<Real>::putToStream(sVol.getRadius(), str);
-
-                break;
-        }
-#endif
     }
 
     static UInt32 getBinSize(const RTTriAccelBarycentric &oObject)

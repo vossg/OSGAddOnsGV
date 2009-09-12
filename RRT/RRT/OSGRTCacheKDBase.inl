@@ -120,6 +120,14 @@ void RTCacheKDBase<DescT>::execSync(      RTCacheKDBase      *pFrom,
 
 
 template<typename DescT> inline
+void RTCacheKDBase<DescT>::addGeoStore(RTCacheGeometryStorePtr pStore)
+{
+    editMField(GeoStoreFieldMask, _mfGeos);
+
+    _mfGeos.push_back(pStore);
+}
+
+template<typename DescT> inline
 EditFieldHandlePtr RTCacheKDBase<DescT>::editHandleGeoStore(void)
 {
     MFRTCacheGeometryStorePtr::EditHandlePtr returnValue(
@@ -127,10 +135,9 @@ EditFieldHandlePtr RTCacheKDBase<DescT>::editHandleGeoStore(void)
              &_mfGeos, 
              this->getType().getFieldDesc(GeoStoreFieldId)));
 
-    // Add Function
-
-    editMField(GeoStoreFieldMask, _mfGeos);
-
+    returnValue->setAddMethod(boost::bind(&RTCacheKDBase::addGeoStore, 
+                                          this, 
+                                          _1));
     return returnValue;
 }
 

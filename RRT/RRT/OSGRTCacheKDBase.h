@@ -53,6 +53,8 @@
 
 #include "OSGRTCacheKDNode.h"
 
+#include <boost/bind.hpp>
+
 OSG_BEGIN_NAMESPACE
 
 /*! Memory, simple reference counted memory object. Parent of
@@ -213,6 +215,13 @@ class RTCacheKDBase : public FieldContainer
     RTCacheKDBase(const RTCacheKDBase &source);
 
     virtual ~RTCacheKDBase(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    void addGeoStore(RTCacheGeometryStorePtr pStore);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
