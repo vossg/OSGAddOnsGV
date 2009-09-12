@@ -50,21 +50,21 @@ using namespace OSG;
 
 RenderAction *rentravact;
 
-NodePtr  root;
+NodeUnrecPtr  root;
 
-NodePtr  file;
+NodeUnrecPtr  file;
 
-PerspectiveCameraPtr cam;
-ViewportPtr vp;
-WindowPtr win;
+PerspectiveCameraUnrecPtr cam;
+ViewportUnrecPtr vp;
+WindowUnrecPtr win;
 
-TransformPtr cam_trans;
-TransformPtr scene_trans;
+TransformUnrecPtr cam_trans;
+TransformUnrecPtr scene_trans;
 
-PolygonChunkPtr pPoly;
-bool            bPolyActive = false;
-ChunkOverrideGroupPtr pCOver;
-SHLChunkPtr pSHL = NullFC;
+PolygonChunkUnrecPtr pPoly;
+bool                 bPolyActive = false;
+ChunkOverrideGroupUnrecPtr pCOver;
+SHLChunkUnrecPtr pSHL = NullFC;
 
 Trackball tball;
 
@@ -220,8 +220,19 @@ void key(unsigned char key, int x, int y)
     switch ( key )
     {
         case 27:    
-            subRef(win);
             delete rentravact;
+
+            root = NullFC;
+            file = NullFC;
+            cam = NullFC;
+            vp = NullFC;
+            win = NullFC;
+            cam_trans = NullFC;
+            scene_trans = NullFC;
+            pPoly = NullFC;
+            pCOver = NullFC;
+            pSHL = NullFC;
+
             osgExit(); 
             exit(0);
         case 'a':   
@@ -375,14 +386,14 @@ int main (int argc, char **argv)
     // create the graph
 
     // beacon for camera and light  
-    NodePtr b1n = Node::create();
-    GroupPtr b1 = Group::create();
+    NodeUnrecPtr b1n = Node::create();
+    GroupUnrecPtr b1 = Group::create();
 
     b1n->setCore( b1 );
 
     // transformation
-    NodePtr t1n = Node::create();
-    TransformPtr t1 = Transform::create();
+    NodeUnrecPtr t1n = Node::create();
+    TransformUnrecPtr t1 = Transform::create();
 
     t1n->setCore( t1 );
     t1n->addChild( b1n );
@@ -391,8 +402,8 @@ int main (int argc, char **argv)
 
     // light
     
-    NodePtr dlight = Node::create();
-    DirectionalLightPtr dl = DirectionalLight::create();
+    NodeUnrecPtr dlight = Node::create();
+    DirectionalLightUnrecPtr dl = DirectionalLight::create();
 
     dlight->setCore( dl );
 //    dlight->setCore( Group::create() );
@@ -404,7 +415,7 @@ int main (int argc, char **argv)
 
     // root
     root = Node::create();
-    GroupPtr gr1 = Group::create();
+    GroupUnrecPtr gr1 = Group::create();
 
     root->setCore( gr1 );
     root->addChild( t1n );
@@ -412,7 +423,7 @@ int main (int argc, char **argv)
 
     // Load the file
 
-    NodePtr file = NullFC;
+    NodeUnrecPtr file = NullFC;
     
     if(argc > 1)
         file = SceneFileHandler::the()->read(argv[1], NULL);
@@ -491,7 +502,7 @@ int main (int argc, char **argv)
 //    pChunkOverNode->setCore(pCOver);
 //    pChunkOverNode->addChild(file);
 
-    MultiCorePtr pMCore = MultiCore::create();
+    MultiCoreUnrecPtr pMCore = MultiCore::create();
 
     pCOver      = ChunkOverrideGroup::create();
     scene_trans = Transform::create();
@@ -499,20 +510,20 @@ int main (int argc, char **argv)
     pMCore->addCore(scene_trans);
     pMCore->addCore(pCOver     );
 
-    NodePtr sceneTrN = Node::create();
+    NodeUnrecPtr sceneTrN = Node::create();
 
     sceneTrN->setCore(pMCore);
     sceneTrN->addChild(file);
 
-    MaterialGroupPtr pMG = MaterialGroup::create();
+    MaterialGroupUnrecPtr pMG = MaterialGroup::create();
 
-    ChunkMaterialPtr pChunkMat = ChunkMaterial::create();
+    ChunkMaterialUnrecPtr pChunkMat = ChunkMaterial::create();
 
     pMG->setMaterial(pChunkMat);
     pMCore->addCore(pMG);
 
 
-    MaterialChunkPtr pMatChunk = MaterialChunk::create();
+    MaterialChunkUnrecPtr pMatChunk = MaterialChunk::create();
 
     pMatChunk->editDiffuse().setValuesRGBA(0.8, 0.8, 0.8, 1.0);
     
@@ -542,7 +553,7 @@ int main (int argc, char **argv)
     cam->setFar( 100000 );
 
     // Background
-    SolidBackgroundPtr bkgnd = SolidBackground::create();
+    SolidBackgroundUnrecPtr bkgnd = SolidBackground::create();
 
     bkgnd->setColor(Color3f(0,0,1));
     
@@ -560,7 +571,7 @@ int main (int argc, char **argv)
     // Window
     std::cout << "GLUT winid: " << winid << std::endl;
 
-    GLUTWindowPtr gwin;
+    GLUTWindowUnrecPtr gwin;
 
     GLint glvp[4];
 
@@ -604,8 +615,8 @@ int main (int argc, char **argv)
     tball.setTranslationScale(scale);
     tball.setRotationCenter(tCenter);
 
-    fprintf(stderr, "%d\n", MFNodePtr          ::getClassType().getId());
-    fprintf(stderr, "%d\n", MFFieldContainerPtr::getClassType().getId());
+//    fprintf(stderr, "%d\n", MFNodePtr          ::getClassType().getId());
+//    fprintf(stderr, "%d\n", MFFieldContainerPtr::getClassType().getId());
 
 //    MFNodePtr          ::getClassType().dump();
 //    MFFieldContainerPtr::getClassType().dump();
@@ -616,7 +627,7 @@ int main (int argc, char **argv)
 
     pCOver->subChunk(pPoly);
 
-    OSG::addRef(pPoly);
+//    OSG::addRef(pPoly);
 
 #if 0
     GroupNodePtr pGr = GroupNodePtr::create();

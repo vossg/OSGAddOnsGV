@@ -95,9 +95,9 @@ MSceneFileType  MSceneFileType::_the(_suffixA,
                                      (SceneFileType::OSG_READ_SUPPORTED |
                                       SceneFileType::OSG_WRITE_SUPPORTED));
 
-NodePtr MSceneFileType::read(std::istream &is, const Char8 *) const
+NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
 {
-    NodePtr rootPtr = NullFC;
+    NodeTransitPtr rootPtr(NullFC);
 
 
     if(is)
@@ -108,16 +108,16 @@ NodePtr MSceneFileType::read(std::istream &is, const Char8 *) const
         Pnt3f vPos;
         Vec3f vNormal;
 
-        GeoPnt3rPropertyPtr coordPtr       = GeoPnt3rProperty::create();
-        GeoVec3rPropertyPtr normalPtr      = GeoVec3rProperty::create();
+        GeoPnt3rPropertyUnrecPtr coordPtr       = GeoPnt3rProperty::create();
+        GeoVec3rPropertyUnrecPtr normalPtr      = GeoVec3rProperty::create();
 
-        GeoPnt3rPropertyPtr oCoordPtr      = GeoPnt3rProperty::create();
-        GeoVec3rPropertyPtr oNormalPtr     = GeoVec3rProperty::create();
+        GeoPnt3rPropertyUnrecPtr oCoordPtr      = GeoPnt3rProperty::create();
+        GeoVec3rPropertyUnrecPtr oNormalPtr     = GeoVec3rProperty::create();
 
-        GeoUIntPropertyPtr  indexPtr       = GeoUIntProperty::create();
+        GeoUIntPropertyUnrecPtr  indexPtr       = GeoUIntProperty::create();
 
-        GeoUIntPropertyPtr  lensPtr        = GeoUIntProperty::create();
-        GeoUInt8PropertyPtr typePtr        = GeoUInt8Property::create();
+        GeoUIntPropertyUnrecPtr  lensPtr        = GeoUIntProperty::create();
+        GeoUInt8PropertyUnrecPtr typePtr        = GeoUInt8Property::create();
 
         bool   onlyTris   = true;
         UInt32 uiTriCount = 0;
@@ -308,7 +308,7 @@ NodePtr MSceneFileType::read(std::istream &is, const Char8 *) const
 
         rootPtr = Node::create();
         
-        GeometryPtr pGeo = Geometry::create();
+        GeometryUnrecPtr pGeo = Geometry::create();
 
         pGeo->setMaterial(getDefaultMaterial());
 
