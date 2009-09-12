@@ -47,7 +47,7 @@
 #include "OSGConfig.h"
 
 
-#include "OSGRenderTraversalAction.h"
+#include "OSGRenderAction.h"
 
 #include "OSGMaterialDrawable.h"
 #include "OSGMatrixUtility.h"
@@ -66,7 +66,7 @@ ActionBase::ResultE RRTStageRenderEnter(const NodeCorePtr &pCore,
 #endif
 
 
-    RenderTraversalAction *a = dynamic_cast<RenderTraversalAction *>(action);
+    RenderAction *a = dynamic_cast<RenderAction *>(action);
 
     RRTStagePtr      pStage = dynamic_cast<RRTStagePtr>(pCore);
 
@@ -139,11 +139,11 @@ ActionBase::ResultE RRTStageRenderLeave(const NodeCorePtr &pCore,
 
 bool RRTActionInitialize(void)
 {
-    RenderTraversalAction::registerEnterDefault(
+    RenderAction::registerEnterDefault(
         RRTStage::getClassType(), 
               RRTStageRenderEnter);
 
-    RenderTraversalAction::registerLeaveDefault( 
+    RenderAction::registerLeaveDefault( 
         RRTStage::getClassType(), 
               RRTStageRenderLeave);
 
