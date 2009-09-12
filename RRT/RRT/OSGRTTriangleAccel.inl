@@ -405,7 +405,7 @@ void RTTriAccelBarycentric::intersect(RTRaySIMDPacket &oRay,
         continue;
 #endif
 
-    Float4 mask = osgSIMDAnd(osgSIMDCmpGE(fDist4, f4),
+    Float4 mask = osgSIMDAnd(osgSIMDCmpGT(fDist4, f4),
                              osgSIMDCmpGT(f4, SIMDEps));
 
     if( (osgSIMDMoveMask(mask) & uiActive) == 0) 
@@ -435,7 +435,7 @@ void RTTriAccelBarycentric::intersect(RTRaySIMDPacket &oRay,
 
     lambda = osgSIMDAdd(lambda, osgSIMDSet(_bD));
 
-    mask = osgSIMDAnd(mask, osgSIMDCmpGT(lambda, SIMDZero));
+    mask = osgSIMDAnd(mask, osgSIMDCmpGE(lambda, SIMDZero));
     
     if( (osgSIMDMoveMask(mask) & uiActive) == 0)
         return;
@@ -453,7 +453,7 @@ void RTTriAccelBarycentric::intersect(RTRaySIMDPacket &oRay,
 
     mue = osgSIMDAdd(mue, osgSIMDSet(_cD));
 
-    mask = osgSIMDAnd(mask, osgSIMDCmpGT(mue, SIMDZero));
+    mask = osgSIMDAnd(mask, osgSIMDCmpGE(mue, SIMDZero));
 
     if( (osgSIMDMoveMask(mask) & uiActive) == 0)
         return;
