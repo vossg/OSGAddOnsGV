@@ -1,0 +1,145 @@
+
+TODO - Programmieren
+=====================
+
+- StreamingTerrain
+ - Architektur überlegen
+ - LOD Algorithmus -> WT-based RQT 
+  - besser Geomipmaps/Quadtree  
+ - Out-of-core Rendering
+ - Caching/Paging Algorithmus? -> WT-based RQT
+  - Geomipmaps
+ - Wie bekomme ich die Clusterrechner synchron?
+  - sollte kein grosses Problem werden
+  - erfordert evtl. bidirektionale Kommunikation Server<->Client(s)
+ - Integration in OpenSG
+  - Als Camera/Viewport-Attachments
+ - Vor-/Nachteile
+  - Skaliert besser
+  - bessere approximation
+  - evtl. schlechterer durchsatz
+  
+- DynamicTerrain
+ +- in lib + testprojekte aufteilen (unter windows)
+ - Entscheidung: es befinden sich beim DynamicTerrain immer alle Daten im Speicher von jedem Clusterrechner
+  -> Die Level brauchen keine OpenSG Okbjekte mehr sein sondern sind nur noch interne Objekte (im renderer??)
+ - Intersektion code fertig machen + testen
+ - Textur+Normalmap updaten (für grosse (16k) Texturen)
+  - normalen dynamisch berechnen sieht furchtbar aus (wegen dem lod-verfahren)
+   - besser eine vorberechnete normalmap reinladen und die berechnete beleuchtung blenden (wie im paper erwähnt)
+ - Waveletkompression fertig machen
+  -> schwieriger als gedacht... 
+   - Transformationsteil ist "fertig" (alpha)
+   - Codierer geht noch nicht richtig (ich würde hier gerne denselben Algorithmus wie im WT-based RQT Verfahren benutzen)
+    - wird nicht funktionieren.. besser die Eigenschaften der Geoclipmaps ausnutzen.. (blockbasierte compression mit residuals)
+   - Dekodieren muss schnell sein (relativ)
+ - Beleuchtung/Materialsupport
+  - Beleuchtung nur über die Normalen (sollte mit den normalen Materialien zusammenarbeiten)
+ - Frustum Culling optimieren
+ - Clustertest
+  - Testapplikation machen
+   - scheint unter windows nicht zu funktionieren..?
+  - Speed testen
+ - Feine Haarrisse zwischen den Blöcken fixen (mit zeroarea dreiecken)
+ - GPU Renderer fertig machen
+  - fehlt nur die Textur
+ - Clipping an den Terraingrenzen 
+  - Cropping wieder einbauen
+  - oder user-clipplanes/im fragment program clippen?
+ - 16 bit Heightmaps? -> Sollte reichen, unt ist evtl. schneller..
+ - Auswertung/Beispiele
+  - Clustertest
+  - Performancetests
+ - Code Dokumentation (doxygen)
+  
+
+
++- extensions richtig machen (über den OpenSG Mechanismus)
+- Kamerasteuerung
+ - die kamera ist furchtbar.. ich brauche eine spacemousesteuerung
+ - evtl. meine kamera aus dem motor3d benutzen...?
+ - zwei kameras (umschaltbar machen)
+-gui
+ +- performance infos (fps,mtps,speicherbedarf)
+ +- updatemechanismus toggelbar machen (zum angucken)
+ - angezeigte level einstellbar machen
+- Bounding Box des Terrain berechnen&malen
+- client-server (synchronisieren)
+- partial image update übers netz..
+- kompression
++- dynamisches neuladen des shaders (mit 'r')
+- die samplegrösse der levels über einen parameter einstellbar machen
+- auswahl cpu/gpu renderer über einen p%arameter einstellbar machen
+- was ist mit der bounding box??
+ - ohne cropping gibt es keine echte bounding box um alles?!
+  -> cropping einbauen
+   -> schwierig
+  -> user clip planes?
+  -> unendlich grosse bounding box?
+   -> culling disablen für diesen knoten? -> kann ich eh besser als OpenSG   
+   
+   
+- andere algorithmen
+ - QAEB Rendering 
+ - Geometry Image Warping -> skaliert das?
+ - PDAM
+ - Chunked LOD
+ - ...
+ - auf jeden fall noch 1-3 implementieren (damit ich was dazu schreiben kann)
+ 
+- dynamische daten
+ - google maps abfragen-> wäre sicher lustig.. 
+  - hauptproblem: asynchrone abfragen und die umrechnung der samplerects in quadtreekoordinaten 
+  - google maps: (mars elevation: http://kh.google.com/movl?ov=52&t=ttqqtqtq die höhe ist farbkodiert)
+- integration mit opensg
+ - collision/raytest, extensionId_ );
+ - beleuchtung/materialien? (schwierig)
+ 
+- testszene zum performancetest
+ - kameraflug durch die szene um vergleichbare daten zu erhalten
+ 
+- für große Szene ist die Genauigkeit evtl. nicht gut genug...
+ -> (kamera - vertex pos im integer space machen und nur die restliche transformation mit floats)
+
+- cpu version:
+ +- index buffer richtig machen
+ - frustum culling
+ - beleuchtung/normalen
+  - normal maps?  
+  - normals erzeugen (was ist mit dem rand??) und über den alphawert blenden
+ +- toroidal access
+ +- alphawerte richtig berechnen
+  +- auch am rand
+   -> einfach den rand mitverschieben (ist eh die einzige lösung in der gpu-variante)
+ - um faktor 100 schneller machen
+  - wie?
+   - erstmal einen vernünftigen weg finden, um die aktulle performance messen zu können. 
+   +- 16 bit indizes
+   - tristrips/optimierte trilisten..
+   +- vbos benutzen 
+   - 2 vertexstreams verwenden?! 
+    - pos.x,pos.z,u,v -> 16 byte
+    - höhe,höhe vom level-1,n.x,n.y (n.z wird berechnet) -> 16 byte 
+     -> was ist mit der normalen des gröberen levels? wird auch gebraucht wegen dem blending
+   - uv-coordinaten im shader berechnen
+   - normalen packen
+   - index buffer nicht immer neu bauen (incremental)
+    - nicht so einfach
+    - wie in der gpu variante in statischen und dynamischen teil aufteilen
+     -> 9 blöcke + dynamischer ring + fixup    
+ +- textur
+ - textur dynamisch generieren
+ - schatten/beleuchtung
+ 
+- gpu version:
+ - höhendaten in textur
+ - innerstes level rendern
+ - fix-up geometrie rendern
+ - einen level (Level 0) malen (testen mit 64x64 leveln und minidaten)
+ - mehr level zeichnen (2)
+ - auschneiden des zweiten levels
+ - alpha berechnen
+ - alle level zeichnen
+ - daten updaten
+ - vbos
+ - frustum culling
