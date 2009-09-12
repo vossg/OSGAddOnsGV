@@ -2,9 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2003 by the OpenSG Forum                   *
- *                                                                           *
- *                            www.opensg.org                                 *
+ *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -36,69 +34,48 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include "OSGRTTileStore.h"
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
 OSG_BEGIN_NAMESPACE
 
-RTTileStore::RTTileStore(void) :
-    Inherited ( ),
-   _uiWidth   (0),
-   _uiHeight  (0),
-   _uiNumTiles(0),
-   _uiHTiles  (0),
-   _uiVTiles  (0)
+inline
+RTColorPacket::RTColorPacket(void) :
+    _oColor(0.f, 0.f, 0.f, 0.f)
 {
 }
 
-RTTileStore::~RTTileStore(void)
+inline
+RTColorPacket::~RTColorPacket(void)
 {
 }
 
-RTTileStore::RTTileStore(const RTTileStore &source)
+inline
+void RTColorPacket::set(Real32 rR, 
+                        Real32 rG, 
+                        Real32 rB,
+                        Real32 rA)
 {
+    _oColor.setValuesRGBA(rR, rG, rB, rA);
 }
 
-void RTTileStore::updateNumTiles(UInt32 uiTargetWidth, 
-                                 UInt32 uiTargetHeight,
-                                 UInt32 uiTileWdith,
-                                 UInt32 uiTileHeight )
+inline
+void RTColorPacket::set(Color4f oCol)
 {
-    fprintf(stderr, "TS : %d %d\n", 
-            uiTargetWidth, uiTargetHeight);
-    
-    _uiHTiles = uiTargetWidth  / uiTileWdith;
-    _uiVTiles = uiTargetHeight / uiTileHeight;
-    
-    UInt32 uiPartialH = uiTargetWidth  % uiTileWdith;
-    UInt32 uiPartialV = uiTargetHeight % uiTileHeight;
-    
-    fprintf(stderr, "TS : %d %d | %d %d\n", 
-            _uiHTiles, 
-            _uiVTiles,
-            uiPartialH,
-            uiPartialV);
-    
-    if(uiPartialH != 0)
-    {
-        ++_uiHTiles;
-    }
-    
-    if(uiPartialV != 0)
-    {
-        ++_uiVTiles;
-    }
-    
-    _uiNumTiles = _uiHTiles * _uiVTiles;
-    
-    fprintf(stderr, "TS :  %d %d | %d %d | %d\n", 
-            _uiHTiles, 
-            _uiVTiles,
-            uiPartialH,
-            uiPartialV,
-            _uiNumTiles);
-    
-    _uiWidth  = uiTargetWidth;
-    _uiHeight = uiTargetHeight;
+    _oColor = oCol;
+}
+
+inline
+Color4f RTColorPacket::getColor(void)
+{
+    return _oColor;
+}
+
+inline 
+void RTColorPacket::operator =(const RTColorPacket &source)
+{
+    _oColor = source._oColor;
 }
 
 OSG_END_NAMESPACE

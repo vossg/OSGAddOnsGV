@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTTILE_H_
-#define _OSGRTTILE_H_
+#ifndef _OSGRTSTORE_H_
+#define _OSGRTSTORE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -52,21 +52,18 @@ OSG_BEGIN_NAMESPACE
     \ingroup GrpBaseBase
  */
 
-class OSG_CONTRIBRRT_DLLMAPPING RTTile : public MemoryObject
+class OSG_CONTRIBRRT_DLLMAPPING RTStore : public MemoryObject
 {
 
     /*==========================  PUBLIC  =================================*/
 
   public:
 
-    static const UInt32 NumHPackets = 2;
-    static const UInt32 NumVPackets = 2;
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
  
-    RTTile(void);
+    RTStore(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -90,25 +87,36 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTile : public MemoryObject
 
     typedef MemoryObject Inherited;
 
+    UInt32 _uiNumTiles;
+
+    UInt32 _uiWidth;
+    UInt32 _uiHeight;
+
+    UInt32 _uiHTiles;
+    UInt32 _uiVTiles;
+
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    RTTile(const RTTile &source);
+    RTStore(const RTStore &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~RTTile(void); 
+    virtual ~RTStore(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    void updateNumTiles(UInt32 uiTargetWidth, UInt32 uiTargetHeight);
+    void updateNumTiles(UInt32 uiTargetWidth, 
+                        UInt32 uiTargetHeight,
+                        UInt32 uiTileWdith,
+                        UInt32 uiTileHeight );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -121,14 +129,14 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTile : public MemoryObject
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const RTTile &source);
+    void operator =(const RTStore &source);
 };
 
-typedef RTTile *       RTTileP;
-typedef RTTile * const RTTilePConst;
+typedef RTStore *       RTStoreP;
+typedef RTStore * const RTStorePConst;
  
 OSG_END_NAMESPACE
 
-#include "OSGRTTile.inl"
+#include "OSGRTStore.inl"
 
-#endif /* _OSGRTILE_H_ */
+#endif /* _OSGRSTORE_H_ */

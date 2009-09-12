@@ -42,8 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGMemoryObject.h"
-#include "OSGContribRRTDef.h"
+#include "OSGRTStore.h"
 
 #include "OSGCondVar.h"
 #include "OSGLock.h"
@@ -59,7 +58,45 @@ class RTTarget;
  */
 
 template<typename DescT>
-class RTPrimaryRayStore : public MemoryObject
+class RTPrimaryRayStore;
+
+template<typename DescT, typename MathTag>
+struct RTPrimaryRayStoreSetupHelper;
+
+
+template<typename DescT>
+struct RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>
+{
+    typedef          DescT                 Desc;
+    typedef typename Desc::SingleRayPacket SingleRayPacket;
+
+    static void setupRays(RTPrimaryRayStore<DescT> *pThis,
+                          Camera                   &pCam, 
+                          RTTarget                 &pTarget);
+};
+
+template<typename DescT>
+struct RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>
+{
+    typedef          DescT                 Desc;
+    typedef typename Desc::SingleRayPacket SingleRayPacket;
+
+    static void setupRays(RTPrimaryRayStore<DescT> *pThis,
+                          Camera                   &pCam, 
+                          RTTarget                 &pTarget);
+
+    static void fillTile (RTPrimaryRayStore<DescT> *pThis,
+                          Vec3f                     vCurr, 
+                          Vec3f                     vRight, 
+                          Vec3f                     vUp,
+                          Pnt3f                     vOrigin,
+                          UInt32                    uiX,
+                          UInt32                    uiY,
+                          UInt32                    uiTilesX);
+};
+
+template<typename DescT>
+class RTPrimaryRayStore : public RTStore
 {
 
     /*==========================  PUBLIC  =================================*/
@@ -70,6 +107,7 @@ class RTPrimaryRayStore : public MemoryObject
 
     typedef          DescT                 Desc;
     typedef typename Desc::SingleRayPacket SingleRayPacket;
+    typedef typename Desc::MathTag         MathTag;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -102,9 +140,9 @@ class RTPrimaryRayStore : public MemoryObject
 
   protected:
 
-    typedef MemoryObject Inherited;
+    typedef RTStore                      Inherited;
 
-    typedef std::vector<SingleRayPacket>  RayStore;
+    typedef std::vector<SingleRayPacket> RayStore;
 
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
@@ -127,6 +165,9 @@ class RTPrimaryRayStore : public MemoryObject
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
+
+    friend struct RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>;
+    friend struct RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag >;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

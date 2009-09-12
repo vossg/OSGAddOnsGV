@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGRTTileStore.h"
+#include "OSGRTStore.h"
 #include "OSGVector.h"
 
 #include "OSGCondVar.h"
@@ -58,8 +58,46 @@ class RTTarget;
     \ingroup GrpBaseBase
  */
 
+template<typename DescT>
+class RTPrimaryRayTiledStore;
+
+template<typename DescT, typename MathTag>
+struct RTPrimaryRayTiledStoreSetupHelper;
+
+
+template<typename DescT>
+struct RTPrimaryRayTiledStoreSetupHelper<DescT, RTFloatMathTag>
+{
+    typedef          DescT                Desc;
+    typedef typename Desc::PrimaryRayTile PrimaryRayTile ;
+
+    static void setupRays(RTPrimaryRayTiledStore<DescT> *pThis,
+                          Camera                        &pCam, 
+                          RTTarget                      &pTarget);
+
+    static void fillTile (RTPrimaryRayTiledStore<DescT> *pThis,
+                          Vec3f                          vCurr, 
+                          Vec3f                          vRight, 
+                          Vec3f                          vUp,
+                          Pnt3f                          vOrigin,
+                          UInt32                         uiX,
+                          UInt32                         uiY,
+                          UInt32                         uiTilesX);
+};
+
+template<typename DescT>
+struct RTPrimaryRayTiledStoreSetupHelper<DescT, RTSIMDMathTag>
+{
+    typedef          DescT                Desc;
+    typedef typename Desc::PrimaryRayTile PrimaryRayTile;
+
+    static void setupRays(RTPrimaryRayTiledStore<DescT> *pThis,
+                          Camera                        &pCam, 
+                          RTTarget                      &pTarget);
+};
+
 template<class DescT>
-class RTPrimaryRayTiledStore : public RTTileStore
+class RTPrimaryRayTiledStore : public RTStore
 {
 
     /*==========================  PUBLIC  =================================*/
@@ -70,6 +108,7 @@ class RTPrimaryRayTiledStore : public RTTileStore
 
     typedef          DescT                Desc;
     typedef typename Desc::PrimaryRayTile PrimaryRayTile;
+    typedef typename Desc::MathTag        MathTag;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -102,7 +141,7 @@ class RTPrimaryRayTiledStore : public RTTileStore
 
   protected:
 
-    typedef RTTileStore Inherited;
+    typedef RTStore Inherited;
 
     typedef std::vector<PrimaryRayTile>  RayStore;
 
@@ -139,6 +178,9 @@ class RTPrimaryRayTiledStore : public RTTileStore
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
+
+    friend struct RTPrimaryRayTiledStoreSetupHelper<DescT, RTFloatMathTag>;
+    friend struct RTPrimaryRayTiledStoreSetupHelper<DescT, RTSIMDMathTag >;
 
     /*! \}                                                                 */
    /*==========================  PRIVATE  ================================*/

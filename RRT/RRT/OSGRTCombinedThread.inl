@@ -128,7 +128,7 @@ void RTCombinedThread<DescT>::workProc(void)
 
     sKDToDoStack.reserve(256);
 
-    Color4f oColor;
+    ColorPacket oColor;
 
     if(_pRayStore != NULL)
     {
@@ -254,7 +254,7 @@ void RTCombinedThread<DescT>::workProc(void)
                     RayPacket &oRayPacket = oRayTile.getPacket(i);
                     HitPacket &oHitPacket = oHitTile.getPacket(i);
                 
-                    if(oRayPacket.isActive() == false)
+                    if(oRayPacket.hasActive() == false)
                         continue;
 
                     _pScene->tracePrimaryRays(oRayPacket, 
@@ -283,7 +283,7 @@ void RTCombinedThread<DescT>::workProc(void)
                         
                         oHitPacket.setRayPacket(&oRayPacket);
 
-                        if(oRayPacket.isActive() == false)
+                        if(oRayPacket.hasActive() == false)
                             continue;
 
                         UInt32 uiX = 
@@ -337,7 +337,7 @@ void RTCombinedThread<DescT>::workProc(void)
                             RayPacket &pRayPacket = 
                                 oHitTile.getRayPacket(uiPacketIndex);
 
-                            if(pRayPacket.isActive() == false)
+                            if(pRayPacket.hasActive() == false)
                                 continue;
                             
                             UInt32 uiX = 

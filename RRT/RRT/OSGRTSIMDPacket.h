@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2003 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,51 +36,71 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTTILE_H_
-#define _OSGRTTILE_H_
+#ifndef _OSGRTSIMDPACKET_H_
+#define _OSGRTSIMDPACKET_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGMemoryObject.h"
 #include "OSGContribRRTDef.h"
 
 OSG_BEGIN_NAMESPACE
 
-/*! Memory, simple reference counted memory object. Parent of
-    everything that should be shared, but must not be thread safe.
-    \ingroup GrpBaseBase
- */
+/*! \brief RTTarget class. See \ref
+           PageContribRRTRTTarget for a description.
+*/
 
-class OSG_CONTRIBRRT_DLLMAPPING RTTile : public MemoryObject
+class OSG_CONTRIBRRT_DLLMAPPING RTSIMDPacket 
 {
+  protected:
 
     /*==========================  PUBLIC  =================================*/
 
   public:
 
-    static const UInt32 NumHPackets = 2;
-    static const UInt32 NumVPackets = 2;
+    typedef RTSIMDPacket Self;
+
+    static const UInt32 NumHElements = 2;
+    static const UInt32 NumVElements = 2;
+
+    static const UInt32 NumElements  = NumHElements * NumVElements;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                  Constructors                                */
     /*! \{                                                                 */
- 
-    RTTile(void);
+
+    RTSIMDPacket(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    ~RTSIMDPacket(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
     /*! \}                                                                 */
@@ -88,47 +108,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTile : public MemoryObject
 
   protected:
 
-    typedef MemoryObject Inherited;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
-    /*! \{                                                                 */
-
-    RTTile(const RTTile &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    virtual ~RTTile(void); 
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    void updateNumTiles(UInt32 uiTargetWidth, UInt32 uiTargetHeight);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-   /*==========================  PRIVATE  ================================*/
+    /*==========================  PRIVATE  ================================*/
 
   private:
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const RTTile &source);
 };
 
-typedef RTTile *       RTTileP;
-typedef RTTile * const RTTilePConst;
- 
 OSG_END_NAMESPACE
 
-#include "OSGRTTile.inl"
+#include "OSGRTSIMDPacket.inl"
 
-#endif /* _OSGRTILE_H_ */
+#endif /* _OSGRTSIMDPACKET_H_ */

@@ -83,6 +83,8 @@ class RTCombinedThread : public RTThread
     typedef typename Desc::HitPacket            HitPacket;
     typedef typename Desc::RayPacket            RayPacket;
 
+    typedef typename Desc::ColorPacket          ColorPacket;
+
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */

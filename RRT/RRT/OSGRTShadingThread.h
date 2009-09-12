@@ -62,23 +62,25 @@ class RTShadingThread : public RTThread
 
   public:
 
-    typedef RTShadingThread<DescT>        Self;
+    typedef RTShadingThread<DescT>          Self;
 
-    typedef DescT                         Desc;
+    typedef DescT                           Desc;
 
-    typedef typename Desc::Scene          Scene;
+    typedef typename Desc::Scene            Scene;
 
-    typedef typename Desc::PrimaryRayTile PrimaryRayTile;
-    typedef typename Desc::HitTile        HitTile;
+    typedef typename Desc::PrimaryRayTile   PrimaryRayTile;
+    typedef typename Desc::HitTile          HitTile;
 
-    typedef typename Desc::HitStore       HitStore;
-    typedef typename Desc::HitTiledStore  HitTiledStore;
+    typedef typename Desc::HitStore         HitStore;
+    typedef typename Desc::HitTiledStore    HitTiledStore;
 
-    typedef typename Desc::SingleHitPacket      SingleHitPacket;
-    typedef typename Desc::SingleRayPacket      SingleRayPacket;
+    typedef typename Desc::SingleHitPacket  SingleHitPacket;
+    typedef typename Desc::SingleRayPacket  SingleRayPacket;
 
     typedef typename Desc::HitPacket        HitPacket;
-    typedef typename Desc::RayPacket      RayPacket;
+    typedef typename Desc::RayPacket        RayPacket;
+
+    typedef typename Desc::ColorPacket      ColorPacket;
 
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */

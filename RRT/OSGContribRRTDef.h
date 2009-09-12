@@ -43,6 +43,8 @@
 #pragma once
 #endif
 
+#include "OSGConfig.h"
+
 //---------------------------------------------------------------------------
 //  Defines
 //---------------------------------------------------------------------------
@@ -59,5 +61,12 @@
 #define OSG_CONTRIBRRT_DLLMAPPING
 #define OSG_CONTRIBRRT_DLLTMPLMAPPING
 #endif
+
+OSG_BEGIN_NAMESPACE
+
+struct RTFloatMathTag;
+struct RTSIMDMathTag;
+
+OSG_END_NAMESPACE
 
 #endif /* _OSGCONTRIBRRTDEF_H_ */

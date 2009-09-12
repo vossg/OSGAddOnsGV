@@ -111,4 +111,10 @@ bool RTRayPacket::isActive(void)
     return _bIsActive;
 }
 
+inline
+bool RTRayPacket::hasActive(void)
+{
+    return _bIsActive;
+}
+
 OSG_END_NAMESPACE

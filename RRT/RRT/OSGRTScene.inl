@@ -72,17 +72,15 @@ void RTScene<DescT>::tracePrimaryRays(RayPacket &oRay,
 {
     for(UInt32 k = 0; k < _vRTCaches.size(); ++k)
     {    
-        oHit.setCacheId(k);
-
-        _vRTCaches[k]->intersect(oRay, oHit, sKDToDoStack);
+        _vRTCaches[k]->intersect(oRay, oHit, sKDToDoStack, k);
 //                _vRTObjects[k]->intersectBarycentric0(rayPacket, hitPacket);
     }
 }
 
 template<typename DescT> inline
-void RTScene<DescT>::shade(HitPacket &oHit,
-                           RayPacket &oRay,
-                           Color4f   &oResult)
+void RTScene<DescT>::shade(RTHitPacket   &oHit,
+                           RTRayPacket   &oRay,
+                           RTColorPacket &oResult)
 {
 
     if(oHit.getU() > -0.5)
@@ -96,16 +94,49 @@ void RTScene<DescT>::shade(HitPacket &oHit,
 
         if(pMat != NULL)
         {
-            oResult = pMat->getDiffuse();
+            oResult.set(pMat->getDiffuse());
         }
         else
         {
-            oResult.setValuesRGBA(0.8f, 0.8f, 0.8f, 1.0f);
+            oResult.set(0.8f, 0.8f, 0.8f, 1.0f);
         }
     }
     else
     {
-        oResult.setValuesRGBA(0.3f, 0.3f, 0.3f, 1.0f);
+        oResult.set(0.3f, 0.3f, 0.3f, 1.0f);
+    }
+}
+
+template<typename DescT> inline
+void RTScene<DescT>::shade(RTHitSIMDPacket   &oHit,
+                           RTRaySIMDPacket   &oRay,
+                           RTColorSIMDPacket &oResult)
+{
+    for(UInt32 i = 0; i < RTHitSIMDPacket::NumHits; ++i)
+    {
+        if(oHit.getU(i) > -0.5)
+        {
+            const typename RTCache::GeometryStore &geoStore = 
+                _vRTCaches[oHit.getCacheId(i)]->getGeoStore(oHit.getObjId(i));
+
+            MaterialChunkPtr pMat = 
+                dynamic_cast<MaterialChunkPtr>(
+                    geoStore._pState->getChunk(
+                        MaterialChunk::getStaticClassId()));
+
+            if(pMat != NULL)
+            {
+                oResult.set(i, pMat->getDiffuse());
+            }
+            else
+            {
+                oResult.set(i, 0.8f, 0.8f, 0.8f, 1.0f);
+            }
+        }
+        else
+        {
+            oResult.set(i, 0.3f, 0.3f, 0.3f, 1.0f);
+        }
     }
 }
 

@@ -54,6 +54,9 @@ class RayTracer;
 class RTTriAccelBarycentric;
 
 template<typename DescT>
+class RTCacheKD;
+
+template<typename DescT>
 class RTCacheKDVer1;
 
 template<typename DescT>
@@ -97,6 +100,9 @@ class RTFourRaySIMDPacket;
 class RTHitSIMDPacket;
 class RTFourHitSIMDPacket;
 
+class RTColorPacket;
+class RTColorSIMDPacket;
+
 /*! \brief RRTStage class. See \ref
            PageContribRRTRRTStage for a description.
 */
@@ -111,8 +117,12 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
     struct SinglePacketDescBase
     {
+        typedef RTFloatMathTag                         MathTag;
+
+        typedef RTColorPacket                          ColorPacket;
+
         typedef RTTriAccelBarycentric                  TriangleAccel;
-        typedef RTCacheKDVer1<SinglePacketDescBase>    RTCache;
+        typedef RTCacheKD<SinglePacketDescBase>        RTCache;
 
         typedef RTHitPacket                            HitPacket;
         typedef RTSingleHitPacket                      SingleHitPacket;
@@ -127,8 +137,12 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
     struct SIMDPacketDescBase
     {
+        typedef RTSIMDMathTag                        MathTag;
+
+        typedef RTColorSIMDPacket                    ColorPacket;
+
         typedef RTTriAccelBarycentric                TriangleAccel;
-        typedef RTCacheKDVer1<SIMDPacketDescBase>    RTCache;
+        typedef RTCacheKD<SIMDPacketDescBase>        RTCache;
 
         typedef RTHitSIMDPacket                      HitPacket;
         typedef RTFourHitSIMDPacket                  SingleHitPacket;
@@ -247,7 +261,9 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
   public:
 
-    typedef SIMDPacketRayTracer   ActiveRayTracer;
+
+    typedef SinglePacketRayTracer   ActiveRayTracer;
+//    typedef SIMDPacketRayTracer   ActiveRayTracer;
 
     typedef RRTStageBase          Inherited;
     typedef RRTStage              Self;

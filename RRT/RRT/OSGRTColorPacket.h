@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2003 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,99 +36,103 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTTILE_H_
-#define _OSGRTTILE_H_
+#ifndef _OSGRTCOLORPACKET_H_
+#define _OSGRTCOLORPACKET_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGMemoryObject.h"
 #include "OSGContribRRTDef.h"
 
 OSG_BEGIN_NAMESPACE
 
-/*! Memory, simple reference counted memory object. Parent of
-    everything that should be shared, but must not be thread safe.
-    \ingroup GrpBaseBase
- */
+/*! \brief RTTarget class. See \ref
+           PageContribRRTRTTarget for a description.
+*/
 
-class OSG_CONTRIBRRT_DLLMAPPING RTTile : public MemoryObject
+class OSG_CONTRIBRRT_DLLMAPPING RTColorPacket 
 {
+  protected:
 
     /*==========================  PUBLIC  =================================*/
 
   public:
 
-    static const UInt32 NumHPackets = 2;
-    static const UInt32 NumVPackets = 2;
+    typedef RTColorPacket Self;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                  Constructors                                */
     /*! \{                                                                 */
- 
-    RTTile(void);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
-    /*! \{                                                                 */
+    RTColorPacket(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    ~RTColorPacket(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    void reset(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void set(Real32  rR, 
+             Real32  rG, 
+             Real32  rB,
+             Real32  rA);
+
+    void set(Color4f oCol);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    Color4f getColor(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    void   setCacheId(UInt32 uiCacheId);
+    UInt32 getCacheId(void            );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
+
+    void operator =(const RTColorPacket &source);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
 
-    typedef MemoryObject Inherited;
+    /*==========================  PRIVATE  ================================*/
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
-    /*! \{                                                                 */
-
-    RTTile(const RTTile &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    virtual ~RTTile(void); 
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    void updateNumTiles(UInt32 uiTargetWidth, UInt32 uiTargetHeight);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-   /*==========================  PRIVATE  ================================*/
+    Color4f _oColor;
 
   private:
-
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const RTTile &source);
 };
 
-typedef RTTile *       RTTileP;
-typedef RTTile * const RTTilePConst;
- 
 OSG_END_NAMESPACE
 
-#include "OSGRTTile.inl"
+#include "OSGRTColorPacket.inl"
 
-#endif /* _OSGRTILE_H_ */
+#endif /* _OSGRTCOLORPACKET_H_ */

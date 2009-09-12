@@ -41,120 +41,13 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-RTRaySIMDPacket::RTRaySIMDPacket(void) :
-    _vOrigin  (),
-    _vDir     (),
-    _bIsActive()
+RTSIMDPacket::RTSIMDPacket(void) 
 {
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        _bIsActive[i] = true;
-    }
-}
-
-RTRaySIMDPacket::RTRaySIMDPacket(const RTRaySIMDPacket &source) :
-    _vOrigin  (source._vOrigin),
-    _vDir     (               ),
-    _bIsActive(               )
-{
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        _vDir[i]      = source._vDir[i];
-        _bIsActive[i] = source._bIsActive[i];
-    }
 }
 
 inline
-RTRaySIMDPacket::~RTRaySIMDPacket(void)
+RTSIMDPacket::~RTSIMDPacket(void)
 {
-}
-
-inline 
-void RTRaySIMDPacket::operator =(const RTRaySIMDPacket &source)
-{
-    _vOrigin   = source._vOrigin;
-
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        _vDir[i]      = source._vDir[i];
-        _bIsActive[i] = source._bIsActive[i];
-    }
-}
-
-inline 
-void RTRaySIMDPacket::setOrigin(Real32 oX,
-                                Real32 oY,
-                                Real32 oZ  )
-{
-    _vOrigin.setValues(oX, oY, oZ);
-}
-
-inline
-void RTRaySIMDPacket::setOrigin(Pnt3f vOrigin)
-{
-    _vOrigin = vOrigin;
-}
-
-inline 
-void RTRaySIMDPacket::setDirection(Vec3f  vDir,
-                                   UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    _vDir[uiIdx] = vDir;
-}
-
-inline 
-void RTRaySIMDPacket::normalizeDirection(void)
-{
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        _vDir[i].normalize();
-    }
-}
-
-inline 
-Pnt3f RTRaySIMDPacket::getOrigin(void)
-{
-    return _vOrigin;
-}
-
-inline 
-Vec3f RTRaySIMDPacket::getDir(UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    return _vDir[uiIdx];
-}
-
-inline
-void RTRaySIMDPacket::setActive(bool   bVal,
-                                UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    _bIsActive[uiIdx] = bVal;
-}
-
-inline
-bool RTRaySIMDPacket::isActive(UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    return _bIsActive[uiIdx];
-}
-
-inline
-bool RTRaySIMDPacket::hasActive(void)
-{
-    bool returnValue = false;
-
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        returnValue |= _bIsActive[i];
-    }
-
-    return returnValue;
 }
 
 OSG_END_NAMESPACE

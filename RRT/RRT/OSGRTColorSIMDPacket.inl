@@ -41,120 +41,56 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-RTRaySIMDPacket::RTRaySIMDPacket(void) :
-    _vOrigin  (),
-    _vDir     (),
-    _bIsActive()
+RTColorSIMDPacket::RTColorSIMDPacket(void) :
+    _aColor()
 {
-    for(UInt32 i = 0; i < NumRays; ++i)
+    for(UInt32 i = 0; i < NumColors; ++i)
     {
-        _bIsActive[i] = true;
-    }
-}
-
-RTRaySIMDPacket::RTRaySIMDPacket(const RTRaySIMDPacket &source) :
-    _vOrigin  (source._vOrigin),
-    _vDir     (               ),
-    _bIsActive(               )
-{
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        _vDir[i]      = source._vDir[i];
-        _bIsActive[i] = source._bIsActive[i];
+        _aColor[i].setValuesRGBA(0.f, 0.f, 0.f, 0.f);
     }
 }
 
 inline
-RTRaySIMDPacket::~RTRaySIMDPacket(void)
+RTColorSIMDPacket::~RTColorSIMDPacket(void)
 {
 }
 
 inline 
-void RTRaySIMDPacket::operator =(const RTRaySIMDPacket &source)
+void RTColorSIMDPacket::set(UInt32  uiIdx,
+                            Real32  rR, 
+                            Real32  rG, 
+                            Real32  rB,
+                            Real32  rA)
 {
-    _vOrigin   = source._vOrigin;
+    OSG_ASSERT(uiIdx < NumColors);
 
-    for(UInt32 i = 0; i < NumRays; ++i)
+    _aColor[uiIdx].setValuesRGBA(rR, rG, rB, rA);
+}
+
+inline 
+void RTColorSIMDPacket::set(UInt32  uiIdx,
+                            Color4f oCol)
+{
+    OSG_ASSERT(uiIdx < NumColors);
+
+    _aColor[uiIdx] = oCol;
+}
+
+inline 
+Color4f RTColorSIMDPacket::getColor(UInt32 uiIdx)
+{
+    OSG_ASSERT(uiIdx < NumColors);
+
+    return _aColor[uiIdx];
+}
+
+inline 
+void RTColorSIMDPacket::operator =(const RTColorSIMDPacket &source)
+{
+    for(UInt32 i = 0; i < NumColors; ++i)
     {
-        _vDir[i]      = source._vDir[i];
-        _bIsActive[i] = source._bIsActive[i];
+        _aColor[i] = source._aColor[i];
     }
-}
-
-inline 
-void RTRaySIMDPacket::setOrigin(Real32 oX,
-                                Real32 oY,
-                                Real32 oZ  )
-{
-    _vOrigin.setValues(oX, oY, oZ);
-}
-
-inline
-void RTRaySIMDPacket::setOrigin(Pnt3f vOrigin)
-{
-    _vOrigin = vOrigin;
-}
-
-inline 
-void RTRaySIMDPacket::setDirection(Vec3f  vDir,
-                                   UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    _vDir[uiIdx] = vDir;
-}
-
-inline 
-void RTRaySIMDPacket::normalizeDirection(void)
-{
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        _vDir[i].normalize();
-    }
-}
-
-inline 
-Pnt3f RTRaySIMDPacket::getOrigin(void)
-{
-    return _vOrigin;
-}
-
-inline 
-Vec3f RTRaySIMDPacket::getDir(UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    return _vDir[uiIdx];
-}
-
-inline
-void RTRaySIMDPacket::setActive(bool   bVal,
-                                UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    _bIsActive[uiIdx] = bVal;
-}
-
-inline
-bool RTRaySIMDPacket::isActive(UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    return _bIsActive[uiIdx];
-}
-
-inline
-bool RTRaySIMDPacket::hasActive(void)
-{
-    bool returnValue = false;
-
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        returnValue |= _bIsActive[i];
-    }
-
-    return returnValue;
 }
 
 OSG_END_NAMESPACE

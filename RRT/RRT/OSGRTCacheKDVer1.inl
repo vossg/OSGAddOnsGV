@@ -203,15 +203,17 @@ void RTCacheKDVer1<DescT>::buildStructure(void)
 template<typename DescT> inline
 void RTCacheKDVer1<DescT>::intersect(RTRayPacket &oRay, 
                                      RTHitPacket &oHit,
-                                     KDElemStack &sKDToDoStack)
+                                     KDElemStack &sKDToDoStack,
+                                     UInt32       uiCacheId)
 {
 #if 0
     for(UInt32 i = 0; i < _vTriangleAcc.size(); ++i)
     {
-        _vTriangleAcc[i].intersect(oRay, oHit);
+        _vTriangleAcc[i].intersect(oRay, oHit, uiCacheId);
     }
 #else
 
+#if 1
 	float tmin, tmax;
 
     Line lineRay(oRay.getOrigin(), oRay.getDir());
@@ -251,39 +253,39 @@ void RTCacheKDVer1<DescT>::intersect(RTRayPacket &oRay,
 			float tplane = (node->getSplitPos() - oRay.getOrigin()[axis]) *
 				invDir[axis];
 
-			const RTCacheKDNode *firstChild;
-            const RTCacheKDNode *secondChild;
+			const RTCacheKDNode *nearChild;
+            const RTCacheKDNode *farChild;
 
 			bool belowFirst = oRay.getOrigin()[axis] <= node->getSplitPos();
 
 			if(belowFirst == true) 
             {
-				firstChild = node + 1;
-				secondChild = &(_vKDTree[node->_uiAboveChild]);
+				nearChild = node + 1;
+				farChild  = &(_vKDTree[node->_uiAboveChild]);
 			}
 			else 
             {
-				firstChild = &(_vKDTree[node->_uiAboveChild]);
-				secondChild = node + 1;
+				nearChild = &(_vKDTree[node->_uiAboveChild]);
+				farChild  = node + 1;
 			}
 
 			if(tplane > tmax || tplane < 0)
             {
-				node = firstChild;
+				node = nearChild;
             }
 			else if(tplane < tmin)
             {
-				node = secondChild;
+				node = farChild;
             }
 			else 
             {
                 KDStackElem otherNode;
 
-				otherNode.node = secondChild;
+				otherNode.node = farChild;
 				otherNode.tmin = tplane;
 				otherNode.tmax = tmax;
 
-				node = firstChild;
+				node = nearChild;
 				tmax = tplane;
 
                 _sKDToDoStack.push_back(otherNode);
@@ -296,7 +298,7 @@ void RTCacheKDVer1<DescT>::intersect(RTRayPacket &oRay,
 			if(nPrimitives == 1) 
             {
                 this->_vTriangleAcc[node->_uiSinglePrimitive].intersect(
-                    oRay, oHit);
+                    oRay, oHit, uiCacheId);
 			}
 			else 
             {
@@ -305,9 +307,14 @@ void RTCacheKDVer1<DescT>::intersect(RTRayPacket &oRay,
 
 				for(u_int i = 0; i < nPrimitives; ++i) 
                 {
-                    this->_vTriangleAcc[prims[i]].intersect(oRay, oHit);
+                    this->_vTriangleAcc[prims[i]].intersect(oRay, 
+                                                            oHit,
+                                                            uiCacheId);
 				}
 			}
+
+            if(oHit.getDist() <= tmax)
+                break;
 
 			if(_sKDToDoStack.size() > 0) 
             {
@@ -326,24 +333,16 @@ void RTCacheKDVer1<DescT>::intersect(RTRayPacket &oRay,
             }
 		}
 	}
-#endif
-}
 
-template<typename DescT> inline
-void RTCacheKDVer1<DescT>::intersect(RTRaySIMDPacket &oRay, 
-                                     RTHitSIMDPacket &oHit,
-                                     KDElemStack     &sKDToDoStack)
-{
-#if 0
-    for(UInt32 i = 0; i < _vTriangleAcc.size(); ++i)
-    {
-        _vTriangleAcc[i].intersect(oRay, oHit);
-    }
 #else
-
 	float tmin, tmax;
 
     Line lineRay(oRay.getOrigin(), oRay.getDir());
+
+/*
+	if (!bounds.IntersectP(ray, &tmin, &tmax))
+		return false;
+ */
 
     std::vector<KDStackElem  > _sKDToDoStack;
     _sKDToDoStack.reserve(256);
@@ -363,94 +362,106 @@ void RTCacheKDVer1<DescT>::intersect(RTRaySIMDPacket &oRay,
 
 	while(node != NULL) 
     {
-		// Bail out if we found a hit closer than the current node
-		if(oHit.getDist() < tmin) 
-        {
-            break;
-        }
-
-		if(!node->isLeaf()) 
+		while(!node->isLeaf()) 
         {
 			int axis = node->getSplitAxis();
 
 			float tplane = (node->getSplitPos() - oRay.getOrigin()[axis]) *
 				invDir[axis];
 
-			const RTCacheKDNode *firstChild;
-            const RTCacheKDNode *secondChild;
+			const RTCacheKDNode *nearChild;
+            const RTCacheKDNode *farChild;
 
 			bool belowFirst = oRay.getOrigin()[axis] <= node->getSplitPos();
 
 			if(belowFirst == true) 
             {
-				firstChild = node + 1;
-				secondChild = &(_vKDTree[node->_uiAboveChild]);
+				nearChild = node + 1;
+				farChild  = &(_vKDTree[node->_uiAboveChild]);
 			}
 			else 
             {
-				firstChild = &(_vKDTree[node->_uiAboveChild]);
-				secondChild = node + 1;
+				nearChild = &(_vKDTree[node->_uiAboveChild]);
+				farChild  = node + 1;
 			}
 
-			if(tplane > tmax || tplane < 0)
+			if(tplane >= tmax || tplane < 0)
             {
-				node = firstChild;
+				node = nearChild;
             }
-			else if(tplane < tmin)
+			else if(tplane <= tmin)
             {
-				node = secondChild;
+				node = farChild;
             }
 			else 
             {
                 KDStackElem otherNode;
 
-				otherNode.node = secondChild;
+				otherNode.node = farChild;
 				otherNode.tmin = tplane;
 				otherNode.tmax = tmax;
 
-				node = firstChild;
+				node = nearChild;
 				tmax = tplane;
 
                 _sKDToDoStack.push_back(otherNode);
 			}
 		}
-		else 
+
+        UInt32 nPrimitives = node->getNumPrimitives();
+
+        if(nPrimitives == 1) 
         {
-			UInt32 nPrimitives = node->getNumPrimitives();
-
-			if(nPrimitives == 1) 
+            this->_vTriangleAcc[node->_uiSinglePrimitive].intersect(
+                oRay, oHit, uiCacheId);
+        }
+        else 
+        {
+            std::vector<UInt32> &prims = 
+                this->_vPrimitives[node->_pPrimitiveIdx];
+            
+            for(u_int i = 0; i < nPrimitives; ++i) 
             {
-                this->_vTriangleAcc[node->_uiSinglePrimitive].intersect(
-                    oRay, oHit);
-			}
-			else 
-            {
-				std::vector<UInt32> &prims = 
-                    this->_vPrimitives[node->_pPrimitiveIdx];
-
-				for(u_int i = 0; i < nPrimitives; ++i) 
-                {
-                    this->_vTriangleAcc[prims[i]].intersect(oRay, oHit);
-				}
-			}
-
-			if(_sKDToDoStack.size() > 0) 
-            {
-
-                KDStackElem otherNode = _sKDToDoStack.back();
-
-				node = otherNode.node;
-				tmin = otherNode.tmin;
-				tmax = otherNode.tmax;
-
-                _sKDToDoStack.pop_back();
-			}
-			else
-            {
-				break;
+                this->_vTriangleAcc[prims[i]].intersect(oRay, 
+                                                        oHit,
+                                                        uiCacheId);
             }
-		}
-	}
+        }
+
+        if(oHit.getDist() <= tmax)
+            break;
+
+        if(_sKDToDoStack.size() > 0) 
+        {
+            KDStackElem otherNode = _sKDToDoStack.back();
+
+            node = otherNode.node;
+            tmin = otherNode.tmin;
+            tmax = otherNode.tmax;
+            
+            _sKDToDoStack.pop_back();
+        }
+        else
+        {
+            break;
+        }
+    }
+#endif
+#endif
+}
+
+template<typename DescT> inline
+void RTCacheKDVer1<DescT>::intersect(RTRaySIMDPacket &oRay, 
+                                     RTHitSIMDPacket &oHit,
+                                     KDElemStack     &sKDToDoStack,
+                                     UInt32           uiCacheId   )
+{
+#if 0
+    for(UInt32 i = 0; i < this->_vTriangleAcc.size(); ++i)
+    {
+        this->_vTriangleAcc[i].intersect(oRay, oHit, uiCacheId);
+    }
+#else
 #endif
 }
 

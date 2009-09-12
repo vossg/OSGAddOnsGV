@@ -47,6 +47,12 @@
 
 #include "OSGRTRayPacket.h"
 #include "OSGRTHitPacket.h"
+#include "OSGRTColorPacket.h"
+
+#include "OSGRTRaySIMDPacket.h"
+#include "OSGRTHitSIMDPacket.h"
+#include "OSGRTColorSIMDPacket.h"
+
 
 OSG_BEGIN_NAMESPACE
 
@@ -100,9 +106,13 @@ class RTScene : public MemoryObject
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    void shade(HitPacket &oHit,
-               RayPacket &oRay,
-               Color4f   &oResult);
+    void shade(RTHitPacket       &oHit,
+               RTRayPacket       &oRay,
+               RTColorPacket     &oResult);
+
+    void shade(RTHitSIMDPacket   &oHit,
+               RTRaySIMDPacket   &oRay,
+               RTColorSIMDPacket &oResult);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

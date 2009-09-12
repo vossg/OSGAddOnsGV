@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGRTTileStore.h"
+#include "OSGRTStore.h"
 
 #include "OSGCondVar.h"
 #include "OSGLock.h"
@@ -57,7 +57,7 @@ class RTTarget;
  */
 
 template<class DescT>
-class OSG_CONTRIBRRT_DLLMAPPING RTHitTiledStore : public RTTileStore
+class OSG_CONTRIBRRT_DLLMAPPING RTHitTiledStore : public RTStore
 {
 
     /*==========================  PUBLIC  =================================*/
@@ -109,7 +109,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitTiledStore : public RTTileStore
 
   protected:
 
-    typedef RTTileStore Inherited;
+    typedef RTStore               Inherited;
 
     typedef std::vector<HitTile>  HitStore;
     typedef std::vector<UInt32 >  HitIndexStore;

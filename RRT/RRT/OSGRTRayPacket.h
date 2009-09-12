@@ -101,6 +101,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayPacket
 
     void setActive(bool bVal);
     bool isActive (void     );
+    bool hasActive(void     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

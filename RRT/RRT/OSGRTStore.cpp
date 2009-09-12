@@ -2,7 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *             Copyright (C) 2000-2003 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -34,127 +36,69 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
+#include "OSGRTStore.h"
 
 OSG_BEGIN_NAMESPACE
 
-inline
-RTRaySIMDPacket::RTRaySIMDPacket(void) :
-    _vOrigin  (),
-    _vDir     (),
-    _bIsActive()
+RTStore::RTStore(void) :
+    Inherited ( ),
+   _uiWidth   (0),
+   _uiHeight  (0),
+   _uiNumTiles(0),
+   _uiHTiles  (0),
+   _uiVTiles  (0)
 {
-    for(UInt32 i = 0; i < NumRays; ++i)
+}
+
+RTStore::~RTStore(void)
+{
+}
+
+RTStore::RTStore(const RTStore &source)
+{
+}
+
+void RTStore::updateNumTiles(UInt32 uiTargetWidth, 
+                             UInt32 uiTargetHeight,
+                             UInt32 uiTileWdith,
+                             UInt32 uiTileHeight )
+{
+    fprintf(stderr, "TS : %d %d\n", 
+            uiTargetWidth, uiTargetHeight);
+    
+    _uiHTiles = uiTargetWidth  / uiTileWdith;
+    _uiVTiles = uiTargetHeight / uiTileHeight;
+    
+    UInt32 uiPartialH = uiTargetWidth  % uiTileWdith;
+    UInt32 uiPartialV = uiTargetHeight % uiTileHeight;
+    
+    fprintf(stderr, "TS : %d %d | %d %d\n", 
+            _uiHTiles, 
+            _uiVTiles,
+            uiPartialH,
+            uiPartialV);
+    
+    if(uiPartialH != 0)
     {
-        _bIsActive[i] = true;
+        ++_uiHTiles;
     }
-}
-
-RTRaySIMDPacket::RTRaySIMDPacket(const RTRaySIMDPacket &source) :
-    _vOrigin  (source._vOrigin),
-    _vDir     (               ),
-    _bIsActive(               )
-{
-    for(UInt32 i = 0; i < NumRays; ++i)
+    
+    if(uiPartialV != 0)
     {
-        _vDir[i]      = source._vDir[i];
-        _bIsActive[i] = source._bIsActive[i];
+        ++_uiVTiles;
     }
-}
-
-inline
-RTRaySIMDPacket::~RTRaySIMDPacket(void)
-{
-}
-
-inline 
-void RTRaySIMDPacket::operator =(const RTRaySIMDPacket &source)
-{
-    _vOrigin   = source._vOrigin;
-
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        _vDir[i]      = source._vDir[i];
-        _bIsActive[i] = source._bIsActive[i];
-    }
-}
-
-inline 
-void RTRaySIMDPacket::setOrigin(Real32 oX,
-                                Real32 oY,
-                                Real32 oZ  )
-{
-    _vOrigin.setValues(oX, oY, oZ);
-}
-
-inline
-void RTRaySIMDPacket::setOrigin(Pnt3f vOrigin)
-{
-    _vOrigin = vOrigin;
-}
-
-inline 
-void RTRaySIMDPacket::setDirection(Vec3f  vDir,
-                                   UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    _vDir[uiIdx] = vDir;
-}
-
-inline 
-void RTRaySIMDPacket::normalizeDirection(void)
-{
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        _vDir[i].normalize();
-    }
-}
-
-inline 
-Pnt3f RTRaySIMDPacket::getOrigin(void)
-{
-    return _vOrigin;
-}
-
-inline 
-Vec3f RTRaySIMDPacket::getDir(UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    return _vDir[uiIdx];
-}
-
-inline
-void RTRaySIMDPacket::setActive(bool   bVal,
-                                UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    _bIsActive[uiIdx] = bVal;
-}
-
-inline
-bool RTRaySIMDPacket::isActive(UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    return _bIsActive[uiIdx];
-}
-
-inline
-bool RTRaySIMDPacket::hasActive(void)
-{
-    bool returnValue = false;
-
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        returnValue |= _bIsActive[i];
-    }
-
-    return returnValue;
+    
+    _uiNumTiles = _uiHTiles * _uiVTiles;
+    
+    fprintf(stderr, "TS :  %d %d | %d %d | %d\n", 
+            _uiHTiles, 
+            _uiVTiles,
+            uiPartialH,
+            uiPartialV,
+            _uiNumTiles);
+    
+    _uiWidth  = uiTargetWidth;
+    _uiHeight = uiTargetHeight;
 }
 
 OSG_END_NAMESPACE

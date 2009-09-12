@@ -36,14 +36,16 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTTILESTORE_H_
-#define _OSGRTTILESTORE_H_
+#ifndef _OSGRTCACHEKD_H_
+#define _OSGRTCACHEKD_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGMemoryObject.h"
-#include "OSGContribRRTDef.h"
+#include "OSGRTCacheKDBase.h"
+#include "OSGLine.h"
+
+#include "stack"
 
 OSG_BEGIN_NAMESPACE
 
@@ -52,71 +54,141 @@ OSG_BEGIN_NAMESPACE
     \ingroup GrpBaseBase
  */
 
-class OSG_CONTRIBRRT_DLLMAPPING RTTileStore : public MemoryObject
+template<typename DescT>
+class RTCacheKD : public RTCacheKDBase<DescT>
 {
+  protected:
+
+    struct KDStackElem;
 
     /*==========================  PUBLIC  =================================*/
 
   public:
+    
+    typedef std::vector<KDStackElem> KDElemStack;
+    typedef KDElemStack              ElemStack;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
  
-    RTTileStore(void);
+    RTCacheKD(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
-
+   
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
+
+    void buildStructure(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
+
+    void intersect            (RTRayPacket     &oRay, 
+                               RTHitPacket     &oHit,
+                               KDElemStack     &sKDToDoStack,
+                               UInt32           uiCacheId   );
+
+    void intersect            (RTRaySIMDPacket &oRay, 
+                               RTHitSIMDPacket &oHit,
+                               KDElemStack     &sKDToDoStack,
+                               UInt32           uiCacheId   );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
 
-    typedef MemoryObject Inherited;
+    typedef RTCacheKDBase<DescT> Inherited;
 
-    UInt32 _uiNumTiles;
+    typedef typename Inherited::IndexStore      IndexStore;
+    typedef typename Inherited::IndexIterator   IndexIterator;
+    typedef typename Inherited::IndexSize       IndexSize;
+    typedef typename Inherited::RTKDNode        RTKDNode;
+    typedef typename Inherited::BBoxStore       BBoxStore;
+    typedef typename Inherited::BBoxEdge        BBoxEdge;
+    typedef typename Inherited::BBoxEdgeStore   BBoxEdgeStore;
+    typedef typename Inherited::BBoxEdgeStoreIt BBoxEdgeStoreIt;
 
-    UInt32 _uiWidth;
-    UInt32 _uiHeight;
+    typedef typename Inherited::PrimIdxStore    PrimIdxStore;
 
-    UInt32 _uiHTiles;
-    UInt32 _uiVTiles;
+    struct RTCacheKDNode 
+    {
+        union 
+        {
+            UInt32 _uiFlags;     // Leave + Interior
+            Real32 _fSplitPos;   // Interior
+            UInt32 _uiNumPrims;  // Leaf
+        };
+
+        union 
+        {
+            UInt32  _uiAboveChild;      // Interior
+            UInt32  _uiSinglePrimitive; // Leaf
+            UInt32  _pPrimitiveIdx;     // Leaf
+        };
+
+        void initLeaf    (IndexIterator  primNums, 
+                          IndexSize      np,
+                          PrimIdxStore  &vStore   ); 
+
+        void initInterior(UInt32         uiAxis, 
+                          Real32         fSplitPos);
+
+        void initLeaf    (RTKDNode      *pNode,  
+                          PrimIdxStore  &vStore   ); 
+        
+        void initInterior(RTKDNode      *pNode    );
+
+
+        Real32 getSplitPos     (void) const;
+        UInt32 getNumPrimitives(void) const;
+        UInt32 getSplitAxis    (void) const;
+        bool   isLeaf          (void) const;
+    };
+
+    struct KDStackElem 
+    {
+        union
+        {
+            const RTCacheKDNode *node;
+                  unsigned int   addr;
+        };
+
+        Real32         tmin;
+        Real32         tmax;
+    };
+
+    void flattenTree(RTKDNode *pLeft, 
+                     RTKDNode *pRight);
 
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    RTTileStore(const RTTileStore &source);
+    std::vector<RTCacheKDNode> _vKDTree;
+
+    UInt32 nAllocedNodes;
+    UInt32 nextFreeNode;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~RTTileStore(void); 
+    virtual ~RTCacheKD(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
-
-    void updateNumTiles(UInt32 uiTargetWidth, 
-                        UInt32 uiTargetHeight,
-                        UInt32 uiTileWdith,
-                        UInt32 uiTileHeight );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -129,14 +201,12 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTileStore : public MemoryObject
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const RTTileStore &source);
+    RTCacheKD(const RTCacheKD &source);
+    void operator =(const RTCacheKD &source);
 };
 
-typedef RTTileStore *       RTTileStoreP;
-typedef RTTileStore * const RTTileStorePConst;
- 
 OSG_END_NAMESPACE
 
-#include "OSGRTTileStore.inl"
+#include "OSGRTCacheKD.inl"
 
-#endif /* _OSGRTILESTORE_H_ */
+#endif /* _OSGRTCACHEKD_H_ */

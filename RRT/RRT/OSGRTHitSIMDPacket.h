@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGContribRRTDef.h"
+#include "OSGRTSIMDPacket.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -50,7 +50,7 @@ OSG_BEGIN_NAMESPACE
            PageContribRRTRTTarget for a description.
 */
 
-class OSG_CONTRIBRRT_DLLMAPPING RTHitSIMDPacket 
+class OSG_CONTRIBRRT_DLLMAPPING RTHitSIMDPacket : public RTSIMDPacket
 {
   protected:
 
@@ -58,7 +58,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitSIMDPacket
 
   public:
 
+    typedef RTSIMDPacket    Inherited;
     typedef RTHitSIMDPacket Self;
+
+    static const UInt32 NumHHits = Inherited::NumHElements;
+    static const UInt32 NumVHits = Inherited::NumVElements;
+
+    static const UInt32 NumHits  = Inherited::NumElements;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
@@ -85,31 +91,32 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitSIMDPacket
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void set       (Real32 rDist, 
+    void set       (UInt32 uiIdx,
+                    Real32 rDist, 
                     Real32 rU, 
                     Real32 rV, 
                     UInt32 uiObjId,
-                    UInt32 uiTriId  );
+                    UInt32 uiTriId,
+                    UInt32 uiCacheId);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    Real32 getDist   (void);
-    Real32 getU      (void);
-    Real32 getV      (void);
+    Real32 getDist   (UInt32 uiIdx);
+    Real32 getU      (UInt32 uiIdx);
+    Real32 getV      (UInt32 uiIdx);
 
-    UInt32 getObjId  (void);
-    UInt32 getTriId  (void);
+    UInt32 getObjId  (UInt32 uiIdx);
+    UInt32 getTriId  (UInt32 uiIdx);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    void   setCacheId(UInt32 uiCacheId);
-    UInt32 getCacheId(void            );
+    UInt32 getCacheId(UInt32 uiIdx);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -130,13 +137,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitSIMDPacket
 
     /*==========================  PRIVATE  ================================*/
 
-    Real32 _rDist;
-    Real32 _rU;
-    Real32 _rV;
+    Real32 _rDist[4];
+    Real32 _rU[4];
+    Real32 _rV[4];
     
-    UInt32 _uiCacheId;
-    UInt32 _uiObjId;
-    UInt32 _uiTriId;
+    UInt32 _uiCacheId[4];
+    UInt32 _uiObjId[4];
+    UInt32 _uiTriId[4];
 
   private:
 };

@@ -173,7 +173,8 @@ void RTTriAccelBarycentric::setup(Pnt3f  A,
 
 inline
 void RTTriAccelBarycentric::intersect(RTRayPacket &oRay, 
-                                      RTHitPacket &oHit)
+                                      RTHitPacket &oHit,
+                                      UInt32       uiCacheId)
 {
     static const UInt32 aMod[] = {0, 1, 2, 0, 1};
 
@@ -206,45 +207,52 @@ void RTTriAccelBarycentric::intersect(RTRayPacket &oRay,
     if(lambda + mue > 1.)
         return;
 
-    oHit.set(f, lambda, mue, _uiObjId, _uiTriId);
+    oHit.set(f, lambda, mue, _uiObjId, _uiTriId, uiCacheId);
 }
 
 inline
 void RTTriAccelBarycentric::intersect(RTRaySIMDPacket &oRay, 
-                                      RTHitSIMDPacket &oHit)
+                                      RTHitSIMDPacket &oHit,
+                                      UInt32           uiCacheId)
 {
     static const UInt32 aMod[] = {0, 1, 2, 0, 1};
 
-    const Real32 nd = 1.f / 
-        (      oRay.getDir()[_uiProj] + 
-         _nU * oRay.getDir()[ku     ] + 
-         _nV * oRay.getDir()[kv     ]);
+    for(UInt32 i = 0; i < RTRaySIMDPacket::NumRays; ++i)
+    {
+        if(oRay.isActive(i) == false)
+            continue;
 
-    const Real32 f  = (_nD - 
-                             oRay.getOrigin()[_uiProj] - 
-                       _nU * oRay.getOrigin()[ku     ] -
-                       _nV * oRay.getOrigin()[kv     ]) * nd;
+        const Real32 nd = 1.f / 
+            (      oRay.getDir(i)[_uiProj] + 
+             _nU * oRay.getDir(i)[ku     ] + 
+             _nV * oRay.getDir(i)[kv     ]);
 
-    if(!(oHit.getDist() > f && f > 0.00001))
-        return;
+        const Real32 f  = (_nD - 
+                                 oRay.getOrigin()[_uiProj] - 
+                           _nU * oRay.getOrigin()[ku     ] -
+                           _nV * oRay.getOrigin()[kv     ]) * nd;
 
-    const float hu = (oRay.getOrigin()[ku] + f * oRay.getDir()[ku]);
-    const float hv = (oRay.getOrigin()[kv] + f * oRay.getDir()[kv]);
+        if(!(oHit.getDist(i) > f && f > 0.00001))
+            continue;
 
-    const float lambda = (hu * _bNU + hv * _bNV + _bD);
+        const float hu = (oRay.getOrigin()[ku] + f * oRay.getDir(i)[ku]);
+        const float hv = (oRay.getOrigin()[kv] + f * oRay.getDir(i)[kv]);
 
-    if(lambda < 0.)
-        return;
+        const float lambda = (hu * _bNU + hv * _bNV + _bD);
 
-    const float mue = (hu * _cNU + hv * _cNV + _cD);
+        if(lambda < 0.)
+            continue;
 
-    if(mue < 0.)
-        return;
-
-    if(lambda + mue > 1.)
-        return;
-
-    oHit.set(f, lambda, mue, _uiObjId, _uiTriId);
+        const float mue = (hu * _cNU + hv * _cNV + _cD);
+        
+        if(mue < 0.)
+            continue;
+        
+        if(lambda + mue > 1.)
+            continue;
+        
+        oHit.set(i, f, lambda, mue, _uiObjId, _uiTriId, uiCacheId);
+    }
 }
 
 
@@ -310,7 +318,8 @@ void RTTriAccelBarycentricVer1::setup(Pnt3f  A,
 
 inline
 void RTTriAccelBarycentricVer1::intersect(RTRayPacket &oRay, 
-                                          RTHitPacket &oHit)
+                                          RTHitPacket &oHit,
+                                          UInt32       uiCacheId)
 {
     Vec3f b = _c - _a;
     Vec3f c = _b - _a;
@@ -363,13 +372,14 @@ void RTTriAccelBarycentricVer1::intersect(RTRayPacket &oRay,
     if(beta + gamma > 1.f)
         return;
 
-    oHit.set(t_plane, beta, gamma, _uiObjId, _uiTriId);
+    oHit.set(t_plane, beta, gamma, _uiObjId, _uiTriId, uiCacheId);
 }
 
 
 inline
 void RTTriAccelBarycentricVer1::intersect(RTRaySIMDPacket &oRay, 
-                                          RTHitSIMDPacket &oHit)
+                                          RTHitSIMDPacket &oHit,
+                                          UInt32           uiCacheId)
 {
     Vec3f b = _c - _a;
     Vec3f c = _b - _a;
@@ -379,50 +389,58 @@ void RTTriAccelBarycentricVer1::intersect(RTRaySIMDPacket &oRay,
 
     n.normalize();
 
-    Real32 t_plane = - d.dot(n) / oRay.getDir().dot(n);
+    for(UInt32 i = 0; i < RTRaySIMDPacket::NumRays; ++i)
+    {
+        if(oRay.isActive(i) == false)
+            continue;
 
-    if(t_plane < 0.000001 || t_plane > oHit.getDist())
-        return;
+        Real32 t_plane = - d.dot(n) / oRay.getDir(i).dot(n);
 
-    UInt32 k, u, v;
+        if(t_plane < 0.000001 || t_plane > oHit.getDist(i))
+            continue;
 
-    if(osgAbs(n[0]) > osgAbs(n[1])) 
-    { 
-        if(osgAbs(n[0]) > osgAbs(n[2])) 
-            k = 0; 
-        else
-            k = 2;
+        UInt32 k, u, v;
+
+        if(osgAbs(n[0]) > osgAbs(n[1])) 
+        { 
+            if(osgAbs(n[0]) > osgAbs(n[2])) 
+                k = 0; 
+            else
+                k = 2;
+        }
+        else 
+        { 
+            if(osgAbs(n[1]) > osgAbs(n[2]))
+                k = 1; 
+            else
+                k = 2;
+        }
+
+        u = (k + 1) % 3;
+        v = (k + 2) % 3;
+        
+        Real32 H[3];
+
+        H[u] = oRay.getOrigin()[u] + t_plane * oRay.getDir(i)[u] - _a[u];
+        H[v] = oRay.getOrigin()[v] + t_plane * oRay.getDir(i)[v] - _a[v];
+
+        Real32 beta = (b[u] * H[v] - b[v] * H[u]) / 
+                      (b[u] * c[v] - b[v] * c[u]);
+
+        if(beta < 0.f)
+            continue;
+        
+        Real32 gamma = (c[v] * H[u] - c[u] * H[v]) / 
+                       (b[u] * c[v] - b[v] * c[u]);
+
+        if(gamma < 0.f)
+            continue;
+        
+        if(beta + gamma > 1.f)
+            continue;
+
+        oHit.set(i, t_plane, beta, gamma, _uiObjId, _uiTriId, uiCacheId);
     }
-    else 
-    { 
-        if(osgAbs(n[1]) > osgAbs(n[2]))
-            k = 1; 
-        else
-            k = 2;
-    }
-
-    u = (k + 1) % 3;
-    v = (k + 2) % 3;
-
-    Real32 H[3];
-
-    H[u] = oRay.getOrigin()[u] + t_plane * oRay.getDir()[u] - _a[u];
-    H[v] = oRay.getOrigin()[v] + t_plane * oRay.getDir()[v] - _a[v];
-
-    Real32 beta = (b[u] * H[v] - b[v] * H[u]) / (b[u] * c[v] - b[v] * c[u]);
-
-    if(beta < 0.f)
-        return;
-
-    Real32 gamma = (c[v] * H[u] - c[u] * H[v]) / (b[u] * c[v] - b[v] * c[u]);
-
-    if(gamma < 0.f)
-        return;
-
-    if(beta + gamma > 1.f)
-        return;
-
-    oHit.set(t_plane, beta, gamma, _uiObjId, _uiTriId);
 }
 
 
@@ -487,7 +505,8 @@ void RTTriAccelBarycentricVer2::setup(Pnt3f  A,
 
 inline
 void RTTriAccelBarycentricVer2::intersect(RTRayPacket &oRay, 
-                                          RTHitPacket &oHit)
+                                          RTHitPacket &oHit,
+                                          UInt32       uiCacheId)
 {
 	Vec3f e1 = _b - _a;
 	Vec3f e2 = _c - _a;
@@ -520,46 +539,53 @@ void RTTriAccelBarycentricVer2::intersect(RTRayPacket &oRay,
 	if (t < 0.0001 || t > oHit.getDist())
 		return;
 
-    oHit.set(t, b1, b2, _uiObjId, _uiTriId);
+    oHit.set(t, b1, b2, _uiObjId, _uiTriId, uiCacheId);
 }
 
 
 inline
 void RTTriAccelBarycentricVer2::intersect(RTRaySIMDPacket &oRay, 
-                                          RTHitSIMDPacket &oHit)
+                                          RTHitSIMDPacket &oHit,
+                                          UInt32           uiCacheId)
 {
 	Vec3f e1 = _b - _a;
 	Vec3f e2 = _c - _a;
 
-	Vec3f s1 = oRay.getDir().cross(e2);
+    for(UInt32 i = 0; i < RTRaySIMDPacket::NumRays; ++i)
+    {
+        if(oRay.isActive(i) == false)
+            continue;
 
-	float divisor = s1.dot(e1);
+        Vec3f s1 = oRay.getDir(i).cross(e2);
 
-	if(divisor == 0.)
-		return;
+        float divisor = s1.dot(e1);
+        
+        if(divisor == 0.)
+            continue;
 
-	float invDivisor = 1.f / divisor;
+        float invDivisor = 1.f / divisor;
+    
+        Vec3f d = oRay.getOrigin() - _a;
 
-	Vec3f d = oRay.getOrigin() - _a;
+        float b1 = d.dot(s1) * invDivisor;
 
-	float b1 = d.dot(s1) * invDivisor;
+        if(b1 < 0. || b1 > 1.)
+            continue;
 
-	if(b1 < 0. || b1 > 1.)
-		return;
+        Vec3f s2 = d.cross(e1);
 
-	Vec3f s2 = d.cross(e1);
+        float b2 = oRay.getDir(i).dot(s2) * invDivisor;
 
-	float b2 = oRay.getDir().dot(s2) * invDivisor;
+        if (b2 < 0. || b1 + b2 > 1.)
+            continue;
 
-	if (b2 < 0. || b1 + b2 > 1.)
-		return;
+        float t = e2.dot(s2) * invDivisor;
 
-	float t = e2.dot(s2) * invDivisor;
+        if (t < 0.0001 || t > oHit.getDist(i))
+            continue;
 
-	if (t < 0.0001 || t > oHit.getDist())
-		return;
-
-    oHit.set(t, b1, b2, _uiObjId, _uiTriId);
+        oHit.set(i, t, b1, b2, _uiObjId, _uiTriId, uiCacheId);
+    }
 }
 
 OSG_END_NAMESPACE

@@ -93,11 +93,13 @@ class RTCacheKDVer1 : public RTCacheKDBase<DescT>
 
     void intersect            (RTRayPacket     &oRay, 
                                RTHitPacket     &oHit,
-                               KDElemStack     &sKDToDoStack);
+                               KDElemStack     &sKDToDoStack,
+                               UInt32           uiCacheId   );
 
     void intersect            (RTRaySIMDPacket &oRay, 
                                RTHitSIMDPacket &oHit,
-                               KDElemStack     &sKDToDoStack);
+                               KDElemStack     &sKDToDoStack,
+                               UInt32           uiCacheId   );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

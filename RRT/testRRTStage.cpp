@@ -369,8 +369,9 @@ void initRTStage(void)
     pStage->setRenderTarget (pFBO);
     pStage->setTextureTarget(tx1o);
   
-    pStage->setSplitThreads(true);
-    pStage->setTiled       (true);
+    pStage->setSplitThreads(false );
+//    pStage->setTiled       (true);
+    pStage->setTiled       (false);
 
     VisitSubTreePtr pVisit     = VisitSubTree::create();
     NodePtr         pVisitNode = Node::create();

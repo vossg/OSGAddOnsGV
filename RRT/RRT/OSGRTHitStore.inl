@@ -68,9 +68,18 @@ RTHitStore<DescT>::~RTHitStore(void)
 template<typename DescT> inline
 void RTHitStore<DescT>::startFrame(RTTarget &pTarget)
 {
-    _uiNumHits       = pTarget.getWidth() * pTarget.getHeight();
+    if(_uiWidth != pTarget.getWidth() || _uiHeight != pTarget.getHeight())
+    {
+        fprintf(stderr, "Update HTS \n================================\n"); 
 
-    _vHits.resize(_uiNumHits);
+        Inherited::updateNumTiles(pTarget.getWidth(), 
+                                  pTarget.getHeight(),
+                                  SingleHitPacket::NumHHits,
+                                  SingleHitPacket::NumVHits);
+
+
+        _vHits.resize(_uiNumTiles);
+    }
 
     _vAvailableHits.clear();
 
@@ -78,7 +87,7 @@ void RTHitStore<DescT>::startFrame(RTTarget &pTarget)
     _uiAvailableHits = 0;
     _uiServedHits    = 0;
 
-    fprintf(stderr, "HS %d\n", _uiNumHits);
+    fprintf(stderr, "HS %d\n", _uiNumTiles);
 }
 
 template<typename DescT> inline
@@ -133,7 +142,7 @@ UInt32 RTHitStore<DescT>::getReadIndex(void)
     }
     else
     {
-        if(_uiServedHits < _uiNumHits)
+        if(_uiServedHits < _uiNumTiles)
         {
             returnValue = Waiting;
         }

@@ -87,21 +87,33 @@ RTPrimaryRayTiledStore<DescT>::~RTPrimaryRayTiledStore(void)
 template<class DescT> inline
 void RTPrimaryRayTiledStore<DescT>::startFrame(Camera &pCam, RTTarget &pTarget)
 {
-    if(_uiWidth != pTarget.getWidth() || _uiHeight != pTarget.getHeight())
+    RTPrimaryRayTiledStoreSetupHelper<DescT, MathTag>::setupRays(this,
+                                                                 pCam,
+                                                                 pTarget);
+}
+
+template<typename DescT> inline
+void RTPrimaryRayTiledStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
+    RTPrimaryRayTiledStore<DescT> *pThis,
+    Camera                        &pCam, 
+    RTTarget                      &pTarget)
+{
+    if(pThis->_uiWidth  != pTarget.getWidth() || 
+       pThis->_uiHeight != pTarget.getHeight())
     {
         fprintf(stderr, "Update RTS \n================================\n"); 
 
-        Inherited::updateNumTiles(pTarget.getWidth(), 
-                                  pTarget.getHeight(),
-                                  PrimaryRayTile::NumHPackets,
-                                  PrimaryRayTile::NumVPackets);
-
-        _vTiles.resize(_uiNumTiles);
+        pThis->updateNumTiles(pTarget.getWidth(), 
+                              pTarget.getHeight(),
+                              PrimaryRayTile::NumHPackets,
+                              PrimaryRayTile::NumVPackets);
+        
+        pThis->_vTiles.resize(pThis->_uiNumTiles);
     }
 
-    _uiNumTiles = _uiHTiles * _uiVTiles;
+    pThis->_uiNumTiles = pThis->_uiHTiles * pThis->_uiVTiles;
 
-    _uiCurrentTile = 0;
+    pThis->_uiCurrentTile = 0;
 
 
     UInt32 uiWidth  = pTarget.getWidth ();
@@ -143,13 +155,20 @@ void RTPrimaryRayTiledStore<DescT>::startFrame(Camera &pCam, RTTarget &pTarget)
 
     Pnt3f vOrigin(mCam[3][0], mCam[3][1], mCam[3][2]);
 
-    for(UInt32 i = 0; i < _uiVTiles; ++i)
+    for(UInt32 i = 0; i < pThis->_uiVTiles; ++i)
     {
         vCurrV = vCurrH;
 
-        for(UInt32 j = 0; j < _uiHTiles; j++)
+        for(UInt32 j = 0; j < pThis->_uiHTiles; j++)
         {
-            fillTile(vCurrV, vRight, vUp, vOrigin, j, i, _uiHTiles);
+            fillTile(pThis,
+                     vCurrV, 
+                     vRight, 
+                     vUp, 
+                     vOrigin, 
+                     j, 
+                     i, 
+                     pThis->_uiHTiles);
 
             vCurrV += Real32(PrimaryRayTile::NumHPackets) * vRight;
         }
@@ -164,7 +183,7 @@ void RTPrimaryRayTiledStore<DescT>::startFrame(Camera &pCam, RTTarget &pTarget)
 
         for(UInt32 j = 0; j < uiWidth; ++j)
         {
-            PrimaryRayTile &rayPacket = _vRays[i * uiWidth + j];
+            PrimaryRayTile &rayPacket = pThis->_vRays[i * uiWidth + j];
 
             rayPacket.setOrigin(mCam[3][0], mCam[3][1], mCam[3][2]);
             rayPacket.setDirection(vCurrV);
@@ -180,23 +199,25 @@ void RTPrimaryRayTiledStore<DescT>::startFrame(Camera &pCam, RTTarget &pTarget)
 #endif
 }
 
-template<class DescT> inline
-void RTPrimaryRayTiledStore<DescT>::fillTile(Vec3f  vCurr, 
-                                             Vec3f  vRight, 
-                                             Vec3f  vUp,
-                                             Pnt3f  vOrigin,
-                                             UInt32 uiX,
-                                             UInt32 uiY,
-                                             UInt32 uiTilesX)
+template<typename DescT> inline
+void RTPrimaryRayTiledStoreSetupHelper<DescT, RTFloatMathTag>::fillTile(
+    RTPrimaryRayTiledStore<DescT> *pThis,
+    Vec3f  vCurr, 
+    Vec3f  vRight, 
+    Vec3f  vUp,
+    Pnt3f  vOrigin,
+    UInt32 uiX,
+    UInt32 uiY,
+    UInt32 uiTilesX)
 {
     Vec3f vCurrH = vCurr;
     Vec3f vCurrV = vCurr;
 
-    PrimaryRayTile &rayTile = _vTiles[uiY * uiTilesX + uiX];
+    PrimaryRayTile &rayTile = pThis->_vTiles[uiY * uiTilesX + uiX];
 
 //    fprintf(stderr, "%d %d\n", uiY * uiTilesX + uiX, _vTiles.size());
 
-    OSG_ASSERT(uiY * uiTilesX + uiX < _vTiles.size());
+    OSG_ASSERT(uiY * uiTilesX + uiX < pThis->_vTiles.size());
 
     for(UInt32 i = 0; i < PrimaryRayTile::NumVPackets; ++i)
     {
@@ -204,7 +225,7 @@ void RTPrimaryRayTiledStore<DescT>::fillTile(Vec3f  vCurr,
 
         UInt32 cY = uiY * RTTile::NumVPackets + i;
 
-        if(cY >= _uiHeight)
+        if(cY >= pThis->_uiHeight)
         {
             for(UInt32 j = 0; j < PrimaryRayTile::NumHPackets; ++j)
             {
@@ -221,7 +242,7 @@ void RTPrimaryRayTiledStore<DescT>::fillTile(Vec3f  vCurr,
 
                 UInt32 cX = uiX * RTTile::NumHPackets + j;
 
-                if(cX >= _uiWidth)
+                if(cX >= pThis->_uiWidth)
                 {
                     rayTile.setActive(uiPacketIndex, false);
                 }
@@ -235,7 +256,7 @@ void RTPrimaryRayTiledStore<DescT>::fillTile(Vec3f  vCurr,
                     rayTile.setDirection(uiPacketIndex, vCurrV);
                     
                     rayTile.setXY(uiX, uiY);
-                    
+
                     vCurrV += vRight;
                 }
             }
@@ -245,6 +266,15 @@ void RTPrimaryRayTiledStore<DescT>::fillTile(Vec3f  vCurr,
     }
 
     rayTile.normalizeDirection();
+}
+
+template<typename DescT> inline
+void RTPrimaryRayTiledStoreSetupHelper<DescT, RTSIMDMathTag>::setupRays(
+    RTPrimaryRayTiledStore<DescT> *pThis,
+    Camera                        &pCam, 
+    RTTarget                      &pTarget)
+{
+    OSG_ASSERT(false);
 }
 
 OSG_END_NAMESPACE

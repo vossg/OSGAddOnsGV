@@ -62,6 +62,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleHitPacket : public RTHitPacket
 
     typedef RTSingleHitPacket Self;
 
+    static const UInt32 NumHHits = 1;
+    static const UInt32 NumVHits = 1;
+
+    static const UInt32 NumHits  = 1;
+
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */

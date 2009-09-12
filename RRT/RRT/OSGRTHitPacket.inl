@@ -72,13 +72,15 @@ void RTHitPacket::set(Real32 rDist,
                       Real32 rU, 
                       Real32 rV, 
                       UInt32 uiObjId,
-                      UInt32 uiTriId)
+                      UInt32 uiTriId,
+                      UInt32 uiCacheId)
 {
-    _rDist   = rDist;
-    _rU      = rU;
-    _rV      = rV;
-    _uiObjId = uiObjId;
-    _uiTriId = uiTriId;
+    _rDist     = rDist;
+    _rU        = rU;
+    _rV        = rV;
+    _uiCacheId = uiCacheId;
+    _uiObjId   = uiObjId;
+    _uiTriId   = uiTriId;
 }
 
 inline
@@ -111,13 +113,6 @@ UInt32 RTHitPacket::getTriId(void)
 {
     return _uiTriId;
 }
-
-inline
-void RTHitPacket::setCacheId(UInt32 uiCacheId)
-{
-    _uiCacheId = uiCacheId;
-}
-
 
 inline
 UInt32 RTHitPacket::getCacheId(void)

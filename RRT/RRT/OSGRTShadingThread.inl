@@ -112,7 +112,7 @@ void RTShadingThread<DescT>::workProc(void)
 {
     _pSyncBarrier->enter();
 
-    Color4f oColor;
+    ColorPacket oColor;
 
     if(_pHitStore != NULL)
     {
@@ -198,7 +198,7 @@ void RTShadingThread<DescT>::workProc(void)
                             RayPacket &pRayPacket = 
                                 oHitTile.getRayPacket(uiPacketIndex);
 
-                            if(pRayPacket.isActive() == false)
+                            if(pRayPacket.hasActive() == false)
                                 continue;
 
                             UInt32 uiX = 

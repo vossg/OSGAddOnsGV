@@ -89,7 +89,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitPacket
                     Real32 rU, 
                     Real32 rV, 
                     UInt32 uiObjId,
-                    UInt32 uiTriId  );
+                    UInt32 uiTriId,
+                    UInt32 uiCacheId);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -108,8 +109,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    void   setCacheId(UInt32 uiCacheId);
-    UInt32 getCacheId(void            );
+    UInt32 getCacheId(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

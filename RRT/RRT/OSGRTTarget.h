@@ -44,6 +44,9 @@
 
 #include "OSGRTTargetBase.h"
 
+#include "OSGRTColorPacket.h"
+#include "OSGRTColorSIMDPacket.h"
+
 OSG_BEGIN_NAMESPACE
 
 class DrawEnv;
@@ -102,7 +105,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTarget : public RTTargetBase
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    void setPixel(UInt32 uiX, UInt32 uiY, Color4f &oColor);
+    void setPixel(UInt32 uiX, UInt32 uiY, RTColorPacket     &oColor);
+    void setPixel(UInt32 uiX, UInt32 uiY, RTColorSIMDPacket &oColor);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

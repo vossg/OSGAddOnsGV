@@ -190,7 +190,7 @@ void RTPrimaryRayThread<DescT>::workProc(void)
                     RayPacket &oRayPacket = oRayTile.getPacket(i);
                     HitPacket &oHitPacket = oHitTile.getPacket(i);
 
-                    if(oRayPacket.isActive() == false)
+                    if(oRayPacket.hasActive() == false)
                         continue;
 
                     _pScene->tracePrimaryRays(oRayPacket, 

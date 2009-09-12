@@ -42,8 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGMemoryObject.h"
-#include "OSGContribRRTDef.h"
+#include "OSGRTStore.h"
 
 #include "OSGCondVar.h"
 #include "OSGLock.h"
@@ -58,7 +57,7 @@ class RTTarget;
  */
 
 template<typename DescT>
-class RTHitStore : public MemoryObject
+class RTHitStore : public RTStore
 {
 
     /*==========================  PUBLIC  =================================*/
@@ -110,7 +109,7 @@ class RTHitStore : public MemoryObject
 
   protected:
 
-    typedef MemoryObject Inherited;
+    typedef RTStore                       Inherited;
 
     typedef std::vector<SingleHitPacket>  HitStore;
     typedef std::vector<UInt32         >  HitIndexStore;

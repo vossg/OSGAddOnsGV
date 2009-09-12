@@ -111,7 +111,7 @@ void RTLocalPacketManager<DescT>::finish(void)
 template<typename DescT> inline
 void RTLocalPacketManager<DescT>::setup(bool bTiled)
 {
-    UInt32 uiNumThreads = 2;
+    UInt32 uiNumThreads = 1;
 
     _pSyncBarrier = Barrier::get("RRT-Shading-DisplaySync");
 
@@ -167,6 +167,7 @@ void RTLocalPacketManager<DescT>::setup(bool bTiled)
                             i);
         }
         
+        fprintf(stderr, "Start Thread %d\n", i);
         prThread->run();
     }
 
@@ -177,7 +178,7 @@ void RTLocalPacketManager<DescT>::setup(bool bTiled)
 template<typename DescT> inline
 void RTLocalPacketManager<DescT>::setupSplitThreads(bool bTiled)
 {
-    UInt32 uiNumThreads = 2;
+    UInt32 uiNumThreads = 1;
 
     _pSyncBarrier = Barrier::get("RRT-Shading-DisplaySync");
 

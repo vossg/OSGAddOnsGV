@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGContribRRTDef.h"
+#include "OSGRTSIMDPacket.h"
 #include "OSGVector.h"
 
 OSG_BEGIN_NAMESPACE
@@ -51,21 +51,28 @@ OSG_BEGIN_NAMESPACE
            PageContribRRTRTTarget for a description.
 */
 
-class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket 
+class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
 {
   protected:
 
     /*==========================  PUBLIC  =================================*/
 
   public:
-
+    
+    typedef RTSIMDPacket    Inherited;
     typedef RTRaySIMDPacket Self;
+
+    static const UInt32 NumHRays = Inherited::NumHElements;
+    static const UInt32 NumVRays = Inherited::NumVElements;
+
+    static const UInt32 NumRays  = Inherited::NumElements;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
     RTRaySIMDPacket(void);
+    RTRaySIMDPacket(const RTRaySIMDPacket &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -83,7 +90,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket
                             Real32 oY,
                             Real32 oZ     );
     void setOrigin         (Pnt3f  vOrigin);
-    void setDirection      (Vec3f  vDir   );
+
+    void setDirection      (Vec3f  vDir,
+                            UInt32 uiIdx  );
+
     void normalizeDirection(void          );
 
     /*! \}                                                                 */
@@ -91,16 +101,20 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    Pnt3f getOrigin(void);
-    Vec3f getDir   (void);
+    Pnt3f getOrigin(void        );
+
+    Vec3f getDir   (UInt32 uiIdx);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    void setActive(bool bVal);
-    bool isActive (void     );
+    void setActive(bool   bVal,
+                   UInt32 uiIdx);
+    bool isActive (UInt32 uiIdx);
+
+    bool hasActive(void        );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -122,11 +136,12 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket
     /*==========================  PRIVATE  ================================*/
 
     Pnt3f  _vOrigin;
-    Vec3f  _vDir;
+    Vec3f  _vDir[NumRays];
 
-    bool   _bIsActive;
+    bool   _bIsActive[NumRays];
 
   private:
+
 };
 
 OSG_END_NAMESPACE

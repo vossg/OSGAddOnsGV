@@ -74,6 +74,7 @@
 #include "OSGRTScene.h"
 #include "OSGRTLocalPacketManager.h"
 #include "OSGRTCacheKDVer1.h"
+#include "OSGRTCacheKD.h"
 #include "OSGRTTriangleAccel.h"
 
 #include "OSGRRTStage.h"

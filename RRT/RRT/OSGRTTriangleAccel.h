@@ -84,8 +84,12 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentric
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void intersect(RTRayPacket     &oRay, RTHitPacket     &oHit);
-    void intersect(RTRaySIMDPacket &oRay, RTHitSIMDPacket &oHit);
+    void intersect(RTRayPacket     &oRay, 
+                   RTHitPacket     &oHit,
+                   UInt32           uiCacheId);
+    void intersect(RTRaySIMDPacket &oRay, 
+                   RTHitSIMDPacket &oHit,
+                   UInt32           uiCacheId);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -172,8 +176,12 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentricVer1
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void intersect(RTRayPacket     &oRay, RTHitPacket     &oHit);
-    void intersect(RTRaySIMDPacket &oRay, RTHitSIMDPacket &oHit);
+    void intersect(RTRayPacket     &oRay, 
+                   RTHitPacket     &oHit,
+                   UInt32           uiCacheId);
+    void intersect(RTRaySIMDPacket &oRay, 
+                   RTHitSIMDPacket &oHit,
+                   UInt32           uiCacheId);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -252,8 +260,12 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentricVer2
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void intersect(RTRayPacket     &oRay, RTHitPacket     &oHit);
-    void intersect(RTRaySIMDPacket &oRay, RTHitSIMDPacket &oHit);
+    void intersect(RTRayPacket     &oRay, 
+                   RTHitPacket     &oHit,
+                   UInt32           uiCacheId);
+    void intersect(RTRaySIMDPacket &oRay, 
+                   RTHitSIMDPacket &oHit,
+                   UInt32           uiCacheId);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
