@@ -82,6 +82,7 @@ class RTScene : public MemoryObject
     typedef typename RTCache::ElemStack       ElemStack;
 
     typedef typename Desc::BasicRayPacket     BasicRayPacket;
+
     typedef typename Desc::BasicSIMDRayPacket BasicSIMDRayPacket;
 
     typedef typename std::vector<RTCache *>   RTCacheStore;

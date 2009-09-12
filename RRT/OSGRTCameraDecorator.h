@@ -99,11 +99,18 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
                                  RRT::SinglePacketDesc::RayInfoStore &vRayInfos,
                                                         RTTarget     &pTarget );
 
-    virtual UInt32 fillRayStores(RRT::SIMDPacketDesc  ::RayStore     &vRays,
+    virtual UInt32 fillRayStores(RRT::SIMDPacketDesc  ::SIMDRayStore &vRays,
                                  RRT::SIMDPacketDesc  ::RayInfoStore &vRayInfos,
                                                         RTTarget     &pTarget,
                                                         UInt32        uiVTiles,
                                                         UInt32        uiHTiles);
+
+    virtual UInt32 fillRayStores(
+        RRT::SIMDPacketDesc  ::FullSIMDRayStore &vRays,
+        RRT::SIMDPacketDesc  ::RayInfoStore     &vRayInfos,
+                               RTTarget         &pTarget,
+                               UInt32            uiVTiles,
+                               UInt32            uiHTiles );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -146,7 +153,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void fillTile(RRT::SIMDPacketDesc::RayStore     &vRays,
+    void fillTile(RRT::SIMDPacketDesc::SIMDRayStore &vRays,
                   RRT::SIMDPacketDesc::RayInfoStore &vRayInfos,
                                        UInt32        uiWidth,
                                        UInt32        uiHeight,

@@ -149,6 +149,7 @@ void RTCameraDecorator::dump(      UInt32    ,
     SLOG << "Dump RTCameraDecorator NI" << std::endl;
 }
 
+
 UInt32 RTCameraDecorator::fillRayStores(
     RRT::SinglePacketDesc::RayStore     &vRays,
     RRT::SinglePacketDesc::RayInfoStore &vRayInfos,
@@ -230,7 +231,7 @@ UInt32 RTCameraDecorator::fillRayStores(
 }
 
 UInt32 RTCameraDecorator::fillRayStores(
-    RRT::SIMDPacketDesc::RayStore     &vRays,
+    RRT::SIMDPacketDesc::SIMDRayStore     &vRays,
     RRT::SIMDPacketDesc::RayInfoStore &vRayInfos,
                          RTTarget     &pTarget,
                          UInt32        uiVTiles,
@@ -313,7 +314,7 @@ UInt32 RTCameraDecorator::fillRayStores(
 
 
 void RTCameraDecorator::fillTile(
-    RRT::SIMDPacketDesc::RayStore     &vRays,
+    RRT::SIMDPacketDesc::SIMDRayStore &vRays,
     RRT::SIMDPacketDesc::RayInfoStore &vRayInfos,
                          UInt32        uiWidth,
                          UInt32        uiHeight,
@@ -325,7 +326,7 @@ void RTCameraDecorator::fillTile(
                          UInt32        uiY,
                          UInt32        uiTilesX )
 {
-    typedef RRT::SIMDPacketDesc::SingleRayPacket     FourRayPacket;
+    typedef RRT::SIMDPacketDesc::StoredSIMDPacket    FourRayPacket;
     typedef RRT::SIMDPacketDesc::SingleRayPacketInfo FourRayPacketInfo;
 
     Vec3f vCurrH = vCurr;
@@ -387,6 +388,16 @@ void RTCameraDecorator::fillTile(
     }
 
     rayTile.normalizeDirection();
+}
+
+UInt32 RTCameraDecorator::fillRayStores(
+        RRT::SIMDPacketDesc  ::FullSIMDRayStore &vRays,
+        RRT::SIMDPacketDesc  ::RayInfoStore     &vRayInfos,
+                               RTTarget         &pTarget,
+                               UInt32            uiVTiles,
+                               UInt32            uiHTiles )
+{
+    return 0;
 }
 
 OSG_END_NAMESPACE

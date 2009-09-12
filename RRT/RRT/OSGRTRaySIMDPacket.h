@@ -229,6 +229,132 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
   private:
 };
 
+/*! \brief RTTarget class. See \ref
+           PageContribRRTRTTarget for a description.
+*/
+
+class OSG_CONTRIBRRT_DLLMAPPING RTRayFullSIMDPacket : public RTSIMDPacket
+{
+  protected:
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+    
+    typedef RTSIMDPacket        Inherited;
+    typedef RTRayFullSIMDPacket Self;
+
+    static const UInt32 NumHRays = Inherited::NumHElements;
+    static const UInt32 NumVRays = Inherited::NumVElements;
+
+    static const UInt32 NumRays  = Inherited::NumElements;
+
+    static const UInt32 X        = 0;
+    static const UInt32 Y        = 1;
+    static const UInt32 Z        = 2;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    RTRayFullSIMDPacket(void);
+    RTRayFullSIMDPacket(const RTRayFullSIMDPacket &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    ~RTRayFullSIMDPacket(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    void setOrigin         (Real32 oX,
+                            Real32 oY,
+                            Real32 oZ,
+                            UInt32 uiIdx  );
+
+    void setOrigin         (Pnt3f  vOrigin,
+                            UInt32 uiIdx  );
+
+    void setOrigin         (Float4 origin,
+                            UInt32 uiIdx  );
+
+
+    void setDirection      (Vec3f  vDir,
+                            UInt32 uiIdx  );
+
+    void setDirX           (Float4 fDir   );
+    void setDirY           (Float4 fDir   );
+    void setDirZ           (Float4 fDir   );
+
+    void normalizeDirection(void          );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+#ifdef OSG_SIMD_RAYPACKET_DEBUG
+    Pnt3f getOriginPnt         (const UInt32 uiCoord);
+
+    Vec3f getDirVec            (const UInt32 uiCoord);
+#endif
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    Float4 getOrigin(const UInt32 uiCoord);
+    Float4 getDir   (const UInt32 uiCoord);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void operator =(const RTRayFullSIMDPacket &source);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    /*==========================  PRIVATE  ================================*/
+
+    typedef Real32 Real32_4[4];
+
+#ifdef OSG_SIMD_RAYPACKET_DEBUG
+    Pnt3f  _vOrigin;
+    Real32 _pad0;
+
+    Vec3f  _vDir[4];
+#endif
+
+    union
+    {
+        Float4    _fOrigin[3];
+        Real32_4  _vOriginA[4];
+    };
+
+    union
+    {
+        Float4    _fDir [3];
+        Real32_4  _vDirA[3];
+    };
+
+  private:
+};
+
 OSG_END_NAMESPACE
 
 #include "OSGRTRaySIMDPacket.inl"

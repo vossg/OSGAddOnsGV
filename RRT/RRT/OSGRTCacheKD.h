@@ -95,7 +95,9 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     typedef          RTCacheKD<DescT>                   Self;
     
     typedef typename DescT::BasicRayPacket              BasicRayPacket;
-    typedef typename DescT::BasicSIMDRayPacket          BasicSIMDRayPacket;
+
+    typedef typename DescT::SIMDRayPacket               SIMDRayPacket;
+    typedef typename DescT::FullSIMDRayPacket           FullSIMDRayPacket;
 
     OSG_GEN_INTERNALPTR(Self);
     
@@ -104,13 +106,6 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     typedef typename TypeObject::InitPhase              InitPhase;
     
     
-#if 0
-    typedef          SFieldAdaptor<ObjPtr, 
-                                   SFFieldContainerPtr> SField;
-    typedef          MFieldAdaptor<ObjPtr, 
-                                   MFFieldContainerPtr> MField;
-#endif
-
     typedef          PointerSField<ObjPtr, 
                                    UnrecordedRefCountPolicy> SField;
 
@@ -157,13 +152,25 @@ class RTCacheKD : public RTCacheKDBase<DescT>
                                KDElemStack        &sKDToDoStack,
                                UInt32              uiCacheId   );
 
-    void intersect            (BasicSIMDRayPacket &oRay, 
+    void intersect            (SIMDRayPacket      &oRay, 
                                RTHitSIMDPacket    &oHit,
                                KDElemStack        &sKDToDoStack,
                                UInt32              uiCacheId   ,
                                UInt16             *uiActive    );
 
-    void intersectSingle      (BasicSIMDRayPacket &oRay, 
+    void intersectSingle      (SIMDRayPacket      &oRay, 
+                               RTHitSIMDPacket    &oHit,
+                               KDElemStack        &sKDToDoStack,
+                               UInt32              uiCacheId   ,
+                               UInt16             *uiActive    );
+
+    void intersect            (FullSIMDRayPacket  &oRay, 
+                               RTHitSIMDPacket    &oHit,
+                               KDElemStack        &sKDToDoStack,
+                               UInt32              uiCacheId   ,
+                               UInt16             *uiActive    );
+
+    void intersectSingle      (FullSIMDRayPacket  &oRay, 
                                RTHitSIMDPacket    &oHit,
                                KDElemStack        &sKDToDoStack,
                                UInt32              uiCacheId   ,

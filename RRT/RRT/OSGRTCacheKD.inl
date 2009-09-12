@@ -491,11 +491,11 @@ void RTCacheKD<DescT>::intersect(BasicRayPacket &oRay,
 }
 
 template<typename DescT> inline
-void RTCacheKD<DescT>::intersectSingle(BasicSIMDRayPacket &oRay, 
-                                       RTHitSIMDPacket    &oHit,
-                                       KDElemStack        &sKDToDoStack,
-                                       UInt32              uiCacheId,
-                                       UInt16             *uiActive     )
+void RTCacheKD<DescT>::intersectSingle(SIMDRayPacket   &oRay, 
+                                       RTHitSIMDPacket &oHit,
+                                       KDElemStack     &sKDToDoStack,
+                                       UInt32           uiCacheId,
+                                       UInt16          *uiActive     )
 {
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
     Vec3f vRayDirs[4];
@@ -695,11 +695,11 @@ void RTCacheKD<DescT>::intersectSingle(BasicSIMDRayPacket &oRay,
 }
 
 template<typename DescT> inline
-void RTCacheKD<DescT>::intersect(BasicSIMDRayPacket &oRay, 
-                                 RTHitSIMDPacket    &oHit,
-                                 KDElemStack        &sKDToDoStack,
-                                 UInt32              uiCacheId,
-                                 UInt16             *uiActive     )
+void RTCacheKD<DescT>::intersect(SIMDRayPacket   &oRay, 
+                                 RTHitSIMDPacket &oHit,
+                                 KDElemStack     &sKDToDoStack,
+                                 UInt32           uiCacheId,
+                                 UInt16          *uiActive     )
 {
 #if 0
     for(UInt32 i = 0; i < this->_mfTriangleAcc.size(); ++i)

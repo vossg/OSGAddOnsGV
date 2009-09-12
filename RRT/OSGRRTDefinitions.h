@@ -128,6 +128,7 @@ template<class DescT>
 class RTCacheRefRayPacketMixin;
 
 class RTRaySIMDPacket;
+class RTRayFullSIMDPacket;
 class RTRaySIMDPacketInfo;
 
 template<class DescT>
@@ -153,8 +154,11 @@ namespace RRT
 {
     struct PacketDescBase
     {
-        typedef RTRayPacket     BasicRayPacket;
-        typedef RTRaySIMDPacket BasicSIMDRayPacket;
+        typedef RTRayPacket         BasicRayPacket;
+        typedef RTRaySIMDPacket     BasicSIMDRayPacket;
+
+        typedef RTRaySIMDPacket     SIMDRayPacket;
+        typedef RTRayFullSIMDPacket FullSIMDRayPacket;
     };
 
 
@@ -188,8 +192,12 @@ namespace RRT
         typedef RTSingleHitPacket<
                   SinglePacketDescBase>                SingleHitPacket;
 
+#ifndef OSG_XCACHEKD
+        typedef RTRayPacket                            BasicRayPacket;
+#else
         typedef RTCacheRefRayPacketMixin<
                   SinglePacketDescBase>                BasicRayPacket;
+#endif
 
         typedef BasicRayPacket                         RayPacket;
         typedef RTRayPacketInfo                        RayPacketInfo;
@@ -325,8 +333,19 @@ namespace RRT
         typedef RTFourHitSIMDPacket<
                   SIMDPacketDescBase>                SingleHitPacket;
 
+        typedef RTRaySIMDPacket                      SIMDRayPacket;
+        typedef RTRayFullSIMDPacket                  FullSIMDRayPacket;
+
+#ifndef OSG_XCACHEKD
+#ifndef OSG_FULL_SIMDRAYS
+        typedef RTRaySIMDPacket                      BasicSIMDRayPacket;
+#else
+        typedef RTRayFullSIMDPacket                  BasicSIMDRayPacket;
+#endif
+#else
         typedef RTCacheRefSIMDPacketMixin<
                   SIMDPacketDescBase>                BasicSIMDRayPacket;
+#endif
 
         typedef BasicSIMDRayPacket                   RayPacket;
         typedef RTRaySIMDPacketInfo                  RayPacketInfo;
@@ -347,6 +366,17 @@ namespace RRT
         typedef std::vector<SingleRayPacket,
                             SIMDRayAllocator>        RayStore;
 
+        
+        typedef RTFourRaySIMDPacket<RTRaySIMDPacket> StoredSIMDPacket;
+
+        typedef std::vector<RTFourRaySIMDPacket<RTRaySIMDPacket>,
+                            SIMDRayAllocator>        SIMDRayStore;
+                                                                        
+        typedef RTFourRaySIMDPacket<RTRayFullSIMDPacket> StoredFullSIMDPacket;
+
+        typedef std::vector<RTFourRaySIMDPacket<RTRayFullSIMDPacket>,
+                            SIMDRayAllocator>        FullSIMDRayStore;
+        
 
         static const Char8 *getCacheBaseTypeName(void)
         {
