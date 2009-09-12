@@ -62,10 +62,13 @@ int main( int argc, char** argv )
     int tileSize    = 65;
     int textureSize = 128;
 
-    std::string heightFieldFilename = "data/ps_height_1k.png";
-//    std::string heightFieldFilename = "data/Z_70_22.GTIF";
-    std::string textureFilename     = "data/ps_texture_1k.png";
+//    std::string heightFieldFilename = "data/ps_height_1k.png";
+//    std::string heightFieldFilename = "data/Z_71_21.GTIF";
+    std::string heightFieldFilename = "/tmp/ruapehu/bj34/w001001.gtif";
+//    std::string textureFilename     = "data/ps_texture_1k.png";
 //    std::string textureFilename     = "data/ps_texture_6k.png";
+    std::string textureFilename     = "data/ps_texture_12_18.png";
+
     std::string bbqTerrainFilename  = "data/ps.bbq";
 
 
@@ -83,10 +86,12 @@ int main( int argc, char** argv )
     
     while(!terrainCreator->isFinished() )
     {
+/*
         std::cout << "\rProgress = " 
                   << int( 100 * terrainCreator->getProgress() ) 
                   << "%                " 
                   << std::flush;
+ */
         
         terrainCreator->step();
     }

@@ -205,10 +205,12 @@ void motion(int x, int y)
 
     if(move_obj == true)
     {
+/*
         fprintf(stderr, "%f %f %f\n",
                 pActiveTBall->getPosition()[0],
                 pActiveTBall->getPosition()[1],
                 pActiveTBall->getPosition()[2]);
+ */
     }
 
     lastx = x;
@@ -471,7 +473,7 @@ int main (int argc, char **argv)
 //    pSource->setFilename("data/ps_com.bbq");
     pSource->setFilename("data/ps.bbq");
 
-    pSource->setHeightScale  (650.0f);
+    pSource->setHeightScale  (6500.0f);
     pSource->setHeightOffset (0.0f  );
     pSource->setSampleSpacing(1.0f  );
 

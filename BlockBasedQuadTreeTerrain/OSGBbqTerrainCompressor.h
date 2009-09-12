@@ -124,8 +124,10 @@ class BbqTerrainCompressor
     struct BbqCompressorNode
     {
         BbqNodeId                        id;
+#if 0
         BbqFileNode                      inputInfo;
         BbqFileNode::TerrainDataPointer  compressedDataPointer;
+#endif
         BbqCompressorNodeData           *data;
     };
     

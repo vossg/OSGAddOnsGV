@@ -93,6 +93,7 @@ bool BbqTerrainCompressor::start(const std::string &szInputBbqFilename,
                                  const std::string &szOutputFilename, 
                                        Int32        iCompressionQuality)
 {
+#if 0
     _iCompressionQuality = clamp(iCompressionQuality, 1, 1000);
     
     if(!_oInputFile.open(szInputBbqFilename))
@@ -177,6 +178,7 @@ bool BbqTerrainCompressor::start(const std::string &szInputBbqFilename,
     _oNodeIterator.startIteration(_oInputHeader._iNodeCount);
     
     _oCompressorDataAllocator.setSize(4 * _oInputHeader._iNodeCount);
+#endif
     
     return true;
 }
@@ -196,6 +198,7 @@ bool BbqTerrainCompressor::isFinished(void) const
 
 void BbqTerrainCompressor::step(void)
 {
+#if 0
     // do N nodes per step:
     Int32 iLoopCount = 100;
     
@@ -257,6 +260,7 @@ void BbqTerrainCompressor::step(void)
             8.0f * Real32 (_oStatistics.compressedHeightDataSize) / 
             (fHeightSampleCount);
     }
+#endif
 }
 
 
@@ -285,6 +289,7 @@ const BbqTerrainCompressor::Statistics &
 bool BbqTerrainCompressor::processNode(BbqCompressorNode &oNode, 
                                        BbqCompressorNode *pParentNode)
 {
+#if 0
     // compress the node data, and write the compressed data into the file
     // (remembering the file offset) 
     // allocate a data node for this
@@ -405,6 +410,7 @@ bool BbqTerrainCompressor::processNode(BbqCompressorNode &oNode,
         _oStatistics.compressedTextureDataSize += 
             (Int32) oNode.data->compressedTextureData.size();
     }
+#endif
 
     return true;
 }
@@ -415,6 +421,7 @@ bool BbqTerrainCompressor::processNode(BbqCompressorNode &oNode,
 
 void BbqTerrainCompressor::compressTextureData(BbqCompressorNode &oNode)
 {
+#if 0
     // dxt1 texture compression:
     
     // todo: check the texture size:
@@ -475,6 +482,7 @@ void BbqTerrainCompressor::compressTextureData(BbqCompressorNode &oNode)
             targetPtr += iBytesPerBlock;
         }
     }
+#endif
 }
 
 

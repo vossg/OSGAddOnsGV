@@ -290,6 +290,13 @@ class EndianOutStreamMixin : public EndianStreamMixin<ParentT, std::ostream>
     void writeFloat (      Real32  val  );
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \{                                                                 */
+
+    void write(UInt16 val);
+    void write(Int16  val);
+
+    /*! \}                                                                 */
     /*==========================  PROTECTRED  =============================*/
 
   protected:
@@ -335,6 +342,14 @@ class EndianInStreamMixin : public EndianStreamMixin<ParentT, std::istream>
     Real32 readFloat (void        );
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \{                                                                 */
+
+    void read(UInt16 &val);
+    void read(Int16  &val);
+
+
+    /*! \}                                                                 */
     /*==========================  PROTECTRED  =============================*/
 
   protected:
@@ -358,7 +373,7 @@ typedef InFileStreamMixin<
                InStream > > EndianFileInStream;
 
 
-
+template<class HeightType>
 struct BbqFileNode
 {
     /*==========================  PUBLIC  =================================*/
@@ -382,10 +397,10 @@ struct BbqFileNode
     Int32              _iMaxHeightError;
     
     // for bounding box construction   (todo: do we need these at all?)
-    UInt16             _iMinHeightSample; 
+    HeightType         _iMinHeightSample;  // UInt16
     
     // for bounding box construction
-    UInt16             _iMaxHeightSample;    
+    HeightType         _iMaxHeightSample;  // UInt16
     
     // pointer to the data. (points to the height/texture/normal/... other 
     //data in the file)
@@ -498,7 +513,9 @@ class BbqFileWriter : public BbqFile
 
     bool writeData    (const void         *data, 
                              int           size  );
-    bool writeNodeInfo(const BbqFileNode  &node  );
+
+    template<class FileNodeT>
+    bool writeNodeInfo(const FileNodeT    &node  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -565,8 +582,9 @@ class BbqFileReader : public BbqFile
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
-
-    bool readNodeInfo(BbqFileNode &node     );
+    
+    template<class FileNodeT>
+    bool readNodeInfo(FileNodeT   &node     );
     bool readData    (void        *targetPtr, 
                       Int32        size     );
 

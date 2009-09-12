@@ -99,9 +99,7 @@ class BbqTerrainEngineBase
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    bool initialize(BbqDataSource *pDataSource, 
-                    Int32          iMaxResidentNodeCount);
-    void shutdown  (void                                );
+    virtual void shutdown(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -109,7 +107,7 @@ class BbqTerrainEngineBase
     /*! \{                                                                 */
 
     // todo: add the expected future position in here..
-    void update(const Vec3f &vViewerPosition);
+    virtual void update(const Vec3f &vViewerPosition) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -120,7 +118,7 @@ class BbqTerrainEngineBase
     // the existing tree recursively (and does some nice geomorphing.../
     // the update call did the frustum culling already)     
 
-    void render(const BbqRenderOptions &oOptions);
+    virtual void render(const BbqRenderOptions &oOptions) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -133,15 +131,15 @@ class BbqTerrainEngineBase
     // returns true, if some data was loaded, false if nothing is waiting 
     // to get loaded
 
-    bool prefetchNodeData(void);
+    virtual bool prefetchNodeData(void) = 0;
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    const BbqDataStatistics   &getDataStatistics  (void) const;
-    const BbqRenderStatistics &getRenderStatistics(void) const;
+            const BbqDataStatistics   &getDataStatistics  (void) const;
+    virtual const BbqRenderStatistics &getRenderStatistics(void) const = 0;
   
     /*! \}                                                                 */
     /*==========================  PROTECTRED  =============================*/
@@ -149,8 +147,6 @@ class BbqTerrainEngineBase
   protected:
 
     typedef BbqTerrainNodeBase BbqBaseNode;
-
-    typedef FixedAllocator< BbqBaseNode  > BbqTerrainNodeAllocator;
 
     typedef std::vector<BbqBaseNode     *> BbqPriorityQueue;
 
@@ -162,14 +158,6 @@ class BbqTerrainEngineBase
     BbqDataSourceInformation           _oDataSourceInfo;
     
     //BbqNodeData                   loadBuffer_;
-    
-    // the renderer is in another class:
-    BbqOpenGLTerrainRenderer           _oRenderer;
-    
-    // the node allocator:
-    BbqTerrainNodeAllocator            _oNodeAllocator;
-    BbqBaseNode                       *_pRootNode;
-    std::vector<BbqBaseNode *>         _vTraversalStack;
     
     // the load queue contains the leaf nodes of the current quadtree with
     // the priorities. a load means that the child nodes of 
@@ -196,38 +184,7 @@ class BbqTerrainEngineBase
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    void requestLoad      (      BbqBaseNode *pNode, 
-                           const Vec3f       &vViewerPosition);
-
-    void requestUnload    (      BbqBaseNode *pNode, 
-                           const Vec3f       &vViewerPosition);
-    
-    void calculatePriority(      BbqBaseNode *pNode, 
-                           const Vec3f       &vViewerPosition);
-    
-    void initializeNode   (      BbqBaseNode *pNode, 
-                                 BbqNodeId    id, 
-                                 Int32        x0, 
-                                 Int32        y0, 
-                                 Int32        x1, 
-                                 Int32        y1             );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    bool allocateChildren(BbqBaseNode *pNode);
-    void freeChildren    (BbqBaseNode *pNode);
-    bool loadChildren    (BbqBaseNode *pNode);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    void checkTreeConsistency(BbqBaseNode *node);
-    
+   
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
@@ -265,15 +222,116 @@ class BbqTerrainEngine : public BbqTerrainEngineBase
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
+    virtual void shutdown(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
+
+    // todo: add the expected future position in here..
+    virtual void update(const Vec3f &vViewerPosition);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    virtual void render(const BbqRenderOptions &oOptions);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    bool initialize(BbqDataSource *pDataSource, 
+                    Int32          iMaxResidentNodeCount);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    // call this from a different thread as the update/render calls: it 
+    // tries to load the highest priority nodedata element.
+    // and (if needed) unloads an unused element
+    // returns true, if some data was loaded, false if nothing is waiting 
+    // to get loaded
+
+    virtual bool prefetchNodeData(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    virtual const BbqRenderStatistics &getRenderStatistics(void) const;
+
     /*! \}                                                                 */
     /*==========================  PROTECTRED  =============================*/
 
   protected:
 
+    typedef BbqTerrainNode<HeightType, 
+                           HeightDeltaType, 
+                           TextureType    > BbqTerrNode;
+
+    typedef FixedAllocator<BbqTerrNode>     BbqTerrainNodeAllocator;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    // the renderer is in another class:
+    BbqOpenGLTerrainRenderer<HeightType, 
+                             HeightDeltaType, 
+                             TextureType    >  _oRenderer;
+
+    // the node allocator:
+    BbqTerrainNodeAllocator                    _oNodeAllocator;
+
+    BbqTerrNode                               *_pRootNode;
+    std::vector<BbqTerrNode *>                 _vTraversalStack;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    void requestLoad      (      BbqTerrNode *pNode, 
+                           const Vec3f       &vViewerPosition);
+
+    void requestUnload    (      BbqTerrNode *pNode, 
+                           const Vec3f       &vViewerPosition);
+
+    void calculatePriority(      BbqTerrNode *pNode, 
+                           const Vec3f       &vViewerPosition);
+
+
+    void initializeNode   (      BbqTerrNode *pNode, 
+                                 BbqNodeId    id, 
+                                 Int32        x0, 
+                                 Int32        y0, 
+                                 Int32        x1, 
+                                 Int32        y1             );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    bool allocateChildren(BbqTerrNode *pNode);
+    void freeChildren    (BbqTerrNode *pNode);
+    bool loadChildren    (BbqTerrNode *pNode);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    void checkTreeConsistency(BbqTerrNode *node);
+    
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
 
   private:

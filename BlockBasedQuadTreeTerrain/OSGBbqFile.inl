@@ -292,6 +292,22 @@ Real32 EndianInStreamMixin<ParentT>::readFloat (void)
     return returnValue;
 }
 
+
+template <class ParentT> inline
+void EndianInStreamMixin<ParentT>::read(UInt16 &val)
+{
+    (*Inherited::_pBaseStream).read(reinterpret_cast<char *>(&val), 
+                                    sizeof(UInt16));
+}
+
+template <class ParentT> inline
+void EndianInStreamMixin<ParentT>::read(Int16 &val)
+{
+    (*Inherited::_pBaseStream).read(reinterpret_cast<char *>(&val), 
+                                    sizeof(Int16));
+}
+
+
 //---------------------------------------------------------------------------
 //  EndianInStreamMixin
 //---------------------------------------------------------------------------
@@ -358,6 +374,76 @@ void EndianOutStreamMixin<ParentT>::writeFloat(Real32 val)
 {
     (*Inherited::_pBaseStream).write(reinterpret_cast<const char *>(&val), 
                                      sizeof(Real32));
+}
+
+
+template <class ParentT> inline
+void EndianOutStreamMixin<ParentT>::write(UInt16 val)
+{
+    (*Inherited::_pBaseStream).write(reinterpret_cast<const char *>(&val), 
+                                     sizeof(UInt16));
+}
+
+template <class ParentT> inline
+void EndianOutStreamMixin<ParentT>::write(Int16 val)
+{
+    (*Inherited::_pBaseStream).write(reinterpret_cast<const char *>(&val), 
+                                     sizeof(Int16));
+}
+
+
+//---------------------------------------------------------------------------
+//  BbqFileNode
+//---------------------------------------------------------------------------
+
+
+template<class HeightType> inline
+BbqFileNode<HeightType>::BbqFileNode(void) :
+    _uiFlags         (0),
+    _iMaxHeightError (0),
+    _iMinHeightSample(0), 
+    _iMaxHeightSample(0),    
+    _iDataPointer    (0)
+{    
+}
+
+template<class HeightType> inline
+BbqFileNode<HeightType>::~BbqFileNode(void) 
+{
+}
+
+//-----------------------------------------------------------------------------
+
+template<class FileNodeT> inline
+bool BbqFileWriter::writeNodeInfo(const FileNodeT &node)
+{
+    _oOutputStream.writeUInt32(node._uiFlags         );
+    _oOutputStream.writeSInt32(node._iMaxHeightError );
+
+    _oOutputStream.write      (node._iMinHeightSample);
+    _oOutputStream.write      (node._iMaxHeightSample);
+
+    _oOutputStream.writeSInt64(node._iDataPointer    );
+    
+    return !_oOutputStream.isBad();
+}
+
+//-----------------------------------------------------------------------------
+
+
+template<class FileNodeT> inline
+bool BbqFileReader::readNodeInfo(FileNodeT &node)
+{
+    node._uiFlags             = _oInputStream.readUInt32();
+    node._iMaxHeightError     = _oInputStream.readSInt32();
+
+    _oInputStream.read(node._iMinHeightSample);
+    _oInputStream.read(node._iMaxHeightSample);
+
+
+    node._iDataPointer        = _oInputStream.readSInt64();
+
+    return !_oInputStream.isBad();
 }
 
 OSG_END_NAMESPACE

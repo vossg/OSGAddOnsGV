@@ -274,7 +274,10 @@ BbqRenderStatistics::BbqRenderStatistics(void) :
 //-----------------------------------------------------------------------------
 
 
-BbqOpenGLTerrainRenderer::BbqOpenGLTerrainRenderer(void) :
+template<class HeightType, class HeightDeltaType, class TextureType>
+BbqOpenGLTerrainRenderer<HeightType, 
+                         HeightDeltaType,
+                         TextureType    >::BbqOpenGLTerrainRenderer(void) :
     databaseInfo_          (    ),
     traversalStack_        (    ),
     staticIndices_         (    ),
@@ -297,7 +300,10 @@ BbqOpenGLTerrainRenderer::BbqOpenGLTerrainRenderer(void) :
 //-----------------------------------------------------------------------------
 
 
-BbqOpenGLTerrainRenderer::~BbqOpenGLTerrainRenderer(void)
+template<class HeightType, class HeightDeltaType, class TextureType>
+BbqOpenGLTerrainRenderer<HeightType, 
+                         HeightDeltaType,
+                         TextureType    >::~BbqOpenGLTerrainRenderer(void)
 {
 }
 
@@ -305,7 +311,10 @@ BbqOpenGLTerrainRenderer::~BbqOpenGLTerrainRenderer(void)
 //-----------------------------------------------------------------------------
 
 
-bool BbqOpenGLTerrainRenderer::initialize( 
+template<class HeightType, class HeightDeltaType, class TextureType>
+bool BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::initialize( 
     const BbqDataSourceInformation &databaseInfo)
 {
     databaseInfo_ = databaseInfo;
@@ -557,7 +566,10 @@ bool BbqOpenGLTerrainRenderer::initialize(
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::shutdown(void)
+template<class HeightType, class HeightDeltaType, class TextureType>
+void BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::shutdown(void)
 {
     shutdownRenderCache();
 }
@@ -566,8 +578,13 @@ void BbqOpenGLTerrainRenderer::shutdown(void)
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::render(      BbqBaseNode      *rootNode, 
-                                      const BbqRenderOptions &options )
+template<class HeightType, class HeightDeltaType, class TextureType>
+void BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::render(      
+
+                                        BbqTerrNode      *rootNode, 
+                                  const BbqRenderOptions &options )
 {
     statistics_.nodeCount       = 0;
     statistics_.triangleCount   = 0;
@@ -581,7 +598,7 @@ void BbqOpenGLTerrainRenderer::render(      BbqBaseNode      *rootNode,
 
     while(!traversalStack_.empty())
     {
-        BbqBaseNode *node = traversalStack_.back();
+        BbqTerrNode *node = traversalStack_.back();
 
         assert(node);
         
@@ -607,6 +624,14 @@ void BbqOpenGLTerrainRenderer::render(      BbqBaseNode      *rootNode,
 
         node->boundingBox.getCenter(bboxCenter);
         
+/*
+        fprintf(stderr, "%d %f %f %f\n",
+                node->id,
+                bboxCenter[0],
+                bboxCenter[1],
+                bboxCenter[2]);
+ */
+
         dist = options.viewerpos - bboxCenter;
 
         const float distance = osgMax(dist.length(), 0.001f);
@@ -779,7 +804,11 @@ void BbqOpenGLTerrainRenderer::render(      BbqBaseNode      *rootNode,
 //-----------------------------------------------------------------------------
 
 
-const BbqRenderStatistics& BbqOpenGLTerrainRenderer::getStatistics(void) const
+template<class HeightType, class HeightDeltaType, class TextureType>
+const BbqRenderStatistics& 
+    BbqOpenGLTerrainRenderer<HeightType, 
+                             HeightDeltaType,
+                             TextureType    >::getStatistics(void) const
 {
     return statistics_;
 }
@@ -788,8 +817,11 @@ const BbqRenderStatistics& BbqOpenGLTerrainRenderer::getStatistics(void) const
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::setGeoMorphingFactor(
-    const BbqBaseNode *node)
+template<class HeightType, class HeightDeltaType, class TextureType>
+void BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::setGeoMorphingFactor(
+    const BbqTerrNode *node)
 {
     if(node->parent)
     {
@@ -806,8 +838,11 @@ void BbqOpenGLTerrainRenderer::setGeoMorphingFactor(
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::renderNodeVbo(
-    const BbqBaseNode      *node, 
+template<class HeightType, class HeightDeltaType, class TextureType>
+void BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::renderNodeVbo(
+    const BbqTerrNode      *node, 
           bool              renderSkirts,
     const BbqRenderOptions &options  )
 {
@@ -884,12 +919,13 @@ void BbqOpenGLTerrainRenderer::renderNodeVbo(
     statistics_.triangleCount += triangleCount;
 }
 
-
-
 //-----------------------------------------------------------------------------
 
 
-bool BbqOpenGLTerrainRenderer::initializeRenderCache( 
+template<class HeightType, class HeightDeltaType, class TextureType>
+bool BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::initializeRenderCache( 
     int heightCacheEntryCount, 
     int textureCacheEntryCount )
 {       
@@ -958,7 +994,10 @@ bool BbqOpenGLTerrainRenderer::initializeRenderCache(
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::shutdownRenderCache()
+template<class HeightType, class HeightDeltaType, class TextureType>
+void BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::shutdownRenderCache()
 {
     for( int i = 0; i < heightDataRenderCache_.getSize(); ++i )
     {
@@ -981,8 +1020,11 @@ void BbqOpenGLTerrainRenderer::shutdownRenderCache()
 //-----------------------------------------------------------------------------
 
 
-OpenGLTexture* BbqOpenGLTerrainRenderer::uploadTexture( 
-    const BbqBaseNode *node,
+template<class HeightType, class HeightDeltaType, class TextureType>
+OpenGLTexture* BbqOpenGLTerrainRenderer<HeightType, 
+                                        HeightDeltaType,
+                                        TextureType    >::uploadTexture( 
+    const BbqTerrNode *node,
     DrawEnv                  *pEnv)
 {
     //Profile( uploadTexture );
@@ -1032,8 +1074,11 @@ OpenGLTexture* BbqOpenGLTerrainRenderer::uploadTexture(
 //-----------------------------------------------------------------------------
 
 
-OpenGLGpuBuffer* BbqOpenGLTerrainRenderer::uploadHeightData( 
-    const BbqBaseNode *node )
+template<class HeightType, class HeightDeltaType, class TextureType>
+OpenGLGpuBuffer* BbqOpenGLTerrainRenderer<HeightType, 
+                                          HeightDeltaType,
+                                          TextureType    >::uploadHeightData( 
+    const BbqTerrNode *node )
 {
 //    Profile( uploadHeightData );
     // todo: prevent cache trashing (switch from lru to mru if we detect a
@@ -1079,7 +1124,10 @@ OpenGLGpuBuffer* BbqOpenGLTerrainRenderer::uploadHeightData(
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::renderBoundingBox( 
+template<class HeightType, class HeightDeltaType, class TextureType>
+void BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::renderBoundingBox( 
     const BoxVolume& box,
     const BbqRenderOptions& options )
 {
@@ -1102,9 +1150,13 @@ void BbqOpenGLTerrainRenderer::renderBoundingBox(
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::renderSphere( const Pnt3f& center, 
-                                             float radius,
-                                             const BbqRenderOptions& options )
+template<class HeightType, class HeightDeltaType, class TextureType>
+void BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::renderSphere(
+                                  const Pnt3f& center, 
+                                        float radius,
+                                  const BbqRenderOptions& options )
 {
     static GLUquadric *pQuad;
 
@@ -1141,9 +1193,12 @@ void BbqOpenGLTerrainRenderer::renderSphere( const Pnt3f& center,
 //-------------------------------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::calculateTextureParameters( 
-    const BbqBaseNode  *node, 
-    const BbqBaseNode  *textureNode, 
+template<class HeightType, class HeightDeltaType, class TextureType>
+void BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::calculateTextureParameters( 
+    const BbqTerrNode  *node, 
+    const BbqTerrNode  *textureNode, 
     Vec2f& texCoordOffset, 
     Vec2f& texCoordScale )
 {
@@ -1190,13 +1245,16 @@ void BbqOpenGLTerrainRenderer::calculateTextureParameters(
 //-----------------------------------------------------------------------------
 
 
-OpenGLTexture* BbqOpenGLTerrainRenderer::findParentTexture( 
-    const BbqBaseNode * node, 
-    const BbqBaseNode *&textureNode,
+template<class HeightType, class HeightDeltaType, class TextureType>
+OpenGLTexture* BbqOpenGLTerrainRenderer<HeightType, 
+                                        HeightDeltaType,
+                                        TextureType    >::findParentTexture( 
+    const BbqTerrNode * node, 
+    const BbqTerrNode *&textureNode,
           DrawEnv     * pEnv)
 {
     // find a parent with a texture:
-    BbqBaseNode   *currentNode = node->parent;
+    BbqTerrNode   *currentNode = node->parent;
     OpenGLTexture *texture = 0;
     
     while( currentNode )
@@ -1221,8 +1279,12 @@ OpenGLTexture* BbqOpenGLTerrainRenderer::findParentTexture(
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::activateTextures(const BbqBaseNode *node,
-                                                DrawEnv *pEnv)
+template<class HeightType, class HeightDeltaType, class TextureType>
+void BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::activateTextures(
+                                  const BbqTerrNode *node,
+                                  DrawEnv *pEnv)
 {
 //    Profile( activateTextures );
     
@@ -1259,7 +1321,7 @@ void BbqOpenGLTerrainRenderer::activateTextures(const BbqBaseNode *node,
     else
     {
         // find a parent with a texture:
-        const BbqBaseNode* parentNode = 0;
+        const BbqTerrNode* parentNode = 0;
         texture         = findParentTexture( node, parentNode, pEnv );
         
         if( texture )
@@ -1272,7 +1334,7 @@ void BbqOpenGLTerrainRenderer::activateTextures(const BbqBaseNode *node,
         
         if( parentNode && parentNode->parent )
         {
-            const BbqBaseNode* coarserParentNode = 0;
+            const BbqTerrNode* coarserParentNode = 0;
             
             coarserTexture = findParentTexture( parentNode,
                                                 coarserParentNode, pEnv );
@@ -1403,26 +1465,32 @@ void BbqOpenGLTerrainRenderer::activateTextures(const BbqBaseNode *node,
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::prepareHeightData( 
-    std::vector< float >& target, const BbqBaseNode *node )
+template<class HeightType, class HeightDeltaType, class TextureType>
+void BbqOpenGLTerrainRenderer<HeightType, 
+                              HeightDeltaType,
+                              TextureType    >::prepareHeightData( 
+    std::vector< float >& target, const BbqTerrNode *node )
 {
     //todo: we should use the 16bit unsigned short data directly (without
     //conversion) 
     assert( node );
 
-    const UInt16* heightData = &node->data.heightData[ 0 ];
+    const HeightType* heightData = &node->data.heightData[ 0 ];
 
     const int tileSize = databaseInfo_.heightTileSize;
     const int heightSampleCount = ( int )node->data.heightData.size();
     
     target.resize( 2 * heightSampleCount + 8 * tileSize );
     
-    const UInt16* sourcePtr = &heightData[ 0 ];
+    const HeightType* sourcePtr = &heightData[ 0 ];
+
     float* targetPtr = &target[ 0 ];
     
     if( node->parent )
     {
-        const UInt16* parentHeightData = &node->parent->data.heightData[ 0 ];
+        const HeightType* parentHeightData = 
+            &node->parent->data.heightData[ 0 ];
+
         const Vec2i parentOffset = 
             getParentTileOffset( tileSize, getQuadtreeChildIndex( node->id ) );
         
@@ -1444,9 +1512,10 @@ void BbqOpenGLTerrainRenderer::prepareHeightData(
                 const bool xIsEven = x % 2 == 0;
                 
                 // store the height:
-                const UInt16 heightSample = *sourcePtr++;
+                const HeightType heightSample = *sourcePtr++;
                 
-                *targetPtr++ = float( heightSample ) / 65535.0f;
+                *targetPtr++ = float( heightSample ) / 
+                    TypeTraits<HeightType>::getMax();
                 
                 // todo: use a better interpolation mechanism:
                 if( xIsEven && yIsEven )
@@ -1483,9 +1552,9 @@ void BbqOpenGLTerrainRenderer::prepareHeightData(
                     parentSecondSampleOffset = parentIncX + parentIncY;
                 }
                 
-                UInt16 parentHeightSample0 = 
+                HeightType parentHeightSample0 = 
                     parentHeightData[ parentFirstSampleOffset ];
-                UInt16 parentHeightSample1 = 
+                HeightType parentHeightSample1 = 
                     parentHeightData[ parentFirstSampleOffset + 
                                       parentSecondSampleOffset ];
                 
@@ -1494,7 +1563,8 @@ void BbqOpenGLTerrainRenderer::prepareHeightData(
                                                 0.5f );
                 int residual = expectedHeightValue - heightSample;
                 
-                *targetPtr++ = float( residual ) / 65535.0f;
+                *targetPtr++ = float( residual ) / 
+                    TypeTraits<HeightType>::getMax();
                 
                 if( !xIsEven )
                 {
@@ -1512,7 +1582,8 @@ void BbqOpenGLTerrainRenderer::prepareHeightData(
     {
         for( int i = 0; i < heightSampleCount; ++ i )
         {
-            *targetPtr++ = float( node->data.heightData[ i ] ) / 65535.0f;
+            *targetPtr++ = float( node->data.heightData[ i ] ) / 
+                TypeTraits<HeightType>::getMax();
             *targetPtr++ = 0.0f;
         }
     }
@@ -1535,6 +1606,8 @@ void BbqOpenGLTerrainRenderer::prepareHeightData(
  */
 }
 
+template class BbqOpenGLTerrainRenderer<UInt16, Int16, UInt8>;
+template class BbqOpenGLTerrainRenderer<Int16,  Int16, UInt8>;
 
 OSG_END_NAMESPACE
 

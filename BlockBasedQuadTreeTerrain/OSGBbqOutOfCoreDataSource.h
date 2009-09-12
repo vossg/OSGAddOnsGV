@@ -91,9 +91,15 @@ class BbqOutOfCoreEngine : public BbqDataSourceEngine
 
   protected:
 
+    typedef BbqTerrainNode<HeightType, 
+                           HeightDeltaType, 
+                           TextureType    > BbqTerrNode;
+
+    typedef BbqFileNode   <HeightType     > FileNode;
+
     BbqFileReader                _oInput;
     BbqFile::BbqFileHeader       _oHeader;
-    std::vector<BbqFileNode>     _oStaticNodeData;
+    std::vector<FileNode>        _oStaticNodeData;
     ResidualDecompressor         _oResidualDecompressor;
     std::vector<HeightDeltaType> _vResidualBuffer; // Int16
 

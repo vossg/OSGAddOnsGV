@@ -107,7 +107,7 @@ bool BbqCreateEngine<HeightType, TextureType>::start(
     _pOutputFile->startWriting(header);
     
     // 3. step: write the hollow tree to the file:
-    BbqFileNode emptyInfo;
+    BbqFileNode<HeightType> emptyInfo;
     
     emptyInfo._uiFlags          = 0;
     emptyInfo._iMaxHeightError  = 0;
@@ -188,7 +188,7 @@ void BbqCreateEngine<HeightType, TextureType>::step(void)
         {
             const BbqCreationNode &node = _vQuadtree[i];
             
-            BbqFileNode nodeInfo;
+            BbqFileNode<HeightType> nodeInfo;
             
             nodeInfo._uiFlags = 0;
             
@@ -490,6 +490,12 @@ void BbqCreateEngine<HeightType, TextureType>::getHeightData(
             _iTileSize,
             &oNode.data->heightData[0], 
             2 * (Int32) oNode.data->heightData.size());
+
+    for(UInt32 i = 0; i < oNode.data->heightData.size(); ++i)
+    {
+        if(oNode.data->heightData[i] == -32768)
+            oNode.data->heightData[i] = 0;
+    }
 }
 
 //-----------------------------------------------------------------------------

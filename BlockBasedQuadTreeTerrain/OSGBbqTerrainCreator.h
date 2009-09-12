@@ -176,6 +176,8 @@ class BbqCreateEngine : public BbqCreateEngineBase
 
     struct BbqCreationNode
     {
+        typedef BbqFileNode<HeightType> FileNode;
+
         Vec2i                           sampleOrigin;
         Vec2i                           sampleTarget;
         int                             treeLevel;
@@ -198,8 +200,8 @@ class BbqCreateEngine : public BbqCreateEngineBase
         // this is the data pointer for the creation process.. 
         // the data is kept in memory as long as needed, but not longer
 
-        BbqCreationNodeData*            data;
-        BbqFileNode::TerrainDataPointer fileDataPointer;    
+        BbqCreationNodeData                   *data;
+        typename FileNode::TerrainDataPointer  fileDataPointer;    
     };
 
      /*! \}                                                                 */

@@ -48,24 +48,6 @@ OSG_BEGIN_NAMESPACE
 
 
 //---------------------------------------------------------------------------
-//  BbqFileNode
-//---------------------------------------------------------------------------
-
-
-BbqFileNode::BbqFileNode(void) :
-    _uiFlags         (0),
-    _iMaxHeightError (0),
-    _iMinHeightSample(0), 
-    _iMaxHeightSample(0),    
-    _iDataPointer    (0)
-{    
-}
-
-BbqFileNode::~BbqFileNode(void) 
-{
-}
-
-//---------------------------------------------------------------------------
 //  BbqFileBbqFileHeader
 //---------------------------------------------------------------------------
 
@@ -212,20 +194,6 @@ void BbqFileWriter::gotoNodeInfoTable(void)
 }
 
     
-//-----------------------------------------------------------------------------
-
-
-bool BbqFileWriter::writeNodeInfo(const BbqFileNode &node)
-{
-    _oOutputStream.writeUInt32(node._uiFlags         );
-    _oOutputStream.writeSInt32(node._iMaxHeightError );
-    _oOutputStream.writeUInt16(node._iMinHeightSample);
-    _oOutputStream.writeUInt16(node._iMaxHeightSample);
-    _oOutputStream.writeSInt64(node._iDataPointer    );
-    
-    return !_oOutputStream.isBad();
-}
-
 
 //-----------------------------------------------------------------------------
 
@@ -319,21 +287,6 @@ void BbqFileReader::close()
 const BbqFile::BbqFileHeader &BbqFileReader::getHeader(void) const
 {
     return _oHeader;
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-bool BbqFileReader::readNodeInfo( BbqFileNode& node )
-{
-    node._uiFlags             = _oInputStream.readUInt32();
-    node._iMaxHeightError     = _oInputStream.readSInt32();
-    node._iMinHeightSample    = _oInputStream.readUInt16();
-    node._iMaxHeightSample    = _oInputStream.readUInt16();
-    node._iDataPointer        = _oInputStream.readSInt64();
-
-    return !_oInputStream.isBad();
 }
 
 

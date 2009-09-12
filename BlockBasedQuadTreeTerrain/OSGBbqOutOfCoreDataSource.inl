@@ -127,18 +127,22 @@ bool BbqOutOfCoreEngine<HeightType,
 {
     assert(isValidNodeId(oNode.id, (Int32) _oStaticNodeData.size()));
     
-    BbqFileNode &staticNodeData = _oStaticNodeData[oNode.id];
+    BbqTerrNode *pNode = dynamic_cast<BbqTerrNode *>(&oNode);
+
+    OSG_ASSERT(pNode != NULL);
+
+    FileNode &staticNodeData = _oStaticNodeData[oNode.id];
     
     if(!_oInput.setPosition(staticNodeData._iDataPointer))
     {
         return false;
     }
     
-    const BbqFileNode &fileNode   = _oStaticNodeData[oNode.id];
+    const FileNode &fileNode   = _oStaticNodeData[oNode.id];
     
     const Int32 heightSampleCount = osgSqr(_oInformation.heightTileSize);
     
-    oNode.data.heightData.resize(heightSampleCount);
+    pNode->data.heightData.resize(heightSampleCount);
     
     // depending on the format of the file (compressed/uncompressed):
     // the root node is uncompressed!!
@@ -147,7 +151,7 @@ bool BbqOutOfCoreEngine<HeightType,
     {
         const Int32 heightSampleCount = osgSqr(_oHeader._iHeightTileSize);
         
-        if(!_oInput.readData(&(oNode.data.heightData[0]),
+        if(!_oInput.readData(&(pNode->data.heightData[0]),
                               sizeof(UInt16) * heightSampleCount))
         {
             return false;
@@ -161,13 +165,15 @@ bool BbqOutOfCoreEngine<HeightType,
             return false;
         }
 
+#ifdef CHECK_GV
         // recreate the height data to prevent error accumulation:
         ResidualCompression::createChildHeightData( 
-             oNode.data.heightData, 
+             pNode->data.heightData, 
             &(_vResidualBuffer[0]), 
-            &(oNode.parent->data.heightData[0]),
+            &(pNode->parent->data.heightData[0]),
               _oInformation.heightTileSize, 
               getQuadtreeChildIndex(oNode.id));
+#endif
     }
     
     if((fileNode._uiFlags & BbqFile::TextureDataValid) != 0)
@@ -180,10 +186,10 @@ bool BbqOutOfCoreEngine<HeightType,
             const Int32 blockCount    = osgSqr(textureSize / 4);
             const Int32 bytesPerBlock = 8;
             
-            oNode.data.textureData.resize(bytesPerBlock * blockCount);
+            pNode->data.textureData.resize(bytesPerBlock * blockCount);
             
-            if(!_oInput.readData(&(oNode.data.textureData[0]), 
-                                 (Int32) oNode.data.textureData.size()))
+            if(!_oInput.readData(&(pNode->data.textureData[0]), 
+                                 (Int32) pNode->data.textureData.size()))
             {
                 return false;
             }
@@ -192,11 +198,11 @@ bool BbqOutOfCoreEngine<HeightType,
         {
             assert(_oHeader._eTextureFormat == BbqFile::RGB8);
             
-            oNode.data.textureData.resize( 
+            pNode->data.textureData.resize( 
                 3 * osgSqr(_oHeader._iTextureTileSize));
             
-            if(!_oInput.readData(&(oNode.data.textureData[0]), 
-                                 (Int32) oNode.data.textureData.size()))
+            if(!_oInput.readData(&(pNode->data.textureData[0]), 
+                                 (Int32) pNode->data.textureData.size()))
             {
                 return false;
             }               
@@ -204,15 +210,17 @@ bool BbqOutOfCoreEngine<HeightType,
     }
     else
     {
-        oNode.data.textureData.resize(0);
+        pNode->data.textureData.resize(0);
     }
     
     // compute the object space bounding box:
-    oNode.maxHeightError = fileNode._iMaxHeightError;
+    pNode->maxHeightError = fileNode._iMaxHeightError;
     
     computeBoundingBox(oNode, 
-                       Real32(fileNode._iMinHeightSample) / 65535.0f, 
-                       Real32(fileNode._iMaxHeightSample) / 65535.0f);
+                       Real32(fileNode._iMinHeightSample) / 
+                           TypeTraits<HeightType>::getMax(), 
+                       Real32(fileNode._iMaxHeightSample) / 
+                           TypeTraits<HeightType>::getMax());
     
     return true;
 }

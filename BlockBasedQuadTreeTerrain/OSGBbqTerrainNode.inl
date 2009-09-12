@@ -42,26 +42,80 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include "OSGBbqTerrainNode.h"
-
 OSG_BEGIN_NAMESPACE
+
+template<class HeightType, class HeightDeltaType, class TextureType> inline
+BbqTerrainNode<HeightType, 
+               HeightDeltaType,
+               TextureType    >::BbqTerrainNode(void):
+    maxHeightError   (0         ),
+    data             (          ),
+    parent           (NULL      )
+{
+    children[0] = 
+        children[1] = 
+        children[2] = 
+        children[3] = NULL;
+}
+
+template<class HeightType, class HeightDeltaType, class TextureType> inline
+BbqTerrainNode<HeightType, 
+               HeightDeltaType,
+               TextureType    >::~BbqTerrainNode(void)
+{
+}
 
 //-----------------------------------------------------------------------------
 
-BbqTerrainNodeBase::BbqTerrainNodeBase(void):
-    id               (0         ),
-    priority         (0.f       ),
-    sampleRect       (0, 0, 0, 0),
-    blockOrigin      (0.f, 0.f  ),
-    blockScale       (0.f       ),
-    geoMorphingFactor(0.5f      ),
-    treeLevel        (0         )
+
+template<class HeightType, class HeightDeltaType, class TextureType> inline
+bool BbqTerrainNode<HeightType, 
+                    HeightDeltaType,
+                    TextureType    >::isLeafNode(void) const
 {
-    renderCache[0] = renderCache[1] = NULL;
+    if(children[0] == NULL)
+    {
+        assert(children[1] == NULL);
+        assert(children[2] == NULL);
+        assert(children[3] == NULL);
+
+        return true;
+    }
+    else
+    {
+        assert(children[1] != NULL);
+        assert(children[2] != NULL);
+        assert(children[3] != NULL);
+
+        return false;
+    }
 }
 
-BbqTerrainNodeBase::~BbqTerrainNodeBase(void)
+//-----------------------------------------------------------------------------
+
+
+template<class HeightType, class HeightDeltaType, class TextureType> inline
+bool BbqTerrainNode<HeightType, 
+                    HeightDeltaType,
+                    TextureType    >::isRootNode(void) const
 {
+    return parent == NULL;
+}
+
+
+//-----------------------------------------------------------------------------
+
+
+template<class HeightType, class HeightDeltaType, class TextureType> inline
+bool BbqTerrainNode<HeightType, 
+                    HeightDeltaType,
+                    TextureType    >::isPreLeafNode(void) const
+{
+    return !isLeafNode() && 
+        children[0]->isLeafNode() && 
+        children[1]->isLeafNode() && 
+        children[2]->isLeafNode() && 
+        children[3]->isLeafNode();
 }
 
 OSG_END_NAMESPACE

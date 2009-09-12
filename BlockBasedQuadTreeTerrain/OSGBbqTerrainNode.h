@@ -85,32 +85,18 @@ struct BbqTerrainNodeBase
     /*! \{                                                                 */
 
     BbqTerrainNodeBase(void);
-    ~BbqTerrainNodeBase(void);
+    virtual ~BbqTerrainNodeBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    bool isLeafNode   (void) const;
-    bool isRootNode   (void) const;
-    bool isPreLeafNode(void) const;
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    typedef std::vector<UInt8 >  BbqTextureDataContainer;
-    typedef std::vector<UInt16>  BbqHeightDataContainer;
-    typedef std::vector<Int16 >  BbqHeightDeltaDataContainer;
- 
-    struct BbqTerrainNodeData
-    {
-        BbqHeightDataContainer  heightData;
-        BbqTextureDataContainer textureData;
-    };
-   
             BbqNodeId           id;
 
             // this gets only computed for the leaf nodes (loading/unloading)
@@ -123,23 +109,15 @@ struct BbqTerrainNodeBase
             Vec2f               blockOrigin;
             Real32              blockScale;
     
-            Int32               maxHeightError;
             Real32              geoMorphingFactor;
 
             // object space bounding box:
             BoxVolume           boundingBox;
     
 
-            // the data:
-            BbqTerrainNodeData  data;
-    
-
             // pointer to the 4 children and the parent:
             Int32               treeLevel;
-    
-            BbqTerrainNodeBase *parent;
-            BbqTerrainNodeBase *children   [BbqChild_Count          ];
-     
+         
     mutable void               *renderCache[BbqRenderCacheType_Count];
 
     /*! \}                                                                 */
@@ -154,7 +132,7 @@ struct BbqTerrainNodeBase
 
 
 template<class HeightType, class HeightDeltaType, class TextureType>
-struct BbqTerrainNodeX : public BbqTerrainNodeBase
+struct BbqTerrainNode : public BbqTerrainNodeBase
 {
     /*==========================  PUBLIC  =================================*/
 
@@ -164,13 +142,17 @@ struct BbqTerrainNodeX : public BbqTerrainNodeBase
     /*! \name                    Constructor                               */
     /*! \{                                                                 */
 
-    BbqTerrainNodeX(void);
-    ~BbqTerrainNodeX(void);
+    BbqTerrainNode(void);
+    virtual ~BbqTerrainNode(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
+
+    bool isLeafNode   (void) const;
+    bool isRootNode   (void) const;
+    bool isPreLeafNode(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -193,8 +175,8 @@ struct BbqTerrainNodeX : public BbqTerrainNodeBase
     // the data:
     BbqTerrainNodeData  data;
 
-    BbqTerrainNodeX     *parent;
-    BbqTerrainNodeX     *children   [BbqChild_Count          ];
+    BbqTerrainNode     *parent;
+    BbqTerrainNode     *children   [BbqChild_Count          ];
 
     /*! \}                                                                 */
     /*==========================  PROTECTRED  =============================*/
@@ -208,6 +190,6 @@ struct BbqTerrainNodeX : public BbqTerrainNodeBase
 
 OSG_END_NAMESPACE
 
-//-----------------------------------------------------------------------------
+#include "OSGBbqTerrainNode.inl"
 
 #endif // _OSGBBQTERRAIN_H_
