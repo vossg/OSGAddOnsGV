@@ -195,7 +195,7 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
 #endif
                   SFInt32             *editSFLevelSize      (void);
             const SFInt32             *getSFLevelSize       (void) const;
-            const SFImagePtr          *getSFHeightData      (void) const;
+            const SFUnrecImagePtr     *getSFHeightData      (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   SFReal32            *getSFHeightDataScale (void);
@@ -214,8 +214,8 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
 #endif
                   SFReal32            *editSFSampleDistance (void);
             const SFReal32            *getSFSampleDistance  (void) const;
-            const SFImagePtr          *getSFTextureData     (void) const;
-            const SFTextureChunkPtr   *getSFHeightColorTexture (void) const;
+            const SFUnrecImagePtr     *getSFTextureData     (void) const;
+            const SFUnrecTextureChunkPtr *getSFHeightColorTexture (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   SFInt32             *getSFSampleUpdateBudget (void);
@@ -400,7 +400,6 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -418,15 +417,23 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  DynamicTerrainPtr create     (void);
-    static  DynamicTerrainPtr createEmpty(void);
+    static  DynamicTerrainTransitPtr create          (void);
+    static  DynamicTerrainPtr        createEmpty     (void);
+
+    static  DynamicTerrainTransitPtr createLocal     (
+                                              BitVector bFlags = FCLocal::All);
+
+    static  DynamicTerrainPtr        createEmptyLocal(
+                                              BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
     /*! \{                                                                 */
 
-    virtual FieldContainerPtr shallowCopy(void) const;
+    virtual FieldContainerTransitPtr shallowCopy     (void) const;
+    virtual FieldContainerTransitPtr shallowCopyLocal(
+                                       BitVector bFlags = FCLocal::All) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -443,12 +450,12 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*! \{                                                                 */
 
     SFInt32           _sfLevelSize;
-    SFImagePtr        _sfHeightData;
+    SFUnrecImagePtr   _sfHeightData;
     SFReal32          _sfHeightDataScale;
     SFReal32          _sfHeightDataOffset;
     SFReal32          _sfSampleDistance;
-    SFImagePtr        _sfTextureData;
-    SFTextureChunkPtr _sfHeightColorTexture;
+    SFUnrecImagePtr   _sfTextureData;
+    SFUnrecTextureChunkPtr _sfHeightColorTexture;
     SFInt32           _sfSampleUpdateBudget;
     SFBool            _sfEnableFrustumCulling;
     SFBool            _sfUseGpuRenderer;
@@ -570,22 +577,13 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*==========================  PRIVATE  ================================*/
 
   private:
+    /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const DynamicTerrainBase &source);
 };
 
 typedef DynamicTerrainBase *DynamicTerrainBaseP;
-
-/** Type specific RefPtr type for DynamicTerrain. */
-typedef RefPtr<DynamicTerrainPtr> DynamicTerrainRefPtr;
-
-typedef boost::mpl::if_<
-    boost::mpl::bool_<DynamicTerrainBase::isNodeCore>,
-    CoredNodePtr<DynamicTerrain>,
-    FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC>::type
-
-        DynamicTerrainNodePtr;
 
 OSG_END_NAMESPACE
 

@@ -120,7 +120,7 @@ void DynamicTerrainBase::setHeightData(ImagePtrConstArg value)
 {
     editSField(HeightDataFieldMask);
 
-    setRefd(_sfHeightData.getValue(), value);
+    _sfHeightData.setValue(value);
 
 }
 //! Get the value of the DynamicTerrain::_sfHeightDataScale field.
@@ -236,7 +236,7 @@ void DynamicTerrainBase::setTextureData(ImagePtrConstArg value)
 {
     editSField(TextureDataFieldMask);
 
-    setRefd(_sfTextureData.getValue(), value);
+    _sfTextureData.setValue(value);
 
 }
 
@@ -253,7 +253,7 @@ void DynamicTerrainBase::setHeightColorTexture(TextureChunkPtrConstArg value)
 {
     editSField(HeightColorTextureFieldMask);
 
-    setRefd(_sfHeightColorTexture.getValue(), value);
+    _sfHeightColorTexture.setValue(value);
 
 }
 //! Get the value of the DynamicTerrain::_sfSampleUpdateBudget field.

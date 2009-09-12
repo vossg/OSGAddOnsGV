@@ -170,8 +170,8 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
 
     oType.addInitialDesc(pDesc);
 
-    pDesc = new SFImagePtr::Description(
-        SFImagePtr::getClassType(),
+    pDesc = new SFUnrecImagePtr::Description(
+        SFUnrecImagePtr::getClassType(),
         "heightData",
         "",
         HeightDataFieldId, HeightDataFieldMask,
@@ -218,8 +218,8 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
 
     oType.addInitialDesc(pDesc);
 
-    pDesc = new SFImagePtr::Description(
-        SFImagePtr::getClassType(),
+    pDesc = new SFUnrecImagePtr::Description(
+        SFUnrecImagePtr::getClassType(),
         "textureData",
         "",
         TextureDataFieldId, TextureDataFieldMask,
@@ -230,8 +230,8 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
 
     oType.addInitialDesc(pDesc);
 
-    pDesc = new SFTextureObjChunkPtr::Description(
-        SFTextureObjChunkPtr::getClassType(),
+    pDesc = new SFUnrecTextureObjChunkPtr::Description(
+        SFUnrecTextureObjChunkPtr::getClassType(),
         "heightColorTexture",
         "",
         HeightColorTextureFieldId, HeightColorTextureFieldMask,
@@ -369,7 +369,7 @@ DynamicTerrainBase::TypeObject DynamicTerrainBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &DynamicTerrainBase::createEmpty,
+    (PrototypeCreateF) &DynamicTerrainBase::createEmptyLocal,
     DynamicTerrain::initMethod,
     DynamicTerrain::exitMethod,
     (InitalInsertDescFunc) &DynamicTerrainBase::classDescInserter,
@@ -578,7 +578,7 @@ SFInt32             *DynamicTerrainBase::getSFLevelSize      (void)
 #endif
 
 //! Get the DynamicTerrain::_sfHeightData field.
-const SFImagePtr *DynamicTerrainBase::getSFHeightData(void) const
+const SFUnrecImagePtr *DynamicTerrainBase::getSFHeightData(void) const
 {
     return &_sfHeightData;
 }
@@ -641,13 +641,13 @@ SFReal32            *DynamicTerrainBase::getSFSampleDistance (void)
 #endif
 
 //! Get the DynamicTerrain::_sfTextureData field.
-const SFImagePtr *DynamicTerrainBase::getSFTextureData(void) const
+const SFUnrecImagePtr *DynamicTerrainBase::getSFTextureData(void) const
 {
     return &_sfTextureData;
 }
 
 //! Get the DynamicTerrain::_sfHeightColorTexture field.
-const SFTextureObjChunkPtr *DynamicTerrainBase::getSFHeightColorTexture(void) const
+const SFUnrecTextureObjChunkPtr *DynamicTerrainBase::getSFHeightColorTexture(void) const
 {
     return &_sfHeightColorTexture;
 }
@@ -1075,14 +1075,32 @@ void DynamicTerrainBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-DynamicTerrainPtr DynamicTerrainBase::create(void)
+DynamicTerrainTransitPtr DynamicTerrainBase::create(void)
 {
-    DynamicTerrainPtr fc;
+    DynamicTerrainTransitPtr fc;
 
     if(getClassType().getPrototype() != NullFC)
     {
-        fc = dynamic_cast<DynamicTerrain::ObjPtr>(
-            getClassType().getPrototype()-> shallowCopy());
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
+
+        fc = dynamic_pointer_cast<DynamicTerrain>(tmpPtr);
+    }
+
+    return fc;
+}
+
+//! create a new instance of the class
+DynamicTerrainTransitPtr DynamicTerrainBase::createLocal(BitVector bFlags)
+{
+    DynamicTerrainTransitPtr fc;
+
+    if(getClassType().getPrototype() != NullFC)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyLocal(bFlags);
+
+        fc = dynamic_pointer_cast<DynamicTerrain>(tmpPtr);
     }
 
     return fc;
@@ -1093,16 +1111,50 @@ DynamicTerrainPtr DynamicTerrainBase::createEmpty(void)
 {
     DynamicTerrainPtr returnValue;
 
-    newPtr<DynamicTerrain>(returnValue);
+    newPtr<DynamicTerrain>(returnValue, Thread::getCurrentLocalFlags());
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= 
+        ~Thread::getCurrentLocalFlags(); 
 
     return returnValue;
 }
 
-FieldContainerPtr DynamicTerrainBase::shallowCopy(void) const
+DynamicTerrainPtr DynamicTerrainBase::createEmptyLocal(BitVector bFlags)
 {
     DynamicTerrainPtr returnValue;
 
-    newPtr(returnValue, dynamic_cast<const DynamicTerrain *>(this));
+    newPtr<DynamicTerrain>(returnValue, bFlags);
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr DynamicTerrainBase::shallowCopy(void) const
+{
+    DynamicTerrainPtr tmpPtr;
+
+    newPtr(tmpPtr, 
+           dynamic_cast<const DynamicTerrain *>(this), 
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr DynamicTerrainBase::shallowCopyLocal(
+    BitVector bFlags) const
+{
+    DynamicTerrainPtr tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const DynamicTerrain *>(this), bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
 
     return returnValue;
 }
@@ -1201,8 +1253,8 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleLevelSize      (void)
 
 GetFieldHandlePtr DynamicTerrainBase::getHandleHeightData      (void) const
 {
-    SFImagePtr::GetHandlePtr returnValue(
-        new  SFImagePtr::GetHandle(
+    SFUnrecImagePtr::GetHandlePtr returnValue(
+        new  SFUnrecImagePtr::GetHandle(
              &_sfHeightData, 
              this->getType().getFieldDesc(HeightDataFieldId)));
 
@@ -1211,8 +1263,8 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleHeightData      (void) const
 
 EditFieldHandlePtr DynamicTerrainBase::editHandleHeightData     (void)
 {
-    SFImagePtr::EditHandlePtr returnValue(
-        new  SFImagePtr::EditHandle(
+    SFUnrecImagePtr::EditHandlePtr returnValue(
+        new  SFUnrecImagePtr::EditHandle(
              &_sfHeightData, 
              this->getType().getFieldDesc(HeightDataFieldId)));
 
@@ -1292,8 +1344,8 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleSampleDistance (void)
 
 GetFieldHandlePtr DynamicTerrainBase::getHandleTextureData     (void) const
 {
-    SFImagePtr::GetHandlePtr returnValue(
-        new  SFImagePtr::GetHandle(
+    SFUnrecImagePtr::GetHandlePtr returnValue(
+        new  SFUnrecImagePtr::GetHandle(
              &_sfTextureData, 
              this->getType().getFieldDesc(TextureDataFieldId)));
 
@@ -1302,8 +1354,8 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleTextureData     (void) const
 
 EditFieldHandlePtr DynamicTerrainBase::editHandleTextureData    (void)
 {
-    SFImagePtr::EditHandlePtr returnValue(
-        new  SFImagePtr::EditHandle(
+    SFUnrecImagePtr::EditHandlePtr returnValue(
+        new  SFUnrecImagePtr::EditHandle(
              &_sfTextureData, 
              this->getType().getFieldDesc(TextureDataFieldId)));
 
@@ -1317,8 +1369,8 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleTextureData    (void)
 
 GetFieldHandlePtr DynamicTerrainBase::getHandleHeightColorTexture (void) const
 {
-    SFTextureObjChunkPtr::GetHandlePtr returnValue(
-        new  SFTextureObjChunkPtr::GetHandle(
+    SFUnrecTextureObjChunkPtr::GetHandlePtr returnValue(
+        new  SFUnrecTextureObjChunkPtr::GetHandle(
              &_sfHeightColorTexture, 
              this->getType().getFieldDesc(HeightColorTextureFieldId)));
 
@@ -1327,8 +1379,8 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleHeightColorTexture (void) const
 
 EditFieldHandlePtr DynamicTerrainBase::editHandleHeightColorTexture(void)
 {
-    SFTextureObjChunkPtr::EditHandlePtr returnValue(
-        new  SFTextureObjChunkPtr::EditHandle(
+    SFUnrecTextureObjChunkPtr::EditHandlePtr returnValue(
+        new  SFUnrecTextureObjChunkPtr::EditHandle(
              &_sfHeightColorTexture, 
              this->getType().getFieldDesc(HeightColorTextureFieldId)));
 
