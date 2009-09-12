@@ -118,6 +118,77 @@ bool BbqDataSourceEngine::hasGeoRef(void) const
     return (_oInformation.uiDatum != GeoReferenceAttachment::UnknownDatum);
 }
 
+void BbqDataSourceEngine::initSourceInformation(
+    BbqFile::BbqFileHeader &oHeader, 
+    bool                    bIgnoreGeoRef,
+    Real32                  fHeightScale, 
+    Real32                  fHeightOffset, 
+    Real32                  fSampleSpacing)
+{
+    _oInformation.levelCount         = oHeader._iLevelCount;
+    _oInformation.nodeCount          = oHeader._iNodeCount;
+    _oInformation.heightTileSize     = oHeader._iHeightTileSize;
+    _oInformation.textureTileSize    = oHeader._iTextureTileSize;
+
+    _oInformation.heightSampleCount  = Vec2i(oHeader._iHeightSampleCountX, 
+                                             oHeader._iHeightSampleCountY );
+    _oInformation.textureSampleCount = Vec2i(oHeader._iTextureSampleCountX, 
+                                             oHeader._iTextureSampleCountY);
+    _oInformation.heightType         = oHeader._eHeightType;
+    _oInformation.textureType        = oHeader._eTextureType;
+    _oInformation.textureFormat      = oHeader._eTextureFormat;
+    _oInformation.heightFormat       = oHeader._eHeightFormat;
+
+    _oInformation.uiDatum            = oHeader._uiDatum;
+    _oInformation.vEllipsoidAxis     = oHeader._vEllipsoidAxis;
+    _oInformation.vOrigin            = oHeader._vOrigin;
+    _oInformation.vPixelSize         = oHeader._vPixelSize;
+
+    if(hasGeoRef() && !bIgnoreGeoRef)
+    {
+        fprintf(stderr, "GeoRef data\n");
+
+        Pnt3f x1;
+        Pnt3f x2;
+
+        projectPnt(x1, 
+                   oHeader._vOrigin[0], 
+                   oHeader._vOrigin[1], 
+                   0);
+
+        projectPnt(x2, 
+                   oHeader._vOrigin[0] + oHeader._vPixelSize[0], 
+                   oHeader._vOrigin[1], 
+                   0);
+        
+        Vec3f v1 = x1 - x2;
+        
+        fprintf(stderr, "l:%f\n", v1.length());
+
+        _oInformation.heightScale        = 32.768f;
+        _oInformation.heightOffset       = 0.f;
+        _oInformation.sampleSpacing      = v1.length();
+    }
+    else
+    {
+        fprintf(stderr, "No GeoRef data %d %d\n", hasGeoRef(), bIgnoreGeoRef);
+
+        _oInformation.heightScale        = fHeightScale;
+        _oInformation.heightOffset       = fHeightOffset;
+        _oInformation.sampleSpacing      = fSampleSpacing;
+    }
+
+    fprintf(stderr, "%d \n%f %f\n%f %f | %f %f\n",
+            oHeader._uiDatum,
+            oHeader._vEllipsoidAxis[0],
+            oHeader._vEllipsoidAxis[1],
+            oHeader._vOrigin[0],
+            oHeader._vOrigin[1],
+            oHeader._vPixelSize[0],
+            oHeader._vPixelSize[1]);
+}
+
+
 
 /***************************************************************************\
  *                           Class variables                               *
@@ -206,7 +277,7 @@ Image::Type BbqDataSource::getTextureType(void) const
 bool BbqDataSource::hasGeoRef(void) const
 {
     if(_pEngine != NULL)
-        return _pEngine->hasGeoRef();
+        return (_pEngine->hasGeoRef() & !getIgnoreGeoRef());
 
     return false;
 }

@@ -58,192 +58,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-
-// todo: put this function somewhere (terrain-tools):
-template<typename IndexType>
-void createBlockIndicesPart(Int32      blockSize, 
-                            IndexType *ptr, 
-                            Int32      partSize, 
-                            Int32      partOffsetX, 
-                            Int32      partOffsetY)
-{
-    assert(blockSize >= 2);
-    
-    for( int y = 0; y < partSize; ++y )
-    {
-        const int partY = partOffsetY + y;
-        
-        IndexType* indexPtr = 
-            ptr + 6 * ( partY * ( blockSize - 1 ) + partOffsetX );
-        
-        const IndexType row0 = ( IndexType )( partY * blockSize );
-        const IndexType row1 = ( IndexType )( ( partY + 1 ) * blockSize );
-        
-        bool leftToRight = ( y % 2 ) == 0;
-        
-        for( int x = 0; x < partSize; ++x )
-        {
-            int partX = partOffsetX + x;
-            
-            if( !leftToRight )
-            {
-                partX = partOffsetX + ( partSize - 1 ) - x;
-            }
-            
-            const IndexType col0 = ( IndexType ) partX;
-            const IndexType col1 = ( IndexType )( partX + 1 );
-            
-            const IndexType idx0 = row0 + col0;
-            const IndexType idx1 = row0 + col1;
-            const IndexType idx2 = row1 + col0;
-            const IndexType idx3 = row1 + col1;
-            
-            assert( idx0 < std::numeric_limits< IndexType >::max() );
-            assert( idx1 < std::numeric_limits< IndexType >::max() );
-            assert( idx2 < std::numeric_limits< IndexType >::max() );
-            assert( idx3 < std::numeric_limits< IndexType >::max() );
-            
-            *indexPtr++ = idx0;
-            *indexPtr++ = idx2;
-            *indexPtr++ = idx1;
-            
-            *indexPtr++ = idx1;
-            *indexPtr++ = idx2;
-            *indexPtr++ = idx3;
-        }
-    }
-}
-
-// todo: put this function somewhere (terrain-tools):
-template<typename IndexType>
-void createBlockIndices(int blockSize, std::vector<IndexType> &indices)
-{
-    assert( blockSize >= 2 );
-    
-    // todo: this currently creates very naive indices (not optimized at all)
-    
-    // we know how much indices we produce:
-    indices.resize( 3 * 2 * ( blockSize - 1 ) * ( blockSize - 1 ), 0 );
-    
-    bool optIndices = true;
-    if( optIndices && blockSize == 65 )
-    {
-        for( int y = 0; y < 4; ++y )
-        {   
-            for( int x = 0; x < 4; ++x )
-            {
-                createBlockIndicesPart( blockSize, &indices[ 0 ], 
-                                        16, 
-                                        x * 16, 
-                                        y * 16 );
-            }
-        }
-        return;
-    }
-    
-    IndexType* indexPtr = &indices[ 0 ];
-    
-    for( int y = 0; y < blockSize - 1; ++y )
-    {
-        const IndexType row0 = ( IndexType )( y * blockSize );
-        const IndexType row1 = ( IndexType )( ( y + 1 ) * blockSize );
-        
-        for( int x = 0; x < blockSize - 1; ++x )
-        {
-            const IndexType col0 = ( IndexType ) x;
-            const IndexType col1 = ( IndexType )( x + 1 );
-            
-            const IndexType idx0 = row0 + col0;
-            const IndexType idx1 = row0 + col1;
-            const IndexType idx2 = row1 + col0;
-            const IndexType idx3 = row1 + col1;
-            
-            assert( idx0 < std::numeric_limits< IndexType >::max() );
-            assert( idx1 < std::numeric_limits< IndexType >::max() );
-            assert( idx2 < std::numeric_limits< IndexType >::max() );
-            assert( idx3 < std::numeric_limits< IndexType >::max() );
-            
-            *indexPtr++ = idx0;
-            *indexPtr++ = idx2;
-            *indexPtr++ = idx1;
-            
-            *indexPtr++ = idx1;
-            *indexPtr++ = idx2;
-            *indexPtr++ = idx3;
-        }
-    }
-}
-
-#if 0
-template< typename IndexType >
-void addBlockSkirtIndices( int blockSize, 
-                           int skirtId, std::vector< IndexType >& indices )
-{
-    // add skirt indices:
-    int row1 = osgSqr( blockSize ) + skirtId * blockSize;
-    
-    for( int i = 0; i < blockSize - 1; ++i )
-    {
-        int row0 = 0;
-        
-        // two triangles:
-        const IndexType col0 = ( IndexType ) i;
-        const IndexType col1 = ( IndexType )( i + 1 );
-        
-        const IndexType idx0 = row0 + col0;
-        const IndexType idx1 = row0 + col1;
-        const IndexType idx2 = row1 + col0;
-        const IndexType idx3 = row1 + col1;
-        
-        assert( idx0 < std::numeric_limits< IndexType >::max() );
-        assert( idx1 < std::numeric_limits< IndexType >::max() );
-        assert( idx2 < std::numeric_limits< IndexType >::max() );
-        assert( idx3 < std::numeric_limits< IndexType >::max() );
-        
-        indices.push_back( idx0 );
-        indices.push_back( idx2 );
-        indices.push_back( idx1 );
-        
-        indices.push_back( idx1 );
-        indices.push_back( idx2 );
-        indices.push_back( idx3 );
-    }
-    
-    for( int i = 0; i < databaseInfo_.heightTileSize - 1; ++i )
-    {
-        IndexType row0 = 0;
-        IndexType row1 = ( IndexType )sqr( databaseInfo_.heightTileSize );
-        
-        // two triangles:
-        const IndexType col0 = ( IndexType ) i;
-        const IndexType col1 = ( IndexType )( i + 1 );
-        
-        const IndexType idx0 = row0 + col0;
-        const IndexType idx1 = row0 + col1;
-        const IndexType idx2 = row1 + col0;
-        const IndexType idx3 = row1 + col1;
-        
-        assert( idx0 < std::numeric_limits< IndexType >::max() );
-        assert( idx1 < std::numeric_limits< IndexType >::max() );
-        assert( idx2 < std::numeric_limits< IndexType >::max() );
-        assert( idx3 < std::numeric_limits< IndexType >::max() );
-        
-        staticIndices_.push_back( idx0 );
-        staticIndices_.push_back( idx1 );
-        staticIndices_.push_back( idx2 );
-        
-        staticIndices_.push_back( idx1 );
-        staticIndices_.push_back( idx3 );
-    }
-    
-}
-#endif
-
-
-
-
-
 //-----------------------------------------------------------------------------
 
 
@@ -251,21 +65,12 @@ template<class HeightType, class HeightDeltaType, class TextureType>
 BbqGeoRefdTerrainRenderer<HeightType, 
                           HeightDeltaType,
                           TextureType    >::BbqGeoRefdTerrainRenderer(void) :
-    databaseInfo_          (    ),
+    Inherited              (    ),
     traversalStack_        (    ),
-    staticIndices_         (    ),
-    staticIndexBuffer_     (    ),
-    staticVertexData_      (    ),
-    staticVertxBuffer_     (    ),
-    terrainShader_         (    ),
-    statistics_            (    ),
-    heightDataRenderCache_ (    ),
-    textureDataRenderCache_(    ),
     fallbackTexture_       (    ),
     heightColorTexture_    (    ),
     texture0               (NULL),
-    texture1               (NULL),
-    heightBuffer_          (    )
+    texture1               (NULL)
 {
 }
 
@@ -290,235 +95,17 @@ bool BbqGeoRefdTerrainRenderer<HeightType,
                                TextureType    >::initialize( 
     const BbqDataSourceInformation &databaseInfo)
 {
-    databaseInfo_ = databaseInfo;
-    
-    if(databaseInfo_.textureType == Image::OSG_INVALID_IMAGEDATATYPE)
-    {
-        fprintf(stderr, "NO IMAGE TEXTURE\n");
-    }
+    Inherited::initialize(databaseInfo);
 
-    if(!terrainShader_.loadVtxFromFile("data/TerrainShaderVtx.glsl") ||
-       !terrainShader_.loadFrgFromFile("data/TerrainShaderFrg.glsl")  )
+    if(!_oTerrainShader.loadVtxFromFile("data/GeoRefTerrainShaderVtx.glsl") ||
+       !_oTerrainShader.loadFrgFromFile("data/GeoRefTerrainShaderFrg.glsl")  )
     {
         return false;
     }
-    
-    // build the index buffer:
-    createBlockIndices(databaseInfo_.heightTileSize, 
-                       staticIndices_              );
-    
 
-    //// add skirt indices:
-    //int row1 = sqr( databaseInfo_.heightTileSize );
-    
-    // todo: do the other skirts too..
-    typedef UInt16 IndexType;
+//    _oTerrainShader.setUniform("ellipsoidAxis", databaseInfo.vEllipsoidAxis);
 
-    // todo: put this somewhere..
-    
-    // north:
-    for(Int32 i = 0; i < databaseInfo_.heightTileSize - 1; ++i)
-    {
-        IndexType row0 = 0;
-        IndexType row1 = (IndexType) osgSqr(databaseInfo_.heightTileSize);
-        
-        // two triangles:
-        const IndexType col0 = (IndexType) i;
-        const IndexType col1 = (IndexType)(i + 1);
-        
-        const IndexType idx0 = row0 + col0;
-        const IndexType idx1 = row0 + col1;
-        const IndexType idx2 = row1 + col0;
-        const IndexType idx3 = row1 + col1;
-        
-        assert(idx0 < std::numeric_limits<IndexType>::max());
-        assert(idx1 < std::numeric_limits<IndexType>::max());
-        assert(idx2 < std::numeric_limits<IndexType>::max());
-        assert(idx3 < std::numeric_limits<IndexType>::max());
-        
-        staticIndices_.push_back(idx0);
-        staticIndices_.push_back(idx1);
-        staticIndices_.push_back(idx2);
-        
-        staticIndices_.push_back(idx1);
-        staticIndices_.push_back(idx3);
-        staticIndices_.push_back(idx2);
-    }
-    
-    // south:
-    for(Int32 i = 0; i < databaseInfo_.heightTileSize - 1; ++i)
-    {
-        IndexType row0 = 
-            (IndexType) osgSqr(databaseInfo_.heightTileSize) - 
-            databaseInfo_.heightTileSize;
-
-        IndexType row1 = 
-            (IndexType) osgSqr(databaseInfo_.heightTileSize) + 
-            databaseInfo_.heightTileSize;
-        
-        // two triangles:
-        const IndexType col0 = (IndexType) i;
-        const IndexType col1 = (IndexType)(i + 1);
-        
-        const IndexType idx0 = row0 + col0;
-        const IndexType idx1 = row0 + col1;
-        const IndexType idx2 = row1 + col0;
-        const IndexType idx3 = row1 + col1;
-        
-        assert(idx0 < std::numeric_limits<IndexType>::max());
-        assert(idx1 < std::numeric_limits<IndexType>::max());
-        assert(idx2 < std::numeric_limits<IndexType>::max());
-        assert(idx3 < std::numeric_limits<IndexType>::max());
-        
-        staticIndices_.push_back(idx0);
-        staticIndices_.push_back(idx2);
-        staticIndices_.push_back(idx1);
-        
-        staticIndices_.push_back(idx1);
-        staticIndices_.push_back(idx2);
-        staticIndices_.push_back(idx3);
-    }
-    
-    // west:
-    for(Int32 i = 0; i < databaseInfo_.heightTileSize - 1; ++i)
-    {
-        IndexType row0 = 0;
-        IndexType row1 = 
-            (IndexType) osgSqr(databaseInfo_.heightTileSize) + 
-
-            2 * databaseInfo_.heightTileSize;
-
-        Int32 increment = databaseInfo_.heightTileSize;
-
-        // two triangles:
-        const IndexType col0 = (IndexType)(i    * increment);
-        const IndexType col1 = (IndexType)(col0 + increment);
-        
-        const IndexType idx0 = row0 + col0;
-        const IndexType idx1 = row0 + col1;
-        const IndexType idx2 = row1 + i;
-        const IndexType idx3 = row1 + (i + 1);
-        
-        assert(idx0 < std::numeric_limits<IndexType>::max());
-        assert(idx1 < std::numeric_limits<IndexType>::max());
-        assert(idx2 < std::numeric_limits<IndexType>::max());
-        assert(idx3 < std::numeric_limits<IndexType>::max());
-        
-        staticIndices_.push_back(idx0);
-        staticIndices_.push_back(idx2);
-        staticIndices_.push_back(idx1);
-        
-        staticIndices_.push_back(idx1);
-        staticIndices_.push_back(idx2);
-        staticIndices_.push_back(idx3);
-    }
-    
-    // east:
-    for(Int32 i = 0; i < databaseInfo_.heightTileSize - 1; ++i)
-    {
-        IndexType row0 = databaseInfo_.heightTileSize - 1;
-
-        IndexType row1 = 
-            (IndexType) osgSqr(databaseInfo_.heightTileSize) + 
-            3 * databaseInfo_.heightTileSize;
-
-        Int32 increment = databaseInfo_.heightTileSize;
-
-        // two triangles:
-        const IndexType col0 = (IndexType) (i    * increment);
-        const IndexType col1 = (IndexType) (col0 + increment);
-        
-        const IndexType idx0 = row0 + col0;
-        const IndexType idx1 = row0 + col1;
-        const IndexType idx2 = row1 + i;
-        const IndexType idx3 = row1 + (i + 1);
-        
-        assert(idx0 < std::numeric_limits<IndexType>::max());
-        assert(idx1 < std::numeric_limits<IndexType>::max());
-        assert(idx2 < std::numeric_limits<IndexType>::max());
-        assert(idx3 < std::numeric_limits<IndexType>::max());
-        
-        staticIndices_.push_back(idx0);
-        staticIndices_.push_back(idx1);
-        staticIndices_.push_back(idx2);
-        
-        staticIndices_.push_back(idx1);
-        staticIndices_.push_back(idx3);
-        staticIndices_.push_back(idx2);
-    }
-
-    
-    // store the indices in a gpu buffer:
-    staticIndexBuffer_.create( 
-        GL_ELEMENT_ARRAY_BUFFER, 
-        sizeof(UInt16) * staticIndices_.size(), 
-        BufferUsage_Static_WriteOnly );
-
-    staticIndexBuffer_.uploadData( 
-        &(staticIndices_[0]), 
-        0, 
-        sizeof(UInt16) * staticIndices_.size());
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    // build static vertex data:
-    staticVertexData_.reserve( 
-        osgSqr(databaseInfo_.heightTileSize) + 
-        8 * databaseInfo_.heightTileSize );
-    
-    for(Int32 y = 0; y < databaseInfo_.heightTileSize; ++y)
-    {
-        for(Int32 x = 0; x < databaseInfo_.heightTileSize; ++x)
-        {
-            staticVertexData_.push_back((UInt16) x);
-            staticVertexData_.push_back((UInt16) y);
-        }
-    }
-
-    // todo: put this into a method..
-    for(Int32 i = 0; i < databaseInfo_.heightTileSize; ++i)
-    {
-        staticVertexData_.push_back((UInt16) i);
-        staticVertexData_.push_back((UInt16) 0);
-    }
-
-    for(Int32 i = 0; i < databaseInfo_.heightTileSize; ++i)
-    {
-        staticVertexData_.push_back((UInt16) i);
-        staticVertexData_.push_back( 
-            (UInt16) databaseInfo_.heightTileSize - 1);
-    }
-
-    for(Int32 i = 0; i < databaseInfo_.heightTileSize; ++i)
-    {
-        staticVertexData_.push_back((UInt16) 0);
-        staticVertexData_.push_back((UInt16) i);
-    }
-    for(Int32 i = 0; i < databaseInfo_.heightTileSize; ++i)
-    {
-        staticVertexData_.push_back( 
-            (UInt16) databaseInfo_.heightTileSize - 1);
-        staticVertexData_.push_back((UInt16) i);
-    }
-
-    staticVertxBuffer_.create(GL_ARRAY_BUFFER_ARB, 
-                              sizeof(UInt16) * staticVertexData_.size(), 
-                              BufferUsage_Static_WriteOnly );
-
-    staticVertxBuffer_.uploadData( 
-        &staticVertexData_[0], 
-        0, 
-        sizeof(UInt16) * staticVertexData_.size());
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-    const int renderCacheSize = 500;
-    
-    if(!initializeRenderCache(renderCacheSize, renderCacheSize))
-    {
-        return false;
-    }
-    
+   
 #if 0
     FileInputStream fallbackTextureFile( 
         "shader/TerrainFallbackTexture.bmp" );
@@ -549,7 +136,7 @@ void BbqGeoRefdTerrainRenderer<HeightType,
                                HeightDeltaType,
                                TextureType    >::shutdown(void)
 {
-    shutdownRenderCache();
+    Inherited::shutdown();
 }
 
 
@@ -564,8 +151,8 @@ void BbqGeoRefdTerrainRenderer<HeightType,
                                         BbqTerrNode      *rootNode, 
                                   const BbqRenderOptions &options )
 {
-    statistics_.nodeCount       = 0;
-    statistics_.triangleCount   = 0;
+    _oStatistics.nodeCount       = 0;
+    _oStatistics.triangleCount   = 0;
     
     traversalStack_.push_back(rootNode);
     
@@ -588,7 +175,7 @@ void BbqGeoRefdTerrainRenderer<HeightType,
             !isIntersecting( options.frustum, node->boundingBox ) )
         {
             // not visible at all
-            statistics_.culledNodeCount++;
+            _oStatistics.culledNodeCount++;
             continue;
         }
 #endif
@@ -632,11 +219,11 @@ void BbqGeoRefdTerrainRenderer<HeightType,
         const float screenResolution = float( options.screenSize.y() ) / fovY;
         
         const float nodeError = screenResolution * 
-            ( ( nodeSize / float( databaseInfo_.heightTileSize ) ) / distance );
+            ( ( nodeSize / float( _oDatabaseInfo.heightTileSize ) ) / distance );
 
         const float objectSpaceHeightError = 
             float( node->maxHeightError ) / 
-            65535.0f * databaseInfo_.heightScale + databaseInfo_.heightOffset;
+            65535.0f * _oDatabaseInfo.heightScale + _oDatabaseInfo.heightOffset;
 
         const float screenSpaceHeightError = 
             ( objectSpaceHeightError / distance ) * screenResolution;
@@ -691,7 +278,7 @@ void BbqGeoRefdTerrainRenderer<HeightType,
         //screenFactor; 
 
         float switchDistance = 
-            ( nodeSize / float( databaseInfo_.heightTileSize ) ) / 
+            ( nodeSize / float( _oDatabaseInfo.heightTileSize ) ) / 
             detailFactor * screenResolution;
         
         float geomorphStartDistance = switchDistance + 145.0f;
@@ -710,10 +297,10 @@ void BbqGeoRefdTerrainRenderer<HeightType,
         {
             // render the node:
 #ifndef GV_TEST
-            setGeoMorphingFactor( node );
+            Inherited::setGeoMorphingFactor( node );
 #else
-            terrainShader_.setUniform( "geoMorphFactor", 
-                                       options.geoMorphFactor );
+            _oTerrainShader.setUniform( "geoMorphFactor", 
+                                        options.geoMorphFactor );
 #endif
 
             renderNodeVbo( node, options.showSkirts, options );
@@ -731,7 +318,7 @@ void BbqGeoRefdTerrainRenderer<HeightType,
                 node->boundingBox.getCenter(bboxCenter);
 
                 glColor3f( 0, 1, 0 );
-                renderSphere(bboxCenter , switchDistance, options );
+                Inherited::renderSphere(bboxCenter , switchDistance, options );
             }
         }
         else
@@ -775,42 +362,11 @@ void BbqGeoRefdTerrainRenderer<HeightType,
     }
 
 //    glUseProgramObjectARB( 0 );
-//    terrainShader_.deactivate(options.pDrawEnv);
+//    _oTerrainShader.deactivate(options.pDrawEnv);
 }
 
 
-//-----------------------------------------------------------------------------
 
-
-template<class HeightType, class HeightDeltaType, class TextureType>
-const BbqRenderStatistics& 
-    BbqGeoRefdTerrainRenderer<HeightType, 
-                              HeightDeltaType,
-                              TextureType    >::getStatistics(void) const
-{
-    return statistics_;
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-template<class HeightType, class HeightDeltaType, class TextureType>
-void BbqGeoRefdTerrainRenderer<HeightType, 
-                               HeightDeltaType,
-                               TextureType    >::setGeoMorphingFactor(
-    const BbqTerrNode *node)
-{
-    if(node->parent)
-    {
-        terrainShader_.setUniform("geoMorphFactor", 
-                                  node->parent->geoMorphingFactor);
-    }
-    else
-    {
-        terrainShader_.setUniform("geoMorphFactor", 0.0f);
-    }
-}
 
 
 //-----------------------------------------------------------------------------
@@ -828,47 +384,107 @@ void BbqGeoRefdTerrainRenderer<HeightType,
 
     node->boundingBox.getSize(bboxSize);
 
-    const float scale = 
+    float scale = 
         bboxSize.x() / 
-        float( databaseInfo_.heightTileSize - 1 );
+        float( _oDatabaseInfo.heightTileSize - 1 );
 
+/*
     const Vec2f blockScale( scale, scale );
     const Vec2f blockOffset( node->boundingBox.getMin().x(), 
                              node->boundingBox.getMin().z() );
+ */
     
-    terrainShader_.setUniform( "blockScale", blockScale );
-    terrainShader_.setUniform( "blockOffset", blockOffset );
-    
-    terrainShader_.setUniform( "heightScale", databaseInfo_.heightScale );
-    terrainShader_.setUniform( "heightOffset", databaseInfo_.heightOffset );
+   
+//    _oTerrainShader.setUniform( "heightScale", _oDatabaseInfo.heightScale );
+//    _oTerrainShader.setUniform( "heightOffset", _oDatabaseInfo.heightOffset );
 
-/*
-    fprintf(stderr, "bs/bo %f %f %f %f\n",
+
+/*    fprintf(stderr, "bs/bo %f %f %f %f\n",
             blockScale[0], blockScale[1],
             blockOffset[0], blockOffset[1]);
  */
 
-    terrainShader_.activate(options.pDrawEnv);
+/*
+    fprintf(stderr, "hts: %d %d\n",
+            _oDatabaseInfo.heightSampleCount[0],
+            _oDatabaseInfo.heightSampleCount[1]);
 
-    GLsizei triangleCount = 2 * osgSqr( databaseInfo_.heightTileSize - 1 );
+    fprintf(stderr, "sr: %d %d %d %d | %d %d\n",
+            node->sampleRect.x0,
+            node->sampleRect.y0,
+            node->sampleRect.x1,
+            node->sampleRect.y1,
+            node->sampleRect.getWidth(),
+            node->sampleRect.getHeight());
+
+    fprintf(stderr, "%f %f  | %f %f\n",
+            _oDatabaseInfo.vOrigin[0],
+            _oDatabaseInfo.vOrigin[1],
+            _oDatabaseInfo.vPixelSize[0],
+            _oDatabaseInfo.vPixelSize[1]);
+
+    fprintf(stderr, "TS: %d\n", _oDatabaseInfo.heightTileSize);
+ */
+
+    scale = 
+        Real32 (node->sampleRect.getWidth()) / 
+        Real32(_oDatabaseInfo.heightTileSize - 1);
+
+
+//    fprintf(stderr, "scale %f\n", scale * _oDatabaseInfo.vPixelSize[0]);
+
+    float originX = _oDatabaseInfo.vOrigin[0] + 
+        node->sampleRect.x0 * _oDatabaseInfo.vPixelSize[0];
+
+    float originY = _oDatabaseInfo.vOrigin[1] + 
+        node->sampleRect.y0 * _oDatabaseInfo.vPixelSize[1];
+
+/*
+    fprintf(stderr, "origin %f %f\n", originX, originY);
+
+    fprintf(stderr, "ep %f %f\n",
+            originX + 
+            (scale * 
+             _oDatabaseInfo.vPixelSize[0] * 
+             _oDatabaseInfo.heightTileSize - 1),
+
+            originY + 
+            (scale * 
+             _oDatabaseInfo.vPixelSize[1] * 
+             _oDatabaseInfo.heightTileSize - 1));
+ */
+
+    const Vec2f blockScale(scale * _oDatabaseInfo.vPixelSize[0], 
+                           scale * _oDatabaseInfo.vPixelSize[1]);
+
+    const Vec2f blockOffset(originX, originY); 
+
+
+    _oTerrainShader.setUniform( "blockScale", blockScale );
+    _oTerrainShader.setUniform( "blockOffset", blockOffset );
+
+
+    _oTerrainShader.activate(options.pDrawEnv);
+
+    GLsizei triangleCount = 2 * osgSqr( _oDatabaseInfo.heightTileSize - 1 );
     
     if( renderSkirts )
     {
-        triangleCount += 8 * ( databaseInfo_.heightTileSize - 1 );
+        triangleCount += 8 * ( _oDatabaseInfo.heightTileSize - 1 );
     }
     
     OpenGLGpuBuffer* heightDataVbo = uploadHeightData( node );
     
     assert( heightDataVbo );
     
-    if(databaseInfo_.textureType != Image::OSG_INVALID_IMAGEDATATYPE)
+    if(_oDatabaseInfo.textureType != Image::OSG_INVALID_IMAGEDATATYPE)
     {
         activateTextures( node, options.pDrawEnv );
     }
 
-    terrainShader_.update(options.pDrawEnv);
+    _oTerrainShader.update(options.pDrawEnv);
     
-    glBindBuffer( GL_ARRAY_BUFFER, staticVertxBuffer_.getBufferId() );
+    glBindBuffer( GL_ARRAY_BUFFER, _oStaticVertexBuffer.getBufferId() );
     glVertexPointer( 2, GL_SHORT, 0, ( char* )0 );
     glEnableClientState( GL_VERTEX_ARRAY );
     
@@ -878,8 +494,8 @@ void BbqGeoRefdTerrainRenderer<HeightType,
     
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
     
-    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, staticIndexBuffer_.getBufferId() );
-    glDrawRangeElements( GL_TRIANGLES, 0, ( GLuint ) staticVertexData_.size(), 3 * triangleCount, GL_UNSIGNED_SHORT, 0 );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, _oStaticIndexBuffer.getBufferId() );
+    glDrawRangeElements( GL_TRIANGLES, 0, ( GLuint ) _vStaticVertexData.size(), 3 * triangleCount, GL_UNSIGNED_SHORT, 0 );
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
     
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
@@ -890,291 +506,25 @@ void BbqGeoRefdTerrainRenderer<HeightType,
     OpenGLTexture::disable( GL_TEXTURE1, GL_TEXTURE_2D );
     OpenGLTexture::disable( GL_TEXTURE0, GL_TEXTURE_2D );
  */
-    if(databaseInfo_.textureType != Image::OSG_INVALID_IMAGEDATATYPE)
+    if(_oDatabaseInfo.textureType != Image::OSG_INVALID_IMAGEDATATYPE)
     {
         texture0->disable( GL_TEXTURE2, options.pDrawEnv );
         texture1->disable( GL_TEXTURE1, options.pDrawEnv);
         heightColorTexture_.disable( GL_TEXTURE0, options.pDrawEnv );
     }
 
-    terrainShader_.deactivate(options.pDrawEnv);
+    _oTerrainShader.deactivate(options.pDrawEnv);
 
-    statistics_.nodeCount++;
-    statistics_.triangleCount += triangleCount;
+    _oStatistics.nodeCount++;
+    _oStatistics.triangleCount += triangleCount;
 }
 
 //-----------------------------------------------------------------------------
 
 
-template<class HeightType, class HeightDeltaType, class TextureType>
-bool BbqGeoRefdTerrainRenderer<HeightType, 
-                               HeightDeltaType,
-                               TextureType    >::initializeRenderCache( 
-    int heightCacheEntryCount, 
-    int textureCacheEntryCount )
-{       
-    // height data cache:
-    heightDataRenderCache_.setSize(heightCacheEntryCount);
-    
-    const GLint vboSize = 2 * sizeof( GLfloat ) * 
-        osgSqr( databaseInfo_.heightTileSize ) + 8 * 
-        sizeof( GLfloat ) * databaseInfo_.heightTileSize;
-
-    //const GLint vboSize = 2 * sizeof( GLfloat ) * sqr(
-    //databaseInfo_.heightTileSize ); 
-    
-    for(int i = 0; i < heightCacheEntryCount; ++i)
-    {
-        OpenGLGpuBuffer &vbo = heightDataRenderCache_.getEntry(i);
-        
-        if(!vbo.create(GL_ARRAY_BUFFER, 
-                       vboSize, 
-                       BufferUsage_Static_WriteOnly))
-        {
-            shutdownRenderCache();
-            return false;
-        }
-    }
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-    if( databaseInfo_.textureTileSize > 0 )
-    {
-        textureDataRenderCache_.setSize( textureCacheEntryCount );
-        
-//        ImageFormat textureFormat = ImageFormat_R8G8B8;
-        Image::PixelFormat textureFormat = Image::OSG_RGB_PF;
-     
-        if( databaseInfo_.textureFormat == BbqFile::Dxt1 )
-//        if( databaseInfo_.textureFormat == Image::OSG_RGB_DXT1 )
-        {
-//            textureFormat = ImageFormat_DXT1;
-            textureFormat = Image::OSG_RGB_DXT1;
-        }
-        
-        for( int i = 0; i < textureCacheEntryCount; ++i )
-        {
-            OpenGLTexture& texture = textureDataRenderCache_.getEntry( i );
-            
-            if( !texture.create2D( textureFormat, 
-                                   databaseInfo_.textureTileSize, 
-                                   databaseInfo_.textureTileSize, 
-                                   1 ) )
-            {
-                shutdownRenderCache();
-                return false;
-            }
-        }
-    }
-    else
-    {
-        textureDataRenderCache_.setSize( 0 );
-    }
-    
-    return true;
-}
 
 
 //-----------------------------------------------------------------------------
-
-
-template<class HeightType, class HeightDeltaType, class TextureType>
-void BbqGeoRefdTerrainRenderer<HeightType, 
-                               HeightDeltaType,
-                               TextureType    >::shutdownRenderCache()
-{
-    for( int i = 0; i < heightDataRenderCache_.getSize(); ++i )
-    {
-        OpenGLGpuBuffer& vbo = heightDataRenderCache_.getEntry( i );
-        
-        vbo.destroy();
-    }
-    heightDataRenderCache_.clear();
-    
-    for( int i = 0; i < textureDataRenderCache_.getSize(); ++i )
-    {
-        OpenGLTexture& texture = textureDataRenderCache_.getEntry( i );
-        
-        texture.destroy();
-    }
-    textureDataRenderCache_.clear();
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-template<class HeightType, class HeightDeltaType, class TextureType>
-OpenGLTexture* BbqGeoRefdTerrainRenderer<HeightType, 
-                                         HeightDeltaType,
-                                         TextureType    >::uploadTexture( 
-    const BbqTerrNode *node,
-    DrawEnv                  *pEnv)
-{
-    //Profile( uploadTexture );
-    // todo: prevent cache trashing (switch from lru to mru if we detect a
-    // thrashing situation) 
-    
-    if( !node )
-    {
-        return 0;
-    }
-    
-    // if the node does not contain any texture data.. we cant cache anything:
-    if( node->data.textureData.empty() )
-    {
-        return 0;
-    }
-    
-    // cache the node height data into a vbo and the texture into a gl texture 
-    OpenGLTexture* texture = textureDataRenderCache_.getEntry( node );
-    
-    if( texture )
-    {
-        return texture;
-    }
-    
-    // ok.. not cached yet.. get a free texture:
-    texture = textureDataRenderCache_.getNewEntry( node );
-    
-    assert( texture );
-    
-    texture->enable(GL_TEXTURE0, pEnv);
-
-    // upload data
-    if( !texture->upload2DRect( 0, 0, 
-                                &node->data.textureData[ 0 ], 
-                                node->data.textureData.size() ) )
-    {
-        // todo: report an errors
-    }
-
-    texture->disable(GL_TEXTURE0, pEnv);
-    
-    return texture;
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-template<class HeightType, class HeightDeltaType, class TextureType>
-OpenGLGpuBuffer* BbqGeoRefdTerrainRenderer<HeightType, 
-                                           HeightDeltaType,
-                                           TextureType    >::uploadHeightData( 
-    const BbqTerrNode *node )
-{
-//    Profile( uploadHeightData );
-    // todo: prevent cache trashing (switch from lru to mru if we detect a
-    // thrashing situation) 
-    
-    if( !node )
-    {
-        return 0;
-    }
-    
-    // if the node does not contain any texture data.. we cant cache anything:
-    if( node->data.heightData.empty() )
-    {
-        return 0;
-    }
-    
-    // cache the node height data into a vbo and the texture into a GL texture 
-    OpenGLGpuBuffer* heightData = heightDataRenderCache_.getEntry( node );
-    
-    if( heightData )
-    {
-        return heightData;
-    }
-    
-    // ok.. not cached yet.. get a free texture:
-    heightData = heightDataRenderCache_.getNewEntry( node );
-    
-    assert( heightData );
-    
-    // prepare the data (calculate delta to parent)
-    prepareHeightData( heightBuffer_, node );
-    
-    // and upload the data:
-    heightData->uploadData( &heightBuffer_[ 0 ], 
-                            0, 
-                            sizeof( float ) * heightBuffer_.size() );
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
-    
-    return heightData;
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-template<class HeightType, class HeightDeltaType, class TextureType>
-void BbqGeoRefdTerrainRenderer<HeightType, 
-                               HeightDeltaType,
-                               TextureType    >::renderBoundingBox( 
-    const BoxVolume& box,
-    const BbqRenderOptions& options )
-{
-//    glUseProgramObjectARB( 0 );
-    terrainShader_.deactivate(options.pDrawEnv);
-
-    GLint oldPolygonMode[ 2 ];
-    glGetIntegerv( GL_POLYGON_MODE, oldPolygonMode );
-    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-    glDisable( GL_CULL_FACE );
-//    OpenGLPrimitives::drawBox( box.minPoint, box.maxPoint );
-    glEnable( GL_CULL_FACE );
-    glPolygonMode( GL_FRONT, oldPolygonMode[ 0 ] );
-    glPolygonMode( GL_BACK, oldPolygonMode[ 1 ] );
-//    glUseProgramObjectARB( terrainShader_.getProgramHandle() );
-    terrainShader_.activate(options.pDrawEnv);
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-template<class HeightType, class HeightDeltaType, class TextureType>
-void BbqGeoRefdTerrainRenderer<HeightType, 
-                               HeightDeltaType,
-                               TextureType    >::renderSphere(
-                                  const Pnt3f& center, 
-                                        float radius,
-                                  const BbqRenderOptions& options )
-{
-    static GLUquadric *pQuad;
-
-    if(pQuad == NULL)
-    {
-        pQuad = gluNewQuadric();
-    }
-
-//    glUseProgramObjectARB( 0 );
-//    terrainShader_.deactivate(options.pDrawEnv);
-
-    GLint oldPolygonMode[ 2 ];
-    glGetIntegerv( GL_POLYGON_MODE, oldPolygonMode );
-    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-//    glDisable( GL_CULL_FACE );
-
-
-    glPushMatrix();
-    glTranslatef(center[0], center[1], center[2]);
-//    OpenGLPrimitives::drawSphere( center, radius, 20 );
-
-    gluSphere(pQuad, radius, 20, 20);
-
-    glPopMatrix();
-
-//    glEnable( GL_CULL_FACE );
-    glPolygonMode( GL_FRONT, oldPolygonMode[ 0 ] );
-    glPolygonMode( GL_BACK, oldPolygonMode[ 1 ] );
-//    glUseProgramObjectARB( terrainShader_.getProgramHandle() );
-//    terrainShader_.activate(options.pDrawEnv);
-}
-
-
-//-------------------------------------------------------------------------------------------------
 
 
 template<class HeightType, class HeightDeltaType, class TextureType>
@@ -1192,18 +542,18 @@ void BbqGeoRefdTerrainRenderer<HeightType,
     texCoordScale.setValues( 
 
         ( node->blockScale / textureNode->blockScale ) / 
-        float( databaseInfo_.heightTileSize - 1 ), 
+        float( _oDatabaseInfo.heightTileSize - 1 ), 
 
         ( node->blockScale / textureNode->blockScale ) / 
-        float( databaseInfo_.heightTileSize - 1 ) );
+        float( _oDatabaseInfo.heightTileSize - 1 ) );
     
     texCoordOffset.setValues( 
 
         float(node->sampleRect.x0 - textureNode->sampleRect.x0 ) / 
-        float(textureNode->blockScale * ( databaseInfo_.heightTileSize - 1)),
+        float(textureNode->blockScale * ( _oDatabaseInfo.heightTileSize - 1)),
 
         float(node->sampleRect.y0 - textureNode->sampleRect.y0 ) / 
-        float(textureNode->blockScale * ( databaseInfo_.heightTileSize - 1)));
+        float(textureNode->blockScale * ( _oDatabaseInfo.heightTileSize - 1)));
 
 #if 0
     fprintf(stderr, "x %d %d\n", 
@@ -1273,13 +623,13 @@ void BbqGeoRefdTerrainRenderer<HeightType,
 //    Profile( activateTextures );
     
     Vec2f texCoordOffset( 0, 0 );
-    Vec2f texCoordScale( 1.0f / float( databaseInfo_.heightTileSize - 1 ), 
-                         1.0f / float( databaseInfo_.heightTileSize - 1 ) );
+    Vec2f texCoordScale( 1.0f / float( _oDatabaseInfo.heightTileSize - 1 ), 
+                         1.0f / float( _oDatabaseInfo.heightTileSize - 1 ) );
 
     Vec2f coarserTexCoordOffset( 0, 0 );
     Vec2f coarserTexCoordScale( 
-        1.0f / float( databaseInfo_.heightTileSize - 1 ), 
-        1.0f / float( databaseInfo_.heightTileSize - 1 ) );
+        1.0f / float( _oDatabaseInfo.heightTileSize - 1 ), 
+        1.0f / float( _oDatabaseInfo.heightTileSize - 1 ) );
 
     OpenGLTexture* texture = uploadTexture( node, pEnv );
     OpenGLTexture* coarserTexture = 0;
@@ -1435,160 +785,17 @@ void BbqGeoRefdTerrainRenderer<HeightType,
             coarserTexCoordOffset[0], coarserTexCoordOffset[1]);
 #endif
 
-    terrainShader_.setUniform( "texCoordScale", texCoordScale );
-    terrainShader_.setUniform( "texCoordOffset", texCoordOffset );
-    terrainShader_.setUniform( "coarserTexCoordScale", coarserTexCoordScale );
-    terrainShader_.setUniform( "coarserTexCoordOffset", coarserTexCoordOffset );
+    _oTerrainShader.setUniform( "texCoordScale", texCoordScale );
+    _oTerrainShader.setUniform( "texCoordOffset", texCoordOffset );
+    _oTerrainShader.setUniform( "coarserTexCoordScale", coarserTexCoordScale );
+    _oTerrainShader.setUniform( "coarserTexCoordOffset", coarserTexCoordOffset );
     
-    terrainShader_.setSampler( "texture", 0 );
-    terrainShader_.setSampler( "coarserTexture", 1 );
+    _oTerrainShader.setSampler( "texture", 0 );
+    _oTerrainShader.setSampler( "coarserTexture", 1 );
     //terrainShader_.setSampler( "heightColorTexture", 2 );
 }
 
 
-//-----------------------------------------------------------------------------
-
-
-template<class HeightType, class HeightDeltaType, class TextureType>
-void BbqGeoRefdTerrainRenderer<HeightType, 
-                               HeightDeltaType,
-                               TextureType    >::prepareHeightData( 
-    std::vector< float >& target, const BbqTerrNode *node )
-{
-    //todo: we should use the 16bit unsigned short data directly (without
-    //conversion) 
-    assert( node );
-
-    const HeightType* heightData = &node->data.heightData[ 0 ];
-
-    const int tileSize = databaseInfo_.heightTileSize;
-    const int heightSampleCount = ( int )node->data.heightData.size();
-    
-    target.resize( 2 * heightSampleCount + 8 * tileSize );
-    
-    const HeightType* sourcePtr = &heightData[ 0 ];
-
-    float* targetPtr = &target[ 0 ];
-    
-    if( node->parent )
-    {
-        const HeightType* parentHeightData = 
-            &node->parent->data.heightData[ 0 ];
-
-        const Vec2i parentOffset = 
-            getParentTileOffset( tileSize, getQuadtreeChildIndex( node->id ) );
-        
-        // interleave the height data of this node with the delta to the
-        // height data of the parent node: 
-        // todo: speed this up if necessery 
-        int parentY = parentOffset.y();
-        const int parentIncX = 1;
-        const int parentIncY = tileSize;
-        
-        for( int y = 0; y < tileSize; ++y )
-        {
-            const bool yIsEven = y % 2 == 0;
-            
-            int parentX = parentOffset.x();
-            
-            for( int x = 0; x < tileSize; ++x )
-            {
-                const bool xIsEven = x % 2 == 0;
-                
-                // store the height:
-                const HeightType heightSample = *sourcePtr++;
-                
-                *targetPtr++ = float( heightSample ) / 
-                    TypeTraits<HeightType>::getMax();
-                
-                // todo: use a better interpolation mechanism:
-                if( xIsEven && yIsEven )
-                {
-                    // residual is zero here
-                    *targetPtr++ = 0.0f;
-                    continue;
-                }
-                
-                // there always has to be a greater sample:
-                int parentFirstSampleOffset = parentY * tileSize + parentX;
-                int parentSecondSampleOffset = 0;
-                
-                if( xIsEven )
-                {
-                    assert( y < tileSize - 1 );
-                    
-                    // vertical
-                    parentSecondSampleOffset = parentIncY;
-                }
-                else if( yIsEven )
-                {
-                    assert( x < tileSize - 1 );
-                    
-                    // horizontal
-                    parentSecondSampleOffset = parentIncX;
-                }
-                else
-                {
-                    assert( x < tileSize - 1 );
-                    assert( y < tileSize - 1 );
-                    
-                    // diagonal
-                    parentSecondSampleOffset = parentIncX + parentIncY;
-                }
-                
-                HeightType parentHeightSample0 = 
-                    parentHeightData[ parentFirstSampleOffset ];
-                HeightType parentHeightSample1 = 
-                    parentHeightData[ parentFirstSampleOffset + 
-                                      parentSecondSampleOffset ];
-                
-                int expectedHeightValue = lerp( ( int )parentHeightSample0, 
-                                                ( int )parentHeightSample1,
-                                                0.5f );
-                int residual = expectedHeightValue - heightSample;
-                
-                *targetPtr++ = float( residual ) / 
-                    TypeTraits<HeightType>::getMax();
-                
-                if( !xIsEven )
-                {
-                    parentX++;
-                }
-            }
-            
-            if( !yIsEven )
-            {
-                parentY++;
-            }
-        }
-    }
-    else
-    {
-        for( int i = 0; i < heightSampleCount; ++ i )
-        {
-            *targetPtr++ = float( node->data.heightData[ i ] ) / 
-                TypeTraits<HeightType>::getMax();
-            *targetPtr++ = 0.0f;
-        }
-    }
-    
-    float skirtSize = 0.01f;
-    // add skirt geometry: skirt height is simply the height of the vertex
-    // minus a fixed amount 
-    
-    for( int i = 0; i < 8 * tileSize; ++ i )
-    {
-        *targetPtr++ = -skirtSize;
-    }
-
-/*
-    for( int i = 0; i < target.size(); i+=2)
-    {
-        fprintf(stderr, "%d %f %f\n", 
-                i/2, target[i], target[i+1]);
-    }
- */
-}
 
 template class BbqGeoRefdTerrainRenderer<UInt16, Int16, UInt8>;
 template class BbqGeoRefdTerrainRenderer<Int16,  Int16, UInt8>;
@@ -1602,17 +809,17 @@ OSG_END_NAMESPACE
 // todo: make this work again (as a fallback)
 //void BbqOpenGLTerrainRenderer::renderNodeNonVbo( const BbqTerrainNode* node )
 //{
-//  const float scale = node->boundingBox.getSize().x / float( databaseInfo_.heightTileSize - 1 );
+//  const float scale = node->boundingBox.getSize().x / float( _oDatabaseInfo.heightTileSize - 1 );
 //  const Vector2f blockScale( scale, scale );
 //  const Vector2f blockOffset( node->boundingBox.minPoint.x, node->boundingBox.minPoint.z );
 
 //  terrainShader_.setUniform( "blockScale", blockScale );
 //  terrainShader_.setUniform( "blockOffset", blockOffset );
 
-//  terrainShader_.setUniform( "heightScale", databaseInfo_.heightScale );
-//  terrainShader_.setUniform( "heightOffset", databaseInfo_.heightOffset );
+//  terrainShader_.setUniform( "heightScale", _oDatabaseInfo.heightScale );
+//  terrainShader_.setUniform( "heightOffset", _oDatabaseInfo.heightOffset );
 
-//  const GLsizei triangleCount = 2 * sqr( databaseInfo_.heightTileSize - 1 );
+//  const GLsizei triangleCount = 2 * sqr( _oDatabaseInfo.heightTileSize - 1 );
 
 //  activateTextures( node );
 
@@ -1623,9 +830,9 @@ OSG_END_NAMESPACE
 //  glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 
 //  //todo: hack!!! clear this..
-//  terrainShader_.setUniform( "heightScale", databaseInfo_.heightScale / 65535.0f );
+//  terrainShader_.setUniform( "heightScale", _oDatabaseInfo.heightScale / 65535.0f );
 
-//  glDrawElements( GL_TRIANGLES, 3 * triangleCount, GL_UNSIGNED_SHORT, &staticIndices_[ 0 ] );
+//  glDrawElements( GL_TRIANGLES, 3 * triangleCount, GL_UNSIGNED_SHORT, &_vStaticIndices[ 0 ] );
 
 //  glDisableClientState( GL_TEXTURE_COORD_ARRAY );
 //  glDisableClientState( GL_VERTEX_ARRAY );

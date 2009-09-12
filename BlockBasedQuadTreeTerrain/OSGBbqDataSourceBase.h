@@ -65,6 +65,7 @@
 
 #include "OSGFieldContainer.h" // Parent
 
+#include "OSGBoolFields.h" // IgnoreGeoRef type
 
 #include "OSGBbqDataSourceFields.h"
 
@@ -90,6 +91,16 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSourceBase : public FieldContainer
 
   public:
 
+    enum
+    {
+        IgnoreGeoRefFieldId = Inherited::NextFieldId,
+        NextFieldId = IgnoreGeoRefFieldId + 1
+    };
+
+    static const OSG::BitVector IgnoreGeoRefFieldMask =
+        (TypeTraits<BitVector>::One << IgnoreGeoRefFieldId);
+    static const OSG::BitVector NextFieldMask =
+        (TypeTraits<BitVector>::One << NextFieldId);
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -108,6 +119,37 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSourceBase : public FieldContainer
     virtual const FieldContainerType &getType         (void) const;
 
     virtual       UInt32              getContainerSize(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+
+#ifdef OSG_1_GET_COMPAT
+                  SFBool              *getSFIgnoreGeoRef    (void);
+#endif
+                  SFBool              *editSFIgnoreGeoRef   (void);
+            const SFBool              *getSFIgnoreGeoRef    (void) const;
+
+
+#ifdef OSG_1_GET_COMPAT
+                  bool                &getIgnoreGeoRef    (void);
+#endif
+                  bool                &editIgnoreGeoRef   (void);
+            const bool                &getIgnoreGeoRef    (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+            void setIgnoreGeoRef   (const bool &value);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Ptr MField Set                                */
+    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -131,6 +173,13 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSourceBase : public FieldContainer
     static void   classDescInserter(TypeObject &oType);
     static Char8 *getClassname     (void             );
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
+
+    SFBool            _sfIgnoreGeoRef;
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -156,6 +205,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSourceBase : public FieldContainer
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
+    GetFieldHandlePtr  getHandleIgnoreGeoRef    (void) const;
+    EditFieldHandlePtr editHandleIgnoreGeoRef   (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

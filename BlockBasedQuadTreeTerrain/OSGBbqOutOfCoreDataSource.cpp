@@ -180,6 +180,7 @@ bool BbqOutOfCoreDataSource::initialize(const std::string &szFilename,
                 new BbqOutOfCoreEngine<UInt16, Int16, UInt8>();
 
             rc = pEngine->initialize(szFilename,
+                                     getIgnoreGeoRef (),
                                      fHeightScale,
                                      fHeightOffset,
                                      fSampleSpacing);
@@ -201,6 +202,7 @@ bool BbqOutOfCoreDataSource::initialize(const std::string &szFilename,
                 new BbqOutOfCoreEngine<Int16, Int16, UInt8>();
 
             rc = pEngine->initialize(szFilename,
+                                     getIgnoreGeoRef (),
                                      fHeightScale,
                                      fHeightOffset,
                                      fSampleSpacing);

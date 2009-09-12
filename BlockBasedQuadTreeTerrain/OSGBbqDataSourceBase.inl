@@ -73,6 +73,39 @@ OSG::UInt16 BbqDataSourceBase::getClassGroupId(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the value of the BbqDataSource::_sfIgnoreGeoRef field.
+
+inline
+bool &BbqDataSourceBase::editIgnoreGeoRef(void)
+{
+    editSField(IgnoreGeoRefFieldMask);
+
+    return _sfIgnoreGeoRef.getValue();
+}
+
+//! Get the value of the BbqDataSource::_sfIgnoreGeoRef field.
+inline
+const bool &BbqDataSourceBase::getIgnoreGeoRef(void) const
+{
+    return _sfIgnoreGeoRef.getValue();
+}
+
+#ifdef OSG_1_GET_COMPAT
+inline
+bool                &BbqDataSourceBase::getIgnoreGeoRef   (void)
+{
+    return this->editIgnoreGeoRef   ();
+}
+#endif
+
+//! Set the value of the BbqDataSource::_sfIgnoreGeoRef field.
+inline
+void BbqDataSourceBase::setIgnoreGeoRef(const bool &value)
+{
+    editSField(IgnoreGeoRefFieldMask);
+
+    _sfIgnoreGeoRef.setValue(value);
+}
 
 
 #ifdef OSG_MT_CPTR_ASPECT
@@ -84,6 +117,9 @@ void BbqDataSourceBase::execSync (      BbqDataSourceBase *pFrom,
                                   const UInt32             uiSyncInfo)
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
+
+    if(FieldBits::NoField != (IgnoreGeoRefFieldMask & whichField))
+        _sfIgnoreGeoRef.syncWith(pFrom->_sfIgnoreGeoRef);
 }
 #endif
 

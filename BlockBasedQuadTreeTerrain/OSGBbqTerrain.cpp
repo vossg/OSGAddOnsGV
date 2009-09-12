@@ -256,10 +256,16 @@ void BbqTerrain::changed(ConstFieldMaskArg whichField,
                 if(eHeightType == Image::OSG_UINT16_IMAGEDATA)
                 {
                     fprintf(stderr, "BBQT::UInt data\n");
-                    
+#define ENABLE_GEOREF
+#ifdef ENABLE_GEOREF                    
                     typedef 
                         BbqGeoRefdTerrainRenderer<
                             UInt16, Int16, UInt8> TerrainRenderer;
+#else
+                    typedef 
+                        BbqTerrainRenderer<
+                            UInt16, Int16, UInt8> TerrainRenderer;
+#endif
 
                     BbqTerrainEngine<UInt16, 
                         Int16, 
@@ -286,10 +292,15 @@ void BbqTerrain::changed(ConstFieldMaskArg whichField,
                 {
                     fprintf(stderr, "BBQT::Int data\n");
                     
+#ifdef ENABLE_GEOREF                    
                     typedef 
                         BbqGeoRefdTerrainRenderer<
                             Int16, Int16, UInt8> TerrainRenderer;
-
+#else
+                    typedef 
+                        BbqTerrainRenderer<
+                            Int16, Int16, UInt8> TerrainRenderer;
+#endif
                     BbqTerrainEngine<Int16, 
                         Int16, 
                         UInt8,

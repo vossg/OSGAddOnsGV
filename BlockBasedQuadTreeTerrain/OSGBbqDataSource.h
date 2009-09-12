@@ -122,6 +122,17 @@ class BbqDataSourceEngine
 
     BbqDataSourceInformation _oInformation;
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+    
+    void initSourceInformation(BbqFile::BbqFileHeader &oHeader, 
+                               bool                    bIgnoreGeoRef,
+                               Real32                  fHeightScale, 
+                               Real32                  fHeightOffset, 
+                               Real32                  fSampleSpacing);
+
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
 
   private:

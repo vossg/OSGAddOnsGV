@@ -105,21 +105,128 @@ class BbqTerrainRendererBase
                            HeightDeltaType, 
                            TextureType    > BbqTerrNode;
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Constructor                               */
+    /*! \{                                                                 */
+
+    BbqTerrainRendererBase(void);
+    ~BbqTerrainRendererBase(void);
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    const BbqRenderStatistics &getStatistics(void) const;
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+    /*! \}                                                                 */
+    /*==========================  PROTECTRED  =============================*/
+
+  protected:
+
+    typedef BbqRenderCache< 
+              OpenGLGpuBuffer, 
+              BbqRenderCacheType_HeightData>  HeightDataRenderCache;
+
+    typedef BbqRenderCache< 
+              OpenGLTexture, 
+              BbqRenderCacheType_TextureData> TextureDataRenderCache;
+    
+    BbqDataSourceInformation          _oDatabaseInfo;
+    BbqRenderStatistics               _oStatistics;
+
+    // the one and only index buffer for all blocks.
+    std::vector<UInt16>               _vStaticIndices;
+    OpenGLGpuBuffer                   _oStaticIndexBuffer;
+
+    std::vector<UInt16>               _vStaticVertexData;
+    OpenGLGpuBuffer                   _oStaticVertexBuffer;
+
+
+    OpenGLShader                      _oTerrainShader;
+
+
+    HeightDataRenderCache             _oHeightDataRenderCache;
+    TextureDataRenderCache            _oTextureDataRenderCache;
+
+
+    std::vector<Real32>               _vHeightBuffer;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    bool initialize(const BbqDataSourceInformation &databaseInfo);
+    void shutdown  (                                            );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    bool initializeRenderCache(Int32 heightCacheEntryCount, 
+                               Int32 textureCacheEntryCount);
+
+    void shutdownRenderCache  (void                        );
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    void setGeoMorphingFactor(const BbqTerrNode         *node  );
+    
+    void prepareHeightData   (      std::vector<Real32> &target, 
+                              const BbqTerrNode         *node  );
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    OpenGLTexture   *uploadTexture   (const BbqTerrNode *node,
+                                            DrawEnv     *pEnv);
+    OpenGLGpuBuffer *uploadHeightData(const BbqTerrNode *node);
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    void renderBoundingBox(const BoxVolume          &box,
+                           const BbqRenderOptions   &options     );
+
+    void renderSphere     (const Pnt3f              &center, 
+                                 Real32              radius,
+                           const BbqRenderOptions   &options     );
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+
+  private:
 };
 
 //-----------------------------------------------------------------------------
 
 template<class HeightType, class HeightDeltaType, class TextureType>
-class BbqTerrainRenderer
+class BbqTerrainRenderer : public BbqTerrainRendererBase<HeightType,
+                                                         HeightDeltaType,
+                                                         TextureType    >
 {
     /*==========================  PUBLIC  =================================*/
 
   public:
 
-    typedef BbqTerrainNode<HeightType, 
-                           HeightDeltaType, 
-                           TextureType    > BbqTerrNode;
+    typedef BbqTerrainNode        <HeightType, 
+                                   HeightDeltaType, 
+                                   TextureType    > BbqTerrNode;
 
+    typedef BbqTerrainRendererBase<HeightType,
+                                   HeightDeltaType,
+                                   TextureType    > Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Constructor                               */
@@ -140,35 +247,31 @@ class BbqTerrainRenderer
                     const BbqRenderOptions         &options     );
     
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    const BbqRenderStatistics &getStatistics(void) const;
-    
-    /*! \}                                                                 */
     /*==========================  PROTECTRED  =============================*/
 
   protected:
 
     /*==========================  PRIVATE  ================================*/
 
+    using Inherited::_oDatabaseInfo;
+
+    using Inherited::_vStaticIndices;
+    using Inherited::_oStaticIndexBuffer;
+
+    using Inherited::_vStaticVertexData;
+    using Inherited::_oStaticVertexBuffer;
+
+    using Inherited::_oHeightDataRenderCache;
+    using Inherited::_oTextureDataRenderCache;
+
+    using Inherited::_oTerrainShader;
+
+    using Inherited::_oStatistics;
+
   private:
 
-    BbqDataSourceInformation          databaseInfo_;
     
-    std::vector<BbqTerrNode *>        traversalStack_;
-    
-    // the one and only index buffer for all blocks.
-    std::vector<UInt16>               staticIndices_;
-
-    OpenGLGpuBuffer                   staticIndexBuffer_;
-
-    std::vector<UInt16>               staticVertexData_;
-    OpenGLGpuBuffer                   staticVertxBuffer_;
-    
-    OpenGLShader                      terrainShader_;
-    BbqRenderStatistics               statistics_;
+    std::vector<BbqTerrNode *> traversalStack_;
     
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
@@ -177,14 +280,6 @@ class BbqTerrainRenderer
     void renderNodeVbo    (const BbqTerrNode        *node, 
                                  bool                renderSkirts,
                            const BbqRenderOptions   &options     );
-
-    void renderBoundingBox(const BoxVolume          &box,
-                           const BbqRenderOptions   &options     );
-
-    void renderSphere     (const Pnt3f              &center, 
-                                 Real32              radius,
-                           const BbqRenderOptions   &options     );
-    
 
     //void renderNodeNonVbo( const BbqTerrainNode* node );
 
@@ -214,46 +309,6 @@ class BbqTerrainRenderer
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
-
-    bool initializeRenderCache(Int32 heightCacheEntryCount, 
-                               Int32 textureCacheEntryCount);
-
-    void shutdownRenderCache  (void                        );
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    OpenGLTexture   *uploadTexture   (const BbqTerrNode *node,
-                                            DrawEnv     *pEnv);
-    OpenGLGpuBuffer *uploadHeightData(const BbqTerrNode *node);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    void setGeoMorphingFactor(const BbqTerrNode         *node  );
-    
-    void prepareHeightData   (      std::vector<Real32> &target, 
-                              const BbqTerrNode         *node  );
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    typedef BbqRenderCache< 
-              OpenGLGpuBuffer, 
-              BbqRenderCacheType_HeightData>  HeightDataRenderCache;
-
-    typedef BbqRenderCache< 
-              OpenGLTexture, 
-              BbqRenderCacheType_TextureData> TextureDataRenderCache;
-    
-    HeightDataRenderCache   heightDataRenderCache_;
-    TextureDataRenderCache  textureDataRenderCache_;
     
     OpenGLTexture           fallbackTexture_;
     OpenGLTexture           heightColorTexture_;
@@ -261,24 +316,28 @@ class BbqTerrainRenderer
     OpenGLTexture          *texture0;
     OpenGLTexture          *texture1;
 
-    std::vector<Real32>     heightBuffer_;
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
 };
 
 
 template<class HeightType, class HeightDeltaType, class TextureType>
-class BbqGeoRefdTerrainRenderer
+class BbqGeoRefdTerrainRenderer : public BbqTerrainRendererBase<HeightType,
+                                                                HeightDeltaType,
+                                                                TextureType    >
 {
     /*==========================  PUBLIC  =================================*/
 
+
   public:
 
-    typedef BbqTerrainNode<HeightType, 
-                           HeightDeltaType, 
-                           TextureType    > BbqTerrNode;
+    typedef BbqTerrainNode        <HeightType, 
+                                   HeightDeltaType, 
+                                   TextureType    > BbqTerrNode;
 
+    typedef BbqTerrainRendererBase<HeightType,
+                                   HeightDeltaType,
+                                   TextureType    > Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Constructor                               */
@@ -299,35 +358,30 @@ class BbqGeoRefdTerrainRenderer
                     const BbqRenderOptions         &options     );
     
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    const BbqRenderStatistics &getStatistics(void) const;
-    
-    /*! \}                                                                 */
     /*==========================  PROTECTRED  =============================*/
 
   protected:
 
     /*==========================  PRIVATE  ================================*/
 
+    using Inherited::_oDatabaseInfo;
+
+    using Inherited::_vStaticIndices;
+    using Inherited::_oStaticIndexBuffer;
+
+    using Inherited::_vStaticVertexData;
+    using Inherited::_oStaticVertexBuffer;
+
+    using Inherited::_oHeightDataRenderCache;
+    using Inherited::_oTextureDataRenderCache;
+
+    using Inherited::_oTerrainShader;
+
+    using Inherited::_oStatistics;
+
   private:
 
-    BbqDataSourceInformation          databaseInfo_;
-    
-    std::vector<BbqTerrNode *>        traversalStack_;
-    
-    // the one and only index buffer for all blocks.
-    std::vector<UInt16>               staticIndices_;
-
-    OpenGLGpuBuffer                   staticIndexBuffer_;
-
-    std::vector<UInt16>               staticVertexData_;
-    OpenGLGpuBuffer                   staticVertxBuffer_;
-    
-    OpenGLShader                      terrainShader_;
-    BbqRenderStatistics               statistics_;
+    std::vector<BbqTerrNode *> traversalStack_;
     
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
@@ -336,14 +390,6 @@ class BbqGeoRefdTerrainRenderer
     void renderNodeVbo    (const BbqTerrNode        *node, 
                                  bool                renderSkirts,
                            const BbqRenderOptions   &options     );
-
-    void renderBoundingBox(const BoxVolume          &box,
-                           const BbqRenderOptions   &options     );
-
-    void renderSphere     (const Pnt3f              &center, 
-                                 Real32              radius,
-                           const BbqRenderOptions   &options     );
-    
 
     //void renderNodeNonVbo( const BbqTerrainNode* node );
 
@@ -374,45 +420,6 @@ class BbqGeoRefdTerrainRenderer
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    bool initializeRenderCache(Int32 heightCacheEntryCount, 
-                               Int32 textureCacheEntryCount);
-
-    void shutdownRenderCache  (void                        );
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    OpenGLTexture   *uploadTexture   (const BbqTerrNode *node,
-                                            DrawEnv     *pEnv);
-    OpenGLGpuBuffer *uploadHeightData(const BbqTerrNode *node);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    void setGeoMorphingFactor(const BbqTerrNode         *node  );
-    
-    void prepareHeightData   (      std::vector<Real32> &target, 
-                              const BbqTerrNode         *node  );
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    typedef BbqRenderCache< 
-              OpenGLGpuBuffer, 
-              BbqRenderCacheType_HeightData>  HeightDataRenderCache;
-
-    typedef BbqRenderCache< 
-              OpenGLTexture, 
-              BbqRenderCacheType_TextureData> TextureDataRenderCache;
-    
-    HeightDataRenderCache   heightDataRenderCache_;
-    TextureDataRenderCache  textureDataRenderCache_;
     
     OpenGLTexture           fallbackTexture_;
     OpenGLTexture           heightColorTexture_;
@@ -420,7 +427,6 @@ class BbqGeoRefdTerrainRenderer
     OpenGLTexture          *texture0;
     OpenGLTexture          *texture1;
 
-    std::vector<Real32>     heightBuffer_;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

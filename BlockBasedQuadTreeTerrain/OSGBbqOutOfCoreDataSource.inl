@@ -65,6 +65,7 @@ bool BbqOutOfCoreEngine<HeightType,
                         HeightDeltaType,
                         TextureType    >::initialize(
     const std::string &szFilename, 
+          bool         bIgnoreGeoRef,
           Real32       fHeightScale, 
           Real32       fHeightOffset, 
           Real32       fSampleSpacing)
@@ -93,6 +94,13 @@ bool BbqOutOfCoreEngine<HeightType,
         _oInput.readNodeInfo(_oStaticNodeData[i]);
     }
     
+    Inherited::initSourceInformation(_oHeader, 
+                                      bIgnoreGeoRef,
+                                      fHeightScale,
+                                      fHeightOffset,
+                                      fSampleSpacing);
+ 
+#if 0
     _oInformation.levelCount         = _oHeader._iLevelCount;
     _oInformation.nodeCount          = _oHeader._iNodeCount;
     _oInformation.heightTileSize     = _oHeader._iHeightTileSize;
@@ -124,7 +132,7 @@ bool BbqOutOfCoreEngine<HeightType,
             _oHeader._vOrigin[1],
             _oHeader._vPixelSize[0],
             _oHeader._vPixelSize[1]);
-    
+#endif    
 
     _oResidualDecompressor.initialize(&_oInput, 
                                         ResidualCompression::QuantizedHuffman, 

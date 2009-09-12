@@ -314,6 +314,37 @@ class OpenGLTexture
     void destroy(void);
 };
 
+inline
+void projectPnt(Pnt3f  &result, 
+                Real32  lattitudeDeg, 
+                Real32  longitudeDeg, 
+                Real32  height)
+{
+    Real32 rSemiMajorAxis = 6378.137;
+    Real32 rSemiMinorAxis = 6356.7523142;
+
+
+    Real32 rSemiMajorAxisSquare = rSemiMajorAxis * rSemiMajorAxis;
+
+
+    Real32 e2 = (rSemiMajorAxisSquare - 
+                 rSemiMinorAxis * rSemiMinorAxis) / (rSemiMajorAxisSquare);
+
+    Real32 cosTheta = osgCos(osgDegree2Rad(lattitudeDeg));
+    Real32 sinTheta = osgSin(osgDegree2Rad(lattitudeDeg));
+
+    float v = rSemiMajorAxis / osgSqrt(1 - (e2 * sinTheta * sinTheta));
+
+    v += height;
+
+    Real32 cosPhi = osgCos(osgDegree2Rad(longitudeDeg));
+    Real32 sinPhi = osgSin(osgDegree2Rad(longitudeDeg));
+
+    result[0] = cosTheta * sinPhi * v;
+    result[1] = sinTheta          * ((1 - e2) * v);
+    result[2] = cosTheta * cosPhi * v;
+}
+
 OSG_END_NAMESPACE
 
 #endif // #ifdef _OSGTERRAINTOOLS_H_

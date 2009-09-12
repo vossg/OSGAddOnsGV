@@ -76,6 +76,7 @@ class BbqOutOfCoreEngine : public BbqDataSourceEngine
     /*! \{                                                                 */
     
     bool initialize(const std::string &szFilename, 
+                          bool         bIgnoreGeoRef,
                           Real32       fHeightScale, 
                           Real32       fHeightOffset, 
                           Real32       fSampleSpacing);

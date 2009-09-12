@@ -77,6 +77,33 @@ OSG_BEGIN_NAMESPACE
     
  */
 
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
+
+/*! \var bool            BbqDataSourceBase::_sfIgnoreGeoRef
+    
+*/
+
+
+void BbqDataSourceBase::classDescInserter(TypeObject &oType)
+{
+    FieldDescriptionBase *pDesc = NULL;
+
+
+    pDesc = new SFBool::Description(
+        SFBool::getClassType(),
+        "ignoreGeoRef",
+        "",
+        IgnoreGeoRefFieldId, IgnoreGeoRefFieldMask,
+        false,
+        Field::SFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&BbqDataSourceBase::editHandleIgnoreGeoRef),
+        static_cast<FieldGetMethodSig >(&BbqDataSourceBase::getHandleIgnoreGeoRef));
+
+    oType.addInitialDesc(pDesc);
+}
+
 
 BbqDataSourceBase::TypeObject BbqDataSourceBase::_type(
     BbqDataSourceBase::getClassname(),
@@ -86,7 +113,7 @@ BbqDataSourceBase::TypeObject BbqDataSourceBase::_type(
     NULL,
     BbqDataSource::initMethod,
     BbqDataSource::exitMethod,
-    NULL,
+    (InitalInsertDescFunc) &BbqDataSourceBase::classDescInserter,
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
@@ -102,6 +129,15 @@ BbqDataSourceBase::TypeObject BbqDataSourceBase::_type(
     "    useLocalIncludes=\"false\"\n"
     "    library=\"Drawable\"\n"
     ">\n"
+    "\t<Field\n"
+    "\t\tname=\"ignoreGeoRef\"\n"
+    "\t\ttype=\"bool\"\n"
+    "\t\tcardinality=\"single\"\n"
+    "\t\tvisibility=\"external\"\n"
+    "\t\tdefaultValue=\"false\"\n"
+    "\t\taccess=\"public\"\n"
+    "\t>\n"
+    "\t</Field>    \n"
     "</FieldContainer>\n",
     ""
     );
@@ -126,6 +162,25 @@ UInt32 BbqDataSourceBase::getContainerSize(void) const
 /*------------------------- decorator get ------------------------------*/
 
 
+SFBool *BbqDataSourceBase::editSFIgnoreGeoRef(void)
+{
+    editSField(IgnoreGeoRefFieldMask);
+
+    return &_sfIgnoreGeoRef;
+}
+
+const SFBool *BbqDataSourceBase::getSFIgnoreGeoRef(void) const
+{
+    return &_sfIgnoreGeoRef;
+}
+
+#ifdef OSG_1_GET_COMPAT
+SFBool              *BbqDataSourceBase::getSFIgnoreGeoRef   (void)
+{
+    return this->editSFIgnoreGeoRef   ();
+}
+#endif
+
 
 
 
@@ -136,6 +191,10 @@ UInt32 BbqDataSourceBase::getBinSize(ConstFieldMaskArg whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
+    if(FieldBits::NoField != (IgnoreGeoRefFieldMask & whichField))
+    {
+        returnValue += _sfIgnoreGeoRef.getBinSize();
+    }
 
     return returnValue;
 }
@@ -145,6 +204,10 @@ void BbqDataSourceBase::copyToBin(BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
+    if(FieldBits::NoField != (IgnoreGeoRefFieldMask & whichField))
+    {
+        _sfIgnoreGeoRef.copyToBin(pMem);
+    }
 }
 
 void BbqDataSourceBase::copyFromBin(BinaryDataHandler &pMem,
@@ -152,6 +215,10 @@ void BbqDataSourceBase::copyFromBin(BinaryDataHandler &pMem,
 {
     Inherited::copyFromBin(pMem, whichField);
 
+    if(FieldBits::NoField != (IgnoreGeoRefFieldMask & whichField))
+    {
+        _sfIgnoreGeoRef.copyFromBin(pMem);
+    }
 }
 
 
@@ -160,12 +227,14 @@ void BbqDataSourceBase::copyFromBin(BinaryDataHandler &pMem,
 /*------------------------- constructors ----------------------------------*/
 
 BbqDataSourceBase::BbqDataSourceBase(void) :
-    Inherited()
+    Inherited(),
+    _sfIgnoreGeoRef           (bool(false))
 {
 }
 
 BbqDataSourceBase::BbqDataSourceBase(const BbqDataSourceBase &source) :
-    Inherited(source)
+    Inherited(source),
+    _sfIgnoreGeoRef           (source._sfIgnoreGeoRef           )
 {
 }
 
@@ -176,6 +245,28 @@ BbqDataSourceBase::~BbqDataSourceBase(void)
 {
 }
 
+
+GetFieldHandlePtr BbqDataSourceBase::getHandleIgnoreGeoRef    (void) const
+{
+    SFBool::GetHandlePtr returnValue(
+        new  SFBool::GetHandle(
+             &_sfIgnoreGeoRef, 
+             this->getType().getFieldDesc(IgnoreGeoRefFieldId)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr BbqDataSourceBase::editHandleIgnoreGeoRef   (void)
+{
+    SFBool::EditHandlePtr returnValue(
+        new  SFBool::EditHandle(
+             &_sfIgnoreGeoRef, 
+             this->getType().getFieldDesc(IgnoreGeoRefFieldId)));
+
+    editSField(IgnoreGeoRefFieldMask);
+
+    return returnValue;
+}
 
 
 #ifdef OSG_MT_CPTR_ASPECT

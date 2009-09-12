@@ -28,6 +28,8 @@
 
 #include "OSGBbqTerrain.h"
 #include "OSGBbqOutOfCoreDataSource.h"
+#include "OSGMaterialGroup.h"
+#include "OSGSimpleMaterial.h"
 
 using namespace OSG;
 
@@ -473,10 +475,9 @@ int main (int argc, char **argv)
 //    pSource->setFilename("data/ps_com.bbq");
     pSource->setFilename("data/ps.bbq");
 
-    pSource->setHeightScale  (32.768f);
-    pSource->setHeightOffset (0.0f   );
-    pSource->setSampleSpacing(0.090f );
-    pSource->setIgnoreGeoRef (true   );
+    pSource->setHeightScale  (6500.0f);
+    pSource->setHeightOffset (0.0f  );
+    pSource->setSampleSpacing(1.0f  );
 
     pTerrain = BbqTerrain::create();
 
@@ -490,6 +491,127 @@ int main (int argc, char **argv)
     dlight->addChild(pAlgoNode);
 
     dlight->addChild(sceneTrN);
+
+
+#if 1
+    NodePtr geoRef = Node::create();
+    
+    geoRef->setCore(Group::create());
+
+    NodePtr           pEll     = Node::create();
+    MaterialGroupPtr  pEllMatG = MaterialGroup::create();
+    SimpleMaterialPtr pEllMat  = SimpleMaterial::create();
+
+    pEllMat->editDiffuse().setValuesRGB(0.3, 0.3, 0.3);
+
+    pEllMatG->setMaterial(pEllMat);
+
+    pEll->setCore(pEllMatG);
+
+    pEll->addChild(makeLatLongEllipsoid(18, 
+                                        36, 
+                                        6378.137 * 0.95,
+                                        6356.7523142 * 0.95));
+    
+
+    geoRef->addChild(pEll);
+    
+    geoRef->addChild(makeEllipsoidAxis(18, 
+                                       36, 
+                                       6378.137 * 1.05,
+                                       6356.7523142 * 1.05));
+
+
+
+
+#if 0
+    NodePtr           pEllSeg     = Node::create();
+    MaterialGroupPtr  pEllSegMatG = MaterialGroup::create();
+    SimpleMaterialPtr pEllSegMat  = SimpleMaterial::create();
+
+    pEllSegMat->editDiffuse().setValuesRGB(1.0, 0.0, 0.0);
+    
+
+    pEllSegMatG->setMaterial(pEllSegMat);
+
+    pEllSeg->setCore(pEllSegMatG);
+
+    pEllSeg->addChild(makeLatLongEllipsoidSeg(18, 
+                                              36, 
+                                              6378.137 * 1.01,
+                                              6356.7523142 * 1.01,
+                                              osgDegree2Rad(-50.f),
+                                              osgDegree2Rad(165.f),
+                                              osgDegree2Rad(-35.f),
+                                              osgDegree2Rad(180.f)));
+
+    geoRef->addChild(pEllSeg);
+#endif
+
+
+    NodePtr pCorner0 = Node::create();
+    NodePtr pCorner1 = Node::create();
+    NodePtr pCorner2 = Node::create();
+    NodePtr pCorner3 = Node::create();
+
+    TransformPtr pCornerTr0 = Transform::create();
+    TransformPtr pCornerTr1 = Transform::create();
+    TransformPtr pCornerTr2 = Transform::create();
+    TransformPtr pCornerTr3 = Transform::create();
+
+    pCorner0->setCore(pCornerTr0);
+    pCorner1->setCore(pCornerTr1);
+    pCorner2->setCore(pCornerTr2);
+    pCorner3->setCore(pCornerTr3);
+
+    pCorner0->addChild(makeLatLongSphere(10, 10, 100.f));
+    pCorner1->addChild(makeLatLongSphere(10, 10, 100.f));
+    pCorner2->addChild(makeLatLongSphere(10, 10, 100.f));
+    pCorner3->addChild(makeLatLongSphere(10, 10, 100.f));
+
+    Pnt3f trpos(0.f, 0.f, 0.f);
+
+    projectPnt(trpos, -50.f, 165, 10);
+
+    pCornerTr0->editMatrix()[3][0] = trpos[0];
+    pCornerTr0->editMatrix()[3][1] = trpos[1];
+    pCornerTr0->editMatrix()[3][2] = trpos[2];
+
+    projectPnt(trpos, -35.f, 165, 10);
+
+    pCornerTr1->editMatrix()[3][0] = trpos[0];
+    pCornerTr1->editMatrix()[3][1] = trpos[1];
+    pCornerTr1->editMatrix()[3][2] = trpos[2];
+
+    projectPnt(trpos, -50.f, 180, 10);
+
+    pCornerTr2->editMatrix()[3][0] = trpos[0];
+    pCornerTr2->editMatrix()[3][1] = trpos[1];
+    pCornerTr2->editMatrix()[3][2] = trpos[2];
+
+    projectPnt(trpos, -35.f, 180, 10);
+
+    pCornerTr3->editMatrix()[3][0] = trpos[0];
+    pCornerTr3->editMatrix()[3][1] = trpos[1];
+    pCornerTr3->editMatrix()[3][2] = trpos[2];
+
+    geoRef->addChild(pCorner0);
+    geoRef->addChild(pCorner1);
+    geoRef->addChild(pCorner2);
+    geoRef->addChild(pCorner3);
+
+    dlight->addChild(geoRef);
+#endif
+
+    Pnt3f x1;
+    Pnt3f x2;
+
+    projectPnt(x1, 170.0,               40.0, 0);
+    projectPnt(x2, 170.000833333333333, 40.0, 0);
+
+    Vec3f v1 = x1 - x2;
+
+    fprintf(stderr, "l:%f\n", v1.length());
 
     // Camera
     
