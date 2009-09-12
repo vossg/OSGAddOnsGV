@@ -117,7 +117,8 @@ void RTLocalPacketManager<DescT>::setup(bool bTiled)
 {
     UInt32 uiNumThreads = 1;
 
-    _pSyncBarrier = Barrier::get("RRT-Shading-DisplaySync");
+//    _pSyncBarrier = Barrier::get("RRT-Shading-DisplaySync");
+    _pSyncBarrier = Barrier::get(NULL);
 
     _pSyncBarrier->setNumWaitFor(uiNumThreads + 1);
     
@@ -184,7 +185,8 @@ void RTLocalPacketManager<DescT>::setupSplitThreads(bool bTiled)
 {
     UInt32 uiNumThreads = 1;
 
-    _pSyncBarrier = Barrier::get("RRT-Shading-DisplaySync");
+//    _pSyncBarrier = Barrier::get("RRT-Shading-DisplaySync");
+    _pSyncBarrier = Barrier::get(NULL);
 
     _pSyncBarrier->setNumWaitFor(2 * uiNumThreads + 1);
     
