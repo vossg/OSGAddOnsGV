@@ -47,6 +47,8 @@ void intersectPrimaryRaysDynamic(UInt32 tag_id, const UInt32 batchCount)
   rayInfoEnvelope =(rayInfoEnvelope_t*)_malloc_align(sizeof(rayInfoEnvelope_t)*batchCount, 4);
   hitEnvelope = (hitEnvelope_t*)_malloc_align(sizeof(hitEnvelope_t)*batchCount, 7);
 
+  triangleAccel = (triangleData_t*)_malloc_align(sizeof(triangleData_t)*triLimitLS, 7);
+
   rayEnvelope_t* rayEnvelopeB2     =(rayEnvelope_t*)_malloc_align(sizeof(rayEnvelope_t)*batchCount,6);
   rayInfoEnvelope_t* rayInfoEnvelopeB2 =(rayInfoEnvelope_t*)_malloc_align(sizeof(rayInfoEnvelope_t)*batchCount, 4);
   hitEnvelope_t* hitEnvelopeB2 = (hitEnvelope_t*)_malloc_align(sizeof(hitEnvelope_t)*batchCount, 7);
@@ -70,30 +72,20 @@ void intersectPrimaryRaysDynamic(UInt32 tag_id, const UInt32 batchCount)
   UInt32 cache, i, e;
   for(cache = 0 ; cache < cb.uiCaches ; ++cache)
     { 
-      if(cacheInfoPack[cache].uiNodes <= nodeLimitLS)   //DMA All Nodes in current Cache
+      if(cacheInfoPack[cache].uiNodes <= nodeLimitLS)   //DMA All Nodes in current cache
 	{
-	  cacheKDNode = (cacheKDNode_t*)_malloc_align(sizeof(cacheKDNode_t)*cacheInfoPack[cache].uiNodes, 7);
-	  
-	  mfc_get(cacheKDNode, cacheInfoPack[cache].eaKDNodeCache, 
-		  sizeof(cacheKDNode_t)*cacheInfoPack[cache].uiNodes, tag_id+6, 0, 0);
-
-	  gUiNodeCacheStIdx = 0;
 	  gUiNodeLS = cacheInfoPack[cache].uiNodes;
-
-	  updatePrimIndexCache(tag_id, cache);
 	}
       else
 	{
-	  cacheKDNode = (cacheKDNode_t*)_malloc_align(sizeof(cacheKDNode_t)*nodeLimitLS, 7);
-	  
-	  mfc_get(cacheKDNode, cacheInfoPack[cache].eaKDNodeCache, 
-		  sizeof(cacheKDNode_t)*nodeLimitLS, tag_id+6, 0, 0);
-
-	  gUiNodeCacheStIdx = 0;
 	  gUiNodeLS = nodeLimitLS;
-	  
-	  initPrimIndexCache(tag_id, cache);
 	}
+      gUiNodeCacheStIdx = 1;
+      cacheKDNode = (cacheKDNode_t*)_malloc_align(sizeof(cacheKDNode_t)*gUiNodeLS, 4);
+	  
+      mfc_get(cacheKDNode, cacheInfoPack[cache].eaKDNodeCache, 
+	      sizeof(cacheKDNode_t)*gUiNodeLS, tag_id+6, 0, 0);
+
       resetTriangleCache(triangleAccel);
 
       eId[0] = spu_read_in_mbox();
@@ -121,8 +113,10 @@ void intersectPrimaryRaysDynamic(UInt32 tag_id, const UInt32 batchCount)
  
       eId[1] = spu_read_in_mbox();
 
-      mfc_write_tag_mask(1<<tag_id+6 | 1<<tag_id+7);
-      mfc_read_tag_status_all();  // wait for KD nodes and index array
+      mfc_write_tag_mask(1<<tag_id+6);
+      mfc_read_tag_status_all();  // wait for KD nodes
+
+      initPrimIndexCache(tag_id, cache);
 
       UInt32 i;
 
@@ -228,35 +222,20 @@ void intersectPrimaryRays(UInt32 tag_id, const UInt32 batchCount)
   UInt32 cache, i, e;
   for(cache = 0 ; cache < cb.uiCaches ; ++cache)
     {
-#ifndef OSG_XCACHEKD
-      UInt32 mask = 18 >> UINT_MAX;
-      cacheInfoPack[cache].uiNodes &= mask; // to avoid misstakes later on 
-#endif
-
-      if(cacheInfoPack[cache].uiNodes <= nodeLimitLS)   //DMA All Nodes in current Cache
+      if(cacheInfoPack[cache].uiNodes <= nodeLimitLS) //DMA All Nodes in current cache
 	{
-	  cacheKDNode = (cacheKDNode_t*)_malloc_align(sizeof(cacheKDNode_t)*cacheInfoPack[cache].uiNodes, 7);
-	  
-	  mfc_get(cacheKDNode, cacheInfoPack[cache].eaKDNodeCache, 
-		  sizeof(cacheKDNode_t)*cacheInfoPack[cache].uiNodes, tag_id+6, 0, 0);
-
-	  gUiNodeCacheStIdx = 0;
 	  gUiNodeLS = cacheInfoPack[cache].uiNodes;
-
-	  updatePrimIndexCache(tag_id, cache);
 	}
       else
 	{
-	  cacheKDNode = (cacheKDNode_t*)_malloc_align(sizeof(cacheKDNode_t)*nodeLimitLS, 7);
-	  
-	  mfc_get(cacheKDNode, cacheInfoPack[cache].eaKDNodeCache, 
-		  sizeof(cacheKDNode_t)*nodeLimitLS, tag_id+6, 0, 0);
-
-	  gUiNodeCacheStIdx = 0;
 	  gUiNodeLS = nodeLimitLS;
-	 
-	  initPrimIndexCache(tag_id, cache);
 	}
+
+      gUiNodeCacheStIdx = 1;
+      cacheKDNode = (cacheKDNode_t*)_malloc_align(sizeof(cacheKDNode_t)*gUiNodeLS, 4);
+	  
+      mfc_get(cacheKDNode, cacheInfoPack[cache].eaKDNodeCache, 
+	      sizeof(cacheKDNode_t)*gUiNodeLS, tag_id+6, 0, 0);
 
       resetTriangleCache(triangleAccel);
 
@@ -268,7 +247,12 @@ void intersectPrimaryRays(UInt32 tag_id, const UInt32 batchCount)
       rayInfoEnvelopeBatchEA = cb.eaRayInfoEnvelope;
       hitEnvelopeBatchEA = cb.eaHitEnvelope;
 
-      for(i = 0 ; cb.uiEnvelopes-i > batchCount ; i=i+batchCount)
+      mfc_write_tag_mask(1<<tag_id+6);
+      mfc_read_tag_status_all();
+
+      initPrimIndexCache(tag_id, cache);
+
+      for(i = 0 ; cb.uiAssignedEnvelopes-i > batchCount ; i=i+batchCount)
 	{
 	  mfc_get(rayEnvelope, rayEnvelopeBatchEA, sizeof(rayEnvelope_t)*batchCount, tag_id,0,0);
 	
@@ -280,7 +264,7 @@ void intersectPrimaryRays(UInt32 tag_id, const UInt32 batchCount)
 	  mfc_write_tag_mask(1<<tag_id | 1<<tag_id+2);
 	  mfc_read_tag_status_all();
 	  
-	  if(cache > 0) // multiple caches, hitenvelopes need to be loaded from main storage
+	  if(cache > 0) //multiple caches, hitenvelopes need to be loaded from main storage
 	    {
 	      mfc_get(hitEnvelope, 
 		      hitEnvelopeBatchEA, 
@@ -298,8 +282,10 @@ void intersectPrimaryRays(UInt32 tag_id, const UInt32 batchCount)
 				     (rayInfoEnvelope_t*)rayInfoEnvelope+e);
 		}
 	    }
-	  mfc_write_tag_mask(1<<tag_id+6 | 1<<tag_id+7 | 1<<tag_id+9);
+#ifdef OSG_XCACHEKD
+	  mfc_write_tag_mask(1<<tag_id+9);
 	  mfc_read_tag_status_all();
+#endif
 
 	  for(e = 0 ; e < batchCount ; ++e)
 	    {
@@ -321,7 +307,7 @@ void intersectPrimaryRays(UInt32 tag_id, const UInt32 batchCount)
       //printXCache(cache);
       // printCache();
 
-      UInt16 lastBatch = cb.uiEnvelopes - i;
+      UInt16 lastBatch = cb.uiAssignedEnvelopes - i;
   
       for(e=0 ; e < lastBatch ; e++)
 	{
@@ -394,7 +380,7 @@ void rebaseKDNodeCache(const UInt32 tag_id, const UInt32 uiCache)
 
   UInt32 msNodesAbove = cacheInfoPack[uiCache].uiNodes-gUiNodeCacheStIdx;
 
-  assert(msNodesAbove % 2 == 0); //must be even number so nodes are fethed in couples
+  assert(msNodesAbove % 2 == 0); //must be even number so nodes are fetched in couples
 
   if(msNodesAbove <= nodeLimitLS)
     {
@@ -413,44 +399,25 @@ void rebaseKDNodeCache(const UInt32 tag_id, const UInt32 uiCache)
 
 }
 
-
-void updatePrimIndexCache(UInt32 tag_id, UInt32 cacheId)
-{
-  UInt32 leafCount = cacheInfoPack[cacheId].uiNodes/2;
-
-  primIndexArray = (UInt32*)_malloc_align(sizeof(UInt32)*leafCount*maxPrimInNode, 4);
-
-  EA_t eaIndexArray = cacheInfoPack[cacheId].eaPrimIndexArray;
-
-  spu_mfcdma64(primIndexArray, 
-	       mfc_ea2h(eaIndexArray), 
-	       mfc_ea2l(eaIndexArray),
-	       sizeof(UInt32)*leafCount*maxPrimInNode,
-	       tag_id+7,
-	       MFC_GET_CMD);
-}
 void initPrimIndexCache(const UInt32 tag_id, const UInt32 uiCache)
 {
-
   UInt32 leafsInLS = 0;
   
-
   UInt32 i;
   for(i = 0 ; i < gUiNodeLS ; ++i)
     {
       if((cacheKDNode[i].uiFlags & 3) == 3)
 	leafsInLS++; 
     }
-  UInt32 leafLimitLS = nodeLimitLS/2;
-  
-  primIndexArray = (UInt32*)_malloc_align(sizeof(UInt32)*leafLimitLS*maxPrimInNode, 4);
+ 
+  UInt32 arrayLength = leafsInLS*maxPrimInNode;
 
-  EA_t eaIndexArray = cacheInfoPack[uiCache].eaPrimIndexArray;
+  primIndexArray = (UInt32*)_calloc_align(arrayLength, sizeof(UInt32), 4);
 
   spu_mfcdma64(primIndexArray, 
-	       mfc_ea2h(eaIndexArray), 
-	       mfc_ea2l(eaIndexArray),
-	       sizeof(UInt32)*leafsInLS*maxPrimInNode,
+	       mfc_ea2h(cacheInfoPack[uiCache].eaPrimIndexArray), 
+	       mfc_ea2l(cacheInfoPack[uiCache].eaPrimIndexArray),
+	       arrayLength*sizeof(UInt32),
 	       tag_id+7,
 	       MFC_GET_CMD);
 
@@ -460,7 +427,7 @@ void initPrimIndexCache(const UInt32 tag_id, const UInt32 uiCache)
   // Funtion should be called after every change/update of KD Node cache
 void rebasePrimIndexCache(const UInt32 tag_id, const UInt32 uiCache)
 {
-   printf("re-basing Prim Index Cache\n");
+  printf("re-basing Prim Index Cache\n");
 
   UInt32 leafsInLS = 0;
   
@@ -482,6 +449,9 @@ void rebasePrimIndexCache(const UInt32 tag_id, const UInt32 uiCache)
       if((cacheKDNode[i].uiFlags & 3) == 3)
 	leafsInLS++; 
     }
+  UInt32 arraySize = sizeof(UInt32)*leafsInLS*maxPrimInNode;
+
+  primIndexArray = (UInt32*)_realloc_align((void*)primIndexArray, arraySize, 4);
 
   EA_t eaPrimIndex = cacheInfoPack[uiCache].eaPrimIndexArray+sizeof(UInt32)*gUiLeafNodeStIdx*maxPrimInNode;
 
@@ -490,7 +460,7 @@ void rebasePrimIndexCache(const UInt32 tag_id, const UInt32 uiCache)
       spu_mfcdma64(primIndexArray, 
 		   mfc_ea2h(eaPrimIndex), 
 		   mfc_ea2l(eaPrimIndex),
-		   sizeof(UInt32)*leafsInLS*maxPrimInNode,
+		   arraySize,
 		   tag_id+7,
 		   MFC_GET_CMD);
     }

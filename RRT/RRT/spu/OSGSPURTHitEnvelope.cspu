@@ -55,8 +55,6 @@ void prepareHitEnvelope(hitEnvelope_t* hitEnvelope,
 	  hitEnvelope->tile[i][j].uiCacheId = spu_splats((unsigned int) 0);
 	  hitEnvelope->tile[i][j].uiObjId   = spu_splats((unsigned int) 0);
 	  hitEnvelope->tile[i][j].uiTriId   = spu_splats((unsigned int) 0);
-
-	  assert(rayInfoEnvelope->tile[i][j].uiX<=cb.uiTargetWidth && rayInfoEnvelope->tile[i][j].uiY<=cb.uiTargetHeight);
 	
 	  hitEnvelope->tile[i][j].uiX = rayInfoEnvelope->tile[i][j].uiX;
 	  hitEnvelope->tile[i][j].uiY = rayInfoEnvelope->tile[i][j].uiY;

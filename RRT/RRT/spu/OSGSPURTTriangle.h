@@ -92,6 +92,7 @@ void updateTriangleCache(UInt32 nPrimitives,
 			 UInt32 mfcTagId,
 			 EA_t eaTriCache); 
 
+//NOT COMPLETED
 void updateTriangleCacheSIMD(UInt32 nPrimitives, 
 			 UInt32* prims, 
 			 UInt32 mfcTagId,

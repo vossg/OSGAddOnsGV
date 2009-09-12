@@ -65,7 +65,6 @@ extern volatile rayInfoEnvelope_t *rayInfoEnvelope;
 extern volatile hitEnvelope_t     *hitEnvelope;
 extern volatile triangleData_t* triangleAccel;
 
-
 extern volatile cacheInfoPack_t* cacheInfoPack;
 extern volatile boxVolume_t* boxVolume;
 
@@ -77,15 +76,10 @@ void initPrimaryRayIntersect(UInt32 tag_id);
 
 void rebaseKDNodeCache(const UInt32 tag_id, const UInt32 uiCache);
 
-void updatePrimIndexCache(UInt32 tag_id, UInt32 cacheId);
-
-
 void initPrimIndexCache(const UInt32 tag_id, const UInt32 uiCache);
 
-//
 // Funtion should be called after every change/update of KD Node cache
 void rebasePrimIndexCache(const UInt32 tag_id, const UInt32 uiCache);
-
 
 EA_t gEaStIndexArray;
 

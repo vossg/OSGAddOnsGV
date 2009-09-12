@@ -54,8 +54,8 @@ static const vec_float4 SIMDEps      = {0.00001, 0.00001, 0.00001, 0.00001};
 
 static const enum axis{X = 0, Y, Z} Axis;
 
-static const UInt32 nodeLimitLS = 100;
-static const UInt32 triLimitLS = 24;    // multiple of 4
+static const UInt32 nodeLimitLS = 32;
+static const UInt32 triLimitLS = 32;    // multiple of 4
 
 
 #endif

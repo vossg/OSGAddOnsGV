@@ -39,11 +39,9 @@
 
 #include "OSGSPURTMain.h"
 #include "OSGCellRTMFCHelper.h"
-//#include "OSGSPURTHitEnvelope.h"
 #include "OSGSPURTRaySetup.h"
 #include "OSGSPURTRayIntersect.h"
 #include "OSGCellRT.h"
-//#include "OSGSPURTConstants.h"
 
 //extern volatile control_block_t       cb               __attribute__ ((aligned (128)));
 // extern volatile envelopeInfo_t*       envelopeInfo;
@@ -70,15 +68,6 @@ void flushLocalStore()
   _free_align((void*)boxVolumeCache);
 #endif
 
-  rayEnvelope = NULL;
-  envelopeInfo = NULL;
-  rayInfoEnvelope = NULL;
-  hitEnvelope = NULL;
-  rootBoxVolume = NULL;
-  raySetupBase = NULL;
-  triangleAccel = NULL;
-  cacheKDNode = NULL;
-  cacheInfoPack = NULL;
 }
 
 void printControlBlock()
@@ -87,9 +76,9 @@ void printControlBlock()
 	 cb.speId,
 	 cb.eaRayEnvelope,
 	 cb.eaRayInfoEnvelope,
-	 cb.uiEnvelopes,
-	 cb.uiTargetWidth,
-	 cb.uiTargetHeight,
+	 cb.uiVEnvelopesTarget,
+	 cb.uiHEnvelopesTarget,
+	 cb.uiAssignedEnvelopes,
 	 cb.eaPrimRaySetupPack,
 	 cb.eaEnvelopeInfo,
 	 cb.uiCaches,
@@ -105,21 +94,12 @@ int main(unsigned long long spe_id __attribute__ ((unused)),
   UInt32 tag_id = mfc_multi_tag_reserve(10);
 
   assert(tag_id   != MFC_TAG_INVALID);
-  assert(tag_id+1 != MFC_TAG_INVALID);
-  assert(tag_id+2 != MFC_TAG_INVALID);
-  assert(tag_id+3 != MFC_TAG_INVALID);
-  assert(tag_id+4 != MFC_TAG_INVALID);
-  assert(tag_id+5 != MFC_TAG_INVALID);
-  assert(tag_id+6 != MFC_TAG_INVALID);
-  assert(tag_id+7 != MFC_TAG_INVALID);
-  assert(tag_id+8 != MFC_TAG_INVALID);
-  assert(tag_id+9 != MFC_TAG_INVALID);
-	
+  
 
 #ifdef DOUBLEBUFFER
-  const UInt32 uiSetupBatchCount =(UInt32)(4*1024)/sizeof(rayEnvelope_t);
+  const UInt32 uiBatchCount =(UInt32)(1*1024)/sizeof(rayEnvelope_t);
 #else
-  const UInt32 uiSetupBatchCount =(UInt32)(8*1024)/sizeof(rayEnvelope_t);
+  const UInt32 uiBatchCount =(UInt32)(2*1024)/sizeof(rayEnvelope_t);
 #endif
 
   while(TRUE)
@@ -147,9 +127,9 @@ int main(unsigned long long spe_id __attribute__ ((unused)),
 #endif
 
 #ifdef DOUBLEBUFFER
-      setupPrimaryRaysDB(tag_id, uiSetupBatchCount);
+      setupPrimaryRaysDB(tag_id, uiBatchCount);
 #else
-      setupPrimaryRays(tag_id, uiSetupBatchCount);
+      setupPrimaryRays(tag_id, uiBatchCount);
 #endif
 
       spu_write_out_mbox(10+cb.speId); // Tell PPE ray setup is completed
@@ -161,9 +141,9 @@ int main(unsigned long long spe_id __attribute__ ((unused)),
       tmp = spu_read_in_mbox();
 
 #ifdef DYNAMIC_ENV_ASSIGNMENT
-      intersectPrimaryRaysDynamic(tag_id, intersectBatchCount);
+      intersectPrimaryRaysDynamic(tag_id, uiBatchCount);
 #else
-      intersectPrimaryRays(tag_id, intersectBatchCount);
+      intersectPrimaryRays(tag_id, uiBatchCount);
 #endif
 
 #ifdef SINGLEFRAME

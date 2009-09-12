@@ -53,7 +53,7 @@ void updateTriangleCache(UInt32 nPrimitives,
       _Bool bInLS = 0; 
       for(j=0 ; j < triLimitLS ; ++j)
 	{
-	  if( primIndex[i] == triangleAccel[j].uiTriId )
+	  if(primIndex[i] == triangleAccel[j].uiTriId )
 	    {
 	      bInLS = 1;
 	      break;
@@ -66,7 +66,7 @@ void updateTriangleCache(UInt32 nPrimitives,
 	}
     }
 
-#if 1
+#if 0
   if(tri2DMA>0)
     printf("DMA Tri: ");
   for(i=0 ; i < tri2DMA ; ++i)
@@ -86,6 +86,7 @@ void updateTriangleCache(UInt32 nPrimitives,
       dma_list[2*i+1]=base+offset*triDMAQueue[i];
     }
 
+
   spu_mfcdma64(triangleAccel, 
 	       mfc_ea2h(eaTriCache), 
 	       (LSA_t) &dma_list,
@@ -96,6 +97,7 @@ void updateTriangleCache(UInt32 nPrimitives,
   (void)spu_mfcstat(MFC_TAG_UPDATE_ALL);
 }
 
+// NOT COMPLETED
 void updateTriangleCacheSIMD(UInt32 nPrimitives, 
 			     UInt32* primIndex, 
 			     UInt32 mfcTagId,
@@ -206,8 +208,6 @@ void intersectTriangleSIMD(fourHitPacket_t* fourHitPacket,
 			   UInt32 mfcTagId,
 			   EA_t eaTriCache)
 {
-    
-
   updateTriangleCache(nPrimitives, primIndex, mfcTagId, eaTriCache);
 
   UInt32 i;
@@ -221,7 +221,7 @@ void intersectTriangleSIMD(fourHitPacket_t* fourHitPacket,
 	id++;
       
       intersectSingleTriangleSIMD((fourHitPacket_t*)&fourHitPacket,
-				  (rayTile_t*)&rayTile,
+				  (rayTile_t*)rayTile,
 				  uiCacheId,
 				  uiActive,
 				  (triangleData_t*)&triangleAccel[id]);
@@ -234,7 +234,8 @@ void intersectSingleTriangleSIMD(fourHitPacket_t* fourHitPacket,
 				 UInt16 uiActive,
 				 triangleData_t* triangle)
 {
-  printf("Intersect raytile with triangle %d\n", triangle->uiTriId);
+
+  printf("triId %u ray addr 0x%lx\n", triangle->uiTriId, rayTile);
 
   static const UInt32 aMod[] = {0, 1, 2, 0, 1};
 
@@ -254,9 +255,9 @@ void intersectSingleTriangleSIMD(fourHitPacket_t* fourHitPacket,
 
   vec_float4 fDist4 = fourHitPacket->rDist;
     
-  vec_float4 mask = spu_convtf(spu_and(spu_cmpgt(fDist4, f4), spu_cmpgt(f4, SIMDEps)), 0);
+  vec_uint4 mask = spu_and(spu_cmpgt(fDist4, f4), spu_cmpgt(f4, SIMDEps));
 
-  if((spu_c_movemask(mask) & uiActive) == 0)
+  if((spu_c_movemask_ui(mask) & uiActive) == 0)
     return;
 
   const vec_float4 hu = spu_add(spu_splats(rayTile->vOriginA[KU]), spu_mul(f4, rayTile->fDir[KU]));
@@ -266,27 +267,26 @@ void intersectSingleTriangleSIMD(fourHitPacket_t* fourHitPacket,
 
   lambda = spu_add(lambda, spu_splats(triangle->bD));
 
-  mask = spu_and(mask, spu_convtf(spu_c_cmple(SIMDZero, lambda), 0));
+  mask = spu_and(mask, spu_c_cmple(SIMDZero, lambda));
 
-  if((spu_c_movemask(mask) & uiActive) == 0)
+  if((spu_c_movemask_ui(mask) & uiActive) == 0)
     return;
 
   vec_float4 mue = spu_add(spu_mul(hu, spu_splats(triangle->cNU)), spu_mul(hv, spu_splats(triangle->cNV)));
 
   mue = spu_add(mue, spu_splats(triangle->cD));
 
-  mask = spu_and(mask, spu_convtf(spu_c_cmple(SIMDZero, mue), 0));
+  mask = spu_and(mask, spu_c_cmple(SIMDZero, mue));
   
-  if((spu_c_movemask(mask) & uiActive) == 0)
+  if((spu_c_movemask_ui(mask) & uiActive) == 0)
     return;
 
-  const vec_float4 finalMask = spu_and(spu_convtf(spu_c_cmple(spu_add(lambda, mue), SIMDOne), 0), mask);
+  const vec_uint4 finalMask = spu_and(spu_c_cmple(spu_add(lambda, mue), SIMDOne), mask);
 
-  const UInt32 uiFinalMask = spu_c_movemask(finalMask) & uiActive;
+  const UInt32 uiFinalMask = spu_c_movemask_ui(finalMask) & uiActive;
 
   if(uiFinalMask == 0)
     return;
-
 
   const vec_uint4 maskCheck = {0x01, 0x02, 0x04, 0x08};
   
@@ -299,6 +299,8 @@ void intersectSingleTriangleSIMD(fourHitPacket_t* fourHitPacket,
   fourHitPacket->uiObjId   = spu_sel(spu_splats(triangle->uiObjId), fourHitPacket->uiObjId,   res);
   fourHitPacket->uiTriId   = spu_sel(spu_splats(triangle->uiTriId), fourHitPacket->uiTriId,   res);
   fourHitPacket->uiCacheId = spu_sel(spu_splats(uiCacheId),         fourHitPacket->uiCacheId, res);
+
+  printf("mask %u \n", uiFinalMask); 
 }
 
 
@@ -311,8 +313,6 @@ void intersectTriangleScalar(fourHitPacket_t* fourHitPacket,
 			     UInt32 mfcTagId,
 			     EA_t eaTriCache)
 {
-    
-
   updateTriangleCache(nPrimitives, primIndexArray, mfcTagId, eaTriCache);
 
   UInt32 i;
@@ -339,7 +339,7 @@ void intersectSingleTriangleScalar(fourHitPacket_t* fourHitPacket,
 				   UInt16 uiRay,
 				   triangleData_t* triangle)
 {
-  printf("Intersect single ray with triangle %d\n", triangle->uiTriId);
+  printf("triId %u ray addr 0x0 uiRay %u \n", triangle->uiTriId, rayTile, uiRay);
 
   static const UInt32 aMod[] = {0, 1, 2, 0, 1};
 

@@ -46,6 +46,8 @@
 
 #include "spu_intrinsics.h"
 
+static inline int spu_c_movemask_ui(const vector unsigned int v) __attribute__((__always_inline__));
+
 static inline int spu_c_movemask(const vector float v) __attribute__((__always_inline__));
 
 static inline int spu_c_isum(const vector signed int v);
@@ -58,6 +60,10 @@ static inline vector float spu_c_update(const vector float mask,
 					const vector float v1, 
 					const vector float v2) __attribute__((__always_inline__));
 
+static inline vector float spu_c_update_ui(const vector unsigned int mask, 
+						  const vector float v1, 
+						  const vector float v2) __attribute__((__always_inline__));
+
 static inline vector unsigned int spu_c_cmple(vector float v1, 
 					      vector float v2) __attribute__((__always_inline__));
 
@@ -69,6 +75,15 @@ static inline vector float spu_c_max(const vector float v1,
 
 
 // ------------------------------------------------------------------------------------------------
+
+static inline
+int spu_c_movemask_ui(const vector unsigned int v)
+{
+  vector unsigned int cmp = spu_cmpgt(((vector signed int) {0, 0, 0, 0}), (vector signed int) v);
+  vector unsigned int res = spu_and(cmp, ((vector unsigned int){1<<0, 1<<1, 1<<2, 1<<3}));
+  //return spu_c_isum((vector signed int)res);
+  return (int)spu_extract(res,0)+spu_extract(res,1)+spu_extract(res,2)+spu_extract(res,3);
+}
 
 static inline
 int spu_c_movemask(const vector float v)
@@ -101,7 +116,22 @@ vector float spu_c_invert(const vector float v)
 static inline
 vector float spu_c_update(const vector float mask, const vector float v1, const vector float v2)
 {
-  vector float res = spu_or(spu_and(v1, mask), spu_andc(mask, v2));
+  vector float res = spu_or(spu_and(v1, mask), spu_andc(v2, mask));
+  return res;
+}
+
+static inline
+vector float spu_c_update_ui(const vector unsigned int mask, const vector float v1, const vector float v2)
+{
+  //  const vector float zero = {0, 0, 0, 0};
+
+  //   vector float tmp1 = spu_sel(zero, v1, mask);
+  //   vector float tmp2 = spu_sel(zero, v2, mask);
+
+  //   vector float res = spu_or(tmp1, spu_nor(tmp2, zero));
+
+  vector float* pMask = &mask;
+  vector float res = spu_or(spu_and(v1, *pMask), spu_andc(v2, *pMask));
   return res;
 }
 

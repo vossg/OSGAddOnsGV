@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------*\
+ /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
@@ -41,18 +41,17 @@
 inline
 vec_float4 initPrimaryRaySetup(UInt32 tag_id)
 {
-  envelopeInfo =(envelopeInfo_t*)_malloc_align(sizeof(envelopeInfo_t)*cb.uiEnvelopes,7);
+  envelopeInfo =(envelopeInfo_t*)_malloc_align(sizeof(envelopeInfo_t)*cb.uiAssignedEnvelopes,7);
 
   mfc_getIn16kBatches(envelopeInfo, cb.eaEnvelopeInfo, 
-		      sizeof(envelopeInfo_t)*cb.uiEnvelopes,
+		      sizeof(envelopeInfo_t)*cb.uiAssignedEnvelopes,
 		      tag_id, 0, 0);
  
  
   raySetupBase =(raySetupBase_t*)_malloc_align(sizeof(raySetupBase_t),6);
 
   mfc_get(raySetupBase, cb.eaPrimRaySetupPack, sizeof(raySetupBase_t), tag_id+1, 0, 0);
-  mfc_write_tag_mask(1<<tag_id);
-  mfc_write_tag_mask(1<<tag_id+1);
+  mfc_write_tag_mask(1<<tag_id | 1<<tag_id+1);
   mfc_read_tag_status_all();
  
   raySetupBase->vRight = spu_mul(raySetupBase->vRight, spu_splats(spu_extract(raySetupBase->vMisc, 0)));
@@ -97,8 +96,8 @@ void setupPrimaryRaysDB(UInt32 tag_id, const UInt32 batchCount)
   UInt32 eIdx = 0;
   char swap = 0;
 
-  const UInt32 loopCount = (UInt32)cb.uiEnvelopes/batchCount;
-  const UInt32 finalBatch = cb.uiEnvelopes-(loopCount*batchCount);
+  const UInt32 loopCount = (UInt32)cb.uiAssignedEnvelopes/batchCount;
+  const UInt32 finalBatch = cb.uiAssignedEnvelopes-(loopCount*batchCount);
    
   for(i = 0 ; i < loopCount ; ++i)
     {
@@ -131,7 +130,7 @@ void setupPrimaryRaysDB(UInt32 tag_id, const UInt32 batchCount)
       swap^=1;
     }
   
-  assert(eIdx == cb.uiEnvelopes-finalBatch);
+  assert(eIdx == cb.uiAssignedEnvelopes-finalBatch);
   
   for(i = 0 ; i < finalBatch ; ++i)
     {
@@ -153,7 +152,7 @@ void setupPrimaryRaysDB(UInt32 tag_id, const UInt32 batchCount)
 	  sizeof(rayInfoEnvelope_t)*finalBatch,
 	  tag_id+2+(swap&1), 0, 0);
 
-  assert(eIdx == cb.uiEnvelopes);
+  assert(eIdx == cb.uiAssignedEnvelopes);
 
   mfc_write_tag_mask(1<<tag_id | 1 << tag_id+1 | 1 << tag_id+2 | 1 << tag_id+3);
   mfc_read_tag_status_all();  
@@ -161,7 +160,6 @@ void setupPrimaryRaysDB(UInt32 tag_id, const UInt32 batchCount)
   _free_align((void*)rayEnvelopeB2);
   _free_align((void*)rayInfoEnvelopeB2);
 }
-
 
 void setupPrimaryRays(UInt32 tag_id, const UInt32 batchCount)
 {
@@ -177,7 +175,7 @@ void setupPrimaryRays(UInt32 tag_id, const UInt32 batchCount)
   rayInfoEnvelope =(rayInfoEnvelope_t*)_malloc_align(sizeof(rayInfoEnvelope_t)*batchCount, 4);
  
   UInt32 i, e, index;
-  for(i = 0 ; cb.uiEnvelopes-i > batchCount ; i=i+batchCount)
+  for(i = 0 ; cb.uiAssignedEnvelopes-i > batchCount ; i=i+batchCount)
     {
       index = 0;
       for(e = i ; e < i+batchCount ; ++e)
@@ -189,22 +187,20 @@ void setupPrimaryRays(UInt32 tag_id, const UInt32 batchCount)
 				  vTopLeft);
 	  index++;
 	}
-      mfc_putIn16kBatches(rayEnvelope, rayEnvelopeBatchEA ,sizeof(rayEnvelope_t)*batchCount, tag_id,0,0);
-      mfc_write_tag_mask(1<<tag_id);
-      mfc_read_tag_status_all();
+      mfc_put(rayEnvelope, rayEnvelopeBatchEA ,sizeof(rayEnvelope_t)*batchCount, tag_id, 0, 0);
+      mfc_put(rayInfoEnvelope, rayInfoEnvelopeBatchEA, sizeof(rayInfoEnvelope_t)*batchCount, tag_id+2, 0, 0);
 
-      mfc_put(rayInfoEnvelope, rayInfoEnvelopeBatchEA, sizeof(rayInfoEnvelope_t)*batchCount, tag_id, 0, 0);
-      mfc_write_tag_mask(1<<tag_id);
+      mfc_write_tag_mask(1<<tag_id | 1<<tag_id+2);
       mfc_read_tag_status_all();
 
       rayEnvelopeBatchEA     += batchCount*sizeof(rayEnvelope_t);
       rayInfoEnvelopeBatchEA += batchCount*sizeof(rayInfoEnvelope_t);
     }
 
-  UInt32 finalBatch = cb.uiEnvelopes - i;
+  UInt32 finalBatch = cb.uiAssignedEnvelopes - i;
   
   index=0;
-  for(e=i ; e < cb.uiEnvelopes ; ++e)
+  for(e=i ; e < cb.uiAssignedEnvelopes ; ++e)
     {
       setupSingleEnvelopeSIMD((rayEnvelope_t*)rayEnvelope+index, 
 			      (rayInfoEnvelope_t*)rayInfoEnvelope+index,
@@ -213,13 +209,10 @@ void setupPrimaryRays(UInt32 tag_id, const UInt32 batchCount)
 			      vTopLeft);
       index++;
     }
+  mfc_put(rayEnvelope, rayEnvelopeBatchEA ,sizeof(rayEnvelope_t)*finalBatch, tag_id,0,0);
+  mfc_put(rayInfoEnvelope, rayInfoEnvelopeBatchEA, sizeof(rayInfoEnvelope_t)*finalBatch, tag_id+2, 0, 0);
 
-  mfc_putIn16kBatches(rayEnvelope, rayEnvelopeBatchEA ,sizeof(rayEnvelope_t)*finalBatch, tag_id,0,0);
-  mfc_write_tag_mask(1<<tag_id);
-  mfc_read_tag_status_all();
-
-  mfc_put(rayInfoEnvelope, rayInfoEnvelopeBatchEA, sizeof(rayInfoEnvelope_t)*finalBatch, tag_id, 0, 0);
-  mfc_write_tag_mask(1<<tag_id);
+  mfc_write_tag_mask(1<<tag_id | 1<<tag_id+2);
   mfc_read_tag_status_all();
 }
 
@@ -231,8 +224,8 @@ void setupSingleEnvelope(rayEnvelope_t* rayEnvelope,
 			 UInt32 topY, 
 			 vec_float4 vTopLeft)
 {
-  vTopLeft=spu_add(vTopLeft, spu_mul(spu_splats((Real32)topX), raySetupBase->vRight));
-  vTopLeft=spu_sub(vTopLeft, spu_mul(spu_splats((Real32)topY), raySetupBase->vUp));
+  vTopLeft=spu_add(vTopLeft, spu_mul(spu_splats((Real32)topX*2), raySetupBase->vRight));
+  vTopLeft=spu_sub(vTopLeft, spu_mul(spu_splats((Real32)topY*2), raySetupBase->vUp));
 
   vec_float4 vCurrX = vTopLeft;
   vec_float4 vCurrY = vTopLeft;
@@ -270,10 +263,10 @@ void setupSingleEnvelope(rayEnvelope_t* rayEnvelope,
 	{
 	  rayEnvelope->tile[k][l].fOrigin = raySetupBase->vOrigin;
 	  
-	  assert(topX+2*l <= cb.uiTargetWidth && topY+2*k <= cb.uiTargetHeight);
+	  assert(topX+l < cb.uiHTiles && topY+k < cb.uiVTiles);
 	  
-	  rayInfoEnvelope->tile[k][l].uiX = topX + 2*l;
-	  rayInfoEnvelope->tile[k][l].uiY = topY + 2*k;
+	  rayInfoEnvelope->tile[k][l].uiX = topX + l;
+	  rayInfoEnvelope->tile[k][l].uiY = topY + k;
 
 	  vec_float4 v1  = spu_mul(rayEnvelope->tile[k][l].fDir[X], 
 				   rayEnvelope->tile[k][l].fDir[X]);
@@ -308,8 +301,13 @@ void setupSingleEnvelopeSIMD(rayEnvelope_t* rayEnvelope,
 			     UInt32 topY, 
 			     vec_float4 vTopLeft)
 {
-  vTopLeft=spu_add(vTopLeft, spu_mul(spu_splats((Real32)topX), raySetupBase->vRight));
-  vTopLeft=spu_sub(vTopLeft, spu_mul(spu_splats((Real32)topY), raySetupBase->vUp));
+  assert(topX < cb.uiHEnvelopesTarget * envelopeTilesX);
+  assert(topY < cb.uiVEnvelopesTarget * envelopeTilesY);
+  
+  // Multiply by 2 necessary, vTopLeft based on absolute coordinates
+  // if time implement better solution
+  vTopLeft=spu_add(vTopLeft, spu_mul(spu_splats((Real32)topX*2), raySetupBase->vRight));
+  vTopLeft=spu_sub(vTopLeft, spu_mul(spu_splats((Real32)topY*2), raySetupBase->vUp));
 
   vec_float4 vCurrH =  vTopLeft;
   vec_float4 vCurrV =  vTopLeft;
@@ -337,11 +335,15 @@ void setupSingleEnvelopeSIMD(rayEnvelope_t* rayEnvelope,
 	  rayInfoEnvelope->tile[k][l].bIsActive[1] = 1;
 	  rayInfoEnvelope->tile[k][l].bIsActive[2] = 1;
 	  rayInfoEnvelope->tile[k][l].bIsActive[3] = 1;
+
+	  // vec_uint4 activeVec = {1, 1, 1, 1};
+	  // LSA_t p = &rayInfoEnvelope->tile[k][l].bIsActive;
+	  // p = activeVec;
 	  
-	  assert(topX+2*l <= cb.uiTargetWidth && topY+2*k <= cb.uiTargetHeight);
+	  assert(topX+l < cb.uiHEnvelopesTarget*envelopeTilesX && topY+k < cb.uiVEnvelopesTarget*envelopeTilesY);
 	  
-	  rayInfoEnvelope->tile[k][l].uiX = topX + 2*l;
-	  rayInfoEnvelope->tile[k][l].uiY = topY + 2*k;
+	  rayInfoEnvelope->tile[k][l].uiX = topX + l;
+	  rayInfoEnvelope->tile[k][l].uiY = topY + k;
 
 	  vec_float4 v1  = spu_mul(vDirX, vDirX);
 	  vec_float4 v2  = spu_mul(vDirY, vDirY);

@@ -169,19 +169,19 @@ void intersectXRayTileSIMD(fourHitPacket_t* fourHitPacket,
   rayTileEntryPoint.data[Y] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[Y]));
   rayTileEntryPoint.data[Z] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[Z])); 
 
-    while(1)
-      {
-        vec_uint4 active = spu_cmpgt(tmax4, tmin4);
+  while(1)
+    {
+      vec_uint4 active = spu_cmpgt(tmax4, tmin4);
 
-        currNodeLSA = spu_sel(nilVector, currNodeLSA, active);
+      currNodeLSA = spu_sel(nilVector, currNodeLSA, active);
       
-	//travNode = ??
+      //travNode = ??
 
 
-        if((UInt32)&travNode == UINT_MAX)
+      if((UInt32)&travNode == UINT_MAX)
   	break;
 
-        while(1)
+      while(1)
   	{
 
   	  if((travNode.pointer->uiFlags & 3) == 3) // found leaf
@@ -249,9 +249,9 @@ void intersectXRayTileSIMD(fourHitPacket_t* fourHitPacket,
 
   	}
       
-        UInt32 nPrimitives = travNode.pointer->uiNumPrims >> 2;
+      UInt32 nPrimitives = travNode.pointer->uiNumPrims >> 2;
 
-        if(nPrimitives == 1)
+      if(nPrimitives == 1)
     	{
     	  intersectTriangleSIMD(fourHitPacket, 
     				rayTile, 
@@ -263,7 +263,7 @@ void intersectXRayTileSIMD(fourHitPacket_t* fourHitPacket,
     				mfc_tag_id,
     				cacheInfoPack[uiCache].eaTriCache);
     	}
-        else 
+      else 
     	{
   	  UInt32* primIndex = (UInt32*)&primIndexArray[travNode.pointer->pPrimitiveIdx*maxPrimInNode];
   
@@ -281,72 +281,72 @@ void intersectXRayTileSIMD(fourHitPacket_t* fourHitPacket,
 
 
 
-        tmin4 = updateEntryParams(rayTile, currNodeLSA, travNode.pointer);
+      tmin4 = updateEntryParams(rayTile, currNodeLSA, travNode.pointer);
 
-        rayTileEntryPoint.data[X] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[X]));
-        rayTileEntryPoint.data[Y] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[Y]));
-        rayTileEntryPoint.data[Z] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[Z])); 
+      rayTileEntryPoint.data[X] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[X]));
+      rayTileEntryPoint.data[Y] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[Y]));
+      rayTileEntryPoint.data[Z] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[Z])); 
  
-        UInt32 boxIdx = travNode.pointer->pPrimitiveIdx;
+      UInt32 boxIdx = travNode.pointer->pPrimitiveIdx;
 
-        data3f_t u[3], v[3], w[3];
+      data3f_t u[3], v[3], w[3];
 
-        data3f_t n[6];
-        Real32 D[6];
+      data3f_t n[6];
+      Real32 D[6];
 
-        n[right].x = 1.0;
-        n[right].y = 0.0;
-        n[right].z = 0.0;
+      n[right].x = 1.0;
+      n[right].y = 0.0;
+      n[right].z = 0.0;
 
-        n[left].x = -1.0;
-        n[left].y = 0.0;
-        n[left].z = 0.0;
+      n[left].x = -1.0;
+      n[left].y = 0.0;
+      n[left].z = 0.0;
 
-        n[top].x = 0.0;
-        n[top].y = 1.0;
-        n[top].z = 0.0;
+      n[top].x = 0.0;
+      n[top].y = 1.0;
+      n[top].z = 0.0;
 
-        n[bottom].x = 0.0;
-        n[bottom].y = -1.0;
-        n[bottom].z = 0.0;
+      n[bottom].x = 0.0;
+      n[bottom].y = -1.0;
+      n[bottom].z = 0.0;
 
-        n[front].x = 0.0;
-        n[front].y = 0.0;
-        n[front].z = 1.0;
+      n[front].x = 0.0;
+      n[front].y = 0.0;
+      n[front].z = 1.0;
 
-        n[back].x = 1.0;
-        n[back].y = 0.0;
-        n[back].z = 0.0;
+      n[back].x = 1.0;
+      n[back].y = 0.0;
+      n[back].z = 0.0;
 
-        D[right]  = - (n[right].x*boxVolumeCache[boxIdx].max[X] + 
+      D[right]  = - (n[right].x*boxVolumeCache[boxIdx].max[X] + 
   		     n[right].y*boxVolumeCache[boxIdx].min[Y] + 
   		     n[right].z*boxVolumeCache[boxIdx].min[Z]);
 
-        D[left]   = - (n[left].x*boxVolumeCache[boxIdx].min[X] + 
+      D[left]   = - (n[left].x*boxVolumeCache[boxIdx].min[X] + 
   		     n[left].y*boxVolumeCache[boxIdx].min[Y] + 
   		     n[left].z*boxVolumeCache[boxIdx].min[Z]);
 
-        D[top]    = - (n[top].x*boxVolumeCache[boxIdx].min[X] + 
+      D[top]    = - (n[top].x*boxVolumeCache[boxIdx].min[X] + 
   		     n[top].y*boxVolumeCache[boxIdx].max[Y] + 
   		     n[top].z*boxVolumeCache[boxIdx].min[Z]);
 
-        D[bottom] = - (n[bottom].x*boxVolumeCache[boxIdx].min[X] + 
+      D[bottom] = - (n[bottom].x*boxVolumeCache[boxIdx].min[X] + 
   		     n[bottom].y*boxVolumeCache[boxIdx].min[Y] + 
   		     n[bottom].z*boxVolumeCache[boxIdx].min[Z]);
 
-        D[front]  = - (n[front].x*boxVolumeCache[boxIdx].min[X] + 
+      D[front]  = - (n[front].x*boxVolumeCache[boxIdx].min[X] + 
   		     n[front].y*boxVolumeCache[boxIdx].min[Y] + 
   		     n[front].z*boxVolumeCache[boxIdx].max[Z]);
 
-        D[back]   = - (n[back].x*boxVolumeCache[boxIdx].min[X] + 
+      D[back]   = - (n[back].x*boxVolumeCache[boxIdx].min[X] + 
   		     n[back].y*boxVolumeCache[boxIdx].min[Y] + 
   		     n[back].z*boxVolumeCache[boxIdx].min[Z]);
 
 
-        const Real32 epsilon = 0.000001;
+      const Real32 epsilon = 0.000001;
 
-        UInt32 iRay;
-        for(iRay = 0 ; iRay < 4 ; ++iRay)
+      UInt32 iRay;
+      for(iRay = 0 ; iRay < 4 ; ++iRay)
   	{
   	  if(activeMask & (1 << iRay) == 1)
   	    {
@@ -405,7 +405,7 @@ void intersectXRayTileSIMD(fourHitPacket_t* fourHitPacket,
   	      currNodeLSA = spu_insert(UINT_MAX, currNodeLSA, iRay);
   	    }
   	}
-      }
+    }
 
 
 

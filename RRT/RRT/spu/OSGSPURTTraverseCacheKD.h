@@ -108,7 +108,8 @@ typedef struct _KDSIMDStackElem
 
 // Not actually a Stack. Fixed size to prevent LS Overflow.
 // Traversal will be aborted if attempt to place more than allowed elements in array
-KDSIMDStackElem_t sKDToDoStack[20];
+#define kDStackSize 16
+KDSIMDStackElem_t sKDToDoStack[kDStackSize];
 
 
 //extern volatile triangleData_t *triangleAccel;

@@ -46,6 +46,7 @@
 
 #include <malloc_align.h>
 #include <calloc_align.h>
+#include <realloc_align.h>
 #include <free_align.h>
 
 
