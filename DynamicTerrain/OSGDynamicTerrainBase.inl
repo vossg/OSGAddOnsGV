@@ -109,14 +109,14 @@ void DynamicTerrainBase::setLevelSize(const Int32 &value)
 
 //! Get the value of the DynamicTerrain::_sfHeightData field.
 inline
-ImagePtrConst DynamicTerrainBase::getHeightData(void) const
+ImagePtr DynamicTerrainBase::getHeightData(void) const
 {
     return _sfHeightData.getValue();
 }
 
 //! Set the value of the DynamicTerrain::_sfHeightData field.
 inline
-void DynamicTerrainBase::setHeightData(ImagePtrConstArg value)
+void DynamicTerrainBase::setHeightData(const ImagePtr value)
 {
     editSField(HeightDataFieldMask);
 
@@ -225,14 +225,14 @@ void DynamicTerrainBase::setSampleDistance(const Real32 &value)
 
 //! Get the value of the DynamicTerrain::_sfTextureData field.
 inline
-ImagePtrConst DynamicTerrainBase::getTextureData(void) const
+ImagePtr DynamicTerrainBase::getTextureData(void) const
 {
     return _sfTextureData.getValue();
 }
 
 //! Set the value of the DynamicTerrain::_sfTextureData field.
 inline
-void DynamicTerrainBase::setTextureData(ImagePtrConstArg value)
+void DynamicTerrainBase::setTextureData(const ImagePtr value)
 {
     editSField(TextureDataFieldMask);
 
@@ -242,14 +242,14 @@ void DynamicTerrainBase::setTextureData(ImagePtrConstArg value)
 
 //! Get the value of the DynamicTerrain::_sfHeightColorTexture field.
 inline
-TextureObjChunkPtrConst DynamicTerrainBase::getHeightColorTexture(void) const
+TextureObjChunkPtr DynamicTerrainBase::getHeightColorTexture(void) const
 {
     return _sfHeightColorTexture.getValue();
 }
 
 //! Set the value of the DynamicTerrain::_sfHeightColorTexture field.
 inline
-void DynamicTerrainBase::setHeightColorTexture(TextureObjChunkPtrConstArg value)
+void DynamicTerrainBase::setHeightColorTexture(const TextureObjChunkPtr value)
 {
     editSField(HeightColorTextureFieldMask);
 

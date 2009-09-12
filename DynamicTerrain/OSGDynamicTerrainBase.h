@@ -284,7 +284,7 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
                   Int32               &editLevelSize      (void);
             const Int32               &getLevelSize       (void) const;
 
-                  ImagePtrConst getHeightData     (void) const;
+                  ImagePtr getHeightData     (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   Real32              &getHeightDataScale (void);
@@ -304,9 +304,9 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
                   Real32              &editSampleDistance (void);
             const Real32              &getSampleDistance  (void) const;
 
-                  ImagePtrConst getTextureData    (void) const;
+                  ImagePtr getTextureData    (void) const;
 
-                  TextureObjChunkPtrConst getHeightColorTexture(void) const;
+                  TextureObjChunkPtr getHeightColorTexture(void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   Int32               &getSampleUpdateBudget (void);
@@ -374,12 +374,12 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*! \{                                                                 */
 
             void setLevelSize      (const Int32 &value);
-            void setHeightData     (ImagePtrConstArg value);
+            void setHeightData     (const ImagePtr value);
             void setHeightDataScale(const Real32 &value);
             void setHeightDataOffset(const Real32 &value);
             void setSampleDistance (const Real32 &value);
-            void setTextureData    (ImagePtrConstArg value);
-            void setHeightColorTexture(TextureObjChunkPtrConstArg value);
+            void setTextureData    (const ImagePtr value);
+            void setHeightColorTexture(const TextureObjChunkPtr value);
             void setSampleUpdateBudget(const Int32 &value);
             void setEnableFrustumCulling(const bool &value);
             void setUseGpuRenderer (const bool &value);
