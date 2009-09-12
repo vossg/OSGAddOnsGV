@@ -116,9 +116,6 @@ struct FieldTraits<RTCacheAttachmentPtr> :
 typedef SFieldAdaptor<RTCacheAttachmentPtr, SFFieldContainerPtr> SFRTCacheAttachmentPtr;
 #endif
 
-#ifndef OSG_COMPILERTCACHEATTACHMENTINST
-OSG_FIELD_DLLEXPORT_DECL1(SField, RTCacheAttachmentPtr, OSG_CONTRIBRRT_DLLTMPLMAPPING)
-#endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldMulti */
@@ -126,9 +123,6 @@ OSG_FIELD_DLLEXPORT_DECL1(SField, RTCacheAttachmentPtr, OSG_CONTRIBRRT_DLLTMPLMA
 typedef MFieldAdaptor<RTCacheAttachmentPtr, MFFieldContainerPtr> MFRTCacheAttachmentPtr;
 #endif
 
-#ifndef OSG_COMPILERTCACHEATTACHMENTINST
-OSG_FIELD_DLLEXPORT_DECL1(MField, RTCacheAttachmentPtr, OSG_CONTRIBRRT_DLLTMPLMAPPING)
-#endif
 
 OSG_END_NAMESPACE
 

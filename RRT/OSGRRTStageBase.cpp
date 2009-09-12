@@ -621,7 +621,8 @@ EditFieldHandlePtr RRTStageBase::editHandleRayTracingRoot (void)
              &_sfRayTracingRoot, 
              this->getType().getFieldDesc(RayTracingRootFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&RRTStage::setRayTracingRoot, this, _1));
+    returnValue->setSetMethod(boost::bind(&RRTStage::setRayTracingRoot, 
+                                          static_cast<RRTStage *>(this), _1));
 
     editSField(RayTracingRootFieldMask);
 
@@ -645,7 +646,8 @@ EditFieldHandlePtr RRTStageBase::editHandleBackgroundRoot (void)
              &_sfBackgroundRoot, 
              this->getType().getFieldDesc(BackgroundRootFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&RRTStage::setBackgroundRoot, this, _1));
+    returnValue->setSetMethod(boost::bind(&RRTStage::setBackgroundRoot, 
+                                          static_cast<RRTStage *>(this), _1));
 
     editSField(BackgroundRootFieldMask);
 
@@ -669,7 +671,8 @@ EditFieldHandlePtr RRTStageBase::editHandleTextureTarget  (void)
              &_sfTextureTarget, 
              this->getType().getFieldDesc(TextureTargetFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&RRTStage::setTextureTarget, this, _1));
+    returnValue->setSetMethod(boost::bind(&RRTStage::setTextureTarget, 
+                                          static_cast<RRTStage *>(this), _1));
 
     editSField(TextureTargetFieldMask);
 

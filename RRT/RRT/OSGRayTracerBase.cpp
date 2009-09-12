@@ -447,7 +447,8 @@ EditFieldHandlePtr RayTracerBase::editHandleRayTracingRoot (void)
              &_sfRayTracingRoot, 
              this->getType().getFieldDesc(RayTracingRootFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&RayTracer::setRayTracingRoot, this, _1));
+    returnValue->setSetMethod(boost::bind(&RayTracer::setRayTracingRoot, 
+                                          static_cast<RayTracer *>(this), _1));
 
     editSField(RayTracingRootFieldMask);
 
@@ -471,7 +472,8 @@ EditFieldHandlePtr RayTracerBase::editHandleBackgroundRoot (void)
              &_sfBackgroundRoot, 
              this->getType().getFieldDesc(BackgroundRootFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&RayTracer::setBackgroundRoot, this, _1));
+    returnValue->setSetMethod(boost::bind(&RayTracer::setBackgroundRoot, 
+                                          static_cast<RayTracer *>(this), _1));
 
     editSField(BackgroundRootFieldMask);
 

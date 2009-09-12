@@ -284,7 +284,8 @@ EditFieldHandlePtr RTTextureTargetBase::editHandleTexObjChunk    (void)
              &_sfTexObjChunk, 
              this->getType().getFieldDesc(TexObjChunkFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&RTTextureTarget::setTexObjChunk, this, _1));
+    returnValue->setSetMethod(boost::bind(&RTTextureTarget::setTexObjChunk, 
+                                          static_cast<RTTextureTarget *>(this), _1));
 
     editSField(TexObjChunkFieldMask);
 

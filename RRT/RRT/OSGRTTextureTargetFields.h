@@ -115,9 +115,6 @@ struct FieldTraits<RTTextureTargetP> :
 typedef SFieldAdaptor<RTTextureTargetP, SFFieldBundleP> SFRTTextureTargetP;
 #endif
 
-#ifndef OSG_COMPILERTTEXTURETARGETINST
-OSG_FIELD_DLLEXPORT_DECL1(SField, RTTextureTargetP, OSG_CONTRIBRRT_DLLTMPLMAPPING)
-#endif
 
 OSG_END_NAMESPACE
 

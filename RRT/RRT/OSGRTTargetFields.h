@@ -115,9 +115,6 @@ struct FieldTraits<RTTargetP> :
 typedef SFieldAdaptor<RTTargetP, SFFieldBundleP> SFRTTargetP;
 #endif
 
-#ifndef OSG_COMPILERTTARGETINST
-OSG_FIELD_DLLEXPORT_DECL1(SField, RTTargetP, OSG_CONTRIBRRT_DLLTMPLMAPPING)
-#endif
 
 OSG_END_NAMESPACE
 
