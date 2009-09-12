@@ -17,7 +17,6 @@
 #include <OSGTransform.h>
 #include <OSGAction.h>
 #include <OSGRenderAction.h>
-#include <OSGRenderTraversalAction.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGSceneFileHandler.h>
 
@@ -52,7 +51,7 @@
 
 using namespace OSG;
 
-RenderTraversalAction *rentravact = NULL;
+RenderAction *rentravact = NULL;
 
 NodePtr  root;
 NodePtr  animRoot;
@@ -668,7 +667,7 @@ int main (int argc, char **argv)
 
     // Action
     
-    rentravact = RenderTraversalAction::create();
+    rentravact = RenderAction::create();
     rentravact->setFrustumCulling(false);
 
     // tball
