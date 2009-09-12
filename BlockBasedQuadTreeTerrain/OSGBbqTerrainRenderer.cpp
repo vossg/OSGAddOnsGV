@@ -1284,11 +1284,13 @@ void BbqTerrainRenderer<HeightType,
         }
     }
 
+#if 0
     fprintf(stderr, "%f %f | %f %f\n",
             rootNode->boundingBox.getMin().x(),
             rootNode->boundingBox.getMin().z(),
             rootNode->boundingBox.getMax().x(),
             rootNode->boundingBox.getMax().z());
+#endif
 
 
 //    glUseProgramObjectARB( 0 );
