@@ -1,0 +1,421 @@
+//-------------------------------------------------------------------------------------------------
+//
+//	Author				:		Julien Koenen
+//	Creation Date		:		03.10.2004 18:19:30
+//
+//	Description			:		Rectangle.cpp
+//
+//-------------------------------------------------------------------------------------------------
+
+//#include "PrecompiledHeader.h"
+#include "OSGRectangle.h"
+#include <algorithm>
+
+//-------------------------------------------------------------------------------------------------
+
+namespace OSG
+{
+
+	template< typename T > Rectangle2< T >::Rectangle2( T x0, T y0, T x1, T y1 )
+	{
+		this->x0 = x0;
+		this->y0 = y0;
+		this->x1 = x1;
+		this->y1 = y1;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > Rectangle2< T >::Rectangle2( const PointType& p, T width, T height )
+	{
+		x0 = p[ 0 ];
+		y0 = p[ 1 ];
+		x1 = x0 + width;
+		y1 = y0 + height;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > Rectangle2< T >::Rectangle2( const PointType& p, const PointType& s )
+	{
+		x0 = p[ 0 ];
+		y0 = p[ 1 ];
+		x1 = x0 + s[ 0 ];
+		y1 = y0 + s[ 1 ];
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	T Rectangle2< T >::getWidth() const
+	{
+		if( x1 >= x0 )
+		{
+			return x1 - x0;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	T Rectangle2< T >::getHeight() const
+	{
+		if( y1 >= y0 )
+		{
+			return y1 - y0;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	void Rectangle2< T >::add( T x, T y )
+	{
+		x0	+= x;
+		x1	+= x;
+
+		y0	+= y;
+		y1	+= y;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	void Rectangle2< T >::add( const PointType& p )
+	{
+		add( p[ 0 ], p[ 1 ] );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	bool Rectangle2< T >::contains( T x, T y ) const
+	{
+		return ( x >= x0 ) && ( x < x1 ) && ( y >= y0 ) && ( y < y1 );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	bool Rectangle2< T >::contains( const PointType& p ) const
+	{
+		return contains( p[ 0 ], p[ 1 ] );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	bool Rectangle2< T >::intersects( const Rectangle2& r ) const
+	{
+		return !getIntersection( *this, r ).isEmpty();
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	bool Rectangle2< T >::isEmpty() const
+	{
+		return ( x0 >= x1 ) || ( y0 >= y1 );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	void Rectangle2< T >::grow( T x )
+	{
+		x0	-= x;
+		y0	-= x;
+		x1	+= x;
+		y1	+= x;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > void Rectangle2< T >::shrink( T x )
+	{
+		x0 += x;
+		y0 += x;
+		x1 -= x;
+		y1 -= x;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > void Rectangle2< T >::crop( const Rectangle2< T >& boundary, const T& borderSize )
+	{
+		x0 = std::max( x0, boundary.x0 + borderSize );
+		x1 = std::min( x1, boundary.x1 - borderSize );		
+		y0 = std::max( y0, boundary.y0 + borderSize );
+		y1 = std::min( y1, boundary.y1 - borderSize );
+		
+		if( isEmpty() )
+		{
+			clear();
+		}
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > typename Rectangle2< T >::PointType Rectangle2< T >::getTopLeft() const
+	{
+		return PointType( x0, y0 );
+	}
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > typename Rectangle2< T >::PointType Rectangle2< T >::getTopRight() const
+	{
+		return PointType( x1, y0 );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > typename Rectangle2< T >::PointType Rectangle2< T >::getBottomLeft() const
+	{
+		return PointType( x0, y1 );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > typename Rectangle2< T >::PointType	Rectangle2< T >::getBottomRight() const
+	{
+		return PointType( x1, y1 );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > void Rectangle2< T >::clear()
+	{
+		x0	= 0;
+		x1	= 0;
+		y0		= 0;
+		y1	= 0;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	void Rectangle2< T >::setBounds( T x, T y, T width, T height )
+	{
+		x0	= x;
+		y0	= y;
+		x1	= x + width;
+		y1	= y + height;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > void Rectangle2< T >::setBounds( const PointType& p, T width, T height )
+	{
+		setBounds( p[ 0 ], p[ 1 ], width, height );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	void Rectangle2< T >::setBounds( const PointType& p, const PointType& s )
+	{
+		setBounds( p[ 0 ], p[ 1 ], s[ 0 ], s[ 1 ] );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	void Rectangle2< T >::setValues( T x0, T y0, T x1, T y1 )
+	{
+		this->x0 = x0;
+		this->y0 = y0;
+		this->x1 = x1;
+		this->y1 = y1;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	void Rectangle2< T >::setOrigin( T x, T y )
+	{
+		setBounds( x, y, getWidth(), getHeight() );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	void Rectangle2< T >::setOrigin( const PointType& p )
+	{
+		setOrigin( p[ 0 ], p[ 1 ] );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > typename Rectangle2< T >::PointType Rectangle2< T >::getOrigin() const
+	{
+		return PointType( x0, y0 );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	void Rectangle2< T >::setSize( T width, T height )
+	{
+		setBounds( x0, y0, width, height );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	void Rectangle2< T >::setSize( const PointType& p )
+	{
+		setSize( p[ 0 ], p[ 1 ] );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > typename Rectangle2< T >::PointType Rectangle2< T >::getSize() const
+	{
+		return PointType( getWidth(), getHeight() );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	bool Rectangle2< T >::operator==( const Rectangle2& rhs ) const
+	{
+		if( fabsf( x0 - rhs.x0 ) > Eps )
+		{
+			return false;
+		}
+		if( fabsf( y0 - rhs.y0 ) > Eps )
+		{
+			return false;
+		}
+		if( fabsf( x1 - rhs.x1 ) > Eps )
+		{
+			return false;
+		}
+		if( fabsf( y1 - rhs.y1 ) > Eps )
+		{
+			return false;
+		}
+		return true;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T >	bool Rectangle2< T >::operator!=( const Rectangle2& rhs ) const
+	{
+		return !( *this == rhs );
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > Rectangle2< T > getIntersection( const Rectangle2< T >& lhs, const Rectangle2< T >& rhs )
+	{
+		Rectangle2< T > result;
+
+		result.x0 = std::max( lhs.x0, rhs.x0 );
+		result.y0 = std::max( lhs.y0, rhs.y0 );
+		result.x1 = std::min( lhs.x1, rhs.x1 );
+		result.y1 = std::min( lhs.y1, rhs.y1 );
+
+		if( ( result.x0 > result.x1 ) || ( result.y0 > result.y1 ) )
+		{
+			// No Intersection..
+			result.clear();
+		}
+
+		return result;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template< typename T > Rectangle2< T > getUnion( const Rectangle2< T >& lhs, const Rectangle2< T >& rhs )
+	{
+		Rectangle2< T > result;
+
+		result.x0 = std::min( lhs.x0, rhs.x0 );
+		result.y0 = std::min( lhs.y0, rhs.x0 );
+		result.x1 = std::max( lhs.x1, rhs.x1 );
+		result.y1 = std::max( lhs.y1, rhs.y1 );
+
+		return result;	
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	template class Rectangle2< float >;
+	template class Rectangle2< double >;
+	template class Rectangle2< int >;
+
+	//-------------------------------------------------------------------------------------------------
+
+	template Rectangle2< float > getIntersection( const Rectangle2< float >& lhs, const Rectangle2< float >& rhs );
+	template Rectangle2< float > getUnion( const Rectangle2< float >& lhs, const Rectangle2< float >& rhs );
+
+	template Rectangle2< double > getIntersection( const Rectangle2< double >& lhs, const Rectangle2< double >& rhs );
+	template Rectangle2< double > getUnion( const Rectangle2< double >& lhs, const Rectangle2< double >& rhs );
+
+	template Rectangle2< int > getIntersection( const Rectangle2< int >& lhs, const Rectangle2< int >& rhs );
+	template Rectangle2< int > getUnion( const Rectangle2< int >& lhs, const Rectangle2< int >& rhs );
+
+	//-------------------------------------------------------------------------------------------------
+
+}
+
+//-------------------------------------------------------------------------------------------------
