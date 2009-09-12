@@ -37,15 +37,15 @@ using namespace OSG;
 
 RenderAction *rentravact = NullFC;
 
-NodePtr  root = NullFC;
-NodePtr  file = NullFC;
+NodeUnrecPtr  root = NullFC;
+NodeUnrecPtr  file = NullFC;
 
-PerspectiveCameraPtr cam = NullFC;
-ViewportPtr          vp  = NullFC;
-WindowPtr            win = NullFC;
+PerspectiveCameraUnrecPtr cam = NullFC;
+ViewportUnrecPtr          vp  = NullFC;
+WindowUnrecPtr            win = NullFC;
 
-TransformPtr cam_trans   = NullFC;
-TransformPtr scene_trans = NullFC;
+TransformUnrecPtr cam_trans   = NullFC;
+TransformUnrecPtr scene_trans = NullFC;
 
 Trackball tball;
 
@@ -190,8 +190,17 @@ void key(unsigned char key, int x, int y)
     switch ( key )
     {
         case 27:    
-            subRef(win);
             delete rentravact;
+
+            root = NullFC;
+            file = NullFC;
+            cam = NullFC;
+            vp  = NullFC;
+            win = NullFC;
+            cam_trans   = NullFC;
+            scene_trans = NullFC;
+            
+
             osgExit(); 
             exit(0);
         case 'a':   
@@ -250,15 +259,15 @@ void addRTStage(ViewportPtr vp,
                 Real32      rXMin,
                 Real32      rXMax  )
 {
-    TextureObjChunkPtr tx1o = TextureObjChunk::create();
-    TextureEnvChunkPtr tx1e = TextureEnvChunk::create();
+    TextureObjChunkUnrecPtr tx1o = TextureObjChunk::create();
+    TextureEnvChunkUnrecPtr tx1e = TextureEnvChunk::create();
 
     UChar8 imgdata[] =
     {  
         64,64,64, 128,128,128, 192,192,192, 255,255,255 
     };
 
-    ImagePtr pImg = Image::create();
+    ImageUnrecPtr pImg = Image::create();
 
     pImg->set(Image::OSG_RGB_PF, 128, 128);
 
@@ -269,14 +278,14 @@ void addRTStage(ViewportPtr vp,
     tx1o->setWrapT    (GL_CLAMP );
     tx1e->setEnvMode  (GL_REPLACE);
 
-    SimpleMaterialPtr mat = SimpleMaterial::create();
+    SimpleMaterialUnrecPtr mat = SimpleMaterial::create();
     
     mat->setDiffuse(Color3f(1,1,1));
     mat->setLit    (false         );
     mat->addChunk  (tx1o          );
     mat->addChunk  (tx1e          );
 
-    PolygonForegroundPtr pFG =  PolygonForeground::create();
+    PolygonForegroundUnrecPtr pFG =  PolygonForeground::create();
 
     pFG->setMaterial(mat);
 
@@ -299,10 +308,10 @@ void addRTStage(ViewportPtr vp,
 
     // RRT
 
-    FrameBufferObjectPtr pFBO = FrameBufferObject::create();
+    FrameBufferObjectUnrecPtr pFBO = FrameBufferObject::create();
 
-    TextureBufferPtr pTexBuffer   = TextureBuffer::create();
-    RenderBufferPtr  pDepthBuffer = RenderBuffer ::create();
+    TextureBufferUnrecPtr pTexBuffer   = TextureBuffer::create();
+    RenderBufferUnrecPtr  pDepthBuffer = RenderBuffer ::create();
 
     pDepthBuffer->setInternalFormat(GL_DEPTH_COMPONENT24   );
 
@@ -318,9 +327,9 @@ void addRTStage(ViewportPtr vp,
 
 
 
-    NodePtr pStageNode = Node::create();
+    NodeUnrecPtr pStageNode = Node::create();
 
-    RRTStagePtr pStage = RRTStage::create();
+    RRTStageUnrecPtr pStage = RRTStage::create();
 
     pStage->setRenderTarget (pFBO);
     pStage->setTextureTarget(tx1o);
@@ -334,15 +343,15 @@ void addRTStage(ViewportPtr vp,
 
 //    pStage->setRayTracingRoot(file);
 
-    VisitSubTreePtr pVisit     = VisitSubTree::create();
-    NodePtr         pVisitNode = Node::create();
+    VisitSubTreeUnrecPtr pVisit     = VisitSubTree::create();
+    NodeUnrecPtr         pVisitNode = Node::create();
 
     pVisit    ->setSubTreeRoot(pRTRoot);
 //    pVisit    ->setSubTreeRoot(file);
     pVisitNode->setCore       (pVisit);
 
 #ifdef LOCAL_RTINFO
-    RTInfoAttachmentPtr pRTInfo = RTInfoAttachment::create();
+    RTInfoAttachmentUnrecPtr pRTInfo = RTInfoAttachment::create();
 
     pVisitNode->addAttachment(pRTInfo);
 #endif
@@ -380,14 +389,14 @@ int main (int argc, char **argv)
     // create the graph
 
     // beacon for camera and light  
-    NodePtr  b1n = Node::create();
-    GroupPtr b1  = Group::create();
+    NodeUnrecPtr  b1n = Node::create();
+    GroupUnrecPtr b1  = Group::create();
 
     b1n->setCore( b1 );
 
     // transformation
-    NodePtr      t1n = Node::create();
-    TransformPtr t1  = Transform::create();
+    NodeUnrecPtr      t1n = Node::create();
+    TransformUnrecPtr t1  = Transform::create();
 
     t1n->setCore (t1 );
     t1n->addChild(b1n);
@@ -396,8 +405,8 @@ int main (int argc, char **argv)
 
     // light
     
-    NodePtr             dlight = Node::create();
-    DirectionalLightPtr dl     = DirectionalLight::create();
+    NodeUnrecPtr             dlight = Node::create();
+    DirectionalLightUnrecPtr dl     = DirectionalLight::create();
 
     {
         dlight->setCore(dl);
@@ -411,8 +420,8 @@ int main (int argc, char **argv)
     }
 
     // root
-    root         = Node:: create();
-    GroupPtr gr1 = Group::create();
+    root              = Node:: create();
+    GroupUnrecPtr gr1 = Group::create();
 
     root->setCore (gr1   );
     root->addChild(t1n   );
@@ -420,7 +429,7 @@ int main (int argc, char **argv)
 
     // Load the file
 
-    NodePtr file = NullFC;
+    NodeUnrecPtr file = NullFC;
     
     if(argc > 1)
     {
@@ -444,8 +453,8 @@ int main (int argc, char **argv)
     
     std::cout << "Volume: from " << min << " to " << max << std::endl;
 
-            scene_trans = Transform::create();
-    NodePtr sceneTrN    = Node::create();
+                 scene_trans = Transform::create();
+    NodeUnrecPtr sceneTrN    = Node::create();
 
     sceneTrN->setCore (scene_trans);
     sceneTrN->addChild(file       );
@@ -464,7 +473,7 @@ int main (int argc, char **argv)
     }
 
     // Background
-    SolidBackgroundPtr bkgnd = SolidBackground::create();
+    SolidBackgroundUnrecPtr bkgnd = SolidBackground::create();
     {
         bkgnd->setColor(Color3f(0,0,1));
     }
@@ -483,14 +492,14 @@ int main (int argc, char **argv)
     addRTStage(vp, dlight, 0.7f, 1.0f);
 
 #ifndef LOCAL_RTINFO
-    RTInfoAttachmentPtr pRTInfo = RTInfoAttachment::create();
+    RTInfoAttachmentUnrecPtr pRTInfo = RTInfoAttachment::create();
 
     file->addAttachment(pRTInfo);
 #endif
 
 
     // Window
-    GLUTWindowPtr gwin;
+    GLUTWindowUnrecPtr gwin;
 
     GLint glvp[4];
 

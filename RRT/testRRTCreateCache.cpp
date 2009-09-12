@@ -687,14 +687,14 @@ int main (int argc, char **argv)
 {
     OSG::osgInit(argc,argv);
 
-    OSG::NodePtr file = NullFC;
+    OSG::NodeUnrecPtr file = NullFC;
     
     if(argc > 1)
     {
         file = OSG::SceneFileHandler::the()->read(argv[1]);
     }
 
-    OSG::RTInfoAttachmentPtr pRTInfo = OSG::RTInfoAttachment::create();
+    OSG::RTInfoAttachmentUnrecPtr pRTInfo = OSG::RTInfoAttachment::create();
 
     file->addAttachment(pRTInfo);
 
@@ -729,4 +729,8 @@ int main (int argc, char **argv)
 #endif
 
     OSG::SceneFileHandler::the()->write(file, "/tmp/foocache.osb");
+
+    file = NullFC;
+
+    OSG::osgExit();
 }

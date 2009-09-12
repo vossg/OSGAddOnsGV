@@ -256,21 +256,26 @@ DataType &
 
 #ifdef OSG_CACHE_KD
 #ifndef OSG_XCACHEKD
-OSG_FIELD_DLLEXPORT_DEF2(PointerSField, 
-                         RTCacheKD<RRT::SinglePacketDescBase> *, 
-                         UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(PointerMField, 
-                         RTCacheKD<RRT::SinglePacketDescBase> *, 
-                         UnrecordedRefCountPolicy);
+OSG_EXPORT_PTR_SFIELD(PointerSField,
+                      RTCacheKD<RRT::SinglePacketDescBase> *, 
+                      UnrecordedRefCountPolicy,
+                      0                                     );
 
-OSG_FIELD_DLLEXPORT_DEF2(PointerSField, 
-                         RTCacheKD<RRT::SIMDPacketDescBase> *, 
-                         UnrecordedRefCountPolicy);
+OSG_EXPORT_PTR_MFIELD(PointerMField, 
+                      RTCacheKD<RRT::SinglePacketDescBase> *, 
+                      UnrecordedRefCountPolicy,
+                      0                                     );
 
-OSG_FIELD_DLLEXPORT_DEF2(PointerMField, 
-                         RTCacheKD<RRT::SIMDPacketDescBase> *, 
-                         UnrecordedRefCountPolicy);
+OSG_EXPORT_PTR_SFIELD(PointerSField, 
+                      RTCacheKD<RRT::SIMDPacketDescBase> *, 
+                      UnrecordedRefCountPolicy,
+                      0                                   );
+
+OSG_EXPORT_PTR_MFIELD(PointerMField, 
+                      RTCacheKD<RRT::SIMDPacketDescBase> *, 
+                      UnrecordedRefCountPolicy,
+                      0                                   );
 #else
 OSG_FIELD_DLLEXPORT_DEF2(PointerSField, 
                          RTXCacheKD<RRT::SinglePacketDescBase> *, 

@@ -357,11 +357,13 @@ struct FieldTraits<RTCacheKD<DescT> *> :
     static OSG_SYSTEM_DLLMAPPING
                  DataType &getType      (void);
 
+    template<class RefCountPolicyT>
     static const Char8    *getSName     (void) 
     { 
         return DescT::getSFKDCacheName();
     }
 
+    template<class RefCountPolicyT>
     static const Char8    *getMName     (void) 
     {
         return DescT::getMFKDCacheName();

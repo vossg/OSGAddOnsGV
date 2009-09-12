@@ -34,19 +34,19 @@
 
 using namespace OSG;
 
-NodePtr pStageNode = NullFC;
+NodeUnrecPtr pStageNode = NullFC;
 
 RenderAction *rentravact = NullFC;
 
-NodePtr  root = NullFC;
-NodePtr  file = NullFC;
+NodeUnrecPtr  root = NullFC;
+NodeUnrecPtr  file = NullFC;
 
-PerspectiveCameraPtr cam = NullFC;
-ViewportPtr          vp  = NullFC;
-WindowPtr            win = NullFC;
+PerspectiveCameraUnrecPtr cam = NullFC;
+ViewportUnrecPtr          vp  = NullFC;
+WindowUnrecPtr            win = NullFC;
 
-TransformPtr cam_trans   = NullFC;
-TransformPtr scene_trans = NullFC;
+TransformUnrecPtr cam_trans   = NullFC;
+TransformUnrecPtr scene_trans = NullFC;
 
 Trackball tball;
 
@@ -59,9 +59,9 @@ int lasty  = 0;
 Quaternion oldq;
 Vec3f      oldv;
 
-TextureObjChunkPtr tx1o   = NullFC;
-TextureEnvChunkPtr tx1e   = NullFC;
-RRTStagePtr        pStage = NullFC;
+TextureObjChunkUnrecPtr tx1o   = NullFC;
+TextureEnvChunkUnrecPtr tx1e   = NullFC;
+RRTStageUnrecPtr        pStage = NullFC;
 
 
 
@@ -79,14 +79,14 @@ int main (int argc, char **argv)
     // create the graph
 
     // beacon for camera and light  
-    NodePtr  b1n = Node::create();
-    GroupPtr b1  = Group::create();
+    NodeUnrecPtr  b1n = Node::create();
+    GroupUnrecPtr b1  = Group::create();
 
     b1n->setCore( b1 );
 
     // transformation
-    NodePtr      t1n = Node::create();
-    TransformPtr t1  = Transform::create();
+    NodeUnrecPtr      t1n = Node::create();
+    TransformUnrecPtr t1  = Transform::create();
 
     t1n->setCore (t1 );
     t1n->addChild(b1n);
@@ -95,8 +95,8 @@ int main (int argc, char **argv)
 
     // light
     
-    NodePtr             dlight = Node::create();
-    DirectionalLightPtr dl     = DirectionalLight::create();
+    NodeUnrecPtr             dlight = Node::create();
+    DirectionalLightUnrecPtr dl     = DirectionalLight::create();
 
     {
         dlight->setCore(dl);
@@ -108,8 +108,8 @@ int main (int argc, char **argv)
     }
 
     // root
-    root         = Node:: create();
-    GroupPtr gr1 = Group::create();
+    root              = Node:: create();
+    GroupUnrecPtr gr1 = Group::create();
 
     root->setCore (gr1   );
     root->addChild(t1n   );
@@ -117,7 +117,7 @@ int main (int argc, char **argv)
 
     // Load the file
 
-    NodePtr file = NullFC;
+    NodeUnrecPtr file = NullFC;
     
     if(argc > 1)
     {
@@ -141,8 +141,8 @@ int main (int argc, char **argv)
     
     std::cout << "Volume: from " << min << " to " << max << std::endl;
 
-            scene_trans = Transform::create();
-    NodePtr sceneTrN    = Node::create();
+                 scene_trans = Transform::create();
+    NodeUnrecPtr sceneTrN    = Node::create();
 
     sceneTrN->setCore (scene_trans);
     sceneTrN->addChild(file       );
@@ -160,16 +160,16 @@ int main (int argc, char **argv)
         cam->setFar( 100000 );
     }
 
-    RTCameraDecoratorPtr pCamDeco = RTCameraDecorator::create();
+    RTCameraDecoratorUnrecPtr pCamDeco = RTCameraDecorator::create();
 
     pCamDeco->setDecoratee(cam);
 
     // RRT
 
-    FrameBufferObjectPtr pFBO = FrameBufferObject::create();
+    FrameBufferObjectUnrecPtr pFBO = FrameBufferObject::create();
 
-    TextureBufferPtr pTexBuffer   = TextureBuffer::create();
-    RenderBufferPtr  pDepthBuffer = RenderBuffer ::create();
+    TextureBufferUnrecPtr pTexBuffer   = TextureBuffer::create();
+    RenderBufferUnrecPtr  pDepthBuffer = RenderBuffer ::create();
 
     pDepthBuffer->setInternalFormat(GL_DEPTH_COMPONENT24   );
 
@@ -203,14 +203,14 @@ int main (int argc, char **argv)
 
 
 
-    RTInfoAttachmentPtr pRTInfo = RTInfoAttachment::create();
+    RTInfoAttachmentUnrecPtr pRTInfo = RTInfoAttachment::create();
 
     file->addAttachment(pRTInfo);
 
 
 
-    VisitSubTreePtr pVisit     = VisitSubTree::create();
-    NodePtr         pVisitNode = Node::create();
+    VisitSubTreeUnrecPtr pVisit     = VisitSubTree::create();
+    NodeUnrecPtr         pVisitNode = Node::create();
 
 //    pVisit    ->setSubTreeRoot(dlight);
     pVisit    ->setSubTreeRoot(file);
@@ -275,12 +275,13 @@ int main (int argc, char **argv)
     commitChanges();
 
 
-    RRTStage::ActiveRayTracer *pRayTracer = RRTStage::ActiveRayTracer::create();
+    RRTStage::ActiveRayTracerUnrecPtr pRayTracer = 
+        RRTStage::ActiveRayTracer::create();
 
 
     pRayTracer->setResolution(128, 128);
 
-    RTImageTargetP pImgTarget = RTImageTarget::create();
+    RTImageTargetUnrecPtr pImgTarget = RTImageTarget::create();
 
     pRayTracer->setTarget(pImgTarget);
 
@@ -296,6 +297,23 @@ int main (int argc, char **argv)
     // run...
 //    glutMainLoop();
     
+    delete rentravact;
+
+    pStageNode  = NullFC;
+    root        = NullFC;
+    file        = NullFC;
+    cam         = NullFC;
+    vp          = NullFC;
+    win         = NullFC;
+    cam_trans   = NullFC;
+    scene_trans = NullFC;
+    tx1o        = NullFC;
+    tx1e        = NullFC;
+    pStage      = NullFC;
+    pRayTracer  = NullFC;
+
+    osgExit();
+
     return 0;
 }
 
