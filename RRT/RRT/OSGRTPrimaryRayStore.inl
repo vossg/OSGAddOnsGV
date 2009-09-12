@@ -102,6 +102,12 @@ void RTPrimaryRayStore<DescT>::startFrame(RTCameraDecorator &pCam,
                                                             pTarget);
 }
 
+template<typename DescT> inline
+UInt32 RTPrimaryRayStore<DescT>::getNumRayPackets(void)
+{
+    return _uiNumRays;
+}
+
 #ifdef OSG_CELL
 
 template<typename DescT> inline
@@ -163,15 +169,15 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
     RTCameraDecorator        &pCam, 
     RTTarget                 &pTarget)
 {
-    pThis->_uiNumRays    = pTarget.getWidth() * pTarget.getHeight();
+//    pThis->_uiNumRays    = pTarget.getWidth() * pTarget.getHeight();
     pThis->_uiCurrentRay = 0;
 
     pThis->_vRays    .resize(pThis->_uiNumRays);
     pThis->_vRayInfos.resize(pThis->_uiNumRays);
 
-    pCam.fillRayStores(pThis->_vRays, 
-                       pThis->_vRayInfos, 
-                       pTarget);
+    pThis->_uiNumRays = pCam.fillRayStores(pThis->_vRays, 
+                                           pThis->_vRayInfos, 
+                                           pTarget);
 }
 
 template<typename DescT> inline
@@ -196,15 +202,15 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::setupRays(
         pThis->_vRayInfos.resize(pThis->_uiNumTiles);
     }
 
-    pThis->_uiNumRays    = pThis->_uiHTiles * pThis->_uiVTiles;
+    //pThis->_uiNumRays    = pThis->_uiHTiles * pThis->_uiVTiles;
 
     pThis->_uiCurrentRay = 0;
 
-    pCam.fillRayStores(pThis->_vRays, 
-                       pThis->_vRayInfos, 
-                       pTarget,
-                       pThis->_uiVTiles,
-                       pThis->_uiHTiles);
+    pThis->_uiNumRays = pCam.fillRayStores(pThis->_vRays, 
+                                           pThis->_vRayInfos, 
+                                           pTarget,
+                                           pThis->_uiVTiles,
+                                           pThis->_uiHTiles);
 }
 
 #endif // OSG_CELL

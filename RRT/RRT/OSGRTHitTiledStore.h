@@ -90,7 +90,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitTiledStore : public RTStore
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    void startFrame(RTTarget &pTarget);
+    void startFrame(RTTarget &pTarget, 
+                    UInt32    uiNumRayPackets);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -121,6 +122,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitTiledStore : public RTStore
     UInt32         _uiCurrentHit;
     UInt32         _uiAvailableHits;
     UInt32         _uiServedHits;
+    UInt32         _uiExpectedHits;
 
     HitStore       _vHits;
     HitIndexStore  _vAvailableHits;

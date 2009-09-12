@@ -90,7 +90,7 @@ UInt32 RTHitTiledStore<DescT>::getReadIndex(void)
     }
     else
     {
-        if(_uiServedHits < _uiNumTiles)
+        if(_uiServedHits < _uiExpectedHits)
         {
             returnValue = Waiting;
         }
@@ -126,6 +126,7 @@ RTHitTiledStore<DescT>::RTHitTiledStore(void) :
     _uiCurrentHit   (0   ),
     _uiAvailableHits(0   ),
     _uiServedHits   (0   ),
+    _uiExpectedHits (0   ),
 
     _vHits          (    ),
     _vAvailableHits (    ),
@@ -147,7 +148,8 @@ RTHitTiledStore<DescT>::~RTHitTiledStore(void)
 }
 
 template<typename DescT> inline
-void RTHitTiledStore<DescT>::startFrame(RTTarget &pTarget)
+void RTHitTiledStore<DescT>::startFrame(RTTarget &pTarget,
+                                        UInt32    uiNumRayPackets)
 {
     if(_uiWidth != pTarget.getWidth() || _uiHeight != pTarget.getHeight())
     {
@@ -161,6 +163,10 @@ void RTHitTiledStore<DescT>::startFrame(RTTarget &pTarget)
 
         _vHits.resize(_uiNumTiles);
     }
+
+    _uiExpectedHits = uiNumRayPackets;
+
+    OSG_ASSERT(_uiExpectedHits <= _uiNumTiles);
 
     _vAvailableHits.clear();
 

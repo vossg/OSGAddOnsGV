@@ -95,15 +95,15 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void fillRayStores(RRT::SinglePacketDesc::RayStore     &vRays,
-                       RRT::SinglePacketDesc::RayInfoStore &vRayInfos,
-                                              RTTarget     &pTarget  );
+    virtual UInt32 fillRayStores(RRT::SinglePacketDesc::RayStore     &vRays,
+                                 RRT::SinglePacketDesc::RayInfoStore &vRayInfos,
+                                                        RTTarget     &pTarget );
 
-    void fillRayStores(RRT::SIMDPacketDesc::RayStore       &vRays,
-                       RRT::SIMDPacketDesc::RayInfoStore   &vRayInfos,
-                                            RTTarget       &pTarget,
-                                            UInt32          uiVTiles,
-                                            UInt32          uiHTiles );
+    virtual UInt32 fillRayStores(RRT::SIMDPacketDesc  ::RayStore     &vRays,
+                                 RRT::SIMDPacketDesc  ::RayInfoStore &vRayInfos,
+                                                        RTTarget     &pTarget,
+                                                        UInt32        uiVTiles,
+                                                        UInt32        uiHTiles);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

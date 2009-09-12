@@ -91,15 +91,22 @@ void RTLocalPacketManager<DescT>::trace(RTCameraDecorator *pCam, bool bTiled)
 
         if(bTiled == true)
         {
-            _pHitTiledStore       ->startFrame(       *_pTarget);
-            _pPrimaryRayTiledStore->startFrame(*pCam, *_pTarget);
             _pScene               ->setCamera ( pCam           );
+            _pPrimaryRayTiledStore->startFrame(*pCam, *_pTarget);
+
+            _pHitTiledStore->startFrame(
+                *_pTarget, 
+                 _pPrimaryRayTiledStore->getNumRayPackets());
+
         }
         else
         {
-            _pHitStore       ->startFrame(       *_pTarget);
-            _pPrimaryRayStore->startFrame(*pCam, *_pTarget);
             _pScene          ->setCamera ( pCam           );
+            _pPrimaryRayStore->startFrame(*pCam, *_pTarget);
+
+            _pHitStore->startFrame(
+                *_pTarget, 
+                 _pPrimaryRayStore->getNumRayPackets());
         }
 
         _pSyncBarrier->enter();

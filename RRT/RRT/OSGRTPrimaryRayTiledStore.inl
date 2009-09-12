@@ -64,6 +64,11 @@ typename RTPrimaryRayTiledStore<DescT>::PrimaryRayTile &
     return _vTiles[uiTileIndex];
 }
 
+template<class DescT> inline
+UInt32 RTPrimaryRayTiledStore<DescT>::getNumRayPackets(void)
+{
+    return _uiNumTiles;
+}
 
 template<class DescT> inline
 RTPrimaryRayTiledStore<DescT>::RTPrimaryRayTiledStore(void) :

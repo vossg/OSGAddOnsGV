@@ -133,6 +133,13 @@ class RTPrimaryRayTiledStore : public RTStore
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
+    UInt32 getNumRayPackets(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Reference Counting                           */
+    /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

@@ -131,6 +131,13 @@ class RTPrimaryRayStore : public RTStore
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
+    UInt32 getNumRayPackets(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Reference Counting                           */
+    /*! \{                                                                 */
+
 #ifdef OSG_CELL
     void convCellStruct(UInt32         tileIndex,
                         rayTile_t     *rayTile,

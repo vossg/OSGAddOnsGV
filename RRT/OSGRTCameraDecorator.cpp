@@ -149,7 +149,7 @@ void RTCameraDecorator::dump(      UInt32    ,
     SLOG << "Dump RTCameraDecorator NI" << std::endl;
 }
 
-void RTCameraDecorator::fillRayStores(
+UInt32 RTCameraDecorator::fillRayStores(
     RRT::SinglePacketDesc::RayStore     &vRays,
     RRT::SinglePacketDesc::RayInfoStore &vRayInfos,
                            RTTarget     &pTarget  )
@@ -166,7 +166,7 @@ void RTCameraDecorator::fillRayStores(
     if(pPCam == NULL)
     {
         fprintf(stderr, "RTCamDeco::Unknow Camera\n");
-        return;
+        return 0;
     }
 
     Matrix mCam;
@@ -225,9 +225,11 @@ void RTCameraDecorator::fillRayStores(
         
         vCurrH -= vUp;
     }
+
+    return pTarget.getWidth() * pTarget.getHeight();
 }
 
-void RTCameraDecorator::fillRayStores(
+UInt32 RTCameraDecorator::fillRayStores(
     RRT::SIMDPacketDesc::RayStore     &vRays,
     RRT::SIMDPacketDesc::RayInfoStore &vRayInfos,
                          RTTarget     &pTarget,
@@ -249,7 +251,7 @@ void RTCameraDecorator::fillRayStores(
     {
         fprintf(stderr, "RTCamDeco::Unknow Camera\n");
 
-        return;
+        return 0;
     }
 
     Matrix mCam;
@@ -305,6 +307,8 @@ void RTCameraDecorator::fillRayStores(
 
         vCurrH -= Real32(RRT::SIMDPacketDesc::SingleRayPacket::NumVRays) * vUp;
     }
+
+    return (uiVTiles * uiHTiles);
 }
 
 
