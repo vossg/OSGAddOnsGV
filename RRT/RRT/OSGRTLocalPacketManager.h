@@ -112,7 +112,7 @@ class RTLocalPacketManager : public MemoryObject
 
   protected:
 
-    typedef MemoryObject Inherited;
+    typedef MemoryObject            Inherited;
 
     typedef std::vector<RTThread *> ThreadStore;
 

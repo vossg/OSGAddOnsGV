@@ -129,6 +129,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTColorPacket
     Color4f _oColor;
 
   private:
+
+    RTColorPacket(const RTColorPacket &source);
 };
 
 OSG_END_NAMESPACE

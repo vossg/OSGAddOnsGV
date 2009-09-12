@@ -42,9 +42,19 @@ OSG_BEGIN_NAMESPACE
 
 inline
 RTSingleHitPacket::RTSingleHitPacket(void) :
+     Inherited (       ),
     _uiX       (0      ),
     _uiY       (0      ),
     _pRayPacket(NULL   )
+{
+}
+
+inline
+RTSingleHitPacket::RTSingleHitPacket(const RTSingleHitPacket &source) :
+     Inherited (source            ),
+    _uiX       (source._uiX       ),
+    _uiY       (source._uiY       ),
+    _pRayPacket(source._pRayPacket)
 {
 }
 

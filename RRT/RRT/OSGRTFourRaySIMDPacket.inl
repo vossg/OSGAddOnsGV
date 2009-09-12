@@ -40,10 +40,69 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline 
+RTFourRaySIMDPacketInfo::RTFourRaySIMDPacketInfo(void) :
+     Inherited( ),
+    _uiX      (0),
+    _uiY      (0)
+{
+}
+
+RTFourRaySIMDPacketInfo::RTFourRaySIMDPacketInfo(
+    const RTFourRaySIMDPacketInfo &source) :
+     Inherited(source     ),
+    _uiX      (source._uiX),
+    _uiY      (source._uiY)
+{
+}
+
+inline 
+RTFourRaySIMDPacketInfo::~RTFourRaySIMDPacketInfo(void)
+{
+}
+
+inline 
+void RTFourRaySIMDPacketInfo::setXY(UInt32 uiX,
+                                    UInt32 uiY)
+{
+    _uiX = uiX;
+    _uiY = uiY;
+}
+
+inline 
+UInt32 RTFourRaySIMDPacketInfo::getX(void)
+{
+    return _uiX;
+}
+
+inline 
+UInt32 RTFourRaySIMDPacketInfo::getY(void)
+{
+    return _uiY;
+}
+
+
+inline 
+void RTFourRaySIMDPacketInfo::operator =(const RTFourRaySIMDPacketInfo &source)
+{
+    Inherited::operator =(source);
+
+    _uiX = source._uiX;
+    _uiY = source._uiY;
+}
+
+
+
+
+
 inline
 RTFourRaySIMDPacket::RTFourRaySIMDPacket(void) :
-    _uiX(0),
-    _uiY(0)
+    Inherited()
+{
+}
+
+RTFourRaySIMDPacket::RTFourRaySIMDPacket(const RTFourRaySIMDPacket &source) :
+    Inherited()
 {
 }
 
@@ -55,30 +114,7 @@ RTFourRaySIMDPacket::~RTFourRaySIMDPacket(void)
 inline 
 void RTFourRaySIMDPacket::operator =(const RTFourRaySIMDPacket &source)
 {
-    _uiX = source._uiX;
-    _uiY = source._uiY;
+    Inherited::operator =(source);
 }
-
-
-inline 
-void RTFourRaySIMDPacket::setXY(UInt32 uiX,
-                                UInt32 uiY)
-{
-    _uiX = uiX;
-    _uiY = uiY;
-}
-
-inline 
-UInt32 RTFourRaySIMDPacket::getX(void)
-{
-    return _uiX;
-}
-
-inline 
-UInt32 RTFourRaySIMDPacket::getY(void)
-{
-    return _uiY;
-}
-
 
 OSG_END_NAMESPACE

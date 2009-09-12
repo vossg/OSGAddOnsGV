@@ -46,7 +46,17 @@ RTSIMDPacket::RTSIMDPacket(void)
 }
 
 inline
+RTSIMDPacket::RTSIMDPacket(const RTSIMDPacket &source)
+{
+}
+
+inline
 RTSIMDPacket::~RTSIMDPacket(void)
+{
+}
+
+inline
+void RTSIMDPacket::operator =(const RTSIMDPacket &rhs)
 {
 }
 

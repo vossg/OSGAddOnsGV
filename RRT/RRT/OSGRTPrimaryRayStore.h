@@ -67,8 +67,9 @@ struct RTPrimaryRayStoreSetupHelper;
 template<typename DescT>
 struct RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>
 {
-    typedef          DescT                 Desc;
-    typedef typename Desc::SingleRayPacket SingleRayPacket;
+    typedef          DescT                     Desc;
+    typedef typename Desc::SingleRayPacket     SingleRayPacket;
+    typedef typename Desc::SingleRayPacketInfo SingleRayPacketInfo;
 
     static void setupRays(RTPrimaryRayStore<DescT> *pThis,
                           Camera                   &pCam, 
@@ -78,8 +79,9 @@ struct RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>
 template<typename DescT>
 struct RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>
 {
-    typedef          DescT                 Desc;
-    typedef typename Desc::SingleRayPacket SingleRayPacket;
+    typedef          DescT                     Desc;
+    typedef typename Desc::SingleRayPacket     SingleRayPacket;
+    typedef typename Desc::SingleRayPacketInfo SingleRayPacketInfo;
 
     static void setupRays(RTPrimaryRayStore<DescT> *pThis,
                           Camera                   &pCam, 
@@ -103,11 +105,13 @@ class RTPrimaryRayStore : public RTStore
 
   public:
 
+
     static const UInt32 Empty = UINT_MAX;
 
-    typedef          DescT                 Desc;
-    typedef typename Desc::SingleRayPacket SingleRayPacket;
-    typedef typename Desc::MathTag         MathTag;
+    typedef          DescT                     Desc;
+    typedef typename Desc::SingleRayPacket     SingleRayPacket;
+    typedef typename Desc::SingleRayPacketInfo SingleRayPacketInfo;
+    typedef typename Desc::MathTag             MathTag;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -132,8 +136,10 @@ class RTPrimaryRayStore : public RTStore
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    UInt32           nextIndex   (void             );
-    SingleRayPacket &getRayPacket(UInt32 uiRayIndex);
+    UInt32               nextIndex       (void             );
+
+    SingleRayPacket     &getRayPacket    (UInt32 uiRayIndex);
+    SingleRayPacketInfo &getRayPacketInfo(UInt32 uiRayIndex);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -142,17 +148,18 @@ class RTPrimaryRayStore : public RTStore
 
     typedef RTStore                      Inherited;
 
-    typedef std::vector<SingleRayPacket> RayStore;
+    typedef std::vector<SingleRayPacket    > RayStore;
+    typedef std::vector<SingleRayPacketInfo> RayInfoStore;
 
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    UInt32   _uiNumRays;
-    UInt32   _uiCurrentRay;
-    RayStore _vRays;
-
-    Lock    *_pStoreLock;
+    UInt32        _uiNumRays;
+    UInt32        _uiCurrentRay;
+    RayStore      _vRays;
+    RayInfoStore  _vRayInfos;
+    Lock         *_pStoreLock;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

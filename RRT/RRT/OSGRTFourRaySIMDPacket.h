@@ -46,6 +46,61 @@
 
 OSG_BEGIN_NAMESPACE
 
+class OSG_CONTRIBRRT_DLLMAPPING RTFourRaySIMDPacketInfo : 
+    public RTRaySIMDPacketInfo
+{
+  protected:
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    typedef RTFourRaySIMDPacketInfo Self;
+    typedef RTRaySIMDPacketInfo     Inherited;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    RTFourRaySIMDPacketInfo(void);
+    RTFourRaySIMDPacketInfo(const RTFourRaySIMDPacketInfo &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    ~RTFourRaySIMDPacketInfo(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    void   setXY(UInt32 uiX, 
+                 UInt32 uiY);
+    
+    UInt32 getX (void      );
+    UInt32 getY (void      );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void operator =(const RTFourRaySIMDPacketInfo &source);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    UInt32 _uiX;
+    UInt32 _uiY;
+
+  private:
+};
+
 /*! \brief RTTarget class. See \ref
            PageContribRRTRTTarget for a description.
 */
@@ -59,12 +114,14 @@ class OSG_CONTRIBRRT_DLLMAPPING RTFourRaySIMDPacket : public RTRaySIMDPacket
   public:
 
     typedef RTFourRaySIMDPacket Self;
+    typedef RTRaySIMDPacket     Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
     RTFourRaySIMDPacket(void);
+    RTFourRaySIMDPacket(const RTFourRaySIMDPacket &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -88,12 +145,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTFourRaySIMDPacket : public RTRaySIMDPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    void   setXY(UInt32 uiX, 
-                 UInt32 uiY);
-    
-    UInt32 getX (void      );
-    UInt32 getY (void      );
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
@@ -112,9 +163,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTFourRaySIMDPacket : public RTRaySIMDPacket
   protected:
 
     /*==========================  PRIVATE  ================================*/
-
-    UInt32 _uiX;
-    UInt32 _uiY;
 
   private:
 };

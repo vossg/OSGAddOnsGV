@@ -40,11 +40,69 @@
 
 OSG_BEGIN_NAMESPACE
 
+
+inline
+RTRayPacketInfo::RTRayPacketInfo(void) :
+    _bIsActive(1)
+{
+}
+
+inline 
+RTRayPacketInfo::RTRayPacketInfo(const RTRayPacketInfo &source) :
+    _bIsActive(source._bIsActive)
+{
+}
+
+inline
+RTRayPacketInfo::~RTRayPacketInfo(void)
+{
+}
+
+
+inline
+void RTRayPacketInfo::setActive(bool bVal)
+{
+    _bIsActive = bVal;
+}
+
+inline
+bool RTRayPacketInfo::isActive(void)
+{
+    return _bIsActive;
+}
+
+inline
+bool RTRayPacketInfo::hasActive(void)
+{
+    return _bIsActive;
+}
+
+inline
+UInt32 *RTRayPacketInfo::getActiveRays(void)
+{
+}
+
+inline 
+void RTRayPacketInfo::operator =(const RTRayPacketInfo &source)
+{
+    _bIsActive = source._bIsActive;
+}
+
+
+
+
+
 inline
 RTRayPacket::RTRayPacket(void) :
     _vOrigin  (    ),
-    _vDir     (    ),
-    _bIsActive(true)
+    _vDir     (    )
+{
+}
+
+inline
+RTRayPacket::RTRayPacket(const RTRayPacket &source) :
+    _vOrigin(source._vOrigin),
+    _vDir   (source._vDir   )
 {
 }
 
@@ -58,7 +116,6 @@ void RTRayPacket::operator =(const RTRayPacket &source)
 {
     _vOrigin   = source._vOrigin;
     _vDir      = source._vDir;
-    _bIsActive = source._bIsActive;
 }
 
 inline 
@@ -99,22 +156,5 @@ Vec3f RTRayPacket::getDir(void)
     return _vDir;
 }
 
-inline
-void RTRayPacket::setActive(bool bVal)
-{
-    _bIsActive = bVal;
-}
-
-inline
-bool RTRayPacket::isActive(void)
-{
-    return _bIsActive;
-}
-
-inline
-bool RTRayPacket::hasActive(void)
-{
-    return _bIsActive;
-}
 
 OSG_END_NAMESPACE

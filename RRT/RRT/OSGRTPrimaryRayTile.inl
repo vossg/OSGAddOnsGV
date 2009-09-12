@@ -75,12 +75,34 @@ void RTPrimaryRayTile<DescT>::setDirection(UInt32 uiPacketIndex, Vec3f vDir)
 }
 
 template<typename DescT> inline
-void RTPrimaryRayTile<DescT>::setActive(UInt32 uiPacketIndex, bool bVal)
+void RTPrimaryRayTile<DescT>::setActive(UInt32 uiPacketIndex, UInt32 uiVal)
 {
-    OSG_ASSERT(uiPacketIndex < _vRayStore.size());
+    OSG_ASSERT(uiPacketIndex < _vActiveStore.size());
 
-    _vRayStore[uiPacketIndex].setActive(bVal);
+    _vActiveStore[uiPacketIndex] = uiVal;
 }
+
+template<typename DescT> inline
+bool RTPrimaryRayTile<DescT>::hasActive(UInt32 uiPacketIndex)
+{
+    OSG_ASSERT(uiPacketIndex < _vActiveStore.size());
+
+    return (_vActiveStore[uiPacketIndex] != 0);
+}
+
+template<typename DescT> inline
+typename RTPrimaryRayTile<DescT>::ActiveStore &
+    RTPrimaryRayTile<DescT>::getActive(void)
+{
+    return _vActiveStore;
+}
+
+template<typename DescT> inline
+UInt32 *RTPrimaryRayTile<DescT>::getActiveRays(void)
+{
+    return &(_vActiveStore[0]);
+}
+
 
 template<typename DescT> inline
 typename RTPrimaryRayTile<DescT>::RayPacket &
@@ -91,14 +113,20 @@ typename RTPrimaryRayTile<DescT>::RayPacket &
     return _vRayStore[uiPacketIndex];
 }
 
+
+
+
+
 template<typename DescT> inline
 RTPrimaryRayTile<DescT>::RTPrimaryRayTile(void) :
-     Inherited( ),
-    _vRayStore( ),
-    _uiX      (0),
-    _uiY      (0)
+     Inherited   ( ),
+    _vRayStore   ( ),
+    _vActiveStore( ),
+    _uiX         (0),
+    _uiY         (0)
 {
-    _vRayStore.resize(NumRays);
+    _vRayStore   .resize(NumRays);
+    _vActiveStore.resize(NumRays, 0);
 }
 
 template<typename DescT> inline
@@ -108,19 +136,21 @@ RTPrimaryRayTile<DescT>::~RTPrimaryRayTile(void)
 
 template<typename DescT> inline
 RTPrimaryRayTile<DescT>::RTPrimaryRayTile(const RTPrimaryRayTile &source) :
-     Inherited(source           ),
-    _vRayStore(source._vRayStore),
-    _uiX      (source._uiX      ),
-    _uiY      (source._uiY      )
+     Inherited   (source              ),
+    _vRayStore   (source._vRayStore   ),
+    _vActiveStore(source._vActiveStore),
+    _uiX         (source._uiX         ),
+    _uiY         (source._uiY         )
 {
 }
 
 template<typename DescT> inline
 void RTPrimaryRayTile<DescT>::operator =(const RTPrimaryRayTile &source)
 {
-    _vRayStore = source._vRayStore;
-    _uiX       = source._uiX;
-    _uiY       = source._uiY;
+    _vRayStore    = source._vRayStore;
+    _vActiveStore = source._vActiveStore;
+    _uiX          = source._uiX;
+    _uiY          = source._uiY;
 }
 
 template<typename DescT> inline

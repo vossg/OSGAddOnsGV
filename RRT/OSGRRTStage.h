@@ -94,8 +94,13 @@ class RTSingleHitPacket;
 class RTRayPacket;
 class RTSingleRayPacket;
 
+class RTRayPacketInfo;
+class RTSingleRayPacketInfo;
+
 class RTRaySIMDPacket;
+class RTRaySIMDPacketInfo;
 class RTFourRaySIMDPacket;
+class RTFourRaySIMDPacketInfo;
 
 class RTHitSIMDPacket;
 class RTFourHitSIMDPacket;
@@ -128,7 +133,9 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef RTSingleHitPacket                      SingleHitPacket;
 
         typedef RTRayPacket                            RayPacket;
+        typedef RTRayPacketInfo                        RayPacketInfo;
         typedef RTSingleRayPacket                      SingleRayPacket;
+        typedef RTSingleRayPacketInfo                  SingleRayPacketInfo;
 
         typedef RTHitTile<SinglePacketDescBase>        HitTile;
         typedef RTPrimaryRayTile<SinglePacketDescBase> PrimaryRayTile;
@@ -148,7 +155,9 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef RTFourHitSIMDPacket                  SingleHitPacket;
 
         typedef RTRaySIMDPacket                      RayPacket;
+        typedef RTRaySIMDPacketInfo                  RayPacketInfo;
         typedef RTFourRaySIMDPacket                  SingleRayPacket;
+        typedef RTFourRaySIMDPacketInfo              SingleRayPacketInfo;
 
         typedef RTHitTile<SIMDPacketDescBase>        HitTile;
         typedef RTPrimaryRayTile<SIMDPacketDescBase> PrimaryRayTile;
@@ -262,8 +271,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
   public:
 
 
-    typedef SinglePacketRayTracer   ActiveRayTracer;
-//    typedef SIMDPacketRayTracer   ActiveRayTracer;
+//    typedef SinglePacketRayTracer   ActiveRayTracer;
+    typedef SIMDPacketRayTracer   ActiveRayTracer;
 
     typedef RRTStageBase          Inherited;
     typedef RRTStage              Self;

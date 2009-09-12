@@ -59,8 +59,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTile : public MemoryObject
 
   public:
 
-    static const UInt32 NumHPackets = 2;
-    static const UInt32 NumVPackets = 2;
+    static const UInt32 NumHPackets = 3;
+    static const UInt32 NumVPackets = 3;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

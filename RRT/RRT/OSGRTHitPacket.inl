@@ -52,6 +52,17 @@ RTHitPacket::RTHitPacket(void) :
 }
 
 inline
+RTHitPacket::RTHitPacket(const RTHitPacket &source) :
+    _rDist     (source._rDist    ),
+    _rU        (source._rU       ),
+    _rV        (source._rV       ),
+    _uiCacheId (source._uiCacheId),
+    _uiObjId   (source._uiObjId  ),
+    _uiTriId   (source._uiTriId  )
+{
+}
+
+inline
 RTHitPacket::~RTHitPacket(void)
 {
 }

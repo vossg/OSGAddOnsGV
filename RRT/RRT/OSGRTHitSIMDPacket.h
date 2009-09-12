@@ -71,6 +71,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitSIMDPacket : public RTSIMDPacket
     /*! \{                                                                 */
 
     RTHitSIMDPacket(void);
+    RTHitSIMDPacket(const RTHitSIMDPacket &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

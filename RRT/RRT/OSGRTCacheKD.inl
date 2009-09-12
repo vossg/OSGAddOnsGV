@@ -452,12 +452,13 @@ template<typename DescT> inline
 void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay, 
                                  RTHitSIMDPacket &oHit,
                                  KDElemStack     &sKDToDoStack,
-                                 UInt32           uiCacheId   )
+                                 UInt32           uiCacheId,
+                                 UInt32          *uiActive     )
 {
-#if 0
+#if 1
     for(UInt32 i = 0; i < this->_vTriangleAcc.size(); ++i)
     {
-        this->_vTriangleAcc[i].intersect(oRay, oHit, uiCacheId);
+        this->_vTriangleAcc[i].intersect(oRay, oHit, uiCacheId, uiActive);
     }
 #else
 #endif

@@ -78,6 +78,7 @@ class RTPrimaryRayThread : public RTThread
 
     typedef typename Desc::SingleHitPacket      SingleHitPacket;
     typedef typename Desc::SingleRayPacket      SingleRayPacket;
+    typedef typename Desc::SingleRayPacketInfo  SingleRayPacketInfo;
 
     typedef typename Desc::HitPacket            HitPacket;
     typedef typename Desc::RayPacket            RayPacket;

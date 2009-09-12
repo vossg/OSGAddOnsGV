@@ -213,13 +213,14 @@ void RTTriAccelBarycentric::intersect(RTRayPacket &oRay,
 inline
 void RTTriAccelBarycentric::intersect(RTRaySIMDPacket &oRay, 
                                       RTHitSIMDPacket &oHit,
-                                      UInt32           uiCacheId)
+                                      UInt32           uiCacheId,
+                                      UInt32          *uiActive)
 {
     static const UInt32 aMod[] = {0, 1, 2, 0, 1};
 
     for(UInt32 i = 0; i < RTRaySIMDPacket::NumRays; ++i)
     {
-        if(oRay.isActive(i) == false)
+        if(uiActive[i] == 0)
             continue;
 
         const Real32 nd = 1.f / 
@@ -379,7 +380,8 @@ void RTTriAccelBarycentricVer1::intersect(RTRayPacket &oRay,
 inline
 void RTTriAccelBarycentricVer1::intersect(RTRaySIMDPacket &oRay, 
                                           RTHitSIMDPacket &oHit,
-                                          UInt32           uiCacheId)
+                                          UInt32           uiCacheId,
+                                          UInt32          *uiActive)
 {
     Vec3f b = _c - _a;
     Vec3f c = _b - _a;
@@ -391,7 +393,7 @@ void RTTriAccelBarycentricVer1::intersect(RTRaySIMDPacket &oRay,
 
     for(UInt32 i = 0; i < RTRaySIMDPacket::NumRays; ++i)
     {
-        if(oRay.isActive(i) == false)
+        if(uiActive[i] == 0)
             continue;
 
         Real32 t_plane = - d.dot(n) / oRay.getDir(i).dot(n);
@@ -546,14 +548,15 @@ void RTTriAccelBarycentricVer2::intersect(RTRayPacket &oRay,
 inline
 void RTTriAccelBarycentricVer2::intersect(RTRaySIMDPacket &oRay, 
                                           RTHitSIMDPacket &oHit,
-                                          UInt32           uiCacheId)
+                                          UInt32           uiCacheId,
+                                          UInt32          *uiActive  )
 {
 	Vec3f e1 = _b - _a;
 	Vec3f e2 = _c - _a;
 
     for(UInt32 i = 0; i < RTRaySIMDPacket::NumRays; ++i)
     {
-        if(oRay.isActive(i) == false)
+        if(uiActive[i] == 0)
             continue;
 
         Vec3f s1 = oRay.getDir(i).cross(e2);

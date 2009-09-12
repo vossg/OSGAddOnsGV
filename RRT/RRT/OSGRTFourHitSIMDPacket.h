@@ -67,6 +67,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTFourHitSIMDPacket : public RTHitSIMDPacket
     /*! \{                                                                 */
 
     RTFourHitSIMDPacket(void);
+    RTFourHitSIMDPacket(const RTFourHitSIMDPacket &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

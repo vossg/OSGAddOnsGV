@@ -97,9 +97,15 @@ class RTScene : public MemoryObject
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    void tracePrimaryRays(RayPacket &oRay, 
-                          HitPacket &oHit,
-                          ElemStack &sKDToDoStack);
+    void tracePrimaryRays(RTRayPacket     &oRay, 
+                          HitPacket       &oHit,
+                          ElemStack       &sKDToDoStack,
+                          UInt32          *uiActive     );
+
+    void tracePrimaryRays(RTRaySIMDPacket &oRay, 
+                          HitPacket       &oHit,
+                          ElemStack       &sKDToDoStack,
+                          UInt32          *uiActive     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

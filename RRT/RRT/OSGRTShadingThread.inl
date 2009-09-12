@@ -198,7 +198,7 @@ void RTShadingThread<DescT>::workProc(void)
                             RayPacket &pRayPacket = 
                                 oHitTile.getRayPacket(uiPacketIndex);
 
-                            if(pRayPacket.hasActive() == false)
+                            if(oHitTile.hasActive(uiPacketIndex) == false)
                                 continue;
 
                             UInt32 uiX = 

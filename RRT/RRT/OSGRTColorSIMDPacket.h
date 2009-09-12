@@ -134,6 +134,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTColorSIMDPacket : public RTSIMDPacket
     Color4f _aColor[NumColors];
 
   private:
+    
+    RTColorSIMDPacket(const RTColorSIMDPacket &source);
 };
 
 OSG_END_NAMESPACE

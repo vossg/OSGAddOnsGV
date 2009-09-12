@@ -47,6 +47,63 @@
 
 OSG_BEGIN_NAMESPACE
 
+class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacketInfo
+{
+  protected:
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    typedef RTRaySIMDPacketInfo Self;
+
+    static const UInt32 NumHRays = RTSIMDPacket::NumHElements;
+    static const UInt32 NumVRays = RTSIMDPacket::NumVElements;
+
+    static const UInt32 NumRays  = RTSIMDPacket::NumElements;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    RTRaySIMDPacketInfo(void);
+    RTRaySIMDPacketInfo(const RTRaySIMDPacketInfo &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    ~RTRaySIMDPacketInfo(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    void    setActive    (bool   bVal,
+                          UInt32 uiIdx);
+    bool    isActive     (UInt32 uiIdx);
+
+    bool    hasActive    (void        );
+
+    UInt32 *getActiveRays(void        );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void operator =(const RTRaySIMDPacketInfo &source);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    UInt32 _bIsActive[NumRays];
+};
+
 /*! \brief RTTarget class. See \ref
            PageContribRRTRTTarget for a description.
 */
@@ -110,12 +167,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    void setActive(bool   bVal,
-                   UInt32 uiIdx);
-    bool isActive (UInt32 uiIdx);
-
-    bool hasActive(void        );
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
@@ -137,8 +188,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
 
     Pnt3f  _vOrigin;
     Vec3f  _vDir[NumRays];
-
-    bool   _bIsActive[NumRays];
 
   private:
 

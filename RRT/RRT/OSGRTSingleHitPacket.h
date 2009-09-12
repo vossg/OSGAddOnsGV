@@ -72,6 +72,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleHitPacket : public RTHitPacket
     /*! \{                                                                 */
 
     RTSingleHitPacket(void);
+    RTSingleHitPacket(const RTSingleHitPacket &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

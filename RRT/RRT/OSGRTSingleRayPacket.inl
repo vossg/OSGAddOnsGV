@@ -41,9 +41,71 @@
 OSG_BEGIN_NAMESPACE
 
 inline
+RTSingleRayPacketInfo::RTSingleRayPacketInfo(void) :
+     Inherited( ),
+    _uiX      (0),
+    _uiY      (0)
+{
+}
+
+
+inline
+RTSingleRayPacketInfo::RTSingleRayPacketInfo(
+    const RTSingleRayPacketInfo &source) :
+
+     Inherited(source     ),
+    _uiX      (source._uiX),
+    _uiY      (source._uiY)
+{
+}
+
+inline
+RTSingleRayPacketInfo::~RTSingleRayPacketInfo(void)
+{
+}
+
+inline 
+void RTSingleRayPacketInfo::setXY(UInt32 uiX,
+                                  UInt32 uiY)
+{
+    _uiX = uiX;
+    _uiY = uiY;
+}
+
+inline 
+UInt32 RTSingleRayPacketInfo::getX(void)
+{
+    return _uiX;
+}
+
+inline 
+UInt32 RTSingleRayPacketInfo::getY(void)
+{
+    return _uiY;
+}
+
+inline
+void RTSingleRayPacketInfo::operator =(const RTSingleRayPacketInfo &source)
+{
+    (*static_cast<Inherited *>(this)) = 
+        static_cast<const Inherited &>(source);
+
+    _uiX       = source._uiX;
+    _uiY       = source._uiY;
+}
+
+
+
+
+inline
 RTSingleRayPacket::RTSingleRayPacket(void) :
-    _uiX      (0   ),
-    _uiY      (0   )
+    Inherited()
+{
+}
+
+inline
+RTSingleRayPacket::RTSingleRayPacket(const RTSingleRayPacket &source) :
+    Inherited(source)
 {
 }
 
@@ -57,31 +119,6 @@ void RTSingleRayPacket::operator =(const RTSingleRayPacket &source)
 {
     (*static_cast<Inherited *>(this)) = 
         static_cast<const Inherited &>(source);
-
-    _uiX       = source._uiX;
-    _uiY       = source._uiY;
 }
-
-
-inline 
-void RTSingleRayPacket::setXY(UInt32 uiX,
-                              UInt32 uiY)
-{
-    _uiX = uiX;
-    _uiY = uiY;
-}
-
-inline 
-UInt32 RTSingleRayPacket::getX(void)
-{
-    return _uiX;
-}
-
-inline 
-UInt32 RTSingleRayPacket::getY(void)
-{
-    return _uiY;
-}
-
 
 OSG_END_NAMESPACE

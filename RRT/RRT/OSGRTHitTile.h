@@ -72,6 +72,8 @@ class RTHitTile : public RTTile
     typedef typename Desc::RayPacket        RayPacket;
     typedef typename Desc::PrimaryRayTile   PrimaryRayTile;
 
+    typedef std::vector<UInt32   >          ActiveStore;
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -122,6 +124,14 @@ class RTHitTile : public RTTile
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
+    void setActive(ActiveStore &active       );
+    bool hasActive(UInt32       uiPacketIndex);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
     void reset(void);
 
     /*! \}                                                                 */
@@ -144,7 +154,8 @@ class RTHitTile : public RTTile
     /*! \{                                                                 */
 
     HitStore        _vHitStore;
-    
+    ActiveStore     _vActiveStore;
+
     UInt32          _uiX;
     UInt32          _uiY;
 

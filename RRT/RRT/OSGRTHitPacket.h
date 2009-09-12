@@ -65,6 +65,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitPacket
     /*! \{                                                                 */
 
     RTHitPacket(void);
+    RTHitPacket(const RTHitPacket &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

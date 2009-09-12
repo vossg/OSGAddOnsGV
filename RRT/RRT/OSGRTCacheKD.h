@@ -99,7 +99,8 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     void intersect            (RTRaySIMDPacket &oRay, 
                                RTHitSIMDPacket &oHit,
                                KDElemStack     &sKDToDoStack,
-                               UInt32           uiCacheId   );
+                               UInt32           uiCacheId   ,
+                               UInt32          *uiActive    );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

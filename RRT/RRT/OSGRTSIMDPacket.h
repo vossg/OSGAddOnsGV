@@ -108,9 +108,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSIMDPacket
 
   protected:
 
+    RTSIMDPacket(const RTSIMDPacket &source);
+    void operator =(const RTSIMDPacket &rhs);
+
     /*==========================  PRIVATE  ================================*/
 
   private:
+
 };
 
 OSG_END_NAMESPACE

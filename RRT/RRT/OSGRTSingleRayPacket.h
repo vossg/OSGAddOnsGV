@@ -46,6 +46,61 @@
 
 OSG_BEGIN_NAMESPACE
 
+class OSG_CONTRIBRRT_DLLMAPPING RTSingleRayPacketInfo : public RTRayPacketInfo
+{
+  protected:
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    typedef RTRayPacketInfo       Inherited;
+    typedef RTSingleRayPacketInfo Self;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    RTSingleRayPacketInfo(void);
+    RTSingleRayPacketInfo(const RTSingleRayPacketInfo &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    ~RTSingleRayPacketInfo(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    void   setXY(UInt32 uiX, 
+                 UInt32 uiY);
+    
+    UInt32 getX (void      );
+    UInt32 getY (void      );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void operator =(const RTSingleRayPacketInfo &source);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    UInt32 _uiX;
+    UInt32 _uiY;
+
+  private:
+
+};
+
 /*! \brief RTTarget class. See \ref
            PageContribRRTRTTarget for a description.
 */
@@ -65,6 +120,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleRayPacket : public RTRayPacket
     /*! \{                                                                 */
 
     RTSingleRayPacket(void);
+    RTSingleRayPacket(const RTSingleRayPacket &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -88,12 +144,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleRayPacket : public RTRayPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    void   setXY(UInt32 uiX, 
-                 UInt32 uiY);
-    
-    UInt32 getX (void      );
-    UInt32 getY (void      );
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
@@ -114,9 +164,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleRayPacket : public RTRayPacket
     typedef RTRayPacket Inherited;
 
     /*==========================  PRIVATE  ================================*/
-
-    UInt32 _uiX;
-    UInt32 _uiY;
 
   private:
 };

@@ -41,26 +41,96 @@
 OSG_BEGIN_NAMESPACE
 
 inline
-RTRaySIMDPacket::RTRaySIMDPacket(void) :
-    _vOrigin  (),
-    _vDir     (),
+RTRaySIMDPacketInfo::RTRaySIMDPacketInfo(void) :
     _bIsActive()
 {
     for(UInt32 i = 0; i < NumRays; ++i)
     {
-        _bIsActive[i] = true;
+        _bIsActive[i] = 1;
     }
 }
 
-RTRaySIMDPacket::RTRaySIMDPacket(const RTRaySIMDPacket &source) :
-    _vOrigin  (source._vOrigin),
-    _vDir     (               ),
-    _bIsActive(               )
+inline
+RTRaySIMDPacketInfo::RTRaySIMDPacketInfo(const RTRaySIMDPacketInfo &source) :
+    _bIsActive()
 {
     for(UInt32 i = 0; i < NumRays; ++i)
     {
-        _vDir[i]      = source._vDir[i];
         _bIsActive[i] = source._bIsActive[i];
+    }
+}
+
+inline
+RTRaySIMDPacketInfo::~RTRaySIMDPacketInfo(void)
+{
+}
+
+inline
+void RTRaySIMDPacketInfo::setActive(bool   bVal,
+                                    UInt32 uiIdx)
+{
+    OSG_ASSERT(uiIdx < NumRays);
+
+    _bIsActive[uiIdx] = bVal;
+}
+
+inline
+bool RTRaySIMDPacketInfo::isActive(UInt32 uiIdx)
+{
+    OSG_ASSERT(uiIdx < NumRays);
+
+    return _bIsActive[uiIdx];
+}
+
+inline
+bool RTRaySIMDPacketInfo::hasActive(void)
+{
+    bool returnValue = false;
+
+    for(UInt32 i = 0; i < NumRays; ++i)
+    {
+        returnValue |= _bIsActive[i];
+    }
+
+    return returnValue;
+}
+
+inline
+UInt32 *RTRaySIMDPacketInfo::getActiveRays(void)
+{
+    return _bIsActive;
+}
+
+inline 
+void RTRaySIMDPacketInfo::operator =(const RTRaySIMDPacketInfo &source)
+{
+    for(UInt32 i = 0; i < NumRays; ++i)
+    {
+        _bIsActive[i] = source._bIsActive[i];
+    }
+}
+
+
+
+
+
+
+inline
+RTRaySIMDPacket::RTRaySIMDPacket(void) :
+     Inherited(),
+    _vOrigin  (),
+    _vDir     ()
+{
+}
+
+RTRaySIMDPacket::RTRaySIMDPacket(const RTRaySIMDPacket &source) :
+     Inherited(source         ),
+    _vOrigin  (source._vOrigin),
+    _vDir     (               )
+{
+    for(UInt32 i = 0; i < NumRays; ++i)
+    {
+        _vDir[i] = source._vDir[i];
     }
 }
 
@@ -72,12 +142,13 @@ RTRaySIMDPacket::~RTRaySIMDPacket(void)
 inline 
 void RTRaySIMDPacket::operator =(const RTRaySIMDPacket &source)
 {
+    Inherited::operator =(source);
+
     _vOrigin   = source._vOrigin;
 
     for(UInt32 i = 0; i < NumRays; ++i)
     {
         _vDir[i]      = source._vDir[i];
-        _bIsActive[i] = source._bIsActive[i];
     }
 }
 
@@ -125,36 +196,6 @@ Vec3f RTRaySIMDPacket::getDir(UInt32 uiIdx)
     OSG_ASSERT(uiIdx < NumRays);
 
     return _vDir[uiIdx];
-}
-
-inline
-void RTRaySIMDPacket::setActive(bool   bVal,
-                                UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    _bIsActive[uiIdx] = bVal;
-}
-
-inline
-bool RTRaySIMDPacket::isActive(UInt32 uiIdx)
-{
-    OSG_ASSERT(uiIdx < NumRays);
-
-    return _bIsActive[uiIdx];
-}
-
-inline
-bool RTRaySIMDPacket::hasActive(void)
-{
-    bool returnValue = false;
-
-    for(UInt32 i = 0; i < NumRays; ++i)
-    {
-        returnValue |= _bIsActive[i];
-    }
-
-    return returnValue;
 }
 
 OSG_END_NAMESPACE

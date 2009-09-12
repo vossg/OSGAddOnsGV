@@ -66,14 +66,26 @@ void RTScene<DescT>::clearCache(void)
 }
 
 template<typename DescT> inline
-void RTScene<DescT>::tracePrimaryRays(RayPacket &oRay, 
-                                      HitPacket &oHit,
-                                      ElemStack &sKDToDoStack)
+void RTScene<DescT>::tracePrimaryRays(RTRayPacket &oRay, 
+                                      HitPacket   &oHit,
+                                      ElemStack   &sKDToDoStack,
+                                      UInt32      *uiActive    )
 {
     for(UInt32 k = 0; k < _vRTCaches.size(); ++k)
     {    
         _vRTCaches[k]->intersect(oRay, oHit, sKDToDoStack, k);
-//                _vRTObjects[k]->intersectBarycentric0(rayPacket, hitPacket);
+    }
+}
+
+template<typename DescT> inline
+void RTScene<DescT>::tracePrimaryRays(RTRaySIMDPacket &oRay, 
+                                      HitPacket       &oHit,
+                                      ElemStack       &sKDToDoStack,
+                                      UInt32          *uiActive    )
+{
+    for(UInt32 k = 0; k < _vRTCaches.size(); ++k)
+    {    
+        _vRTCaches[k]->intersect(oRay, oHit, sKDToDoStack, k, uiActive);
     }
 }
 

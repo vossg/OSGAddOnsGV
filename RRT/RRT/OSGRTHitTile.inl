@@ -82,6 +82,22 @@ typename RTHitTile<DescT>::RayPacket &
 }
 
 template<typename DescT> inline
+void RTHitTile<DescT>::setActive(ActiveStore &active)
+{
+    OSG_ASSERT(active.size() == _vActiveStore.size());
+
+    _vActiveStore = active;
+}
+
+template<typename DescT> inline
+bool RTHitTile<DescT>::hasActive(UInt32 uiPacketIndex)
+{
+    OSG_ASSERT(uiPacketIndex < _vActiveStore.size());
+
+    return (_vActiveStore[uiPacketIndex] != 0);
+}
+
+template<typename DescT> inline
 void RTHitTile<DescT>::reset(void)
 {
     _uiX      = 0;
@@ -90,28 +106,32 @@ void RTHitTile<DescT>::reset(void)
 
     for(UInt32 i = 0; i < NumHits; ++i)
     {
-        _vHitStore[i].reset();
+        _vHitStore   [i].reset();
+        _vActiveStore[i] = 0;
     }
 }
 
 template<typename DescT> inline
 RTHitTile<DescT>::RTHitTile(void) :
-     Inherited(    ),
-    _vHitStore(    ),
-    _uiX      (   0),
-    _uiY      (   0),
-    _pRayTile (NULL)
+     Inherited   (    ),
+    _vHitStore   (    ),
+    _vActiveStore(    ),
+    _uiX         (   0),
+    _uiY         (   0),
+    _pRayTile    (NULL)
 {
-    _vHitStore.resize(NumHits);
+    _vHitStore   .resize(NumHits   );
+    _vActiveStore.resize(NumHits, 0);
 }
 
 template<typename DescT> inline
 RTHitTile<DescT>::RTHitTile(const RTHitTile &source) :
-     Inherited(source           ),
-    _vHitStore(source._vHitStore),
-    _uiX      (source._uiX      ),
-    _uiY      (source._uiY      ),
-    _pRayTile (source._pRayTile )
+     Inherited   (source              ),
+    _vHitStore   (source._vHitStore   ),
+    _vActiveStore(source._vActiveStore),
+    _uiX         (source._uiX         ),
+    _uiY         (source._uiY         ),
+    _pRayTile    (source._pRayTile    )
 {
 }
 
@@ -123,10 +143,11 @@ RTHitTile<DescT>::~RTHitTile(void)
 template<typename DescT> inline
 void RTHitTile<DescT>::operator =(const RTHitTile &source)
 {
-    _vHitStore = source._vHitStore;
-    _uiX       = source._uiX;
-    _uiY       = source._uiY;
-    _pRayTile  = source._pRayTile;
+    _vHitStore    = source._vHitStore;
+    _vActiveStore = source._vActiveStore;
+    _uiX          = source._uiX;
+    _uiY          = source._uiY;
+    _pRayTile     = source._pRayTile;
 }
 
 OSG_END_NAMESPACE

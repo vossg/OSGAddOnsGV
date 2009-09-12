@@ -42,6 +42,7 @@ OSG_BEGIN_NAMESPACE
 
 inline
 RTHitSIMDPacket::RTHitSIMDPacket(void) :
+     Inherited (),
     _rDist     (),
     _rU        (),
     _rV        (),
@@ -57,6 +58,27 @@ RTHitSIMDPacket::RTHitSIMDPacket(void) :
         _uiCacheId[i] = 0;
         _uiObjId  [i] = 0;
         _uiTriId  [i] = 0;
+    }
+}
+ 
+inline
+RTHitSIMDPacket::RTHitSIMDPacket(const RTHitSIMDPacket &source) :
+     Inherited (),
+    _rDist     (),
+    _rU        (),
+    _rV        (),
+    _uiCacheId (),
+    _uiObjId   (),
+    _uiTriId   ()
+{
+    for(UInt32 i = 0; i < NumHits; ++i)
+    {
+        _rDist    [i] = source._rDist    [i];
+        _rU       [i] = source._rU       [i];
+        _rV       [i] = source._rV       [i];
+        _uiCacheId[i] = source._uiCacheId[i];
+        _uiObjId  [i] = source._uiObjId  [i];
+        _uiTriId  [i] = source._uiTriId  [i];
     }
 }
 
@@ -150,6 +172,8 @@ UInt32 RTHitSIMDPacket::getCacheId(UInt32 uiIdx)
 inline 
 void RTHitSIMDPacket::operator =(const RTHitSIMDPacket &source)
 {
+    Inherited::operator =(source);
+
     for(UInt32 i = 0; i < NumHits; ++i)
     {
         _rDist    [i]  = source._rDist    [i];

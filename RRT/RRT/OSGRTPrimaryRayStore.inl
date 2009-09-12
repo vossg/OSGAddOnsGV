@@ -64,6 +64,12 @@ typename RTPrimaryRayStore<DescT>::SingleRayPacket &
     return _vRays[uiRayIndex];
 }
 
+template<typename DescT> inline
+typename RTPrimaryRayStore<DescT>::SingleRayPacketInfo &
+    RTPrimaryRayStore<DescT>::getRayPacketInfo(UInt32 uiRayIndex)
+{
+    return _vRayInfos[uiRayIndex];
+}
 
 template<typename DescT> inline
 RTPrimaryRayStore<DescT>::RTPrimaryRayStore(void) :
@@ -72,6 +78,8 @@ RTPrimaryRayStore<DescT>::RTPrimaryRayStore(void) :
     _uiCurrentRay(   0),
 
     _vRays       (    ),
+    _vRayInfos   (    ),
+
     _pStoreLock  (NULL)
 {
     _pStoreLock = Lock::get(NULL);
@@ -102,7 +110,8 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
     pThis->_uiNumRays    = pTarget.getWidth() * pTarget.getHeight();
     pThis->_uiCurrentRay = 0;
 
-    pThis->_vRays.resize(pThis->_uiNumRays);
+    pThis->_vRays    .resize(pThis->_uiNumRays);
+    pThis->_vRayInfos.resize(pThis->_uiNumRays);
 
     UInt32 uiWidth  = pTarget.getWidth ();
     UInt32 uiHeight = pTarget.getHeight();
@@ -148,13 +157,17 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
             fprintf(stderr, "%f %f %f\n", vCurrV[0], vCurrV[1], vCurrV[2]);
 #endif
 
-            SingleRayPacket &rayPacket = pThis->_vRays[i * uiWidth + j];
+            SingleRayPacket     &rayPacket = 
+                pThis->_vRays    [i * uiWidth + j];
+
+            SingleRayPacketInfo &rayInfo   = 
+                pThis->_vRayInfos[i * uiWidth + j];
 
             rayPacket.setOrigin(mCam[3][0], mCam[3][1], mCam[3][2]);
             rayPacket.setDirection(vCurrV);
             rayPacket.normalizeDirection();
 
-            rayPacket.setXY(j, i);
+            rayInfo.setXY(j, i);
 
             vCurrV += vRight;
         }
@@ -248,7 +261,8 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::setupRays(
                               SingleRayPacket::NumHRays,
                               SingleRayPacket::NumVRays);
         
-        pThis->_vRays.resize(pThis->_uiNumTiles);
+        pThis->_vRays    .resize(pThis->_uiNumTiles);
+        pThis->_vRayInfos.resize(pThis->_uiNumTiles);
     }
 
     pThis->_uiNumRays    = pThis->_uiHTiles * pThis->_uiVTiles;
@@ -353,7 +367,8 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::fillTile(
     Vec3f vCurrH = vCurr;
     Vec3f vCurrV = vCurr;
 
-    SingleRayPacket &rayTile = pThis->_vRays[uiY * uiTilesX + uiX];
+    SingleRayPacket     &rayTile = pThis->_vRays    [uiY * uiTilesX + uiX];
+    SingleRayPacketInfo &rayInfo = pThis->_vRayInfos[uiY * uiTilesX + uiX];
 
 //    fprintf(stderr, "%d %d\n", uiY * uiTilesX + uiX, _vTiles.size());
 
@@ -371,7 +386,7 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::fillTile(
             {
                 UInt32 uiPacketIndex = i * SingleRayPacket::NumHRays + j;
 
-                rayTile.setActive(false, uiPacketIndex);
+                rayInfo.setActive(false, uiPacketIndex);
             }
         }
         else
@@ -384,17 +399,17 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::fillTile(
 
                 if(cX >= pThis->_uiWidth)
                 {
-                    rayTile.setActive(false, uiPacketIndex);
+                    rayInfo.setActive(false, uiPacketIndex);
                 }
                 else
                 {
-                    rayTile.setActive(true, uiPacketIndex);
+                    rayInfo.setActive(true, uiPacketIndex);
 
                     rayTile.setOrigin(vOrigin);
                     
                     rayTile.setDirection(vCurrV, uiPacketIndex);
                     
-                    rayTile.setXY(uiX, uiY);
+                    rayInfo.setXY(uiX, uiY);
                     
                     vCurrV += vRight;
                 }

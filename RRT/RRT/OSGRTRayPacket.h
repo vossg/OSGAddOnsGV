@@ -51,6 +51,60 @@ OSG_BEGIN_NAMESPACE
            PageContribRRTRTTarget for a description.
 */
 
+class OSG_CONTRIBRRT_DLLMAPPING RTRayPacketInfo
+{
+  protected:
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    typedef RTRayPacketInfo Self;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    RTRayPacketInfo(void);
+    RTRayPacketInfo(const RTRayPacketInfo &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    ~RTRayPacketInfo(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    void    setActive(bool bVal);
+    bool    isActive (void     );
+    bool    hasActive(void     );
+
+    UInt32 *getActiveRays(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void operator =(const RTRayPacketInfo &source);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    UInt32 _bIsActive;
+
+  private:
+};
+
+
+
 class OSG_CONTRIBRRT_DLLMAPPING RTRayPacket 
 {
   protected:
@@ -66,6 +120,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayPacket
     /*! \{                                                                 */
 
     RTRayPacket(void);
+    RTRayPacket(const RTRayPacket &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -99,10 +154,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    void setActive(bool bVal);
-    bool isActive (void     );
-    bool hasActive(void     );
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
@@ -120,12 +171,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayPacket
 
   protected:
 
-    /*==========================  PRIVATE  ================================*/
-
     Pnt3f  _vOrigin;
     Vec3f  _vDir;
-
-    bool   _bIsActive;
 
   private:
 };

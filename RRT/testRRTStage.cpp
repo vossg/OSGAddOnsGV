@@ -223,6 +223,29 @@ void key(unsigned char key, int x, int y)
             glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
             std::cerr << "PolygonMode: Fill." << std::endl;
             break;
+        case 'd':
+        {
+#if 1
+            char *outFileName = "/tmp/foo.osg";
+            
+            OSG::IndentFileOutStream outFileStream( outFileName );
+            
+            if( !outFileStream )
+            {
+                std::cerr << "Can not open output stream to file: "
+                          << outFileName << std::endl;
+            }
+            else
+            {
+                std::cerr << "STARTING PRINTOUT:" << std::endl;
+                OSGWriter writer( outFileStream, 4 );
+                
+                writer.write( file );
+                
+                outFileStream.close();
+            }
+#endif
+        }
     }
 }
 
@@ -429,7 +452,7 @@ void initScene(int argc, char **argv)
 
     // Load the file
 
-    NodePtr file = NullFC;
+    file = NullFC;
     
     if(argc > 1)
     {

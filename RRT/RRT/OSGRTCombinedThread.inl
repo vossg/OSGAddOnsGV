@@ -147,20 +147,26 @@ void RTCombinedThread<DescT>::workProc(void)
             {
                 UInt32             uiHitIndex = _pHitStore->getWriteIndex();
                 
-                SingleRayPacket &oRayPacket = 
+                SingleRayPacket     &oRayPacket = 
                     _pRayStore->getRayPacket(uiRayIndex);
+
+                SingleRayPacketInfo &oRayPacketInfo = 
+                    _pRayStore->getRayPacketInfo(uiRayIndex);
                 
                 SingleHitPacket &oHitPacket = 
                     _pHitStore->getPacket   (uiHitIndex);
                 
                 oHitPacket.reset();
 
-                oHitPacket.setXY       (oRayPacket.getX(), oRayPacket.getY());
+                oHitPacket.setXY       (oRayPacketInfo.getX(), 
+                                        oRayPacketInfo.getY());
+
                 oHitPacket.setRayPacket(&oRayPacket);
 
                 _pScene->tracePrimaryRays(oRayPacket, 
                                           oHitPacket, 
-                                          sKDToDoStack);
+                                          sKDToDoStack,
+                                          oRayPacketInfo.getActiveRays());
                 
                 _pHitStore->pushWriteIndex(uiHitIndex);
 
@@ -241,10 +247,12 @@ void RTCombinedThread<DescT>::workProc(void)
                 HitTile        &oHitTile = 
                     _pHitTiledStore->getPacket   (uiHitIndex);
 
-                oHitTile.reset     (                );
-                oHitTile.setRayTile(&oRayTile       );
-                oHitTile.setXY     ( oRayTile.getX(), 
-                                     oRayTile.getY());
+                oHitTile.reset     (                     );
+                oHitTile.setRayTile(&oRayTile            );
+                oHitTile.setXY     ( oRayTile.getX     (), 
+                                     oRayTile.getY     ());
+
+                oHitTile.setActive ( oRayTile.getActive());
 
 #if 1
                 for(UInt32 i = 0; 
@@ -254,12 +262,13 @@ void RTCombinedThread<DescT>::workProc(void)
                     RayPacket &oRayPacket = oRayTile.getPacket(i);
                     HitPacket &oHitPacket = oHitTile.getPacket(i);
                 
-                    if(oRayPacket.hasActive() == false)
+                    if(oRayTile.hasActive(i) == false)
                         continue;
 
                     _pScene->tracePrimaryRays(oRayPacket, 
                                               oHitPacket, 
-                                              sKDToDoStack);
+                                              sKDToDoStack,
+                                              oRayTile.getActiveRays());
 
                     ++uiRayStat;
                 }
@@ -337,7 +346,7 @@ void RTCombinedThread<DescT>::workProc(void)
                             RayPacket &pRayPacket = 
                                 oHitTile.getRayPacket(uiPacketIndex);
 
-                            if(pRayPacket.hasActive() == false)
+                            if(oHitTile.hasActive(uiPacketIndex) == false)
                                 continue;
                             
                             UInt32 uiX = 
