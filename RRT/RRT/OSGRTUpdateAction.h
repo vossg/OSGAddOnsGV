@@ -168,8 +168,8 @@ class RTUpdateAction : public Action
     /*! \name                   Internal updates                           */
     /*! \{                                                                 */
 
-    ActionBase::ResultE nodeEnter(NodePtrConstArg pNode, Action *pAction);
-    ActionBase::ResultE nodeExit (NodePtrConstArg pNode, Action *pAction);
+    ActionBase::ResultE nodeEnter(const NodePtr pNode, Action *pAction);
+    ActionBase::ResultE nodeExit (const NodePtr pNode, Action *pAction);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -247,8 +247,8 @@ RTInitAction<DescT>::RTInitAction(const RTInitAction &source) :
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTInitAction<DescT>::nodeEnter(NodePtrConstArg  pNode, 
-                                                   Action          *pAction)
+ActionBase::ResultE RTInitAction<DescT>::nodeEnter(const NodePtr  pNode, 
+                                                         Action  *pAction)
 {
     RTInfoAttachmentPtr pRTInfo = 
         dynamic_cast<RTInfoAttachmentPtr>(
@@ -287,8 +287,8 @@ ActionBase::ResultE RTInitAction<DescT>::nodeEnter(NodePtrConstArg  pNode,
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTInitAction<DescT>::nodeExit(NodePtrConstArg  pNode, 
-                                                  Action          *pAction)
+ActionBase::ResultE RTInitAction<DescT>::nodeExit(const NodePtr  pNode, 
+                                                        Action  *pAction)
 {
     if(pNode == _pCacheNode)
     {
@@ -334,8 +334,8 @@ void RTInitAction<DescT>::popMatrix(void)
 }
 
 template<typename DescT> inline
-void RTInitAction<DescT>::overrideMaterial(Material        *pMaterial,
-                                           NodePtrConstArg  pNode    )
+void RTInitAction<DescT>::overrideMaterial(      Material *pMaterial,
+                                           const NodePtr   pNode    )
 {
     if(_pCurrentCache != NULL)
     {

@@ -271,8 +271,8 @@ RTUpdateAction<DescT>::RTUpdateAction(const RTUpdateAction &source) :
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTUpdateAction<DescT>::nodeEnter(NodePtrConstArg  pNode, 
-                                                     Action          *pAction)
+ActionBase::ResultE RTUpdateAction<DescT>::nodeEnter(const NodePtr  pNode, 
+                                                           Action  *pAction)
 {
     CacheAttachmentPtr pRTCacheAtt = 
         dynamic_cast<CacheAttachmentPtr>(
@@ -289,8 +289,8 @@ ActionBase::ResultE RTUpdateAction<DescT>::nodeEnter(NodePtrConstArg  pNode,
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTUpdateAction<DescT>::nodeExit (NodePtrConstArg  pNode, 
-                                                     Action          *pAction)
+ActionBase::ResultE RTUpdateAction<DescT>::nodeExit (const NodePtr  pNode, 
+                                                           Action  *pAction)
 {
     return Action::Continue;
 }

@@ -106,8 +106,8 @@ class RTInitAction : public Action
     /*! \name                   Culling                                    */
     /*! \{                                                                 */
 
-    void overrideMaterial(Material        *pMaterial,
-                          NodePtrConstArg  pNode    );
+    void overrideMaterial(      Material *pMaterial,
+                          const NodePtr   pNode    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -210,8 +210,8 @@ class RTInitAction : public Action
     /*! \name                   Internal updates                           */
     /*! \{                                                                 */
 
-    ActionBase::ResultE nodeEnter(NodePtrConstArg pNode, Action *pAction);
-    ActionBase::ResultE nodeExit (NodePtrConstArg pNode, Action *pAction);
+    ActionBase::ResultE nodeEnter(const NodePtr pNode, Action *pAction);
+    ActionBase::ResultE nodeExit (const NodePtr pNode, Action *pAction);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
