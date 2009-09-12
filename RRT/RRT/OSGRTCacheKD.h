@@ -46,6 +46,7 @@
 #include "OSGLine.h"
 
 #include "stack"
+#include <boost/mpl/if.hpp>
 
 OSG_BEGIN_NAMESPACE
 
@@ -60,13 +61,26 @@ class RTCacheKD : public RTCacheKDBase<DescT>
   protected:
 
     struct KDStackElem;
+    struct KDSIMDStackElem;
 
     /*==========================  PUBLIC  =================================*/
 
   public:
-    
-    typedef std::vector<KDStackElem> KDElemStack;
-    typedef KDElemStack              ElemStack;
+
+    typedef std::vector<KDStackElem>          KDFloatElemStack;
+
+    typedef AlignedAllocator<KDSIMDStackElem> SIMDStackAllocator;
+
+    typedef std::vector<KDSIMDStackElem, 
+                        SIMDStackAllocator>   KDSIMDElemStack;
+
+
+    typedef typename
+        boost::mpl::if_<boost::mpl::bool_<(DescT::SIMDMath == true)>,
+                        KDSIMDElemStack,
+                        KDFloatElemStack >::type   KDElemStack;
+
+    typedef          KDElemStack                   ElemStack;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -97,6 +111,11 @@ class RTCacheKD : public RTCacheKDBase<DescT>
                                UInt32           uiCacheId   );
 
     void intersect            (RTRaySIMDPacket &oRay, 
+                               RTHitSIMDPacket &oHit,
+                               KDElemStack     &sKDToDoStack,
+                               UInt32           uiCacheId   ,
+                               UInt32          *uiActive    );
+    void intersectSingle      (RTRaySIMDPacket &oRay, 
                                RTHitSIMDPacket &oHit,
                                KDElemStack     &sKDToDoStack,
                                UInt32           uiCacheId   ,
@@ -157,14 +176,41 @@ class RTCacheKD : public RTCacheKDBase<DescT>
 
     struct KDStackElem 
     {
+        Real32         tmin;
+        Real32         tmax;
+
+        union
+        {
+            const RTCacheKDNode *node;
+                  unsigned int   addr;
+        };
+    };
+
+    struct KDSIMDStackElem 
+    {
+/*
+        Float4         tmin4;
+        Float4         tmax4;
+        Float4         tTmpMin4;
+ */
+
+        Real32         tmin4[4];
+        Real32         tmax4[4];
+        bool           active[4];
+
         union
         {
             const RTCacheKDNode *node;
                   unsigned int   addr;
         };
 
-        Real32         tmin;
-        Real32         tmax;
+        unsigned int   pad0;
+        unsigned int   pad1;
+        unsigned int   pad2;
+
+        KDSIMDStackElem(void);
+        KDSIMDStackElem(const KDSIMDStackElem &source);
+        void operator =(const KDSIMDStackElem &source);
     };
 
     void flattenTree(RTKDNode *pLeft, 

@@ -120,6 +120,7 @@ void RTHitSIMDPacket::set(UInt32 uiIdx,
     _uiCacheId[uiIdx] = uiCacheId;
 }
 
+#if 0
 inline
 void RTHitSIMDPacket::set(const UInt32 mask,
                           const Float4 rDist, 
@@ -132,6 +133,7 @@ void RTHitSIMDPacket::set(const UInt32 mask,
     // Hack need full SIMD impl.
 
     static const UInt32 maskCheck[4] = { 0x01, 0x02, 0x04, 0x08 };
+//    static const UInt32 maskCheck[4] = { 0x08, 0x04, 0x02, 0x01 };
 
     union
     {
@@ -168,6 +170,7 @@ void RTHitSIMDPacket::set(const UInt32 mask,
         }
     }
 }
+#endif
 
 
 inline

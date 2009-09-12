@@ -115,7 +115,7 @@ void RTScene<DescT>::shade(RTHitPacket   &oHit,
     }
     else
     {
-        oResult.set(0.3f, 0.3f, 0.3f, 1.0f);
+        oResult.set(0.4f, 0.4f, 0.4f, 1.0f);
     }
 }
 

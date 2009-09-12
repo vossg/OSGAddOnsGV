@@ -136,4 +136,11 @@ void RTTarget::dump(      UInt32    ,
     SLOG << "Dump RTTarget NI" << std::endl;
 }
 
+void RTTarget::startFrame(void)
+{
+    memset(&(_mfPixel[0]), 
+           0, 
+           _sfWidth.getValue() * _sfHeight.getValue() * 3 * sizeof(Real32));
+}
+
 OSG_END_NAMESPACE

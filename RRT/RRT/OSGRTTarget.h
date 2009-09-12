@@ -126,6 +126,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTarget : public RTTargetBase
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    void startFrame(void);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:

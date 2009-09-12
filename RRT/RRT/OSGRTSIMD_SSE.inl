@@ -45,21 +45,39 @@ Float4 osgSIMDMadd(const Float4 vM1, const Float4 vM2, const Float4 vS)
 }
 
 inline
-Float4 osgSIMDMul (const Float4 v1,  const Float4 v2)
+Float4 osgSIMDMul(const Float4 v1,  const Float4 v2)
 {
     return _mm_mul_ps(v1, v2);
 }
 
 inline
-Float4 osgSIMDAdd (const Float4 v1,  const Float4 v2)
+Float4 osgSIMDAdd(const Float4 v1,  const Float4 v2)
 {
     return _mm_add_ps(v1, v2);
 }
 
 inline
-Float4 osgSIMDAnd (const Float4 v1,  const Float4 v2)
+Float4 osgSIMDSub(const Float4 v1,  const Float4 v2)
+{
+    return _mm_sub_ps(v1, v2);
+}
+
+inline
+Float4 osgSIMDAnd(const Float4 v1,  const Float4 v2)
 {
     return _mm_and_ps(v1, v2);
+}
+
+inline
+Float4 osgSIMDMax(const Float4 v1,  const Float4 v2)
+{
+    return _mm_max_ps(v1, v2);
+}
+
+inline
+Float4 osgSIMDMin(const Float4 v1,  const Float4 v2)
+{
+    return _mm_min_ps(v1, v2);
 }
 
 inline
@@ -95,12 +113,34 @@ Float4 osgSIMDRSqrtE(const Float4 v)
 inline
 Float4 osgSIMDInvert(const Float4 v)
 {
+    union
+    {
+        Float4 f4In;
+        Real32 rAIn[4];
+    };
+
+    union
+    {
+        Float4 f4Out;
+        Real32 rAOut[4];
+    };
+
+#if 0
     const Float4 rcp = _mm_rcp_ps(v);
 
     return _mm_sub_ps(_mm_add_ps(rcp, rcp),
                       _mm_mul_ps(_mm_mul_ps(rcp, rcp),
                                  v));
+#endif
 
+    f4In = v;
+
+    rAOut[0] = 1.f/rAIn[0];
+    rAOut[1] = 1.f/rAIn[1];
+    rAOut[2] = 1.f/rAIn[2];
+    rAOut[3] = 1.f/rAIn[3];
+
+    return f4Out;
 }
 
 inline
@@ -121,6 +161,14 @@ Float4 osgSIMDSet(const Real32 rVal0,
                   const Real32 rVal2,
                   const Real32 rVal3)
 {
+    return _mm_set_ps(rVal0, rVal1, rVal2, rVal3);
+}
+
+inline
+Float4 osgSIMDUpdate(const Float4 mask, const Float4 v1, const Float4 v2)
+{
+    return _mm_or_ps(_mm_and_ps   (v1,   mask),
+                     _mm_andnot_ps(mask, v2  ));
 }
 
 OSG_END_NAMESPACE

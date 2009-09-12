@@ -124,12 +124,15 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
     struct SinglePacketDescBase
     {
-        typedef RTFloatMathTag                         MathTag;
+        static  const bool                             SIMDMath = false;
 
+        typedef RTFloatMathTag                         MathTag;
+        
         typedef RTColorPacket                          ColorPacket;
 
         typedef RTTriAccelBarycentric                  TriangleAccel;
         typedef RTCacheKD<SinglePacketDescBase>        RTCache;
+
 
         typedef RTHitPacket                            HitPacket;
         typedef RTSingleHitPacket                      SingleHitPacket;
@@ -148,6 +151,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
     struct SIMDPacketDescBase
     {
+        static  const bool                           SIMDMath = true;
+
         typedef RTSIMDMathTag                        MathTag;
 
         typedef RTColorSIMDPacket                    ColorPacket;

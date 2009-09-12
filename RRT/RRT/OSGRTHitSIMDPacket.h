@@ -100,6 +100,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitSIMDPacket : public RTSIMDPacket
                     UInt32 uiTriId,
                     UInt32 uiCacheId);
 
+#if 0
     void set       (const UInt32 mask,
                     const Float4 rDist, 
                     const Float4 rU, 
@@ -107,6 +108,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitSIMDPacket : public RTSIMDPacket
                     const UInt32 uiObjId,
                     const UInt32 uiTriId,
                     const UInt32 uiCacheId);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

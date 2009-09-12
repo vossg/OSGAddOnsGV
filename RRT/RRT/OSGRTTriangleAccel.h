@@ -91,7 +91,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentric
     void intersect(RTRaySIMDPacket &oRay, 
                    RTHitSIMDPacket &oHit,
                    UInt32           uiCacheId,
-                   UInt32          *uiActive  );
+                   UInt32           uiActive  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -185,7 +185,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentricVer1
     void intersect(RTRaySIMDPacket &oRay, 
                    RTHitSIMDPacket &oHit,
                    UInt32           uiCacheId,
-                   UInt32          *uiActive  );
+                   UInt32           uiActive  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -271,7 +271,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentricVer2
     void intersect(RTRaySIMDPacket &oRay, 
                    RTHitSIMDPacket &oHit,
                    UInt32           uiCacheId,
-                   UInt32          *uiActive );
+                   UInt32           uiActive );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

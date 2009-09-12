@@ -409,7 +409,10 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::fillTile(
 
                     rayTile.setOrigin(vOrigin);
                     
-                    rayTile.setDirection(vCurrV, uiPacketIndex);
+                    Vec3f vDir = vCurrV;
+                    vDir.normalize();
+                    
+                    rayTile.setDirection(vDir, uiPacketIndex);
                     
                     rayInfo.setXY(uiX, uiY);
                     

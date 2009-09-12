@@ -87,6 +87,8 @@ void RTLocalPacketManager<DescT>::trace(Camera *pCam, bool bTiled)
 {
     if(pCam != NULL && _pTarget != NULL)
     {
+        _pTarget->startFrame();
+
         if(bTiled == true)
         {
             _pHitTiledStore       ->startFrame(       *_pTarget);

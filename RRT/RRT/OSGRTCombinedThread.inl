@@ -134,8 +134,6 @@ void RTCombinedThread<DescT>::workProc(void)
     {
         while(true)
         {
-            fprintf(stderr, "Frame start\n");
-
             _pSyncBarrier->enter();
             
             UInt32 uiRayIndex = _pRayStore->nextIndex();
@@ -216,7 +214,9 @@ void RTCombinedThread<DescT>::workProc(void)
                 uiHitIndex = _pHitStore->getReadIndex();
             }
             
+#if 0
             fprintf(stderr, "%p : %d %d\n", this, uiRayStat, uiHitStat);
+#endif
 
             _pSyncBarrier->enter();
         }

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2003 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -38,136 +38,88 @@
 
 OSG_BEGIN_NAMESPACE
 
-template<typename DescT> inline
-RTHitStore<DescT>::RTHitStore(void) :
-     Inherited      (    ),
-    _uiNumHits      (0   ),
-    _uiCurrentHit   (0   ),
-    _uiAvailableHits(0   ),
-    _uiServedHits   (0   ),
 
-    _vHits          (    ),
-    _vAvailableHits (    ),
-    _pStoreLock     (NULL),
-    _pCond          (NULL)
+inline
+Float4 osgSIMDMul(const Float4 v1,  const Float4 v2)
 {
-    _pStoreLock = Lock   ::get(NULL);
-    _pCond      = CondVar::get(NULL);
+    Float4 returnValue;
 
-    OSG::addRef(_pStoreLock);
-    OSG::addRef(_pCond     );
-}
-
-template<typename DescT> inline
-RTHitStore<DescT>::~RTHitStore(void)
-{
-    OSG::subRef(_pStoreLock);
-    OSG::subRef(_pCond     );
-}
-
-template<typename DescT> inline
-void RTHitStore<DescT>::startFrame(RTTarget &pTarget)
-{
-    if(_uiWidth != pTarget.getWidth() || _uiHeight != pTarget.getHeight())
-    {
-        fprintf(stderr, "Update HTS \n================================\n"); 
-
-        Inherited::updateNumTiles(pTarget.getWidth(), 
-                                  pTarget.getHeight(),
-                                  SingleHitPacket::NumHHits,
-                                  SingleHitPacket::NumVHits);
-
-
-        _vHits.resize(_uiNumTiles);
-    }
-
-    _vAvailableHits.clear();
-
-    _uiCurrentHit    = 0;
-    _uiAvailableHits = 0;
-    _uiServedHits    = 0;
-}
-
-template<typename DescT> inline
-void RTHitStore<DescT>::wait(void)
-{
-    _pCond->acquire();
-    _pCond->wait   ();
-    _pCond->release();
-}
-
-template<typename DescT> inline
-void RTHitStore<DescT>::signal(void)
-{
-    _pCond->signal();
-}
-
-template<typename DescT> inline
-void RTHitStore<DescT>::broadcast(void)
-{
-    _pCond->broadcast();
-}
-
-template<typename DescT> inline
-UInt32 RTHitStore<DescT>::getWriteIndex(void)
-{
-    UInt32 returnValue = Empty;
-
-    _pStoreLock->acquire();
-
-    returnValue = _uiCurrentHit++;
-
-    _pStoreLock->release();
+    returnValue.data[0] = v1.data[0] * v2.data[0];
+    returnValue.data[1] = v1.data[1] * v2.data[1];
+    returnValue.data[2] = v1.data[2] * v2.data[2];
+    returnValue.data[3] = v1.data[3] * v2.data[3];
 
     return returnValue;
 }
 
-template<typename DescT> inline
-UInt32 RTHitStore<DescT>::getReadIndex(void)
+
+inline
+Float4 osgSIMDAdd (const Float4 v1,  const Float4 v2)
 {
-    UInt32 returnValue = Empty;
+    Float4 returnValue;
 
-    _pStoreLock->acquire();
-
-    if(_uiAvailableHits != 0)
-    {
-        returnValue = _vAvailableHits.back();
-
-        _vAvailableHits.pop_back();
-
-        --_uiAvailableHits;
-        ++_uiServedHits;
-    }
-    else
-    {
-        if(_uiServedHits < _uiNumTiles)
-        {
-            returnValue = Waiting;
-        }
-    }
-
-    _pStoreLock->release();
+    returnValue.data[0] = v1.data[0] + v2.data[0];
+    returnValue.data[1] = v1.data[1] + v2.data[1];
+    returnValue.data[2] = v1.data[2] + v2.data[2];
+    returnValue.data[3] = v1.data[3] + v2.data[3];
 
     return returnValue;
 }
 
-template<typename DescT> inline
-void RTHitStore<DescT>::pushWriteIndex(UInt32 uiIndex)
+inline
+Float4 osgSIMDAnd (const Float4 v1,  const Float4 v2)
 {
-    _pStoreLock->acquire();
+    Float4 returnValue;
 
-    ++_uiAvailableHits;
+    returnValue.idata[0] = v1.idata[0] & v2.idata[0];
+    returnValue.idata[1] = v1.idata[1] & v2.idata[1];
+    returnValue.idata[2] = v1.idata[2] & v2.idata[2];
+    returnValue.idata[3] = v1.idata[3] & v2.idata[3];
 
-    _vAvailableHits.push_back(uiIndex);
-
-    _pStoreLock->release();
+    return returnValue;
 }
 
-template<typename DescT> inline
-typename RTHitStore<DescT>::SingleHitPacket &
-    RTHitStore<DescT>::getPacket(UInt32 uiIndex)
+inline
+Float4 osgSIMDInvert(const Float4 v)
 {
-    return _vHits[uiIndex];
+    Float4 returnValue;
+
+    returnValue.data[0] = 1.f / v.data[0];
+    returnValue.data[1] = 1.f / v.data[1];
+    returnValue.data[2] = 1.f / v.data[2];
+    returnValue.data[3] = 1.f / v.data[3];
+
+    return returnValue;
+}
+
+inline
+Float4 osgSIMDSet(const Real32 rVal)
+{
+    Float4 returnValue;
+
+    returnValue.data[0] = rVal;
+    returnValue.data[1] = rVal;
+    returnValue.data[2] = rVal;
+    returnValue.data[3] = rVal;
+
+    return returnValue;
+}
+
+
+inline
+Float4 osgSIMDSet(const Real32 rVal0,
+                  const Real32 rVal1,
+                  const Real32 rVal2,
+                  const Real32 rVal3)
+{
+    Float4 returnValue;
+
+    returnValue.data[0] = rVal0;
+    returnValue.data[1] = rVal1;
+    returnValue.data[2] = rVal2;
+    returnValue.data[3] = rVal3;
+
+    return returnValue;
 }
 
 OSG_END_NAMESPACE
