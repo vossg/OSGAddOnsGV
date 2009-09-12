@@ -81,6 +81,8 @@ int mouseb = 0;
 int lastx  = 0;
 int lasty  = 0;
 
+bool bPrintTransform = false;
+
 void display(void)
 {
     Matrix m1, m2, m3;
@@ -90,9 +92,25 @@ void display(void)
 
     q1.setValue(m3);
 
+
     m1.setRotate(q1);
     
     m2.setTranslate( tball.getPosition() );
+
+    if(bPrintTransform == true)
+    {
+        fprintf(stderr, "%f %f %f\n", 
+                tball.getPosition()[0],
+                tball.getPosition()[1],
+                tball.getPosition()[2]);
+        fprintf(stderr, "%f %f %f %f\n", 
+                q1[0],
+                q1[1],
+                q1[2],
+                q1[3]);
+
+        bPrintTransform = false;
+    }
     
     m1.mult( m2 );
 
@@ -223,6 +241,10 @@ void key(unsigned char key, int x, int y)
             glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
             std::cerr << "PolygonMode: Fill." << std::endl;
             break;
+        case 'p':
+            bPrintTransform = true;
+            break;
+
         case 'd':
         {
 #if 1
@@ -305,7 +327,7 @@ void initRTStage(void)
     Thread::getCurrentChangeList()->commitChanges();
     file->updateVolume();
 
-    file->dump();
+//    file->dump();
 
 #if 0
     char *outFileName = "/tmp/foo.osg";
@@ -403,7 +425,7 @@ void initRTStage(void)
     pVisitNode->setCore       (pVisit);
 
     pStageNode->setCore(pStage    );
-    pStageNode->addChild(pVisitNode);
+//    pStageNode->addChild(pVisitNode);
   
     root->addChild(pStageNode);
     root->addChild(dlight);
@@ -456,7 +478,7 @@ void initScene(int argc, char **argv)
     
     if(argc > 1)
     {
-        file = SceneFileHandler::the()->read(argv[1]);
+        file = SceneFileHandler::the()->read(argv[1], NULL);
     }
 
     if(file == NullFC)
@@ -552,8 +574,8 @@ void initScene(int argc, char **argv)
     tx1o->setImage    (pImg      ); 
     tx1o->setMinFilter(GL_LINEAR );
     tx1o->setMagFilter(GL_LINEAR );
-    tx1o->setWrapS    (GL_REPEAT );
-    tx1o->setWrapT    (GL_REPEAT );
+    tx1o->setWrapS    (GL_CLAMP );
+    tx1o->setWrapT    (GL_CLAMP );
     tx1e->setEnvMode  (GL_REPLACE);
 
     SimpleMaterialPtr mat = SimpleMaterial::create();
@@ -662,8 +684,15 @@ int main (int argc, char **argv)
                   min[1] + (max[1] - min[1]) / 2,
                   min[2] + (max[2] - min[2]) / 2);
 
+
+//    Quaternion q;
+//    pos.setValues(0.000000, 0.000000, 1.942173);
+//    q.setValueAsQuat(0.911936, -0.384058, 0.115685, -0.086538);
+//0.079669 0.330959 -0.201149 0.918509
+
     tball.setMode( Trackball::OSGObject );
     tball.setStartPosition( pos, true );
+//    tball.setStartRotation(q, true);
     tball.setSum( true );
     tball.setTranslationMode( Trackball::OSGFree );
     tball.setTranslationScale(scale);

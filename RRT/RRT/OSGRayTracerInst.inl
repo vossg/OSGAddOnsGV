@@ -87,7 +87,7 @@ void RayTracerInst<DescT>::init(bool bTiled, bool bSplitThreads)
     {
         fprintf(stderr, "RayTracer init\n");
 
-        pRoot->dump();
+//        pRoot->dump();
 
         setRefd(_pScene, new Scene);
 

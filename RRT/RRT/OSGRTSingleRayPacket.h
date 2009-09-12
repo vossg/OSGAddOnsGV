@@ -87,6 +87,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleRayPacketInfo : public RTRayPacketInfo
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
+    void dump(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
     void operator =(const RTSingleRayPacketInfo &source);
 
     /*! \}                                                                 */
@@ -148,6 +155,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleRayPacket : public RTRayPacket
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
+
+    void dump(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

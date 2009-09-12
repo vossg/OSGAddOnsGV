@@ -107,7 +107,7 @@ Float4 osgSIMDCmpLE(const Float4 v1, const Float4 v2)
 inline
 Float4 osgSIMDRSqrtE(const Float4 v)
 {
-    return _mm_sqrt_ps(v);
+    return _mm_rsqrt_ps(v);
 }
 
 inline

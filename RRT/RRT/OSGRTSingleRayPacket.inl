@@ -94,6 +94,11 @@ void RTSingleRayPacketInfo::operator =(const RTSingleRayPacketInfo &source)
     _uiY       = source._uiY;
 }
 
+inline
+void RTSingleRayPacketInfo::dump(void)
+{
+    fprintf(stderr, "%d %d %d\n", _uiX, _uiY, _bIsActive);
+}
 
 
 
@@ -119,6 +124,18 @@ void RTSingleRayPacket::operator =(const RTSingleRayPacket &source)
 {
     (*static_cast<Inherited *>(this)) = 
         static_cast<const Inherited &>(source);
+}
+
+inline
+void RTSingleRayPacket::dump(void)
+{
+    fprintf(stderr, "%f %f %f -> %f %f %f\n",
+            _vOrigin[0],
+            _vOrigin[1],
+            _vOrigin[2],
+            _vDir[0],
+            _vDir[1],
+            _vDir[2]);
 }
 
 OSG_END_NAMESPACE

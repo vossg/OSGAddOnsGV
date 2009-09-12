@@ -88,6 +88,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTFourRaySIMDPacketInfo :
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
+    void dump(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
     void operator =(const RTFourRaySIMDPacketInfo &source);
 
     /*! \}                                                                 */
@@ -149,6 +156,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTFourRaySIMDPacket : public RTRaySIMDPacket
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
+
+    void dump(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

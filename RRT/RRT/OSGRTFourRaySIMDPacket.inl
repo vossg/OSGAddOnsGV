@@ -92,6 +92,18 @@ void RTFourRaySIMDPacketInfo::operator =(const RTFourRaySIMDPacketInfo &source)
 }
 
 
+inline
+void RTFourRaySIMDPacketInfo::dump(void)
+{
+    fprintf(stderr, "%d %d\n", _uiX, _uiY);
+    fprintf(stderr, "%d %d %d %d\n", 
+            _bIsActive[0],
+            _bIsActive[1],
+            _bIsActive[2],
+            _bIsActive[3]);
+}
+
+
 
 
 
@@ -115,6 +127,32 @@ inline
 void RTFourRaySIMDPacket::operator =(const RTFourRaySIMDPacket &source)
 {
     Inherited::operator =(source);
+}
+
+inline
+void RTFourRaySIMDPacket::dump(void)
+{
+    fprintf(stderr, "%f %f %f ->\n",
+            _vOriginA[0],
+            _vOriginA[1],
+            _vOriginA[2]);
+
+    fprintf(stderr, "    %f %f %f\n",
+            _vDirA[0][0],
+            _vDirA[1][0],
+            _vDirA[2][0]);
+    fprintf(stderr, "    %f %f %f\n",
+            _vDirA[0][1],
+            _vDirA[1][1],
+            _vDirA[2][1]);
+    fprintf(stderr, "    %f %f %f\n",
+            _vDirA[0][2],
+            _vDirA[1][2],
+            _vDirA[2][2]);
+    fprintf(stderr, "    %f %f %f\n",
+            _vDirA[0][3],
+            _vDirA[1][3],
+            _vDirA[2][3]);
 }
 
 OSG_END_NAMESPACE
