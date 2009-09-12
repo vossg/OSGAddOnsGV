@@ -38,7 +38,9 @@
 
 #include "OSGDynamicTerrain.h"
 #include "OSGRectangle.h"
+#ifdef OLD_GEOCLIP
 #include "OSGStatelessGlslShader.h"
+#endif
 #include "OSGTerrainTools.h"
 #include "OSGHeightDataSource.h"
 #include "OSGCpuClipmapRenderer.h"
@@ -112,6 +114,10 @@ Color3f			getDebugColor( int index );
 
 CpuClipmapRenderer::CpuClipmapRenderer()
 {
+#ifndef OLD_GEOCLIP
+    _pTerrainShader = NullFC;
+#endif
+
     window_ = 0;
     useVertexBufferObjects_ = false;
     
@@ -198,7 +204,11 @@ void CpuClipmapRenderer::onUpdateRenderData( const Pnt3f& viewPosition )
 
 void CpuClipmapRenderer::onDestroyGpuResources()
 {
+#ifdef OLD_GEOCLIP
     terrainShader_.destroy();
+#else
+    OSG::subRef(_pTerrainShader);
+#endif
     
     const int levelCount = levels_.size();
     
@@ -216,7 +226,11 @@ void CpuClipmapRenderer::onDestroyGpuResources()
 void CpuClipmapRenderer::onCreateGpuResources()
 {
     assert( window_ );
-    
+
+#ifndef OLD_GEOCLIP
+    OSG::setRefd(_pTerrainShader, SHLChunk::create());
+#endif
+        
     reloadShader();
     
     const int levelCount = levels_.size();
@@ -260,6 +274,7 @@ void CpuClipmapRenderer::onRender( const ClipmapRenderParameters& renderParamete
 {
     // activate the gpu program:
     //glDisable( GL_LIGHTING );
+#ifdef OLD_GEOCLIP
     terrainShader_.activate();
     
     if( programTextChanged_ )
@@ -267,6 +282,9 @@ void CpuClipmapRenderer::onRender( const ClipmapRenderParameters& renderParamete
         reloadShader();
         programTextChanged_ = false;
     }
+#else
+    _pTerrainShader->activate(renderParameters.drawEnv);
+#endif
     
     bool useDependentTextureLookup = false;
     
@@ -307,19 +325,57 @@ void CpuClipmapRenderer::onRender( const ClipmapRenderParameters& renderParamete
         
         const Color3f& debugColor = getDebugColor( levelIdx );
         
-        terrainShader_.setUniform( "baseColor0", colorToVector( debugColor ) );
-        terrainShader_.setUniform( "sampleDistance", renderParameters.worldTransform.sampleDistance );
-        terrainShader_.setUniform( "worldOffset", renderParameters.worldTransform.offset );
-        terrainShader_.setUniform( "heightScale", renderParameters.worldTransform.heightScale );
-        terrainShader_.setUniform( "heightOffset", renderParameters.worldTransform.heightOffset );
-        
+#ifdef OLD_GEOCLIP
+        terrainShader_.setUniform(
+            "baseColor0", colorToVector( debugColor ) );
+
+        terrainShader_.setUniform( 
+            "sampleDistance", 
+            renderParameters.worldTransform.sampleDistance );
+
+        terrainShader_.setUniform(
+            "worldOffset", 
+            renderParameters.worldTransform.offset );
+
+        terrainShader_.setUniform(
+            "heightScale", 
+            renderParameters.worldTransform.heightScale );
+
+        terrainShader_.setUniform(
+            "heightOffset", 
+            renderParameters.worldTransform.heightOffset );
+#else
+#ifdef NOTUSED
+        _pTerrainShader->setUniformParameter(
+            "baseColor0", colorToVector( debugColor ) );
+#endif
+        _pTerrainShader->setUniformParameter( 
+            "sampleDistance", 
+            renderParameters.worldTransform.sampleDistance );
+
+        _pTerrainShader->setUniformParameter(
+            "worldOffset", 
+            renderParameters.worldTransform.offset );
+
+        _pTerrainShader->setUniformParameter(
+            "heightScale", 
+            renderParameters.worldTransform.heightScale );
+
+        _pTerrainShader->setUniformParameter(
+            "heightOffset", 
+            renderParameters.worldTransform.heightOffset );
+#endif        
         if( renderParameters.showTransitionRegions )
         {
             // todo: add a sensible debug representation..
-            drawSampleRectangle( level.getCoveredSampleRect(), debugColor, renderParameters.worldTransform );
+            drawSampleRectangle( level.getCoveredSampleRect(), 
+                                 debugColor, 
+                                 renderParameters.worldTransform );
             //drawSamples( level, Color3f( 0, 1, 0 ) );
             //drawVertices( level, debugColor );
-            drawBlendLines( level, debugColor, renderParameters.worldTransform );
+            drawBlendLines( level, 
+                            debugColor, 
+                            renderParameters.worldTransform );
         }
         
         if( !level.isActive ) 
@@ -332,10 +388,13 @@ void CpuClipmapRenderer::onRender( const ClipmapRenderParameters& renderParamete
             finerLevel = 0;
         }
         
-        // buildIndices dynamically builds the indices for this level and does frustum culling
+        // buildIndices dynamically builds the indices for this level and 
+        // does frustum culling
         // the method returns false if nothing is visible
         
-        // todo: dont rebuild the indices every time.. just rebuild them if something changed (inside the update() call)
+        // todo: dont rebuild the indices every time.. just rebuild them if 
+        // something changed (inside the update() call)
+
         if( buildIndices( level, finerLevel ) )
         {
             // finally: draw the block:
@@ -347,15 +406,23 @@ void CpuClipmapRenderer::onRender( const ClipmapRenderParameters& renderParamete
     
     if( renderParameters.globalTextureObj != NullFC )
     {
-        renderParameters.globalTextureObj->deactivate( renderParameters.drawEnv );
-        renderParameters.globalTextureEnv->deactivate( renderParameters.drawEnv );
+        renderParameters.globalTextureObj->deactivate( 
+            renderParameters.drawEnv );
+        renderParameters.globalTextureEnv->deactivate( 
+            renderParameters.drawEnv );
     }
-    else if( renderParameters.heightColorTexture != NullFC )
+    else if(renderParameters.heightColorTexture != NullFC)
     {
-        renderParameters.heightColorTexture->deactivate( renderParameters.drawEnv );
+        renderParameters.heightColorTexture->deactivate( 
+            renderParameters.drawEnv );
     }
     
+#ifdef OLD_GEOCLIP
     terrainShader_.deactivate();
+#else
+    _pTerrainShader->deactivate(renderParameters.drawEnv);
+#endif
+
 }
 
 
@@ -364,11 +431,15 @@ void CpuClipmapRenderer::onReloadShader()
     assert( window_ );
     std::string errorMsg;
 
+#ifdef OLD_GEOCLIP
     if( !terrainShader_.create( window_, vertexProgramText_.c_str(), fragmentProgramText_.c_str(), errorMsg ) )
     {
         PWARNING << "[DynamicTerrain] " << "Error compiling the GPU Program: " << errorMsg << "\n";
     }
-    
+#else
+    _pTerrainShader->setVertexProgram  (vertexProgramText_  );
+    _pTerrainShader->setFragmentProgram(fragmentProgramText_);
+#endif    
 }
 
 
@@ -816,6 +887,7 @@ void CpuClipmapRenderer::renderBlock( const GeometryClipmapLevel& level, const G
 
     //localViewerPos -= baseLocalViewerPos;
 
+#ifdef OLD_GEOCLIP
     //beginEditCP( terrainShader_ );
     terrainShader_.setUniform( "transitionWidth", Vec2f( worldTransitionSize ) );
     terrainShader_.setUniform( "activeRegionMin", Vec2f( activeRegionMin ) );
@@ -824,14 +896,49 @@ void CpuClipmapRenderer::renderBlock( const GeometryClipmapLevel& level, const G
     terrainShader_.setUniform( "localViewerPos", Vec3f( viewerPosition_ ) );
     terrainShader_.setUniform( "baseColor0", colorToVector( debugColor ) );
     //endEditCP( terrainShader_ );
+#else
+    _pTerrainShader->setUniformParameter( "transitionWidth", 
+                                          Vec2f( worldTransitionSize ) );
+    _pTerrainShader->setUniformParameter( "activeRegionMin", 
+                                          Vec2f( activeRegionMin ) );
+    _pTerrainShader->setUniformParameter( "activeRegionMax", 
+                                          Vec2f( activeRegionMax ) );
+    //terrainShader_->setUniform( "activeRegionCenter", activeRegionCenter );		
+    _pTerrainShader->setUniformParameter( "localViewerPos", 
+                                          Vec3f( viewerPosition_ ) );
+#ifdef NOTUSED
+    _pTerrainShader->setUniformParameter( "baseColor0", 
+                                          colorToVector( debugColor ) );
+#endif
+#endif
 
     if( coarserLevel )
     {
-        terrainShader_.setUniform( "baseColor1", colorToVector( getDebugColor( coarserLevel->index ) ) );
+#ifdef OLD_GEOCLIP
+        terrainShader_.setUniform( 
+            "baseColor1", 
+            colorToVector( getDebugColor( coarserLevel->index ) ) );
+#else
+#ifdef NOTUSED
+        _pTerrainShader->setUniformParameter( 
+            "baseColor1", 
+            colorToVector( getDebugColor( coarserLevel->index ) ) );
+#endif
+#endif
     }
     else
     {
-        terrainShader_.setUniform( "baseColor1", colorToVector( debugColor ) );
+#ifdef OLD_GEOCLIP
+        terrainShader_.setUniform( 
+            "baseColor1", 
+            colorToVector( debugColor ) );
+#else
+#ifdef NOTUSED
+        _pTerrainShader->setUniformParameter( 
+            "baseColor1", 
+            colorToVector( debugColor ) );
+#endif
+#endif
     }
 
     //terrainShader_->updateParameters( drawAction->getWindow(), terrainShader_->getParameters() );

@@ -41,7 +41,11 @@
 
 #include "OSGClipmapRenderer.h"
 #include "OSGGpuBuffer.h"
+#ifdef OLD_GEOCLIP
 #include "OSGStatelessGlslShader.h"
+#else
+#include "OSGSHLChunk.h"
+#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -90,7 +94,11 @@ class CpuClipmapRenderer : public ClipmapRenderer
     typedef std::vector< TerrainLevelRenderData >   TerrainLevelRenderDataList;
     
     TerrainLevelRenderDataList  levels_;
+#ifdef OLD_GEOCLIP
     GlslShader                  terrainShader_;
+#else
+    SHLChunkPtr                 _pTerrainShader;
+#endif
     GpuBuffer                   testBuffer_;
     bool                        useVertexBufferObjects_;
     bool                        programTextChanged_;
