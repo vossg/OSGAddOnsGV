@@ -1,19 +1,48 @@
-//-----------------------------------------------------------------------------
-//
-//	Author				:		Julien Koenen
-//	Creation Date		:		10.12.2004 23:16:14
-//
-//	Description			:		main.cpp
-//
-//-----------------------------------------------------------------------------
-
-//#include "motor3d/debug/Assert.h"
-//#include "motor3d/debug/Log.h"
-//#include "motor3d/platform/CommandLineOptions.h"
-//#include "motor3d/stream/FileStream.h"
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *             Copyright (C) 2000-2007 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Notes                                      *
+ *                                                                           *
+ * Implementation based on the original thesis work by Julien Koenen         *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 #include "OSGBbqTerrainCreator.h"
-//#include "motor3d/math/LinearSolver.h"
 #include "OSGBaseInitFunctions.h"
 
 #include <iostream>
@@ -30,68 +59,43 @@ int main( int argc, char** argv )
 
     osgInit(argc, argv);
 
-#if 0
-	motor3d::CommandLineOptions cmdOptions;
-    
-	cmdOptions.addUsage( "Usage: createBbqTerrain [OPTIONS]... [HEIGHTFIELD-FILE] [TEXTURE-FILE] [BBQ-FILE]" );
-	cmdOptions.addUsage( "Use -h or --help for a complete list of options" );
-	cmdOptions.addUsage( " --tileSize=tilesize (-t) Supported tileSize values are: 9,17,33,65 and 129!" );
-    
-	cmdOptions.setFlag( "help", 'h' );
-	cmdOptions.setOption( "tileSize", 't' );
-    
-	cmdOptions.processCommandArgs( argc, argv, 3 );
-    
-	if( cmdOptions.getFlag( "help" ) || cmdOptions.getFlag( 'h' ) || cmdOptions.getArgc() < 3 )
-	{
-		cmdOptions.printUsage();
-		return 0;
-	} 
-#endif
+    int tileSize    = 65;
+    int textureSize = 128;
 
-	int tileSize = 65;
-	int textureSize = 128;
-
-#if 0
-	std::string heightFieldFilename = cmdOptions.getArgv( 0 );
-	std::string textureFilename     = cmdOptions.getArgv( 1 );
-	std::string bbqTerrainFilename  = cmdOptions.getArgv( 2 );
-#else
-	std::string heightFieldFilename = "data/ps_height_1k.png";
-	std::string textureFilename     = "data/ps_texture_1k.png";
-	std::string bbqTerrainFilename  = "data/ps.bbq";
-#endif
+    std::string heightFieldFilename = "data/ps_height_1k.png";
+//  std::string heightFieldFilename = "data/Z_70_22.TIF";
+    std::string textureFilename     = "data/ps_texture_1k.png";
+    std::string bbqTerrainFilename  = "data/ps.bbq";
 
 
-
-	BbqTerrainCreator *terrainCreator = new BbqTerrainCreator();
+    BbqTerrainCreator *terrainCreator = new BbqTerrainCreator();
     
-	if( !terrainCreator->start( heightFieldFilename, 
+    if( !terrainCreator->start( heightFieldFilename, 
                                 textureFilename, 
                                 bbqTerrainFilename, 
                                 tileSize, 
                                 textureSize ) )
-	{
-		std::cout << "Could not produce the .bbq Terrain File!\n";
-		return 1;
-	}
+    {
+        std::cout << "Could not produce the .bbq Terrain File!\n";
+        return 1;
+    }
     
-	while(!terrainCreator->isFinished() )
-	{
-		std::cout << "\rProgress = " 
+    while(!terrainCreator->isFinished() )
+    {
+        std::cout << "\rProgress = " 
                   << int( 100 * terrainCreator->getProgress() ) 
                   << "%                " 
                   << std::flush;
         
-		terrainCreator->step();
-	}
+        terrainCreator->step();
+    }
 
-	std::cout << "\rFinished!                            \n";
+    std::cout << "\rFinished!                            \n";
     
     delete terrainCreator;
 
     OSG::osgExit();
 
-	return 0;
+    return 0;
 }
 

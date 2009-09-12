@@ -1,11 +1,46 @@
-//-------------------------------------------------------------------------------------------------
-//
-//  Author              :       Julien Koenen
-//  Creation Date       :       10.12.2004 23:16:14
-//
-//  Description         :       main.cpp
-//
-//-------------------------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *             Copyright (C) 2000-2007 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Notes                                      *
+ *                                                                           *
+ * Implementation based on the original thesis work by Julien Koenen         *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
 
 #include "OSGBbqTerrainCompressor.h"
 #include <iostream>
@@ -18,39 +53,10 @@ OSG_USING_NAMESPACE
 
 int main( int argc, char** argv )
 {
-#if 0
-    motor3d::CommandLineOptions cmdOptions;
-
-    cmdOptions.addUsage( "Usage: compressBbqTerrain [OPTIONS]... [BBQ-INPUT] [BBQ-OUTPUT]" );
-    cmdOptions.addUsage( "Use -h or --help for a complete list of options" );
-    cmdOptions.addUsage( " --quality=[1-1000] [-q] Target Quantization Quality!" );
-
-    cmdOptions.setFlag( "help", 'h' );
-    cmdOptions.setOption( "quality", 'q' );
-
-    cmdOptions.processCommandArgs( argc, argv, 3 );
-
-    if( cmdOptions.getFlag( "help" ) || cmdOptions.getFlag( 'h' ) || cmdOptions.getArgc() < 2 )
-    {
-        cmdOptions.printUsage();
-        return 0;
-    } 
-
-    std::string bbqSourceFilename = cmdOptions.getArgv( 0 );
-    std::string bbqTargetFilename = cmdOptions.getArgv( 1 );
-#endif
-
     std::string bbqSourceFilename = "data/ps.bbq";
     std::string bbqTargetFilename = "data/ps_com.bbq";
 
     int compressionQuality = 500;
-
-#if 0
-    if( cmdOptions.getValue( 'q' ) )
-    {
-        compressionQuality = clamp( atoi( cmdOptions.getValue( 'q' ) ), 1, 1000 );
-    }
-#endif
 
     osgInit(argc, argv);
 

@@ -28,6 +28,9 @@ bool ImageBlockAccessor::open(const std::string filename)
 {
     _pImage = ImageFileHandler::the()->read(filename.c_str());
 
+    if(_pImage != NullFC)
+        _pImage->dump();
+
     return _pImage != NullFC;
 }
 
