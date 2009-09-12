@@ -49,12 +49,11 @@
 
 #include "OSGRTSingleRayPacket.h"
 #include "OSGRTHitPacket.h"
+#include "OSGRTTarget.h"
 
 OSG_BEGIN_NAMESPACE
 
 class DrawEnv;
-
-class RTTarget;
 
 /*! \brief RayTracer class. See \ref
            PageContribRRTRayTracer for a description.
@@ -111,7 +110,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracer : public RayTracerBase
 
   protected:
 
-    RTTarget                        *_pTarget;
+    RTTargetUnrecPtr _pTarget;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
@@ -139,7 +138,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracer : public RayTracerBase
 
   private:
 
-    friend class FieldBundle;
+    friend class FieldContainer;
     friend class RayTracerBase;
 
     // prohibit default functions (move to 'public' if you need one)

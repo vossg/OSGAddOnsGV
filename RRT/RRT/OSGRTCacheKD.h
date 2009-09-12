@@ -111,11 +111,11 @@ class RTCacheKD : public RTCacheKDBase<DescT>
                                    MFFieldContainerPtr> MField;
 #endif
 
-    typedef          FieldContainerPtrSField<ObjPtr, 
-                                UnrecordedRefCountPolicy> SField;
+    typedef          PointerSField<ObjPtr, 
+                                   UnrecordedRefCountPolicy> SField;
 
-    typedef          FieldContainerPtrMField<ObjPtr, 
-                                UnrecordedRefCountPolicy> MField;
+    typedef          PointerMField<ObjPtr, 
+                                   UnrecordedRefCountPolicy> MField;
 
     enum 
     { 

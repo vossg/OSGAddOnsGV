@@ -58,8 +58,8 @@
 #include "OSGContribRRTDef.h"
 
 #include "OSGFieldContainerFields.h"
-#include "OSGFieldContainerPtrSField.h"
-#include "OSGFieldContainerPtrMField.h"
+#include "OSGPointerSField.h"
+#include "OSGPointerMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -166,28 +166,28 @@ const Char8 *FieldTraits<RTCacheGeometryStorePtr, 0>::getMName<NoRefCountPolicy>
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef FieldContainerPtrSField<RTCacheGeometryStorePtr,
-                                RecordedRefCountPolicy  > SFRecRTCacheGeometryStorePtr;
-typedef FieldContainerPtrSField<RTCacheGeometryStorePtr,
-                                UnrecordedRefCountPolicy> SFUnrecRTCacheGeometryStorePtr;
-typedef FieldContainerPtrSField<RTCacheGeometryStorePtr,
-                                WeakRefCountPolicy      > SFWeakRTCacheGeometryStorePtr;
-typedef FieldContainerPtrSField<RTCacheGeometryStorePtr,
-                                NoRefCountPolicy        > SFUncountedRTCacheGeometryStorePtr;
+typedef PointerSField<RTCacheGeometryStorePtr,
+                      RecordedRefCountPolicy  > SFRecRTCacheGeometryStorePtr;
+typedef PointerSField<RTCacheGeometryStorePtr,
+                      UnrecordedRefCountPolicy> SFUnrecRTCacheGeometryStorePtr;
+typedef PointerSField<RTCacheGeometryStorePtr,
+                      WeakRefCountPolicy      > SFWeakRTCacheGeometryStorePtr;
+typedef PointerSField<RTCacheGeometryStorePtr,
+                      NoRefCountPolicy        > SFUncountedRTCacheGeometryStorePtr;
 #endif
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldMulti */
 
-typedef FieldContainerPtrMField<RTCacheGeometryStorePtr,
-                                RecordedRefCountPolicy  > MFRecRTCacheGeometryStorePtr;
-typedef FieldContainerPtrMField<RTCacheGeometryStorePtr,
-                                UnrecordedRefCountPolicy> MFUnrecRTCacheGeometryStorePtr;
-typedef FieldContainerPtrMField<RTCacheGeometryStorePtr,
-                                WeakRefCountPolicy      > MFWeakRTCacheGeometryStorePtr;
-typedef FieldContainerPtrMField<RTCacheGeometryStorePtr,
-                                NoRefCountPolicy        > MFUncountedRTCacheGeometryStorePtr;
+typedef PointerMField<RTCacheGeometryStorePtr,
+                      RecordedRefCountPolicy  > MFRecRTCacheGeometryStorePtr;
+typedef PointerMField<RTCacheGeometryStorePtr,
+                      UnrecordedRefCountPolicy> MFUnrecRTCacheGeometryStorePtr;
+typedef PointerMField<RTCacheGeometryStorePtr,
+                      WeakRefCountPolicy      > MFWeakRTCacheGeometryStorePtr;
+typedef PointerMField<RTCacheGeometryStorePtr,
+                      NoRefCountPolicy        > MFUncountedRTCacheGeometryStorePtr;
 #endif
 
 

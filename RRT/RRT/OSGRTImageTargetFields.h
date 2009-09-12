@@ -58,8 +58,8 @@
 #include "OSGContribRRTDef.h"
 
 #include "OSGFieldContainerFields.h"
-#include "OSGFieldContainerPtrSField.h"
-#include "OSGFieldContainerPtrMField.h"
+#include "OSGPointerSField.h"
+#include "OSGPointerMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -139,14 +139,14 @@ const Char8 *FieldTraits<RTImageTargetPtr, 0>::getSName<NoRefCountPolicy>(void)
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef FieldContainerPtrSField<RTImageTargetPtr,
-                                RecordedRefCountPolicy  > SFRecRTImageTargetPtr;
-typedef FieldContainerPtrSField<RTImageTargetPtr,
-                                UnrecordedRefCountPolicy> SFUnrecRTImageTargetPtr;
-typedef FieldContainerPtrSField<RTImageTargetPtr,
-                                WeakRefCountPolicy      > SFWeakRTImageTargetPtr;
-typedef FieldContainerPtrSField<RTImageTargetPtr,
-                                NoRefCountPolicy        > SFUncountedRTImageTargetPtr;
+typedef PointerSField<RTImageTargetPtr,
+                      RecordedRefCountPolicy  > SFRecRTImageTargetPtr;
+typedef PointerSField<RTImageTargetPtr,
+                      UnrecordedRefCountPolicy> SFUnrecRTImageTargetPtr;
+typedef PointerSField<RTImageTargetPtr,
+                      WeakRefCountPolicy      > SFWeakRTImageTargetPtr;
+typedef PointerSField<RTImageTargetPtr,
+                      NoRefCountPolicy        > SFUncountedRTImageTargetPtr;
 #endif
 
 

@@ -117,7 +117,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTextureTarget : public RTTextureTargetBase
 
   private:
 
-    friend class FieldBundle;
+    friend class FieldContainer;
     friend class RTTextureTargetBase;
 
     // prohibit default functions (move to 'public' if you need one)

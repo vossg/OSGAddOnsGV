@@ -304,11 +304,11 @@ DataType FieldTraits<RTCacheAttachmentPtr>::_type("RTCacheAttachmentPtr", "Field
 
 OSG_FIELDTRAITS_GETTYPE(RTCacheAttachmentPtr)
 
-OSG_EXPORT_PTR_SFIELD_FULL(FieldContainerPtrSField, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
                            RTCacheAttachmentPtr, 
                            0);
 
-OSG_EXPORT_PTR_MFIELD_FULL(FieldContainerPtrMField, 
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
                            RTCacheAttachmentPtr, 
                            0);
 

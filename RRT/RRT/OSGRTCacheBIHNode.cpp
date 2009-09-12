@@ -49,7 +49,8 @@ FieldType MField<ValueT, iNamespace, AllocT>::_fieldType(
     MFieldTraits::getMName(),
     MFieldTraits::getPName(),
     MFieldTraits::getType (),
-    FieldType::MULTI_FIELD,
+    FieldType::MultiField,
+    FieldType::ValueField,
     MFString::getClassType());
 
 DataType FieldTraits<RTCacheBIHNode>::_type("RTCachebIHNode", 

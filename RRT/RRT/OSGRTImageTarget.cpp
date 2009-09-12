@@ -115,7 +115,9 @@ void RTImageTarget::finalize(DrawEnv *pEnv)
 {
     if(_sfImage.getValue() == NullFC)
     {
-        _sfImage.setValue(Image::create());
+        ImageUnrecPtr pImage = Image::create();
+
+        _sfImage.setValue(pImage);
     }
 
     ImagePtr pImage = _sfImage.getValue();

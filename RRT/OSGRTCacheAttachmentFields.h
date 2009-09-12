@@ -58,8 +58,8 @@
 #include "OSGContribRRTDef.h"
 
 #include "OSGFieldContainerFields.h"
-#include "OSGFieldContainerPtrSField.h"
-#include "OSGFieldContainerPtrMField.h"
+#include "OSGPointerSField.h"
+#include "OSGPointerMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -166,28 +166,28 @@ const Char8 *FieldTraits<RTCacheAttachmentPtr, 0>::getMName<NoRefCountPolicy>(vo
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef FieldContainerPtrSField<RTCacheAttachmentPtr,
-                                RecordedRefCountPolicy  > SFRecRTCacheAttachmentPtr;
-typedef FieldContainerPtrSField<RTCacheAttachmentPtr,
-                                UnrecordedRefCountPolicy> SFUnrecRTCacheAttachmentPtr;
-typedef FieldContainerPtrSField<RTCacheAttachmentPtr,
-                                WeakRefCountPolicy      > SFWeakRTCacheAttachmentPtr;
-typedef FieldContainerPtrSField<RTCacheAttachmentPtr,
-                                NoRefCountPolicy        > SFUncountedRTCacheAttachmentPtr;
+typedef PointerSField<RTCacheAttachmentPtr,
+                      RecordedRefCountPolicy  > SFRecRTCacheAttachmentPtr;
+typedef PointerSField<RTCacheAttachmentPtr,
+                      UnrecordedRefCountPolicy> SFUnrecRTCacheAttachmentPtr;
+typedef PointerSField<RTCacheAttachmentPtr,
+                      WeakRefCountPolicy      > SFWeakRTCacheAttachmentPtr;
+typedef PointerSField<RTCacheAttachmentPtr,
+                      NoRefCountPolicy        > SFUncountedRTCacheAttachmentPtr;
 #endif
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldMulti */
 
-typedef FieldContainerPtrMField<RTCacheAttachmentPtr,
-                                RecordedRefCountPolicy  > MFRecRTCacheAttachmentPtr;
-typedef FieldContainerPtrMField<RTCacheAttachmentPtr,
-                                UnrecordedRefCountPolicy> MFUnrecRTCacheAttachmentPtr;
-typedef FieldContainerPtrMField<RTCacheAttachmentPtr,
-                                WeakRefCountPolicy      > MFWeakRTCacheAttachmentPtr;
-typedef FieldContainerPtrMField<RTCacheAttachmentPtr,
-                                NoRefCountPolicy        > MFUncountedRTCacheAttachmentPtr;
+typedef PointerMField<RTCacheAttachmentPtr,
+                      RecordedRefCountPolicy  > MFRecRTCacheAttachmentPtr;
+typedef PointerMField<RTCacheAttachmentPtr,
+                      UnrecordedRefCountPolicy> MFUnrecRTCacheAttachmentPtr;
+typedef PointerMField<RTCacheAttachmentPtr,
+                      WeakRefCountPolicy      > MFWeakRTCacheAttachmentPtr;
+typedef PointerMField<RTCacheAttachmentPtr,
+                      NoRefCountPolicy        > MFUncountedRTCacheAttachmentPtr;
 #endif
 
 

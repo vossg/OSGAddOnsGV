@@ -554,11 +554,11 @@ DataType FieldTraits<RTCacheGeometryStorePtr>::_type("RTCacheGeometryStorePtr", 
 
 OSG_FIELDTRAITS_GETTYPE(RTCacheGeometryStorePtr)
 
-OSG_EXPORT_PTR_SFIELD_FULL(FieldContainerPtrSField, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
                            RTCacheGeometryStorePtr, 
                            0);
 
-OSG_EXPORT_PTR_MFIELD_FULL(FieldContainerPtrMField, 
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
                            RTCacheGeometryStorePtr, 
                            0);
 

@@ -157,6 +157,11 @@ struct FieldTraits<RTCacheKDNode> :
     static OSG_BASE_DLLMAPPING
                  DataType     &getType     (void);
 
+    static const Char8        *getPName    (void)
+    {
+        return NULL;
+    }
+
     static const Char8        *getSName    (void) 
     {
         return "SFRTCacheKDNode"; 

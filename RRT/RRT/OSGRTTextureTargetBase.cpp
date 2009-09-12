@@ -399,7 +399,7 @@ DataType FieldTraits<RTTextureTargetPtr>::_type("RTTextureTargetPtr", "RTTargetP
 
 OSG_FIELDTRAITS_GETTYPE(RTTextureTargetPtr)
 
-OSG_EXPORT_PTR_SFIELD_FULL(FieldContainerPtrSField, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
                            RTTextureTargetPtr, 
                            0);
 

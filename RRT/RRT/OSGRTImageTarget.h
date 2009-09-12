@@ -118,7 +118,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTImageTarget : public RTImageTargetBase
 
   private:
 
-    friend class FieldBundle;
+    friend class FieldContainer;
     friend class RTImageTargetBase;
 
     // prohibit default functions (move to 'public' if you need one)

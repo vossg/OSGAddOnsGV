@@ -256,54 +256,54 @@ DataType &
 
 #ifdef OSG_CACHE_KD
 #ifndef OSG_XCACHEKD
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerSField, 
                          RTCacheKD<RRT::SinglePacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerMField, 
                          RTCacheKD<RRT::SinglePacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerSField, 
                          RTCacheKD<RRT::SIMDPacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerMField, 
                          RTCacheKD<RRT::SIMDPacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 #else
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerSField, 
                          RTXCacheKD<RRT::SinglePacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerMField, 
                          RTXCacheKD<RRT::SinglePacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerSField, 
                          RTXCacheKD<RRT::SIMDPacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerMField, 
                          RTXCacheKD<RRT::SIMDPacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 #endif
 #endif
 
 #ifdef OSG_CACHE_BIH
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerSField, 
                          RTCacheBIH<RRT::SinglePacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerMField, 
                          RTCacheBIH<RRT::SinglePacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerSField, 
                          RTCacheBIH<RRT::SIMDPacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
+OSG_FIELD_DLLEXPORT_DEF2(PointerMField, 
                          RTCacheBIH<RRT::SIMDPacketDescBase> *, 
                          UnrecordedRefCountPolicy);
 #endif

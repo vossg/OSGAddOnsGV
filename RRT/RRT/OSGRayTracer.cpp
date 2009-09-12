@@ -102,7 +102,7 @@ RayTracer::RayTracer(const RayTracer &source) :
 
 RayTracer::~RayTracer(void)
 {
-    subRef(_pTarget       );
+    _pTarget = NullFC;
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -123,7 +123,7 @@ void RayTracer::setResolution(UInt32 uiWidth, UInt32 uiHeight)
 
 void RayTracer::setTarget(RTTarget *pTarget)
 {
-    setRefd(_pTarget, pTarget);
+    _pTarget = pTarget;
 
     if(_pTarget != NULL)
     {

@@ -75,7 +75,7 @@ ActionBase::ResultE RRTStageRenderEnter(const NodeCorePtr &pCore,
     {
         Viewport          *pPort    = a->getViewport();
         RenderPartition   *pPart    = a->getActivePartition();
-        FrameBufferObject *pTarget  = getCPtr(pStage->getRenderTarget());
+        FrameBufferObject *pTarget  = pStage->getRenderTarget();
         
 #ifdef OSG_DEBUGX
         std::string szMessage("PostProcessPartition\n");

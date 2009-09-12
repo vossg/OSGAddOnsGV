@@ -399,7 +399,7 @@ DataType FieldTraits<RTImageTargetPtr>::_type("RTImageTargetPtr", "RTTargetPtr")
 
 OSG_FIELDTRAITS_GETTYPE(RTImageTargetPtr)
 
-OSG_EXPORT_PTR_SFIELD_FULL(FieldContainerPtrSField, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
                            RTImageTargetPtr, 
                            0);
 

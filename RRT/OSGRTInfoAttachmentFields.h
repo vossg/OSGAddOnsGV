@@ -58,8 +58,8 @@
 #include "OSGContribRRTDef.h"
 
 #include "OSGFieldContainerFields.h"
-#include "OSGFieldContainerPtrSField.h"
-#include "OSGFieldContainerPtrMField.h"
+#include "OSGPointerSField.h"
+#include "OSGPointerMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -166,28 +166,28 @@ const Char8 *FieldTraits<RTInfoAttachmentPtr, 0>::getMName<NoRefCountPolicy>(voi
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef FieldContainerPtrSField<RTInfoAttachmentPtr,
-                                RecordedRefCountPolicy  > SFRecRTInfoAttachmentPtr;
-typedef FieldContainerPtrSField<RTInfoAttachmentPtr,
-                                UnrecordedRefCountPolicy> SFUnrecRTInfoAttachmentPtr;
-typedef FieldContainerPtrSField<RTInfoAttachmentPtr,
-                                WeakRefCountPolicy      > SFWeakRTInfoAttachmentPtr;
-typedef FieldContainerPtrSField<RTInfoAttachmentPtr,
-                                NoRefCountPolicy        > SFUncountedRTInfoAttachmentPtr;
+typedef PointerSField<RTInfoAttachmentPtr,
+                      RecordedRefCountPolicy  > SFRecRTInfoAttachmentPtr;
+typedef PointerSField<RTInfoAttachmentPtr,
+                      UnrecordedRefCountPolicy> SFUnrecRTInfoAttachmentPtr;
+typedef PointerSField<RTInfoAttachmentPtr,
+                      WeakRefCountPolicy      > SFWeakRTInfoAttachmentPtr;
+typedef PointerSField<RTInfoAttachmentPtr,
+                      NoRefCountPolicy        > SFUncountedRTInfoAttachmentPtr;
 #endif
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldMulti */
 
-typedef FieldContainerPtrMField<RTInfoAttachmentPtr,
-                                RecordedRefCountPolicy  > MFRecRTInfoAttachmentPtr;
-typedef FieldContainerPtrMField<RTInfoAttachmentPtr,
-                                UnrecordedRefCountPolicy> MFUnrecRTInfoAttachmentPtr;
-typedef FieldContainerPtrMField<RTInfoAttachmentPtr,
-                                WeakRefCountPolicy      > MFWeakRTInfoAttachmentPtr;
-typedef FieldContainerPtrMField<RTInfoAttachmentPtr,
-                                NoRefCountPolicy        > MFUncountedRTInfoAttachmentPtr;
+typedef PointerMField<RTInfoAttachmentPtr,
+                      RecordedRefCountPolicy  > MFRecRTInfoAttachmentPtr;
+typedef PointerMField<RTInfoAttachmentPtr,
+                      UnrecordedRefCountPolicy> MFUnrecRTInfoAttachmentPtr;
+typedef PointerMField<RTInfoAttachmentPtr,
+                      WeakRefCountPolicy      > MFWeakRTInfoAttachmentPtr;
+typedef PointerMField<RTInfoAttachmentPtr,
+                      NoRefCountPolicy        > MFUncountedRTInfoAttachmentPtr;
 #endif
 
 

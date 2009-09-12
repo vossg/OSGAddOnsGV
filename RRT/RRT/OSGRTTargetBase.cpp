@@ -475,7 +475,7 @@ DataType FieldTraits<RTTargetPtr>::_type("RTTargetPtr", "FieldContainerPtr");
 
 OSG_FIELDTRAITS_GETTYPE(RTTargetPtr)
 
-OSG_EXPORT_PTR_SFIELD_FULL(FieldContainerPtrSField, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
                            RTTargetPtr, 
                            0);
 

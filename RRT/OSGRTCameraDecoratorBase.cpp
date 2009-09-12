@@ -302,11 +302,11 @@ DataType FieldTraits<RTCameraDecoratorPtr>::_type("RTCameraDecoratorPtr", "Camer
 
 OSG_FIELDTRAITS_GETTYPE(RTCameraDecoratorPtr)
 
-OSG_EXPORT_PTR_SFIELD_FULL(FieldContainerPtrSField, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
                            RTCameraDecoratorPtr, 
                            0);
 
-OSG_EXPORT_PTR_MFIELD_FULL(FieldContainerPtrMField, 
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
                            RTCameraDecoratorPtr, 
                            0);
 

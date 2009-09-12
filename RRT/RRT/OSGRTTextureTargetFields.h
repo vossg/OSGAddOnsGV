@@ -58,8 +58,8 @@
 #include "OSGContribRRTDef.h"
 
 #include "OSGFieldContainerFields.h"
-#include "OSGFieldContainerPtrSField.h"
-#include "OSGFieldContainerPtrMField.h"
+#include "OSGPointerSField.h"
+#include "OSGPointerMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -139,14 +139,14 @@ const Char8 *FieldTraits<RTTextureTargetPtr, 0>::getSName<NoRefCountPolicy>(void
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef FieldContainerPtrSField<RTTextureTargetPtr,
-                                RecordedRefCountPolicy  > SFRecRTTextureTargetPtr;
-typedef FieldContainerPtrSField<RTTextureTargetPtr,
-                                UnrecordedRefCountPolicy> SFUnrecRTTextureTargetPtr;
-typedef FieldContainerPtrSField<RTTextureTargetPtr,
-                                WeakRefCountPolicy      > SFWeakRTTextureTargetPtr;
-typedef FieldContainerPtrSField<RTTextureTargetPtr,
-                                NoRefCountPolicy        > SFUncountedRTTextureTargetPtr;
+typedef PointerSField<RTTextureTargetPtr,
+                      RecordedRefCountPolicy  > SFRecRTTextureTargetPtr;
+typedef PointerSField<RTTextureTargetPtr,
+                      UnrecordedRefCountPolicy> SFUnrecRTTextureTargetPtr;
+typedef PointerSField<RTTextureTargetPtr,
+                      WeakRefCountPolicy      > SFWeakRTTextureTargetPtr;
+typedef PointerSField<RTTextureTargetPtr,
+                      NoRefCountPolicy        > SFUncountedRTTextureTargetPtr;
 #endif
 
 
