@@ -163,6 +163,12 @@ void RTCameraDecorator::fillRayStores(
     PerspectiveCamera *pPCam = 
         dynamic_cast<PerspectiveCamera *>(this->getDecoratee());
 
+    if(pPCam == NULL)
+    {
+        fprintf(stderr, "RTCamDeco::Unknow Camera\n");
+        return;
+    }
+
     Matrix mCam;
 
     pPCam->getBeacon()->getToWorld(mCam);
@@ -238,6 +244,13 @@ void RTCameraDecorator::fillRayStores(
 
     PerspectiveCamera *pPCam = 
         dynamic_cast<PerspectiveCamera *>(this->getDecoratee());
+
+    if(pPCam == NULL)
+    {
+        fprintf(stderr, "RTCamDeco::Unknow Camera\n");
+
+        return;
+    }
 
     Matrix mCam;
 
