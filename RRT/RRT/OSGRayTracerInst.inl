@@ -141,7 +141,7 @@ void RayTracerInst<DescT>::init(bool bTiled, bool bSplitThreads)
 }
 
 template<typename DescT> inline
-void RayTracerInst<DescT>::trace(CameraP pCam, bool bTiled)
+void RayTracerInst<DescT>::trace(RTCameraDecorator *pCam, bool bTiled)
 {
     if(_pTarget == NULL)
     {

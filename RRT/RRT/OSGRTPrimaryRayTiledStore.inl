@@ -85,7 +85,8 @@ RTPrimaryRayTiledStore<DescT>::~RTPrimaryRayTiledStore(void)
 }
 
 template<class DescT> inline
-void RTPrimaryRayTiledStore<DescT>::startFrame(Camera &pCam, RTTarget &pTarget)
+void RTPrimaryRayTiledStore<DescT>::startFrame(RTCameraDecorator &pCam, 
+                                               RTTarget          &pTarget)
 {
     RTPrimaryRayTiledStoreSetupHelper<DescT, MathTag>::setupRays(this,
                                                                  pCam,
@@ -95,7 +96,7 @@ void RTPrimaryRayTiledStore<DescT>::startFrame(Camera &pCam, RTTarget &pTarget)
 template<typename DescT> inline
 void RTPrimaryRayTiledStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
     RTPrimaryRayTiledStore<DescT> *pThis,
-    Camera                        &pCam, 
+    RTCameraDecorator             &pCam, 
     RTTarget                      &pTarget)
 {
     if(pThis->_uiWidth  != pTarget.getWidth() || 
@@ -124,7 +125,8 @@ void RTPrimaryRayTiledStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
     UInt32 uiCountV = 0;
     UInt32 uiCountH = 0;
 
-    PerspectiveCamera *pPCam = dynamic_cast<PerspectiveCamera *>(&pCam);
+    PerspectiveCamera *pPCam = 
+        dynamic_cast<PerspectiveCamera *>(pCam.getDecoratee());
 
     Matrix mCam;
 
@@ -271,7 +273,7 @@ void RTPrimaryRayTiledStoreSetupHelper<DescT, RTFloatMathTag>::fillTile(
 template<typename DescT> inline
 void RTPrimaryRayTiledStoreSetupHelper<DescT, RTSIMDMathTag>::setupRays(
     RTPrimaryRayTiledStore<DescT> *pThis,
-    Camera                        &pCam, 
+    RTCameraDecorator             &pCam, 
     RTTarget                      &pTarget)
 {
     OSG_ASSERT(false);

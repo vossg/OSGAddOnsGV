@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2003 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,166 +36,145 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTPRIMARYRAYSTORE_H_
-#define _OSGRTPRIMARYRAYSTORE_H_
+#ifndef _OSGRTCAMERADECORATOR_H_
+#define _OSGRTCAMERADECORATOR_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGRTStore.h"
+#include "OSGRTCameraDecoratorBase.h"
 
-#include "OSGCondVar.h"
-#include "OSGLock.h"
-
-#include "OSGPerspectiveCamera.h"
-
-// CELL related, move when cell code moving to other location
-#include "OSGCellRTPPU.h"
+#include "OSGRRTDefinitions.h"
 
 OSG_BEGIN_NAMESPACE
 
-class Camera;
 class RTTarget;
-class RTCameraDecorator;
 
-/*! Memory, simple reference counted memory object. Parent of
-    everything that should be shared, but must not be thread safe.
-    \ingroup GrpBaseBase
- */
+/*! \brief RTCameraDecorator class. See \ref
+           PageContribRRTRTCameraDecorator for a description.
+*/
 
-template<typename DescT>
-class RTPrimaryRayStore;
-
-template<typename DescT, typename MathTag>
-struct RTPrimaryRayStoreSetupHelper;
-
-
-template<typename DescT>
-struct RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>
+class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
 {
-    typedef          DescT                     Desc;
-    typedef typename Desc::SingleRayPacket     SingleRayPacket;
-    typedef typename Desc::SingleRayPacketInfo SingleRayPacketInfo;
-
-    static void setupRays(RTPrimaryRayStore<DescT> *pThis,
-                          RTCameraDecorator        &pCam, 
-                          RTTarget                 &pTarget);
-};
-
-template<typename DescT>
-struct RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>
-{
-    typedef          DescT                     Desc;
-    typedef typename Desc::SingleRayPacket     FourRayPacket;
-    typedef typename Desc::SingleRayPacketInfo FourRayPacketInfo;
-
-    static void setupRays(RTPrimaryRayStore<DescT> *pThis,
-                          RTCameraDecorator        &pCam, 
-                          RTTarget                 &pTarget);
-};
-
-template<typename DescT>
-class RTPrimaryRayStore : public RTStore
-{
+  protected:
 
     /*==========================  PUBLIC  =================================*/
 
   public:
 
-
-    static const UInt32 Empty = UINT_MAX;
-
-    typedef          DescT                     Desc;
-    typedef typename Desc::SingleRayPacket     SingleRayPacket;
-    typedef typename Desc::SingleRayPacketInfo SingleRayPacketInfo;
-    typedef typename Desc::RayInfoStore        RayInfoStore;
-    typedef typename Desc::RayStore            RayStore;
-
-    typedef typename Desc::MathTag             MathTag;
+    typedef RTCameraDecoratorBase Inherited;
+    typedef RTCameraDecorator     Self;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
- 
-    RTPrimaryRayStore(void);
+
+    virtual void changed(ConstFieldMaskArg whichField,
+                         UInt32            origin,
+                         BitVector         details    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
+    /*! \name                    access                                    */
     /*! \{                                                                 */
 
-    void startFrame(RTCameraDecorator &pCam, RTTarget &pTarget);
+    virtual void getProjection           (Matrix &result, 
+                                          UInt32  width, 
+                                          UInt32  height);
+
+    virtual void getProjectionTranslation(Matrix &result, 
+                                          UInt32  width, 
+                                          UInt32  height);
+
+    virtual void getViewing              (Matrix &result, 
+                                          UInt32  width, 
+                                          UInt32  height);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-#ifdef OSG_CELL
-    void convCellStruct(UInt32         tileIndex,
-                        rayTile_t     *rayTile,
-                        rayInfoTile_t *rayInfoTile);
-#endif
+    void fillRayStores(RRT::SinglePacketDesc::RayStore     &vRays,
+                       RRT::SinglePacketDesc::RayInfoStore &vRayInfos,
+                                              RTTarget     &pTarget  );
+
+    void fillRayStores(RRT::SIMDPacketDesc::RayStore       &vRays,
+                       RRT::SIMDPacketDesc::RayInfoStore   &vRayInfos,
+                                            RTTarget       &pTarget,
+                                            UInt32          uiVTiles,
+                                            UInt32          uiHTiles );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    UInt32               nextIndex       (void             );
-
-    SingleRayPacket     &getRayPacket    (UInt32 uiRayIndex);
-    SingleRayPacketInfo &getRayPacketInfo(UInt32 uiRayIndex);
+    virtual void dump(      UInt32     uiIndent = 0,
+                      const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
 
-    typedef RTStore                      Inherited;
+    // Variables should all be in RTCameraDecoratorBase.
 
     /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
+    /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    UInt32        _uiNumRays;
-    UInt32        _uiCurrentRay;
-    RayStore      _vRays;
-    RayInfoStore  _vRayInfos;
-    Lock         *_pStoreLock;
+    RTCameraDecorator(void);
+    RTCameraDecorator(const RTCameraDecorator &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
+    /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~RTPrimaryRayStore(void); 
+    virtual ~RTCameraDecorator(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
+    /*! \name                      Init                                    */
     /*! \{                                                                 */
 
-    friend struct RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>;
-    friend struct RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag >;
+    static void initMethod(InitPhase ePhase);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
+
+    void fillTile(RRT::SIMDPacketDesc::RayStore     &vRays,
+                  RRT::SIMDPacketDesc::RayInfoStore &vRayInfos,
+                                       UInt32        uiWidth,
+                                       UInt32        uiHeight,
+                                       Vec3f         vCurr, 
+                                       Vec3f         vRight, 
+                                       Vec3f         vUp,
+                                       Pnt3f         vOrigin,
+                                       UInt32        uiX,
+                                       UInt32        uiY,
+                                       UInt32        uiTilesX );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
 
   private:
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
-    RTPrimaryRayStore(const RTPrimaryRayStore &source);
-    void operator =(const RTPrimaryRayStore &source);
+    friend class FieldContainer;
+    friend class RTCameraDecoratorBase;
+
+    // prohibit default functions (move to 'public' if you need one)
+    void operator =(const RTCameraDecorator &source);
 };
+
+typedef RTCameraDecorator *RTCameraDecoratorP;
 
 OSG_END_NAMESPACE
 
-#include "OSGRTPrimaryRayStore.inl"
+#include "OSGRTCameraDecoratorBase.inl"
+#include "OSGRTCameraDecorator.inl"
 
-#endif /* _OSGRTPRIMARYRAYSTORE_H_ */
+#endif /* _OSGRTCAMERADECORATOR_H_ */

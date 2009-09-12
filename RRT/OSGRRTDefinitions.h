@@ -36,37 +36,121 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTSTAGE_H_
-#define _OSGRRTSTAGE_H_
+#ifndef _OSGRRTDEFINITIONS_H_
+#define _OSGRRTDEFINITIONS_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGRRTStageBase.h"
-#include "OSGBarrier.h"
-#include "OSGCamera.h"
-#include "OSGTextureObjChunk.h"
-#include "OSGRTCameraDecorator.h"
-
-#include "OSGRRTDefinitions.h"
+#include "OSGRTSIMD.h"
+#include "OSGCellRT.h"
 
 OSG_BEGIN_NAMESPACE
 
-class Background;
+class RayTracer;
+class RTTriAccelBarycentric;
 
-/*! \brief RRTStage class. See \ref
-           PageContribRRTRRTStage for a description.
-*/
+#ifdef OSG_CACHE_KD
 
-class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
+#ifndef OSG_XCACHEKD
+
+class RTCacheKDNode;
+
+template<typename DescT>
+class RTCacheKD;
+
+#else
+
+class RTXCacheKDNode;
+
+template<typename DescT>
+class RTXCacheKD;
+
+#endif
+
+#endif
+
+#ifdef OSG_CACHE_BIH
+
+class RTCacheBIHNode;
+
+template<typename DescT>
+class RTCacheBIH;
+
+#endif
+
+template<typename DescT>
+class RayTracerInst;
+
+template<typename DescT>
+class RTScene;
+
+template<typename DescT>
+class RTLocalPacketManager;
+
+template<typename DescT>
+class RTHitStore;
+
+template<typename DescT>
+class RTHitTiledStore;
+
+template<class DescT>
+class RTPrimaryRayTiledStore;
+
+template<typename DescT>
+class RTPrimaryRayStore;
+
+template<typename DescT>
+class RTHitTile;
+
+template<typename DescT>
+class RTPrimaryRayTile;
+
+template<typename DescT>
+class RTCacheAttachmentInst;
+
+class RTTriAccelBarycentric;
+
+class RTHitPacket;
+
+template<class DescT>
+class RTSingleHitPacket;
+
+class RTRayPacket;
+
+template<class ParentT>
+class RTSingleRayPacket;
+
+class RTRayPacketInfo;
+class RTSingleRayPacketInfo;
+
+template<class DescT>
+class RTCacheRefRayPacketMixin;
+
+class RTRaySIMDPacket;
+class RTRaySIMDPacketInfo;
+
+template<class DescT>
+class RTCacheRefSIMDPacketMixin;
+
+template<class ParentT>
+class RTFourRaySIMDPacket;
+
+class RTFourRaySIMDPacketInfo;
+
+class RTHitSIMDPacket;
+
+template<class DescT>
+class RTFourHitSIMDPacket;
+
+class RTColorPacket;
+class RTColorSIMDPacket;
+
+typedef MField<RTTriAccelBarycentric> MFRTTriAccelBarycentric;
+
+
+namespace RRT
 {
-  protected:
-    
-  public:
-
-    /*==========================  PUBLIC  =================================*/
-
-#if 0
     struct PacketDescBase
     {
         typedef RTRayPacket     BasicRayPacket;
@@ -423,7 +507,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
         typedef RTPrimaryRayStore   <SinglePacketDescBase> PrimaryRayStore;
         typedef RTPrimaryRayTiledStore<
-                  SinglePacketDescBase>                   PrimaryRayTiledStore;
+                  SinglePacketDescBase>                    PrimaryRayTiledStore;
     };
 
     struct SIMDPacketDesc : public SIMDPacketDescBase
@@ -452,110 +536,12 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef RTPrimaryRayTiledStore<
                   SIMDPacketDescBase>                    PrimaryRayTiledStore;
     };
-#endif
 
-    typedef RayTracerInst<RRT::SinglePacketDesc> SinglePacketRayTracer;
-    typedef RayTracerInst<RRT::SIMDPacketDesc  > SIMDPacketRayTracer;
+    typedef RayTracerInst<SinglePacketDesc> SinglePacketRayTracer;
+    typedef RayTracerInst<SIMDPacketDesc  > SIMDPacketRayTracer;
 
-  public:
-
-
-    typedef SinglePacketRayTracer   ActiveRayTracer;
-//    typedef SIMDPacketRayTracer   ActiveRayTracer;
-
-    typedef RRTStageBase          Inherited;
-    typedef RRTStage              Self;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    virtual void changed(ConstFieldMaskArg whichField,
-                         UInt32            origin,
-                         BitVector         details   );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
-    /*! \{                                                                 */
-
-    void run        (CameraP     pCam,
-                     Background *pBackground,
-                     NodePtr     pRoot      );
-
-    void postProcess(DrawEnv    *pEnv       );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
-    /*! \{                                                                 */
-
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector  bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-
-  protected:
-
-    // Variables should all be in RRTStageBase.
-
-    bool             _bInitialized;
-    ActiveRayTracer *_pRayTracer;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Constructors                                */
-    /*! \{                                                                 */
-
-    RRTStage(void);
-    RRTStage(const RRTStage &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
-
-    virtual ~RRTStage(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Init                                    */
-    /*! \{                                                                 */
-
-    static void initMethod(InitPhase ePhase);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                MT Construction                               */
-    /*! \{                                                                 */
-
-    void onCreate       (const RRTStage *source = NULL);
-
-    void onCreateAspect (const RRTStage *createAspect,
-                         const RRTStage *source = NULL);
-    
-    void onDestroy      (      UInt32    uiContainerId);
-
-    void onDestroyAspect(      UInt32    uiContainerId,
-                               UInt32    uiAspect     );
-    
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
-
-  private:
-
-    friend class RRTStageBase;
-    friend class FieldContainer;
-
-    // prohibit default functions (move to 'public' if you need one)
-    void operator =(const RRTStage &source);
-};
-
-typedef RRTStage *RRTStageP;
+}
 
 OSG_END_NAMESPACE
 
-#include "OSGRRTStageBase.inl"
-#include "OSGRRTStage.inl"
-
-#endif /* _OSGRRTSTAGE_H_ */
+#endif

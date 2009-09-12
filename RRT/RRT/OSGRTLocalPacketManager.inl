@@ -83,7 +83,7 @@ void RTLocalPacketManager<DescT>::setScene(Scene *pScene)
 
 
 template<typename DescT> inline
-void RTLocalPacketManager<DescT>::trace(Camera *pCam, bool bTiled)
+void RTLocalPacketManager<DescT>::trace(RTCameraDecorator *pCam, bool bTiled)
 {
     if(pCam != NULL && _pTarget != NULL)
     {

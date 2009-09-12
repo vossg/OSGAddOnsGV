@@ -55,9 +55,9 @@
 #include "OSGRTHitSIMDPacket.h"
 #include "OSGRTColorSIMDPacket.h"
 
-class Camera;
-
 OSG_BEGIN_NAMESPACE
+
+class RTCameraDecorator;
 
 /*! Memory, simple reference counted memory object. Parent of
     everything that should be shared, but must not be thread safe.
@@ -109,8 +109,8 @@ class RTScene : public MemoryObject
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    void    setCamera(Camera *pCam);
-    Camera *getCamera(void        );
+    void               setCamera(RTCameraDecorator *pCam);
+    RTCameraDecorator *getCamera(void                   );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -161,10 +161,10 @@ class RTScene : public MemoryObject
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    Color4f      _cBackground;
+    Color4f            _cBackground;
 
-    Camera      *_pCam;
-    RTCacheStore _vRTCaches;
+    RTCameraDecorator *_pCam;
+    RTCacheStore       _vRTCaches;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

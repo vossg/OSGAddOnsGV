@@ -52,6 +52,8 @@ class RTUpdateAction;
 template<typename DescT>
 class RTInitAction;
 
+class RTCameraDecorator;
+
 /*! \brief RTTarget class. See \ref
            PageContribRRTRTTarget for a description.
 */
@@ -103,12 +105,12 @@ class RayTracerInst : public RayTracer
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void init    (bool     bTiled        = false, 
-                  bool     bSplitThreads = false);
-    void trace   (CameraP  pCam, 
-                  bool     bTiled        = false);
+    void init    (bool               bTiled        = false, 
+                  bool               bSplitThreads = false);
+    void trace   (RTCameraDecorator *pCam, 
+                  bool               bTiled        = false);
 
-    void finalize(DrawEnv *pEnv                 );
+    void finalize(DrawEnv           *pEnv                 );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

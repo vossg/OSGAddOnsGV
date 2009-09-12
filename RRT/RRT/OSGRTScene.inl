@@ -75,14 +75,14 @@ UInt32 RTScene<DescT>::getNumCaches(void)
 
 
 template<typename DescT> inline
-void RTScene<DescT>::setCamera(Camera* pCam)
+void RTScene<DescT>::setCamera(RTCameraDecorator* pCam)
 {
     _pCam = pCam;
 }
 
 
 template<typename DescT> inline
-Camera* RTScene<DescT>::getCamera()
+RTCameraDecorator *RTScene<DescT>::getCamera()
 {
     return _pCam;
 }

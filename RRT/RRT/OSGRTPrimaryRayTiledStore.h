@@ -56,6 +56,7 @@ OSG_BEGIN_NAMESPACE
 
 class Camera;
 class RTTarget;
+class RTCameraDecorator;
 
 /*! Memory, simple reference counted memory object. Parent of
     everything that should be shared, but must not be thread safe.
@@ -76,7 +77,7 @@ struct RTPrimaryRayTiledStoreSetupHelper<DescT, RTFloatMathTag>
     typedef typename Desc::PrimaryRayTile PrimaryRayTile ;
 
     static void setupRays(RTPrimaryRayTiledStore<DescT> *pThis,
-                          Camera                        &pCam, 
+                          RTCameraDecorator             &pCam, 
                           RTTarget                      &pTarget);
 
     static void fillTile (RTPrimaryRayTiledStore<DescT> *pThis,
@@ -96,7 +97,7 @@ struct RTPrimaryRayTiledStoreSetupHelper<DescT, RTSIMDMathTag>
     typedef typename Desc::PrimaryRayTile PrimaryRayTile;
 
     static void setupRays(RTPrimaryRayTiledStore<DescT> *pThis,
-                          Camera                        &pCam, 
+                          RTCameraDecorator             &pCam, 
                           RTTarget                      &pTarget);
 };
 
@@ -125,7 +126,7 @@ class RTPrimaryRayTiledStore : public RTStore
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    void startFrame(Camera &pCam, RTTarget &pTarget);
+    void startFrame(RTCameraDecorator &pCam, RTTarget &pTarget);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

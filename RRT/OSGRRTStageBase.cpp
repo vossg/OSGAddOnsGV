@@ -63,6 +63,7 @@
 
 #include <OSGNode.h> // BackgroundRoot Class
 #include <OSGTextureObjChunk.h> // TextureTarget Class
+#include <OSGRTCameraDecorator.h> // RTCamera Class
 
 #include "OSGRRTStageBase.h"
 #include "OSGRRTStage.h"
@@ -104,6 +105,10 @@ OSG_BEGIN_NAMESPACE
 */
 
 /*! \var bool            RRTStageBase::_sfTiled
+    
+*/
+
+/*! \var RTCameraDecoratorPtr RRTStageBase::_sfRTCamera
     
 */
 
@@ -184,6 +189,18 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
         static_cast<FieldGetMethodSig >(&RRTStageBase::getHandleTiled));
 
     oType.addInitialDesc(pDesc);
+
+    pDesc = new SFRTCameraDecoratorPtr::Description(
+        SFRTCameraDecoratorPtr::getClassType(),
+        "RTCamera",
+        "",
+        RTCameraFieldId, RTCameraFieldMask,
+        false,
+        Field::SFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&RRTStageBase::editHandleRTCamera),
+        static_cast<FieldGetMethodSig >(&RRTStageBase::getHandleRTCamera));
+
+    oType.addInitialDesc(pDesc);
 }
 
 
@@ -260,6 +277,15 @@ RRTStageBase::TypeObject RRTStageBase::_type(
     "\t<Field\n"
     "\t\tname=\"tiled\"\n"
     "\t\ttype=\"bool\"\n"
+    "\t\tcardinality=\"single\"\n"
+    "\t\tvisibility=\"external\"\n"
+    "\t\taccess=\"public\"\n"
+    "        defaultValue=\"false\"\n"
+    "\t>\n"
+    "\t</Field>\n"
+    "\t<Field\n"
+    "\t\tname=\"RTCamera\"\n"
+    "\t\ttype=\"RTCameraDecoratorPtr\"\n"
     "\t\tcardinality=\"single\"\n"
     "\t\tvisibility=\"external\"\n"
     "\t\taccess=\"public\"\n"
@@ -378,6 +404,12 @@ SFBool              *RRTStageBase::getSFTiled          (void)
 }
 #endif
 
+//! Get the RRTStage::_sfRTCamera field.
+const SFRTCameraDecoratorPtr *RRTStageBase::getSFRTCamera(void) const
+{
+    return &_sfRTCamera;
+}
+
 
 
 
@@ -412,6 +444,10 @@ UInt32 RRTStageBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfTiled.getBinSize();
     }
+    if(FieldBits::NoField != (RTCameraFieldMask & whichField))
+    {
+        returnValue += _sfRTCamera.getBinSize();
+    }
 
     return returnValue;
 }
@@ -445,6 +481,10 @@ void RRTStageBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfTiled.copyToBin(pMem);
     }
+    if(FieldBits::NoField != (RTCameraFieldMask & whichField))
+    {
+        _sfRTCamera.copyToBin(pMem);
+    }
 }
 
 void RRTStageBase::copyFromBin(BinaryDataHandler &pMem,
@@ -475,6 +515,10 @@ void RRTStageBase::copyFromBin(BinaryDataHandler &pMem,
     if(FieldBits::NoField != (TiledFieldMask & whichField))
     {
         _sfTiled.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (RTCameraFieldMask & whichField))
+    {
+        _sfRTCamera.copyFromBin(pMem);
     }
 }
 
@@ -522,7 +566,8 @@ RRTStageBase::RRTStageBase(void) :
     _sfWidth                  (UInt32(16)),
     _sfHeight                 (UInt32(16)),
     _sfSplitThreads           (bool(false)),
-    _sfTiled                  (bool(false))
+    _sfTiled                  (bool(false)),
+    _sfRTCamera               (RTCameraDecoratorPtr(false))
 {
 }
 
@@ -533,7 +578,8 @@ RRTStageBase::RRTStageBase(const RRTStageBase &source) :
     _sfWidth                  (source._sfWidth                  ),
     _sfHeight                 (source._sfHeight                 ),
     _sfSplitThreads           (source._sfSplitThreads           ),
-    _sfTiled                  (source._sfTiled                  )
+    _sfTiled                  (source._sfTiled                  ),
+    _sfRTCamera               (NullFC)
 {
 }
 
@@ -554,6 +600,8 @@ void RRTStageBase::onCreate(const RRTStage *source)
         this->setBackgroundRoot(source->getBackgroundRoot());
 
         this->setTextureTarget(source->getTextureTarget());
+
+        this->setRTCamera(source->getRTCamera());
     }
 }
 
@@ -695,6 +743,31 @@ EditFieldHandlePtr RRTStageBase::editHandleTiled          (void)
     return returnValue;
 }
 
+GetFieldHandlePtr RRTStageBase::getHandleRTCamera        (void) const
+{
+    SFRTCameraDecoratorPtr::GetHandlePtr returnValue(
+        new  SFRTCameraDecoratorPtr::GetHandle(
+             &_sfRTCamera, 
+             this->getType().getFieldDesc(RTCameraFieldId)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr RRTStageBase::editHandleRTCamera       (void)
+{
+    SFRTCameraDecoratorPtr::EditHandlePtr returnValue(
+        new  SFRTCameraDecoratorPtr::EditHandle(
+             &_sfRTCamera, 
+             this->getType().getFieldDesc(RTCameraFieldId)));
+
+    returnValue->setSetMethod(boost::bind(&RRTStage::setRTCamera, 
+                                          static_cast<RRTStage *>(this), _1));
+
+    editSField(RTCameraFieldMask);
+
+    return returnValue;
+}
+
 
 #ifdef OSG_MT_CPTR_ASPECT
 void RRTStageBase::execSyncV(      FieldContainer    &oFrom,
@@ -731,6 +804,8 @@ void RRTStageBase::resolveLinks(void)
     static_cast<RRTStage *>(this)->setBackgroundRoot(NullFC);
 
     static_cast<RRTStage *>(this)->setTextureTarget(NullFC);
+
+    static_cast<RRTStage *>(this)->setRTCamera(NullFC);
 
 
 }

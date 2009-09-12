@@ -197,7 +197,8 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
             printf("frame %u start\n", uiFrame);
 
             PerspectiveCamera *pPCam = 
-                dynamic_cast<PerspectiveCamera *>(pThis->_pScene->getCamera());
+                dynamic_cast<PerspectiveCamera *>(
+                    pThis->_pScene->getCamera()->getDecoratee());
 
             const UInt32 uiTargetWidth  = oTarget.getWidth ();
             const UInt32 uiTargetHeight = oTarget.getHeight();
@@ -1053,15 +1054,6 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 #else // OSG_CELL
 
 template<class DescT> inline
-void RTCombinedThreadHelper<DescT, RTFloatMathTag>::workProcHelper(
-    RTCombinedThread<DescT> *pThis,
-    RTTarget                &oTarget)
-{
-    OSG_ASSERT(false);
-    // for SingleRay on PowerPC use the same code as below
-}
-
-template<class DescT> inline
 void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
     RTCombinedThread<DescT> *pThis,
     RTTarget                &oTarget)
@@ -1421,6 +1413,16 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
         }
     }
 }
+
+template<class DescT> inline
+void RTCombinedThreadHelper<DescT, RTFloatMathTag>::workProcHelper(
+    RTCombinedThread<DescT> *pThis,
+    RTTarget                &oTarget)
+{
+    RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(pThis, 
+                                                                 oTarget);
+}
+
 
 #endif
 

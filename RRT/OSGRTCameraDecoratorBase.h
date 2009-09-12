@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class RRTStage
+ **     class RTCameraDecorator
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGRRTSTAGEBASE_H_
-#define _OSGRRTSTAGEBASE_H_
+#ifndef _OSGRTCAMERADECORATORBASE_H_
+#define _OSGRTCAMERADECORATORBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,68 +63,33 @@
 
 #include "OSGBaseTypes.h"
 
-#include "OSGStage.h" // Parent
+#include "OSGCameraDecorator.h" // Parent
 
-#include "OSGNodeFields.h" // BackgroundRoot type
-#include "OSGTextureObjChunkFields.h" // TextureTarget type
-#include "OSGUInt32Fields.h" // Width type
-#include "OSGUInt32Fields.h" // Height type
-#include "OSGBoolFields.h" // SplitThreads type
-#include "OSGBoolFields.h" // Tiled type
-#include "OSGRTCameraDecoratorFields.h" // RTCamera type
 
-#include "OSGRRTStageFields.h"
+#include "OSGRTCameraDecoratorFields.h"
 
 OSG_BEGIN_NAMESPACE
 
-class RRTStage;
+class RTCameraDecorator;
 
-//! \brief RRTStage Base Class.
+//! \brief RTCameraDecorator Base Class.
 
-class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
+class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecoratorBase : public CameraDecorator
 {
   public:
 
-    typedef Stage Inherited;
-    typedef Stage ParentContainer;
+    typedef CameraDecorator Inherited;
+    typedef CameraDecorator ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
 
-    OSG_GEN_INTERNALPTR(RRTStage);
+    OSG_GEN_INTERNALPTR(RTCameraDecorator);
 
     /*==========================  PUBLIC  =================================*/
 
   public:
 
-    enum
-    {
-        BackgroundRootFieldId = Inherited::NextFieldId,
-        TextureTargetFieldId = BackgroundRootFieldId + 1,
-        WidthFieldId = TextureTargetFieldId + 1,
-        HeightFieldId = WidthFieldId + 1,
-        SplitThreadsFieldId = HeightFieldId + 1,
-        TiledFieldId = SplitThreadsFieldId + 1,
-        RTCameraFieldId = TiledFieldId + 1,
-        NextFieldId = RTCameraFieldId + 1
-    };
-
-    static const OSG::BitVector BackgroundRootFieldMask =
-        (TypeTraits<BitVector>::One << BackgroundRootFieldId);
-    static const OSG::BitVector TextureTargetFieldMask =
-        (TypeTraits<BitVector>::One << TextureTargetFieldId);
-    static const OSG::BitVector WidthFieldMask =
-        (TypeTraits<BitVector>::One << WidthFieldId);
-    static const OSG::BitVector HeightFieldMask =
-        (TypeTraits<BitVector>::One << HeightFieldId);
-    static const OSG::BitVector SplitThreadsFieldMask =
-        (TypeTraits<BitVector>::One << SplitThreadsFieldId);
-    static const OSG::BitVector TiledFieldMask =
-        (TypeTraits<BitVector>::One << TiledFieldId);
-    static const OSG::BitVector RTCameraFieldMask =
-        (TypeTraits<BitVector>::One << RTCameraFieldId);
-    static const OSG::BitVector NextFieldMask =
-        (TypeTraits<BitVector>::One << NextFieldId);
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -146,93 +111,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Field Get                                 */
-    /*! \{                                                                 */
-
-            const SFNodePtr           *getSFBackgroundRoot  (void) const;
-            const SFTextureObjChunkPtr *getSFTextureTarget   (void) const;
-
-#ifdef OSG_1_GET_COMPAT
-                  SFUInt32            *getSFWidth           (void);
-#endif
-                  SFUInt32            *editSFWidth          (void);
-            const SFUInt32            *getSFWidth           (void) const;
-
-#ifdef OSG_1_GET_COMPAT
-                  SFUInt32            *getSFHeight          (void);
-#endif
-                  SFUInt32            *editSFHeight         (void);
-            const SFUInt32            *getSFHeight          (void) const;
-
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFSplitThreads    (void);
-#endif
-                  SFBool              *editSFSplitThreads   (void);
-            const SFBool              *getSFSplitThreads    (void) const;
-
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFTiled           (void);
-#endif
-                  SFBool              *editSFTiled          (void);
-            const SFBool              *getSFTiled           (void) const;
-            const SFRTCameraDecoratorPtr *getSFRTCamera        (void) const;
-
-
-                  NodePtrConst getBackgroundRoot (void) const;
-
-                  TextureObjChunkPtrConst getTextureTarget  (void) const;
-
-#ifdef OSG_1_GET_COMPAT
-                  UInt32              &getWidth           (void);
-#endif
-                  UInt32              &editWidth          (void);
-            const UInt32              &getWidth           (void) const;
-
-#ifdef OSG_1_GET_COMPAT
-                  UInt32              &getHeight          (void);
-#endif
-                  UInt32              &editHeight         (void);
-            const UInt32              &getHeight          (void) const;
-
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getSplitThreads    (void);
-#endif
-                  bool                &editSplitThreads   (void);
-            const bool                &getSplitThreads    (void) const;
-
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getTiled           (void);
-#endif
-                  bool                &editTiled          (void);
-            const bool                &getTiled           (void) const;
-
-                  RTCameraDecoratorPtrConst getRTCamera       (void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Field Set                                 */
-    /*! \{                                                                 */
-
-            void setBackgroundRoot (NodePtrConstArg value);
-            void setTextureTarget  (TextureObjChunkPtrConstArg value);
-            void setWidth          (const UInt32 &value);
-            void setHeight         (const UInt32 &value);
-            void setSplitThreads   (const bool &value);
-            void setTiled          (const bool &value);
-            void setRTCamera       (RTCameraDecoratorPtrConstArg value);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                Ptr Field Set                                 */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                Ptr MField Set                                */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
@@ -248,8 +126,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RRTStagePtr create     (void);
-    static  RRTStagePtr createEmpty(void);
+    static  RTCameraDecoratorPtr create     (void);
+    static  RTCameraDecoratorPtr createEmpty(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -269,58 +147,30 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     static Char8 *getClassname     (void             );
 
     /*---------------------------------------------------------------------*/
-    /*! \name                      Fields                                  */
-    /*! \{                                                                 */
-
-    SFNodePtr         _sfBackgroundRoot;
-    SFTextureObjChunkPtr _sfTextureTarget;
-    SFUInt32          _sfWidth;
-    SFUInt32          _sfHeight;
-    SFBool            _sfSplitThreads;
-    SFBool            _sfTiled;
-    SFRTCameraDecoratorPtr _sfRTCamera;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    RRTStageBase(void);
-    RRTStageBase(const RRTStageBase &source);
+    RTCameraDecoratorBase(void);
+    RTCameraDecoratorBase(const RTCameraDecoratorBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~RRTStageBase(void);
+    virtual ~RTCameraDecoratorBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     onCreate                                */
     /*! \{                                                                 */
 
-    void onCreate(const RRTStage *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleBackgroundRoot  (void) const;
-    EditFieldHandlePtr editHandleBackgroundRoot (void);
-    GetFieldHandlePtr  getHandleTextureTarget   (void) const;
-    EditFieldHandlePtr editHandleTextureTarget  (void);
-    GetFieldHandlePtr  getHandleWidth           (void) const;
-    EditFieldHandlePtr editHandleWidth          (void);
-    GetFieldHandlePtr  getHandleHeight          (void) const;
-    EditFieldHandlePtr editHandleHeight         (void);
-    GetFieldHandlePtr  getHandleSplitThreads    (void) const;
-    EditFieldHandlePtr editHandleSplitThreads   (void);
-    GetFieldHandlePtr  getHandleTiled           (void) const;
-    EditFieldHandlePtr editHandleTiled          (void);
-    GetFieldHandlePtr  getHandleRTCamera        (void) const;
-    EditFieldHandlePtr editHandleRTCamera       (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -334,7 +184,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
                                  ConstFieldMaskArg  syncMode  ,
                            const UInt32             uiSyncInfo);
 
-            void execSync (      RRTStageBase *pFrom,
+            void execSync (      RTCameraDecoratorBase *pFrom,
                                  ConstFieldMaskArg  whichField,
                                  AspectOffsetStore &oOffsets,
                                  ConstFieldMaskArg  syncMode  ,
@@ -372,21 +222,21 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
   private:
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const RRTStageBase &source);
+    void operator =(const RTCameraDecoratorBase &source);
 };
 
-typedef RRTStageBase *RRTStageBaseP;
+typedef RTCameraDecoratorBase *RTCameraDecoratorBaseP;
 
-/** Type specific RefPtr type for RRTStage. */
-typedef RefPtr<RRTStagePtr> RRTStageRefPtr;
+/** Type specific RefPtr type for RTCameraDecorator. */
+typedef RefPtr<RTCameraDecoratorPtr> RTCameraDecoratorRefPtr;
 
 typedef boost::mpl::if_<
-    boost::mpl::bool_<RRTStageBase::isNodeCore>,
-    CoredNodePtr<RRTStage>,
+    boost::mpl::bool_<RTCameraDecoratorBase::isNodeCore>,
+    CoredNodePtr<RTCameraDecorator>,
     FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC>::type
 
-        RRTStageNodePtr;
+        RTCameraDecoratorNodePtr;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGRRTSTAGEBASE_H_ */
+#endif /* _OSGRTCAMERADECORATORBASE_H_ */

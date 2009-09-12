@@ -30,55 +30,7 @@
 #include "OSGTextureObjChunk.h"
 #include "OSGTextureEnvChunk.h"
 
-#if 0
-#include "OSGRRTStage.h"
-#include "OSGRTInfoAttachment.h"
-
-#include "OSGTriangleIterator.h"
-
-#include "OSGRTTextureTarget.h"
-#include "OSGRTImageTarget.h"
-
-#include "OSGRTHitTile.h"
-
-#include "OSGRTSingleHitPacket.h"
-#include "OSGRTFourHitSIMDPacket.h"
-
-#include "OSGRTSingleRayPacket.h"
-#include "OSGRTFourRaySIMDPacket.h"
-
-#include "OSGRTPrimaryRayStore.h"
-#include "OSGRTPrimaryRayTiledStore.h"
-
-#include "OSGRTHitStore.h"
-#include "OSGRTHitTiledStore.h"
-
-#include "OSGRTCombinedThread.h"
-
-#include "OSGRTPrimaryRayThread.h"
-#include "OSGRTShadingThread.h"
-
-#include "OSGRTScene.h"
-#include "OSGRTLocalPacketManager.h"
-#include "OSGRTCacheKDVer1.h"
-#include "OSGRTCacheKD.h"
-#include "OSGRTCacheBIH.h"
-#include "OSGRTTriangleAccel.h"
-#include "OSGRTTriangleAccelFields.h"
-
-#include "OSGRRTStage.h"
-
-
-#include "OSGRTInitAction.h"
-#include "OSGRTUpdateAction.h"
-
-#include "OSGRayTracer.h"
-#include "OSGRayTracerInst.h"
-
-#include "OSGRTCacheAttachmentInst.h"
-#else
 #include "OSGRRTExternalInclude.h"
-#endif
 
 using namespace OSG;
 
@@ -208,6 +160,9 @@ int main (int argc, char **argv)
         cam->setFar( 100000 );
     }
 
+    RTCameraDecoratorPtr pCamDeco = RTCameraDecorator::create();
+
+    pCamDeco->setDecoratee(cam);
 
     // RRT
 
@@ -334,7 +289,7 @@ int main (int argc, char **argv)
     pRayTracer->init(false, false);
                      /*_sfTiled.getValue(), _sfSplitThreads.getValue()*/
 
-    pRayTracer->trace(cam, false /*_sfTiled.getValue()*/);
+    pRayTracer->trace(pCamDeco, false /*_sfTiled.getValue()*/);
 
     pRayTracer->finalize(NULL);
 

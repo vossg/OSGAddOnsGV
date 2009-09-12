@@ -240,6 +240,23 @@ void RRTStageBase::setTiled(const bool &value)
     _sfTiled.setValue(value);
 }
 
+//! Get the value of the RRTStage::_sfRTCamera field.
+inline
+RTCameraDecoratorPtrConst RRTStageBase::getRTCamera(void) const
+{
+    return _sfRTCamera.getValue();
+}
+
+//! Set the value of the RRTStage::_sfRTCamera field.
+inline
+void RRTStageBase::setRTCamera(RTCameraDecoratorPtrConstArg value)
+{
+    editSField(RTCameraFieldMask);
+
+    setRefd(_sfRTCamera.getValue(), value);
+
+}
+
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline
@@ -268,6 +285,9 @@ void RRTStageBase::execSync (      RRTStageBase *pFrom,
 
     if(FieldBits::NoField != (TiledFieldMask & whichField))
         _sfTiled.syncWith(pFrom->_sfTiled);
+
+    if(FieldBits::NoField != (RTCameraFieldMask & whichField))
+        _sfRTCamera.syncWith(pFrom->_sfRTCamera);
 }
 #endif
 

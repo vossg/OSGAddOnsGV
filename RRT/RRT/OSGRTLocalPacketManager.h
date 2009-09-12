@@ -47,7 +47,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class Camera;
+class RTCameraDecorator;
 
 class RTTarget;
 class RTThread;
@@ -104,7 +104,8 @@ class RTLocalPacketManager : public MemoryObject
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    void trace     (Camera *pCam, bool bTiled = false);
+    void trace     (RTCameraDecorator *pCam, 
+                    bool               bTiled = false);
     void finish    (void        );
 
     /*! \}                                                                 */
