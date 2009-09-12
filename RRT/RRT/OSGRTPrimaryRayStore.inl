@@ -169,7 +169,7 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
     RTCameraDecorator        &pCam, 
     RTTarget                 &pTarget)
 {
-//    pThis->_uiNumRays    = pTarget.getWidth() * pTarget.getHeight();
+    pThis->_uiNumRays    = pTarget.getWidth() * pTarget.getHeight();
     pThis->_uiCurrentRay = 0;
 
     pThis->_vRays    .resize(pThis->_uiNumRays);
