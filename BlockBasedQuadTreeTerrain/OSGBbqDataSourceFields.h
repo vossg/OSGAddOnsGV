@@ -58,8 +58,8 @@
 #include "OSGDrawableDef.h"
 
 #include "OSGFieldContainerFields.h"
-#include "OSGFieldContainerPtrSField.h"
-#include "OSGFieldContainerPtrMField.h"
+#include "OSGPointerSField.h"
+#include "OSGPointerMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -166,28 +166,28 @@ const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getMName<NoRefCountPolicy>(void)
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpDrawableFieldSingle */
 
-typedef FieldContainerPtrSField<BbqDataSourcePtr,
-                                RecordedRefCountPolicy  > SFRecBbqDataSourcePtr;
-typedef FieldContainerPtrSField<BbqDataSourcePtr,
-                                UnrecordedRefCountPolicy> SFUnrecBbqDataSourcePtr;
-typedef FieldContainerPtrSField<BbqDataSourcePtr,
-                                WeakRefCountPolicy      > SFWeakBbqDataSourcePtr;
-typedef FieldContainerPtrSField<BbqDataSourcePtr,
-                                NoRefCountPolicy        > SFUncountedBbqDataSourcePtr;
+typedef PointerSField<BbqDataSourcePtr,
+                      RecordedRefCountPolicy  > SFRecBbqDataSourcePtr;
+typedef PointerSField<BbqDataSourcePtr,
+                      UnrecordedRefCountPolicy> SFUnrecBbqDataSourcePtr;
+typedef PointerSField<BbqDataSourcePtr,
+                      WeakRefCountPolicy      > SFWeakBbqDataSourcePtr;
+typedef PointerSField<BbqDataSourcePtr,
+                      NoRefCountPolicy        > SFUncountedBbqDataSourcePtr;
 #endif
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpDrawableFieldMulti */
 
-typedef FieldContainerPtrMField<BbqDataSourcePtr,
-                                RecordedRefCountPolicy  > MFRecBbqDataSourcePtr;
-typedef FieldContainerPtrMField<BbqDataSourcePtr,
-                                UnrecordedRefCountPolicy> MFUnrecBbqDataSourcePtr;
-typedef FieldContainerPtrMField<BbqDataSourcePtr,
-                                WeakRefCountPolicy      > MFWeakBbqDataSourcePtr;
-typedef FieldContainerPtrMField<BbqDataSourcePtr,
-                                NoRefCountPolicy        > MFUncountedBbqDataSourcePtr;
+typedef PointerMField<BbqDataSourcePtr,
+                      RecordedRefCountPolicy  > MFRecBbqDataSourcePtr;
+typedef PointerMField<BbqDataSourcePtr,
+                      UnrecordedRefCountPolicy> MFUnrecBbqDataSourcePtr;
+typedef PointerMField<BbqDataSourcePtr,
+                      WeakRefCountPolicy      > MFWeakBbqDataSourcePtr;
+typedef PointerMField<BbqDataSourcePtr,
+                      NoRefCountPolicy        > MFUncountedBbqDataSourcePtr;
 #endif
 
 

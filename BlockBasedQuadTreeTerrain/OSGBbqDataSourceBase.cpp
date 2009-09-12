@@ -300,11 +300,11 @@ DataType FieldTraits<BbqDataSourcePtr>::_type("BbqDataSourcePtr", "FieldContaine
 
 OSG_FIELDTRAITS_GETTYPE(BbqDataSourcePtr)
 
-OSG_EXPORT_PTR_SFIELD_FULL(FieldContainerPtrSField, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
                            BbqDataSourcePtr, 
                            0);
 
-OSG_EXPORT_PTR_MFIELD_FULL(FieldContainerPtrMField, 
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
                            BbqDataSourcePtr, 
                            0);
 
