@@ -39,104 +39,6 @@
 OSG_BEGIN_NAMESPACE
 
 
-
-template<typename DescT> inline
-void RTCacheKD<DescT>::RTCacheKDNode::initLeaf(IndexIterator  primNums, 
-                                               IndexSize      np,
-                                               PrimIdxStore  &vStore  )
-{
-    _uiNumPrims  = np << 2;
-    _uiFlags    |= 3;
-
-    if(np == 0)
-    {
-        _uiSinglePrimitive = 0;
-    }
-    else if(np == 1)
-    {
-        _uiSinglePrimitive = *primNums;
-    }
-    else 
-    {
-        _pPrimitiveIdx = vStore.size();
-
-        std::vector<UInt32> tmpVec;
-        
-        vStore.push_back(tmpVec);
-        
-        vStore.back().reserve(np);
-
-        for(UInt32 i = 0; i < np; ++i)
-            vStore.back().push_back(*primNums++);
-    }
-}
-
-template<typename DescT> inline
-void RTCacheKD<DescT>::RTCacheKDNode::initInterior(UInt32 uiAxis, 
-                                                   Real32 fSplitPos)
-{
-    _fSplitPos = fSplitPos;
-
-    _uiFlags &= ~3;
-    _uiFlags |= uiAxis;
-}
-
-template<typename DescT> inline
-void RTCacheKD<DescT>::RTCacheKDNode::initLeaf(RTKDNode     *pNode,  
-                                               PrimIdxStore &vStore)
-{
-    std::vector<UInt32> &vPrimitives = vStore[pNode->getPrimitiveIdx()];
-
-    _uiNumPrims  = vPrimitives.size() << 2;
-    _uiFlags    |= 3;
-    
-    if(vPrimitives.size() == 0)
-    {
-        _uiSinglePrimitive = 0;
-    }
-    else if(vPrimitives.size() == 1)
-    {
-        _uiSinglePrimitive = vPrimitives[0];
-    }
-    else 
-    {
-        _pPrimitiveIdx = pNode->getPrimitiveIdx();
-    }
-}
-
-template<typename DescT> inline
-void RTCacheKD<DescT>::RTCacheKDNode::initInterior(RTKDNode *pNode)
-{
-    _fSplitPos = pNode->getSplitPos();
-
-    _uiFlags &= ~3;
-    _uiFlags |= pNode->getSplitAxis();
-}
-
-template<typename DescT> inline
-Real32 RTCacheKD<DescT>::RTCacheKDNode::getSplitPos(void) const
-{ 
-    return _fSplitPos; 
-}
-
-template<typename DescT> inline
-UInt32 RTCacheKD<DescT>::RTCacheKDNode::getNumPrimitives(void) const 
-{ 
-    return _uiNumPrims >> 2; 
-}
-
-template<typename DescT> inline
-UInt32 RTCacheKD<DescT>::RTCacheKDNode::getSplitAxis(void) const 
-{ 
-    return _uiFlags & 3; 
-}
-
-template<typename DescT> inline
-bool RTCacheKD<DescT>::RTCacheKDNode::isLeaf(void) const 
-{
-    return (_uiFlags & 3) == 3; 
-}
-
 template<typename DescT> inline
 RTCacheKD<DescT>::KDSIMDStackElem::KDSIMDStackElem(void)
 {
@@ -163,12 +65,25 @@ void RTCacheKD<DescT>::KDSIMDStackElem::operator =(
 }
 
 
+OSG_FIELD_CONTAINER_TMPL_NO_TYPE_DEF  (RTCacheKD, DescT)
+//OSG_RC_GET_STATIC_TYPE_INL_TMPL_DEF   (DynFieldAttachment, AttachmentDescT)
+OSG_RC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(RTCacheKD, DescT)
 
 
 template<typename DescT> inline
 RTCacheKD<DescT>::RTCacheKD(void) :
      Inherited    (    ),
-    _vKDTree      (    ),
+    _mfKDTree     (    ),
+     nAllocedNodes(   0),
+     nextFreeNode (   0)
+{
+}
+
+
+template<typename DescT> inline
+RTCacheKD<DescT>::RTCacheKD(const RTCacheKD &source) :
+     Inherited    (    ),
+    _mfKDTree     (    ),
      nAllocedNodes(   0),
      nextFreeNode (   0)
 {
@@ -178,6 +93,73 @@ template<typename DescT> inline
 RTCacheKD<DescT>::~RTCacheKD(void)
 {
 }
+
+template<typename DescT> inline
+EditFieldHandlePtr RTCacheKD<DescT>::editHandleKDTree(void)
+{
+    typename MFRTCacheKDNode::EditHandlePtr returnValue(
+        new typename MFRTCacheKDNode::EditHandle(
+             &_mfKDTree, 
+             this->getType().getFieldDesc(KDTreeFieldId)));
+
+    this->editMField(KDTreeFieldMask, _mfKDTree);
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+GetFieldHandlePtr RTCacheKD<DescT>::getHandleKDTree (void) const
+{
+    typename MFRTCacheKDNode::GetHandlePtr returnValue(
+        new typename MFRTCacheKDNode::GetHandle(
+             &_mfKDTree, 
+             this->getType().getFieldDesc(KDTreeFieldId)));
+
+    return returnValue;
+}
+
+#ifdef OSG_MT_CPTR_ASPECT
+template<typename DescT> inline
+typename RTCacheKD<DescT>::ObjPtr 
+    RTCacheKD<DescT>::createAspectCopy(void) const
+{
+    ObjPtr returnValue;
+
+    newAspectCopy(returnValue,
+                  dynamic_cast<const Self *>(this));
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+void RTCacheKD<DescT>::execSyncV(
+          FieldContainer     &oFrom,
+          ConstFieldMaskArg   whichField,
+          AspectOffsetStore  &oOffsets,
+          ConstFieldMaskArg   syncMode  ,
+    const UInt32              uiSyncInfo)
+{
+    this->execSync(static_cast<RTCacheKD *>(&oFrom),
+                   whichField,
+                   oOffsets,
+                   syncMode,
+                   uiSyncInfo);
+}
+
+template<typename DescT> inline
+void RTCacheKD<DescT>::execSync (
+          RTCacheKD          *pFrom,
+          ConstFieldMaskArg   whichField,
+          AspectOffsetStore  &oOffsets,
+          ConstFieldMaskArg   syncMode  ,
+    const UInt32              uiSyncInfo)
+{
+    Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
+}
+
+#endif
+
+
 
 
 template<typename DescT> inline
@@ -199,9 +181,9 @@ void RTCacheKD<DescT>::intersect(RTRayPacket &oRay,
                                  UInt32       uiCacheId)
 {
 #if 0
-    for(UInt32 i = 0; i < _vTriangleAcc.size(); ++i)
+    for(UInt32 i = 0; i < _mfTriangleAcc.size(); ++i)
     {
-        _vTriangleAcc[i].intersect(oRay, oHit, uiCacheId);
+        _mfTriangleAcc[i].intersect(oRay, oHit, uiCacheId);
     }
 #else
 
@@ -217,8 +199,12 @@ void RTCacheKD<DescT>::intersect(RTRayPacket &oRay,
 
     sKDToDoStack.clear  (   );
 
-    if(this->_bBoundingVolume.intersect(lineRay, tmin, tmax) == false)
+    if(this->_sfBoundingVolume.getValue().intersect(lineRay, 
+                                                    tmin, 
+                                                    tmax   ) == false)
+    {
         return;
+    }
 
 	Vec3f invDir(1.f/oRay.getDir().x(), 
                  1.f/oRay.getDir().y(), 
@@ -228,10 +214,10 @@ void RTCacheKD<DescT>::intersect(RTRayPacket &oRay,
     union
     {
         const RTCacheKDNode *node;
-              unsigned int   addr;
+              UIntPointer    addr;
     };
 
-    node = &(_vKDTree[1]);
+    node = &(_mfKDTree[1]);
 
 	while(node != NULL) 
     {
@@ -250,13 +236,13 @@ void RTCacheKD<DescT>::intersect(RTRayPacket &oRay,
             union
             {
                 const RTCacheKDNode *nearChild;
-                      unsigned int   nearAddr;
+                      UIntPointer    nearAddr;
             };
 
             union
             {
                 const RTCacheKDNode *farChild;
-                      unsigned int   farAddr;
+                      UIntPointer    farAddr;
             };
 
 			bool belowFirst = oRay.getOrigin()[axis] <= node->getSplitPos();
@@ -300,19 +286,19 @@ void RTCacheKD<DescT>::intersect(RTRayPacket &oRay,
 
 			if(nPrimitives == 1) 
             {
-                this->_vTriangleAcc[node->_uiSinglePrimitive].intersect(
+                this->_mfTriangleAcc[node->_uiSinglePrimitive].intersect(
                     oRay, oHit, uiCacheId);
 			}
 			else 
             {
 				std::vector<UInt32> &prims = 
-                    this->_vPrimitives[node->_pPrimitiveIdx];
+                    this->_mfPrimitives[node->_pPrimitiveIdx];
 
 				for(u_int i = 0; i < nPrimitives; ++i) 
                 {
-                    this->_vTriangleAcc[prims[i]].intersect(oRay, 
-                                                            oHit,
-                                                            uiCacheId);
+                    this->_mfTriangleAcc[prims[i]].intersect(oRay, 
+                                                             oHit,
+                                                             uiCacheId);
 				}
 			}
 
@@ -349,8 +335,12 @@ void RTCacheKD<DescT>::intersect(RTRayPacket &oRay,
 
     sKDToDoStack.clear  (   );
 
-    if(this->_bBoundingVolume.intersect(lineRay, tmin, tmax) == false)
+    if(this->_sfBoundingVolume.getValue().intersect(lineRay, 
+                                                    tmin, 
+                                                    tmax   ) == false)
+    {
         return;
+    }
 
 	Vec3f invDir(1.f/oRay.getDir().x(), 
                  1.f/oRay.getDir().y(), 
@@ -360,10 +350,10 @@ void RTCacheKD<DescT>::intersect(RTRayPacket &oRay,
     union
     {
         const RTCacheKDNode *node;
-              unsigned int   addr;
+              UIntPointer    addr;
     };
 
-	node = &(_vKDTree[1]);
+	node = &(_mfKDTree[1]);
 
 	while(node != NULL) 
     {
@@ -377,13 +367,13 @@ void RTCacheKD<DescT>::intersect(RTRayPacket &oRay,
             union
             {
                 const RTCacheKDNode *nearChild;
-                      unsigned int   nearAddr;
+                      UIntPointer    nearAddr;
             };
 
             union
             {
                 const RTCacheKDNode *farChild;
-                      unsigned int   farAddr;
+                      UIntPointer    farAddr;
             };
 
 			bool belowFirst = oRay.getOrigin()[axis] <= node->getSplitPos();
@@ -426,19 +416,19 @@ void RTCacheKD<DescT>::intersect(RTRayPacket &oRay,
 
         if(nPrimitives == 1) 
         {
-            this->_vTriangleAcc[node->_uiSinglePrimitive].intersect(
+            this->_mfTriangleAcc[node->_uiSinglePrimitive].intersect(
                 oRay, oHit, uiCacheId);
         }
         else 
         {
             std::vector<UInt32> &prims = 
-                this->_vPrimitives[node->_pPrimitiveIdx];
+                this->_mfPrimitives[node->_pPrimitiveIdx];
             
             for(u_int i = 0; i < nPrimitives; ++i) 
             {
-                this->_vTriangleAcc[prims[i]].intersect(oRay, 
-                                                        oHit,
-                                                        uiCacheId);
+                this->_mfTriangleAcc[prims[i]].intersect(oRay, 
+                                                         oHit,
+                                                         uiCacheId);
             }
         }
 
@@ -512,9 +502,13 @@ void RTCacheKD<DescT>::intersectSingle(RTRaySIMDPacket &oRay,
 
         sKDToDoStack.clear  (   );
 
-        if(this->_bBoundingVolume.intersect(lineRay, tmin, tmax) == false)
+        if(this->_sfBoundingVolume.getValue().intersect(lineRay, 
+                                                        tmin, 
+                                                        tmax   ) == false)
+        {
             continue;
-        
+        }
+
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
         Vec3f invDir(1.f / vRayDirs[iRay].x(), 
                      1.f / vRayDirs[iRay].y(), 
@@ -529,10 +523,10 @@ void RTCacheKD<DescT>::intersectSingle(RTRaySIMDPacket &oRay,
         union
         {
             const RTCacheKDNode *node;
-                  unsigned int   addr;
+                  UIntPointer    addr;
         };
 
-        node = &(_vKDTree[1]);
+        node = &(_mfKDTree[1]);
 
         while(node != NULL) 
         {
@@ -553,13 +547,13 @@ void RTCacheKD<DescT>::intersectSingle(RTRaySIMDPacket &oRay,
                 union
                 {
                     const RTCacheKDNode *nearChild;
-                          unsigned int   nearAddr;
+                          UIntPointer    nearAddr;
                 };
                 
                 union
                 {
                     const RTCacheKDNode *farChild;
-                          unsigned int   farAddr;
+                          UIntPointer    farAddr;
                 };
 
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
@@ -612,31 +606,31 @@ void RTCacheKD<DescT>::intersectSingle(RTRaySIMDPacket &oRay,
             if(nPrimitives == 1) 
             {
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
-                this->_vTriangleAcc[node->_uiSinglePrimitive].intersectSingle(
+                this->_mfTriangleAcc[node->_uiSinglePrimitive].intersectSingle(
                     vRayDirs, vOrigin, oHit, uiCacheId, iRay);
 #else
-                this->_vTriangleAcc[node->_uiSinglePrimitive].intersectSingle(
+                this->_mfTriangleAcc[node->_uiSinglePrimitive].intersectSingle(
                     oRay, oHit, uiCacheId, iRay);
 #endif
             }
             else 
             {
                 std::vector<UInt32> &prims = 
-                    this->_vPrimitives[node->_pPrimitiveIdx];
+                    this->_mfPrimitives[node->_pPrimitiveIdx];
                 
                 for(u_int i = 0; i < nPrimitives; ++i) 
                 {
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
-                    this->_vTriangleAcc[prims[i]].intersectSingle(vRayDirs,
-                                                                  vOrigin, 
-                                                                  oHit,
-                                                                  uiCacheId,
-                                                                  iRay);
+                    this->_mfTriangleAcc[prims[i]].intersectSingle(vRayDirs,
+                                                                   vOrigin, 
+                                                                   oHit,
+                                                                   uiCacheId,
+                                                                   iRay);
 #else
-                    this->_vTriangleAcc[prims[i]].intersectSingle(oRay, 
-                                                                  oHit,
-                                                                  uiCacheId,
-                                                                  iRay);
+                    this->_mfTriangleAcc[prims[i]].intersectSingle(oRay, 
+                                                                   oHit,
+                                                                   uiCacheId,
+                                                                   iRay);
 #endif
                 }
             }
@@ -670,11 +664,11 @@ void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay,
                                  UInt32          *uiActive     )
 {
 #if 0
-    for(UInt32 i = 0; i < this->_vTriangleAcc.size(); ++i)
+    for(UInt32 i = 0; i < this->_mfTriangleAcc.size(); ++i)
     {
         for(UInt32 j = 0; j < 4; ++j)
         {
-            this->_vTriangleAcc[i].intersect(oRay, oHit, uiCacheId, j);
+            this->_mfTriangleAcc[i].intersect(oRay, oHit, uiCacheId, j);
         }
     }
 #else
@@ -713,22 +707,19 @@ void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay,
     invDir._data[RTRaySIMDPacket::Z] = 
         osgSIMDInvert(oRay.getDir(RTRaySIMDPacket::Z));
 
+    BoxVolume &boxVolume = this->_sfBoundingVolume.getValue();
 
     // ClipX
     const Float4 clipMinX = 
         osgSIMDMul(
-            osgSIMDSub(
-                osgSIMDSet(
-                    this->_bBoundingVolume.getMin()[RTRaySIMDPacket::X]),
-                osgSIMDSet(oRay.getOriginComp      (RTRaySIMDPacket::X))),
+            osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::X]),
+                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::X))),
             invDir._data[RTRaySIMDPacket::X]);
 
     const Float4 clipMaxX = 
         osgSIMDMul(
-            osgSIMDSub(
-                osgSIMDSet(
-                    this->_bBoundingVolume.getMax()[RTRaySIMDPacket::X]),
-                osgSIMDSet(oRay.getOriginComp      (RTRaySIMDPacket::X))),
+            osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::X]),
+                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::X))),
             invDir._data[RTRaySIMDPacket::X]);
 
 
@@ -743,18 +734,14 @@ void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay,
     // ClipY
     const Float4 clipMinY = 
         osgSIMDMul(
-            osgSIMDSub(
-                osgSIMDSet(
-                    this->_bBoundingVolume.getMin()[RTRaySIMDPacket::Y]),
-                osgSIMDSet(oRay.getOriginComp      (RTRaySIMDPacket::Y))),
+            osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::Y]),
+                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Y))),
             invDir._data[RTRaySIMDPacket::Y]);
     
     const Float4 clipMaxY = 
         osgSIMDMul(
-            osgSIMDSub(
-                osgSIMDSet(
-                    this->_bBoundingVolume.getMax()[RTRaySIMDPacket::Y]),
-                osgSIMDSet(oRay.getOriginComp      (RTRaySIMDPacket::Y))),
+            osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::Y]),
+                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Y))),
             invDir._data[RTRaySIMDPacket::Y]);
     
     const Float4 cmpY = osgSIMDCmpGT(oRay.getDir(RTRaySIMDPacket::Y), 
@@ -769,18 +756,14 @@ void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay,
     // ClipZ
     const Float4 clipMinZ = 
         osgSIMDMul(
-            osgSIMDSub(
-                osgSIMDSet(
-                    this->_bBoundingVolume.getMin()[RTRaySIMDPacket::Z]),
-                osgSIMDSet(oRay.getOriginComp      (RTRaySIMDPacket::Z))),
+            osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::Z]),
+                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Z))),
             invDir._data[RTRaySIMDPacket::Z]);
 
     const Float4 clipMaxZ = 
         osgSIMDMul(
-            osgSIMDSub(
-                osgSIMDSet(
-                    this->_bBoundingVolume.getMax()[RTRaySIMDPacket::Z]),
-                osgSIMDSet(oRay.getOriginComp      (RTRaySIMDPacket::Z))),
+            osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::Z]),
+                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Z))),
             invDir._data[RTRaySIMDPacket::Z]);
  
     const Float4 cmpZ = osgSIMDCmpGT(oRay.getDir(RTRaySIMDPacket::Z), 
@@ -801,10 +784,10 @@ void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay,
     union
     {
         const RTCacheKDNode *node;
-              unsigned int   addr;
+              UIntPointer    addr;
     };
 
-    node = &(_vKDTree[1]);
+    node = &(_mfKDTree[1]);
 
     while(node != NULL) 
     {
@@ -821,13 +804,13 @@ void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay,
             union
             {
                 const RTCacheKDNode *nearChild;
-                      unsigned int   nearAddr;
+                      UIntPointer    nearAddr;
             };
                 
             union
             {
                 const RTCacheKDNode *farChild;
-                      unsigned int   farAddr;
+                      UIntPointer    farAddr;
             };
 
 //            bool belowFirst = oRay.getDirVec(0)[axis] > 0;
@@ -888,20 +871,20 @@ void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay,
 
         if(nPrimitives == 1) 
         {
-            this->_vTriangleAcc[node->_uiSinglePrimitive].intersect(
+            this->_mfTriangleAcc[node->_uiSinglePrimitive].intersect(
                 oRay, oHit, uiCacheId, activeMask);
         }
         else 
         {
             std::vector<UInt32> &prims = 
-                this->_vPrimitives[node->_pPrimitiveIdx];
+                this->_mfPrimitives[node->_pPrimitiveIdx];
             
             for(u_int i = 0; i < nPrimitives; ++i) 
             {
-                this->_vTriangleAcc[prims[i]].intersect(oRay, 
-                                                        oHit,
-                                                        uiCacheId,
-                                                        activeMask);
+                this->_mfTriangleAcc[prims[i]].intersect(oRay, 
+                                                         oHit,
+                                                         uiCacheId,
+                                                         activeMask);
             }
         }
 
@@ -943,9 +926,9 @@ void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft,
 {
 	if(nAllocedNodes <= nextFreeNode + 2) 
     {
-		int nAlloc = osgMax(2 * _vKDTree.size(), 512u);
+		int nAlloc = osgMax(2 * _mfKDTree.size(), 512u);
 
-        _vKDTree.resize(nAlloc);
+        _mfKDTree.resize(nAlloc);
 
 		nAllocedNodes = nAlloc;
 	}
@@ -956,7 +939,7 @@ void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft,
         {
             ++nextFreeNode;
 
-            _vKDTree[nextFreeNode].initLeaf(pRight, this->_vPrimitives);
+            _mfKDTree[nextFreeNode].initLeaf(pRight, this->_mfPrimitives);
 
             return;
         }
@@ -964,8 +947,8 @@ void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft,
         {
             ++nextFreeNode;
 
-            _vKDTree[nextFreeNode].initInterior(pRight);
-            _vKDTree[nextFreeNode]._uiAboveChild = sizeof(RTCacheKDNode);
+            _mfKDTree[nextFreeNode].initInterior(pRight);
+            _mfKDTree[nextFreeNode]._uiAboveChild = sizeof(RTCacheKDNode);
 
             ++nextFreeNode;
 
@@ -980,29 +963,29 @@ void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft,
 
         if(pLeft->isLeave() == false)
         {
-            _vKDTree[uiLeft].initInterior(pLeft);
-            _vKDTree[uiLeft]._uiAboveChild = 2 * sizeof(RTCacheKDNode);
+            _mfKDTree[uiLeft].initInterior(pLeft);
+            _mfKDTree[uiLeft]._uiAboveChild = 2 * sizeof(RTCacheKDNode);
 
             flattenTree(pLeft->getBelowChild(), pLeft->getAboveChild());
         }
         else
         {
-            _vKDTree[uiLeft].initLeaf(pLeft, this->_vPrimitives);
+            _mfKDTree[uiLeft].initLeaf(pLeft, this->_mfPrimitives);
         }
 
 
         if(pRight->isLeave() == false)
         {
-            _vKDTree[uiRight].initInterior(pRight);
+            _mfKDTree[uiRight].initInterior(pRight);
 
-            _vKDTree[uiRight]._uiAboveChild = 
+            _mfKDTree[uiRight]._uiAboveChild = 
                 (nextFreeNode - uiRight) * sizeof(RTCacheKDNode);
 
             flattenTree(pRight->getBelowChild(), pRight->getAboveChild());
         }
         else
         {
-            _vKDTree[uiRight].initLeaf(pRight, this->_vPrimitives);
+            _mfKDTree[uiRight].initLeaf(pRight, this->_mfPrimitives);
         }
     }
 }

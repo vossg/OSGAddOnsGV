@@ -112,7 +112,16 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentric
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
+    void putToStream(OutStream &str) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
     void operator =(const RTTriAccelBarycentric &source);
+
+    bool operator ==(const RTTriAccelBarycentric &source) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -111,6 +111,88 @@ void RTTriAccelBarycentric::operator =(
 
 
 inline
+bool RTTriAccelBarycentric::operator ==(
+    const RTTriAccelBarycentric &source) const
+{
+    return
+        (_nU       == source._nU      &&
+         _nV       == source._nV      &&
+         _nD       == source._nD      &&
+         _uiProj   == source._uiProj  &&
+         
+         _bNU      == source._bNU     &&
+         _bNV      == source._bNV     &&
+         _bD       == source._bD      &&
+         _uiObjId  == source._uiObjId &&
+         
+         _cNU      == source._cNU     &&
+         _cNV      == source._cNV     &&
+         _cD       == source._cD      &&
+         _uiTriId  == source._uiTriId  );
+}
+
+inline
+void RTTriAccelBarycentric::putToStream(OutStream &str) const
+{
+    typedef TypeTraits<UInt32> UInt32TypeTrait;
+
+    union
+    {
+        Real32 rVal;
+        UInt32 uiVal;
+    };
+
+    rVal = _nU;
+    UInt32TypeTrait::putToStream(uiVal, str);
+    str << " ";
+
+    rVal = _nV;
+    UInt32TypeTrait::putToStream(uiVal, str);
+    str << " ";
+
+    rVal = _nD;
+    UInt32TypeTrait::putToStream(uiVal, str);
+    str << " ";
+
+    UInt32TypeTrait::putToStream(_uiProj, str);
+    str << " ";
+    
+
+
+    rVal = _bNU;
+    UInt32TypeTrait::putToStream(uiVal, str);
+    str << " ";
+
+    rVal = _bNV;
+    UInt32TypeTrait::putToStream(uiVal, str);
+    str << " ";
+
+    rVal = _bD;
+    UInt32TypeTrait::putToStream(uiVal, str);
+    str << " ";
+
+    UInt32TypeTrait::putToStream(_uiObjId, str);
+    str << " ";
+    
+
+
+    rVal = _cNU;
+    UInt32TypeTrait::putToStream(uiVal, str);
+    str << " ";
+
+    rVal = _cNV;
+    UInt32TypeTrait::putToStream(uiVal, str);
+    str << " ";
+
+    rVal = _cD;
+    UInt32TypeTrait::putToStream(uiVal, str);
+    str << " ";
+
+    UInt32TypeTrait::putToStream(_uiTriId, str);
+    str << " ";
+}
+
+inline
 void RTTriAccelBarycentric::setup(Pnt3f  A, 
                                   Pnt3f  B, 
                                   Pnt3f  C, 

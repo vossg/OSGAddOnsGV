@@ -46,7 +46,6 @@
 #include "OSGBarrier.h"
 #include "OSGCamera.h"
 #include "OSGTextureObjChunk.h"
-#include "OSGRTCacheAttachmentInst.h"
 
 #include "OSGRTSIMD.h"
 
@@ -88,6 +87,9 @@ class RTHitTile;
 template<typename DescT>
 class RTPrimaryRayTile;
 
+template<typename DescT>
+class RTCacheAttachmentInst;
+
 class RTTriAccelBarycentric;
 
 class RTHitPacket;
@@ -110,6 +112,8 @@ class RTFourHitSIMDPacket;
 class RTColorPacket;
 class RTColorSIMDPacket;
 
+typedef MField<RTTriAccelBarycentric> MFRTTriAccelBarycentric;
+
 /*! \brief RRTStage class. See \ref
            PageContribRRTRRTStage for a description.
 */
@@ -131,6 +135,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef RTColorPacket                          ColorPacket;
 
         typedef RTTriAccelBarycentric                  TriangleAccel;
+        typedef MFRTTriAccelBarycentric                MFTriangleAccel;
+        
         typedef RTCacheKD<SinglePacketDescBase>        RTCache;
 
 
@@ -146,6 +152,15 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef RTPrimaryRayTile<SinglePacketDescBase> PrimaryRayTile;
 
         typedef std::vector<SingleRayPacket    >       RayStore;
+
+        static const Char8 *getSFKDCacheName(void)
+        {
+            return "SFRTCacheKDSinglePacketPtr";
+        }
+        static const Char8 *getMFKDCacheName(void)
+        {
+            return "MFRTCacheKDSinglePacketPtr";
+        }
     };
     
 
@@ -158,6 +173,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef RTColorSIMDPacket                    ColorPacket;
 
         typedef RTTriAccelBarycentric                TriangleAccel;
+        typedef MFRTTriAccelBarycentric              MFTriangleAccel;
+
         typedef RTCacheKD<SIMDPacketDescBase>        RTCache;
 
         typedef RTHitSIMDPacket                      HitPacket;
@@ -175,6 +192,44 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
         typedef std::vector<SingleRayPacket,
                             SIMDRayAllocator>        RayStore;
+
+
+        static const Char8 *getCacheKDBaseTypeName(void)
+        {
+            return "RTCacheKDBaseSIMDPacket";
+        }
+        static const Char8 *getCacheKDBaseParentTypeName(void)
+        {
+            return "FieldContainer";
+        }
+        static const Char8 *getCacheKDBaseGroupName(void)
+        {
+            return "RTCacheKD";
+        }
+
+        static const Char8 *getCacheKDTypeName(void)
+        {
+            return "RTCacheKDSIMDPacket";
+        }
+
+        static const Char8 *getCacheKDParentTypeName(void)
+        {
+            return "RTCacheKDBaseSIMDPacket";
+        }
+
+        static const Char8 *getCacheKDGroupName(void)
+        {
+            return "RTCacheKD";
+        }
+
+        static const Char8 *getSFKDCacheName(void)
+        {
+            return "SFRTCacheKDSIMDPacketPtr";
+        }
+        static const Char8 *getMFKDCacheName(void)
+        {
+            return "MFRTCacheKDSIMDPacketPtr";
+        }
     };
 
 

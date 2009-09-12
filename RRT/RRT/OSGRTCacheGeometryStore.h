@@ -36,23 +36,23 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTSIMDPACKET_H_
-#define _OSGRTSIMDPACKET_H_
+#ifndef _OSGRTCACHEGEOMETRYSTORE_H_
+#define _OSGRTCACHEGEOMETRYSTORE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGContribRRTDef.h"
-#include "OSGBaseTypes.h"
-#include "OSGRTSIMD.h"
+#include "OSGRTCacheGeometryStoreBase.h"
+#include "OSGGeometry.h"
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief RTTarget class. See \ref
-           PageContribRRTRTTarget for a description.
+/*! \brief RTCacheGeometryStore class. See \ref
+           PageContribRRTRTCacheGeometryStore for a description.
 */
 
-class OSG_CONTRIBRRT_DLLMAPPING RTSIMDPacket 
+class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStore : 
+    public RTCacheGeometryStoreBase
 {
   protected:
 
@@ -60,67 +60,70 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSIMDPacket
 
   public:
 
-    typedef RTSIMDPacket Self;
+    typedef RTCacheGeometryStoreBase Inherited;
+    typedef RTCacheGeometryStore     Self;
 
-    static const UInt32 NumHElements = 2;
-    static const UInt32 NumVElements = 2;
-
-    static const UInt32 NumElements  = NumHElements * NumVElements;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Constructors                                */
-    /*! \{                                                                 */
-
-    RTSIMDPacket(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
-
-    ~RTSIMDPacket(void);
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
+    virtual void changed(ConstFieldMaskArg whichField,
+                         UInt32            origin,
+                         BitVector         details    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
-    /*! \{                                                                 */
+    virtual void dump(      UInt32     uiIndent = 0,
+                      const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
 
-    RTSIMDPacket(const RTSIMDPacket &source);
-    void operator =(const RTSIMDPacket &rhs);
+    // Variables should all be in RTCacheGeometryStoreBase.
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    RTCacheGeometryStore(void);
+    RTCacheGeometryStore(const RTCacheGeometryStore &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~RTCacheGeometryStore(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    static void initMethod(InitPhase ePhase);
+
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
 
   private:
 
+    friend class FieldContainer;
+    friend class RTCacheGeometryStoreBase;
+
+    // prohibit default functions (move to 'public' if you need one)
+    void operator =(const RTCacheGeometryStore &source);
 };
+
+typedef RTCacheGeometryStore *RTCacheGeometryStoreP;
 
 OSG_END_NAMESPACE
 
-#include "OSGRTSIMDPacket.inl"
+#include "OSGRTCacheGeometryStoreBase.inl"
+#include "OSGRTCacheGeometryStore.inl"
 
-#endif /* _OSGRTSIMDPACKET_H_ */
+#endif /* _OSGRTCACHEGEOMETRYSTORE_H_ */

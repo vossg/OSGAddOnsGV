@@ -47,21 +47,21 @@ void RTCacheAttachmentInst<DescT>::addGeometry(GeometryPtr    pGeo,
                                                State         *pState,
                                                StateOverride *pStateOverride)
 {
-    if(_pCache == NULL)
+    if(_sfCache.getValue() == NULL)
     {
-        _pCache = new RTCache;
+        _sfCache.setValue(RTCache::create());
         
-        OSG::addRef(_pCache);
+        OSG::addRef(_sfCache.getValue());
     }
-
-    _pCache->addGeometry(pGeo, oMatrix, pState, pStateOverride);
+    
+    _sfCache.getValue()->addGeometry(pGeo, oMatrix, pState, pStateOverride);
 }
 
 template<typename DescT> inline
 typename RTCacheAttachmentInst<DescT>::RTCache *
     RTCacheAttachmentInst<DescT>::getCache(void)
 {
-    return _pCache;
+    return _sfCache.getValue();
 }
 
 /*---------------------------------------------------------------------*/
@@ -69,9 +69,9 @@ typename RTCacheAttachmentInst<DescT>::RTCache *
 template<typename DescT> inline
 void RTCacheAttachmentInst<DescT>::buildStructure(void)
 {
-    if(_pCache != NULL)
+    if(_sfCache.getValue() != NULL)
     {
-        _pCache->buildStructure();
+        _sfCache.getValue()->buildStructure();
     }
 }
 
@@ -101,7 +101,7 @@ OSG_RC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(RTCacheAttachmentInst, DescT)
 template<typename DescT> inline
 RTCacheAttachmentInst<DescT>::RTCacheAttachmentInst(void) :
      Inherited(    ),
-    _pCache   (NULL)
+    _sfCache  (NULL)
 {
 }
 
@@ -110,7 +110,7 @@ RTCacheAttachmentInst<DescT>::RTCacheAttachmentInst(
     const RTCacheAttachmentInst &source) :
 
      Inherited(source),
-    _pCache   (NULL  )
+    _sfCache  (NULL  )
 {
 }
 
@@ -119,6 +119,51 @@ RTCacheAttachmentInst<DescT>::~RTCacheAttachmentInst(void)
 {
 }
 
+template<typename DescT> inline
+EditFieldHandlePtr RTCacheAttachmentInst<DescT>::editHandleCache(void) 
+{
+    typename RTCacheField::EditHandlePtr returnValue(
+        new  typename RTCacheField::EditHandle(
+             &_sfCache, 
+             this->getType().getFieldDesc(CacheFieldId)));
+
+//    returnValue->setSetMethod(boost::bind(&Node::setCore, this, _1));
+
+    editSField(CacheFieldMask);
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+GetFieldHandlePtr RTCacheAttachmentInst<DescT>::getHandleCache (void) const
+{
+    typename RTCacheField::GetHandlePtr returnValue(
+        new typename RTCacheField::GetHandle(
+             &_sfCache, 
+             this->getType().getFieldDesc(CacheFieldId)));
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+void RTCacheAttachmentInst<DescT>::classDescInserter(TypeObject &oType)
+{
+    FieldDescriptionBase *pDesc;
+
+    typedef typename RTCacheField::Description SFDesc;
+
+    pDesc = new SFDesc(
+        RTCacheField::getClassType(),
+        "cache",
+        "",
+        OSG_RC_FIELD_DESC(Self::Cache),
+        false,
+        Field::MFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&Self::editHandleCache),
+        static_cast<FieldGetMethodSig >(&Self::getHandleCache ));
+        
+    oType.addInitialDesc(pDesc);
+}
 
 template<typename DescT> inline
 void RTCacheAttachmentInst<DescT>::initMethod(InitPhase ePhase)
@@ -135,7 +180,7 @@ void RTCacheAttachmentInst<DescT>::resolveLinks(void)
 {
     Inherited::resolveLinks();
 
-    OSG::subRef(_pCache);
+    OSG::subRef(_sfCache.getValue());
 }
 
 /*---------------------------------------------------------------------*/

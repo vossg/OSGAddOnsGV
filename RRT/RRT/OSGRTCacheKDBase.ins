@@ -1,0 +1,112 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *           Copyright (C) 2003 by the OpenSG Forum                          *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
+OSG_BEGIN_NAMESPACE
+
+template <class DescT> inline
+void RTCacheKDBase<DescT>::classDescInserter(TypeObject &oType)
+{
+    FieldDescriptionBase *pDesc;
+
+    pDesc = new MFRTCacheGeometryStorePtr::Description(
+        MFRTCacheGeometryStorePtr::getClassType(),
+        "geoStore",
+        "",
+        OSG_RC_FIELD_DESC(Self::GeoStore),
+        false,
+        Field::MFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&Self::editHandleGeoStore),
+        static_cast<FieldGetMethodSig >(&Self::getHandleGeoStore ));
+        
+    oType.addInitialDesc(pDesc);
+
+
+
+    pDesc = new typename MFTriangleAccel::Description(
+        MFTriangleAccel::getClassType(),
+        "triangleAccel",
+        "",
+        OSG_RC_FIELD_DESC(Self::TriangleAccel),
+        false,
+        Field::MFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&Self::editHandleTriangleAccel),
+        static_cast<FieldGetMethodSig >(&Self::getHandleTriangleAccel ));
+        
+    oType.addInitialDesc(pDesc);
+
+
+    pDesc = new MFRTCachePrimIdxStore::Description(
+        MFRTCachePrimIdxStore::getClassType(),
+        "primIdxStore",
+        "",
+        OSG_RC_FIELD_DESC(Self::PrimIdxStore),
+        false,
+        Field::MFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&Self::editHandlePrimIdxStore),
+        static_cast<FieldGetMethodSig >(&Self::getHandlePrimIdxStore ));
+        
+    oType.addInitialDesc(pDesc);
+
+
+    pDesc = new SFBoxVolume::Description(
+        SFBoxVolume::getClassType(),
+        "boundingVolume",
+        "",
+        OSG_RC_FIELD_DESC(Self::BoundingVolume),
+        false,
+        Field::MFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&Self::editHandleBoundingVolume),
+        static_cast<FieldGetMethodSig >(&Self::getHandleBoundingVolume ));
+        
+    oType.addInitialDesc(pDesc);
+}
+
+template <typename DescT> 
+typename RTCacheKDBase<DescT>::TypeObject 
+    RTCacheKDBase<DescT>::_type(
+        Desc::getCacheKDBaseTypeName      (),
+        Desc::getCacheKDBaseParentTypeName(),
+        Desc::getCacheKDBaseGroupName     (),
+        0,
+        NULL,
+        NULL,
+        (InitalInsertDescFunc) &Self::classDescInserter,
+        false,
+        0);                                 
+           
+OSG_END_NAMESPACE

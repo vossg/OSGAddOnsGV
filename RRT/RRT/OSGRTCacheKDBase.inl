@@ -71,141 +71,157 @@ bool RTCacheKDBase<DescT>::BBoxEdge::operator<(const BBoxEdge &rhs) const
 
 
 template<typename DescT> inline
-RTCacheKDBase<DescT>::RTKDNode::RTKDNode(void) :
-    _bIsLeave   (false),
-    _uiSplitAxis(0    ),
-    _fSplitPos  (0.f  ),
-    _pAboveChild(NULL ),
-    _pBelowChild(NULL ),
-    _uiPrimIdx  (0    )
-{
-}
-
-template<typename DescT> inline
-RTCacheKDBase<DescT>::RTKDNode::~RTKDNode(void)
-{
-    delete _pAboveChild;
-    delete _pBelowChild;
-}
-
-template<typename DescT> inline
-void RTCacheKDBase<DescT>::RTKDNode::initLeaf(IndexIterator  primNums, 
-                                              IndexSize      np,
-                                              PrimIdxStore  &vStore)
-{
-    _bIsLeave = true;
-
-    _pAboveChild = NULL;
-    _pBelowChild = NULL;
-
-    _uiPrimIdx = vStore.size();
-
-    std::vector<UInt32> tmpVec;
-
-    vStore.push_back(tmpVec);
-
-    vStore.back().reserve(np);
-
-    for(UInt32 i = 0; i < np; ++i)
-        vStore.back().push_back(*primNums++);
-}
-
-template<typename DescT> inline
-void RTCacheKDBase<DescT>::RTKDNode::initInterior(UInt32 uiAxis, 
-                                                  Real32 fSplitPos)
-{
-    _bIsLeave    = false;
-    _uiSplitAxis = uiAxis;
-    _fSplitPos   = fSplitPos;
-
-    _pAboveChild = NULL;
-    _pBelowChild = NULL;
-}
-
-
-template<typename DescT> inline
-bool RTCacheKDBase<DescT>::RTKDNode::isLeave(void)
-{
-    return _bIsLeave;
-}
-
-template<typename DescT> inline
-void RTCacheKDBase<DescT>::RTKDNode::setAboveChild(RTKDNode *pNode)
-{
-    _pAboveChild = pNode;
-}
-
-template<typename DescT> inline
-typename RTCacheKDBase<DescT>::RTKDNode *
-    RTCacheKDBase<DescT>::RTKDNode::getAboveChild(void)
-{
-    return _pAboveChild;
-}
-
-template<typename DescT> inline
-void RTCacheKDBase<DescT>::RTKDNode::setBelowChild(RTKDNode *pNode)
-{
-    _pBelowChild = pNode;
-}
-
-template<typename DescT> inline
-typename RTCacheKDBase<DescT>::RTKDNode *
-    RTCacheKDBase<DescT>::RTKDNode::getBelowChild(void)
-{
-    return _pBelowChild;
-}
-
-template<typename DescT> inline
-UInt32 RTCacheKDBase<DescT>::RTKDNode::getSplitAxis(void)
-{
-    return _uiSplitAxis;
-}
-
-template<typename DescT> inline
-Real32 RTCacheKDBase<DescT>::RTKDNode::getSplitPos(void)
-{
-    return _fSplitPos;
-}
-
-template<typename DescT> inline
-UInt32 RTCacheKDBase<DescT>::RTKDNode::getPrimitiveIdx(void)
-{
-    return _uiPrimIdx;
-}
-
-template<typename DescT> inline
-const typename RTCacheKDBase<DescT>::GeometryStore &
+const typename RTCacheKDBase<DescT>::GeometryStorePtr 
     RTCacheKDBase<DescT>::getGeoStore(UInt32 uiIndex)
 {
-    return _vGeos[uiIndex];
+    return _mfGeos[uiIndex];
 }
 
 
 
 template<typename DescT> inline
 RTCacheKDBase<DescT>::RTCacheKDBase(void) :
-     Inherited      (    ),
-    _vGeos          (    ),
-    _vTriangleAcc   (    ),
-    _vPrimitives    (    ),
-    _bBoundingVolume(    ),
-    _iIsectCost     (80  ),
-    _iTravCost      (1   ),
-    _fEmptyBonus    (0.5f),
-    _iMaxPrims      (1   ),
-    _iMaxDepth      (-1  )
+     Inherited       (    ),
+    _mfGeos          (    ),
+    _mfTriangleAcc   (    ),
+    _mfPrimitives    (    ),
+    _sfBoundingVolume(    ),
+    _iIsectCost      (80  ),
+    _iTravCost       (1   ),
+    _fEmptyBonus     (0.5f),
+    _iMaxPrims       (1   ),
+    _iMaxDepth       (-1  )
 {
 }
 
 template<typename DescT> inline
 RTCacheKDBase<DescT>::~RTCacheKDBase(void)
 {
-    for(UInt32 i = 0; i < _vGeos.size(); ++i)
+    for(UInt32 i = 0; i < _mfGeos.size(); ++i)
     {
-        OSG::subRef(_vGeos[i]._pGeo  );
-        OSG::subRef(_vGeos[i]._pState);
+        OSG::subRef(_mfGeos[i]);
     }
 }
+
+OSG_ABSTR_FIELD_CONTAINER_TMPL_DEF  (RTCacheKDBase, DescT)
+//OSG_RC_GET_STATIC_TYPE_INL_TMPL_DEF   (DynFieldAttachment, AttachmentDescT)
+OSG_RC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(RTCacheKDBase, DescT)
+
+
+template<typename DescT> inline
+void RTCacheKDBase<DescT>::execSync(      RTCacheKDBase      *pFrom,
+                                          ConstFieldMaskArg   whichField,
+                                          AspectOffsetStore  &oOffsets,
+                                          ConstFieldMaskArg   syncMode  ,
+                                    const UInt32              uiSyncInfo)
+{
+    Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
+}
+
+
+template<typename DescT> inline
+EditFieldHandlePtr RTCacheKDBase<DescT>::editHandleGeoStore(void)
+{
+    MFRTCacheGeometryStorePtr::EditHandlePtr returnValue(
+        new  MFRTCacheGeometryStorePtr::EditHandle(
+             &_mfGeos, 
+             this->getType().getFieldDesc(GeoStoreFieldId)));
+
+    // Add Function
+
+    editMField(GeoStoreFieldMask, _mfGeos);
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+GetFieldHandlePtr RTCacheKDBase<DescT>::getHandleGeoStore(void) const
+{
+    MFRTCacheGeometryStorePtr::GetHandlePtr returnValue(
+        new  MFRTCacheGeometryStorePtr::GetHandle(
+             &_mfGeos, 
+             this->getType().getFieldDesc(GeoStoreFieldId)));
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+EditFieldHandlePtr RTCacheKDBase<DescT>::editHandleTriangleAccel(void)
+{
+    typename MFTriangleAccel::EditHandlePtr returnValue(
+        new typename MFTriangleAccel::EditHandle(
+             &_mfTriangleAcc, 
+             this->getType().getFieldDesc(TriangleAccelFieldId)));
+
+    editMField(TriangleAccelFieldMask, _mfTriangleAcc);
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+GetFieldHandlePtr RTCacheKDBase<DescT>::getHandleTriangleAccel(void) const
+{
+    typename MFTriangleAccel::GetHandlePtr returnValue(
+        new typename MFTriangleAccel::GetHandle(
+             &_mfTriangleAcc, 
+             this->getType().getFieldDesc(TriangleAccelFieldId)));
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+EditFieldHandlePtr RTCacheKDBase<DescT>::editHandlePrimIdxStore(void)
+{
+    MFRTCachePrimIdxStore::EditHandlePtr returnValue(
+        new  MFRTCachePrimIdxStore::EditHandle(
+             &_mfPrimitives, 
+             this->getType().getFieldDesc(PrimIdxStoreFieldId)));
+
+    editMField(PrimIdxStoreFieldMask, _mfPrimitives);
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+GetFieldHandlePtr RTCacheKDBase<DescT>::getHandlePrimIdxStore(void) const
+{
+    MFRTCachePrimIdxStore::GetHandlePtr returnValue(
+        new  MFRTCachePrimIdxStore::GetHandle(
+             &_mfPrimitives, 
+             this->getType().getFieldDesc(PrimIdxStoreFieldId)));
+
+    return returnValue;
+}
+
+
+template<typename DescT> inline
+EditFieldHandlePtr RTCacheKDBase<DescT>::editHandleBoundingVolume(void)
+{
+    SFBoxVolume::EditHandlePtr returnValue(
+        new  SFBoxVolume::EditHandle(
+             &_sfBoundingVolume, 
+             this->getType().getFieldDesc(BoundingVolumeFieldId)));
+
+    editSField(BoundingVolumeFieldMask);
+
+    return returnValue;
+}
+
+
+template<typename DescT> inline
+GetFieldHandlePtr  RTCacheKDBase<DescT>::getHandleBoundingVolume(void) const
+{
+    SFBoxVolume::GetHandlePtr returnValue(
+        new  SFBoxVolume::GetHandle(
+             &_sfBoundingVolume, 
+             this->getType().getFieldDesc(BoundingVolumeFieldId)));
+
+    return returnValue;
+}
+
+
+
+
 
 template<typename DescT> inline
 void RTCacheKDBase<DescT>::addGeometry(GeometryPtr    pGeo,
@@ -215,17 +231,15 @@ void RTCacheKDBase<DescT>::addGeometry(GeometryPtr    pGeo,
 {
     if(pGeo != NULL)
     {
-        OSG::addRef(pGeo  );
-        OSG::addRef(pState);
+        GeometryStorePtr oNewElem = GeometryStore::create();
 
-        GeometryStore oNewElem;
+        oNewElem->setGeo   (pGeo   );
+        oNewElem->setMatrix(oMatrix);
+        oNewElem->setState (pState );
 
-        oNewElem._pGeo           = pGeo;
-        oNewElem._oMatrix        = oMatrix;
-        oNewElem._pState         = pState;
-        oNewElem._pStateOverride = NULL;
+//        oNewElem._pStateOverride = NULL;
 
-        _vGeos.push_back(oNewElem);
+        _mfGeos.push_back(oNewElem);
     }
 }
 
@@ -233,11 +247,11 @@ void RTCacheKDBase<DescT>::addGeometry(GeometryPtr    pGeo,
 template<typename DescT> inline
 void RTCacheKDBase<DescT>::initAccel(BBoxStore &vBounds)
 {
-    _bBoundingVolume.setEmpty();
+    _sfBoundingVolume.getValue().setEmpty();
 
-    for(UInt32 i = 0; i < _vGeos.size(); ++i)
+    for(UInt32 i = 0; i < _mfGeos.size(); ++i)
     {
-        GeometryPtr pGeo = _vGeos[i]._pGeo;
+        GeometryPtr pGeo = _mfGeos[i]->getGeo();
 
         GeoVectorPropertyPtr posPtr = pGeo->getPositions();
 
@@ -245,7 +259,9 @@ void RTCacheKDBase<DescT>::initAccel(BBoxStore &vBounds)
         Pnt3f         a;
         Pnt3f         b;
         Pnt3f         c;
-        
+
+        const Matrixr &mToWorld = _mfGeos[i]->getMatrix();
+
         for(TriangleIterator tI  = pGeo->beginTriangles(); 
                              tI != pGeo->endTriangles  ();
                            ++tI)
@@ -254,13 +270,13 @@ void RTCacheKDBase<DescT>::initAccel(BBoxStore &vBounds)
             posPtr->getValue(b, tI.getPositionIndex(1));
             posPtr->getValue(c, tI.getPositionIndex(2));
             
-            _vGeos[i]._oMatrix.mult(a);
-            _vGeos[i]._oMatrix.mult(b);
-            _vGeos[i]._oMatrix.mult(c);
+            mToWorld.mult(a);
+            mToWorld.mult(b);
+            mToWorld.mult(c);
 
             triangleAccel.setup(a, b, c, i, tI.getIndex());
             
-            _vTriangleAcc.push_back(triangleAccel);
+            _mfTriangleAcc.push_back(triangleAccel);
 
             BoxVolume triBox;
 
@@ -270,31 +286,30 @@ void RTCacheKDBase<DescT>::initAccel(BBoxStore &vBounds)
 
             vBounds.push_back(triBox);
 
-            _bBoundingVolume.extendBy(triBox);
+            _sfBoundingVolume.getValue().extendBy(triBox);
         }
         
     }
 
-    fprintf(stderr, "RTCacheKD::build %d\n", _vTriangleAcc.size());
+    fprintf(stderr, "RTCacheKD::build %d\n", _mfTriangleAcc.size());
 
     fprintf(stderr, "Cache bounds %f %f %f -> %f %f %f\n",
-            _bBoundingVolume.getMin()[0],
-            _bBoundingVolume.getMin()[1],
-            _bBoundingVolume.getMin()[2],
-            _bBoundingVolume.getMax()[0],
-            _bBoundingVolume.getMax()[1],
-            _bBoundingVolume.getMax()[2]);
+            _sfBoundingVolume.getValue().getMin()[0],
+            _sfBoundingVolume.getValue().getMin()[1],
+            _sfBoundingVolume.getValue().getMin()[2],
+            _sfBoundingVolume.getValue().getMax()[0],
+            _sfBoundingVolume.getValue().getMax()[1],
+            _sfBoundingVolume.getValue().getMax()[2]);
 
 	if(_iMaxDepth <= 0)
     {
 		_iMaxDepth = osgRound2Int(8 + 1.3f * 
-                                  osgLog2Int(float(_vTriangleAcc.size())));
+                                  osgLog2Int(float(_mfTriangleAcc.size())));
     }
 }
 
 template<typename DescT> inline
-typename RTCacheKDBase<DescT>::RTKDNode *
-    RTCacheKDBase<DescT>::buildInternalTree(void)
+RTKDNode *RTCacheKDBase<DescT>::buildInternalTree(void)
 {
     BBoxStore vBounds;
 
@@ -303,23 +318,23 @@ typename RTCacheKDBase<DescT>::RTKDNode *
     BBoxEdgeStore vEdgeStore[3];
 
 	for(Int32 i = 0; i < 3; ++i)
-		vEdgeStore[i].resize(2 * _vTriangleAcc.size());
+		vEdgeStore[i].resize(2 * _mfTriangleAcc.size());
 
     IndexStore vPrimStore0;
     IndexStore vPrimStore1;
 
-    vPrimStore0.resize(_vTriangleAcc.size());
+    vPrimStore0.resize(_mfTriangleAcc.size());
 
-    vPrimStore1.resize((_iMaxDepth + 1) * _vTriangleAcc.size());
+    vPrimStore1.resize((_iMaxDepth + 1) * _mfTriangleAcc.size());
 
-	for(UInt32 i = 0; i < _vTriangleAcc.size(); ++i)
+	for(UInt32 i = 0; i < _mfTriangleAcc.size(); ++i)
 		vPrimStore0[i] = i;
 
 
-    RTKDNode *pKDTree = buildTree(_bBoundingVolume, 
+    RTKDNode *pKDTree = buildTree(_sfBoundingVolume.getValue(), 
                                    vBounds, 
                                    vPrimStore0.begin     (),
-                                  _vTriangleAcc.size(), 
+                                  _mfTriangleAcc.size(), 
                                   _iMaxDepth, 
                                    vEdgeStore,
                                    vPrimStore0.begin     (), 
@@ -329,7 +344,7 @@ typename RTCacheKDBase<DescT>::RTKDNode *
 }
 
 template<typename DescT> inline
-typename RTCacheKDBase<DescT>::RTKDNode *RTCacheKDBase<DescT>::buildTree(
+RTKDNode *RTCacheKDBase<DescT>::buildTree(
     const BoxVolume     &nodeBounds,
     const BBoxStore     &vBoundsStore, 
           IndexIterator  currentPrimsIt,
@@ -348,7 +363,7 @@ typename RTCacheKDBase<DescT>::RTKDNode *RTCacheKDBase<DescT>::buildTree(
 
         returnValue->initLeaf( currentPrimsIt, 
                                numCurrentPrims,
-                              _vPrimitives    );
+                              _mfPrimitives    );
 
 		return returnValue;
 	}
@@ -474,7 +489,7 @@ typename RTCacheKDBase<DescT>::RTKDNode *RTCacheKDBase<DescT>::buildTree(
         
         returnValue->initLeaf( currentPrimsIt, 
                                numCurrentPrims,
-                              _vPrimitives    );
+                              _mfPrimitives    );
         
 		return returnValue;
 	}

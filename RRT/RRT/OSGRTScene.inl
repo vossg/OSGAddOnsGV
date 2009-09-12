@@ -97,22 +97,25 @@ void RTScene<DescT>::shade(RTHitPacket   &oHit,
 
     if(oHit.getU() > -0.5)
     {
-        const typename RTCache::GeometryStore &geoStore = 
+        const typename RTCache::GeometryStorePtr geoStore = 
             _vRTCaches[oHit.getCacheId()]->getGeoStore(oHit.getObjId());
 
         MaterialChunkPtr pMat = 
             dynamic_cast<MaterialChunkPtr>(
-                geoStore._pState->getChunk(MaterialChunk::getStaticClassId()));
+                geoStore->getState()->getChunk(
+                    MaterialChunk::getStaticClassId()));
 
         if(pMat != NULL)
         {
-            if(geoStore._pGeo != NULL)
+            GeometryPtr pGeo = geoStore->getGeo();
+
+            if(pGeo != NULL)
             {
                 GeoVectorPropertyPtr pNormals =
-                    geoStore._pGeo->getProperty(Geometry::NormalsIndex);
+                    pGeo->getProperty(Geometry::NormalsIndex);
 
                 GeoIntegralPropertyPtr pNormalsIdx =
-                    geoStore._pGeo->getIndex(Geometry::NormalsIndex);
+                    pGeo->getIndex(Geometry::NormalsIndex);
                 
                 if(pNormals != NULL && pNormalsIdx != NULL)
                 {
@@ -206,23 +209,25 @@ void RTScene<DescT>::shade(RTHitSIMDPacket   &oHit,
     {
         if(oHit.getU(i) > -0.5)
         {
-            const typename RTCache::GeometryStore &geoStore = 
+            const typename RTCache::GeometryStorePtr geoStore = 
                 _vRTCaches[oHit.getCacheId(i)]->getGeoStore(oHit.getObjId(i));
 
             MaterialChunkPtr pMat = 
                 dynamic_cast<MaterialChunkPtr>(
-                    geoStore._pState->getChunk(
+                    geoStore->getState()->getChunk(
                         MaterialChunk::getStaticClassId()));
             
             if(pMat != NULL)
             {
-                if(geoStore._pGeo != NULL)
+                GeometryPtr pGeo = geoStore->getGeo();
+
+                if(pGeo != NULL)
                 {
                     GeoVectorPropertyPtr pNormals =
-                        geoStore._pGeo->getProperty(Geometry::NormalsIndex);
+                        pGeo->getProperty(Geometry::NormalsIndex);
                     
                     GeoIntegralPropertyPtr pNormalsIdx =
-                        geoStore._pGeo->getIndex(Geometry::NormalsIndex);
+                        pGeo->getIndex(Geometry::NormalsIndex);
                     
                     if(pNormals != NULL && pNormalsIdx != NULL)
                     {

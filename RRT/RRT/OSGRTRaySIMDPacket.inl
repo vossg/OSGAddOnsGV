@@ -127,6 +127,7 @@ RTRaySIMDPacket::RTRaySIMDPacket(void) :
 {
 }
 
+inline
 RTRaySIMDPacket::RTRaySIMDPacket(const RTRaySIMDPacket &source) :
      Inherited(source         ),
 #ifdef OSG_SIMD_RAYPACKET_DEBUG

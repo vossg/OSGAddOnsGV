@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTCACHEATTACHMENT_H_
-#define _OSGRRCACHEATTACHMENT_H_
+#ifndef _OSGRTCACHEATTACHMENTINST_H_
+#define _OSGRRCACHEATTACHMENTINST_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -60,14 +60,25 @@ class  RTCacheAttachmentInst : public RTCacheAttachment
 
   public:
 
-    typedef RTCacheAttachment      Inherited;
-    typedef RTCacheAttachmentInst  Self;
+    typedef RTCacheAttachment        Inherited;
+    typedef RTCacheAttachmentInst    Self;
 
-    typedef DescT                  Desc;
+    typedef DescT                    Desc;
 
-    typedef typename Desc::RTCache RTCache;
+    typedef typename Desc::RTCache   RTCache;
+
+    typedef typename RTCache::SField RTCacheField;
 
     OSG_GEN_INTERNALPTR(Self);
+
+    enum 
+    { 
+        CacheFieldId      = Inherited::NextFieldId, 
+        NextFieldId       = CacheFieldId + 1
+    };
+
+    static const BitVector CacheFieldMask = Inherited::NextFieldMask;
+    static const BitVector NextFieldMask  = CacheFieldMask << 1;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -75,6 +86,7 @@ class  RTCacheAttachmentInst : public RTCacheAttachment
 
     OSG_FIELD_CONTAINER_TMPL_DECL;
 
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -120,9 +132,9 @@ class  RTCacheAttachmentInst : public RTCacheAttachment
 
   protected:
 
-           RTCache    *_pCache;
+           RTCacheField _sfCache;
 
-    static TypeObject  _type;
+    static TypeObject   _type;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
@@ -150,7 +162,16 @@ class  RTCacheAttachmentInst : public RTCacheAttachment
     /*! \name                      Init                                    */
     /*! \{                                                                 */
 
-    static void initMethod(InitPhase ePhase);
+    EditFieldHandlePtr editHandleCache(void);
+    GetFieldHandlePtr  getHandleCache (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    static void classDescInserter(TypeObject &oType );
+    static void initMethod       (InitPhase   ePhase);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -175,7 +196,7 @@ RTCacheAttachmentInst< DESC >::TypeObject                                     \
         0,                                                                    \
         (PrototypeCreateF) &Self::createEmpty,                                \
         NULL,                                                                 \
-        NULL,                                                                 \
+        (InitalInsertDescFunc) &Self::classDescInserter,                      \
         true,                                                                 \
         0);                                                                   \
                                                                               \

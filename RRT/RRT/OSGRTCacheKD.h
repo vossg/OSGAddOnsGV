@@ -45,6 +45,12 @@
 #include "OSGRTCacheKDBase.h"
 #include "OSGLine.h"
 
+#include "OSGSFieldAdaptor.h"
+#include "OSGFieldContainerSFields.h"
+
+#include "OSGMFieldAdaptor.h"
+#include "OSGFieldContainerMFields.h"
+
 #include "stack"
 #include <boost/mpl/if.hpp>
 
@@ -74,19 +80,46 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     typedef std::vector<KDSIMDStackElem, 
                         SIMDStackAllocator>   KDSIMDElemStack;
 
-
+    
     typedef typename
         boost::mpl::if_<boost::mpl::bool_<(DescT::SIMDMath == true)>,
                         KDSIMDElemStack,
-                        KDFloatElemStack >::type   KDElemStack;
+                        KDFloatElemStack >::type        KDElemStack;
+    
+    typedef          KDElemStack                        ElemStack;
 
-    typedef          KDElemStack                   ElemStack;
+    typedef          DescT                              Desc;
+    typedef          RTCacheKD<DescT>                   Self;
+    
+    OSG_GEN_INTERNALPTR(Self);
+    
+    typedef          RTCacheKDBase<DescT>               Inherited;
+    typedef typename Inherited::TypeObject              TypeObject;
+    typedef typename TypeObject::InitPhase              InitPhase;
+    
+    typedef          SFieldAdaptor<ObjPtr, 
+                                   SFFieldContainerPtr> SField;
+    typedef          MFieldAdaptor<ObjPtr, 
+                                   MFFieldContainerPtr> MField;
+
+
+    enum 
+    { 
+        KDTreeFieldId         = Inherited::NextFieldId, 
+        NextFieldId           = KDTreeFieldId + 1
+    };
+
+    static const BitVector KDTreeFieldMask        = 
+        Inherited::NextFieldMask;
+
+    static const BitVector NextFieldMask          = 
+        KDTreeFieldMask << 1;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
  
-    RTCacheKD(void);
+    OSG_FIELD_CONTAINER_TMPL_DECL;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -126,12 +159,9 @@ class RTCacheKD : public RTCacheKDBase<DescT>
 
   protected:
 
-    typedef RTCacheKDBase<DescT> Inherited;
-
     typedef typename Inherited::IndexStore      IndexStore;
     typedef typename Inherited::IndexIterator   IndexIterator;
     typedef typename Inherited::IndexSize       IndexSize;
-    typedef typename Inherited::RTKDNode        RTKDNode;
     typedef typename Inherited::BBoxStore       BBoxStore;
     typedef typename Inherited::BBoxEdge        BBoxEdge;
     typedef typename Inherited::BBoxEdgeStore   BBoxEdgeStore;
@@ -139,40 +169,6 @@ class RTCacheKD : public RTCacheKDBase<DescT>
 
     typedef typename Inherited::PrimIdxStore    PrimIdxStore;
 
-    struct RTCacheKDNode 
-    {
-        union 
-        {
-            UInt32 _uiFlags;     // Leave + Interior
-            Real32 _fSplitPos;   // Interior
-            UInt32 _uiNumPrims;  // Leaf
-        };
-
-        union 
-        {
-            UInt32  _uiAboveChild;      // Interior
-            UInt32  _uiSinglePrimitive; // Leaf
-            UInt32  _pPrimitiveIdx;     // Leaf
-        };
-
-        void initLeaf    (IndexIterator  primNums, 
-                          IndexSize      np,
-                          PrimIdxStore  &vStore   ); 
-
-        void initInterior(UInt32         uiAxis, 
-                          Real32         fSplitPos);
-
-        void initLeaf    (RTKDNode      *pNode,  
-                          PrimIdxStore  &vStore   ); 
-        
-        void initInterior(RTKDNode      *pNode    );
-
-
-        Real32 getSplitPos     (void) const;
-        UInt32 getNumPrimitives(void) const;
-        UInt32 getSplitAxis    (void) const;
-        bool   isLeaf          (void) const;
-    };
 
     struct KDStackElem 
     {
@@ -182,7 +178,7 @@ class RTCacheKD : public RTCacheKDBase<DescT>
         union
         {
             const RTCacheKDNode *node;
-                  unsigned int   addr;
+                  UIntPointer    addr;
         };
     };
 
@@ -222,16 +218,20 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    std::vector<RTCacheKDNode> _vKDTree;
+    static TypeObject _type;
 
-    UInt32 nAllocedNodes;
-    UInt32 nextFreeNode;
+    MFRTCacheKDNode   _mfKDTree;
+
+    UInt32             nAllocedNodes;
+    UInt32             nextFreeNode;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
+    RTCacheKD(void);
+    RTCacheKD(const RTCacheKD &source);
     virtual ~RTCacheKD(void); 
 
     /*! \}                                                                 */
@@ -239,19 +239,89 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
+#ifdef OSG_MT_CPTR_ASPECT
+    virtual ObjPtr createAspectCopy(void) const;
+#endif
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
+    EditFieldHandlePtr editHandleKDTree(void);
+    GetFieldHandlePtr  getHandleKDTree (void) const;
+
     /*! \}                                                                 */
-   /*==========================  PRIVATE  ================================*/
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+#ifdef OSG_MT_CPTR_ASPECT
+    virtual void execSyncV(      FieldContainer     &oFrom,
+                                 ConstFieldMaskArg   whichField,
+                                 AspectOffsetStore  &oOffsets,
+                                 ConstFieldMaskArg   syncMode  ,
+                           const UInt32              uiSyncInfo);
+
+            void execSync (      RTCacheKD          *pFrom,
+                                 ConstFieldMaskArg   whichField,
+                                 AspectOffsetStore  &oOffsets,
+                                 ConstFieldMaskArg   syncMode  ,
+                           const UInt32              uiSyncInfo);
+#endif
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Init                                   */
+    /*! \{                                                                 */
+
+    static void classDescInserter(TypeObject &oType);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Init                                   */
+    /*! \{                                                                 */
+
+    static void initMethod(InitPhase ePhase);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
 
   private:
 
+    friend class FieldContainer;
+
     /*!\brief prohibit default function (move to 'public' if needed) */
-    RTCacheKD(const RTCacheKD &source);
     void operator =(const RTCacheKD &source);
+};
+
+template<typename DescT>
+struct FieldTraits<RTCacheKD<DescT> *> : 
+    public FieldTraitsFCPtrBase<RTCacheKD<DescT> *>
+{
+  private:
+
+    static  DataType                                       _type;
+
+  public:
+
+    typedef FieldTraits<RTCacheKD<DescT> *>  Self;
+
+
+    enum             { Convertible = Self::NotConvertible                  };
+
+    static OSG_SYSTEM_DLLMAPPING
+                 DataType &getType      (void);
+
+    static const Char8    *getSName     (void) 
+    { 
+        return DescT::getSFKDCacheName();
+    }
+
+    static const Char8    *getMName     (void) 
+    {
+        return DescT::getMFKDCacheName();
+    }
 };
 
 OSG_END_NAMESPACE
