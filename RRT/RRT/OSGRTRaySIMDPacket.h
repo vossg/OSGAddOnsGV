@@ -162,10 +162,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
+#ifdef OSG_SIMD_RAYPACKET_DEBUG
     Pnt3f getOriginPnt         (      void          );
 
     Vec3f getDirVec            (const UInt32 uiCoord);
-
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -198,6 +199,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
 
     typedef Real32 Real32_4[4];
 
+#ifdef OSG_SIMD_RAYPACKET_DEBUG
+    Pnt3f  _vOrigin;
+    Real32 _pad0;
+
+    Vec3f  _vDir[4];
+#endif
+
     union
     {
         Float4  _fOrigin;
@@ -209,11 +217,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
         Float4    _fDir [3];
         Real32_4  _vDirA[3];
     };
-
-    Pnt3f  _vOrigin;
-    Real32 _pad0;
-
-    Vec3f  _vDir[4];
 
   private:
 };

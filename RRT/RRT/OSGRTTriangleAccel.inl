@@ -211,11 +211,20 @@ void RTTriAccelBarycentric::intersect(RTRayPacket &oRay,
     oHit.set(f, lambda, mue, _uiObjId, _uiTriId, uiCacheId);
 }
 
+#ifndef OSG_SIMD_RAYPACKET_DEBUG
+inline
+void RTTriAccelBarycentric::intersectSingle(Vec3f           *vRayDirs,
+                                            Pnt3f           &vOrigin,
+                                            RTHitSIMDPacket &oHit,
+                                            UInt32           uiCacheId,
+                                            UInt32           uiActive  )
+#else
 inline
 void RTTriAccelBarycentric::intersectSingle(RTRaySIMDPacket &oRay, 
                                             RTHitSIMDPacket &oHit,
                                             UInt32           uiCacheId,
                                             UInt32           uiActive)
+#endif
 {
     static const UInt32 aMod[] = {0, 1, 2, 0, 1};
 
@@ -223,6 +232,17 @@ void RTTriAccelBarycentric::intersectSingle(RTRaySIMDPacket &oRay,
 
     UInt32 i = uiActive;
     {
+#ifndef OSG_SIMD_RAYPACKET_DEBUG
+        const Real32 nd = 1.f / 
+            (      vRayDirs[i][_uiProj] + 
+             _nU * vRayDirs[i][ku     ] + 
+             _nV * vRayDirs[i][kv     ]);
+
+        const Real32 f  = (_nD - 
+                                 vOrigin[_uiProj] - 
+                           _nU * vOrigin[ku     ] -
+                           _nV * vOrigin[kv     ]) * nd;
+#else
         const Real32 nd = 1.f / 
             (      oRay.getDirVec(i)[_uiProj] + 
              _nU * oRay.getDirVec(i)[ku     ] + 
@@ -232,14 +252,18 @@ void RTTriAccelBarycentric::intersectSingle(RTRaySIMDPacket &oRay,
                                  oRay.getOriginPnt()[_uiProj] - 
                            _nU * oRay.getOriginPnt()[ku     ] -
                            _nV * oRay.getOriginPnt()[kv     ]) * nd;
-
+#endif
 
         if(!(oHit.getDist(i) > f && f > 0.00001))
             return; //continue;
 
+#ifndef OSG_SIMD_RAYPACKET_DEBUG
+        const float hu = (vOrigin[ku] + f * vRayDirs[i][ku]);
+        const float hv = (vOrigin[kv] + f * vRayDirs[i][kv]);
+#else
         const float hu = (oRay.getOriginPnt()[ku] + f * oRay.getDirVec(i)[ku]);
         const float hv = (oRay.getOriginPnt()[kv] + f * oRay.getDirVec(i)[kv]);
-
+#endif
         const float lambda = (hu * _bNU + hv * _bNV + _bD);
         
         if(lambda < 0.)
@@ -263,51 +287,8 @@ void RTTriAccelBarycentric::intersect(RTRaySIMDPacket &oRay,
                                       UInt32           uiCacheId,
                                       UInt32           uiActive)
 {
-#if 0
     static const UInt32 aMod[] = {0, 1, 2, 0, 1};
 
-    static const UInt32 ActiveMask[4] = { 0x1, 0x2, 0x4, 0x8 };
-
-    for(UInt32 i = 0; i < 4; ++i)
-    {
-        if(uiActive & ActiveMask[i])
-        {
-
-        const Real32 nd = 1.f / 
-            (      oRay.getDirVec(i)[_uiProj] + 
-             _nU * oRay.getDirVec(i)[ku     ] + 
-             _nV * oRay.getDirVec(i)[kv     ]);
-
-        const Real32 f  = (_nD - 
-                                 oRay.getOriginPnt()[_uiProj] - 
-                           _nU * oRay.getOriginPnt()[ku     ] -
-                           _nV * oRay.getOriginPnt()[kv     ]) * nd;
-
-
-        if(!(oHit.getDist(i) > f && f > 0.00001))
-            continue;
-
-        const float hu = (oRay.getOriginPnt()[ku] + f * oRay.getDirVec(i)[ku]);
-        const float hv = (oRay.getOriginPnt()[kv] + f * oRay.getDirVec(i)[kv]);
-
-        const float lambda = (hu * _bNU + hv * _bNV + _bD);
-        
-        if(lambda < 0.)
-            continue;
-
-        const float mue = (hu * _cNU + hv * _cNV + _cD);
-        
-        if(mue < 0.)
-            continue;
-        
-        if(lambda + mue > 1.)
-            continue;
-        
-        oHit.set(i, f, lambda, mue, _uiObjId, _uiTriId, uiCacheId);
-        }
-    }
-#else
-    static const UInt32 aMod[] = {0, 1, 2, 0, 1};
 
     Float4 nd = osgSIMDAdd(
         osgSIMDMul(osgSIMDSet(_nU), oRay.getDir(ku)),
@@ -344,7 +325,6 @@ void RTTriAccelBarycentric::intersect(RTRaySIMDPacket &oRay,
 
     Float4 mask = osgSIMDAnd(osgSIMDCmpGE(fDist4, f4),
                              osgSIMDCmpGT(f4, SIMDEps));
-#endif
 
     if( (osgSIMDMoveMask(mask) & uiActive) == 0) 
         return;
@@ -354,15 +334,12 @@ void RTTriAccelBarycentric::intersect(RTRaySIMDPacket &oRay,
     const float hv = (oRay.getOrigin()[kv] + f * oRay.getDir(i)[kv]);
 #endif
     
-    const Float4 hu_tmp1 = osgSIMDMul(f4, oRay.getDir(ku));
-
     const Float4 hu = osgSIMDAdd(osgSIMDSet(oRay.getOriginComp(ku)),
-                                hu_tmp1);
-
-    const Float4 hv_tmp1 = osgSIMDMul(f4, oRay.getDir(kv));
+                                 osgSIMDMul(f4, oRay.getDir(ku)));
 
     const Float4 hv = osgSIMDAdd(osgSIMDSet(oRay.getOriginComp(kv)),
-                                 hv_tmp1);
+                                 osgSIMDMul(f4, oRay.getDir(kv)));
+
 
 #if 0
     const float lambda = (hu * _bNU + hv * _bNV + _bD);
@@ -381,6 +358,7 @@ void RTTriAccelBarycentric::intersect(RTRaySIMDPacket &oRay,
     if( (osgSIMDMoveMask(mask) & uiActive) == 0)
         return;
    
+
 #if 0
     const float mue = (hu * _cNU + hv * _cNV + _cD);
     

@@ -168,8 +168,10 @@ Float4 osgSIMDUpdate(const Float4 mask, const Float4 v1, const Float4 v2);
 
 typedef std::numeric_limits<Real32> Real32Limits;
 
-static const Float4 SIMDZero     = osgSIMDSet(0.f);
-static const Float4 SIMDOne      = osgSIMDSet(1.f);
+static const Float4 SIMDZero     = osgSIMDSet(0.0f);
+static const Float4 SIMDHalf     = osgSIMDSet(0.5f);
+static const Float4 SIMDOne      = osgSIMDSet(1.0f);
+static const Float4 SIMDThree    = osgSIMDSet(3.0f);
 static const Float4 SIMDEps      = osgSIMDSet(0.00001);
 static const Float4 SIMDInfinity = osgSIMDSet(Real32Limits::max());
 
