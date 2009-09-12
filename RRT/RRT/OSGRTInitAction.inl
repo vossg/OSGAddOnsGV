@@ -661,7 +661,7 @@ template<typename DescT> inline
 Action::ResultE LightRTInitEnter(const NodeCorePtr              &pCore,
                                        LightEngine::LightTypeE   eType,
                                        RTInitAction<DescT>      *action)
-{
+{    
     Action::ResultE r      = Action::Continue;
     LightPtr        pLight = dynamic_cast<LightPtr>(pCore);
 
@@ -673,7 +673,9 @@ Action::ResultE LightRTInitEnter(const NodeCorePtr              &pCore,
     Int32         iLightIndex     = action->allocateLightIndex();
         
     action->pushState();
-        
+ 
+    fprintf(stderr, "InitLight\n");
+       
     if(iLightIndex >= 0)
     {
         action->addOverride(uiSlot + iLightIndex, getCPtr(pChunk));

@@ -198,6 +198,19 @@ Float4 osgSIMDCmpLE(const Float4 v1, const Float4 v2)
 }
 
 inline
+Float4 osgSIMDRSqrtE(const Float4 v)
+{
+    Float4 returnValue;
+
+    returnValue.data[0] = 1.f / osgSqrt(v.data[0]);
+    returnValue.data[1] = 1.f / osgSqrt(v.data[1]);
+    returnValue.data[2] = 1.f / osgSqrt(v.data[2]);
+    returnValue.data[3] = 1.f / osgSqrt(v.data[3]);
+
+    return returnValue;
+}
+
+inline
 Float4 osgSIMDInvert(const Float4 v)
 {
     Float4 returnValue;

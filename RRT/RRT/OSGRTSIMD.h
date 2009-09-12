@@ -182,6 +182,7 @@ OSG_END_NAMESPACE
 #ifdef OSG_SIMD_SSE
 #include "OSGRTSIMD_SSE.inl"
 #else
+#include "OSGBaseFunctions.h"
 #include "OSGRTSIMD_FPU.inl"
 #endif
 
