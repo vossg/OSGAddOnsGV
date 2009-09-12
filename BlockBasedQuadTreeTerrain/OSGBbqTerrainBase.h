@@ -173,9 +173,9 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
             const SFBool              *getSFShowSwitchDistance (void) const;
 
 
-                  NodePtrConst getBeacon         (void) const;
+                  NodePtr getBeacon         (void) const;
 
-                  BbqDataSourcePtrConst getDataSource     (void) const;
+                  BbqDataSourcePtr getDataSource     (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   UInt32              &getMaxNumResidentNodes (void);
@@ -206,8 +206,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setBeacon         (NodePtrConstArg value);
-            void setDataSource     (BbqDataSourcePtrConstArg value);
+            void setBeacon         (const NodePtr value);
+            void setDataSource     (const BbqDataSourcePtr value);
             void setMaxNumResidentNodes(const UInt32 &value);
             void setScreenSpaceError(const Real32 &value);
             void setEnableSkirts   (const bool &value);

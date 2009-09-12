@@ -76,14 +76,14 @@ OSG::UInt16 BbqTerrainBase::getClassGroupId(void)
 
 //! Get the value of the BbqTerrain::_sfBeacon field.
 inline
-NodePtrConst BbqTerrainBase::getBeacon(void) const
+NodePtr BbqTerrainBase::getBeacon(void) const
 {
     return _sfBeacon.getValue();
 }
 
 //! Set the value of the BbqTerrain::_sfBeacon field.
 inline
-void BbqTerrainBase::setBeacon(NodePtrConstArg value)
+void BbqTerrainBase::setBeacon(const NodePtr value)
 {
     editSField(BeaconFieldMask);
 
@@ -93,14 +93,14 @@ void BbqTerrainBase::setBeacon(NodePtrConstArg value)
 
 //! Get the value of the BbqTerrain::_sfDataSource field.
 inline
-BbqDataSourcePtrConst BbqTerrainBase::getDataSource(void) const
+BbqDataSourcePtr BbqTerrainBase::getDataSource(void) const
 {
     return _sfDataSource.getValue();
 }
 
 //! Set the value of the BbqTerrain::_sfDataSource field.
 inline
-void BbqTerrainBase::setDataSource(BbqDataSourcePtrConstArg value)
+void BbqTerrainBase::setDataSource(const BbqDataSourcePtr value)
 {
     editSField(DataSourceFieldMask);
 
