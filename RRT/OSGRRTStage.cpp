@@ -49,7 +49,7 @@
 #include "OSGMaterialChunk.h"
 #include "OSGTriangleIterator.h"
 #include "OSGPerspectiveCamera.h"
-
+#include "OSGSolidBackground.h"
 
 #include "OSGRTTextureTarget.h"
 #include "OSGRTImageTarget.h"
@@ -422,8 +422,9 @@ void RRTStage::changed(ConstFieldMaskArg whichField,
 
 #define RT_DEBUG_IMAGE
 
-void RRTStage::run(CameraP pCam,
-                   NodePtr pRoot)
+void RRTStage::run(CameraP     pCam,
+                   Background *pBackground,
+                   NodePtr     pRoot)
 {
     if(_bInitialized == false)
     {
@@ -458,6 +459,21 @@ void RRTStage::run(CameraP pCam,
         _pRayTracer->init(_sfTiled.getValue(), _sfSplitThreads.getValue());
        
        _bInitialized = true;
+    }
+
+    if(pBackground != NULL)
+    {
+        SolidBackgroundPtr pBack = 
+            dynamic_cast<SolidBackgroundPtr>(pBackground);
+        
+        if(pBack != NULL)
+        {
+            _pRayTracer->setBackgroundColor(pBack->getColor()[0],
+                                            pBack->getColor()[1],
+                                            pBack->getColor()[2],
+                                            pBack->getAlpha()   );
+
+        }
     }
 
     _pRayTracer->trace(pCam, _sfTiled.getValue());

@@ -54,6 +54,7 @@ OSG_BEGIN_NAMESPACE
 
 class RayTracer;
 class RTTriAccelBarycentric;
+class Background;
 
 #ifdef OSG_CACHE_KD
 
@@ -579,10 +580,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
-    void run        (CameraP   pCam,
-                     NodePtr   pRoot);
+    void run        (CameraP     pCam,
+                     Background *pBackground,
+                     NodePtr     pRoot      );
 
-    void postProcess(DrawEnv  *pEnv );
+    void postProcess(DrawEnv    *pEnv       );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -185,4 +185,16 @@ void RayTracerInst<DescT>::finalize(DrawEnv *pEnv)
     }
 }
 
+template<typename DescT> inline
+void RayTracerInst<DescT>::setBackgroundColor(Real32 rR,
+                                              Real32 rG,
+                                              Real32 rB,
+                                              Real32 rA)
+{
+    if(_pScene != NULL)
+    {
+        _pScene->setBackgroundColor(rR, rG, rB, rA);
+    }
+}
+
 OSG_END_NAMESPACE

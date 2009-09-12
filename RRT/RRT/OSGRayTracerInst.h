@@ -115,6 +115,11 @@ class RayTracerInst : public RayTracer
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
+    void setBackgroundColor(Real32 rR,
+                            Real32 rG,
+                            Real32 rB,
+                            Real32 rA);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */

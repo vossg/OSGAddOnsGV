@@ -40,9 +40,10 @@ OSG_BEGIN_NAMESPACE
 
 template<typename DescT> inline
 RTScene<DescT>::RTScene(void) :
-     Inherited(      ),
-    _pCam     (NullFC),
-    _vRTCaches(      )
+     Inherited  (                     ),
+    _cBackground(0.4f, 0.4f, 0.4f, 1.f),
+    _pCam       (NullFC               ),
+    _vRTCaches  (                     )
 {
 }
 
@@ -216,7 +217,10 @@ void RTScene<DescT>::shade(RTHitPacket    &oHit,
     }
     else
     {
-        oResult.set(0.4f, 0.4f, 0.4f, 1.0f);
+        oResult.set(_cBackground[0], 
+                    _cBackground[1], 
+                    _cBackground[2], 
+                    _cBackground[3]);
     }
 }
 
@@ -333,9 +337,22 @@ void RTScene<DescT>::shade(RTHitSIMDPacket    &oHit,
         }
         else
         {
-            oResult.set(i, 0.3f, 0.3f, 0.3f, 1.0f);
+            oResult.set(i,
+                        _cBackground[0], 
+                        _cBackground[1], 
+                        _cBackground[2], 
+                        _cBackground[3]);
         }
     }
+}
+
+template<typename DescT> inline
+void RTScene<DescT>::setBackgroundColor(Real32 rR,
+                                        Real32 rG,
+                                        Real32 rB,
+                                        Real32 rA)
+{
+    _cBackground.setValuesRGBA(rR, rG, rB, rA);
 }
 
 OSG_END_NAMESPACE

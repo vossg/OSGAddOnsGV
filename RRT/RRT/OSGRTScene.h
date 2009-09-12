@@ -141,6 +141,16 @@ class RTScene : public MemoryObject
                RTColorSIMDPacket  &oResult);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    void setBackgroundColor(Real32 rR,
+                            Real32 rG,
+                            Real32 rB,
+                            Real32 rA);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
@@ -150,6 +160,8 @@ class RTScene : public MemoryObject
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
+
+    Color4f      _cBackground;
 
     Camera      *_pCam;
     RTCacheStore _vRTCaches;
