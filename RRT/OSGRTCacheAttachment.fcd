@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="RTCacheAttachment"
+	parent="FieldContainerAttachment"
+	library="ContribRRT"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+rt cache attachment
+</FieldContainer>

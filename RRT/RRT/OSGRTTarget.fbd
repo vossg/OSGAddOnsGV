@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+    name="RTTarget"
+    parent="FieldBundle"
+    library="ContribRRT"
+    pointerfieldtypes="single"
+    structure="concrete"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    decoratable="false"
+    useLocalIncludes="false"
+    isNodeCore="false"
+    libnamespace="OSG"
+>
+	<Field
+		name="width"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="protected"
+	>
+	</Field>
+	<Field
+		name="height"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="protected"
+	>
+	</Field>
+</FieldContainer>
