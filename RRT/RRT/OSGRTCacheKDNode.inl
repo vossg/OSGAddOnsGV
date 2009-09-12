@@ -74,8 +74,17 @@ void RTKDNode::initLeaf(IndexIterator          primNums,
 
     vStore.back().reserve(np);
 
-    for(UInt32 i = 0; i < np; ++i)
-        vStore.back().push_back(*primNums++);
+#if defined(OSG_CELL)
+    if(np==0)
+    {
+        vStore.back().push_back(UINT_MAX);
+    }
+    else
+#endif
+    {
+        for(UInt32 i = 0; i < np; ++i)
+            vStore.back().push_back(*primNums++);
+    }
 }
 
 inline
@@ -151,22 +160,40 @@ void RTCacheKDNode::initLeaf(IndexIterator          primNums,
     _uiNumPrims  = np << 2;
     _uiFlags    |= 3;
 
+#if defined(OSG_CELL)
+    std::vector<UInt32> tmpVec;
+
+    vStore.push_back(tmpVec);
+#endif
+
     if(np == 0)
     {
         _uiSinglePrimitive = 0;
+#if defined(OSG_CELL)
+        vStore.back().reserve(1);
+        vStore.back().push_back(UINT_MAX);
+#endif
     }
     else if(np == 1)
     {
         _uiSinglePrimitive = *primNums;
+#if defined(OSG_CELL)
+        vStore.back().reserve(1);
+        vStore.back().push_back(*primNums);
+#endif
     }
     else 
     {
+#if defined(OSG_CELL)
+        _pPrimitiveIdx = vStore.size() - 1;
+#else
         _pPrimitiveIdx = vStore.size();
 
         std::vector<UInt32> tmpVec;
         
         vStore.push_back(tmpVec);
-        
+#endif
+
         vStore.back().reserve(np);
 
         for(UInt32 i = 0; i < np; ++i)

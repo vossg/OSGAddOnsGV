@@ -101,6 +101,10 @@ void RTPrimaryRayStore<DescT>::startFrame(Camera &pCam, RTTarget &pTarget)
                                                             pTarget);
 }
 
+#ifdef OSG_CELL
+
+#else // OSG_CELL
+
 template<typename DescT> inline
 void RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
     RTPrimaryRayStore<DescT> *pThis,
@@ -463,5 +467,7 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::fillTile(
 
     rayTile.normalizeDirection();
 }
+
+#endif // OSG_CELL
 
 OSG_END_NAMESPACE

@@ -121,6 +121,10 @@ void RTCombinedThread<DescT>::workProc(void)
     RTCombinedThreadHelper<DescT, MathTag>::workProcHelper(this, *_pTarget);
 }
 
+#ifdef OSG_CELL
+
+#else // OSG_CELL
+
 template<class DescT> inline
 void RTCombinedThreadHelper<DescT, RTFloatMathTag>::workProcHelper(
     RTCombinedThread<DescT> *pThis,
@@ -490,5 +494,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
         }
     }
 }
+
+#endif
 
 OSG_END_NAMESPACE
