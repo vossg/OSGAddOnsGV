@@ -490,6 +490,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
+    void setSize(UInt32 uiWidth, UInt32 uiHeight);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
     virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
 

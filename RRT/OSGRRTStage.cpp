@@ -418,7 +418,18 @@ void RRTStage::changed(ConstFieldMaskArg whichField,
                        UInt32            origin,
                        BitVector         details)
 {
-    Inherited::changed(whichField, origin, details);
+    if(0x000 != (whichField & (WidthFieldMask | HeightFieldMask)))
+    {
+        if(_pRayTracer != NULL)
+        {
+            _pRayTracer->setResolution(_sfWidth .getValue(),
+                                       _sfHeight.getValue());
+        }
+    }
+    else
+    {
+        Inherited::changed(whichField, origin, details);
+    }
 }
 
 #define RT_DEBUG_IMAGE
@@ -502,6 +513,12 @@ void RRTStage::postProcess(DrawEnv *pDrawEnv)
     static int frameCount = 1;
 
     _pRayTracer->finalize(pDrawEnv);
+}
+
+void RRTStage::setSize(UInt32 uiWidth, UInt32 uiHeight)
+{
+    setWidth (uiWidth );
+    setHeight(uiHeight);
 }
 
 void RRTStage::dump(      UInt32    ,

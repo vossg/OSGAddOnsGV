@@ -216,6 +216,24 @@ void key(unsigned char key, int x, int y)
         }
         break;
 
+        case '1':
+        {
+            if(pStage != NULL)
+            {
+                pStage->setSize(64, 64);
+            }
+        }
+        break;
+        
+        case '2':
+        {
+            if(pStage != NULL)
+            {
+                pStage->setSize(128, 128);
+            }
+        }
+        break;
+
         case ' ':
         {
             Matrix     m;
