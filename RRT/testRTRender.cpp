@@ -296,10 +296,12 @@ int main (int argc, char **argv)
     {
         dlight->setCore(dl);
         
+//        dlight->setCore(Group::create());
+        
         dl->setAmbient( .0, .0, .0, 1 );
         dl->setDiffuse( .8, .8, .8, .8 );
-        dl->setDirection(0,0,1);
-        dl->setBeacon( b1n);
+        dl->setDirection(1,0,0);
+//        dl->setBeacon( b1n);
     }
 
     // root
@@ -467,8 +469,8 @@ int main (int argc, char **argv)
     VisitSubTreePtr pVisit     = VisitSubTree::create();
     NodePtr         pVisitNode = Node::create();
 
-//    pVisit    ->setSubTreeRoot(dlight);
-    pVisit    ->setSubTreeRoot(file);
+    pVisit    ->setSubTreeRoot(dlight);
+//    pVisit    ->setSubTreeRoot(file);
     pVisitNode->setCore       (pVisit);
 
 
