@@ -13,15 +13,6 @@
     isNodeCore="true"
 >
     <Field
-        name="RayTracingRoot"
-        type="NodePtr"
-        cardinality="single"
-        visibility="external"
-        access="public"
-        defaultValue="NullFC"
-    >
-    </Field>
-    <Field
         name="BackgroundRoot"
         type="NodePtr"
         cardinality="single"

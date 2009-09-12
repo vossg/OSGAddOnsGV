@@ -788,6 +788,47 @@ Action::ResultE SpotLightRTInitLeave(const NodeCorePtr &pCore,
                                    action);
 }
 
+
+template<typename DescT> inline
+ActionBase::ResultE GroupRTInitEnter(const NodeCorePtr &pCore,
+                                           Action      *action)
+{
+#ifdef OSG_DUMP_TRAVERSAL
+    FDEBUG_GV(("Enter Group %p\n", &(*pCore)));
+#endif
+    return ActionBase::Continue;
+}
+
+template<typename DescT> inline
+ActionBase::ResultE GroupRTInitLeave(const NodeCorePtr &pCore,
+                                           Action      *action)
+{
+#ifdef OSG_DUMP_TRAVERSAL
+    FDEBUG_GV(("Leave Group %p\n", &(*pCore)));
+#endif
+
+    return ActionBase::Continue;
+}
+
+template<typename DescT> inline
+ActionBase::ResultE VisitSubTreeRTInitEnter(const NodeCorePtr &pCore,
+                                                  Action      *action)
+{
+#ifdef OSG_DUMP_TRAVERSAL
+    FDEBUG_GV(("Enter Group %p\n", &(*pCore)));
+#endif
+//    RenderAction *a = dynamic_cast<RenderAction *>(action);
+
+    VisitSubTreePtr pVisit  = dynamic_cast<VisitSubTreePtr>(pCore);
+
+    action->useNodeList();
+    
+    action->addNode(pVisit->getSubTreeRoot());
+
+    return ActionBase::Continue;
+}
+
+
 template<typename DescT> inline
 bool RTInitActionInitialize(void)
 {
@@ -847,6 +888,21 @@ bool RTInitActionInitialize(void)
     RTInitAction<DescT>::registerLeaveDefault( 
         SpotLight::getClassType(), 
         SpotLightRTInitLeave<DescT>);
+
+
+    RTInitAction<DescT>::registerEnterDefault(
+        Group::getClassType(), 
+        GroupRTInitEnter<DescT>);
+
+    RTInitAction<DescT>::registerLeaveDefault(
+        Group::getClassType(), 
+        GroupRTInitLeave<DescT>);
+
+
+    RTInitAction<DescT>::registerEnterDefault(
+        VisitSubTree::getClassType(), 
+        VisitSubTreeRTInitEnter<DescT>);
+
 
     return true;
 }

@@ -74,23 +74,6 @@ OSG::UInt16 RRTStageBase::getClassGroupId(void)
 /*------------------------------ get -----------------------------------*/
 
 
-//! Get the value of the RRTStage::_sfRayTracingRoot field.
-inline
-NodePtrConst RRTStageBase::getRayTracingRoot(void) const
-{
-    return _sfRayTracingRoot.getValue();
-}
-
-//! Set the value of the RRTStage::_sfRayTracingRoot field.
-inline
-void RRTStageBase::setRayTracingRoot(NodePtrConstArg value)
-{
-    editSField(RayTracingRootFieldMask);
-
-    setRefd(_sfRayTracingRoot.getValue(), value);
-
-}
-
 //! Get the value of the RRTStage::_sfBackgroundRoot field.
 inline
 NodePtrConst RRTStageBase::getBackgroundRoot(void) const
@@ -267,9 +250,6 @@ void RRTStageBase::execSync (      RRTStageBase *pFrom,
                                   const UInt32             uiSyncInfo)
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
-
-    if(FieldBits::NoField != (RayTracingRootFieldMask & whichField))
-        _sfRayTracingRoot.syncWith(pFrom->_sfRayTracingRoot);
 
     if(FieldBits::NoField != (BackgroundRootFieldMask & whichField))
         _sfBackgroundRoot.syncWith(pFrom->_sfBackgroundRoot);

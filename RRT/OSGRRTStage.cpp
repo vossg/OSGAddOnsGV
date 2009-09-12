@@ -266,7 +266,8 @@ void RRTStage::changed(ConstFieldMaskArg whichField,
     Inherited::changed(whichField, origin, details);
 }
 
-void RRTStage::run(CameraP pCam)
+void RRTStage::run(CameraP pCam,
+                   NodePtr pRoot)
 {
     if(_bInitialized == false)
     {
@@ -286,7 +287,9 @@ void RRTStage::run(CameraP pCam)
             _pRayTracer->setTarget(pTexTarget);
         }
 
-        _pRayTracer->setRayTracingRoot(_sfRayTracingRoot.getValue());
+//        _pRayTracer->setRayTracingRoot(_sfRayTracingRoot.getValue());
+
+        _pRayTracer->setRayTracingRoot(pRoot);
 
         _pRayTracer->init(_sfTiled.getValue(), _sfSplitThreads.getValue());
        

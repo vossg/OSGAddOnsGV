@@ -65,7 +65,6 @@
 
 #include "OSGStage.h" // Parent
 
-#include "OSGNodeFields.h" // RayTracingRoot type
 #include "OSGNodeFields.h" // BackgroundRoot type
 #include "OSGTextureObjChunkFields.h" // TextureTarget type
 #include "OSGUInt32Fields.h" // Width type
@@ -99,8 +98,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
 
     enum
     {
-        RayTracingRootFieldId = Inherited::NextFieldId,
-        BackgroundRootFieldId = RayTracingRootFieldId + 1,
+        BackgroundRootFieldId = Inherited::NextFieldId,
         TextureTargetFieldId = BackgroundRootFieldId + 1,
         WidthFieldId = TextureTargetFieldId + 1,
         HeightFieldId = WidthFieldId + 1,
@@ -109,8 +107,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
         NextFieldId = TiledFieldId + 1
     };
 
-    static const OSG::BitVector RayTracingRootFieldMask =
-        (TypeTraits<BitVector>::One << RayTracingRootFieldId);
     static const OSG::BitVector BackgroundRootFieldMask =
         (TypeTraits<BitVector>::One << BackgroundRootFieldId);
     static const OSG::BitVector TextureTargetFieldMask =
@@ -149,7 +145,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFNodePtr           *getSFRayTracingRoot  (void) const;
             const SFNodePtr           *getSFBackgroundRoot  (void) const;
             const SFTextureObjChunkPtr *getSFTextureTarget   (void) const;
 
@@ -177,8 +172,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
                   SFBool              *editSFTiled          (void);
             const SFBool              *getSFTiled           (void) const;
 
-
-                  NodePtrConst getRayTracingRoot (void) const;
 
                   NodePtrConst getBackgroundRoot (void) const;
 
@@ -213,7 +206,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setRayTracingRoot (NodePtrConstArg value);
             void setBackgroundRoot (NodePtrConstArg value);
             void setTextureTarget  (TextureObjChunkPtrConstArg value);
             void setWidth          (const UInt32 &value);
@@ -272,7 +264,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFNodePtr         _sfRayTracingRoot;
     SFNodePtr         _sfBackgroundRoot;
     SFTextureObjChunkPtr _sfTextureTarget;
     SFUInt32          _sfWidth;
@@ -307,8 +298,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleRayTracingRoot  (void) const;
-    EditFieldHandlePtr editHandleRayTracingRoot (void);
     GetFieldHandlePtr  getHandleBackgroundRoot  (void) const;
     EditFieldHandlePtr editHandleBackgroundRoot (void);
     GetFieldHandlePtr  getHandleTextureTarget   (void) const;

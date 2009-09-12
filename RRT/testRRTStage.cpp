@@ -420,11 +420,12 @@ void initRTStage(void)
     VisitSubTreePtr pVisit     = VisitSubTree::create();
     NodePtr         pVisitNode = Node::create();
 
-    pVisit    ->setSubTreeRoot(dlight);
+//    pVisit    ->setSubTreeRoot(dlight);
+    pVisit    ->setSubTreeRoot(file  );
     pVisitNode->setCore       (pVisit);
 
     pStageNode->setCore(pStage    );
-//    pStageNode->addChild(pVisitNode);
+    pStageNode->addChild(pVisitNode);
   
     root->addChild(pStageNode);
     root->addChild(dlight);
@@ -492,7 +493,7 @@ void initScene(int argc, char **argv)
     file->addAttachment(pRTInfo);
 
 
-    pStage->setRayTracingRoot(file);
+//    pStage->setRayTracingRoot(file);
 
     pStage->setWidth (128);
     pStage->setHeight(128);

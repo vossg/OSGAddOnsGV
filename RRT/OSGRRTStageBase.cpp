@@ -61,7 +61,6 @@
 
 
 
-#include <OSGNode.h> // RayTracingRoot Class
 #include <OSGNode.h> // BackgroundRoot Class
 #include <OSGTextureObjChunk.h> // TextureTarget Class
 
@@ -83,10 +82,6 @@ OSG_BEGIN_NAMESPACE
 /***************************************************************************\
  *                         Field Description                               *
 \***************************************************************************/
-
-/*! \var NodePtr         RRTStageBase::_sfRayTracingRoot
-    
-*/
 
 /*! \var NodePtr         RRTStageBase::_sfBackgroundRoot
     
@@ -117,18 +112,6 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
 {
     FieldDescriptionBase *pDesc = NULL;
 
-
-    pDesc = new SFNodePtr::Description(
-        SFNodePtr::getClassType(),
-        "RayTracingRoot",
-        "",
-        RayTracingRootFieldId, RayTracingRootFieldMask,
-        false,
-        Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RRTStageBase::editHandleRayTracingRoot),
-        static_cast<FieldGetMethodSig >(&RRTStageBase::getHandleRayTracingRoot));
-
-    oType.addInitialDesc(pDesc);
 
     pDesc = new SFNodePtr::Description(
         SFNodePtr::getClassType(),
@@ -230,15 +213,6 @@ RRTStageBase::TypeObject RRTStageBase::_type(
     "    isNodeCore=\"true\"\n"
     ">\n"
     "    <Field\n"
-    "        name=\"RayTracingRoot\"\n"
-    "        type=\"NodePtr\"\n"
-    "        cardinality=\"single\"\n"
-    "        visibility=\"external\"\n"
-    "        access=\"public\"\n"
-    "        defaultValue=\"NullFC\"\n"
-    "    >\n"
-    "    </Field>\n"
-    "    <Field\n"
     "        name=\"BackgroundRoot\"\n"
     "        type=\"NodePtr\"\n"
     "        cardinality=\"single\"\n"
@@ -315,12 +289,6 @@ UInt32 RRTStageBase::getContainerSize(void) const
 
 /*------------------------- decorator get ------------------------------*/
 
-
-//! Get the RRTStage::_sfRayTracingRoot field.
-const SFNodePtr *RRTStageBase::getSFRayTracingRoot(void) const
-{
-    return &_sfRayTracingRoot;
-}
 
 //! Get the RRTStage::_sfBackgroundRoot field.
 const SFNodePtr *RRTStageBase::getSFBackgroundRoot(void) const
@@ -420,10 +388,6 @@ UInt32 RRTStageBase::getBinSize(ConstFieldMaskArg whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (RayTracingRootFieldMask & whichField))
-    {
-        returnValue += _sfRayTracingRoot.getBinSize();
-    }
     if(FieldBits::NoField != (BackgroundRootFieldMask & whichField))
     {
         returnValue += _sfBackgroundRoot.getBinSize();
@@ -457,10 +421,6 @@ void RRTStageBase::copyToBin(BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (RayTracingRootFieldMask & whichField))
-    {
-        _sfRayTracingRoot.copyToBin(pMem);
-    }
     if(FieldBits::NoField != (BackgroundRootFieldMask & whichField))
     {
         _sfBackgroundRoot.copyToBin(pMem);
@@ -492,10 +452,6 @@ void RRTStageBase::copyFromBin(BinaryDataHandler &pMem,
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (RayTracingRootFieldMask & whichField))
-    {
-        _sfRayTracingRoot.copyFromBin(pMem);
-    }
     if(FieldBits::NoField != (BackgroundRootFieldMask & whichField))
     {
         _sfBackgroundRoot.copyFromBin(pMem);
@@ -561,7 +517,6 @@ FieldContainerPtr RRTStageBase::shallowCopy(void) const
 
 RRTStageBase::RRTStageBase(void) :
     Inherited(),
-    _sfRayTracingRoot         (NodePtr(NullFC)),
     _sfBackgroundRoot         (NodePtr(NullFC)),
     _sfTextureTarget          (TextureObjChunkPtr(NullFC)),
     _sfWidth                  (UInt32(16)),
@@ -573,7 +528,6 @@ RRTStageBase::RRTStageBase(void) :
 
 RRTStageBase::RRTStageBase(const RRTStageBase &source) :
     Inherited(source),
-    _sfRayTracingRoot         (NullFC),
     _sfBackgroundRoot         (NullFC),
     _sfTextureTarget          (NullFC),
     _sfWidth                  (source._sfWidth                  ),
@@ -597,37 +551,10 @@ void RRTStageBase::onCreate(const RRTStage *source)
     if(source != NULL)
     {
 
-        this->setRayTracingRoot(source->getRayTracingRoot());
-
         this->setBackgroundRoot(source->getBackgroundRoot());
 
         this->setTextureTarget(source->getTextureTarget());
     }
-}
-
-GetFieldHandlePtr RRTStageBase::getHandleRayTracingRoot  (void) const
-{
-    SFNodePtr::GetHandlePtr returnValue(
-        new  SFNodePtr::GetHandle(
-             &_sfRayTracingRoot, 
-             this->getType().getFieldDesc(RayTracingRootFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr RRTStageBase::editHandleRayTracingRoot (void)
-{
-    SFNodePtr::EditHandlePtr returnValue(
-        new  SFNodePtr::EditHandle(
-             &_sfRayTracingRoot, 
-             this->getType().getFieldDesc(RayTracingRootFieldId)));
-
-    returnValue->setSetMethod(boost::bind(&RRTStage::setRayTracingRoot, 
-                                          static_cast<RRTStage *>(this), _1));
-
-    editSField(RayTracingRootFieldMask);
-
-    return returnValue;
 }
 
 GetFieldHandlePtr RRTStageBase::getHandleBackgroundRoot  (void) const
@@ -800,8 +727,6 @@ FieldContainerPtr RRTStageBase::createAspectCopy(void) const
 void RRTStageBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
-
-    static_cast<RRTStage *>(this)->setRayTracingRoot(NullFC);
 
     static_cast<RRTStage *>(this)->setBackgroundRoot(NullFC);
 

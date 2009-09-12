@@ -424,8 +424,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
-    void run        (CameraP   pCam);
-    void postProcess(DrawEnv  *pEnv);
+    void run        (CameraP   pCam,
+                     NodePtr   pRoot);
+
+    void postProcess(DrawEnv  *pEnv );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

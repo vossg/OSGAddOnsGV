@@ -281,9 +281,11 @@ ActionBase::ResultE RTUpdateAction<DescT>::nodeEnter(NodePtrConstArg  pNode,
     if(pRTCacheAtt != NULL)
     {
         _pRayTracer->addCache(pRTCacheAtt->getCache());
+
+        return Action::Skip;
     }
 
-    return Action::Skip;
+    return Action::Continue;
 }
 
 template<typename DescT> inline
@@ -329,6 +331,26 @@ ActionBase::ResultE GeometryRTUpdateLeave(const NodeCorePtr &pCore,
     return ActionBase::Continue;
 }
 
+
+template<typename DescT> inline
+ActionBase::ResultE VisitSubTreeRTUpdateEnter(const NodeCorePtr &pCore,
+                                                    Action      *action)
+{
+#ifdef OSG_DUMP_TRAVERSAL
+    FDEBUG_GV(("Enter Group %p\n", &(*pCore)));
+#endif
+//    RenderAction *a = dynamic_cast<RenderAction *>(action);
+
+    VisitSubTreePtr pVisit  = dynamic_cast<VisitSubTreePtr>(pCore);
+
+    action->useNodeList();
+    
+    action->addNode(pVisit->getSubTreeRoot());
+
+    return ActionBase::Continue;
+}
+
+
 template<typename DescT> inline
 bool RTUpdateActionInitialize(void)
 {
@@ -341,6 +363,10 @@ bool RTUpdateActionInitialize(void)
         Geometry::getClassType(), 
         GeometryRTInitLeave);
 #endif
+
+    RTUpdateAction<DescT>::registerEnterDefault(
+        VisitSubTree::getClassType(), 
+        VisitSubTreeRTUpdateEnter<DescT>);
 
     return true;
 }

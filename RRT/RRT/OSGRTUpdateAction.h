@@ -46,6 +46,7 @@
 #include "OSGAction.h"
 #include "OSGContribRRTDef.h"
 #include "OSGGeometry.h"
+#include "OSGVisitSubTree.h"
 
 #include "OSGRTCacheAttachment.h"
 

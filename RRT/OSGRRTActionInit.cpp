@@ -111,7 +111,8 @@ ActionBase::ResultE RRTStageRenderEnter(const NodeCorePtr &pCore,
             
             RenderPartition::SimpleDrawCallback f;
             
-            pStage->run(a->getCamera());
+            pStage->run(a->getCamera(),
+                        a->getActNode());
 
             f = boost::bind(&RRTStage::postProcess, pStage, _1);
             
