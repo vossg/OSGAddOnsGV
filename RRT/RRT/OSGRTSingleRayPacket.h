@@ -108,11 +108,71 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleRayPacketInfo : public RTRayPacketInfo
 
 };
 
+
+template<class DescT>
+class RTCacheRefRayPacketMixin : public RTRayPacket
+{
+  protected:
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    typedef          RTRayPacket        Inherited;
+    typedef typename DescT::RTCacheNode CacheNode;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    RTCacheRefRayPacketMixin(void);
+    RTCacheRefRayPacketMixin(const RTCacheRefRayPacketMixin &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    ~RTCacheRefRayPacketMixin(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    void       setCacheNode(const CacheNode *pNode);
+    CacheNode *getCacheNode(      void       );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void operator =(const RTCacheRefRayPacketMixin &source);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    const CacheNode *_pCacheNode;
+
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+};
+
 /*! \brief RTTarget class. See \ref
            PageContribRRTRTTarget for a description.
 */
 
-class OSG_CONTRIBRRT_DLLMAPPING RTSingleRayPacket : public RTRayPacket 
+template<class ParentT>
+class RTSingleRayPacket : public ParentT 
 {
   protected:
 
@@ -121,6 +181,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleRayPacket : public RTRayPacket
   public:
 
     typedef RTSingleRayPacket Self;
+    typedef ParentT           Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
@@ -169,8 +230,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleRayPacket : public RTRayPacket
     /*=========================  PROTECTED  ===============================*/
 
   protected:
-
-    typedef RTRayPacket Inherited;
 
     /*==========================  PRIVATE  ================================*/
 

@@ -91,6 +91,9 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     typedef          DescT                              Desc;
     typedef          RTCacheKD<DescT>                   Self;
     
+    typedef typename DescT::BasicRayPacket              BasicRayPacket;
+    typedef typename DescT::BasicSIMDRayPacket          BasicSIMDRayPacket;
+
     OSG_GEN_INTERNALPTR(Self);
     
     typedef          RTCacheKDBase<DescT>               Inherited;
@@ -138,21 +141,22 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    void intersect            (RTRayPacket     &oRay, 
-                               RTHitPacket     &oHit,
-                               KDElemStack     &sKDToDoStack,
-                               UInt32           uiCacheId   );
+    void intersect            (BasicRayPacket     &oRay, 
+                               RTHitPacket        &oHit,
+                               KDElemStack        &sKDToDoStack,
+                               UInt32              uiCacheId   );
 
-    void intersect            (RTRaySIMDPacket &oRay, 
-                               RTHitSIMDPacket &oHit,
-                               KDElemStack     &sKDToDoStack,
-                               UInt32           uiCacheId   ,
-                               UInt32          *uiActive    );
-    void intersectSingle      (RTRaySIMDPacket &oRay, 
-                               RTHitSIMDPacket &oHit,
-                               KDElemStack     &sKDToDoStack,
-                               UInt32           uiCacheId   ,
-                               UInt32          *uiActive    );
+    void intersect            (BasicSIMDRayPacket &oRay, 
+                               RTHitSIMDPacket    &oHit,
+                               KDElemStack        &sKDToDoStack,
+                               UInt32              uiCacheId   ,
+                               UInt32             *uiActive    );
+
+    void intersectSingle      (BasicSIMDRayPacket &oRay, 
+                               RTHitSIMDPacket    &oHit,
+                               KDElemStack        &sKDToDoStack,
+                               UInt32              uiCacheId   ,
+                               UInt32             *uiActive    );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

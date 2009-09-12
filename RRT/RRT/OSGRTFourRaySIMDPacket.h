@@ -108,11 +108,73 @@ class OSG_CONTRIBRRT_DLLMAPPING RTFourRaySIMDPacketInfo :
   private:
 };
 
+
+template<class DescT>
+class RTCacheRefSIMDPacketMixin : public RTRaySIMDPacket
+{
+  protected:
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    typedef          RTRaySIMDPacket    Inherited;
+    typedef typename DescT::RTCacheNode CacheNode;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    RTCacheRefSIMDPacketMixin(void);
+    RTCacheRefSIMDPacketMixin(const RTCacheRefSIMDPacketMixin &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    ~RTCacheRefSIMDPacketMixin(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    void       setCacheNode(const CacheNode *pNode);
+    CacheNode *getCacheNode(      void       );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void operator =(const RTCacheRefSIMDPacketMixin &source);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    const CacheNode *_pCacheNode;
+
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+};
+
+
+
 /*! \brief RTTarget class. See \ref
            PageContribRRTRTTarget for a description.
 */
 
-class OSG_CONTRIBRRT_DLLMAPPING RTFourRaySIMDPacket : public RTRaySIMDPacket 
+template<class ParentT>
+class RTFourRaySIMDPacket : public ParentT
 {
   protected:
 
@@ -121,7 +183,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTFourRaySIMDPacket : public RTRaySIMDPacket
   public:
 
     typedef RTFourRaySIMDPacket Self;
-    typedef RTRaySIMDPacket     Inherited;
+    typedef ParentT             Inherited;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */

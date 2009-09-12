@@ -66,10 +66,10 @@ void RTScene<DescT>::clearCache(void)
 }
 
 template<typename DescT> inline
-void RTScene<DescT>::tracePrimaryRays(RTRayPacket &oRay, 
-                                      HitPacket   &oHit,
-                                      ElemStack   &sKDToDoStack,
-                                      UInt32      *uiActive    )
+void RTScene<DescT>::tracePrimaryRays(BasicRayPacket &oRay, 
+                                      HitPacket      &oHit,
+                                      ElemStack      &sKDToDoStack,
+                                      UInt32         *uiActive    )
 {
     for(UInt32 k = 0; k < _vRTCaches.size(); ++k)
     {    
@@ -78,10 +78,10 @@ void RTScene<DescT>::tracePrimaryRays(RTRayPacket &oRay,
 }
 
 template<typename DescT> inline
-void RTScene<DescT>::tracePrimaryRays(RTRaySIMDPacket &oRay, 
-                                      HitPacket       &oHit,
-                                      ElemStack       &sKDToDoStack,
-                                      UInt32          *uiActive    )
+void RTScene<DescT>::tracePrimaryRays(BasicSIMDRayPacket &oRay, 
+                                      HitPacket          &oHit,
+                                      ElemStack          &sKDToDoStack,
+                                      UInt32             *uiActive    )
 {
     for(UInt32 k = 0; k < _vRTCaches.size(); ++k)
     {    
@@ -90,9 +90,9 @@ void RTScene<DescT>::tracePrimaryRays(RTRaySIMDPacket &oRay,
 }
 
 template<typename DescT> inline
-void RTScene<DescT>::shade(RTHitPacket   &oHit,
-                           RTRayPacket   &oRay,
-                           RTColorPacket &oResult)
+void RTScene<DescT>::shade(RTHitPacket    &oHit,
+                           BasicRayPacket &oRay,
+                           RTColorPacket  &oResult)
 {
 
     if(oHit.getU() > -0.5)
@@ -183,9 +183,9 @@ void RTScene<DescT>::shade(RTHitPacket   &oHit,
 }
 
 template<typename DescT> inline
-void RTScene<DescT>::shade(RTHitSIMDPacket   &oHit,
-                           RTRaySIMDPacket   &oRay,
-                           RTColorSIMDPacket &oResult)
+void RTScene<DescT>::shade(RTHitSIMDPacket    &oHit,
+                           BasicSIMDRayPacket &oRay,
+                           RTColorSIMDPacket  &oResult)
 {
     Vec3f vRayDirs[4];
 

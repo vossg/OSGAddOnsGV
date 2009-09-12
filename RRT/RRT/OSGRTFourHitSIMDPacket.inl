@@ -40,8 +40,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-inline
-RTFourHitSIMDPacket::RTFourHitSIMDPacket(void) :
+template<class DescT> inline
+RTFourHitSIMDPacket<DescT>::RTFourHitSIMDPacket(void) :
      Inherited (       ),
     _uiX       (0      ),
     _uiY       (0      ),
@@ -49,8 +49,10 @@ RTFourHitSIMDPacket::RTFourHitSIMDPacket(void) :
 {
 }
 
-inline
-RTFourHitSIMDPacket::RTFourHitSIMDPacket(const RTFourHitSIMDPacket &source) :
+template<class DescT> inline
+RTFourHitSIMDPacket<DescT>::RTFourHitSIMDPacket(
+    const RTFourHitSIMDPacket &source) :
+
      Inherited (source            ),
     _uiX       (source._uiX       ),
     _uiY       (source._uiY       ),
@@ -58,13 +60,13 @@ RTFourHitSIMDPacket::RTFourHitSIMDPacket(const RTFourHitSIMDPacket &source) :
 {
 }
 
-inline
-RTFourHitSIMDPacket::~RTFourHitSIMDPacket(void)
+template<class DescT> inline
+RTFourHitSIMDPacket<DescT>::~RTFourHitSIMDPacket(void)
 {
 }
 
-inline
-void RTFourHitSIMDPacket::reset(void)
+template<class DescT> inline
+void RTFourHitSIMDPacket<DescT>::reset(void)
 {
     Inherited::reset();
 
@@ -74,40 +76,41 @@ void RTFourHitSIMDPacket::reset(void)
 }
 
 
-inline 
-void RTFourHitSIMDPacket::setXY(UInt32 uiX,
-                                UInt32 uiY)
+template<class DescT> inline 
+void RTFourHitSIMDPacket<DescT>::setXY(UInt32 uiX,
+                                       UInt32 uiY)
 {
     _uiX = uiX;
     _uiY = uiY;
 }
 
-inline 
-UInt32 RTFourHitSIMDPacket::getX(void)
+template<class DescT> inline 
+UInt32 RTFourHitSIMDPacket<DescT>::getX(void)
 {
     return _uiX;
 }
 
-inline 
-UInt32 RTFourHitSIMDPacket::getY(void)
+template<class DescT> inline 
+UInt32 RTFourHitSIMDPacket<DescT>::getY(void)
 {
     return _uiY;
 }
 
-inline 
-void RTFourHitSIMDPacket::setRayPacket(RTFourRaySIMDPacket *pRayPacket)
+template<class DescT> inline 
+void RTFourHitSIMDPacket<DescT>::setRayPacket(RayPacket *pRayPacket)
 {
     _pRayPacket = pRayPacket;
 }
 
-inline 
-RTFourRaySIMDPacket *RTFourHitSIMDPacket::getRayPacket(void)
+template<class DescT> inline 
+typename RTFourHitSIMDPacket<DescT>::RayPacket *
+    RTFourHitSIMDPacket<DescT>::getRayPacket(void)
 {
     return _pRayPacket;
 }
 
-inline 
-void RTFourHitSIMDPacket::operator =(const RTFourHitSIMDPacket &source)
+template<class DescT> inline 
+void RTFourHitSIMDPacket<DescT>::operator =(const RTFourHitSIMDPacket &source)
 {
     (*static_cast<Inherited *>(this)) = 
         static_cast<const Inherited &>(source);

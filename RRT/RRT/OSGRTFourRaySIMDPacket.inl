@@ -48,6 +48,7 @@ RTFourRaySIMDPacketInfo::RTFourRaySIMDPacketInfo(void) :
 {
 }
 
+inline 
 RTFourRaySIMDPacketInfo::RTFourRaySIMDPacketInfo(
     const RTFourRaySIMDPacketInfo &source) :
      Inherited(source     ),
@@ -107,52 +108,103 @@ void RTFourRaySIMDPacketInfo::dump(void)
 
 
 
-inline
-RTFourRaySIMDPacket::RTFourRaySIMDPacket(void) :
+
+template<class DescT> inline
+RTCacheRefSIMDPacketMixin<DescT>::RTCacheRefSIMDPacketMixin(void) : 
+     Inherited (    ),
+    _pCacheNode(NULL)
+{
+}
+
+template<class DescT> inline
+RTCacheRefSIMDPacketMixin<DescT>::RTCacheRefSIMDPacketMixin(
+    const RTCacheRefSIMDPacketMixin &source) :
+
+     Inherited (source            ),
+    _pCacheNode(source._pCacheNode)
+{
+}
+
+template<class DescT> inline
+RTCacheRefSIMDPacketMixin<DescT>::~RTCacheRefSIMDPacketMixin(void)
+{
+}
+
+template<class DescT> inline
+void RTCacheRefSIMDPacketMixin<DescT>::setCacheNode(const CacheNode *pNode)
+{
+    _pCacheNode = pNode;
+}
+
+template<class DescT> inline
+typename RTCacheRefSIMDPacketMixin<DescT>::CacheNode *
+    RTCacheRefSIMDPacketMixin<DescT>::getCacheNode(void)
+{
+    return _pCacheNode;
+}
+
+template<class DescT> inline
+void RTCacheRefSIMDPacketMixin<DescT>::operator =(
+    const RTCacheRefSIMDPacketMixin &source)
+{
+    Inherited::operator =(source);
+
+    _pCacheNode = source._pCacheNode;
+}
+
+
+
+
+
+template<class ParentT> inline
+RTFourRaySIMDPacket<ParentT>::RTFourRaySIMDPacket(void) :
     Inherited()
 {
 }
 
-RTFourRaySIMDPacket::RTFourRaySIMDPacket(const RTFourRaySIMDPacket &source) :
+template<class ParentT> inline
+RTFourRaySIMDPacket<ParentT>::RTFourRaySIMDPacket(
+    const RTFourRaySIMDPacket &source) :
+
     Inherited()
 {
 }
 
-inline
-RTFourRaySIMDPacket::~RTFourRaySIMDPacket(void)
+template<class ParentT> inline
+RTFourRaySIMDPacket<ParentT>::~RTFourRaySIMDPacket(void)
 {
 }
 
-inline 
-void RTFourRaySIMDPacket::operator =(const RTFourRaySIMDPacket &source)
+template<class ParentT> inline 
+void RTFourRaySIMDPacket<ParentT>::operator =(const RTFourRaySIMDPacket &source)
 {
     Inherited::operator =(source);
 }
 
-inline
-void RTFourRaySIMDPacket::dump(void)
+template<class ParentT> inline
+void RTFourRaySIMDPacket<ParentT>::dump(void)
 {
     fprintf(stderr, "%f %f %f ->\n",
-            _vOriginA[0],
-            _vOriginA[1],
-            _vOriginA[2]);
+            this->_vOriginA[0],
+            this->_vOriginA[1],
+            this->_vOriginA[2]);
 
     fprintf(stderr, "    %f %f %f\n",
-            _vDirA[0][0],
-            _vDirA[1][0],
-            _vDirA[2][0]);
+            this->_vDirA[0][0],
+            this->_vDirA[1][0],
+            this->_vDirA[2][0]);
     fprintf(stderr, "    %f %f %f\n",
-            _vDirA[0][1],
-            _vDirA[1][1],
-            _vDirA[2][1]);
+            this->_vDirA[0][1],
+            this->_vDirA[1][1],
+            this->_vDirA[2][1]);
     fprintf(stderr, "    %f %f %f\n",
-            _vDirA[0][2],
-            _vDirA[1][2],
-            _vDirA[2][2]);
+            this->_vDirA[0][2],
+            this->_vDirA[1][2],
+            this->_vDirA[2][2]);
     fprintf(stderr, "    %f %f %f\n",
-            _vDirA[0][3],
-            _vDirA[1][3],
-            _vDirA[2][3]);
+            this->_vDirA[0][3],
+            this->_vDirA[1][3],
+            this->_vDirA[2][3]);
 }
 
 OSG_END_NAMESPACE

@@ -213,10 +213,10 @@ void RTCacheKD<DescT>::buildStructure(void)
 }
 
 template<typename DescT> inline
-void RTCacheKD<DescT>::intersect(RTRayPacket &oRay, 
-                                 RTHitPacket &oHit,
-                                 KDElemStack &sKDToDoStack,
-                                 UInt32       uiCacheId)
+void RTCacheKD<DescT>::intersect(BasicRayPacket &oRay, 
+                                 RTHitPacket    &oHit,
+                                 KDElemStack    &sKDToDoStack,
+                                 UInt32          uiCacheId)
 {
 #if 0
     for(UInt32 i = 0; i < _mfTriangleAcc.size(); ++i)
@@ -446,6 +446,8 @@ void RTCacheKD<DescT>::intersect(RTRayPacket &oRay,
 				node = nearChild;
 				tmax = tplane;
 
+//                oRay.setCacheNode(node);
+
                 sKDToDoStack.push_back(otherNode);
 			}
 		}
@@ -493,11 +495,11 @@ void RTCacheKD<DescT>::intersect(RTRayPacket &oRay,
 }
 
 template<typename DescT> inline
-void RTCacheKD<DescT>::intersectSingle(RTRaySIMDPacket &oRay, 
-                                       RTHitSIMDPacket &oHit,
-                                       KDElemStack     &sKDToDoStack,
-                                       UInt32           uiCacheId,
-                                       UInt32          *uiActive     )
+void RTCacheKD<DescT>::intersectSingle(BasicSIMDRayPacket &oRay, 
+                                       RTHitSIMDPacket    &oHit,
+                                       KDElemStack        &sKDToDoStack,
+                                       UInt32              uiCacheId,
+                                       UInt32             *uiActive     )
 {
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
     Vec3f vRayDirs[4];
@@ -635,6 +637,8 @@ void RTCacheKD<DescT>::intersectSingle(RTRaySIMDPacket &oRay,
                     node = nearChild;
                     tmax = tplane;
 
+//                    oRay.setCacheNode(node);
+
                     sKDToDoStack.push_back(otherNode);
                 }
             }
@@ -695,11 +699,11 @@ void RTCacheKD<DescT>::intersectSingle(RTRaySIMDPacket &oRay,
 }
 
 template<typename DescT> inline
-void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay, 
-                                 RTHitSIMDPacket &oHit,
-                                 KDElemStack     &sKDToDoStack,
-                                 UInt32           uiCacheId,
-                                 UInt32          *uiActive     )
+void RTCacheKD<DescT>::intersect(BasicSIMDRayPacket &oRay, 
+                                 RTHitSIMDPacket    &oHit,
+                                 KDElemStack        &sKDToDoStack,
+                                 UInt32              uiCacheId,
+                                 UInt32             *uiActive     )
 {
 #if 0
     for(UInt32 i = 0; i < this->_mfTriangleAcc.size(); ++i)
@@ -894,6 +898,8 @@ void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay,
 
 
             node       = nearChild;
+
+//            oRay.setCacheNode(node);
 
             tmax4 = osgSIMDMin(tplane4, tmax4);
 

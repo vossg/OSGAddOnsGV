@@ -102,40 +102,89 @@ void RTSingleRayPacketInfo::dump(void)
 
 
 
-inline
-RTSingleRayPacket::RTSingleRayPacket(void) :
+
+template<class DescT> inline
+RTCacheRefRayPacketMixin<DescT>::RTCacheRefRayPacketMixin(void) : 
+     Inherited (    ),
+    _pCacheNode(NULL)
+{
+}
+
+template<class DescT> inline
+RTCacheRefRayPacketMixin<DescT>::RTCacheRefRayPacketMixin(
+    const RTCacheRefRayPacketMixin &source) :
+
+     Inherited (source            ),
+    _pCacheNode(source._pCacheNode)
+{
+}
+
+template<class DescT> inline
+RTCacheRefRayPacketMixin<DescT>::~RTCacheRefRayPacketMixin(void)
+{
+}
+
+template<class DescT> inline
+void RTCacheRefRayPacketMixin<DescT>::setCacheNode(const CacheNode *pNode)
+{
+    _pCacheNode = pNode;
+}
+
+template<class DescT> inline
+typename RTCacheRefRayPacketMixin<DescT>::CacheNode *
+    RTCacheRefRayPacketMixin<DescT>::getCacheNode(void)
+{
+    return _pCacheNode;
+}
+
+template<class DescT> inline
+void RTCacheRefRayPacketMixin<DescT>::operator =(
+    const RTCacheRefRayPacketMixin &source)
+{
+    Inherited::operator =(source);
+
+    _pCacheNode = source._pCacheNode;
+}
+
+
+
+
+
+
+template<class ParentT> inline
+RTSingleRayPacket<ParentT>::RTSingleRayPacket(void) :
     Inherited()
 {
 }
 
-inline
-RTSingleRayPacket::RTSingleRayPacket(const RTSingleRayPacket &source) :
+template<class ParentT> inline
+RTSingleRayPacket<ParentT>::RTSingleRayPacket(const RTSingleRayPacket &source) :
     Inherited(source)
 {
 }
 
-inline
-RTSingleRayPacket::~RTSingleRayPacket(void)
+template<class ParentT> inline
+RTSingleRayPacket<ParentT>::~RTSingleRayPacket(void)
 {
 }
 
-inline 
-void RTSingleRayPacket::operator =(const RTSingleRayPacket &source)
+template<class ParentT> inline 
+void RTSingleRayPacket<ParentT>::operator =(const RTSingleRayPacket &source)
 {
     (*static_cast<Inherited *>(this)) = 
         static_cast<const Inherited &>(source);
 }
 
-inline
-void RTSingleRayPacket::dump(void)
+template<class ParentT> inline
+void RTSingleRayPacket<ParentT>::dump(void)
 {
     fprintf(stderr, "%f %f %f -> %f %f %f\n",
-            _vOrigin[0],
-            _vOrigin[1],
-            _vOrigin[2],
-            _vDir[0],
-            _vDir[1],
-            _vDir[2]);
+            this->_vOrigin[0],
+            this->_vOrigin[1],
+            this->_vOrigin[2],
+            this->_vDir[0],
+            this->_vDir[1],
+            this->_vDir[2]);
 }
 
 OSG_END_NAMESPACE

@@ -46,13 +46,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-class RTFourRaySIMDPacket;
-
 /*! \brief RTTarget class. See \ref
            PageContribRRTRTTarget for a description.
 */
 
-class OSG_CONTRIBRRT_DLLMAPPING RTFourHitSIMDPacket : public RTHitSIMDPacket 
+template<class DescT>
+class RTFourHitSIMDPacket : public RTHitSIMDPacket 
 {
   protected:
 
@@ -60,7 +59,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTFourHitSIMDPacket : public RTHitSIMDPacket
 
   public:
 
-    typedef RTFourHitSIMDPacket Self;
+    typedef typename DescT::SingleRayPacket RayPacket;
+    typedef          RTFourHitSIMDPacket    Self;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
@@ -109,8 +109,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTFourHitSIMDPacket : public RTHitSIMDPacket
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void                 setRayPacket(RTFourRaySIMDPacket *pRayPacket);
-    RTFourRaySIMDPacket *getRayPacket(void                           );
+    void       setRayPacket(RayPacket *pRayPacket);
+    RayPacket *getRayPacket(void                 );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -128,10 +128,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RTFourHitSIMDPacket : public RTHitSIMDPacket
 
     /*==========================  PRIVATE  ================================*/
 
-    UInt32               _uiX;
-    UInt32               _uiY;
+    UInt32     _uiX;
+    UInt32     _uiY;
 
-    RTFourRaySIMDPacket *_pRayPacket;
+    RayPacket *_pRayPacket;
 
   private:
 };

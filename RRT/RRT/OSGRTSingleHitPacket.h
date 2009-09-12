@@ -46,13 +46,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-class RTSingleRayPacket;
-
 /*! \brief RTTarget class. See \ref
            PageContribRRTRTTarget for a description.
 */
 
-class OSG_CONTRIBRRT_DLLMAPPING RTSingleHitPacket : public RTHitPacket 
+template<class DescT>
+class RTSingleHitPacket : public RTHitPacket 
 {
   protected:
 
@@ -60,7 +59,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleHitPacket : public RTHitPacket
 
   public:
 
-    typedef RTSingleHitPacket Self;
+    typedef typename DescT::SingleRayPacket RayPacket;
+    typedef          RTSingleHitPacket      Self;
 
     static const UInt32 NumHHits = 1;
     static const UInt32 NumVHits = 1;
@@ -114,8 +114,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleHitPacket : public RTHitPacket
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void               setRayPacket(RTSingleRayPacket *pRayPacket);
-    RTSingleRayPacket *getRayPacket(void                         );
+    void       setRayPacket(RayPacket *pRayPacket);
+    RayPacket *getRayPacket(void                 );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -133,10 +133,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RTSingleHitPacket : public RTHitPacket
 
     /*==========================  PRIVATE  ================================*/
 
-    UInt32             _uiX;
-    UInt32             _uiY;
+    UInt32     _uiX;
+    UInt32     _uiY;
 
-    RTSingleRayPacket *_pRayPacket;
+    RayPacket *_pRayPacket;
 
   private:
 };

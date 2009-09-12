@@ -40,8 +40,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-inline
-RTSingleHitPacket::RTSingleHitPacket(void) :
+template<class DescT> inline
+RTSingleHitPacket<DescT>::RTSingleHitPacket(void) :
      Inherited (       ),
     _uiX       (0      ),
     _uiY       (0      ),
@@ -49,8 +49,8 @@ RTSingleHitPacket::RTSingleHitPacket(void) :
 {
 }
 
-inline
-RTSingleHitPacket::RTSingleHitPacket(const RTSingleHitPacket &source) :
+template<class DescT> inline
+RTSingleHitPacket<DescT>::RTSingleHitPacket(const RTSingleHitPacket &source) :
      Inherited (source            ),
     _uiX       (source._uiX       ),
     _uiY       (source._uiY       ),
@@ -58,13 +58,13 @@ RTSingleHitPacket::RTSingleHitPacket(const RTSingleHitPacket &source) :
 {
 }
 
-inline
-RTSingleHitPacket::~RTSingleHitPacket(void)
+template<class DescT> inline
+RTSingleHitPacket<DescT>::~RTSingleHitPacket(void)
 {
 }
 
-inline
-void RTSingleHitPacket::reset(void)
+template<class DescT> inline
+void RTSingleHitPacket<DescT>::reset(void)
 {
     Inherited::reset();
 
@@ -75,40 +75,41 @@ void RTSingleHitPacket::reset(void)
 
 
 
-inline 
-void RTSingleHitPacket::setXY(UInt32 uiX,
-                              UInt32 uiY)
+template<class DescT> inline 
+void RTSingleHitPacket<DescT>::setXY(UInt32 uiX,
+                                     UInt32 uiY)
 {
     _uiX = uiX;
     _uiY = uiY;
 }
 
-inline 
-UInt32 RTSingleHitPacket::getX(void)
+template<class DescT> inline 
+UInt32 RTSingleHitPacket<DescT>::getX(void)
 {
     return _uiX;
 }
 
-inline 
-UInt32 RTSingleHitPacket::getY(void)
+template<class DescT> inline 
+UInt32 RTSingleHitPacket<DescT>::getY(void)
 {
     return _uiY;
 }
 
-inline 
-void RTSingleHitPacket::setRayPacket(RTSingleRayPacket *pRayPacket)
+template<class DescT> inline 
+void RTSingleHitPacket<DescT>::setRayPacket(RayPacket *pRayPacket)
 {
     _pRayPacket = pRayPacket;
 }
 
-inline 
-RTSingleRayPacket *RTSingleHitPacket::getRayPacket(void)
+template<class DescT> inline 
+typename RTSingleHitPacket<DescT>::RayPacket *
+    RTSingleHitPacket<DescT>::getRayPacket(void)
 {
     return _pRayPacket;
 }
 
-inline 
-void RTSingleHitPacket::operator =(const RTSingleHitPacket &source)
+template<class DescT> inline 
+void RTSingleHitPacket<DescT>::operator =(const RTSingleHitPacket &source)
 {
     (*static_cast<Inherited *>(this)) = 
         static_cast<const Inherited &>(source);

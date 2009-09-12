@@ -54,6 +54,8 @@ OSG_BEGIN_NAMESPACE
 class RayTracer;
 class RTTriAccelBarycentric;
 
+class RTCacheKDNode;
+
 template<typename DescT>
 class RTCacheKD;
 
@@ -93,20 +95,35 @@ class RTCacheAttachmentInst;
 class RTTriAccelBarycentric;
 
 class RTHitPacket;
+
+template<class DescT>
 class RTSingleHitPacket;
 
 class RTRayPacket;
+
+template<class ParentT>
 class RTSingleRayPacket;
 
 class RTRayPacketInfo;
 class RTSingleRayPacketInfo;
 
+template<class DescT>
+class RTCacheRefRayPacketMixin;
+
 class RTRaySIMDPacket;
 class RTRaySIMDPacketInfo;
+
+template<class DescT>
+class RTCacheRefSIMDPacketMixin;
+
+template<class ParentT>
 class RTFourRaySIMDPacket;
+
 class RTFourRaySIMDPacketInfo;
 
 class RTHitSIMDPacket;
+
+template<class DescT>
 class RTFourHitSIMDPacket;
 
 class RTColorPacket;
@@ -126,7 +143,15 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
     /*==========================  PUBLIC  =================================*/
 
-    struct SinglePacketDescBase
+
+    struct PacketDescBase
+    {
+        typedef RTRayPacket     BasicRayPacket;
+        typedef RTRaySIMDPacket BasicSIMDRayPacket;
+    };
+
+
+    struct SinglePacketDescBase : public PacketDescBase
     {
         static  const bool                             SIMDMath = false;
 
@@ -138,14 +163,19 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef MFRTTriAccelBarycentric                MFTriangleAccel;
         
         typedef RTCacheKD<SinglePacketDescBase>        RTCache;
-
+        typedef RTCacheKDNode                          RTCacheNode;
+ 
 
         typedef RTHitPacket                            HitPacket;
-        typedef RTSingleHitPacket                      SingleHitPacket;
+        typedef RTSingleHitPacket<
+                  SinglePacketDescBase>                SingleHitPacket;
 
-        typedef RTRayPacket                            RayPacket;
+        typedef RTCacheRefRayPacketMixin<
+                  SinglePacketDescBase>                BasicRayPacket;
+
+        typedef BasicRayPacket                         RayPacket;
         typedef RTRayPacketInfo                        RayPacketInfo;
-        typedef RTSingleRayPacket                      SingleRayPacket;
+        typedef RTSingleRayPacket<BasicRayPacket>      SingleRayPacket;
         typedef RTSingleRayPacketInfo                  SingleRayPacketInfo;
 
         typedef RTHitTile<SinglePacketDescBase>        HitTile;
@@ -192,7 +222,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
     };
     
 
-    struct SIMDPacketDescBase
+    struct SIMDPacketDescBase : public PacketDescBase
     {
         static  const bool                           SIMDMath = true;
 
@@ -204,13 +234,20 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef MFRTTriAccelBarycentric              MFTriangleAccel;
 
         typedef RTCacheKD<SIMDPacketDescBase>        RTCache;
+        typedef RTCacheKDNode                        RTCacheNode;
+ 
 
         typedef RTHitSIMDPacket                      HitPacket;
-        typedef RTFourHitSIMDPacket                  SingleHitPacket;
+        typedef RTFourHitSIMDPacket<
+                  SIMDPacketDescBase>                SingleHitPacket;
 
-        typedef RTRaySIMDPacket                      RayPacket;
+        typedef RTCacheRefSIMDPacketMixin<
+                  SIMDPacketDescBase>                BasicSIMDRayPacket;
+
+        typedef BasicSIMDRayPacket                   RayPacket;
         typedef RTRaySIMDPacketInfo                  RayPacketInfo;
-        typedef RTFourRaySIMDPacket                  SingleRayPacket;
+        typedef RTFourRaySIMDPacket<
+                  BasicSIMDRayPacket>                SingleRayPacket;
         typedef RTFourRaySIMDPacketInfo              SingleRayPacketInfo;
 
         typedef RTHitTile<SIMDPacketDescBase>        HitTile;

@@ -69,14 +69,17 @@ class RTScene : public MemoryObject
 
   public:
 
-    typedef RTScene<DescT>                  Self;
+    typedef RTScene<DescT>                    Self;
 
-    typedef DescT                           Desc;
+    typedef DescT                             Desc;
 
-    typedef typename Desc::RayPacket        RayPacket;
-    typedef typename Desc::HitPacket        HitPacket;
-    typedef typename Desc::RTCache          RTCache;
-    typedef typename RTCache::ElemStack     ElemStack;
+    typedef typename Desc::RayPacket          RayPacket;
+    typedef typename Desc::HitPacket          HitPacket;
+    typedef typename Desc::RTCache            RTCache;
+    typedef typename RTCache::ElemStack       ElemStack;
+
+    typedef typename Desc::BasicRayPacket     BasicRayPacket;
+    typedef typename Desc::BasicSIMDRayPacket BasicSIMDRayPacket;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -97,28 +100,28 @@ class RTScene : public MemoryObject
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    void tracePrimaryRays(RTRayPacket     &oRay, 
+    void tracePrimaryRays(BasicRayPacket  &oRay, 
                           HitPacket       &oHit,
                           ElemStack       &sKDToDoStack,
                           UInt32          *uiActive     );
 
-    void tracePrimaryRays(RTRaySIMDPacket &oRay, 
-                          HitPacket       &oHit,
-                          ElemStack       &sKDToDoStack,
-                          UInt32          *uiActive     );
+    void tracePrimaryRays(BasicSIMDRayPacket &oRay, 
+                          HitPacket          &oHit,
+                          ElemStack          &sKDToDoStack,
+                          UInt32             *uiActive     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    void shade(RTHitPacket       &oHit,
-               RTRayPacket       &oRay,
-               RTColorPacket     &oResult);
+    void shade(RTHitPacket        &oHit,
+               BasicRayPacket     &oRay,
+               RTColorPacket      &oResult);
 
-    void shade(RTHitSIMDPacket   &oHit,
-               RTRaySIMDPacket   &oRay,
-               RTColorSIMDPacket &oResult);
+    void shade(RTHitSIMDPacket    &oHit,
+               BasicSIMDRayPacket &oRay,
+               RTColorSIMDPacket  &oResult);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
