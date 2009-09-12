@@ -159,6 +159,9 @@ void RTScene<DescT>::shade(RTHitPacket    &oHit,
 
                     gamma = n1.dot(n2);
 
+                    if(gamma < 0.f)
+                        gamma = 0.f;
+
                     oResult.set(pMat->getDiffuse()[0] * gamma,
                                 pMat->getDiffuse()[1] * gamma,
                                 pMat->getDiffuse()[2] * gamma,
@@ -272,6 +275,9 @@ void RTScene<DescT>::shade(RTHitSIMDPacket    &oHit,
                         
                         gamma = n1.dot(n2);
                         
+                        if(gamma < 0.f)
+                            gamma = 0.f;
+
                         oResult.set(i,
                                     pMat->getDiffuse()[0] * gamma,
                                     pMat->getDiffuse()[1] * gamma,

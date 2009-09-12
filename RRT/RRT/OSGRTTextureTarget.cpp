@@ -111,21 +111,12 @@ void RTTextureTarget::finalize(DrawEnv *pEnv)
                       pWin->getGLObjectId(
                           _sfTexObjChunk.getValue()->getGLId()));
 
-#if 0
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 
                         _sfWidth .getValue(), 
                         _sfHeight.getValue(), 
                         GL_RGB,
                         GL_FLOAT, 
                         &(_mfPixel[0]));
-#endif
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 
-                        _sfWidth .getValue(), 
-                        _sfHeight.getValue(), 
-                        GL_RGB,
-                        GL_UNSIGNED_BYTE, 
-                        &(_mfPixel[0]));
-
     }
 
 }

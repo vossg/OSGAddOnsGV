@@ -225,14 +225,9 @@ void RTCacheKD<DescT>::intersect(BasicRayPacket &oRay,
 #else
 
 #if 0
-	float tmin, tmax;
+    float tmin, tmax;
 
     Line lineRay(oRay.getOrigin(), oRay.getDir());
-
-/*
-	if (!bounds.IntersectP(ray, &tmin, &tmax))
-		return false;
- */
 
     sKDToDoStack.clear  (   );
 
@@ -243,7 +238,7 @@ void RTCacheKD<DescT>::intersect(BasicRayPacket &oRay,
         return;
     }
 
-	Vec3f invDir(1.f/oRay.getDir().x(), 
+    Vec3f invDir(1.f/oRay.getDir().x(), 
                  1.f/oRay.getDir().y(), 
                  1.f/oRay.getDir().z());
 
@@ -256,19 +251,19 @@ void RTCacheKD<DescT>::intersect(BasicRayPacket &oRay,
 
     node = &(_mfKDTree[1]);
 
-	while(node != NULL) 
+    while(node != NULL) 
     {
-		if(oHit.getDist() < tmin) 
+        if(oHit.getDist() < tmin) 
         {
             break;
         }
 
-		if(!node->isLeaf()) 
+        if(!node->isLeaf()) 
         {
-			int axis = node->getSplitAxis();
+            int axis = node->getSplitAxis();
 
-			float tplane = (node->getSplitPos() - oRay.getOrigin()[axis]) *
-				invDir[axis];
+            float tplane = (node->getSplitPos() - oRay.getOrigin()[axis]) *
+                invDir[axis];
 
             union
             {
@@ -282,92 +277,92 @@ void RTCacheKD<DescT>::intersect(BasicRayPacket &oRay,
                       UIntPointer    farAddr;
             };
 
-			bool belowFirst = oRay.getOrigin()[axis] <= node->getSplitPos();
+            bool belowFirst = oRay.getOrigin()[axis] <= node->getSplitPos();
 
-			if(belowFirst == true) 
+            if(belowFirst == true) 
             {
-				nearAddr = addr + node->_uiAboveChild;
-				farAddr  = addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
-			}
-			else 
+                nearAddr = addr + node->_uiAboveChild;
+                farAddr  = addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
+            }
+            else 
             {
-				nearAddr = addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
-				farAddr  = addr + node->_uiAboveChild;
-			}
+                nearAddr = addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
+                farAddr  = addr + node->_uiAboveChild;
+            }
 
-			if(tplane > tmax || tplane < 0)
+            if(tplane > tmax || tplane < 0)
             {
-				node = nearChild;
+                node = nearChild;
             }
-			else if(tplane < tmin)
+            else if(tplane < tmin)
             {
-				node = farChild;
+                node = farChild;
             }
-			else 
+            else 
             {
                 KDStackElem otherNode;
 
-				otherNode.node = farChild;
-				otherNode.tmin = tplane;
-				otherNode.tmax = tmax;
+                otherNode.node = farChild;
+                otherNode.tmin = tplane;
+                otherNode.tmax = tmax;
 
-				node = nearChild;
-				tmax = tplane;
+                node = nearChild;
+                tmax = tplane;
 
                 sKDToDoStack.push_back(otherNode);
-			}
-		}
-		else 
+            }
+        }
+        else 
         {
-			UInt32 nPrimitives = node->getNumPrimitives();
+            UInt32 nPrimitives = node->getNumPrimitives();
 
-			if(nPrimitives == 1) 
+            if(nPrimitives == 1) 
             {
                 this->_mfTriangleAcc[node->_uiSinglePrimitive].intersect(
                     oRay, oHit, uiCacheId);
-			}
-			else 
+            }
+            else 
             {
-				std::vector<UInt32> &prims = 
+                std::vector<UInt32> &prims = 
                     this->_mfPrimitives[node->_pPrimitiveIdx];
 
-				for(u_int i = 0; i < nPrimitives; ++i) 
+                for(u_int i = 0; i < nPrimitives; ++i) 
                 {
                     this->_mfTriangleAcc[prims[i]].intersect(oRay, 
                                                              oHit,
                                                              uiCacheId);
-				}
-			}
+                }
+            }
 
             if(oHit.getDist() <= tmax)
                 break;
 
-			if(sKDToDoStack.size() > 0) 
+            if(sKDToDoStack.size() > 0) 
             {
 
                 KDStackElem otherNode = sKDToDoStack.back();
 
-				node = otherNode.node;
-				tmin = otherNode.tmin;
-				tmax = otherNode.tmax;
+                node = otherNode.node;
+                tmin = otherNode.tmin;
+                tmax = otherNode.tmax;
 
                 sKDToDoStack.pop_back();
-			}
-			else
-            {
-				break;
             }
-		}
-	}
+            else
+            {
+                break;
+            }
+        }
+    }
 
 #else
-	float tmin, tmax;
+    float tmin, tmax;
 
     Line lineRay(oRay.getOrigin(), oRay.getDir());
 
 /*
-	if (!bounds.IntersectP(ray, &tmin, &tmax))
-		return false;
+    if (!bounds.IntersectP(ray, &tmin, &tmax))
+        return false;
  */
 
     sKDToDoStack.clear  (   );
@@ -379,7 +374,7 @@ void RTCacheKD<DescT>::intersect(BasicRayPacket &oRay,
         return;
     }
 
-	Vec3f invDir(1.f/oRay.getDir().x(), 
+    Vec3f invDir(1.f/oRay.getDir().x(), 
                  1.f/oRay.getDir().y(), 
                  1.f/oRay.getDir().z());
 
@@ -390,16 +385,16 @@ void RTCacheKD<DescT>::intersect(BasicRayPacket &oRay,
               UIntPointer    addr;
     };
 
-	node = &(_mfKDTree[1]);
+    node = &(_mfKDTree[1]);
 
-	while(node != NULL) 
+    while(node != NULL) 
     {
-		while(!node->isLeaf()) 
+        while(!node->isLeaf()) 
         {
-			int axis = node->getSplitAxis();
+            int axis = node->getSplitAxis();
 
-			float tplane = (node->getSplitPos() - oRay.getOrigin()[axis]) *
-				invDir[axis];
+            float tplane = (node->getSplitPos() - oRay.getOrigin()[axis]) *
+                invDir[axis];
 
             union
             {
@@ -413,43 +408,43 @@ void RTCacheKD<DescT>::intersect(BasicRayPacket &oRay,
                       UIntPointer    farAddr;
             };
 
-			bool belowFirst = oRay.getOrigin()[axis] <= node->getSplitPos();
+            bool belowFirst = oRay.getOrigin()[axis] <= node->getSplitPos();
 
-			if(belowFirst == true) 
+            if(belowFirst == true) 
             {
-				nearAddr = addr + node->_uiAboveChild;
-				farAddr  = addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
-			}
-			else 
+                nearAddr = addr + node->_uiAboveChild;
+                farAddr  = addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
+            }
+            else 
             {
-				nearAddr = addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
-				farAddr  = addr + node->_uiAboveChild;
-			}
+                nearAddr = addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
+                farAddr  = addr + node->_uiAboveChild;
+            }
 
-			if(tplane >= tmax || tplane < 0)
+            if(tplane >= tmax || tplane < 0)
             {
-				node = nearChild;
+                node = nearChild;
             }
-			else if(tplane <= tmin)
+            else if(tplane <= tmin)
             {
-				node = farChild;
+                node = farChild;
             }
-			else 
+            else 
             {
                 KDStackElem otherNode;
 
-				otherNode.node = farChild;
-				otherNode.tmin = tplane;
-				otherNode.tmax = tmax;
+                otherNode.node = farChild;
+                otherNode.tmin = tplane;
+                otherNode.tmax = tmax;
 
-				node = nearChild;
-				tmax = tplane;
+                node = nearChild;
+                tmax = tplane;
 
 //                oRay.setCacheNode(node);
 
                 sKDToDoStack.push_back(otherNode);
-			}
-		}
+            }
+        }
 
         UInt32 nPrimitives = node->getNumPrimitives();
 
@@ -535,8 +530,8 @@ void RTCacheKD<DescT>::intersectSingle(BasicSIMDRayPacket &oRay,
 #endif
         
 /*
-	if (!bounds.IntersectP(ray, &tmin, &tmax))
-		return false;
+    if (!bounds.IntersectP(ray, &tmin, &tmax))
+        return false;
  */
 
         sKDToDoStack.clear  (   );
@@ -967,14 +962,14 @@ template<typename DescT> inline
 void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft, 
                                    RTKDNode *pRight)
 {
-	if(_uiNumAllocedNodes <= _uiNextFreeNode + 2) 
+    if(_uiNumAllocedNodes <= _uiNextFreeNode + 2) 
     {
-		int nAlloc = osgMax(2 * _mfKDTree.size(), 512u);
+        int nAlloc = osgMax(2 * _mfKDTree.size(), 512u);
 
         _mfKDTree.resize(nAlloc);
 
-		_uiNumAllocedNodes = nAlloc;
-	}
+        _uiNumAllocedNodes = nAlloc;
+    }
 
     if(pLeft == NULL)
     {

@@ -64,7 +64,7 @@ inline UInt8 clampConvert(Real32 rVal)
     return UInt8(rVal * 255.f);
 }
 
-#define CLAMP_COLOR
+//#define CLAMP_COLOR
 inline
 void RTTarget::markPixelHit(UInt32 uiX, UInt32 uiY)
 {

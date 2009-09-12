@@ -159,11 +159,11 @@ class RTCacheKDBase : public RTCacheBase<DescT>
 
     MFRTCachePrimIdxStore     _mfPrimitives;
 
-	Int32                     _iIsectCost;
-	Int32                     _iTravCost;
-	Real32                    _fEmptyBonus;
-	Int32                     _iMaxPrims;
-	Int32                     _iMaxDepth;
+    Int32                     _iIsectCost;
+    Int32                     _iTravCost;
+    Real32                    _fEmptyBonus;
+    Int32                     _iMaxPrims;
+    Int32                     _iMaxDepth;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -200,11 +200,11 @@ class RTCacheKDBase : public RTCacheBase<DescT>
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-            void execSync (      RTCacheKDBase      *pFrom,
-                                 ConstFieldMaskArg   whichField,
-                                 AspectOffsetStore  &oOffsets,
-                                 ConstFieldMaskArg   syncMode  ,
-                           const UInt32              uiSyncInfo);
+    void execSync (      RTCacheKDBase      *pFrom,
+                         ConstFieldMaskArg   whichField,
+                         AspectOffsetStore  &oOffsets,
+                         ConstFieldMaskArg   syncMode  ,
+                   const UInt32              uiSyncInfo);
 #endif
 
     /*! \}                                                                 */
@@ -222,7 +222,7 @@ class RTCacheKDBase : public RTCacheBase<DescT>
     static void initMethod(InitPhase ePhase);
 
     /*! \}                                                                 */
-   /*==========================  PRIVATE  ================================*/
+    /*==========================  PRIVATE  ================================*/
 
   private:
 

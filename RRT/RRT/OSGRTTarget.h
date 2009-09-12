@@ -139,8 +139,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTarget : public RTTargetBase
 
     // Variables should all be in RTTargetBase.
 
-    //std::vector<Real32> _mfPixel;
-    std::vector<UInt8> _mfPixel;
+    std::vector<Real32> _mfPixel;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */

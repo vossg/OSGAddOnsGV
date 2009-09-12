@@ -124,7 +124,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTStore : public MemoryObject
     /*! \{                                                                 */
 
     /*! \}                                                                 */
-   /*==========================  PRIVATE  ================================*/
+    /*==========================  PRIVATE  ================================*/
 
   private:
 

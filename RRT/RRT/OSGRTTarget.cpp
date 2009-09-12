@@ -138,14 +138,9 @@ void RTTarget::dump(      UInt32    ,
 
 void RTTarget::startFrame(void)
 {
-/*
     memset(&(_mfPixel[0]), 
            0, 
            _sfWidth.getValue() * _sfHeight.getValue() * 3 * sizeof(Real32));
- */
-    memset(&(_mfPixel[0]), 
-           0, 
-           _sfWidth.getValue() * _sfHeight.getValue() * 3 * sizeof(UInt8));
 }
 
 OSG_END_NAMESPACE

@@ -120,7 +120,6 @@ void RTImageTarget::finalize(DrawEnv *pEnv)
 
     ImagePtr pImage = _sfImage.getValue();
 
-/*
     pImage->set(Image::OSG_RGB_PF ,
                 _sfWidth .getValue(), 
                 _sfHeight.getValue(), 
@@ -130,16 +129,6 @@ void RTImageTarget::finalize(DrawEnv *pEnv)
                 0.0,
                 (const UInt8 *) &(_mfPixel[0]),
                 Image::OSG_FLOAT32_IMAGEDATA);
- */
-    pImage->set(Image::OSG_RGB_PF ,
-                _sfWidth .getValue(), 
-                _sfHeight.getValue(), 
-                1,
-                1,
-                1,
-                0.0,
-                (const UInt8 *) &(_mfPixel[0]),
-                Image::OSG_UINT8_IMAGEDATA);
 
     pImage->convertDataTypeTo(Image::OSG_UINT8_IMAGEDATA);
 
