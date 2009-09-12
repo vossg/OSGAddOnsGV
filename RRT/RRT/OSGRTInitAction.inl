@@ -507,6 +507,16 @@ void RTInitAction<DescT>::dropGeometry(GeometryPtr pGeo)
             pOverride = _sStateOverrides.top();
         }
 
+        MaterialPtr pMat = _pMaterial;
+
+        if(pMat == NullFC)
+        {
+            pMat = pGeo->getMaterial();
+        }
+
+        if(pMat == NULL)
+            return;
+
         if(isTriangulated(pGeo) == false)
         {
             fprintf(stderr, "found untriangulated geometry\n");
@@ -519,7 +529,7 @@ void RTInitAction<DescT>::dropGeometry(GeometryPtr pGeo)
 
                 _pCurrentCache->addGeometry(pGeo, 
                                             _currMatrix.second,
-                                            _pMaterial->getState(0),
+                                             pMat->getState(0),
                                              pOverride);
             }
         }
@@ -527,7 +537,7 @@ void RTInitAction<DescT>::dropGeometry(GeometryPtr pGeo)
         {
             _pCurrentCache->addGeometry( pGeo, 
                                         _currMatrix.second,
-                                        _pMaterial->getState(0), 
+                                         pMat->getState(0), 
                                          pOverride);
         }
     }

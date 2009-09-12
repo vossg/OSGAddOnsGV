@@ -71,6 +71,7 @@ TransformPtr cam_transPlane;
 TextureObjChunkPtr tx1o;
 TextureEnvChunkPtr tx1e;
 RRTStagePtr        pStage;
+VisitSubTreePtr    pVisit;
 
 Trackball    tball;
 
@@ -310,7 +311,7 @@ void initRTStage(void)
 //    root->addChild(dlight);
 
     // Load the file
-
+#if 0
     NodePtr file = Node::create();
 
     file->setCore(Group::create());
@@ -352,6 +353,7 @@ void initRTStage(void)
     file->getVolume().getBounds(min, max);
 
     std::cout << "Volume: from " << min << " to " << max << std::endl;
+#endif
 
 
     // Camera
@@ -407,8 +409,8 @@ void initRTStage(void)
 
     pStage = RRTStage::create();
 
-//    pStageNode->setCore(pStage);
-    pStageNode->setCore(Group::create());
+    pStageNode->setCore(pStage);
+//    pStageNode->setCore(Group::create());
 
     pStage->setRenderTarget (pFBO);
     pStage->setTextureTarget(tx1o);
@@ -417,11 +419,11 @@ void initRTStage(void)
 //    pStage->setTiled       (true);
     pStage->setTiled       (false);
 
-    VisitSubTreePtr pVisit     = VisitSubTree::create();
-    NodePtr         pVisitNode = Node::create();
+            pVisit     = VisitSubTree::create();
+    NodePtr pVisitNode = Node::create();
 
 //    pVisit    ->setSubTreeRoot(dlight);
-    pVisit    ->setSubTreeRoot(file  );
+//    pVisit    ->setSubTreeRoot(file  );
     pVisitNode->setCore       (pVisit);
 
     pStageNode->setCore(pStage    );
@@ -483,8 +485,8 @@ void initScene(int argc, char **argv)
 
     if(file == NullFC)
     {
-//        file = makeSphere(4, 0.5f);
-        file = makeTorus(.5, 2, 16, 16);
+        file = makeSphere(4, 0.5f);
+//        file = makeTorus(.5, 2, 16, 16);
     }
 
 #if 1
@@ -494,6 +496,8 @@ void initScene(int argc, char **argv)
 
 
 //    pStage->setRayTracingRoot(file);
+
+    pVisit    ->setSubTreeRoot(file  );
 
     pStage->setWidth (128);
     pStage->setHeight(128);
