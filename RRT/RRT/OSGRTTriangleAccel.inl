@@ -243,6 +243,50 @@ bool RTTriAccelBarycentric::getFromCString(const Char8 *inVal)
 }
 
 inline
+UInt32 RTTriAccelBarycentric::getBinSize(void) const
+{
+    return 12 * sizeof(UInt32);
+}
+
+inline
+void RTTriAccelBarycentric::copyToBin(BinaryDataHandler &pMem) const
+{
+    pMem.putValue(_nU);
+    pMem.putValue(_nV);
+    pMem.putValue(_nD);
+    pMem.putValue(_uiProj);
+
+    pMem.putValue(_bNU);
+    pMem.putValue(_bNV);
+    pMem.putValue(_bD);
+    pMem.putValue(_uiObjId);
+
+    pMem.putValue(_cNU);
+    pMem.putValue(_cNV);
+    pMem.putValue(_cD);
+    pMem.putValue(_uiTriId);
+}
+
+inline
+void RTTriAccelBarycentric::copyFromBin(BinaryDataHandler &pMem)
+{
+    pMem.getValue(_nU);
+    pMem.getValue(_nV);
+    pMem.getValue(_nD);
+    pMem.getValue(_uiProj);
+
+    pMem.getValue(_bNU);
+    pMem.getValue(_bNV);
+    pMem.getValue(_bD);
+    pMem.getValue(_uiObjId);
+
+    pMem.getValue(_cNU);
+    pMem.getValue(_cNV);
+    pMem.getValue(_cD);
+    pMem.getValue(_uiTriId);
+}
+
+inline
 void RTTriAccelBarycentric::setup(Pnt3f  A, 
                                   Pnt3f  B, 
                                   Pnt3f  C, 

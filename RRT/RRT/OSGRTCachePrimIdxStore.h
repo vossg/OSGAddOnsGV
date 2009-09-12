@@ -194,27 +194,7 @@ struct FieldTraits<RTCachePrimIdxStore> :
 
     static UInt32 getBinSize(const RTCachePrimIdxStore &oObject)
     {
-#if 0
-        UInt32  type = oObject.getType();
-        UInt32  size = sizeof(DynamicVolume::Type) + sizeof(UInt16);
-
-        switch(type)
-        {
-            case DynamicVolume::BOX_VOLUME : 
-                size += sizeof(Pnt3f) + sizeof(Pnt3f);
-                break;
-
-            case DynamicVolume::SPHERE_VOLUME :
-                size += sizeof(Pnt3f) + sizeof(Real32);
-                break;
-
-            default :
-                SWARNING << "Unknown volume type in getBinSize" << std::endl;
-        }
-
-        return size;
-#endif
-        return 0;
+        return sizeof(UInt32) + sizeof(UInt32) * oObject.size();
     }
 
 
@@ -222,143 +202,64 @@ struct FieldTraits<RTCachePrimIdxStore> :
                                    UInt32               uiNumObjects)
     {
         UInt32 size = 0;
-#if 0
+
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
             size += getBinSize(pObjectStore[i]);
         }
-#endif
+
         return size;
     }
 
     static void copyToBin(      BinaryDataHandler   &pMem, 
                           const RTCachePrimIdxStore &oObject)
     {
-#if 0
-        UInt32 type = (UInt32) (oObject.getType());
+        UInt32 size = oObject.size();
 
-        pMem.putValue(type);
+        pMem.putValue(size);
 
-        switch(type)
+        for(UInt32 i = 0; i < oObject.size(); ++i)
         {
-            case DynamicVolume::BOX_VOLUME : 
-            {
-                const BoxVolume *pBVol = 
-                    dynamic_cast<const BoxVolume *>(
-                        &(oObject.getInstance()));
-
-                UInt16 state = pBVol->getState();
-                
-                pMem.putValue(state);
-
-                pMem.putValues(&(pBVol->getMin()[0]), 3);
-                pMem.putValues(&(pBVol->getMax()[0]), 3);
-
-                break;
-            }
-            case DynamicVolume::SPHERE_VOLUME :
-            {
-                const SphereVolume *pSVol = 
-                    dynamic_cast<const SphereVolume *>(
-                        &(oObject.getInstance()));
-
-				Real radius = pSVol->getRadius();
-
-                UInt16 state = pSVol->getState();
-                
-                pMem.putValue(state);
-
-                pMem.putValues(&(pSVol->getCenter()[0]), 3);
-                pMem.putValue (radius);
-
-                break;
-            }
-
-            default:
-                SWARNING << "Unknown volume type in copyToBin" << std::endl;
+            pMem.putValue(oObject[i]);
         }
-#endif
     }
 
     static void copyToBin(      BinaryDataHandler   &pMem, 
                           const RTCachePrimIdxStore *pObjectStore,
                                 UInt32               uiNumObjects)
     {
-#if 0
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
             copyToBin(pMem, pObjectStore[i]);
         }
-#endif
     }
 
     static void copyFromBin(BinaryDataHandler   &pMem, 
                             RTCachePrimIdxStore &oObject)
     {
-#if 0
-        UInt32 type;
-        
-        pMem.getValue(type);
-        DynamicVolume::Type volumeType=
-            static_cast<DynamicVolume::Type>(type);
+        UInt32 size;
 
-        oObject.setVolumeType(volumeType);
+        pMem.getValue(size);
 
-        switch(type)
+        if(size != 0)
         {
-            case DynamicVolume::BOX_VOLUME : 
+            oObject.resize(size);
+
+            for(UInt32 i = 0; i < size; ++i)
             {
-                BoxVolume *pBVol = 
-                    dynamic_cast<BoxVolume *>(&(oObject.getInstance()));
-
-                Pnt3r min,max;
-                UInt16 state;
-
-                pMem.getValue (state       );
-                pMem.getValues(&(min[0]), 3);
-                pMem.getValues(&(max[0]), 3);
-
-                pBVol->setState (state   );
-                pBVol->setBounds(min, max);
-
-                break;
+                pMem.getValue(oObject[i]);
             }
-            case DynamicVolume::SPHERE_VOLUME :
-            {
-                SphereVolume *pSVol = 
-                    dynamic_cast<SphereVolume *>(&(oObject.getInstance()));
-
-                Pnt3r center;
-                Real32 radius;
-                UInt16 state;
-
-                pMem.getValue(state);
-                pMem.getValues(&(center[0]), 3);
-                pMem.getValue (radius);
-
-                pSVol->setState (state );
-                pSVol->setCenter(center);
-                pSVol->setRadius(radius);
-                
-                break;
-            }
-
-            default:
-                SWARNING << "Unknown volume type in copyFronBin" << std::endl;
         }
-#endif
     }
 
     static void copyFromBin(BinaryDataHandler   &pMem, 
                             RTCachePrimIdxStore *pObjectStore,
                             UInt32                uiNumObjects)
     {
-#if 0
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
             copyFromBin(pMem, pObjectStore[i]);
         }
-#endif
     }
 };
 

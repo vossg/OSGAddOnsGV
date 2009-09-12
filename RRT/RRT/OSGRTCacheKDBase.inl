@@ -103,6 +103,89 @@ RTCacheKDBase<DescT>::~RTCacheKDBase(void)
     }
 }
 
+template<typename DescT> inline
+UInt32 RTCacheKDBase<DescT>::getBinSize(ConstFieldMaskArg  whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (GeoStoreFieldMask & whichField))
+    {
+        returnValue += _mfGeos.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TriangleAccelFieldMask & whichField))
+    {
+        returnValue += _mfTriangleAcc.getBinSize();
+    }
+
+    if(FieldBits::NoField != (PrimIdxStoreFieldMask & whichField))
+    {
+        returnValue += _mfPrimitives.getBinSize();
+    }
+
+    if(FieldBits::NoField != (BoundingVolumeFieldMask & whichField))
+    {
+        returnValue += _sfBoundingVolume.getBinSize();
+    }
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+void RTCacheKDBase<DescT>::copyToBin(BinaryDataHandler &pMem,
+                                     ConstFieldMaskArg  whichField)
+{
+    Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (GeoStoreFieldMask & whichField))
+    {
+        _mfGeos.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TriangleAccelFieldMask & whichField))
+    {
+        _mfTriangleAcc.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PrimIdxStoreFieldMask & whichField))
+    {
+        _mfPrimitives.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BoundingVolumeFieldMask & whichField))
+    {
+        _sfBoundingVolume.copyToBin(pMem);
+    }
+}
+
+template<typename DescT> inline
+void RTCacheKDBase<DescT>::copyFromBin(BinaryDataHandler &pMem,
+                                       ConstFieldMaskArg  whichField)
+{
+    Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (GeoStoreFieldMask & whichField))
+    {
+        _mfGeos.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TriangleAccelFieldMask & whichField))
+    {
+        _mfTriangleAcc.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PrimIdxStoreFieldMask & whichField))
+    {
+        _mfPrimitives.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BoundingVolumeFieldMask & whichField))
+    {
+        _sfBoundingVolume.copyFromBin(pMem);
+    }
+}
+
+
 OSG_ABSTR_FIELD_CONTAINER_TMPL_DEF  (RTCacheKDBase, DescT)
 //OSG_RC_GET_STATIC_TYPE_INL_TMPL_DEF   (DynFieldAttachment, AttachmentDescT)
 OSG_RC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(RTCacheKDBase, DescT)

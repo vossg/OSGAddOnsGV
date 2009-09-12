@@ -115,6 +115,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentric
     void putToStream   (      OutStream &str  ) const;
     bool getFromCString(const Char8     *inVal);
 
+    UInt32 getBinSize  (void                   ) const;
+    void   copyToBin   (BinaryDataHandler &pMem) const;
+    void   copyFromBin (BinaryDataHandler &pMem);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */

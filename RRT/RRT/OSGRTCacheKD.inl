@@ -118,6 +118,44 @@ GetFieldHandlePtr RTCacheKD<DescT>::getHandleKDTree (void) const
     return returnValue;
 }
 
+template<typename DescT> inline
+UInt32 RTCacheKD<DescT>::getBinSize(ConstFieldMaskArg  whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (KDTreeFieldMask & whichField))
+    {
+        returnValue += _mfKDTree.getBinSize();
+    }
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+void RTCacheKD<DescT>::copyToBin(BinaryDataHandler &pMem,
+                                 ConstFieldMaskArg  whichField)
+{
+    Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (KDTreeFieldMask & whichField))
+    {
+        _mfKDTree.copyToBin(pMem);
+    }
+}
+
+template<typename DescT> inline
+void RTCacheKD<DescT>::copyFromBin(BinaryDataHandler &pMem,
+                                   ConstFieldMaskArg  whichField)
+{
+    Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (KDTreeFieldMask & whichField))
+    {
+        _mfKDTree.copyFromBin(pMem);
+    }
+}
+
+
 #ifdef OSG_MT_CPTR_ASPECT
 template<typename DescT> inline
 typename RTCacheKD<DescT>::ObjPtr 

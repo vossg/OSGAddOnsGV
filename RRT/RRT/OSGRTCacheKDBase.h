@@ -221,6 +221,17 @@ class RTCacheKDBase : public FieldContainer
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
+    virtual UInt32 getBinSize (ConstFieldMaskArg  whichField);
+    virtual void   copyToBin  (BinaryDataHandler &pMem,
+                               ConstFieldMaskArg  whichField);
+    virtual void   copyFromBin(BinaryDataHandler &pMem,
+                               ConstFieldMaskArg  whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
     void addGeoStore(RTCacheGeometryStorePtr pStore);
 
     /*! \}                                                                 */

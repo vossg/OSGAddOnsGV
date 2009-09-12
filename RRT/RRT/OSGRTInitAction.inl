@@ -423,6 +423,8 @@ bool isTriangulated(GeometryPtr pGeo)
 
         if(uiType != GL_TRIANGLES)
         {
+            fprintf(stderr, "Got %d %d\n", i, uiType);
+
             returnValue = false;
             break;
         }

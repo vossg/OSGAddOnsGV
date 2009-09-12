@@ -267,6 +267,27 @@ bool RTCacheKDNode::getFromCString(const Char8 *inVal)
 }
 
 inline
+UInt32 RTCacheKDNode::getBinSize(void) const
+{
+    return sizeof(UInt32) + sizeof(UInt32);
+}
+
+inline
+void RTCacheKDNode::copyToBin(BinaryDataHandler &pMem) const
+{
+    pMem.putValue(_uiFlags     );
+    pMem.putValue(_uiAboveChild);
+}
+
+inline
+void RTCacheKDNode::copyFromBin(BinaryDataHandler &pMem)
+{
+    pMem.getValue(_uiFlags     );
+    pMem.getValue(_uiAboveChild);
+}
+    
+
+inline
 bool RTCacheKDNode::operator ==(const RTCacheKDNode &rhs) const
 {
     return 

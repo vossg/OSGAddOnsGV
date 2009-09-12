@@ -239,6 +239,17 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
+    virtual UInt32 getBinSize (ConstFieldMaskArg  whichField);
+    virtual void   copyToBin  (BinaryDataHandler &pMem,
+                               ConstFieldMaskArg  whichField);
+    virtual void   copyFromBin(BinaryDataHandler &pMem,
+                               ConstFieldMaskArg  whichField);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
 #ifdef OSG_MT_CPTR_ASPECT
     virtual ObjPtr createAspectCopy(void) const;
 #endif

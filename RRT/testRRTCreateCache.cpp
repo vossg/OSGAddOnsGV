@@ -707,7 +707,7 @@ int main (int argc, char **argv)
     rtInit->apply(file);
 
 
-#if 1
+#if 0
     char *outFileName = "/tmp/foo.osg";
 
     OSG::IndentFileOutStream outFileStream( outFileName );
@@ -722,9 +722,11 @@ int main (int argc, char **argv)
         std::cerr << "STARTING PRINTOUT:" << std::endl;
         OSG::OSGWriter writer( outFileStream, 4 );
         
-        writer.write( file );
+        writer.write(file);
         
         outFileStream.close();
     }
 #endif
+
+    OSG::SceneFileHandler::the()->write(file, "/tmp/foocache.osb");
 }
