@@ -38,6 +38,20 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef OSG_DEBUG_SIMD
+namespace simd_fpu 
+{
+
+struct Float4
+{
+    union 
+    {
+        Real32 data [4];
+        UInt32 idata[4];
+    };
+};
+
+#endif
 
 inline
 Float4 osgSIMDMul(const Float4 v1,  const Float4 v2)
@@ -123,10 +137,10 @@ Float4 osgSIMDMax(const Float4 v1,  const Float4 v2)
 {
     Float4 returnValue;
 
-    returnValue.data[0] = osgMax(v1.data[0], v2.data[0]);
-    returnValue.data[1] = osgMax(v1.data[1], v2.data[1]);
-    returnValue.data[2] = osgMax(v1.data[2], v2.data[2]);
-    returnValue.data[3] = osgMax(v1.data[3], v2.data[3]);
+    returnValue.data[0] = v1.data[0] > v2.data[0] ? v1.data[0] : v2.data[0];
+    returnValue.data[1] = v1.data[1] > v2.data[1] ? v1.data[1] : v2.data[1];
+    returnValue.data[2] = v1.data[2] > v2.data[2] ? v1.data[2] : v2.data[2];
+    returnValue.data[3] = v1.data[3] > v2.data[3] ? v1.data[3] : v2.data[3];
 
     return returnValue;
 }
@@ -136,10 +150,10 @@ Float4 osgSIMDMin(const Float4 v1,  const Float4 v2)
 {
     Float4 returnValue;
 
-    returnValue.data[0] = osgMin(v1.data[0], v2.data[0]);
-    returnValue.data[1] = osgMin(v1.data[1], v2.data[1]);
-    returnValue.data[2] = osgMin(v1.data[2], v2.data[2]);
-    returnValue.data[3] = osgMin(v1.data[3], v2.data[3]);
+    returnValue.data[0] = v1.data[0] < v2.data[0] ? v1.data[0] : v2.data[0];
+    returnValue.data[1] = v1.data[1] < v2.data[1] ? v1.data[1] : v2.data[1];
+    returnValue.data[2] = v1.data[2] < v2.data[2] ? v1.data[2] : v2.data[2];
+    returnValue.data[3] = v1.data[3] < v2.data[3] ? v1.data[3] : v2.data[3];
 
     return returnValue;
 }
@@ -202,10 +216,10 @@ Float4 osgSIMDRSqrtE(const Float4 v)
 {
     Float4 returnValue;
 
-    returnValue.data[0] = 1.f / osgSqrt(v.data[0]);
-    returnValue.data[1] = 1.f / osgSqrt(v.data[1]);
-    returnValue.data[2] = 1.f / osgSqrt(v.data[2]);
-    returnValue.data[3] = 1.f / osgSqrt(v.data[3]);
+    returnValue.data[0] = 1.f / OSG::osgSqrt(v.data[0]);
+    returnValue.data[1] = 1.f / OSG::osgSqrt(v.data[1]);
+    returnValue.data[2] = 1.f / OSG::osgSqrt(v.data[2]);
+    returnValue.data[3] = 1.f / OSG::osgSqrt(v.data[3]);
 
     return returnValue;
 }
@@ -232,7 +246,8 @@ Int32  osgSIMDMoveMask(const Float4 v)
         ((v.idata[1] & 0x80000000) ? 0x2 : 0x0) |
         ((v.idata[2] & 0x80000000) ? 0x4 : 0x0) |
         ((v.idata[3] & 0x80000000) ? 0x8 : 0x0);
-    
+
+    return returnValue;
 }
 
 inline
@@ -257,10 +272,10 @@ Float4 osgSIMDSet(const Real32 rVal0,
 {
     Float4 returnValue;
 
-    returnValue.data[0] = rVal0;
-    returnValue.data[1] = rVal1;
-    returnValue.data[2] = rVal2;
-    returnValue.data[3] = rVal3;
+    returnValue.data[3] = rVal0;
+    returnValue.data[2] = rVal1;
+    returnValue.data[1] = rVal2;
+    returnValue.data[0] = rVal3;
 
     return returnValue;
 }
@@ -271,5 +286,9 @@ Float4 osgSIMDUpdate(const Float4 mask, const Float4 v1, const Float4 v2)
     return osgSIMDOr(osgSIMDAnd   (v1,   mask),
                      osgSIMDAndNot(mask, v2  ));
 }
+
+#ifdef OSG_DEBUG_SIMD
+}
+#endif
 
 OSG_END_NAMESPACE

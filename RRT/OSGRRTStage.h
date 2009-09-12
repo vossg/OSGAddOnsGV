@@ -54,6 +54,8 @@ OSG_BEGIN_NAMESPACE
 class RayTracer;
 class RTTriAccelBarycentric;
 
+#ifdef OSG_CACHE_KD
+
 class RTCacheKDNode;
 
 template<typename DescT>
@@ -61,6 +63,17 @@ class RTCacheKD;
 
 template<typename DescT>
 class RTCacheKDVer1;
+
+#endif
+
+#ifdef OSG_CACHE_BIH
+
+class RTCacheBIHNode;
+
+template<typename DescT>
+class RTCacheBIH;
+
+#endif
 
 template<typename DescT>
 class RayTracerInst;
@@ -162,9 +175,15 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef RTTriAccelBarycentric                  TriangleAccel;
         typedef MFRTTriAccelBarycentric                MFTriangleAccel;
         
+#ifdef OSG_CACHE_KD
         typedef RTCacheKD<SinglePacketDescBase>        RTCache;
         typedef RTCacheKDNode                          RTCacheNode;
- 
+#endif 
+
+#ifdef OSG_CACHE_BIH
+        typedef RTCacheBIH<SinglePacketDescBase>        RTCache;
+        typedef RTCacheBIHNode                          RTCacheNode;
+#endif 
 
         typedef RTHitPacket                            HitPacket;
         typedef RTSingleHitPacket<
@@ -183,13 +202,27 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
         typedef std::vector<SingleRayPacket    >       RayStore;
 
+        static const Char8 *getCacheBaseTypeName(void)
+        {
+            return "RTCacheBaseSinglePacket";
+        }
+        static const Char8 *getCacheBaseParentTypeName(void)
+        {
+            return "FieldContainer";
+        }
+        static const Char8 *getCacheBaseGroupName(void)
+        {
+            return "RTCache";
+        }
+
+#ifdef OSG_CACHE_KD
         static const Char8 *getCacheKDBaseTypeName(void)
         {
             return "RTCacheKDBaseSinglePacket";
         }
         static const Char8 *getCacheKDBaseParentTypeName(void)
         {
-            return "FieldContainer";
+            return "RTCacheBaseSinglePacket";
         }
         static const Char8 *getCacheKDBaseGroupName(void)
         {
@@ -219,9 +252,48 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         {
             return "MFRTCacheKDSinglePacketPtr";
         }
+#endif
+
+#ifdef OSG_CACHE_BIH
+        static const Char8 *getCacheBIHBaseTypeName(void)
+        {
+            return "RTCacheBIHBaseSinglePacket";
+        }
+        static const Char8 *getCacheBIHBaseParentTypeName(void)
+        {
+            return "RTCacheBaseSinglePacket";
+        }
+        static const Char8 *getCacheBIHBaseGroupName(void)
+        {
+            return "RTCacheBIH";
+        }
+
+        static const Char8 *getCacheBIHTypeName(void)
+        {
+            return "RTCacheBIHSinglePacket";
+        }
+
+        static const Char8 *getCacheBIHParentTypeName(void)
+        {
+            return "RTCacheBIHBaseSinglePacket";
+        }
+
+        static const Char8 *getCacheBIHGroupName(void)
+        {
+            return "RTCacheBIH";
+        }
+
+        static const Char8 *getSFBIHCacheName(void)
+        {
+            return "SFRTCacheBIHSinglePacketPtr";
+        }
+        static const Char8 *getMFBIHCacheName(void)
+        {
+            return "MFRTCacheBIHSinglePacketPtr";
+        }
+#endif
     };
     
-
     struct SIMDPacketDescBase : public PacketDescBase
     {
         static  const bool                           SIMDMath = true;
@@ -233,9 +305,15 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef RTTriAccelBarycentric                TriangleAccel;
         typedef MFRTTriAccelBarycentric              MFTriangleAccel;
 
+#ifdef OSG_CACHE_KD
         typedef RTCacheKD<SIMDPacketDescBase>        RTCache;
         typedef RTCacheKDNode                        RTCacheNode;
- 
+#endif 
+
+#ifdef OSG_CACHE_BIH
+        typedef RTCacheBIH<SIMDPacketDescBase>       RTCache;
+        typedef RTCacheBIHNode                       RTCacheNode;
+#endif 
 
         typedef RTHitSIMDPacket                      HitPacket;
         typedef RTFourHitSIMDPacket<
@@ -259,13 +337,27 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
                             SIMDRayAllocator>        RayStore;
 
 
+        static const Char8 *getCacheBaseTypeName(void)
+        {
+            return "RTCacheBaseSIMDPacket";
+        }
+        static const Char8 *getCacheBaseParentTypeName(void)
+        {
+            return "FieldContainer";
+        }
+        static const Char8 *getCacheBaseGroupName(void)
+        {
+            return "RTCache";
+        }
+
+#ifdef OSG_CACHE_KD
         static const Char8 *getCacheKDBaseTypeName(void)
         {
             return "RTCacheKDBaseSIMDPacket";
         }
         static const Char8 *getCacheKDBaseParentTypeName(void)
         {
-            return "FieldContainer";
+            return "RTCacheBaseSIMDPacket";
         }
         static const Char8 *getCacheKDBaseGroupName(void)
         {
@@ -295,9 +387,47 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         {
             return "MFRTCacheKDSIMDPacketPtr";
         }
+#endif
+
+#ifdef OSG_CACHE_BIH
+        static const Char8 *getCacheBIHBaseTypeName(void)
+        {
+            return "RTCacheBIHBaseSIMDPacket";
+        }
+        static const Char8 *getCacheBIHBaseParentTypeName(void)
+        {
+            return "RTCacheBaseSIMDPacket";
+        }
+        static const Char8 *getCacheBIHBaseGroupName(void)
+        {
+            return "RTCacheBIH";
+        }
+
+        static const Char8 *getCacheBIHTypeName(void)
+        {
+            return "RTCacheBIHSIMDPacket";
+        }
+
+        static const Char8 *getCacheBIHParentTypeName(void)
+        {
+            return "RTCacheBIHBaseSIMDPacket";
+        }
+
+        static const Char8 *getCacheBIHGroupName(void)
+        {
+            return "RTCacheBIH";
+        }
+
+        static const Char8 *getSFBIHCacheName(void)
+        {
+            return "SFRTCacheBIHSIMDPacketPtr";
+        }
+        static const Char8 *getMFBIHCacheName(void)
+        {
+            return "MFRTCacheBIHSIMDPacketPtr";
+        }
+#endif
     };
-
-
 
     struct SinglePacketCacheDesc : public SinglePacketDescBase
     {

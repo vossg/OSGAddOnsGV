@@ -69,4 +69,7 @@ struct RTSIMDMathTag;
 
 OSG_END_NAMESPACE
 
+//#define OSG_CACHE_BIH
+#define OSG_CACHE_KD
+
 #endif /* _OSGCONTRIBRRTDEF_H_ */

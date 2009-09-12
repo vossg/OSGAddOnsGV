@@ -42,13 +42,20 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include <OSGBaseTypes.h>
+
+#include <vector>
 
 //#undef OSG_SIMD_SSE
+//#undef OSG_DEBUG_SIMD
+//#undef OSG_SIMD_ALTIVEC
 
-#ifdef OSG_SIMD_SSE
+#if defined(OSG_SIMD_SSE)
 #  define __inline inline
 #  include <xmmintrin.h>
+#elif defined(OSG_SIMD_ALTIVEC)
+#  define __inline inline
+#  include <altivec.h>
 #endif
 
 OSG_BEGIN_NAMESPACE
@@ -110,8 +117,10 @@ class AlignedAllocator
 
 
 
-#ifdef OSG_SIMD_SSE
+#if defined(OSG_SIMD_SSE)
 typedef __m128 Float4;
+#elif defined(OSG_SIMD_ALTIVEC)
+typedef vector float Float4;
 #else
 struct Float4
 {
@@ -179,11 +188,26 @@ OSG_END_NAMESPACE
 
 #include "OSGRTSIMD.inl"
 
-#ifdef OSG_SIMD_SSE
+#ifndef OSG_DEBUG_SIMD
+
+#if defined(OSG_SIMD_SSE)
 #include "OSGRTSIMD_SSE.inl"
+#elif defined(OSG_SIMD_ALTIVEC)
+#include "OSGRTSIMD_ALTIVEC.inl"
 #else
 #include "OSGBaseFunctions.h"
 #include "OSGRTSIMD_FPU.inl"
+#endif
+
+#else
+
+#include "OSGBaseFunctions.h"
+
+#ifdef OSG_SIMD_SSE
+#include "OSGRTSIMD_SSE.inl"
+#endif
+#include "OSGRTSIMD_FPU.inl"
+
 #endif
 
 #endif

@@ -43,33 +43,6 @@ void RTCacheKDBase<DescT>::classDescInserter(TypeObject &oType)
 {
     FieldDescriptionBase *pDesc;
 
-    pDesc = new MFRTCacheGeometryStorePtr::Description(
-        MFRTCacheGeometryStorePtr::getClassType(),
-        "geoStore",
-        "",
-        OSG_RC_FIELD_DESC(Self::GeoStore),
-        false,
-        Field::MFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&Self::editHandleGeoStore),
-        static_cast<FieldGetMethodSig >(&Self::getHandleGeoStore ));
-        
-    oType.addInitialDesc(pDesc);
-
-
-
-    pDesc = new typename MFTriangleAccel::Description(
-        MFTriangleAccel::getClassType(),
-        "triangleAccel",
-        "",
-        OSG_RC_FIELD_DESC(Self::TriangleAccel),
-        false,
-        Field::MFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&Self::editHandleTriangleAccel),
-        static_cast<FieldGetMethodSig >(&Self::getHandleTriangleAccel ));
-        
-    oType.addInitialDesc(pDesc);
-
-
     pDesc = new MFRTCachePrimIdxStore::Description(
         MFRTCachePrimIdxStore::getClassType(),
         "primIdxStore",
@@ -79,19 +52,6 @@ void RTCacheKDBase<DescT>::classDescInserter(TypeObject &oType)
         Field::MFDefaultFlags,
         static_cast<FieldEditMethodSig>(&Self::editHandlePrimIdxStore),
         static_cast<FieldGetMethodSig >(&Self::getHandlePrimIdxStore ));
-        
-    oType.addInitialDesc(pDesc);
-
-
-    pDesc = new SFBoxVolume::Description(
-        SFBoxVolume::getClassType(),
-        "boundingVolume",
-        "",
-        OSG_RC_FIELD_DESC(Self::BoundingVolume),
-        false,
-        Field::MFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&Self::editHandleBoundingVolume),
-        static_cast<FieldGetMethodSig >(&Self::getHandleBoundingVolume ));
         
     oType.addInitialDesc(pDesc);
 }

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *           Copyright (C) 2003 by the OpenSG Forum                          *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,34 +36,34 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
-#ifdef __sgi
-#pragma once
-#endif
+OSG_BEGIN_NAMESPACE
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
 
-#include "OSGContribRRTDef.h"
+inline
+RTCacheBIHNode::RTCacheBIHNode(void)
+{
+}
 
-#include "OSGTriangleIterator.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRayTracerInst.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
-#ifdef OSG_CACHE_KD
-#include "OSGRTCacheKD.h"
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
+inline
+RTCacheBIHNode::~RTCacheBIHNode(void)
+{
+}
 
-#endif
+inline
+void RTCacheBIHNode::putToStream(OutStream &str) const
+{
+}
+
+inline
+bool RTCacheBIHNode::getFromCString(const Char8 *inVal)
+{
+    return true;
+}
+
+inline
+bool RTCacheBIHNode::operator ==(const RTCacheBIHNode &rhs) const
+{
+    return true;
+}
+
+OSG_END_NAMESPACE

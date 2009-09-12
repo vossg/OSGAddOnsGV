@@ -4,8 +4,6 @@
  *                                                                           *
  *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
- *                            www.opensg.org                                 *
- *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
@@ -36,34 +34,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
-#ifdef __sgi
-#pragma once
-#endif
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
+OSG_BEGIN_NAMESPACE
 
-#include "OSGContribRRTDef.h"
-
-#include "OSGTriangleIterator.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRayTracerInst.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
-#ifdef OSG_CACHE_KD
-#include "OSGRTCacheKD.h"
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
-
-#endif
+OSG_END_NAMESPACE

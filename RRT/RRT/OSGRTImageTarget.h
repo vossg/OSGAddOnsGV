@@ -36,26 +36,22 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTTARGET_H_
-#define _OSGRTTARGET_H_
+#ifndef _OSGRTIMAGETARGET_H_
+#define _OSGRTIMAGETARGET_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGRTTargetBase.h"
-
-#include "OSGRTColorPacket.h"
-#include "OSGRTColorSIMDPacket.h"
+#include "OSGRTImageTargetBase.h"
+#include "OSGImage.h"
 
 OSG_BEGIN_NAMESPACE
 
-class DrawEnv;
-
-/*! \brief RTTarget class. See \ref
-           PageContribRRTRTTarget for a description.
+/*! \brief RTImageTarget class. See \ref
+           PageContribRRTRTImageTarget for a description.
 */
 
-class OSG_CONTRIBRRT_DLLMAPPING RTTarget : public RTTargetBase
+class OSG_CONTRIBRRT_DLLMAPPING RTImageTarget : public RTImageTargetBase
 {
   protected:
 
@@ -63,50 +59,14 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTarget : public RTTargetBase
 
   public:
 
-    typedef RTTargetBase Inherited;
-    typedef RTTarget     Self;
+    typedef RTImageTargetBase Inherited;
+    typedef RTImageTarget     Self;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
     virtual void finalize(DrawEnv *pEnv);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    void resize(UInt32 uiWidth, UInt32 uiHeight);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    UInt32 getWidth (void) const;
-    UInt32 getHeight(void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    void markPixelHit   (UInt32 uiX, UInt32 uiY);
-    void markPixelNotHit(UInt32 uiX, UInt32 uiY);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    void setPixel(UInt32 uiX, UInt32 uiY, RTColorPacket     &oColor);
-    void setPixel(UInt32 uiX, UInt32 uiY, RTColorSIMDPacket &oColor);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -126,43 +86,25 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTarget : public RTTargetBase
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    void startFrame(void);
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
 
-    // Variables should all be in RTTargetBase.
-
-    //std::vector<Real32> _mfPixel;
-    std::vector<UInt8> _mfPixel;
+    // Variables should all be in RTImageTargetBase.
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    RTTarget(void);
-    RTTarget(const RTTarget &source);
+    RTImageTarget(void);
+    RTImageTarget(const RTImageTarget &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~RTTarget(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Init                                    */
-    /*! \{                                                                 */
-
-            void onCreate       (const RTTarget *source = NULL);
-    virtual void onDestroy      (      UInt32    uiContainerId);
+    virtual ~RTImageTarget(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -177,15 +119,15 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTarget : public RTTargetBase
   private:
 
     friend class FieldBundle;
-    friend class RTTargetBase;
+    friend class RTImageTargetBase;
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const RTTarget &source);
+    void operator =(const RTImageTarget &source);
 };
 
 OSG_END_NAMESPACE
 
-#include "OSGRTTargetBase.inl"
-#include "OSGRTTarget.inl"
+#include "OSGRTImageTargetBase.inl"
+#include "OSGRTImageTarget.inl"
 
-#endif /* _OSGRTTARGET_H_ */
+#endif /* _OSGRTIMAGETARGET_H_ */

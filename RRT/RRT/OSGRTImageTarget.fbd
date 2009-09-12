@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+    name="RTImageTarget"
+    parent="RTTarget"
+    library="ContribRRT"
+    pointerfieldtypes="single"
+    structure="concrete"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    decoratable="false"
+    useLocalIncludes="false"
+    isNodeCore="false"
+    libnamespace="OSG"
+>
+    <Field
+        name="image"
+        type="ImagePtr"
+        cardinality="single"
+        visibility="external"
+        access="public"
+    >
+    </Field>
+</FieldContainer>

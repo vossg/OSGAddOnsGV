@@ -45,16 +45,13 @@
 
 #include <OSGConfig.h>
 
-#include "OSGRTTextureTarget.h"
-#include "OSGWindow.h"
-#include "OSGDrawEnv.h"
-#include "OSGTextureObjChunk.h"
+#include "OSGRTImageTarget.h"
 
 OSG_BEGIN_NAMESPACE
 
 // Documentation for this class is emitted in the
-// OSGRTTextureTargetBase.cpp file.
-// To modify it, please change the .fcd file (OSGRTTextureTarget.fcd) and
+// OSGRTImageTargetBase.cpp file.
+// To modify it, please change the .fcd file (OSGRTImageTarget.fcd) and
 // regenerate the base file.
 
 /***************************************************************************\
@@ -65,7 +62,7 @@ OSG_BEGIN_NAMESPACE
  *                           Class methods                                 *
 \***************************************************************************/
 
-void RTTextureTarget::initMethod(InitPhase ePhase)
+void RTImageTarget::initMethod(InitPhase ePhase)
 {
     Inherited::initMethod(ePhase);
 
@@ -85,62 +82,68 @@ void RTTextureTarget::initMethod(InitPhase ePhase)
 
 /*----------------------- constructors & destructors ----------------------*/
 
-RTTextureTarget::RTTextureTarget(void) :
+RTImageTarget::RTImageTarget(void) :
     Inherited()
 {
 }
 
-RTTextureTarget::RTTextureTarget(const RTTextureTarget &source) :
+RTImageTarget::RTImageTarget(const RTImageTarget &source) :
     Inherited(source)
 {
 }
 
-RTTextureTarget::~RTTextureTarget(void)
+RTImageTarget::~RTImageTarget(void)
 {
 }
 
 /*----------------------------- class specific ----------------------------*/
 
-void RTTextureTarget::finalize(DrawEnv *pEnv)
-{
-    if(_sfTexObjChunk.getValue() != NULL)
-    {
-        Window *pWin = pEnv->getWindow();
-
-        glBindTexture(GL_TEXTURE_2D, 
-                      pWin->getGLObjectId(
-                          _sfTexObjChunk.getValue()->getGLId()));
-
-#if 0
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 
-                        _sfWidth .getValue(), 
-                        _sfHeight.getValue(), 
-                        GL_RGB,
-                        GL_FLOAT, 
-                        &(_mfPixel[0]));
-#endif
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 
-                        _sfWidth .getValue(), 
-                        _sfHeight.getValue(), 
-                        GL_RGB,
-                        GL_UNSIGNED_BYTE, 
-                        &(_mfPixel[0]));
-
-    }
-
-}
-
-void RTTextureTarget::changed(ConstFieldMaskArg whichField, 
-                              UInt32            origin,
-                              BitVector         details)
+void RTImageTarget::changed(ConstFieldMaskArg whichField, 
+                            UInt32            origin,
+                            BitVector         details  )
 {
     Inherited::changed(whichField, origin, details);
 }
 
-void RTTextureTarget::dump(      UInt32    ,
+void RTImageTarget::dump(      UInt32    ,
                          const BitVector ) const
 {
-    SLOG << "Dump RTTextureTarget NI" << std::endl;
+    SLOG << "Dump RTImageTarget NI" << std::endl;
+}
+
+void RTImageTarget::finalize(DrawEnv *pEnv)
+{
+    if(_sfImage.getValue() == NullFC)
+    {
+        _sfImage.setValue(Image::create());
+    }
+
+    ImagePtr pImage = _sfImage.getValue();
+
+/*
+    pImage->set(Image::OSG_RGB_PF ,
+                _sfWidth .getValue(), 
+                _sfHeight.getValue(), 
+                1,
+                1,
+                1,
+                0.0,
+                (const UInt8 *) &(_mfPixel[0]),
+                Image::OSG_FLOAT32_IMAGEDATA);
+ */
+    pImage->set(Image::OSG_RGB_PF ,
+                _sfWidth .getValue(), 
+                _sfHeight.getValue(), 
+                1,
+                1,
+                1,
+                0.0,
+                (const UInt8 *) &(_mfPixel[0]),
+                Image::OSG_UINT8_IMAGEDATA);
+
+    pImage->convertDataTypeTo(Image::OSG_UINT8_IMAGEDATA);
+
+    pImage->write("/tmp/foo.tif");
 }
 
 OSG_END_NAMESPACE

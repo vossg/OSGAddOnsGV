@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *             Copyright (C) 2000-2003 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,34 +36,83 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
-#ifdef __sgi
-#pragma once
-#endif
+OSG_BEGIN_NAMESPACE
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
 
-#include "OSGContribRRTDef.h"
 
-#include "OSGTriangleIterator.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRayTracerInst.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
-#ifdef OSG_CACHE_KD
-#include "OSGRTCacheKD.h"
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
+template<typename DescT> inline
+RTCacheBIHBase<DescT>::RTCacheBIHBase(void) :
+     Inherited       (    )
+{
+}
 
-#endif
+template<typename DescT> inline
+RTCacheBIHBase<DescT>::RTCacheBIHBase(const RTCacheBIHBase &source) :
+    Inherited(source)
+{
+}
+
+template<typename DescT> inline
+RTCacheBIHBase<DescT>::~RTCacheBIHBase(void)
+{
+}
+
+template<typename DescT> inline
+UInt32 RTCacheBIHBase<DescT>::getBinSize(ConstFieldMaskArg  whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    return returnValue;
+}
+
+template<typename DescT> inline
+void RTCacheBIHBase<DescT>::copyToBin(BinaryDataHandler &pMem,
+                                      ConstFieldMaskArg  whichField)
+{
+    Inherited::copyToBin(pMem, whichField);
+}
+
+template<typename DescT> inline
+void RTCacheBIHBase<DescT>::copyFromBin(BinaryDataHandler &pMem,
+                                        ConstFieldMaskArg  whichField)
+{
+    Inherited::copyFromBin(pMem, whichField);
+}
+
+
+OSG_ABSTR_FIELD_CONTAINER_TMPL_DEF  (RTCacheBIHBase, DescT)
+//OSG_RC_GET_STATIC_TYPE_INL_TMPL_DEF   (DynFieldAttachment, AttachmentDescT)
+OSG_RC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(RTCacheBIHBase, DescT)
+
+
+template<typename DescT> inline
+void RTCacheBIHBase<DescT>::execSync(      RTCacheBIHBase     *pFrom,
+                                           ConstFieldMaskArg   whichField,
+                                           AspectOffsetStore  &oOffsets,
+                                           ConstFieldMaskArg   syncMode  ,
+                                     const UInt32              uiSyncInfo)
+{
+    Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
+}
+
+
+template<typename DescT> inline
+RTBIHNode *RTCacheBIHBase<DescT>::buildInternalTree(void)
+{
+    BBoxStore vBounds;
+
+    initAccel(vBounds);
+
+    return NULL;
+}
+
+
+template<typename DescT> inline
+void RTCacheBIHBase<DescT>::initAccel(BBoxStore &vBounds)
+{
+    Inherited::initAccel(vBounds);
+}
+
+
+
+OSG_END_NAMESPACE

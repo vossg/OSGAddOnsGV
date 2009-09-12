@@ -36,86 +36,70 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTCACHEKD_H_
-#define _OSGRTCACHEKD_H_
+#ifndef _OSGRTCACHEBIH_H_
+#define _OSGRTCACHEBIH_H_
 #ifdef __sgi
 #pragma once
 #endif
-
-#include "OSGRTCacheKDBase.h"
-
-#include "OSGSFieldAdaptor.h"
-#include "OSGFieldContainerSFields.h"
-
-#include "OSGMFieldAdaptor.h"
-#include "OSGFieldContainerMFields.h"
-
-#include "stack"
-#include <boost/mpl/if.hpp>
+#include "OSGRTCacheBIHBase.h"
 
 OSG_BEGIN_NAMESPACE
 
-/*! Memory, simple reference counted memory object. Parent of
-    everything that should be shared, but must not be thread safe.
-    \ingroup GrpBaseBase
- */
-
 template<typename DescT>
-class RTCacheKD : public RTCacheKDBase<DescT>
+class RTCacheBIH : public RTCacheBIHBase<DescT>
 {
   protected:
 
-    struct KDStackElem;
-    struct KDSIMDStackElem;
+    struct BIHStackElem;
+    struct BIHSIMDStackElem;
 
     /*==========================  PUBLIC  =================================*/
 
   public:
 
-    typedef std::vector<KDStackElem>          KDFloatElemStack;
+    typedef std::vector<BIHStackElem>          BIHFloatElemStack;
 
-    typedef AlignedAllocator<KDSIMDStackElem> SIMDStackAllocator;
+    typedef AlignedAllocator<BIHSIMDStackElem> SIMDStackAllocator;
 
-    typedef std::vector<KDSIMDStackElem, 
-                        SIMDStackAllocator>   KDSIMDElemStack;
+    typedef std::vector<BIHSIMDStackElem, 
+                        SIMDStackAllocator>    BIHSIMDElemStack;
 
-    
     typedef typename
         boost::mpl::if_<boost::mpl::bool_<(DescT::SIMDMath == true)>,
-                        KDSIMDElemStack,
-                        KDFloatElemStack >::type        KDElemStack;
-    
-    typedef          KDElemStack                        ElemStack;
+                        BIHSIMDElemStack,
+                        BIHFloatElemStack >::type        BIHElemStack;
+
+
+    typedef          BIHElemStack                       ElemStack;
 
     typedef          DescT                              Desc;
-    typedef          RTCacheKD<DescT>                   Self;
+    typedef          RTCacheBIH<DescT>                  Self;
     
     typedef typename DescT::BasicRayPacket              BasicRayPacket;
     typedef typename DescT::BasicSIMDRayPacket          BasicSIMDRayPacket;
 
     OSG_GEN_INTERNALPTR(Self);
     
-    typedef          RTCacheKDBase<DescT>               Inherited;
+    typedef          RTCacheBIHBase<DescT>              Inherited;
     typedef typename Inherited::TypeObject              TypeObject;
     typedef typename TypeObject::InitPhase              InitPhase;
-    
+
     typedef          SFieldAdaptor<ObjPtr, 
                                    SFFieldContainerPtr> SField;
     typedef          MFieldAdaptor<ObjPtr, 
                                    MFFieldContainerPtr> MField;
 
-
     enum 
     { 
-        KDTreeFieldId         = Inherited::NextFieldId, 
-        NextFieldId           = KDTreeFieldId + 1
+        BIHTreeFieldId        = Inherited::NextFieldId, 
+        NextFieldId           = BIHTreeFieldId + 1
     };
 
-    static const BitVector KDTreeFieldMask        = 
+    static const BitVector BIHTreeFieldMask       = 
         Inherited::NextFieldMask;
 
     static const BitVector NextFieldMask          = 
-        KDTreeFieldMask << 1;
+        BIHTreeFieldMask << 1;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -142,18 +126,18 @@ class RTCacheKD : public RTCacheKDBase<DescT>
 
     void intersect            (BasicRayPacket     &oRay, 
                                RTHitPacket        &oHit,
-                               KDElemStack        &sKDToDoStack,
+                               BIHElemStack       &sKDToDoStack,
                                UInt32              uiCacheId   );
 
     void intersect            (BasicSIMDRayPacket &oRay, 
                                RTHitSIMDPacket    &oHit,
-                               KDElemStack        &sKDToDoStack,
+                               BIHElemStack       &sKDToDoStack,
                                UInt32              uiCacheId   ,
                                UInt32             *uiActive    );
 
     void intersectSingle      (BasicSIMDRayPacket &oRay, 
                                RTHitSIMDPacket    &oHit,
-                               KDElemStack        &sKDToDoStack,
+                               BIHElemStack       &sKDToDoStack,
                                UInt32              uiCacheId   ,
                                UInt32             *uiActive    );
 
@@ -162,30 +146,19 @@ class RTCacheKD : public RTCacheKDBase<DescT>
 
   protected:
 
-    typedef typename Inherited::IndexStore      IndexStore;
-    typedef typename Inherited::IndexIterator   IndexIterator;
-    typedef typename Inherited::IndexSize       IndexSize;
-    typedef typename Inherited::BBoxStore       BBoxStore;
-    typedef typename Inherited::BBoxEdge        BBoxEdge;
-    typedef typename Inherited::BBoxEdgeStore   BBoxEdgeStore;
-    typedef typename Inherited::BBoxEdgeStoreIt BBoxEdgeStoreIt;
-
-    typedef typename Inherited::PrimIdxStore    PrimIdxStore;
-
-
-    struct KDStackElem 
+    struct BIHStackElem 
     {
         Real32         tmin;
         Real32         tmax;
 
         union
         {
-            const RTCacheKDNode *node;
-                  UIntPointer    addr;
+            const RTCacheBIHNode *node;
+                  UIntPointer     addr;
         };
     };
 
-    struct KDSIMDStackElem 
+    struct BIHSIMDStackElem 
     {
         union
         {
@@ -201,21 +174,18 @@ class RTCacheKD : public RTCacheKDBase<DescT>
 
         union
         {
-            const RTCacheKDNode *node;
-                  unsigned int   addr;
+            const RTCacheBIHNode *node;
+                  unsigned int    addr;
         };
 
         unsigned int   pad0;
         unsigned int   pad1;
         unsigned int   pad2;
 
-        KDSIMDStackElem(void);
-        KDSIMDStackElem(const KDSIMDStackElem &source);
-        void operator =(const KDSIMDStackElem &source);
+        BIHSIMDStackElem(void);
+        BIHSIMDStackElem(const BIHSIMDStackElem &source);
+        void operator  =(const BIHSIMDStackElem &source);
     };
-
-    void flattenTree(RTKDNode *pLeft, 
-                     RTKDNode *pRight);
 
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
@@ -223,19 +193,14 @@ class RTCacheKD : public RTCacheKDBase<DescT>
 
     static TypeObject _type;
 
-    MFRTCacheKDNode   _mfKDTree;
-
-    UInt32             _uiNumAllocedNodes;
-    UInt32             _uiNextFreeNode;
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    RTCacheKD(void);
-    RTCacheKD(const RTCacheKD &source);
-    virtual ~RTCacheKD(void); 
+    RTCacheBIH(void);
+    RTCacheBIH(const RTCacheBIH &source);
+    virtual ~RTCacheBIH(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -262,8 +227,8 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    EditFieldHandlePtr editHandleKDTree(void);
-    GetFieldHandlePtr  getHandleKDTree (void) const;
+    EditFieldHandlePtr editHandleBIHTree(void);
+    GetFieldHandlePtr  getHandleBIHTree (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -277,7 +242,7 @@ class RTCacheKD : public RTCacheKDBase<DescT>
                                  ConstFieldMaskArg   syncMode  ,
                            const UInt32              uiSyncInfo);
 
-            void execSync (      RTCacheKD          *pFrom,
+            void execSync (      RTCacheBIH         *pFrom,
                                  ConstFieldMaskArg   whichField,
                                  AspectOffsetStore  &oOffsets,
                                  ConstFieldMaskArg   syncMode  ,
@@ -306,12 +271,12 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     friend class FieldContainer;
 
     /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const RTCacheKD &source);
+    void operator =(const RTCacheBIH &source);
 };
 
 template<typename DescT>
-struct FieldTraits<RTCacheKD<DescT> *> : 
-    public FieldTraitsFCPtrBase<RTCacheKD<DescT> *>
+struct FieldTraits<RTCacheBIH<DescT> *> : 
+    public FieldTraitsFCPtrBase<RTCacheBIH<DescT> *>
 {
   private:
 
@@ -319,7 +284,7 @@ struct FieldTraits<RTCacheKD<DescT> *> :
 
   public:
 
-    typedef FieldTraits<RTCacheKD<DescT> *>  Self;
+    typedef FieldTraits<RTCacheBIH<DescT> *>  Self;
 
 
     enum             { Convertible = Self::NotConvertible                  };
@@ -329,17 +294,17 @@ struct FieldTraits<RTCacheKD<DescT> *> :
 
     static const Char8    *getSName     (void) 
     { 
-        return DescT::getSFKDCacheName();
+        return DescT::getSFBIHCacheName();
     }
 
     static const Char8    *getMName     (void) 
     {
-        return DescT::getMFKDCacheName();
+        return DescT::getMFBIHCacheName();
     }
 };
 
 OSG_END_NAMESPACE
 
-#include "OSGRTCacheKD.inl"
+#include "OSGRTCacheBIH.inl"
 
-#endif /* _OSGRTCACHEKD_H_ */
+#endif /* _OSGRTCACHEBIH_H_ */

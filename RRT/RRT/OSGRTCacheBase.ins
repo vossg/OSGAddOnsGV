@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *           Copyright (C) 2003 by the OpenSG Forum                          *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,34 +36,65 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
-#ifdef __sgi
-#pragma once
-#endif
+OSG_BEGIN_NAMESPACE
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
+template <class DescT> inline
+void RTCacheBase<DescT>::classDescInserter(TypeObject &oType)
+{
+    FieldDescriptionBase *pDesc;
 
-#include "OSGContribRRTDef.h"
+    pDesc = new MFRTCacheGeometryStorePtr::Description(
+        MFRTCacheGeometryStorePtr::getClassType(),
+        "geoStore",
+        "",
+        OSG_RC_FIELD_DESC(Self::GeoStore),
+        false,
+        Field::MFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&Self::editHandleGeoStore),
+        static_cast<FieldGetMethodSig >(&Self::getHandleGeoStore ));
+        
+    oType.addInitialDesc(pDesc);
 
-#include "OSGTriangleIterator.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRayTracerInst.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
-#ifdef OSG_CACHE_KD
-#include "OSGRTCacheKD.h"
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
 
-#endif
+
+    pDesc = new typename MFTriangleAccel::Description(
+        MFTriangleAccel::getClassType(),
+        "triangleAccel",
+        "",
+        OSG_RC_FIELD_DESC(Self::TriangleAccel),
+        false,
+        Field::MFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&Self::editHandleTriangleAccel),
+        static_cast<FieldGetMethodSig >(&Self::getHandleTriangleAccel ));
+        
+    oType.addInitialDesc(pDesc);
+
+
+    pDesc = new SFBoxVolume::Description(
+        SFBoxVolume::getClassType(),
+        "boundingVolume",
+        "",
+        OSG_RC_FIELD_DESC(Self::BoundingVolume),
+        false,
+        Field::MFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&Self::editHandleBoundingVolume),
+        static_cast<FieldGetMethodSig >(&Self::getHandleBoundingVolume ));
+        
+    oType.addInitialDesc(pDesc);
+}
+
+template <typename DescT> 
+typename RTCacheBase<DescT>::TypeObject 
+    RTCacheBase<DescT>::_type(
+        Desc::getCacheBaseTypeName      (),
+        Desc::getCacheBaseParentTypeName(),
+        Desc::getCacheBaseGroupName     (),
+        0,
+        NULL,
+        NULL,
+        NULL,
+        (InitalInsertDescFunc) &Self::classDescInserter,
+        false,
+        0);                                 
+           
+OSG_END_NAMESPACE

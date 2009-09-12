@@ -42,14 +42,8 @@
 #pragma once
 #endif
 
-#include "OSGFieldContainer.h"
-#include "OSGContribRRTDef.h"
-#include "OSGLine.h"
-
-#include "OSGRTCacheGeometryStore.h"
-#include "OSGRTCacheGeometryStoreFields.h"
+#include "OSGRTCacheBase.h"
 #include "OSGRTCachePrimIdxStore.h"
-#include "OSGRTTriangleAccelFields.h"
 
 #include "OSGRTCacheKDNode.h"
 
@@ -63,9 +57,8 @@ OSG_BEGIN_NAMESPACE
  */
 
 template<typename DescT>
-class RTCacheKDBase : public FieldContainer
+class RTCacheKDBase : public RTCacheBase<DescT>
 {
-
     /*==========================  PUBLIC  =================================*/
 
   public:
@@ -78,7 +71,7 @@ class RTCacheKDBase : public FieldContainer
 
     OSG_GEN_INTERNALPTR(Self);
 
-    typedef          FieldContainer                       Inherited;
+    typedef          RTCacheBase<DescT>                   Inherited;
     typedef typename Inherited::TypeObject                TypeObject;
     typedef typename TypeObject::InitPhase                InitPhase;
 
@@ -87,52 +80,22 @@ class RTCacheKDBase : public FieldContainer
 
     enum 
     { 
-        GeoStoreFieldId       = Inherited::NextFieldId, 
-        TriangleAccelFieldId  = GeoStoreFieldId       + 1,
-        PrimIdxStoreFieldId   = TriangleAccelFieldId  + 1,
-        BoundingVolumeFieldId = PrimIdxStoreFieldId   + 1,
+        PrimIdxStoreFieldId   = Inherited::NextFieldId,
 
-        NextFieldId           = BoundingVolumeFieldId + 1
+        NextFieldId           = PrimIdxStoreFieldId + 1
     };
 
-    static const BitVector GeoStoreFieldMask        = 
-        Inherited::NextFieldMask;
-
-    static const BitVector TriangleAccelFieldMask   = 
-        GeoStoreFieldMask       << 1;
-    
     static const BitVector PrimIdxStoreFieldMask    = 
-        TriangleAccelFieldMask  << 1;
-
+        Inherited::NextFieldMask;
     
-    static const BitVector BoundingVolumeFieldMask  = 
-        PrimIdxStoreFieldMask   << 1;
-
     static const BitVector NextFieldMask            = 
-        BoundingVolumeFieldMask << 1;
+        PrimIdxStoreFieldMask << 1;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
  
     OSG_ABSTR_FIELD_CONTAINER_DECL;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
-    /*! \{                                                                 */
-
-    void addGeometry(GeometryPtr    pGeo,
-                     Matrixr       &oMatrix,
-                     State         *pState,
-                     StateOverride *pStateOverride);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
-    /*! \{                                                                 */
-
-    const GeometryStorePtr getGeoStore(UInt32 uiIndex);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -194,11 +157,7 @@ class RTCacheKDBase : public FieldContainer
     static const Int32         otherAxis[3][2];
     static       TypeObject   _type;
 
-    MFRTCacheGeometryStorePtr _mfGeos;
-    MFTriangleAccel           _mfTriangleAcc;
     MFRTCachePrimIdxStore     _mfPrimitives;
-
-    SFBoxVolume               _sfBoundingVolume;
 
 	Int32                     _iIsectCost;
 	Int32                     _iTravCost;
@@ -232,24 +191,8 @@ class RTCacheKDBase : public FieldContainer
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    void addGeoStore(RTCacheGeometryStorePtr pStore);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    EditFieldHandlePtr editHandleGeoStore      (void);
-    GetFieldHandlePtr  getHandleGeoStore       (void) const;
-
-    EditFieldHandlePtr editHandleTriangleAccel (void);
-    GetFieldHandlePtr  getHandleTriangleAccel  (void) const;
-
     EditFieldHandlePtr editHandlePrimIdxStore  (void);
     GetFieldHandlePtr  getHandlePrimIdxStore   (void) const;
-
-    EditFieldHandlePtr editHandleBoundingVolume(void);
-    GetFieldHandlePtr  getHandleBoundingVolume (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

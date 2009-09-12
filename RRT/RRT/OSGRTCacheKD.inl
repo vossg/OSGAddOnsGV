@@ -38,7 +38,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-
 template<typename DescT> inline
 RTCacheKD<DescT>::KDSIMDStackElem::KDSIMDStackElem(void)
 {
@@ -72,20 +71,20 @@ OSG_RC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(RTCacheKD, DescT)
 
 template<typename DescT> inline
 RTCacheKD<DescT>::RTCacheKD(void) :
-     Inherited    (    ),
-    _mfKDTree     (    ),
-     nAllocedNodes(   0),
-     nextFreeNode (   0)
+     Inherited        (    ),
+    _mfKDTree         (    ),
+    _uiNumAllocedNodes(   0),
+    _uiNextFreeNode   (   0)
 {
 }
 
 
 template<typename DescT> inline
 RTCacheKD<DescT>::RTCacheKD(const RTCacheKD &source) :
-     Inherited    (    ),
-    _mfKDTree     (    ),
-     nAllocedNodes(   0),
-     nextFreeNode (   0)
+     Inherited        (source),
+    _mfKDTree         (      ),
+    _uiNumAllocedNodes(     0),
+    _uiNextFreeNode   (     0)
 {
 }
 
@@ -203,7 +202,7 @@ void RTCacheKD<DescT>::execSync (
 template<typename DescT> inline
 void RTCacheKD<DescT>::buildStructure(void)
 {
-	nextFreeNode = nAllocedNodes = 0;
+	_uiNextFreeNode = _uiNumAllocedNodes = 0;
 
     RTKDNode *pKDTree = Inherited::buildInternalTree();
 
@@ -968,41 +967,41 @@ template<typename DescT> inline
 void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft, 
                                    RTKDNode *pRight)
 {
-	if(nAllocedNodes <= nextFreeNode + 2) 
+	if(_uiNumAllocedNodes <= _uiNextFreeNode + 2) 
     {
 		int nAlloc = osgMax(2 * _mfKDTree.size(), 512u);
 
         _mfKDTree.resize(nAlloc);
 
-		nAllocedNodes = nAlloc;
+		_uiNumAllocedNodes = nAlloc;
 	}
 
     if(pLeft == NULL)
     {
         if(pRight->isLeave() == true)
         {
-            ++nextFreeNode;
+            ++_uiNextFreeNode;
 
-            _mfKDTree[nextFreeNode].initLeaf(pRight, this->_mfPrimitives);
+            _mfKDTree[_uiNextFreeNode].initLeaf(pRight, this->_mfPrimitives);
 
             return;
         }
         else
         {
-            ++nextFreeNode;
+            ++_uiNextFreeNode;
 
-            _mfKDTree[nextFreeNode].initInterior(pRight);
-            _mfKDTree[nextFreeNode]._uiAboveChild = sizeof(RTCacheKDNode);
+            _mfKDTree[_uiNextFreeNode].initInterior(pRight);
+            _mfKDTree[_uiNextFreeNode]._uiAboveChild = sizeof(RTCacheKDNode);
 
-            ++nextFreeNode;
+            ++_uiNextFreeNode;
 
             flattenTree(pRight->getBelowChild(), pRight->getAboveChild());
         }
     }
     else
     {
-        UInt32 uiLeft  = nextFreeNode++;
-        UInt32 uiRight = nextFreeNode++;
+        UInt32 uiLeft  = _uiNextFreeNode++;
+        UInt32 uiRight = _uiNextFreeNode++;
 
 
         if(pLeft->isLeave() == false)
@@ -1023,7 +1022,7 @@ void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft,
             _mfKDTree[uiRight].initInterior(pRight);
 
             _mfKDTree[uiRight]._uiAboveChild = 
-                (nextFreeNode - uiRight) * sizeof(RTCacheKDNode);
+                (_uiNextFreeNode - uiRight) * sizeof(RTCacheKDNode);
 
             flattenTree(pRight->getBelowChild(), pRight->getAboveChild());
         }

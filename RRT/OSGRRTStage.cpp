@@ -52,6 +52,7 @@
 
 
 #include "OSGRTTextureTarget.h"
+#include "OSGRTImageTarget.h"
 
 #include "OSGRTHitTile.h"
 
@@ -74,8 +75,14 @@
 
 #include "OSGRTScene.h"
 #include "OSGRTLocalPacketManager.h"
+#ifdef OSG_CACHE_KD
 #include "OSGRTCacheKDVer1.h"
 #include "OSGRTCacheKD.h"
+#endif
+#ifdef OSG_CACHE_BIH
+#include "OSGRTCacheBIH.h"
+#endif
+
 #include "OSGRTTriangleAccel.h"
 #include "OSGRTTriangleAccelFields.h"
 
@@ -90,8 +97,16 @@
 
 #include "OSGRTCacheAttachmentInst.h"
 
+#include "OSGRTCacheBase.ins"
+
+#ifdef OSG_CACHE_KD
 #include "OSGRTCacheKDBase.ins"
 #include "OSGRTCacheKD.ins"
+#endif
+#ifdef OSG_CACHE_BIH
+#include "OSGRTCacheBIHBase.ins"
+#include "OSGRTCacheBIH.ins"
+#endif
 
 #include "OSGSFieldAdaptor.ins"
 #include "OSGMFieldAdaptor.ins"
@@ -125,14 +140,22 @@ OSG_RTSHADINGTHREAD_INST(RRTStage::SIMDPacketDesc,
 OSG_RTCOMBINEDTHREAD_INST(RRTStage::SIMDPacketDesc,
                          "RTCombinedThreadStageSIMDPacketDesc")
 
+static DataType SingleCacheBaseType(
+    "RTCacheBaseSinglePacketPtr",
+    "FieldContainerPtr");
 
+static DataType SIMDCacheBaseType(
+    "RTCacheBaseSIMDPacketPtr",
+    "FieldContainerPtr");
+
+#ifdef OSG_CACHE_KD
 static DataType SingleCacheKDBaseType(
     "RTCacheKDBaseSinglePacketPtr",
-    "FieldContainerPtr");
+    "RTCacheBaseSinglePacketPtr");
 
 static DataType SIMDCacheKDBaseType(
     "RTCacheKDBaseSIMDPacketPtr",
-    "FieldContainerPtr");
+    "RTCacheBaseSIMDPacketPtr");
 
 template<>
 DataType FieldTraits<RTCacheKD<RRTStage::SinglePacketDescBase> *>::_type(
@@ -157,10 +180,46 @@ DataType &
 {
     return _type;
 }
+#endif
+
+#ifdef OSG_CACHE_BIH
+static DataType SingleCacheBIHBaseType(
+    "RTCacheBIHBaseSinglePacketPtr",
+    "RTCacheBaseSinglePacketPtr");
+
+static DataType SIMDCacheBIHBaseType(
+    "RTCacheBIHBaseSIMDPacketPtr",
+    "RTCacheBaseSIMDPacketPtr");
+
+template<>
+DataType FieldTraits<RTCacheBIH<RRTStage::SinglePacketDescBase> *>::_type(
+    "RTCacheBIHSinglePacketPtr",
+    "RTCacheBIHBaseSinglePacketPtr");
+
+template<>
+DataType FieldTraits<RTCacheBIH<RRTStage::SIMDPacketDescBase> *>::_type(
+    "RTCacheBIHSIMDPacketPtr",
+    "RTCacheBIHBaseSinglePacketPtr");
+
+template<>
+DataType &
+    FieldTraits<RTCacheBIH<RRTStage::SinglePacketDescBase> *>::getType(void)
+{
+    return _type;
+}
+
+template<>
+DataType &
+    FieldTraits<RTCacheBIH<RRTStage::SIMDPacketDescBase> *>::getType(void)
+{
+    return _type;
+}
+#endif
 
 //OSG_FIELDTRAITS_GETTYPE (RTCacheKD<RRTStage::SinglePacketDescBase> *)
 //OSG_FIELDTRAITS_GETTYPE (RTCacheKD<RRTStage::SIMDPacketDescBase  > *)
 
+#ifdef OSG_CACHE_KD
 OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
                          RTCacheKD<RRTStage::SinglePacketDescBase> *, 
                          SFFieldContainerPtr);
@@ -176,6 +235,25 @@ OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor,
 OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
                          RTCacheKD<RRTStage::SIMDPacketDescBase> *, 
                          MFFieldContainerPtr);
+#endif
+
+#ifdef OSG_CACHE_BIH
+OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
+                         RTCacheBIH<RRTStage::SinglePacketDescBase> *, 
+                         SFFieldContainerPtr);
+
+OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
+                         RTCacheBIH<RRTStage::SinglePacketDescBase> *, 
+                         MFFieldContainerPtr);
+
+OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
+                         RTCacheBIH<RRTStage::SIMDPacketDescBase> *, 
+                         SFFieldContainerPtr);
+
+OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
+                         RTCacheBIH<RRTStage::SIMDPacketDescBase> *, 
+                         MFFieldContainerPtr);
+#endif
 
 #define OSG_FC_GET_TYPE_INST(CLASS, T) \
                                        \
@@ -200,11 +278,25 @@ CLASS < T >::TypeObject &              \
     return _type;                      \
 }
 
+OSG_FC_GET_TYPE_INST(RTCacheBase,   RRTStage::SIMDPacketDescBase)
+#ifdef OSG_CACHE_KD
 OSG_FC_GET_TYPE_INST(RTCacheKD,     RRTStage::SIMDPacketDescBase)
 OSG_FC_GET_TYPE_INST(RTCacheKDBase, RRTStage::SIMDPacketDescBase)
+#endif
+#ifdef OSG_CACHE_BIH
+OSG_FC_GET_TYPE_INST(RTCacheBIH,     RRTStage::SIMDPacketDescBase)
+OSG_FC_GET_TYPE_INST(RTCacheBIHBase, RRTStage::SIMDPacketDescBase)
+#endif
 
+OSG_FC_GET_TYPE_INST(RTCacheBase  , RRTStage::SinglePacketDescBase)
+#ifdef OSG_CACHE_KD
 OSG_FC_GET_TYPE_INST(RTCacheKD,     RRTStage::SinglePacketDescBase)
 OSG_FC_GET_TYPE_INST(RTCacheKDBase, RRTStage::SinglePacketDescBase)
+#endif
+#ifdef OSG_CACHE_BIH
+OSG_FC_GET_TYPE_INST(RTCacheBIH,     RRTStage::SinglePacketDescBase)
+OSG_FC_GET_TYPE_INST(RTCacheBIHBase, RRTStage::SinglePacketDescBase)
+#endif
 
 // Documentation for this class is emitted in the
 // OSGRRTStageBase.cpp file.
@@ -266,6 +358,8 @@ void RRTStage::changed(ConstFieldMaskArg whichField,
     Inherited::changed(whichField, origin, details);
 }
 
+#define RT_DEBUG_IMAGE
+
 void RRTStage::run(CameraP pCam,
                    NodePtr pRoot)
 {
@@ -286,6 +380,14 @@ void RRTStage::run(CameraP pCam,
 
             _pRayTracer->setTarget(pTexTarget);
         }
+#ifdef RT_DEBUG_IMAGE
+        else
+        {
+            RTImageTargetP pImgTarget = RTImageTarget::create();
+
+            _pRayTracer->setTarget(pImgTarget);
+        }
+#endif
 
 //        _pRayTracer->setRayTracingRoot(_sfRayTracingRoot.getValue());
 

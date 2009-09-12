@@ -53,14 +53,32 @@ UInt32 RTTarget::getHeight(void) const
     return Inherited::getHeight();
 }
 
+inline UInt8 clampConvert(Real32 rVal)
+{
+    if(rVal < 0.f)
+        rVal = 0.f;
+    
+    if(rVal > 1.f)
+        rVal = 1.f;
+
+    return UInt8(rVal * 255.f);
+}
+
+#define CLAMP_COLOR
 inline
 void RTTarget::markPixelHit(UInt32 uiX, UInt32 uiY)
 {
     UInt32 uiIdx = (uiY * _sfWidth.getValue() + uiX) * 3;
 
+#ifdef CLAMP_COLOR
+    _mfPixel[uiIdx    ] = clampConvert(0.8f);
+    _mfPixel[uiIdx + 1] = clampConvert(0.8f);
+    _mfPixel[uiIdx + 2] = clampConvert(0.8f);
+#else
     _mfPixel[uiIdx    ] = 0.8f;
     _mfPixel[uiIdx + 1] = 0.8f;
     _mfPixel[uiIdx + 2] = 0.8f;
+#endif
 }
 
 inline
@@ -68,11 +86,17 @@ void RTTarget::markPixelNotHit(UInt32 uiX, UInt32 uiY)
 {
     UInt32 uiIdx = (uiY * _sfWidth.getValue() + uiX) * 3;
 
+#ifdef CLAMP_COLOR
+    _mfPixel[uiIdx    ] = clampConvert(0.3f);
+    _mfPixel[uiIdx + 1] = clampConvert(0.8f);
+    _mfPixel[uiIdx + 2] = clampConvert(0.3f);
+#else
     _mfPixel[uiIdx    ] = 0.3f;
     _mfPixel[uiIdx + 1] = 0.8f;
     _mfPixel[uiIdx + 2] = 0.3f;
-
+#endif
 }
+
 
 inline
 void RTTarget::setPixel(UInt32 uiX, UInt32 uiY, RTColorPacket &oColor)
@@ -81,9 +105,15 @@ void RTTarget::setPixel(UInt32 uiX, UInt32 uiY, RTColorPacket &oColor)
 
     UInt32 uiIdx = (uiY * _sfWidth.getValue() + uiX) * 3;
 
+#ifdef CLAMP_COLOR
+    _mfPixel[uiIdx    ] = clampConvert(oColor.getColor()[0]);
+    _mfPixel[uiIdx + 1] = clampConvert(oColor.getColor()[1]);
+    _mfPixel[uiIdx + 2] = clampConvert(oColor.getColor()[2]);
+#else
     _mfPixel[uiIdx    ] = oColor.getColor()[0];
     _mfPixel[uiIdx + 1] = oColor.getColor()[1];
     _mfPixel[uiIdx + 2] = oColor.getColor()[2];
+#endif
 }
 
 inline
@@ -103,9 +133,18 @@ void RTTarget::setPixel(UInt32 uiX, UInt32 uiY, RTColorSIMDPacket &oColor)
 
             UInt32 uiIdx = (uiPixelY * _sfWidth.getValue() + uiPixelX) * 3;
 
+#ifdef CLAMP_COLOR
+            _mfPixel[uiIdx    ] = clampConvert(
+                oColor.getColor(uiPacketIndex)[0]);
+            _mfPixel[uiIdx + 1] = clampConvert(
+                oColor.getColor(uiPacketIndex)[1]);
+            _mfPixel[uiIdx + 2] = clampConvert(
+                oColor.getColor(uiPacketIndex)[2]);
+#else
             _mfPixel[uiIdx    ] = oColor.getColor(uiPacketIndex)[0];
             _mfPixel[uiIdx + 1] = oColor.getColor(uiPacketIndex)[1];
             _mfPixel[uiIdx + 2] = oColor.getColor(uiPacketIndex)[2];
+#endif
         }
     }
 }

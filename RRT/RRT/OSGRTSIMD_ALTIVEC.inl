@@ -36,34 +36,131 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
-#ifdef __sgi
-#pragma once
-#endif
+OSG_BEGIN_NAMESPACE
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
+inline
+Float4 osgSIMDMadd(const Float4 vM1, const Float4 vM2, const Float4 vS)
+{
+  return vec_madd(vM1, vM2, vS);
+}
 
-#include "OSGContribRRTDef.h"
+inline
+Float4 osgSIMDMul(const Float4 v1,  const Float4 v2)
+{
+  return vec_madd(v1, v2, SIMDZero);
+}
 
-#include "OSGTriangleIterator.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRayTracerInst.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
-#ifdef OSG_CACHE_KD
-#include "OSGRTCacheKD.h"
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
+inline
+Float4 osgSIMDAdd(const Float4 v1,  const Float4 v2)
+{
+    return vec_add(v1, v2);
+}
 
-#endif
+inline
+Float4 osgSIMDSub(const Float4 v1,  const Float4 v2)
+{
+    return vec_sub(v1, v2);
+}
+
+inline
+Float4 osgSIMDAnd(const Float4 v1,  const Float4 v2)
+{
+    return vec_and(v1, v2);
+}
+
+inline
+Float4 osgSIMDMax(const Float4 v1,  const Float4 v2)
+{
+    return vec_max(v1, v2);
+}
+
+inline
+Float4 osgSIMDMin(const Float4 v1,  const Float4 v2)
+{
+    return vec_min(v1, v2);
+}
+
+inline
+Float4 osgSIMDCmpGT(const Float4 v1, const Float4 v2)
+{
+  //vector bool int cmp = vec_cmpgt(v1, v2);
+  return (Float4) vec_cmpgt(v1, v2);
+}
+
+inline
+Float4 osgSIMDCmpGE(const Float4 v1, const Float4 v2)
+{
+  // vector bool int cmp = vec_cmpgt(v1, v2);
+  return (Float4) vec_cmpge(v1, v2);
+}
+
+inline
+Float4 osgSIMDCmpLT(const Float4 v1, const Float4 v2)
+{
+  //vector bool int cmp = vec_cmplt(v1, v2);
+  return (Float4) vec_cmplt(v1, v2);
+}
+
+inline
+Float4 osgSIMDCmpLE(const Float4 v1, const Float4 v2)
+{
+  //vector bool int cmp = vec_cmple(v1, v2);
+  return (Float4) vec_cmple(v1, v2);
+}
+
+inline
+Float4 osgSIMDRSqrtE(const Float4 v)
+{
+    return vec_rsqrte(v);
+}
+
+inline
+Float4 osgSIMDInvert(const Float4 v)
+{
+  const Float4 re = vec_re(v);
+
+  return vec_sub(vec_add(re, re),
+		 vec_madd(vec_madd(re, re, SIMDZero),
+			  v, SIMDZero));
+}
+
+inline
+Int32  osgSIMDMoveMask(const Float4 v)
+{
+  vector bool int cmp = vec_cmplt(v, SIMDZero);
+
+  vector unsigned int resi = vec_and((vector unsigned int)cmp,
+                                     (vector unsigned int) {1<<0,
+                                                            1<<1,
+                                                            1<<2,
+                                                            1<<3} );
+
+  vector signed int res = vec_sums((vector signed int)resi, 
+                                   (vector signed int)SIMDZero);
+
+  return vec_extract(res, 3);
+}
+
+inline
+Float4 osgSIMDSet(const Real32 rVal)
+{
+    return (vector float) {rVal, rVal, rVal, rVal};
+}
+
+inline
+Float4 osgSIMDSet(const Real32 rVal0,
+                  const Real32 rVal1,
+                  const Real32 rVal2,
+                  const Real32 rVal3)
+{
+//  return (vector float){rVal0, rVal1, rVal2, rVal3};
+  return (vector float){rVal3, rVal2, rVal1, rVal0};
+}
+
+inline
+Float4 osgSIMDUpdate(const Float4 mask, const Float4 v1, const Float4 v2)
+{
+    return vec_or(vec_and(v1, mask), vec_andc(v2, mask));
+}
+
+OSG_END_NAMESPACE

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *             Copyright (C) 2000-2003 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,156 +36,157 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTTARGET_H_
-#define _OSGRTTARGET_H_
+#ifndef _OSGRTCACHEBIHBASE_H_
+#define _OSGRTCACHEBIHBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGRTTargetBase.h"
+#include "OSGRTCacheBase.h"
+#include "OSGRTCachePrimIdxStore.h"
 
-#include "OSGRTColorPacket.h"
-#include "OSGRTColorSIMDPacket.h"
+#include "OSGRTCacheBIHNode.h"
+
+#include <boost/bind.hpp>
 
 OSG_BEGIN_NAMESPACE
 
-class DrawEnv;
+/*! Memory, simple reference counted memory object. Parent of
+    everything that should be shared, but must not be thread safe.
+    \ingroup GrpBaseBase
+ */
 
-/*! \brief RTTarget class. See \ref
-           PageContribRRTRTTarget for a description.
-*/
-
-class OSG_CONTRIBRRT_DLLMAPPING RTTarget : public RTTargetBase
+template<typename DescT>
+class RTCacheBIHBase : public RTCacheBase<DescT>
 {
-  protected:
 
     /*==========================  PUBLIC  =================================*/
 
   public:
 
-    typedef RTTargetBase Inherited;
-    typedef RTTarget     Self;
+    typedef          DescT                                Desc;
+    typedef typename Desc::TriangleAccel                  TriangleAccel;
+    typedef typename Desc::MFTriangleAccel                MFTriangleAccel;
+
+    typedef          RTCacheBIHBase<DescT>                Self;
+
+    OSG_GEN_INTERNALPTR(Self);
+
+    typedef          RTCacheBase<DescT>                   Inherited;
+    typedef typename Inherited::TypeObject                TypeObject;
+    typedef typename TypeObject::InitPhase                InitPhase;
+
+    typedef          RTCacheGeometryStore                 GeometryStore;
+    typedef          RTCacheGeometryStorePtr              GeometryStorePtr;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
+    /*! \name                   Constructors                               */
     /*! \{                                                                 */
-
-    virtual void finalize(DrawEnv *pEnv);
+ 
+    OSG_ABSTR_FIELD_CONTAINER_DECL;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
+    /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    void resize(UInt32 uiWidth, UInt32 uiHeight);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
+    /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
-
-    UInt32 getWidth (void) const;
-    UInt32 getHeight(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
+    /*! \name                   Constructors                               */
     /*! \{                                                                 */
-
-    void markPixelHit   (UInt32 uiX, UInt32 uiY);
-    void markPixelNotHit(UInt32 uiX, UInt32 uiY);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    void setPixel(UInt32 uiX, UInt32 uiY, RTColorPacket     &oColor);
-    void setPixel(UInt32 uiX, UInt32 uiY, RTColorSIMDPacket &oColor);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    virtual void changed(ConstFieldMaskArg whichField,
-                         UInt32            origin,
-                         BitVector         details   );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
-    /*! \{                                                                 */
-
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector  bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    void startFrame(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
 
-    // Variables should all be in RTTargetBase.
+    typedef          std::vector<BoxVolume>             BBoxStore;
 
-    //std::vector<Real32> _mfPixel;
-    std::vector<UInt8> _mfPixel;
+    RTBIHNode *buildInternalTree(void              );
+    void       initAccel        (BBoxStore &vBounds);
 
     /*---------------------------------------------------------------------*/
-    /*! \name                  Constructors                                */
+    /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    RTTarget(void);
-    RTTarget(const RTTarget &source);
+    static       TypeObject   _type;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~RTTarget(void);
+    RTCacheBIHBase(void);
+    RTCacheBIHBase(const RTCacheBIHBase &source);
+
+    virtual ~RTCacheBIHBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Init                                    */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-            void onCreate       (const RTTarget *source = NULL);
-    virtual void onDestroy      (      UInt32    uiContainerId);
+    virtual UInt32 getBinSize (ConstFieldMaskArg  whichField);
+    virtual void   copyToBin  (BinaryDataHandler &pMem,
+                               ConstFieldMaskArg  whichField);
+    virtual void   copyFromBin(BinaryDataHandler &pMem,
+                               ConstFieldMaskArg  whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Init                                    */
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+#ifdef OSG_MT_CPTR_ASPECT
+            void execSync (      RTCacheBIHBase     *pFrom,
+                                 ConstFieldMaskArg   whichField,
+                                 AspectOffsetStore  &oOffsets,
+                                 ConstFieldMaskArg   syncMode  ,
+                           const UInt32              uiSyncInfo);
+#endif
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    static void classDescInserter(TypeObject &oType);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Init                                   */
     /*! \{                                                                 */
 
     static void initMethod(InitPhase ePhase);
 
     /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
+   /*==========================  PRIVATE  ================================*/
 
   private:
 
-    friend class FieldBundle;
-    friend class RTTargetBase;
+    friend class FieldContainer;
 
-    // prohibit default functions (move to 'public' if you need one)
-    void operator =(const RTTarget &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const RTCacheBIHBase &source);
 };
 
 OSG_END_NAMESPACE
 
-#include "OSGRTTargetBase.inl"
-#include "OSGRTTarget.inl"
+#include "OSGRTCacheBIHBase.inl"
 
-#endif /* _OSGRTTARGET_H_ */
+#endif /* _OSGRTCACHEBIHBASE_H_ */
