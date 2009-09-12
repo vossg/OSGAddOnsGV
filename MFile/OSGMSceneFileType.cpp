@@ -58,16 +58,16 @@
 #include "OSGGeometry.h"
 #include "OSGTypedGeoVectorProperty.h"
 #include "OSGTypedGeoIntegralProperty.h"
-#ifndef OSG_WINCE
+#ifndef OSG_EMBEDDED
 #include "OSGGeoFunctions.h"
 #endif
 #include "OSGSimpleTexturedMaterial.h"
-#ifndef OSG_WINCE
+#ifndef OSG_EMBEDDED
 #include "OSGImageFileHandler.h"
 #include "OSGPathHandler.h"
 #endif
 #include "OSGGroup.h"
-#ifndef OSG_WINCE
+#ifndef OSG_EMBEDDED
 #include "OSGSceneFileHandler.h"
 #endif
 #include "OSGTriangleIterator.h"
@@ -400,7 +400,7 @@ NodePtr MSceneFileType::read(std::istream &is, const Char8 *) const
             }
             else
             {
-#ifndef OSG_WINCE
+#ifndef OSG_EMBEDDED
 				SceneFileHandler::the()->updateReadProgress();
 #endif
                 elemI = _dataElemMap.find(elem);
@@ -663,7 +663,7 @@ NodePtr MSceneFileType::read(std::istream &is, const Char8 *) const
                 // check if we have normals
                 // need to port the geometry functions ...
 
-#ifndef OSG_WINCE
+#ifndef OSG_EMBEDDED
 				if(geoPtr->getNormals() == NullFC)
                     calcVertexNormals(geoPtr);
 #endif
@@ -693,7 +693,7 @@ NodePtr MSceneFileType::read(std::istream &is, const Char8 *) const
         }
     }
 
-#ifndef OSG_WINCE
+#ifndef OSG_EMBEDDED
 	SceneFileHandler::the()->updateReadProgress(100);
 #endif
 #endif
