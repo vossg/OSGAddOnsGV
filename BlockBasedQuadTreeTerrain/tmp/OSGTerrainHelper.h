@@ -210,6 +210,11 @@ class ImageBlockAccessor
                       int     iTextureSize,
                       UInt16 *pTarget,
                       int     iTargetSizeBytes);
+
+    bool readBlockA16(Vec2i   vSampleOrigin,
+                      int     iTextureSize,
+                      Int16  *pTarget,
+                      int     iTargetSizeBytes);
                       
 };
 

@@ -44,9 +44,63 @@
 
 #include "OSGBbqOutOfCoreDataSourceBase.h"
 #include "OSGBbqResidualCompression.h"
+#include "OSGBbqTerrainNode.h"
 
 
 OSG_BEGIN_NAMESPACE
+
+template<class HeightType, class HeightDeltaType, class TextureType>
+class BbqOutOfCoreEngine : public BbqDataSourceEngine
+{
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    typedef BbqDataSourceEngine Inherited;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Constructor                               */
+    /*! \{                                                                 */
+
+    BbqOutOfCoreEngine(void);
+    virtual ~BbqOutOfCoreEngine(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+    
+    bool initialize(const std::string &szFilename, 
+                          Real32       fHeightScale, 
+                          Real32       fHeightOffset, 
+                          Real32       fSampleSpacing);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual bool onLoadNodeData(BbqTerrainNodeBase &oNode);
+
+    /*! \}                                                                 */
+    /*==========================  PROTECTRED  =============================*/
+
+  protected:
+
+    BbqFileReader                _oInput;
+    BbqFile::BbqFileHeader       _oHeader;
+    std::vector<BbqFileNode>     _oStaticNodeData;
+    ResidualDecompressor         _oResidualDecompressor;
+    std::vector<HeightDeltaType> _vResidualBuffer; // Int16
+
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+};
 
 /*! \brief BbqOutOfCoreDataSource class. See \ref
            PageDrawableBbqOutOfCoreDataSource for a description.
@@ -92,12 +146,6 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSource :
 
   protected:
 
-    BbqFileReader            _oInput;
-    BbqFile::BbqFileHeader   _oHeader;
-    std::vector<BbqFileNode> _oStaticNodeData;
-    ResidualDecompressor     _oResidualDecompressor;
-    std::vector<Int16>       _vResidualBuffer;
-
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
@@ -123,8 +171,6 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSource :
     /*---------------------------------------------------------------------*/
     /*! \name                      Init                                    */
     /*! \{                                                                 */
-
-    virtual bool onLoadNodeData(BbqTerrainNode &oNode);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

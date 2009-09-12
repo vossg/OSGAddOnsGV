@@ -59,8 +59,6 @@ OSG_BEGIN_NAMESPACE
 
 //-----------------------------------------------------------------------------
 
-struct BbqTerrainNode;
-
 template<typename T, BbqRenderCacheType CacheType> 
 class BbqRenderCache
 {
@@ -128,7 +126,7 @@ class BbqRenderCache
         return _vEntries[i].oData;
     }
     
-    T *getEntry(const BbqTerrainNode *pNode)
+    T *getEntry(const BbqTerrainNodeBase *pNode)
     {
         assert(pNode);
 
@@ -148,7 +146,7 @@ class BbqRenderCache
         }
     }
     
-    T *getNewEntry(const BbqTerrainNode *pNode)
+    T *getNewEntry(const BbqTerrainNodeBase *pNode)
     {
         assert(pNode);
         
@@ -241,10 +239,10 @@ class BbqRenderCache
         {
         }
 
-              T               oData;
-              Entry          *pNext;
-              Entry          *pPrev;
-        const BbqTerrainNode *pNode;
+              T                   oData;
+              Entry              *pNext;
+              Entry              *pPrev;
+        const BbqTerrainNodeBase *pNode;
     };
 
     std::vector<Entry>  _vEntries;

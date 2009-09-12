@@ -63,8 +63,9 @@ int main( int argc, char** argv )
     int textureSize = 128;
 
     std::string heightFieldFilename = "data/ps_height_1k.png";
-//  std::string heightFieldFilename = "data/Z_70_22.TIF";
+//    std::string heightFieldFilename = "data/Z_70_22.GTIF";
     std::string textureFilename     = "data/ps_texture_1k.png";
+//    std::string textureFilename     = "data/ps_texture_6k.png";
     std::string bbqTerrainFilename  = "data/ps.bbq";
 
 

@@ -40,4 +40,20 @@
 
 OSG_BEGIN_NAMESPACE
 
+template<class HeightType, class HeightDeltaType, class TextureType> inline
+BbqTerrainEngine<HeightType, 
+                 HeightDeltaType, 
+                 TextureType    >::BbqTerrainEngine(void) :
+
+                     Inherited()
+{
+}
+
+template<class HeightType, class HeightDeltaType, class TextureType> inline
+BbqTerrainEngine<HeightType, 
+                 HeightDeltaType, 
+                 TextureType    >::~BbqTerrainEngine(void)
+{
+}
+
 OSG_END_NAMESPACE

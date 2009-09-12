@@ -81,7 +81,7 @@ void ResidualCompression::quantize(Int16 *pData,
                                    size_t uiDataSize, 
                                    Int32  iQualityFactor)
 {
-    const float step    = ( 000.0f / (Real32) iQualityFactor);
+    const float step    = ( 1000.0f / (Real32) iQualityFactor);
     const float invStep = 1.0f / step;
     
     for(size_t i = 0; i < uiDataSize; ++i)

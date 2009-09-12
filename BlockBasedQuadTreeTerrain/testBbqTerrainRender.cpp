@@ -468,7 +468,8 @@ int main (int argc, char **argv)
 
     BbqOutOfCoreDataSourcePtr pSource = BbqOutOfCoreDataSource::create();
 
-    pSource->setFilename("data/ps_com.bbq");
+//    pSource->setFilename("data/ps_com.bbq");
+    pSource->setFilename("data/ps.bbq");
 
     pSource->setHeightScale  (650.0f);
     pSource->setHeightOffset (0.0f  );

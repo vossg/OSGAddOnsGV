@@ -102,6 +102,8 @@ class BbqOpenGLTerrainRenderer
 
   public:
 
+    typedef BbqTerrainNodeBase BbqBaseNode;
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Constructor                               */
     /*! \{                                                                 */
@@ -117,7 +119,7 @@ class BbqOpenGLTerrainRenderer
     bool initialize(const BbqDataSourceInformation &databaseInfo);
     void shutdown  (                                            );
     
-    void render    (      BbqTerrainNode           *rootNode, 
+    void render    (      BbqBaseNode              *rootNode, 
                     const BbqRenderOptions         &options     );
     
     /*! \}                                                                 */
@@ -136,35 +138,35 @@ class BbqOpenGLTerrainRenderer
 
   private:
 
-    BbqDataSourceInformation      databaseInfo_;
+    BbqDataSourceInformation          databaseInfo_;
     
-    std::vector<BbqTerrainNode *> traversalStack_;
+    std::vector<BbqBaseNode *>        traversalStack_;
     
     // the one and only index buffer for all blocks.
-    std::vector<UInt16>           staticIndices_;
+    std::vector<UInt16>               staticIndices_;
 
-    OpenGLGpuBuffer               staticIndexBuffer_;
+    OpenGLGpuBuffer                   staticIndexBuffer_;
 
-    std::vector<UInt16>           staticVertexData_;
-    OpenGLGpuBuffer               staticVertxBuffer_;
+    std::vector<UInt16>               staticVertexData_;
+    OpenGLGpuBuffer                   staticVertxBuffer_;
     
-    OpenGLShader                  terrainShader_;
-    BbqRenderStatistics           statistics_;
+    OpenGLShader                      terrainShader_;
+    BbqRenderStatistics               statistics_;
     
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    void renderNodeVbo    (const BbqTerrainNode   *node, 
-                                 bool              renderSkirts,
-                           const BbqRenderOptions &options     );
+    void renderNodeVbo    (const BbqBaseNode        *node, 
+                                 bool                renderSkirts,
+                           const BbqRenderOptions   &options     );
 
-    void renderBoundingBox(const BoxVolume        &box,
-                           const BbqRenderOptions &options     );
+    void renderBoundingBox(const BoxVolume          &box,
+                           const BbqRenderOptions   &options     );
 
-    void renderSphere     (const Pnt3f            &center, 
-                                 Real32            radius,
-                           const BbqRenderOptions &options     );
+    void renderSphere     (const Pnt3f              &center, 
+                                 Real32              radius,
+                           const BbqRenderOptions   &options     );
     
 
     //void renderNodeNonVbo( const BbqTerrainNode* node );
@@ -174,22 +176,22 @@ class BbqOpenGLTerrainRenderer
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    void calculateTextureParameters(const BbqTerrainNode *node, 
-                                    const BbqTerrainNode *parentNode, 
-                                          Vec2f          &texCoordOffset, 
-                                          Vec2f          &texCoordScale );
+    void calculateTextureParameters(const BbqBaseNode *node, 
+                                    const BbqBaseNode *parentNode, 
+                                          Vec2f       &texCoordOffset, 
+                                          Vec2f       &texCoordScale );
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    OpenGLTexture *findParentTexture(const BbqTerrainNode * node, 
-                                     const BbqTerrainNode *&textureNode,
-                                           DrawEnv        * pEnv);
+    OpenGLTexture *findParentTexture(const BbqBaseNode * node, 
+                                     const BbqBaseNode *&textureNode,
+                                           DrawEnv     * pEnv);
 
-    void           activateTextures(const BbqTerrainNode  * node,
-                                          DrawEnv         * pDrawEnv);
+    void           activateTextures(const BbqBaseNode  * node,
+                                          DrawEnv      * pDrawEnv);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -206,19 +208,19 @@ class BbqOpenGLTerrainRenderer
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    OpenGLTexture   *uploadTexture   (const BbqTerrainNode *node,
-                                            DrawEnv        *pEnv);
-    OpenGLGpuBuffer *uploadHeightData(const BbqTerrainNode *node);
+    OpenGLTexture   *uploadTexture   (const BbqBaseNode *node,
+                                            DrawEnv     *pEnv);
+    OpenGLGpuBuffer *uploadHeightData(const BbqBaseNode *node);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    void setGeoMorphingFactor(const BbqTerrainNode      *node  );
+    void setGeoMorphingFactor(const BbqBaseNode         *node  );
     
     void prepareHeightData   (      std::vector<Real32> &target, 
-                              const BbqTerrainNode      *node  );
+                              const BbqBaseNode         *node  );
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

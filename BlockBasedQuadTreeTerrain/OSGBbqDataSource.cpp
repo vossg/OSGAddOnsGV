@@ -55,6 +55,58 @@ OSG_BEGIN_NAMESPACE
 // To modify it, please change the .fcd file (OSGBbqDataSource.fcd) and
 // regenerate the base file.
 
+BbqDataSourceEngine::BbqDataSourceEngine(void) :
+    _oInformation()
+{
+}
+
+BbqDataSourceEngine::~BbqDataSourceEngine(void)
+{
+}
+
+void BbqDataSourceEngine::computeBoundingBox(
+    BbqTerrainNodeBase &oNode, 
+    Real32              fMinHeightSample, 
+    Real32              fMaxHeightSample)
+{
+    const Real32 blockDimension = (Real32)(_oInformation.heightTileSize - 1);
+
+    const Vec2f objectBlockScale = 
+        Vec2f(_oInformation.sampleSpacing * oNode.blockScale, 
+              _oInformation.sampleSpacing * oNode.blockScale);
+
+    const Vec2f objectBlockOffset = 
+        _oInformation.sampleSpacing * oNode.blockOrigin;
+
+    
+    const Vec2f objectBlockSize(blockDimension * objectBlockScale.x(), 
+                                blockDimension * objectBlockScale.y());
+    
+    const Vec3f boxMin( 
+        objectBlockOffset.x(), 
+        fMinHeightSample * _oInformation.heightScale + 
+                           _oInformation.heightOffset, 
+        objectBlockOffset.y() );
+
+    const Vec3f boxMax(objectBlockOffset.x() + objectBlockSize.x(), 
+                       fMaxHeightSample * _oInformation.heightScale + 
+                                          _oInformation.heightOffset,
+                       objectBlockOffset.y() + objectBlockSize.y() );
+    
+    oNode.boundingBox.setBounds(boxMin, boxMax);
+}
+
+const BbqDataSourceInformation &BbqDataSourceEngine::getInformation(void) const
+{
+    return _oInformation;
+}
+
+Image::Type BbqDataSourceEngine::getHeightType(void) const
+{
+    return _oInformation.heightType;
+}
+
+
 /***************************************************************************\
  *                           Class variables                               *
 \***************************************************************************/
@@ -84,17 +136,20 @@ void BbqDataSource::initMethod(InitPhase ePhase)
 /*----------------------- constructors & destructors ----------------------*/
 
 BbqDataSource::BbqDataSource(void) :
-    Inherited()
+     Inherited(    ),
+    _pEngine  (NULL)
 {
 }
 
 BbqDataSource::BbqDataSource(const BbqDataSource &source) :
-    Inherited(source)
+     Inherited(source),
+    _pEngine  (NULL  )
 {
 }
 
 BbqDataSource::~BbqDataSource(void)
 {
+    delete _pEngine;
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -114,44 +169,28 @@ void BbqDataSource::dump(      UInt32    ,
 
 const BbqDataSourceInformation &BbqDataSource::getInformation(void) const
 {
-    return _oInformation;
+    if(_pEngine != NULL)
+        return _pEngine->getInformation();
+
+    return BbqDataSourceInformation();
 }
 
-bool BbqDataSource::loadNodeData(BbqTerrainNode &oNode)
+Image::Type BbqDataSource::getHeightType(void) const
 {
-    return onLoadNodeData(oNode);
+    if(_pEngine != NULL)
+        return _pEngine->getHeightType();
+
+    return Image::OSG_INVALID_IMAGEDATATYPE;
 }
 
-void BbqDataSource::computeBoundingBox(BbqTerrainNode &oNode, 
-                                       Real32          fMinHeightSample, 
-                                       Real32          fMaxHeightSample)
+bool BbqDataSource::loadNodeData(BbqTerrainNodeBase &oNode)
 {
-    const Real32 blockDimension = (Real32)(_oInformation.heightTileSize - 1);
-
-    const Vec2f objectBlockScale = 
-        Vec2f(_oInformation.sampleSpacing * oNode.blockScale, 
-              _oInformation.sampleSpacing * oNode.blockScale);
-
-    const Vec2f objectBlockOffset = 
-        _oInformation.sampleSpacing * oNode.blockOrigin;
-
-    
-    const Vec2f objectBlockSize(blockDimension * objectBlockScale.x(), 
-                                blockDimension * objectBlockScale.y());
-    
-    const Vec3f boxMin( 
-        objectBlockOffset.x(), 
-        fMinHeightSample * _oInformation.heightScale + 
-                           _oInformation.heightOffset, 
-        objectBlockOffset.y() );
-
-    const Vec3f boxMax(objectBlockOffset.x() + objectBlockSize.x(), 
-                       fMaxHeightSample * _oInformation.heightScale + 
-                                          _oInformation.heightOffset,
-                       objectBlockOffset.y() + objectBlockSize.y() );
-    
-    oNode.boundingBox.setBounds(boxMin, boxMax);
+    if(_pEngine != NULL)
+        return _pEngine->onLoadNodeData(oNode);
+    else
+        return false;
 }
+
 
 
 OSG_END_NAMESPACE

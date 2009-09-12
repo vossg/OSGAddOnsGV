@@ -566,7 +566,7 @@ void BbqOpenGLTerrainRenderer::shutdown(void)
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::render(      BbqTerrainNode   *rootNode, 
+void BbqOpenGLTerrainRenderer::render(      BbqBaseNode      *rootNode, 
                                       const BbqRenderOptions &options )
 {
     statistics_.nodeCount       = 0;
@@ -581,7 +581,7 @@ void BbqOpenGLTerrainRenderer::render(      BbqTerrainNode   *rootNode,
 
     while(!traversalStack_.empty())
     {
-        BbqTerrainNode *node = traversalStack_.back();
+        BbqBaseNode *node = traversalStack_.back();
 
         assert(node);
         
@@ -788,7 +788,8 @@ const BbqRenderStatistics& BbqOpenGLTerrainRenderer::getStatistics(void) const
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::setGeoMorphingFactor(const BbqTerrainNode *node)
+void BbqOpenGLTerrainRenderer::setGeoMorphingFactor(
+    const BbqBaseNode *node)
 {
     if(node->parent)
     {
@@ -806,7 +807,7 @@ void BbqOpenGLTerrainRenderer::setGeoMorphingFactor(const BbqTerrainNode *node)
 
 
 void BbqOpenGLTerrainRenderer::renderNodeVbo(
-    const BbqTerrainNode   *node, 
+    const BbqBaseNode      *node, 
           bool              renderSkirts,
     const BbqRenderOptions &options  )
 {
@@ -981,8 +982,8 @@ void BbqOpenGLTerrainRenderer::shutdownRenderCache()
 
 
 OpenGLTexture* BbqOpenGLTerrainRenderer::uploadTexture( 
-    const BbqTerrainNode* node,
-    DrawEnv *pEnv)
+    const BbqBaseNode *node,
+    DrawEnv                  *pEnv)
 {
     //Profile( uploadTexture );
     // todo: prevent cache trashing (switch from lru to mru if we detect a
@@ -1032,7 +1033,7 @@ OpenGLTexture* BbqOpenGLTerrainRenderer::uploadTexture(
 
 
 OpenGLGpuBuffer* BbqOpenGLTerrainRenderer::uploadHeightData( 
-    const BbqTerrainNode* node )
+    const BbqBaseNode *node )
 {
 //    Profile( uploadHeightData );
     // todo: prevent cache trashing (switch from lru to mru if we detect a
@@ -1141,8 +1142,8 @@ void BbqOpenGLTerrainRenderer::renderSphere( const Pnt3f& center,
 
 
 void BbqOpenGLTerrainRenderer::calculateTextureParameters( 
-    const BbqTerrainNode* node, 
-    const BbqTerrainNode* textureNode, 
+    const BbqBaseNode  *node, 
+    const BbqBaseNode  *textureNode, 
     Vec2f& texCoordOffset, 
     Vec2f& texCoordScale )
 {
@@ -1190,12 +1191,13 @@ void BbqOpenGLTerrainRenderer::calculateTextureParameters(
 
 
 OpenGLTexture* BbqOpenGLTerrainRenderer::findParentTexture( 
-    const BbqTerrainNode* node, const BbqTerrainNode*& textureNode,
-    DrawEnv *pEnv)
+    const BbqBaseNode * node, 
+    const BbqBaseNode *&textureNode,
+          DrawEnv     * pEnv)
 {
     // find a parent with a texture:
-    BbqTerrainNode* currentNode = node->parent;
-    OpenGLTexture* texture = 0;
+    BbqBaseNode   *currentNode = node->parent;
+    OpenGLTexture *texture = 0;
     
     while( currentNode )
     {
@@ -1219,7 +1221,7 @@ OpenGLTexture* BbqOpenGLTerrainRenderer::findParentTexture(
 //-----------------------------------------------------------------------------
 
 
-void BbqOpenGLTerrainRenderer::activateTextures(const BbqTerrainNode *node,
+void BbqOpenGLTerrainRenderer::activateTextures(const BbqBaseNode *node,
                                                 DrawEnv *pEnv)
 {
 //    Profile( activateTextures );
@@ -1257,7 +1259,7 @@ void BbqOpenGLTerrainRenderer::activateTextures(const BbqTerrainNode *node,
     else
     {
         // find a parent with a texture:
-        const BbqTerrainNode* parentNode = 0;
+        const BbqBaseNode* parentNode = 0;
         texture         = findParentTexture( node, parentNode, pEnv );
         
         if( texture )
@@ -1270,7 +1272,7 @@ void BbqOpenGLTerrainRenderer::activateTextures(const BbqTerrainNode *node,
         
         if( parentNode && parentNode->parent )
         {
-            const BbqTerrainNode* coarserParentNode = 0;
+            const BbqBaseNode* coarserParentNode = 0;
             
             coarserTexture = findParentTexture( parentNode,
                                                 coarserParentNode, pEnv );
@@ -1402,7 +1404,7 @@ void BbqOpenGLTerrainRenderer::activateTextures(const BbqTerrainNode *node,
 
 
 void BbqOpenGLTerrainRenderer::prepareHeightData( 
-    std::vector< float >& target, const BbqTerrainNode* node )
+    std::vector< float >& target, const BbqBaseNode *node )
 {
     //todo: we should use the 16bit unsigned short data directly (without
     //conversion) 

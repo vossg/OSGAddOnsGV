@@ -49,95 +49,41 @@
 
 OSG_BEGIN_NAMESPACE
 
-//-----------------------------------------------------------------------------
 
-
-BbqTerrainCreator::BbqTerrainCreator(void) :
-    _oCreationDataAllocator(    ),
+BbqCreateEngineBase::BbqCreateEngineBase(void):
     _iTileSize             (   0),
     _iTextureSize          (   0),
     _iLevelCount           (   0),
     _iTextureLeafLevel     (   0),
     _vHeightSampleCount    (0, 0),
     _vTextureSampleCount   (0, 0),
-    _oHeightFieldImage     (    ),
-    _oTextureImage         (    ),
-    _vQuadtree             (    ),
-    _oOutputFile           (    ),
+    _pHeightFieldImage     (NULL),
+    _pTextureImage         (NULL),
+    _pOutputFile           (NULL),
     _oNodeIterator         (    )
 {
 }
 
-BbqTerrainCreator::~BbqTerrainCreator(void)
+BbqCreateEngineBase::~BbqCreateEngineBase(void)
 {
 }
 
-//-----------------------------------------------------------------------------
-
-
-bool BbqTerrainCreator::start(const std::string &szHeightFieldFilename, 
-                              const std::string &szTextureFilename, 
-                              const std::string &szOutputFilename, 
-                                    Int32        iTileSize, 
-                                    Int32        iTextureSize )
+bool BbqCreateEngineBase::start(ImageBlockAccessor *pHeightFieldImage,
+                                ImageBlockAccessor *pTextureImage,
+                                BbqFileWriter      *pOutputFile,
+                                Int32               iTileSize, 
+                                Int32               iTextureSize     )
 {
-    if(iTileSize !=   9 && 
-       iTileSize !=  17 && 
-       iTileSize !=  33 && 
-       iTileSize !=  65 && 
-       iTileSize != 129  )
-    {
-        return false;
-    }
+    _pHeightFieldImage = pHeightFieldImage;
+    _pTextureImage     = pTextureImage;
+    
+    _pOutputFile       = pOutputFile;
 
     _iTileSize    = iTileSize;
     _iTextureSize = iTextureSize;
     
-    if(!_oHeightFieldImage.open(szHeightFieldFilename))
-    {
-        SWARNING <<  "Could not open heightmap file '"
-                 << szHeightFieldFilename
-                 << "' !\n";
-
-        return false;
-    }   
-    
-    fprintf(stderr, "%x %x\n",
-            _oHeightFieldImage.getFormat(),
-            _oHeightFieldImage.getType  ());
-
-    // todo: support more input formats
-    if(_oHeightFieldImage.getFormat() != Image::OSG_L_PF             ||
-       _oHeightFieldImage.getType  () != Image::OSG_UINT16_IMAGEDATA  )
-    {
-        SWARNING << "Input Heightmap file format is not supported "
-                 << "(currently only 16bbp monochrome png files are "
-                 << "supported)'" 
-                 << szHeightFieldFilename << "' !\n";
-
-        return false;
-    }
-    
-    if(!_oTextureImage.open(szTextureFilename))
-    {
-        SWARNING << "Could not open texture file '" 
-                 << szHeightFieldFilename
-                 << "' !\n" ;
-
-        return false;
-    }
-    
-    if(!_oOutputFile.open(szOutputFilename))
-    {
-        SWARNING << "Could not open output file '" 
-                 << szOutputFilename
-                 << "' !\n";
-
-        return false;
-    }
-    
-    _vHeightSampleCount  = _oHeightFieldImage.getSize();
-    _vTextureSampleCount = _oTextureImage    .getSize();
+    _vHeightSampleCount  = _pHeightFieldImage->getSize();
+    _vTextureSampleCount = _pTextureImage    ->getSize();
     
     // 1. step: build the hollow tree (dont read any data at all from the 
     // file for now)
@@ -163,74 +109,131 @@ bool BbqTerrainCreator::start(const std::string &szHeightFieldFilename,
         _iTextureLeafLevel = _iLevelCount - 1;
     }
     
-    const Int32 iNodeCount = getFullQuadtreeNodeCount(_iLevelCount);
-    
-    _vQuadtree.resize(iNodeCount);
-    
-    const Int32 iVirtualSize = 
-        getQuadtreeLeafNodeCount(_vHeightSampleCount.x() - 1, 
-                                 _vHeightSampleCount.y() - 1, 
-                                 _iTileSize              - 1 ) * 
-        (_iTileSize - 1 ) + 1;
-    
-    // build quadtree:
-    initializeNodesRec(0, 0, 0, iVirtualSize, iVirtualSize, 0);
-    
-    // 2. step: write the file header
-    BbqFile::BbqFileHeader header;
-    
-    header._iHeightSampleCountX   = _vHeightSampleCount .x();
-    header._iHeightSampleCountY   = _vHeightSampleCount .y();
-    header._iTextureSampleCountX  = _vTextureSampleCount.x();
-    header._iTextureSampleCountY  = _vTextureSampleCount.y();
-    header._fHeightOffset         =  0.0f;
-    header._fHeightScale          =  1.0f;
-    header._iHeightTileSize       = _iTileSize;
-    header._iTextureTileSize      = _iTextureSize;
-    header._iNodeCount            =  iNodeCount;
-    header._iLevelCount           = _iLevelCount;
-    header._fSampleSpacing        =  1.0f;
-    header._eHeightFormat         =  BbqFile::AbsoluteValues;
-    header._eTextureFormat        =  BbqFile::RGB8;
-    
-    _oOutputFile.startWriting(header);
-    
-    // 3. step: write the hollow tree to the file:
-    BbqFileNode emptyInfo;
-    
-    emptyInfo._uiFlags          = 0;
-    emptyInfo._iMaxHeightError  = 0;
-    emptyInfo._iMinHeightSample = 0;
-    emptyInfo._iMaxHeightSample = 0;
-    emptyInfo._iDataPointer     = 0;
-    
-    for(Int32 i = 0; i < header._iNodeCount; ++i)
+    return true;
+}
+
+float BbqCreateEngineBase::getProgress(void) const
+{
+    return _oNodeIterator.getProgress();
+}
+
+bool BbqCreateEngineBase::isFinished(void) const
+{
+    return _oNodeIterator.isFinished();      
+}
+
+
+//-----------------------------------------------------------------------------
+
+
+BbqNodeId BbqCreateEngineBase::getChildNodeId(BbqNodeId iId, Int32 iChildIndex)
+{
+    return 4 * iId + iChildIndex + 1;
+}
+
+
+//-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------
+
+
+BbqTerrainCreator::BbqTerrainCreator(void) :
+    _pEngine          (NULL),
+    _oHeightFieldImage(    ),
+    _oTextureImage    (    ),
+    _oOutputFile      (    )
+{
+}
+
+BbqTerrainCreator::~BbqTerrainCreator(void)
+{
+    delete _pEngine;
+}
+
+//-----------------------------------------------------------------------------
+
+
+bool BbqTerrainCreator::start(const std::string &szHeightFieldFilename, 
+                              const std::string &szTextureFilename, 
+                              const std::string &szOutputFilename, 
+                                    Int32        iTileSize, 
+                                    Int32        iTextureSize )
+{
+    if(iTileSize !=   9 && 
+       iTileSize !=  17 && 
+       iTileSize !=  33 && 
+       iTileSize !=  65 && 
+       iTileSize != 129  )
     {
-        _oOutputFile.writeNodeInfo(emptyInfo);
+        return false;
+    }
+
+    
+    if(!_oHeightFieldImage.open(szHeightFieldFilename))
+    {
+        SWARNING <<  "Could not open heightmap file '"
+                 << szHeightFieldFilename
+                 << "' !\n";
+
+        return false;
+    }   
+    
+    fprintf(stderr, "%x %x\n",
+            _oHeightFieldImage.getFormat(),
+            _oHeightFieldImage.getType  ());
+
+   
+    if(!_oTextureImage.open(szTextureFilename))
+    {
+        SWARNING << "Could not open texture file '" 
+                 << szHeightFieldFilename
+                 << "' !\n" ;
+
+        return false;
     }
     
-    // prepare the data cache:
-    
-    // todo: calculate the maximum needed number of entries.. 
-    // 4 * levelCount_ seems enough..
-
-    _oCreationDataAllocator.setSize(4 * _iLevelCount);
-    
-    for(BbqCreationNodeDataAllocatorIt it  = _oCreationDataAllocator.begin(); 
-                                       it != _oCreationDataAllocator.end  (); 
-                                     ++it )
+    if(!_oOutputFile.open(szOutputFilename))
     {
-        BbqCreationNodeData &element = *it;
-        
-        element.heightDataValid  = false;
-        element.textureDataValid = false;
+        SWARNING << "Could not open output file '" 
+                 << szOutputFilename
+                 << "' !\n";
 
-        element.heightData .resize(    _iTileSize    * _iTileSize   );
-        element.textureData.resize(3 * _iTextureSize * _iTextureSize);
+        return false;
     }
+
+    if(_oHeightFieldImage.getFormat() == Image::OSG_L_PF)
+    {
+        if(_oHeightFieldImage.getType  () == Image::OSG_UINT16_IMAGEDATA)
+        {
+            _pEngine = new BbqCreateEngine<UInt16, UInt8>();
+        }    
+        else if(_oHeightFieldImage.getType  () == Image::OSG_INT16_IMAGEDATA)
+        {
+            _pEngine = new BbqCreateEngine<Int16, UInt8>();
+        }    
+    }
+
+    if(_pEngine == NULL)
+    {
+        SWARNING << "Could not find matching engine '" 
+                 << "' !\n";
+
+        return false;
+    }
+
+    _pEngine->start(&_oHeightFieldImage,
+                    &_oTextureImage,
+                    &_oOutputFile,
+                      iTileSize,
+                      iTextureSize);
+
     
-    // we can start now...
-    _oNodeIterator.startIteration(iNodeCount);
     
     return true;
 }
@@ -241,67 +244,8 @@ bool BbqTerrainCreator::start(const std::string &szHeightFieldFilename,
 
 void BbqTerrainCreator::step(void)
 {
-    // do N nodes per step:
-    Int32 iLoopCount = 100;
-    
-    // recursiv descent:
-    while(!isFinished() && iLoopCount-- > 0)
-    {
-        // 4. step: do a bottom-up processing of the tree and calculate local 
-        // errors (get 4 nodes + their parent node, 
-        //    load the heightdata, calculate the max error, write the data to 
-        // the output file (remembering the fileoffset)
-        //    and continue. (propagate the error upwards) 
-        // (do the same for the texture (and compress the texture)
-
-        const BbqNodeId nodeId = _oNodeIterator.getCurrentNode();
-
-        if(_oNodeIterator.isCurrentNodeBottomUp())
-        {
-            // we are on the way up again.. process this node 
-            // (and pop it from the stack)
-
-            processNode(nodeId);
-        }
-        
-        _oNodeIterator.step();
-    }
-
-    if(isFinished())
-    {
-        // if we are finished:
-        // 5. step: write the table of contents (the dataoffsets)
-
-        _oOutputFile.gotoNodeInfoTable();
-        
-        const Int32 nodeCount = (Int32) _vQuadtree.size();
-
-        for(Int32 i = 0; i < nodeCount; ++i)
-        {
-            const BbqCreationNode &node = _vQuadtree[i];
-            
-            BbqFileNode nodeInfo;
-            
-            nodeInfo._uiFlags = 0;
-            
-            if(node.hasTextureData)
-            {
-                nodeInfo._uiFlags |= BbqFile::TextureDataValid;
-            }               
-            
-            nodeInfo._iDataPointer        = node.fileDataPointer;
-            nodeInfo._iMaxHeightError     = node.maxHeightError;
-            nodeInfo._iMinHeightSample    = node.minHeightSample;
-            nodeInfo._iMaxHeightSample    = node.maxHeightSample;
-            
-            _oOutputFile.writeNodeInfo( nodeInfo );
-        }
-    }
-    
-    // todo: where in this process fits the compression of the height values?
-    // we need a second pass to rearrange+compress the data. 
-    // compress the data top-bottom and calculate the residuals to the
-    // decompressed values (to prevent error-summation)  
+    if(_pEngine != NULL)
+        _pEngine->step();
 }
 
 
@@ -310,7 +254,14 @@ void BbqTerrainCreator::step(void)
 
 float BbqTerrainCreator::getProgress(void) const
 {
-    return _oNodeIterator.getProgress();
+    if(_pEngine != NULL)
+    {
+        return _pEngine->getProgress();
+    }
+    else
+    {
+        return 0.f;
+    }
 }
 
 
@@ -319,95 +270,20 @@ float BbqTerrainCreator::getProgress(void) const
 
 bool BbqTerrainCreator::isFinished(void) const
 {
-    return _oNodeIterator.isFinished();      
+    if(_pEngine != NULL)
+    {
+        return _pEngine->isFinished();
+    }
+    else
+    {
+        return true;
+    }
 }
 
 
 //-----------------------------------------------------------------------------
 
-
-BbqNodeId BbqTerrainCreator::getChildNodeId(BbqNodeId iId, Int32 iChildIndex)
-{
-    return 4 * iId + iChildIndex + 1;
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-bool BbqTerrainCreator::isLeafNodeId(BbqNodeId iId) const
-{
-    // if the first child is invalid this has to be a leaf node:
-    return 4 * iId + 1 >= (Int32) _vQuadtree.size();
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-void BbqTerrainCreator::getTextureData(BbqCreationNode &oNode)
-{
-    // this is a leaf node.. 
-    // check the resolution:
-    
-    // todo: support scaling here:
-    assert(oNode.sampleTarget.x() - 
-           oNode.sampleOrigin.x() - 1 == _iTextureSize);
-
-    assert(oNode.sampleTarget.y() - 
-           oNode.sampleOrigin.y() - 1 == _iTextureSize);
-    
-    // it is possible, that we need to clip the range here for heightfields
-    // that are not power of two + 1 
-    
-    // copy the data from the block directly into the data:
-    oNode.data->textureDataValid = 
-        _oTextureImage.readBlockRGB(  oNode.sampleOrigin, 
-                                     _iTextureSize, 
-                                    &oNode.data->textureData[0], 
-                                    (Int32) oNode.data->textureData.size());
-}
-
-
-//-----------------------------------------------------------------------------
-
-void BbqTerrainCreator::combineTextureData(BbqCreationNode &oNode, 
-                                           BbqCreationNode &oChildNode00, 
-                                           BbqCreationNode &oChildNode10, 
-                                           BbqCreationNode &oChildNode01, 
-                                           BbqCreationNode &oChildNode11)
-{
-    subSampleTextureData(&oNode       .data->textureData[0], 
-                         &oChildNode00.data->textureData[0], 
-                          0, 
-                          0, 
-                         _iTextureSize );
-
-    subSampleTextureData(&oNode       .data->textureData[0], 
-                         &oChildNode10.data->textureData[0], 
-                         _iTextureSize / 2, 
-                          0, 
-                         _iTextureSize );
-
-    subSampleTextureData(&oNode       .data->textureData[0], 
-                         &oChildNode01.data->textureData[0], 
-                          0, 
-                         _iTextureSize / 2, 
-                         _iTextureSize );
-
-    subSampleTextureData(&oNode       .data->textureData[0], 
-                         &oChildNode11.data->textureData[0], 
-                          _iTextureSize / 2, 
-                          _iTextureSize / 2, 
-                          _iTextureSize );
-
-    oNode.data->textureDataValid = true;
-}
-
-
-//-----------------------------------------------------------------------------
-
-
+#if 0
 void BbqTerrainCreator::fillHeightData(BbqCreationNode &oNode)
 {
     for(Int32 y = 0; y < _iTileSize; ++y)
@@ -421,354 +297,7 @@ void BbqTerrainCreator::fillHeightData(BbqCreationNode &oNode)
 
     oNode.data->heightDataValid = true;
 }
-
-
-//-----------------------------------------------------------------------------
-
-
-void BbqTerrainCreator::getHeightData(BbqCreationNode &oNode)
-{
-    // this is a leaf node.. 
-    // check the resolution:
-
-    assert(oNode.sampleStepSize                            == 1         );
-    assert(oNode.sampleTarget.x() - oNode.sampleOrigin.x() == _iTileSize);
-    assert(oNode.sampleTarget.y() - oNode.sampleOrigin.y() == _iTileSize);
-    
-    // it is possible, that we need to clip the range here for heightfields
-    // that are not power of two + 1 
-    
-    // copy the data from the block directly into the data:
-    oNode.data->heightDataValid = 
-        _oHeightFieldImage.readBlockA16( 
-             oNode.sampleOrigin, 
-            _iTileSize,
-            &oNode.data->heightData[0], 
-            2 * (Int32) oNode.data->heightData.size());
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-void BbqTerrainCreator::subSampleHeightData(      UInt16 *       pTarget, 
-                                            const UInt16 * const pSource, 
-                                                  Int32          iX0, 
-                                                  Int32          iY0, 
-                                                  Int32          iSize )
-{
-    //todo: yes, i know.. i write over 4 pixel rows twice.. but im too lazy
-    //right now.. and this is changing completely if i write residuals here.. 
-    //todo: hmm.. should i use a filtering method here?
-
-    Int32 iHalfSize = iSize / 2 + 1;
-    
-    for(Int32 y = 0; y < iHalfSize; ++y )
-    {
-              UInt16 *pTargetPtr = pTarget + ( iY0 + y ) * iSize + iX0;
-
-        // every other row..
-        const UInt16 *pSourcePtr = pSource + 2 * y * iSize;
-        
-        for(Int32 x = 0; x < iHalfSize; ++x)
-        {
-            *pTargetPtr++ = *pSourcePtr;
-            
-            // every other column.. subsampling by two
-            pSourcePtr += 2;
-        }
-    }
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-void BbqTerrainCreator::subSampleTextureData(      UInt8 *       pTarget, 
-                                             const UInt8 * const pSource, 
-                                                   Int32         iX0, 
-                                                   Int32         iY0, 
-                                                   Int32         iSize )
-{
-    // todo: it seams that there is a bug here... (textures jumping around)
-    
-    //todo: yes, i know.. i write over 4 pixel rows twice.. but im too lazy
-    //right now.. and this is changing completely if i write residuals here.. 
-    //todo: hmm.. should i use a filtering method here?
-
-    Int32 iHalfSize = iSize / 2;
-    
-    for(Int32 y = 0; y < iHalfSize; ++y)
-    {
-        UInt8 *pTargetPtr = pTarget + 3 * ((iY0 + y) * iSize + iX0);
-
-        // every other row..
-        const UInt8 *pSourcePtr = pSource + 2 * 3 * (y * iSize); 
-        
-        for(Int32 x = 0; x < iHalfSize; ++x)
-        {
-            // one pixel of rgb:
-            *pTargetPtr++ = *pSourcePtr++;
-            *pTargetPtr++ = *pSourcePtr++;
-            *pTargetPtr++ = *pSourcePtr++;
-            
-            // every other column.. subsampling by two
-            pSourcePtr += 3;
-        }
-    }
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-void BbqTerrainCreator::combineHeightData(BbqCreationNode &oNode, 
-                                          BbqCreationNode &oChildNode00, 
-                                          BbqCreationNode &oChildNode10, 
-                                          BbqCreationNode &oChildNode01, 
-                                          BbqCreationNode &oChildNode11 )
-{
-    // subsample each childnode:
-    //fillHeightData( node );
-    
-    subSampleHeightData(&oNode       .data->heightData[0], 
-                        &oChildNode00.data->heightData[0], 
-                         0, 
-                         0, 
-                        _iTileSize);
-
-    subSampleHeightData(&oNode       .data->heightData[0], 
-                        &oChildNode10.data->heightData[0], 
-                        _iTileSize / 2, 
-                         0, 
-                        _iTileSize);
-
-    subSampleHeightData(&oNode       .data->heightData[0], 
-                        &oChildNode01.data->heightData[0], 
-                         0, 
-                        _iTileSize / 2, 
-                        _iTileSize);
-
-    subSampleHeightData(&oNode       .data->heightData[0], 
-                        &oChildNode11.data->heightData[0], 
-                        _iTileSize / 2, 
-                        _iTileSize / 2, 
-                        _iTileSize);
-
-    oNode.data->heightDataValid = true;
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-void BbqTerrainCreator::processNode(BbqNodeId iId)
-{
-    BbqCreationNode &node = _vQuadtree[iId];
-    
-    // this is a new node.. we visit every node once.. so the data pointer
-    // should be invalid 
-
-    assert(!node.data);
-    
-    // and we should have at least one left in the cache:
-    assert(!_oCreationDataAllocator.isEmpty());
-    
-    // get a valid data pointer
-    node.data = _oCreationDataAllocator.allocate();
-    
-    // the data is not valid yet:
-    node.data->heightDataValid  = false;
-    node.data->textureDataValid = false;
-    
-    // check, if this is a leaf node for the texture:
-    const bool isLeafTextureNode = node.treeLevel == _iTextureLeafLevel;
-    
-    // these might be invalid (if this is a leaf node)
-    const BbqNodeId childId00 = getChildNodeId(iId, 0);
-    const BbqNodeId childId10 = getChildNodeId(iId, 1);
-    const BbqNodeId childId01 = getChildNodeId(iId, 2);
-    const BbqNodeId childId11 = getChildNodeId(iId, 3);
-    
-    if(isLeafTextureNode)
-    {
-        // get the texture from the image
-        getTextureData(node);
-    }
-    else if(node.treeLevel < _iTextureLeafLevel)
-    {
-        // else: combine the 4 child textures to one texture (subsampling)
-        BbqCreationNode &childNode00 = _vQuadtree[childId00];
-        BbqCreationNode &childNode10 = _vQuadtree[childId10];
-        BbqCreationNode &childNode01 = _vQuadtree[childId01];
-        BbqCreationNode &childNode11 = _vQuadtree[childId11];
-        
-        combineTextureData(node, 
-                           childNode00, 
-                           childNode10, 
-                           childNode01, 
-                           childNode11);
-    }
-    
-    // is this a leaf node?
-    if(isLeafNodeId(iId))
-    {
-        // get the height data from the heightfield image:
-        getHeightData(node);
-        
-        // and the texture from the texture image (only, if we reached the
-        // target resolution for textures) 
-        
-        // the error ist 0:
-        node.maxHeightError = 0;
-    }
-    else
-    {
-        // if this is no leaf node we have 4 child nodes that contain data
-        // already: get the data for the children: 
-
-        BbqCreationNode &childNode00 = _vQuadtree[childId00];
-        BbqCreationNode &childNode10 = _vQuadtree[childId10];
-        BbqCreationNode &childNode01 = _vQuadtree[childId01];
-        BbqCreationNode &childNode11 = _vQuadtree[childId11];
-        
-        // has to be valid..
-        assert(childNode00.data && 
-               childNode01.data && 
-               childNode10.data && 
-               childNode11.data );
-        
-        // combine the height data from the children:
-        combineHeightData(node, 
-                          childNode00, 
-                          childNode10, 
-                          childNode01, 
-                          childNode11 );
-        
-        // compute the error: (todo: this should happen in the
-        //combineHeightData function) 
-        //compute
-        
-        // we dont need the data for the 4 child nodes anymore: release the
-        // data nodes to the cache 
-
-        _oCreationDataAllocator.free(childNode00.data);
-        _oCreationDataAllocator.free(childNode10.data);
-        _oCreationDataAllocator.free(childNode01.data);
-        _oCreationDataAllocator.free(childNode11.data);
-        
-        // and (for safety reasons) put a zero in the data field:
-        childNode00.data = 0;
-        childNode10.data = 0;
-        childNode01.data = 0;
-        childNode11.data = 0;
-    }
-
-    // we have our height data. now write the data into the file and remember
-    // the position: 
-
-    if(node.data->heightDataValid)
-    {
-        // determine min/max height sample:
-        node.minHeightSample = node.data->heightData[0];
-        node.maxHeightSample = node.data->heightData[0];
-        
-        const int heightSampleCount = (Int32) node.data->heightData.size();
-        
-        for(Int32 i = 1; i < heightSampleCount; ++i)
-        {
-            node.minHeightSample = std::min(node.minHeightSample, 
-                                            node.data->heightData[i]);
-            node.maxHeightSample = std::max(node.maxHeightSample, 
-                                            node.data->heightData[i]);
-        }
-
-        node.fileDataPointer = _oOutputFile.getCurrentPosition();
-
-        _oOutputFile.writeData( 
-            &node.data->heightData[0], 
-             sizeof(UInt16) * (Int32)node.data->heightData.size());
-    }
-    
-    // write the texture data (if any)
-    if(node.data->textureDataValid)
-    {
-        _oOutputFile.writeData(&node.data->textureData[0], 
-                                (Int32) node.data->textureData.size());
-        
-        node.hasTextureData = true;
-    }
-    else
-    {
-        node.hasTextureData = false;
-    }
-    
-    // we keep the data for this node because the parent node will need it to
-    // create his data... 
-}
-
-
-//-----------------------------------------------------------------------------
-
-
-void BbqTerrainCreator::initializeNodesRec(BbqNodeId iId, 
-                                           Int32     iX0, 
-                                           Int32     iY0, 
-                                           Int32     iX1, 
-                                           Int32     iY1, 
-                                           Int32     iLevel) 
-{
-    // check, if this is a leaf node:
-    const bool hasChilds = iX1 - iX0 > _iTileSize;
-    
-    if(hasChilds)
-    {
-        // first build the children:
-        
-        int xm = (iX0 + iX1 - 1) / 2;
-        int ym = (iY0 + iY1 - 1) / 2;
-        
-        BbqNodeId firstChildId = getChildNodeId(iId, 0);
-        
-        initializeNodesRec(firstChildId + 0, 
-                           iX0,    iY0, 
-                           xm + 1, ym + 1, 
-                           iLevel + 1 );
-        
-        initializeNodesRec(firstChildId + 1, 
-                           xm,  iY0, 
-                           iX1, ym + 1, 
-                           iLevel + 1 );
-        
-        initializeNodesRec(firstChildId + 2, 
-                           iX0,    ym, 
-                           xm + 1, iY1, 
-                           iLevel + 1 );
-        
-        initializeNodesRec(firstChildId + 3, 
-                           xm,  ym, 
-                           iX1, iY1, 
-                           iLevel + 1);
-    }
-    
-    // fill the node structure with the static data:
-    BbqCreationNode &node = _vQuadtree[iId];        
-    
-    node.sampleOrigin.setValues(iX0, iY0);
-    node.sampleTarget.setValues(iX1, iY1);
-
-    node.blockOrigin.setValues(iX0 - Real32(_vHeightSampleCount.x()) / 2.0f,  
-                               iY0 - Real32(_vHeightSampleCount.y()) / 2.0f);
-
-    node.treeLevel          = iLevel;
-    node.sampleStepSize     = 1 << (_iLevelCount - iLevel - 1);
-    node.hasTextureData     = false;
-    node.maxHeightError     = 0;
-    node.minHeightSample    = 0;
-    node.maxHeightSample    = 0;
-    node.fileDataPointer    = 0;
-    node.data               = 0;
-}
+#endif
 
 
 OSG_END_NAMESPACE

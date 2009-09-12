@@ -75,8 +75,16 @@ bool ImageBlockAccessor::readBlockRGB(Vec2i  vSampleOrigin,
         {
             for(UInt32 i = 0; i < 3; i++)
             {
-                pTarget[destIdx] = 
-                    pData[(y * _pImage->getWidth() + x) * 3 + i];
+                if(y >= _pImage->getHeight() ||
+                   x >= _pImage->getWidth()   )
+                {
+                    pTarget[destIdx] = 0;
+                }
+                else
+                {
+                    pTarget[destIdx] = 
+                        pData[(y * _pImage->getWidth() + x) * 3 + i];
+                }
 
                 destIdx++;
             }
@@ -109,8 +117,58 @@ bool ImageBlockAccessor::readBlockA16(Vec2i   vSampleOrigin,
         {
             for(UInt32 i = 0; i < 2; i++)
             {
-                pDst[destIdx] = 
-                    pData[((y) * _pImage->getWidth() + x) * 2 + i];
+                if(y >= _pImage->getHeight() ||
+                   x >= _pImage->getWidth()   )
+                {
+                    pDst[destIdx] = 0;
+                }
+                else
+                {
+                    pDst[destIdx] = 
+                        pData[((y) * _pImage->getWidth() + x) * 2 + i];
+                }
+
+                destIdx++;
+            }
+        }
+        
+        destIdx += (iTextureSize - (xMax - xMin)) * 2;
+    }
+}
+
+bool ImageBlockAccessor::readBlockA16(Vec2i   vSampleOrigin,
+                                      int     iTextureSize,
+                                      Int16  *pTarget,
+                                      int     iTargetSizeBytes)
+{
+    const UInt8 *pData = _pImage->getData();
+
+    UInt8 *pDst = (UInt8 *) pTarget;
+
+    UInt32 destIdx = 0;
+
+    Int32 xMin = vSampleOrigin.x();
+    Int32 xMax = vSampleOrigin.x() + iTextureSize;
+
+    Int32 yMin = vSampleOrigin.y();
+    Int32 yMax = vSampleOrigin.y() + iTextureSize;
+
+    for(UInt32 y = yMin; y < yMax; y++)
+    {
+        for(UInt32 x = xMin; x < xMax; x++)
+        {
+            for(UInt32 i = 0; i < 2; i++)
+            {
+                if(y >= _pImage->getHeight() ||
+                   x >= _pImage->getWidth()   )
+                {
+                    pDst[destIdx] = 0;
+                }
+                else
+                {
+                    pDst[destIdx] = 
+                        pData[((y) * _pImage->getWidth() + x) * 2 + i];
+                }
 
                 destIdx++;
             }

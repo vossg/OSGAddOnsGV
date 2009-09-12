@@ -51,6 +51,7 @@
 
 #include "OSGBaseTypes.h"
 #include "OSGIOStream.h"
+#include "OSGImage.h"
 
 #include <ios>
 
@@ -441,6 +442,9 @@ class BbqFile
         Real32        _fHeightScale;
         Real32        _fHeightOffset;
         
+        Image::Type   _eHeightType;
+        Image::Type   _eTextureType;
+
         HeightFormat  _eHeightFormat;
         TextureFormat _eTextureFormat;      
         UInt32        _uiHeightCompressionQuality;

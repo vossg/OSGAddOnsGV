@@ -82,6 +82,8 @@ BbqFile::BbqFileHeader::BbqFileHeader()
     _fSampleSpacing               = 0;
     _fHeightScale                 = 0;
     _fHeightOffset                = 0;
+    _eHeightType                  = Image::OSG_INVALID_IMAGEDATATYPE;
+    _eTextureType                 = Image::OSG_INVALID_IMAGEDATATYPE;
     _eHeightFormat                = AbsoluteValues;
     _eTextureFormat               = RGB8;
     _uiHeightCompressionQuality   = 1000;
@@ -171,6 +173,8 @@ bool BbqFileWriter::startWriting(const BbqFileHeader &oHeader)
     _oOutputStream.writeFloat (oHeader._fSampleSpacing            );
     _oOutputStream.writeFloat (oHeader._fHeightScale              );
     _oOutputStream.writeFloat (oHeader._fHeightOffset             );
+    _oOutputStream.writeUInt32(oHeader._eHeightType               );
+    _oOutputStream.writeUInt32(oHeader._eTextureType              );
     _oOutputStream.writeUInt32(oHeader._eHeightFormat             );
     _oOutputStream.writeUInt32(oHeader._eTextureFormat            );   
     _oOutputStream.writeUInt32(oHeader._uiHeightCompressionQuality);
@@ -280,6 +284,13 @@ bool BbqFileReader::open( const std::string& filename )
     _oHeader._fSampleSpacing             = _oInputStream.readFloat ();
     _oHeader._fHeightScale               = _oInputStream.readFloat ();
     _oHeader._fHeightOffset              = _oInputStream.readFloat ();
+
+    _oHeader._eHeightType              = 
+        (Image::Type) _oInputStream.readUInt32();
+
+    _oHeader._eTextureType             = 
+        (Image::Type) _oInputStream.readUInt32();
+
 
     _oHeader._eHeightFormat              = 
         (BbqFile::HeightFormat ) _oInputStream.readUInt32();

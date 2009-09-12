@@ -76,130 +76,27 @@ struct BbqRenderCacheEntry;
 
 class BbqDataSource;
 
-/*! \brief BbqTerrain class. See \ref
-           PageDrawableBbqTerrain for a description.
-*/
-
-class OSG_DRAWABLE_DLLMAPPING BbqTerrain : public BbqTerrainBase
+class BbqTerrainEngineBase
 {
-  protected:
-
     /*==========================  PUBLIC  =================================*/
 
   public:
 
-    typedef BbqTerrainBase Inherited;
-    typedef BbqTerrain     Self;
-
     /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
+    /*! \name                    Constructor                               */
     /*! \{                                                                 */
 
-    virtual void changed(ConstFieldMaskArg whichField,
-                         UInt32            origin,
-                         BitVector         details    );
+    BbqTerrainEngineBase(void);
+    virtual ~BbqTerrainEngineBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
-
-    virtual void dump(      UInt32     uiIndent = 0,
-                      const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
-    /*! \{                                                                 */
-
-    virtual void fill(OSG::DrawableStatsAttachment *);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    const BbqDataStatistics   &getDataStatistics  (void) const;
-    const BbqRenderStatistics &getRenderStatistics(void) const;
-  
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-
-  protected:
-
-    // Variables should all be in BbqTerrainBase.
-
-    // tmp
-    BbqRenderOptions              terrainRenderOptions_;
-
-    typedef FixedAllocator< BbqTerrainNode  > BbqTerrainNodeAllocator;
-
-    typedef std::vector<BbqTerrainNode     *> BbqPriorityQueue;
-    
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    BbqDataSource                 *_pDataSource;
-    BbqDataSourceInformation       _oDataSourceInfo;
-    
-    //BbqNodeData                   loadBuffer_;
-    
-    // the renderer is in another class:
-    BbqOpenGLTerrainRenderer       _oRenderer;
-    
-    // the node allocator:
-    BbqTerrainNodeAllocator        _oNodeAllocator;
-    BbqTerrainNode                *_pRootNode;
-    std::vector<BbqTerrainNode *>  _vTraversalStack;
-    
-    // the load queue contains the leaf nodes of the current quadtree with
-    // the priorities. a load means that the child nodes of 
-    // a node will be loaded and inserted into the tree
-
-    BbqPriorityQueue               _qLoadQueue;
-    
-    // the unload queue contains the pre-leaf nodes (nodes that have 4 leaf
-    // child nodes). an unload operation unloads all 4
-    // child nodes making the node in here a leaf node.
-    // note that the root node cant ever be unloaded with this mechanism 
-    // (that is a good thing..)
-
-    BbqPriorityQueue               _qUnloadQueue;
-    
-    //motor3d::Mutex                  treeAccessMutex_;
-    Lock                          *_pTreeAccessMutex;
-
-    // some statistics:
-    BbqDataStatistics              _oDataStatistics;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Constructors                                */
-    /*! \{                                                                 */
-
-    BbqTerrain(void);
-    BbqTerrain(const BbqTerrain &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
-
-    virtual ~BbqTerrain(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Init                                    */
-    /*! \{                                                                 */
-
-    Action::ResultE renderEnter(Action  *action  );
-    Action::ResultE renderLeave(Action  *action  );
-
-    void            execute    (DrawEnv *pDrawEnv);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Init                                    */
+    /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
     bool initialize(BbqDataSource *pDataSource, 
@@ -243,47 +140,228 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrain : public BbqTerrainBase
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    void requestLoad      (      BbqTerrainNode *pNode, 
-                           const Vec3f          &vViewerPosition);
+    const BbqDataStatistics   &getDataStatistics  (void) const;
+    const BbqRenderStatistics &getRenderStatistics(void) const;
+  
+    /*! \}                                                                 */
+    /*==========================  PROTECTRED  =============================*/
 
-    void requestUnload    (      BbqTerrainNode *pNode, 
-                           const Vec3f          &vViewerPosition);
+  protected:
+
+    typedef BbqTerrainNodeBase BbqBaseNode;
+
+    typedef FixedAllocator< BbqBaseNode  > BbqTerrainNodeAllocator;
+
+    typedef std::vector<BbqBaseNode     *> BbqPriorityQueue;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    BbqDataSource                     *_pDataSource;
+    BbqDataSourceInformation           _oDataSourceInfo;
     
-    void calculatePriority(      BbqTerrainNode *pNode, 
-                           const Vec3f          &vViewerPosition);
+    //BbqNodeData                   loadBuffer_;
     
-    void initializeNode   (      BbqTerrainNode *pNode, 
-                                 BbqNodeId       id, 
-                                 Int32           x0, 
-                                 Int32           y0, 
-                                 Int32           x1, 
-                                 Int32           y1             );
+    // the renderer is in another class:
+    BbqOpenGLTerrainRenderer           _oRenderer;
+    
+    // the node allocator:
+    BbqTerrainNodeAllocator            _oNodeAllocator;
+    BbqBaseNode                       *_pRootNode;
+    std::vector<BbqBaseNode *>         _vTraversalStack;
+    
+    // the load queue contains the leaf nodes of the current quadtree with
+    // the priorities. a load means that the child nodes of 
+    // a node will be loaded and inserted into the tree
+
+    BbqPriorityQueue                   _qLoadQueue;
+    
+    // the unload queue contains the pre-leaf nodes (nodes that have 4 leaf
+    // child nodes). an unload operation unloads all 4
+    // child nodes making the node in here a leaf node.
+    // note that the root node cant ever be unloaded with this mechanism 
+    // (that is a good thing..)
+
+    BbqPriorityQueue                   _qUnloadQueue;
+    
+    //motor3d::Mutex                  treeAccessMutex_;
+    Lock                              *_pTreeAccessMutex;
+
+    // some statistics:
+    BbqDataStatistics                  _oDataStatistics;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    bool allocateChildren(BbqTerrainNode *pNode);
-    void freeChildren    (BbqTerrainNode *pNode);
-    bool loadChildren    (BbqTerrainNode *pNode);
+    void requestLoad      (      BbqBaseNode *pNode, 
+                           const Vec3f       &vViewerPosition);
+
+    void requestUnload    (      BbqBaseNode *pNode, 
+                           const Vec3f       &vViewerPosition);
+    
+    void calculatePriority(      BbqBaseNode *pNode, 
+                           const Vec3f       &vViewerPosition);
+    
+    void initializeNode   (      BbqBaseNode *pNode, 
+                                 BbqNodeId    id, 
+                                 Int32        x0, 
+                                 Int32        y0, 
+                                 Int32        x1, 
+                                 Int32        y1             );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    bool allocateChildren(BbqBaseNode *pNode);
+    void freeChildren    (BbqBaseNode *pNode);
+    bool loadChildren    (BbqBaseNode *pNode);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    void checkTreeConsistency(BbqTerrainNode *node);
+    void checkTreeConsistency(BbqBaseNode *node);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-    static bool loadQueueComp  (const BbqTerrainNode *lhs, 
-                                const BbqTerrainNode *rhs);
-    static bool unloadQueueComp(const BbqTerrainNode *lhs, 
-                                const BbqTerrainNode *rhs);
+    static bool loadQueueComp  (const BbqBaseNode *lhs, 
+                                const BbqBaseNode *rhs);
+    static bool unloadQueueComp(const BbqBaseNode *lhs, 
+                                const BbqBaseNode *rhs);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+};
+
+template<class HeightType, class HeightDeltaType, class TextureType>
+class BbqTerrainEngine : public BbqTerrainEngineBase
+{
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    typedef BbqTerrainEngineBase Inherited;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Constructor                               */
+    /*! \{                                                                 */
+
+    BbqTerrainEngine(void);
+    ~BbqTerrainEngine(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+    /*! \}                                                                 */
+    /*==========================  PROTECTRED  =============================*/
+
+  protected:
+
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+};
+    
+/*! \brief BbqTerrain class. See \ref
+           PageDrawableBbqTerrain for a description.
+*/
+
+class OSG_DRAWABLE_DLLMAPPING BbqTerrain : public BbqTerrainBase
+{
+  protected:
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    typedef BbqTerrainBase Inherited;
+    typedef BbqTerrain     Self;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    virtual void changed(ConstFieldMaskArg whichField,
+                         UInt32            origin,
+                         BitVector         details    );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    virtual void dump(      UInt32     uiIndent = 0,
+                      const BitVector  bvFlags  = 0) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    virtual void fill(OSG::DrawableStatsAttachment *);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    // Variables should all be in BbqTerrainBase.
+
+    // tmp
+    BbqRenderOptions       terrainRenderOptions_;
+    BbqTerrainEngineBase *_pEngine;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    BbqTerrain(void);
+    BbqTerrain(const BbqTerrain &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~BbqTerrain(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    Action::ResultE renderEnter(Action  *action  );
+    Action::ResultE renderLeave(Action  *action  );
+
+    void            execute    (DrawEnv *pDrawEnv);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Init                                    */

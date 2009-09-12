@@ -67,24 +67,14 @@ const BbqPriority BbqHightestPriority = 100.0f;
 
 //-----------------------------------------------------------------------------
 
-typedef std::vector<UInt8 >  BbqTextureDataContainer;
-typedef std::vector<UInt16>  BbqHeightDataContainer;
-typedef std::vector<Int16 >  BbqHeightDeltaDataContainer;
-
 //-----------------------------------------------------------------------------
 
 // todo: (performance): store the data in compressed format and uncompress
 // on the fly while uploading to the gpu
 
-struct BbqTerrainNodeData
-{
-    BbqHeightDataContainer  heightData;
-    BbqTextureDataContainer textureData;
-};
-
 //-----------------------------------------------------------------------------
 
-struct BbqTerrainNode
+struct BbqTerrainNodeBase
 {
     /*==========================  PUBLIC  =================================*/
 
@@ -94,8 +84,8 @@ struct BbqTerrainNode
     /*! \name                    Constructor                               */
     /*! \{                                                                 */
 
-    BbqTerrainNode(void);
-    ~BbqTerrainNode(void);
+    BbqTerrainNodeBase(void);
+    ~BbqTerrainNodeBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -110,7 +100,17 @@ struct BbqTerrainNode
     /*---------------------------------------------------------------------*/
     /*! \name                   formated output                            */
     /*! \{                                                                 */
-    
+
+    typedef std::vector<UInt8 >  BbqTextureDataContainer;
+    typedef std::vector<UInt16>  BbqHeightDataContainer;
+    typedef std::vector<Int16 >  BbqHeightDeltaDataContainer;
+ 
+    struct BbqTerrainNodeData
+    {
+        BbqHeightDataContainer  heightData;
+        BbqTextureDataContainer textureData;
+    };
+   
             BbqNodeId           id;
 
             // this gets only computed for the leaf nodes (loading/unloading)
@@ -137,10 +137,64 @@ struct BbqTerrainNode
             // pointer to the 4 children and the parent:
             Int32               treeLevel;
     
-            BbqTerrainNode     *parent;
-            BbqTerrainNode     *children   [BbqChild_Count          ];
+            BbqTerrainNodeBase *parent;
+            BbqTerrainNodeBase *children   [BbqChild_Count          ];
      
     mutable void               *renderCache[BbqRenderCacheType_Count];
+
+    /*! \}                                                                 */
+    /*==========================  PROTECTRED  =============================*/
+
+  protected:
+
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+};
+
+
+template<class HeightType, class HeightDeltaType, class TextureType>
+struct BbqTerrainNodeX : public BbqTerrainNodeBase
+{
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Constructor                               */
+    /*! \{                                                                 */
+
+    BbqTerrainNodeX(void);
+    ~BbqTerrainNodeX(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    typedef std::vector<TextureType    >  BbqTextureDataContainer;     // UInt8
+
+    typedef std::vector<HeightType     >  BbqHeightDataContainer;      // UInt16
+    typedef std::vector<HeightDeltaType>  BbqHeightDeltaDataContainer; // Int16
+ 
+    struct BbqTerrainNodeData
+    {
+        BbqHeightDataContainer  heightData;
+        BbqTextureDataContainer textureData;
+    };
+   
+    HeightDeltaType     maxHeightError; // Int16
+
+    // the data:
+    BbqTerrainNodeData  data;
+
+    BbqTerrainNodeX     *parent;
+    BbqTerrainNodeX     *children   [BbqChild_Count          ];
 
     /*! \}                                                                 */
     /*==========================  PROTECTRED  =============================*/

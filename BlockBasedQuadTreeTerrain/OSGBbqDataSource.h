@@ -55,6 +55,8 @@ struct BbqDataSourceInformation
     BbqFile::HeightFormat  heightFormat;
     Int32                  heightTileSize;
     Vec2i                  heightSampleCount;
+    Image::Type            heightType;
+    Image::Type            textureType;
     BbqFile::TextureFormat textureFormat;
     Int32                  textureTileSize;
     Vec2i                  textureSampleCount;
@@ -65,7 +67,57 @@ struct BbqDataSourceInformation
     Real32                 sampleSpacing;
 };
 
-struct BbqTerrainNode;
+struct BbqTerrainNodeBase;
+
+
+class BbqDataSourceEngine
+{
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Constructor                               */
+    /*! \{                                                                 */
+
+    BbqDataSourceEngine(void);
+    virtual ~BbqDataSourceEngine(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    const BbqDataSourceInformation &getInformation(void) const;
+          Image::Type               getHeightType (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    void computeBoundingBox(BbqTerrainNodeBase &oNode, 
+                            Real32              fMinHeightSample, 
+                            Real32              fMaxHeightSample);
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual bool onLoadNodeData(BbqTerrainNodeBase &oNode) = 0;
+
+    /*! \}                                                                 */
+    /*==========================  PROTECTRED  =============================*/
+
+  protected:
+
+    BbqDataSourceInformation _oInformation;
+
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+};
 
 /*! \brief BbqDataSource class. See \ref
            PageDrawableBbqDataSource for a description.
@@ -96,6 +148,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSource : public BbqDataSourceBase
     /*! \{                                                                 */
 
     const BbqDataSourceInformation &getInformation(void) const;
+          Image::Type               getHeightType (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -108,7 +161,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSource : public BbqDataSourceBase
     // this loads the data synchronously.. you can use this method from a
     // separate thread to prevent any frame rate stalls.. 
 
-    bool loadNodeData(BbqTerrainNode &oNode);
+    bool loadNodeData(BbqTerrainNodeBase &oNode);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -125,7 +178,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSource : public BbqDataSourceBase
 
     // Variables should all be in BbqDataSourceBase.
 
-    BbqDataSourceInformation _oInformation;
+    BbqDataSourceEngine *_pEngine;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
@@ -153,11 +206,6 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSource : public BbqDataSourceBase
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-            void computeBoundingBox(BbqTerrainNode &oNode, 
-                                    Real32          fMinHeightSample, 
-                                    Real32          fMaxHeightSample);
-
-    virtual bool onLoadNodeData    (BbqTerrainNode &oNode           ) = 0;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

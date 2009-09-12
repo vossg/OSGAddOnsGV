@@ -48,7 +48,7 @@ OSG_BEGIN_NAMESPACE
 
 //-----------------------------------------------------------------------------
 
-BbqTerrainNode::BbqTerrainNode(void):
+BbqTerrainNodeBase::BbqTerrainNodeBase(void):
     id               (0         ),
     priority         (0.f       ),
     sampleRect       (0, 0, 0, 0),
@@ -68,7 +68,7 @@ BbqTerrainNode::BbqTerrainNode(void):
         children[3] = NULL;
 }
 
-BbqTerrainNode::~BbqTerrainNode(void)
+BbqTerrainNodeBase::~BbqTerrainNodeBase(void)
 {
 }
 
@@ -76,7 +76,7 @@ BbqTerrainNode::~BbqTerrainNode(void)
 //-----------------------------------------------------------------------------
 
 
-bool BbqTerrainNode::isLeafNode(void) const
+bool BbqTerrainNodeBase::isLeafNode(void) const
 {
     if(children[0] == NULL)
     {
@@ -99,7 +99,7 @@ bool BbqTerrainNode::isLeafNode(void) const
 //-----------------------------------------------------------------------------
 
 
-bool BbqTerrainNode::isRootNode(void) const
+bool BbqTerrainNodeBase::isRootNode(void) const
 {
     return parent == NULL;
 }
@@ -108,7 +108,7 @@ bool BbqTerrainNode::isRootNode(void) const
 //-----------------------------------------------------------------------------
 
 
-bool BbqTerrainNode::isPreLeafNode(void) const
+bool BbqTerrainNodeBase::isPreLeafNode(void) const
 {
     return !isLeafNode() && 
         children[0]->isLeafNode() && 
@@ -116,6 +116,5 @@ bool BbqTerrainNode::isPreLeafNode(void) const
         children[2]->isLeafNode() && 
         children[3]->isLeafNode();
 }
-
 
 OSG_END_NAMESPACE
