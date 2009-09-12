@@ -153,6 +153,34 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
         typedef std::vector<SingleRayPacket    >       RayStore;
 
+        static const Char8 *getCacheKDBaseTypeName(void)
+        {
+            return "RTCacheKDBaseSinglePacket";
+        }
+        static const Char8 *getCacheKDBaseParentTypeName(void)
+        {
+            return "FieldContainer";
+        }
+        static const Char8 *getCacheKDBaseGroupName(void)
+        {
+            return "RTCacheKD";
+        }
+
+        static const Char8 *getCacheKDTypeName(void)
+        {
+            return "RTCacheKDSinglePacket";
+        }
+
+        static const Char8 *getCacheKDParentTypeName(void)
+        {
+            return "RTCacheKDBaseSinglePacket";
+        }
+
+        static const Char8 *getCacheKDGroupName(void)
+        {
+            return "RTCacheKD";
+        }
+
         static const Char8 *getSFKDCacheName(void)
         {
             return "SFRTCacheKDSinglePacketPtr";

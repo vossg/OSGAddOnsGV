@@ -177,50 +177,34 @@ OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor,
                          RTCacheKD<RRTStage::SIMDPacketDescBase> *, 
                          MFFieldContainerPtr);
 
-template <>
-RTCacheKDBase<RRTStage::SIMDPacketDescBase>::TypeObject &
-    RTCacheKDBase<RRTStage::SIMDPacketDescBase>::getType(void)
-{
-    return _type;
+#define OSG_FC_GET_TYPE_INST(CLASS, T) \
+                                       \
+template <>                            \
+CLASS < T >::TypeObject &              \
+    CLASS < T >::getType(void)         \
+{                                      \
+    return _type;                      \
+}                                      \
+                                       \
+template <>                            \
+const CLASS < T >::TypeObject &        \
+    CLASS < T >::getType(void) const   \
+{                                      \
+    return _type;                      \
+}                                      \
+                                       \
+template <>                            \
+CLASS < T >::TypeObject &              \
+    CLASS < T >::getClassType(void)    \
+{                                      \
+    return _type;                      \
 }
 
-template <>
-const RTCacheKDBase<RRTStage::SIMDPacketDescBase>::TypeObject &
-    RTCacheKDBase<RRTStage::SIMDPacketDescBase>::getType(void) const
-{
-    return _type;
-}
+OSG_FC_GET_TYPE_INST(RTCacheKD,     RRTStage::SIMDPacketDescBase)
+OSG_FC_GET_TYPE_INST(RTCacheKDBase, RRTStage::SIMDPacketDescBase)
 
-template <>
-RTCacheKDBase<RRTStage::SIMDPacketDescBase>::TypeObject &
-    RTCacheKDBase<RRTStage::SIMDPacketDescBase>::getClassType(void)
-{
-    return _type;
-}
-
-
-
-template <>
-RTCacheKD<RRTStage::SIMDPacketDescBase>::TypeObject &
-    RTCacheKD<RRTStage::SIMDPacketDescBase>::getType(void)
-{
-    return _type;
-}
-
-template <>
-const RTCacheKD<RRTStage::SIMDPacketDescBase>::TypeObject &
-    RTCacheKD<RRTStage::SIMDPacketDescBase>::getType(void) const
-{
-    return _type;
-}
-
-template <>
-RTCacheKD<RRTStage::SIMDPacketDescBase>::TypeObject &
-    RTCacheKD<RRTStage::SIMDPacketDescBase>::getClassType(void)
-{
-    return _type;
-}
-
+OSG_FC_GET_TYPE_INST(RTCacheKD,     RRTStage::SinglePacketDescBase)
+OSG_FC_GET_TYPE_INST(RTCacheKDBase, RRTStage::SinglePacketDescBase)
 
 // Documentation for this class is emitted in the
 // OSGRRTStageBase.cpp file.
