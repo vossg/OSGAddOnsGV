@@ -208,6 +208,8 @@ void RTCacheKD<DescT>::buildStructure(void)
 
     flattenTree(NULL, pKDTree);
 
+    printf("RTCache::flat elements %d\n", _uiNextFreeNode);
+
     delete pKDTree;
 }
 

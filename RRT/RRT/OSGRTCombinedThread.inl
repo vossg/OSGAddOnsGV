@@ -166,56 +166,48 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
     RTCombinedThread<DescT> *pThis,
     RTTarget                &oTarget)
 {
+    UInt16 rc;
+    for (UInt8 i = 0; i < SPE_THREADS; i++) 
+    {
+        datas[i].speid = spe_context_create (0, NULL);
+        datas[i].argp  = (UInt64 *) &cb[i];
+
+        rc = spe_program_load (datas[i].speid, &rrt_spu);
+
+        rc = pthread_create (&datas[i].pthread, 
+                             NULL, 
+                             &ppu_pthread_function, 
+                             &datas[i]);
+    }
+            
+    if(SPE_THREADS > spe_cpu_info_get(SPE_COUNT_PHYSICAL_SPES, -1)) 
+    {
+        fprintf(stderr, "System doesn't have %d working SPE(s).\n", 
+                SPE_THREADS);
+
+        exit (-1);
+    }
+
+
     pThis->_pSyncBarrier->enter(); 
 
     if(pThis->_pRayStore != NULL)
     {
-        UInt32 uiFrame=1;
-
         while(true)
         {
-            UInt16 rc;
-            for (UInt8 i = 0; i < SPE_THREADS; i++) 
-            {
-                datas[i].speid = spe_context_create (0, NULL);
-                datas[i].argp  = (UInt64 *) &cb[i];
-
-                rc = spe_program_load (datas[i].speid, &rrt_spu);
-
-                rc = pthread_create (&datas[i].pthread, 
-                                     NULL, 
-                                     &ppu_pthread_function, 
-                                     &datas[i]);
-            }
-            
-            if(SPE_THREADS > spe_cpu_info_get(SPE_COUNT_PHYSICAL_SPES, -1)) 
-            {
-                fprintf(stderr, "System doesn't have %d working SPE(s).\n", 
-                        SPE_THREADS);
-
-                exit (-1);
-            }
-
-            // printf("SPE Threads %u\n", SPE_THREADS);  
-
             pThis->_pSyncBarrier->enter();
-
-            printf("frame %u start\n", uiFrame);
 
             PerspectiveCamera *pPCam = 
                 dynamic_cast<PerspectiveCamera *>(
                     pThis->_pScene->getCamera()->getDecoratee());
 
-            const UInt32 uiTargetWidth  = oTarget.getWidth ();
-            const UInt32 uiTargetHeight = oTarget.getHeight();
+            const UInt32 uiVTiles  = pThis->_pRayStore->getNumVTiles();
+            const UInt32 uiHTiles  = pThis->_pRayStore->getNumHTiles();
 
-            const UInt32 uiNumVEnvelopes = 
-                pThis->_pRayStore->getNumVTiles() / envelopeTilesY;
+            const UInt32 uiVEnvelopes = uiVTiles / envelopeTilesY;
+            const UInt32 uiHEnvelopes = uiHTiles / envelopeTilesX;
 
-            const UInt32 uiNumHEnvelopes = 
-                pThis->_pRayStore->getNumHTiles() / envelopeTilesX;
-
-            const UInt32 uiEnvelopes = uiNumVEnvelopes*uiNumHEnvelopes;
+            const UInt32 uiEnvelopes = uiVEnvelopes*uiHEnvelopes;
             const UInt32 uiNumCaches = pThis->_pScene->getNumCaches();
 
             Matrix mCam;
@@ -223,7 +215,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
             pPCam->getBeacon()->getToWorld(mCam);
 
             Real32 rVOff = atan(pPCam->getFov() / 2.f);
-            Real32 rHOff = (rVOff * uiTargetHeight) / uiTargetWidth;
+            Real32 rHOff = (rVOff * pThis->_pTarget->getHeight()) / pThis->_pTarget->getWidth();
 
             raySetupBase_t raySetupBase;
 
@@ -311,19 +303,19 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                 {
                     envelopeInfo[e].id = e;
 
-                    if(uiX >= uiTargetWidth)
+                    if(uiX >= uiHEnvelopes)
                     {
                         uiX = 0;
-                        uiY = uiY + envelopeTilesY * FourRayPacket::NumVRays;
+                        uiY = uiY + envelopeTilesY;
                     }
 
-                    assert(uiX < uiTargetWidth);
-                    assert(uiY < uiTargetHeight);
+                    assert(uiX < uiHEnvelopes);
+                    assert(uiY < uiVEnvelopes);
 
                     envelopeInfo[e].topX = uiX;
                     envelopeInfo[e].topY = uiY;
 
-                    uiX = uiX + envelopeTilesX * FourRayPacket::NumHRays;
+                    uiX = uiX + envelopeTilesX;
 
                     e++;
                 }
@@ -334,10 +326,13 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
             for (int i = 0; i < SPE_THREADS; i++) 
             {
                 cb[i].speId              = i;
-                cb[i].uiTargetWidth      = uiTargetWidth;
-                cb[i].uiTargetHeight     = uiTargetHeight;
+
+                cb[i].uiTargetWidth      = pThis->_pTarget->getWidth();
+                cb[i].uiTargetHeight     = pThis->_pTarget->getHeight();
+                cb[i].uiVEnvelopesTarget = uiVEnvelopes;
+                cb[i].uiHEnvelopesTarget = uiHEnvelopes;
                 cb[i].eaPrimRaySetupPack = (EA_t) &raySetupBase;
-                cb[i].uiEnvelopes        = envelopesSPE[i];
+                cb[i].uiAssignedEnvelopes= envelopesSPE[i];
                 cb[i].uiCaches           = uiNumCaches;
                 cb[i].eaCacheBoxVolume   = (EA_t) &rootBoxVolume[0];
                 cb[i].eaCacheInfoPack    = (EA_t) &cacheInfoPack[0];
@@ -393,8 +388,6 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                 rootBoxVolume[i] = 
                     vRTCaches.at(i)->getRootBoxVolume();
 
-         
-
                 cacheInfoPack[i].eaKDNodeCache = (EA_t)
                     vRTCaches.at(i)->getXCacheKDPointer();
 
@@ -403,15 +396,8 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
             }
 
             // make it big enough
-/*
-            UInt32* primIndexArray = (UInt32*)
-                _malloc_align(sizeof(UInt32)*
-                              uiNumCaches*
-                              uiTotNodes*maxPrimInNode,4);
-*/
-
             UInt32 uiSizePrimIndexArray = 
-                50+sizeof(UInt32)*maxPrimInNode*(uiTotNodes+1)/2;
+                50+sizeof(UInt32)*maxPrimInNode*((UInt32)(uiTotNodes+1)/2);
 
             primIndexArray = (UInt32*)_malloc_align(uiSizePrimIndexArray, 4);
 
@@ -434,7 +420,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
             for(int i =0 ; i < uiNumCaches ; ++i)
             {
-                uiTotLeafs += cacheInfoPack[i].uiNodes/2;
+                uiTotLeafs += (cacheInfoPack[i].uiNodes+1)/2;
 
                 UInt32 prevCacheTri = 0;
                 if(i>0)
@@ -445,7 +431,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                     prevCacheTri = cacheInfoPack[i-1].uiTriangles;
 
                     cacheInfoPack[i].eaPrimIndexArray = (EA_t)
-                        &primIndexArray[uiTotLeafs];
+                        &primIndexArray[uiTotLeafs+maxPrimInNode];
                 }
                 else
                 {
@@ -459,7 +445,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
         
                 TriangleAccel *tmpTri = (TriangleAccel *) &(mfTriangleAcc[0]);
 
-//                    pThis->_pScene->_vRTCaches.at(i)->getTriangleCache();
+                // pThis->_pScene->_vRTCaches.at(i)->getTriangleCache();
 
                 for(UInt32 t = 0 ; t < cacheInfoPack[i].uiTriangles ; ++t)
                 {
@@ -478,19 +464,19 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                     
                     tmpTri++;
                 }
-   
-                UInt32 nArray = vRTCaches.at(i)->getPrimitiveListSize();
 
-                for(UInt32 k = 0 ; k < nArray ; ++k)
+                UInt32 nIndexLists = vRTCaches.at(i)->getPrimitiveListSize();
+
+                for(UInt32 k = 0 ; k < numIndexLists ; ++k)
                 {
-                    ++leafIdx;
-                    
                     const std::vector<UInt32> &prims = 
                         vRTCaches.at(i)->getPrimitiveIndexList(k);
 
+                    assert(prims.size() <= maxPrimInNode);
+
                     for(UInt32 l =0 ; l < prims.size() ; ++l)
                     {
-                        primIndexArray[leafIdx*maxPrimInNode] = prims[l];
+                        primIndexArray[l+k*maxPrimInNode] = prims[l];
                     }
                 }
             }
@@ -499,7 +485,6 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 #ifndef OSG_XCACHEKD
             cacheKDNode_t* nodeArray;
 
-            UInt32 uiNodesInCache[uiNumCaches];
             UInt32 uiTotNodes =0;
             UInt32 uiTotTriangles =0;
 
@@ -508,35 +493,28 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
             for(int i =0 ; i < uiNumCaches ; ++i)
             {
-                uiNodesInCache[i] = vRTCaches.at(i)->getNumNodes();
+                if(vRTCaches.at(i)->getNumNodes() == 1)
+                    cacheInfoPack[i].uiNodes = 2;
+                else
+                    cacheInfoPack[i].uiNodes = vRTCaches.at(i)->getNumNodes();
+
+                OSG_ASSERT(cacheInfoPack[i].uiNodes % 2 == 0);
 
                 uiTotTriangles += vRTCaches.at(i)->getNumTriangles();
-                
-                if(uiNodesInCache[i] == 1)
-                    uiNodesInCache[i] = 2;
-                
-                uiTotNodes += uiNodesInCache[i];
+
+                uiTotNodes += cacheInfoPack[i].uiNodes;
                 
                 rootBoxVolume[i] = vRTCaches.at(i)->getBoxVolume();
             }
 
             // make it big enough
-/*
-            UInt32* primIndexArray =(UInt32*)
-                _malloc_align(sizeof(UInt32)*
-                              uiNumCaches*
-                              uiTotNodes*
-                              maxPrimInNode,
-                              4);
-*/
-
             UInt32 uiSizePrimIndexArray = 
-                50+sizeof(UInt32)*maxPrimInNode*(uiTotNodes+1)/2;
+                50+sizeof(UInt32)*maxPrimInNode*((UInt32)(uiTotNodes+1)/2);
 
             primIndexArray =(UInt32*)_malloc_align(uiSizePrimIndexArray,4);
       
             nodeArray=(cacheKDNode_t*)
-                _malloc_align(sizeof(cacheKDNode_t)*uiTotNodes,3);
+                _malloc_align(sizeof(cacheKDNode_t)*uiTotNodes, 4);
 
             triangleArray=(triangleData_t*)
                 _malloc_align(sizeof(triangleData_t)*uiTotTriangles, 5);
@@ -550,40 +528,35 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
             printf("PPU: %d bytes primIndexArray\n",uiSizePrimIndexArray);
 
 #endif
-     
+
             EA_t eaTriCache=0x0;
 
-            UInt32 leafCount[uiNumCaches];
+            // UInt32 leafCount[uiNumCaches];
             UInt32 uiTotLeafs =0;
+
+            cacheInfoPack[0].eaPrimIndexArray = (EA_t)&primIndexArray[0];
 
             for(int i =0 ; i < uiNumCaches ; ++i)
             {
-                leafCount[i]=0;
-                
-                for(int j = 1 ; j < uiNodesInCache[i] ; ++j)
+                // blank node to start every cache, root node in second element
+                nodeArray[i*maxNodesInCache].uiFlags = 
+                    nodeArray[i*maxNodesInCache].uiAboveChild = 0;
+
+                for(int j = 1 ; j < cacheInfoPack[i].uiNodes ; ++j)
                 {
                     CacheKDNode* tmpNode = vRTCaches.at(i)->getNode(j);
                     
-                    nodeArray[j].uiFlags = tmpNode->_uiFlags;
-                    nodeArray[j].uiAboveChild = tmpNode->_uiAboveChild;
-                    
-                    if(tmpNode->isLeaf())
-                        leafCount[i]++;
+                    nodeArray[j+i*maxNodesInCache].uiFlags = tmpNode->_uiFlags;
+                    nodeArray[j+i*maxNodesInCache].uiAboveChild = tmpNode->_uiAboveChild;
                 }
-                
+
                 cacheInfoPack[i].eaKDNodeCache = 
                     (UInt64)&nodeArray[i*maxNodesInCache];
 
-                cacheInfoPack[i].uiNodes = 18 << leafCount[i];
-                cacheInfoPack[i].uiNodes += uiNodesInCache[i];
+                uiTotLeafs += (cacheInfoPack[i].uiNodes+1)/2;
 
                 cacheInfoPack[i].uiTriangles = 
                     vRTCaches.at(i)->getNumTriangles();
-
-                cacheInfoPack[i].eaPrimIndexArray = 
-                    (UInt64)&primIndexArray[uiTotLeafs*maxPrimInNode];
-         
-                uiTotLeafs += leafCount[i];
 
                 UInt32 prevCacheTri = 0;
                 if(i>0)
@@ -592,6 +565,9 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                         (EA_t)&triangleArray[cacheInfoPack[i-1].uiTriangles];
 
                     prevCacheTri = cacheInfoPack[i-1].uiTriangles;
+
+                    cacheInfoPack[i].eaPrimIndexArray = 
+                        (UInt64)&primIndexArray[uiTotLeafs*maxPrimInNode];
                 }
                 else
                 {
@@ -622,24 +598,21 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                     triangleArray[i*prevCacheTri+t].uiObjId = tmpTri._uiObjId;
                 }
         
-                UInt32 leafIdx = 0;
                 UInt32 numIndexLists = vRTCaches.at(i)->getPrimitiveListSize();
 
                 for(UInt32 k = 0 ; k < numIndexLists ; ++k)
                 {
-                    ++leafIdx;
-
                     const std::vector<UInt32> &prims = 
                         vRTCaches.at(i)->getPrimitiveIndexList(k);
 
+                    assert(prims.size() <= maxPrimInNode);
+
                     for(UInt32 l =0 ; l < prims.size() ; ++l)
                     {
-                        primIndexArray[leafIdx*maxPrimInNode] = prims[l];
+                        primIndexArray[l+k*maxPrimInNode] = prims[l];
                     }
                 }
             }
-    
-      
 #endif
 
             // Wait for SPE Ray Setup completion
@@ -654,23 +627,19 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
             _free_align(envelopeInfo);
 
-
-
             // Issue a sync, to be safe that all SPEs are done writing 
             // to main memory.
-
             __asm__ __volatile__ ("lwsync" : : : "memory");
-
 
             // Copy Rays to RTPrimaryRayStore
             //
             UInt16 eCurr;
 
-            for(UInt16 eY = 0 ; eY < uiNumVEnvelopes ; eY++)
+            for(UInt16 eY = 0 ; eY < uiVEnvelopes ; eY++)
             {
-                for(UInt16 eX = 0 ; eX < uiNumHEnvelopes ; eX++)
+                for(UInt16 eX = 0 ; eX < uiHEnvelopes ; eX++)
                 {
-                    eCurr = eY*uiNumVEnvelopes + eX;
+                    eCurr = eY*uiVEnvelopes + eX;
 
                     for(UInt16 i = 0 ; i < envelopeTilesY ; i++)
                     {
@@ -844,7 +813,6 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                     }
                 }
             }
-
 #endif
 
             for (UInt32 i=0; i<SPE_THREADS; ++i) 
@@ -857,9 +825,9 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
             // Issue a sync, to be safe that all SPEs are done writing to main memory.
             __asm__ __volatile__ ("lwsync" : : : "memory");
 
-            for(UInt16 eY = 0 ; eY < uiNumVEnvelopes  ; eY++)
+            for(UInt16 eY = 0 ; eY < uiVEnvelopes  ; eY++)
             {
-                for(UInt16 eX = 0 ; eX < uiNumHEnvelopes ; eX++)
+                for(UInt16 eX = 0 ; eX < uiHEnvelopes ; eX++)
                 {
                     for(UInt16 i = 0 ; i < envelopeTilesY ; i++)
                     {
@@ -872,50 +840,48 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                                 pThis->_pHitStore->getPacket   (uiHitIndex);
               
                             UInt32 rayPackIndex =
-                                eY*
-                                envelopeTilesY* 
-                                pThis->_pRayStore->getNumHTiles() + i *
-                                pThis->_pRayStore->getNumHTiles()+
+                                eY * envelopeTilesY * uiHTiles +
+                                i * uiHTiles +
                                 (j+eX*envelopeTilesX);
 
                             // oHitPacket.setRayPacket((FourRayPacket*)
                             //              hitEnvelope[eY*uiNumHEnvelopes+eX].tile[i][j].pRayPacket);
 
                             oHitPacket.setRayPacket((FourRayPacket*)&
-                                pThis->_pRayStore->getRayPacket(rayPackIndex));
+                                                    pThis->_pRayStore->getRayPacket(rayPackIndex));
               
                             oHitPacket.setXY(
                                 hitEnvelope[eY*
-                                            uiNumHEnvelopes+
+                                            uiHEnvelopes+
                                             eX].tile[i][j].uiX,
 
                                 hitEnvelope[eY*
-                                            uiNumHEnvelopes+
+                                            uiHEnvelopes+
                                             eX].tile[i][j].uiY);
 
 
                             oHitPacket.setAll(
                                 hitEnvelope[eY*
-                                            uiNumHEnvelopes+
+                                            uiHEnvelopes+
                                             eX].tile[i][j].rDist,
                                 hitEnvelope[eY*
-                                            uiNumHEnvelopes+
+                                            uiHEnvelopes+
                                             eX].tile[i][j].rU,
 
                                 hitEnvelope[eY*
-                                            uiNumHEnvelopes+
+                                            uiHEnvelopes+
                                             eX].tile[i][j].rV,
 
                                 hitEnvelope[eY*
-                                            uiNumHEnvelopes+
+                                            uiHEnvelopes+
                                             eX].tile[i][j].uiObjId,
 
                                 hitEnvelope[eY*
-                                            uiNumHEnvelopes+
+                                            uiHEnvelopes+
                                             eX].tile[i][j].uiTriId,
 
                                 hitEnvelope[eY*
-                                            uiNumHEnvelopes+
+                                            uiHEnvelopes+
                                             eX].tile[i][j].uiCacheId);
 
                             // printf("hitindex %u\n", uiHitIndex);
@@ -926,7 +892,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                 } 
             }
 
-#if 0    // Write binary to file
+#if 0  // Write binary to file
 
             FILE* fp;
             fp=fopen("/home/filip/tmp/OpenSG/Standalone.app/HitPacketsCell_box.bin", "wb+");
@@ -941,21 +907,22 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                 Real32 rDist[4], rU[4], rV[4];
                 UInt32 objId[4], triId[4], cacheId[4];
         
-                for(UInt32 i = 0 ; i < 4 ; ++i)
+                for(UInt32 j = 0 ; j < 4 ; ++j)
                 {
 
-                    rDist[i] = oHitPacket.getDist(i);
-                    rU[i] = oHitPacket.getU(i);
-                    rV[i] = oHitPacket.getV(i);
-                    objId[i] = oHitPacket.getObjId(i);
-                    triId[i] = oHitPacket.getTriId(i);
-                    cacheId[i] = oHitPacket.getCacheId(i);
+                    rDist[j] = oHitPacket.getDist(j);
+                    rU[j] = oHitPacket.getU(j);
+                    rV[j] = oHitPacket.getV(j);
+                    objId[j] = oHitPacket.getObjId(j);
+                    triId[j] = oHitPacket.getTriId(j);
+                    cacheId[j] = oHitPacket.getCacheId(j);
           
-                    if(triId[i] != 0)
-                        hits++;
+                    //if(triId[i] != 0) hits++;
 
+                    if(rDist[j] < FLT_MAX) 
+                        hits++;
                 }
-          
+
                 fwrite(&rDist, 4, 4, fp);
                 fwrite(&rU, 4, 4, fp);
                 fwrite(&rV, 4, 4, fp);
@@ -967,6 +934,29 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
             fclose(fp);
             printf("Hits: %u\n", hits);
             printf("Binary hitdata written to file\n");
+            exit(-1);
+#endif
+
+#if 0  // write triId stored in hitpacket to file
+
+            FILE* fp;
+            fp=fopen("/home/filip/tmp/OpenSG/Standalone.app/HitTriIdCell_box.list", "w+");
+
+            UInt32 triId[4];
+
+            for(UInt32 i = 0; i < 4096 ; ++i)
+            {
+                FourHitPacket     &oHitPacket = 
+                    pThis->_pHitStore->getPacket(i);
+
+                for(UInt32 j = 0 ; j < 4 ; ++j)
+                {
+                    triId[j] = oHitPacket.getTriId(j);
+                }
+                fprintf(fp, "%d %d %d %d\n", triId[0], triId[1], triId[2], triId[3]);
+            }
+            fclose(fp);
+            exit(-1);
 #endif
 
 #ifdef SINGLEFRAME
@@ -984,7 +974,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 #ifndef OSG_XCACHEKD
             _free_align(nodeArray);
 #endif
-       
+
             UInt32 uiHitIndex = pThis->_pHitStore->getReadIndex();
             UInt32 uiHitStat = 0;
 
@@ -1015,40 +1005,37 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
                 uiHitIndex = pThis->_pHitStore->getReadIndex();
             }
-            printf("frame %u end\n", uiFrame);
-            uiFrame++;
 
 #ifdef SINGLEFRAME
-//            exit(-1); //terminate PPE thread
+            exit(-1); //terminate PPE thread
 #endif
-
-            for (UInt8 t = 0 ; t < SPE_THREADS ; ++t) 
-            {
-                if ((rc = pthread_join ( datas[t].pthread, NULL)) != 0)
-                {
-                    fprintf(stderr,
-                            "Failed pthread_join(rc=%d errno=%d,strerror=%s)\n",
-                            rc,
-                            errno,
-                            strerror(errno)); 
-
-                    exit (-1);
-                }
-
-                if((rc = spe_context_destroy (datas[t].speid)) != 0)
-                {
-                    fprintf(stderr,
-                            "Failed spe_context_destroy(rc=%d, errno=%d"
-                            "strerror=%s)\n",
-                            rc,
-                            errno,
-                            strerror(errno));
-                    exit (-1);
-                }
-            }
 
             pThis->_pSyncBarrier->enter();
             //================================================================
+        }
+        for (UInt8 t = 0 ; t < SPE_THREADS ; ++t) 
+        {
+            if ((rc = pthread_join ( datas[t].pthread, NULL)) != 0)
+            {
+                fprintf(stderr,
+                        "Failed pthread_join(rc=%d errno=%d,strerror=%s)\n",
+                        rc,
+                        errno,
+                        strerror(errno)); 
+
+                exit (-1);
+            }
+
+            if((rc = spe_context_destroy (datas[t].speid)) != 0)
+            {
+                fprintf(stderr,
+                        "Failed spe_context_destroy(rc=%d, errno=%d"
+                        "strerror=%s)\n",
+                        rc,
+                        errno,
+                        strerror(errno));
+                exit (-1);
+            }
         }
     }
     else
@@ -1119,8 +1106,6 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                 
                 uiRayIndex = pThis->_pRayStore->nextIndex();
             }
-            
-            UInt32 uiHitIndex = pThis->_pHitStore->getReadIndex();
 
 #if 0  
             // Prints a diagonal set of raytiles to console or raytiles in
@@ -1205,6 +1190,31 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
             exit(-1);
 #endif
 
+#if 0  // write triId stored in hitpacket to file
+
+            FILE* fp;
+            fp=fopen("/home/filip/tmp/OpenSG/Standalone.app/HitTriIdPPU_box.list", "w+");
+
+            UInt32 triId[4];
+
+            for(UInt32 i = 0; i < 4096 ; ++i)
+            {
+                FourHitPacket     &oHitPacket = 
+                    pThis->_pHitStore->getPacket(i);
+
+                for(UInt32 j = 0 ; j < 4 ; ++j)
+                {
+                    triId[j] = oHitPacket.getTriId(j);
+                }
+                fprintf(fp, "%d %d %d %d\n", triId[0], triId[1], triId[2], triId[3]);
+            }
+            fclose(fp);
+            exit(-1);
+
+#endif
+
+            UInt32 uiHitIndex = pThis->_pHitStore->getReadIndex();
+
             while(uiHitIndex != HitStore::Empty)
             {
                 if(uiHitIndex != HitStore::Waiting)
@@ -1243,7 +1253,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
                 uiHitIndex = pThis->_pHitStore->getReadIndex();
             }
-            
+
 #if 0
             fprintf(stderr, "%p : %d %d\n", this, uiRayStat, uiHitStat);
 #endif
@@ -1399,7 +1409,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                                 _pTarget->markPixelNotHit(uiX, uiY);
                             }
 #endif
-                           
+
                             ++uiHitStat;
                         }
                     }

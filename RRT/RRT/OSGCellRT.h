@@ -61,7 +61,7 @@
 // The SPEs request envelopes from the PPE insted of predefined envelopes//
 //#define DYNAMIC_ENV_ASSIGNMENT
 
-#define SPE_THREADS 6 
+#define SPE_THREADS 1 
 
 #if defined(__SPU__) || defined(__PPU__)
 //#define OSG_XCACHEKD
@@ -102,7 +102,7 @@ typedef UInt32                     LSA_t;
 // ----------------------------------------------------------------------------
 
 static const UInt32 maxNodesInCache = 256;
-static const UInt32 maxPrimInNode   = 16; // multiple of 4
+static const UInt32 maxPrimInNode   = 64; // multiple of 4
 
 
 #ifdef OSG_XCACHEKD
@@ -115,10 +115,12 @@ typedef struct _control_block
 {
     UInt32 speId;
     UInt32 uiCaches;
-    UInt32 uiEnvelopes;
+    UInt32 uiAssignedEnvelopes;
     UInt32 uiTargetWidth;
     UInt32 uiTargetHeight;
-
+    UInt32 uiHEnvelopesTarget;
+    UInt32 uiVEnvelopesTarget;
+  
     EA_t   eaRayBase;
     EA_t   eaRayInfoBase;
     EA_t   eaHitBase;
@@ -131,7 +133,7 @@ typedef struct _control_block
     EA_t   eaCacheBoxVolume;
     EA_t   eaHitEnvelope;
 
-    UInt64 pad[3];   // pad to a full cache line (128 bytes) 
+    UInt64 pad[2];   // pad to a full cache line (128 bytes) 
 } control_block_t;
 
 

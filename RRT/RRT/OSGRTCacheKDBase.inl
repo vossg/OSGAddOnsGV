@@ -198,8 +198,8 @@ RTKDNode *RTCacheKDBase<DescT>::buildInternalTree(void)
 
     BBoxEdgeStore vEdgeStore[3];
 
-	for(Int32 i = 0; i < 3; ++i)
-		vEdgeStore[i].resize(2 * this->_mfTriangleAcc.size());
+    for(Int32 i = 0; i < 3; ++i)
+        vEdgeStore[i].resize(2 * this->_mfTriangleAcc.size());
 
     IndexStore vPrimStore0;
     IndexStore vPrimStore1;
@@ -208,8 +208,8 @@ RTKDNode *RTCacheKDBase<DescT>::buildInternalTree(void)
 
     vPrimStore1.resize((_iMaxDepth + 1) * this->_mfTriangleAcc.size());
 
-	for(UInt32 i = 0; i < this->_mfTriangleAcc.size(); ++i)
-		vPrimStore0[i] = i;
+    for(UInt32 i = 0; i < this->_mfTriangleAcc.size(); ++i)
+        vPrimStore0[i] = i;
 
 
     RTKDNode *pKDTree = buildTree(this->_sfBoundingVolume.getValue(), 
@@ -229,9 +229,9 @@ void RTCacheKDBase<DescT>::initAccel(BBoxStore &vBounds)
 {
     Inherited::initAccel(vBounds);
 
-	if(_iMaxDepth <= 0)
+    if(_iMaxDepth <= 0)
     {
-		_iMaxDepth = osgRound2Int(8 + 1.3f * 
+        _iMaxDepth = osgRound2Int(8 + 1.3f * 
                                   osgLog2Int(
                                       float(this->_mfTriangleAcc.size())));
     }
@@ -251,7 +251,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
 {
     RTKDNode *returnValue = NULL;
 
-	if(numCurrentPrims <= _iMaxPrims || iCurrentDepth == 0) 
+    if(numCurrentPrims <= _iMaxPrims || iCurrentDepth == 0) 
     {
         returnValue = new RTKDNode;
 
@@ -259,34 +259,34 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
                                numCurrentPrims,
                               _mfPrimitives    );
 
-		return returnValue;
-	}
+        return returnValue;
+    }
 
-	Int32  iCurrAxis     = 0;
-	Int32  iBestAxis     = -1;
+    Int32  iCurrAxis     = 0;
+    Int32  iBestAxis     = -1;
     Int32  iBestOffset   = -1;
-	Real32 fBestCost     = INFINITY;
-	Real32 fOldCost      = _iIsectCost * Real32(numCurrentPrims);
+    Real32 fBestCost     = INFINITY;
+    Real32 fOldCost      = _iIsectCost * Real32(numCurrentPrims);
 
-	Vec3f  vDiag         = nodeBounds.getMax() - nodeBounds.getMin();
+    Vec3f  vDiag         = nodeBounds.getMax() - nodeBounds.getMin();
 
-	Real32 fTotalArea    = (2.f * (vDiag[0] * vDiag[1] + 
+    Real32 fTotalArea    = (2.f * (vDiag[0] * vDiag[1] + 
                                    vDiag[0] * vDiag[2] + 
                                    vDiag[1] * vDiag[2]));
 
-	Real32 fInvTotalArea = 1.f / fTotalArea;
+    Real32 fInvTotalArea = 1.f / fTotalArea;
 
 
-	if(vDiag[0] > vDiag[1] && vDiag[0] > vDiag[2]) 
+    if(vDiag[0] > vDiag[1] && vDiag[0] > vDiag[2]) 
     {
         iCurrAxis = 0;
     }
-	else 
+    else 
     {
         iCurrAxis = (vDiag[1] > vDiag[2]) ? 1 : 2;
     }
 
-	Int32         iNumRetries = 0;
+    Int32         iNumRetries = 0;
     IndexIterator primIt;
 
     do
@@ -373,10 +373,10 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
         }
     } while(iBestAxis == -1 && iNumRetries < 2);
 
-	if(fBestCost > fOldCost) 
+    if(fBestCost > fOldCost) 
         ++iNumBadRefines;
 
-	if((fBestCost > 4.f * fOldCost && numCurrentPrims < 16) ||
+    if((fBestCost > 4.f * fOldCost && numCurrentPrims < 16) ||
        iBestAxis == -1 || iNumBadRefines == 3) 
     {
         returnValue = new RTKDNode;
@@ -385,40 +385,40 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
                                numCurrentPrims,
                               _mfPrimitives    );
         
-		return returnValue;
-	}
+        return returnValue;
+    }
 
 
-	Int32 n0 = 0;
+    Int32 n0 = 0;
     Int32 n1 = 0;
 
     primIt = itPrimStore0;
 
-	for(Int32 i = 0; i < iBestOffset; ++i)
+    for(Int32 i = 0; i < iBestOffset; ++i)
     {
-		if(vEdgeStore[iBestAxis][i]._eEdgeType == BBoxEdge::START)
+        if(vEdgeStore[iBestAxis][i]._eEdgeType == BBoxEdge::START)
         {
-			*primIt++ = vEdgeStore[iBestAxis][i]._iPrimId;
+            *primIt++ = vEdgeStore[iBestAxis][i]._iPrimId;
             ++n0;
         }
     }
 
     primIt = itPrimStore1;
 
-	for(Int32 i = iBestOffset + 1; i < 2 * numCurrentPrims; ++i)
+    for(Int32 i = iBestOffset + 1; i < 2 * numCurrentPrims; ++i)
     {
-		if(vEdgeStore[iBestAxis][i]._eEdgeType == BBoxEdge::END)
+        if(vEdgeStore[iBestAxis][i]._eEdgeType == BBoxEdge::END)
         {
-			*primIt++ = vEdgeStore[iBestAxis][i]._iPrimId;
+            *primIt++ = vEdgeStore[iBestAxis][i]._iPrimId;
             ++n1;
         }
     }
 
-	Real tsplit = vEdgeStore[iBestAxis][iBestOffset]._rT;
+    Real tsplit = vEdgeStore[iBestAxis][iBestOffset]._rT;
 
     returnValue = new RTKDNode;
 
-	returnValue->initInterior(iBestAxis, tsplit);
+    returnValue->initInterior(iBestAxis, tsplit);
 
 
     Pnt3f newMin = nodeBounds.getMin();
@@ -426,7 +426,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
 
     newMax[iBestAxis] = tsplit;
 
-	BoxVolume bounds0(newMin, newMax);
+    BoxVolume bounds0(newMin, newMax);
 
 
 
@@ -439,7 +439,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
 
 
 
-	RTKDNode *pBelowChild = buildTree(bounds0,
+    RTKDNode *pBelowChild = buildTree(bounds0,
                                       vBoundsStore, 
                                       itPrimStore0, 
                                       n0, 
@@ -450,7 +450,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
                                       iNumBadRefines);
 
 
-	RTKDNode *pAboveChild = buildTree(bounds1, 
+    RTKDNode *pAboveChild = buildTree(bounds1, 
                                       vBoundsStore,
                                       itPrimStore1, 
                                       n1, 

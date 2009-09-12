@@ -72,16 +72,17 @@ void RTKDNode::initLeaf(IndexIterator          primNums,
 
     vStore.push_back(tmpVec);
 
-    vStore.back().reserve(np);
-
 #if defined(OSG_CELL)
     if(np==0)
     {
+        vStore.back().reserve(1);
         vStore.back().push_back(UINT_MAX);
     }
     else
 #endif
     {
+        vStore.back().reserve(np);
+
         for(UInt32 i = 0; i < np; ++i)
             vStore.back().push_back(*primNums++);
     }
@@ -161,38 +162,40 @@ void RTCacheKDNode::initLeaf(IndexIterator          primNums,
     _uiFlags    |= 3;
 
 #if defined(OSG_CELL)
-    std::vector<UInt32> tmpVec;
-
-    vStore.push_back(tmpVec);
 #endif
 
     if(np == 0)
     {
-        _uiSinglePrimitive = 0;
 #if defined(OSG_CELL)
+        std::vector<UInt32> tmpVec;
+
+        vStore.push_back(tmpVec);
+
         vStore.back().reserve(1);
-        vStore.back().push_back(UINT_MAX);
+        vStore.back().push_back(0);
+#else
+        _uiSinglePrimitive = 0;
 #endif
     }
     else if(np == 1)
     {
         _uiSinglePrimitive = *primNums;
 #if defined(OSG_CELL)
+        std::vector<UInt32> tmpVec;
+
+        vStore.push_back(tmpVec);
+
         vStore.back().reserve(1);
         vStore.back().push_back(*primNums);
 #endif
     }
     else 
     {
-#if defined(OSG_CELL)
-        _pPrimitiveIdx = vStore.size() - 1;
-#else
         _pPrimitiveIdx = vStore.size();
 
         std::vector<UInt32> tmpVec;
         
         vStore.push_back(tmpVec);
-#endif
 
         vStore.back().reserve(np);
 
@@ -226,7 +229,18 @@ void RTCacheKDNode::initLeaf(RTKDNode              *pNode,
     }
     else if(vPrimitives.size() == 1)
     {
+#if defined(OSG_CELL)
+        if(vPrimitives.at(0) == UINT_MAX)
+        {
+            _uiFlags = 3; // mark as leaf with zero primitives
+        }
+        else
+        {
+            _uiSinglePrimitive = vPrimitives[0];      
+        }
+#else
         _uiSinglePrimitive = vPrimitives[0];
+#endif
     }
     else 
     {
