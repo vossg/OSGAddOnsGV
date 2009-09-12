@@ -314,6 +314,9 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
 
 typedef RTCacheGeometryStoreBase *RTCacheGeometryStoreBaseP;
 
+typedef CoredNodeRefPtr  <RTCacheGeometryStore> RTCacheGeometryStoreNodeRefPtr;
+typedef CoredNodeMTRefPtr<RTCacheGeometryStore> RTCacheGeometryStoreNodeMTRefPtr;
+
 OSG_END_NAMESPACE
 
 #endif /* _OSGRTCACHEGEOMETRYSTOREBASE_H_ */

@@ -385,6 +385,9 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
 
 typedef RRTStageBase *RRTStageBaseP;
 
+typedef CoredNodeRefPtr  <RRTStage> RRTStageNodeRefPtr;
+typedef CoredNodeMTRefPtr<RRTStage> RRTStageNodeMTRefPtr;
+
 OSG_END_NAMESPACE
 
 #endif /* _OSGRRTSTAGEBASE_H_ */
