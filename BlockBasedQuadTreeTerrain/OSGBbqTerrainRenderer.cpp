@@ -1284,6 +1284,13 @@ void BbqTerrainRenderer<HeightType,
         }
     }
 
+    fprintf(stderr, "%f %f | %f %f\n",
+            rootNode->boundingBox.getMin().x(),
+            rootNode->boundingBox.getMin().z(),
+            rootNode->boundingBox.getMax().x(),
+            rootNode->boundingBox.getMax().z());
+
+
 //    glUseProgramObjectARB( 0 );
 //    terrainShader_.deactivate(options.pDrawEnv);
 }

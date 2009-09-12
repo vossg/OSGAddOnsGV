@@ -231,6 +231,16 @@ void BbqTerrain::changed(ConstFieldMaskArg whichField,
         _oTerrainRenderOptions.showSwitchDistance = getShowSwitchDistance(); 
     }
 
+    if(0x0000 != (whichField & EnableSkirtsFieldMask))
+    {
+        _oTerrainRenderOptions.showSkirts = getEnableSkirts(); 
+    }
+
+    if(0x0000 != (whichField & ScreenSpaceErrorFieldMask))
+    {
+        _oTerrainRenderOptions.screenSpaceError = getScreenSpaceError(); 
+    }
+
     fprintf(stderr, "BBQ:TERR changed\n");
 
     if(0x0000 != (whichField & DataSourceFieldMask))
@@ -404,7 +414,8 @@ Action::ResultE BbqTerrain::renderEnter(Action* action)
 
 
 
-    a->pushPartition(RenderPartition::CopyViewing, 
+    a->pushPartition((RenderPartition::CopyViewing |
+                      RenderPartition::CopyViewportSize), 
                      RenderPartition::SimpleCallback);
     {
         RenderPartition *pPart  = a->getActivePartition();
@@ -431,7 +442,16 @@ Action::ResultE BbqTerrain::renderLeave(Action* action)
 
 void BbqTerrain::execute(DrawEnv *pDrawEnv)
 {
-    Matrix m1c = getBeacon()->getToWorld();
+    Matrix m1c;
+
+    if(getBeacon() != NullFC)
+    {
+        m1c = getBeacon()->getToWorld();
+    }
+    else
+    {
+        m1c.setIdentity();
+    }
 
     Vec3f camProj(m1c[3][0],
                   m1c[3][1],
@@ -442,32 +462,39 @@ void BbqTerrain::execute(DrawEnv *pDrawEnv)
     if(getDataSource()->hasGeoRef() == true)
     {
         Vec3f camPosTmp;
+
+        const BbqDataSourceInformation &tInfo = 
+            getDataSource()->getInformation();
         
         backProjectPnt(camPosTmp, camProj);
         
         camPos[0] = osgRad2Degree(camPosTmp[0]);
         camPos[1] = camPosTmp[2];
-        camPos[2] = -45.f - (osgRad2Degree(camPosTmp[1]) + 40.f);
+        camPos[2] = osgRad2Degree(camPosTmp[1]);
 
-        camPos[0] = ((camPos[0] - 170.f) / 5) * 571.45666 -285.728333; 
-        camPos[2] = ((camPos[2] +  40.f) / 5) * 571.45666 +285.728333; 
+        camPos[0] = camPos[0] * tInfo.vScale[0] + tInfo.vOffset[0]; 
+        camPos[2] = camPos[2] * tInfo.vScale[1] + tInfo.vOffset[1];
     }
     else
     {
         camPos = camProj;
     }
 
-    _oTerrainRenderOptions.showSkirts         = true;
     _oTerrainRenderOptions.showBoundingBoxes    = false;
     _oTerrainRenderOptions.useVboExtension      = true;
     _oTerrainRenderOptions.enableFrustumCulling = false;
-    _oTerrainRenderOptions.screenSpaceError     = 5.f;
+
     _oTerrainRenderOptions.fovy                 = osgDegree2Rad(90);
-    _oTerrainRenderOptions.screenSize.setValues(500, 500); //uiSize, uiSize);
+
+    _oTerrainRenderOptions.screenSize.setValues(pDrawEnv->getPixelWidth(), 
+                                                pDrawEnv->getPixelHeight());
+
     _oTerrainRenderOptions.pDrawEnv             = pDrawEnv;
+
     _oTerrainRenderOptions.viewerpos[0]         = camPos[0];
     _oTerrainRenderOptions.viewerpos[1]         = camPos[1];
     _oTerrainRenderOptions.viewerpos[2]         = camPos[2];
+
     _oTerrainRenderOptions.geoMorphFactor       = 0; //geoMorph;
 
 //    Vec3f camPos(0, 1000, 0);

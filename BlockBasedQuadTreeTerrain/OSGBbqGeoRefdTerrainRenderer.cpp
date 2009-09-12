@@ -223,7 +223,8 @@ void BbqGeoRefdTerrainRenderer<HeightType,
 
         const float objectSpaceHeightError = 
             float( node->maxHeightError ) / 
-            65535.0f * _oDatabaseInfo.heightScale + _oDatabaseInfo.heightOffset;
+            32767.0f * _oDatabaseInfo.heightScale + _oDatabaseInfo.heightOffset;
+//            65535.0f * _oDatabaseInfo.heightScale + _oDatabaseInfo.heightOffset;
 
         const float screenSpaceHeightError = 
             ( objectSpaceHeightError / distance ) * screenResolution;
@@ -361,6 +362,8 @@ void BbqGeoRefdTerrainRenderer<HeightType,
         }
     }
 
+
+    glColor3f(1.f, 0.f, 0.f);
     glBegin(GL_QUADS);
     {
         glVertex3f(rootNode->boundingBox.getMin().x(),
@@ -379,13 +382,18 @@ void BbqGeoRefdTerrainRenderer<HeightType,
     glEnd();
 
 
-/*
-    fprintf(stderr, "%f %f | %f %f\n",
-            rootNode->boundingBox.getMin().x(),
-            rootNode->boundingBox.getMin().z(),
-            rootNode->boundingBox.getMax().x(),
-            rootNode->boundingBox.getMax().z());
- */
+    static bool dumpBox = false;
+
+    if(dumpBox == false)
+    {
+        fprintf(stderr, "%f %f | %f %f\n",
+                rootNode->boundingBox.getMin().x(),
+                rootNode->boundingBox.getMin().z(),
+                rootNode->boundingBox.getMax().x(),
+                rootNode->boundingBox.getMax().z());
+
+        dumpBox = true;
+    }
 
 
 //    glUseProgramObjectARB( 0 );

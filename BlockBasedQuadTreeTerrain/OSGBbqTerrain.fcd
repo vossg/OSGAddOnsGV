@@ -39,6 +39,24 @@
 	>
 	</Field>
 	<Field
+		name="screenSpaceError"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="5.f"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="enableSkirts"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	</Field>    
+	<Field
 		name="showSwitchDistance"
 		type="bool"
 		cardinality="single"

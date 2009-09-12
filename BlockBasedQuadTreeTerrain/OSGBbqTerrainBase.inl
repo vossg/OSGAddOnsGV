@@ -140,6 +140,72 @@ void BbqTerrainBase::setMaxNumResidentNodes(const UInt32 &value)
 
     _sfMaxNumResidentNodes.setValue(value);
 }
+//! Get the value of the BbqTerrain::_sfScreenSpaceError field.
+
+inline
+Real32 &BbqTerrainBase::editScreenSpaceError(void)
+{
+    editSField(ScreenSpaceErrorFieldMask);
+
+    return _sfScreenSpaceError.getValue();
+}
+
+//! Get the value of the BbqTerrain::_sfScreenSpaceError field.
+inline
+const Real32 &BbqTerrainBase::getScreenSpaceError(void) const
+{
+    return _sfScreenSpaceError.getValue();
+}
+
+#ifdef OSG_1_GET_COMPAT
+inline
+Real32              &BbqTerrainBase::getScreenSpaceError(void)
+{
+    return this->editScreenSpaceError();
+}
+#endif
+
+//! Set the value of the BbqTerrain::_sfScreenSpaceError field.
+inline
+void BbqTerrainBase::setScreenSpaceError(const Real32 &value)
+{
+    editSField(ScreenSpaceErrorFieldMask);
+
+    _sfScreenSpaceError.setValue(value);
+}
+//! Get the value of the BbqTerrain::_sfEnableSkirts field.
+
+inline
+bool &BbqTerrainBase::editEnableSkirts(void)
+{
+    editSField(EnableSkirtsFieldMask);
+
+    return _sfEnableSkirts.getValue();
+}
+
+//! Get the value of the BbqTerrain::_sfEnableSkirts field.
+inline
+const bool &BbqTerrainBase::getEnableSkirts(void) const
+{
+    return _sfEnableSkirts.getValue();
+}
+
+#ifdef OSG_1_GET_COMPAT
+inline
+bool                &BbqTerrainBase::getEnableSkirts   (void)
+{
+    return this->editEnableSkirts   ();
+}
+#endif
+
+//! Set the value of the BbqTerrain::_sfEnableSkirts field.
+inline
+void BbqTerrainBase::setEnableSkirts(const bool &value)
+{
+    editSField(EnableSkirtsFieldMask);
+
+    _sfEnableSkirts.setValue(value);
+}
 //! Get the value of the BbqTerrain::_sfShowSwitchDistance field.
 
 inline
@@ -193,6 +259,12 @@ void BbqTerrainBase::execSync (      BbqTerrainBase *pFrom,
 
     if(FieldBits::NoField != (MaxNumResidentNodesFieldMask & whichField))
         _sfMaxNumResidentNodes.syncWith(pFrom->_sfMaxNumResidentNodes);
+
+    if(FieldBits::NoField != (ScreenSpaceErrorFieldMask & whichField))
+        _sfScreenSpaceError.syncWith(pFrom->_sfScreenSpaceError);
+
+    if(FieldBits::NoField != (EnableSkirtsFieldMask & whichField))
+        _sfEnableSkirts.syncWith(pFrom->_sfEnableSkirts);
 
     if(FieldBits::NoField != (ShowSwitchDistanceFieldMask & whichField))
         _sfShowSwitchDistance.syncWith(pFrom->_sfShowSwitchDistance);

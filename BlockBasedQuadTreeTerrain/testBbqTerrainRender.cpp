@@ -326,11 +326,12 @@ void key(unsigned char key, int x, int y)
                 !pTerrain->getShowSwitchDistance());
             break;
 
-#ifdef OLD_BBQ
         case 's':
-            terrainRenderOptions_.showSkirts =
-                !terrainRenderOptions_.showSkirts;
+            pTerrain->setEnableSkirts( 
+                !pTerrain->getEnableSkirts());
             break;
+
+#ifdef OLD_BBQ
         case 'g':
             geoMorph = 1.f - geoMorph;
             fprintf(stderr, "geom : %f\n", geoMorph);
@@ -471,8 +472,8 @@ int main (int argc, char **argv)
     BbqOutOfCoreDataSourcePtr pSource = BbqOutOfCoreDataSource::create();
 
 //    pSource->setFilename("data/ps_com.bbq");
-//    pSource->setFilename("data/ps.bbq");
-    pSource->setFilename("/home/gerrit/mtmp/ps.bbq");
+    pSource->setFilename("data/ps.bbq");
+//    pSource->setFilename("/home/gerrit/mtmp/ps.bbq");
 
     pSource->setHeightScale  (32.768f);
     pSource->setHeightOffset (0.0f   );

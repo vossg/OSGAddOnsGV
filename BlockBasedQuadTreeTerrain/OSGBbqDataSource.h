@@ -66,11 +66,19 @@ struct BbqDataSourceInformation
     Real32                 heightOffset;
     Real32                 sampleSpacing;
 
+    // terrain global grid bbox
+    Vec2f                  gridBBoxMin;
+    Vec2f                  gridBBoxMax;
+
     //geographic referencing:
     UInt32                 uiDatum;
     Vec2f                  vEllipsoidAxis;
     Vec2f                  vOrigin;
     Vec2f                  vPixelSize;
+
+    // geo ref to grid mapping
+    Vec2f                  vScale;
+    Vec2f                  vOffset;
 };
 
 struct BbqTerrainNodeBase;

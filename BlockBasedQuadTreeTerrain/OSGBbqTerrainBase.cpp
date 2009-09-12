@@ -95,6 +95,14 @@ OSG_BEGIN_NAMESPACE
     
 */
 
+/*! \var Real32          BbqTerrainBase::_sfScreenSpaceError
+    
+*/
+
+/*! \var bool            BbqTerrainBase::_sfEnableSkirts
+    
+*/
+
 /*! \var bool            BbqTerrainBase::_sfShowSwitchDistance
     
 */
@@ -138,6 +146,30 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         Field::SFDefaultFlags,
         static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleMaxNumResidentNodes),
         static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleMaxNumResidentNodes));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new SFReal32::Description(
+        SFReal32::getClassType(),
+        "screenSpaceError",
+        "",
+        ScreenSpaceErrorFieldId, ScreenSpaceErrorFieldMask,
+        false,
+        Field::SFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleScreenSpaceError),
+        static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleScreenSpaceError));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new SFBool::Description(
+        SFBool::getClassType(),
+        "enableSkirts",
+        "",
+        EnableSkirtsFieldId, EnableSkirtsFieldMask,
+        false,
+        Field::SFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleEnableSkirts),
+        static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleEnableSkirts));
 
     oType.addInitialDesc(pDesc);
 
@@ -207,6 +239,24 @@ BbqTerrainBase::TypeObject BbqTerrainBase::_type(
     "\t>\n"
     "\t</Field>\n"
     "\t<Field\n"
+    "\t\tname=\"screenSpaceError\"\n"
+    "\t\ttype=\"Real32\"\n"
+    "\t\tcardinality=\"single\"\n"
+    "\t\tvisibility=\"external\"\n"
+    "\t\tdefaultValue=\"5.f\"\n"
+    "\t\taccess=\"public\"\n"
+    "\t>\n"
+    "\t</Field>\n"
+    "\t<Field\n"
+    "\t\tname=\"enableSkirts\"\n"
+    "\t\ttype=\"bool\"\n"
+    "\t\tcardinality=\"single\"\n"
+    "\t\tvisibility=\"external\"\n"
+    "\t\tdefaultValue=\"true\"\n"
+    "\t\taccess=\"public\"\n"
+    "\t>\n"
+    "\t</Field>    \n"
+    "\t<Field\n"
     "\t\tname=\"showSwitchDistance\"\n"
     "\t\ttype=\"bool\"\n"
     "\t\tcardinality=\"single\"\n"
@@ -270,6 +320,44 @@ SFUInt32            *BbqTerrainBase::getSFMaxNumResidentNodes(void)
 }
 #endif
 
+SFReal32 *BbqTerrainBase::editSFScreenSpaceError(void)
+{
+    editSField(ScreenSpaceErrorFieldMask);
+
+    return &_sfScreenSpaceError;
+}
+
+const SFReal32 *BbqTerrainBase::getSFScreenSpaceError(void) const
+{
+    return &_sfScreenSpaceError;
+}
+
+#ifdef OSG_1_GET_COMPAT
+SFReal32            *BbqTerrainBase::getSFScreenSpaceError(void)
+{
+    return this->editSFScreenSpaceError();
+}
+#endif
+
+SFBool *BbqTerrainBase::editSFEnableSkirts(void)
+{
+    editSField(EnableSkirtsFieldMask);
+
+    return &_sfEnableSkirts;
+}
+
+const SFBool *BbqTerrainBase::getSFEnableSkirts(void) const
+{
+    return &_sfEnableSkirts;
+}
+
+#ifdef OSG_1_GET_COMPAT
+SFBool              *BbqTerrainBase::getSFEnableSkirts   (void)
+{
+    return this->editSFEnableSkirts   ();
+}
+#endif
+
 SFBool *BbqTerrainBase::editSFShowSwitchDistance(void)
 {
     editSField(ShowSwitchDistanceFieldMask);
@@ -311,6 +399,14 @@ UInt32 BbqTerrainBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfMaxNumResidentNodes.getBinSize();
     }
+    if(FieldBits::NoField != (ScreenSpaceErrorFieldMask & whichField))
+    {
+        returnValue += _sfScreenSpaceError.getBinSize();
+    }
+    if(FieldBits::NoField != (EnableSkirtsFieldMask & whichField))
+    {
+        returnValue += _sfEnableSkirts.getBinSize();
+    }
     if(FieldBits::NoField != (ShowSwitchDistanceFieldMask & whichField))
     {
         returnValue += _sfShowSwitchDistance.getBinSize();
@@ -336,6 +432,14 @@ void BbqTerrainBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfMaxNumResidentNodes.copyToBin(pMem);
     }
+    if(FieldBits::NoField != (ScreenSpaceErrorFieldMask & whichField))
+    {
+        _sfScreenSpaceError.copyToBin(pMem);
+    }
+    if(FieldBits::NoField != (EnableSkirtsFieldMask & whichField))
+    {
+        _sfEnableSkirts.copyToBin(pMem);
+    }
     if(FieldBits::NoField != (ShowSwitchDistanceFieldMask & whichField))
     {
         _sfShowSwitchDistance.copyToBin(pMem);
@@ -358,6 +462,14 @@ void BbqTerrainBase::copyFromBin(BinaryDataHandler &pMem,
     if(FieldBits::NoField != (MaxNumResidentNodesFieldMask & whichField))
     {
         _sfMaxNumResidentNodes.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (ScreenSpaceErrorFieldMask & whichField))
+    {
+        _sfScreenSpaceError.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (EnableSkirtsFieldMask & whichField))
+    {
+        _sfEnableSkirts.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (ShowSwitchDistanceFieldMask & whichField))
     {
@@ -407,6 +519,8 @@ BbqTerrainBase::BbqTerrainBase(void) :
     _sfBeacon                 (NodePtr(NullFC)),
     _sfDataSource             (BbqDataSourcePtr(NullFC)),
     _sfMaxNumResidentNodes    (UInt32(5000)),
+    _sfScreenSpaceError       (Real32(5.f)),
+    _sfEnableSkirts           (bool(true)),
     _sfShowSwitchDistance     (bool(false))
 {
 }
@@ -416,6 +530,8 @@ BbqTerrainBase::BbqTerrainBase(const BbqTerrainBase &source) :
     _sfBeacon                 (NullFC),
     _sfDataSource             (NullFC),
     _sfMaxNumResidentNodes    (source._sfMaxNumResidentNodes    ),
+    _sfScreenSpaceError       (source._sfScreenSpaceError       ),
+    _sfEnableSkirts           (source._sfEnableSkirts           ),
     _sfShowSwitchDistance     (source._sfShowSwitchDistance     )
 {
 }
@@ -508,6 +624,50 @@ EditFieldHandlePtr BbqTerrainBase::editHandleMaxNumResidentNodes(void)
              this->getType().getFieldDesc(MaxNumResidentNodesFieldId)));
 
     editSField(MaxNumResidentNodesFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr BbqTerrainBase::getHandleScreenSpaceError (void) const
+{
+    SFReal32::GetHandlePtr returnValue(
+        new  SFReal32::GetHandle(
+             &_sfScreenSpaceError, 
+             this->getType().getFieldDesc(ScreenSpaceErrorFieldId)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr BbqTerrainBase::editHandleScreenSpaceError(void)
+{
+    SFReal32::EditHandlePtr returnValue(
+        new  SFReal32::EditHandle(
+             &_sfScreenSpaceError, 
+             this->getType().getFieldDesc(ScreenSpaceErrorFieldId)));
+
+    editSField(ScreenSpaceErrorFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr BbqTerrainBase::getHandleEnableSkirts    (void) const
+{
+    SFBool::GetHandlePtr returnValue(
+        new  SFBool::GetHandle(
+             &_sfEnableSkirts, 
+             this->getType().getFieldDesc(EnableSkirtsFieldId)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr BbqTerrainBase::editHandleEnableSkirts   (void)
+{
+    SFBool::EditHandlePtr returnValue(
+        new  SFBool::EditHandle(
+             &_sfEnableSkirts, 
+             this->getType().getFieldDesc(EnableSkirtsFieldId)));
+
+    editSField(EnableSkirtsFieldMask);
 
     return returnValue;
 }

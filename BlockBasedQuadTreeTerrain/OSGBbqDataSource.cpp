@@ -186,6 +186,40 @@ void BbqDataSourceEngine::initSourceInformation(
             oHeader._vOrigin[1],
             oHeader._vPixelSize[0],
             oHeader._vPixelSize[1]);
+
+    const Real32 rootScale     =  Real32(1 << (_oInformation.levelCount - 1));
+    const Real32 rootDimension = Real32 (_oInformation.heightTileSize - 1);
+
+
+    const Vec2f rootOrigin(-Real32(_oInformation.heightSampleCount.x()) / 2.0f, 
+                           -Real32(_oInformation.heightSampleCount.y()) / 2.0f);
+
+    const Vec2f rootBlockOffset = _oInformation.sampleSpacing * rootOrigin;
+
+    const Vec2f rootBlockScale(_oInformation.sampleSpacing * rootScale, 
+                               _oInformation.sampleSpacing * rootScale);
+
+    const Vec2f rootBlockSize(rootDimension * rootBlockScale.x(), 
+                              rootDimension * rootBlockScale.y());
+
+    _oInformation.gridBBoxMin.setValues(rootBlockOffset.x(), 
+                                        rootBlockOffset.y());
+
+    
+    _oInformation.gridBBoxMax.setValues(
+        rootBlockOffset.x() + rootBlockSize.x(), 
+        rootBlockOffset.y() + rootBlockSize.y() );
+
+    _oInformation.vScale.setValues(
+        _oInformation.sampleSpacing / _oInformation.vPixelSize[0],
+        _oInformation.sampleSpacing / _oInformation.vPixelSize[1]);
+
+    _oInformation.vOffset.setValues(
+        _oInformation.gridBBoxMin[0] - (_oInformation.vOrigin[0] * 
+                                        _oInformation.vScale [0]),
+        _oInformation.gridBBoxMin[1] - (_oInformation.vOrigin[1] * 
+                                        _oInformation.vScale [1]));
+
 }
 
 

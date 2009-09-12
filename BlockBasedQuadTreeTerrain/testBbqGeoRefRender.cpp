@@ -52,7 +52,8 @@ BbqOutOfCoreDataSource *outOfCoreDataSource_  = NULL;
 BbqRenderOptions        terrainRenderOptions_;
 #endif
 
-BbqTerrainPtr pTerrain = NullFC;
+BbqTerrainPtr             pTerrain = NullFC;
+BbqOutOfCoreDataSourcePtr pSource  = NullFC;
 
 Trackball tball;
 Trackball tcamball;
@@ -64,6 +65,7 @@ int uiSize = 500;
 float geoMorph = 0;
 
 bool move_obj = false;
+bool bAnimate  = true;
 
 int mouseb = 0;
 int lastx  = 0;
@@ -74,6 +76,10 @@ Vec3f      oldv;
 
 Matrix m1c;
 Matrix m4c;
+
+float fUnitScale  = 1.f;
+float fUnitScale1 = 1.f;
+Vec2f vUnitOffset(0.f, 0.f);
 
 #ifdef OLD_BBQ
 void terrainRenderCB(DrawEnv *pEnv)
@@ -118,11 +124,13 @@ void terrainRenderCB(DrawEnv *pEnv)
 
 static float xPoints[][3] = 
 {
-    {170.0, -40.0, 0.0},
-    {175.0, -45.0, 0.0}
+//    {165.0, -35.0, 0.0},
+//    {180.0, -50.0, 0.0}
+    {170.0, -40.0, 0.5},
+    {175.0, -45.0, 0.5}
 };
 
-static float tStep = 0.001;
+static float tStep = 0.0005;
 static float t     = 0;
 
 void display(void)
@@ -164,17 +172,20 @@ void display(void)
     float fLat  = xPoints[0][1] + (xPoints[1][1] - xPoints[0][1]) * t;
     float fLong = xPoints[0][0] + (xPoints[1][0] - xPoints[0][0]) * t;
 
-    t += tStep;
-
-    if(t > 1)
+    if(bAnimate == true)
     {
-        tStep = -tStep;
-        t     = 1;
-    }
-    else if(t < 0)
-    {
-        tStep = -tStep;
-        t     = 0;
+        t += tStep;
+        
+        if(t > 1)
+        {
+            tStep = -tStep;
+            t     = 1;
+        }
+        else if(t < 0)
+        {
+            tStep = -tStep;
+            t     = 0;
+        }
     }
 
     Pnt3f p1;
@@ -206,14 +217,29 @@ void display(void)
 
 /* -285.728333 -285.728333 | 494.500488 494.500488 */
 
+    const BbqDataSourceInformation &tInfo = 
+        pSource->getInformation();
+
     m4c.setIdentity();
 
     m4c[3][0] = osgRad2Degree(x2[0]);
-    m4c[3][1] = x2[2];
-    m4c[3][2] = -45.f - (osgRad2Degree(x2[1]) + 40.f);
+    m4c[3][1] = 0; //x2[2];
+//    m4c[3][2] = -45.f - (osgRad2Degree(x2[1]) + 40.f);
+//    m4c[3][2] = -(osgRad2Degree(x2[1]) + 40.f);
+    m4c[3][2] = osgRad2Degree(x2[1]);
 
-    m4c[3][0] = ((m4c[3][0] - 170.f) / 5) * 571.45666 -285.728333; 
-    m4c[3][2] = ((m4c[3][2] +  40.f) / 5) * 571.45666 +285.728333; 
+//    fprintf(stderr, "%f %f\n", 
+//            -(osgRad2Degree(x2[1]) + 40.f),
+//           -45.f - (osgRad2Degree(x2[1]) + 40.f));
+//    (571.45666/ 5.f)
+//   (- 285.728333 - (170.f * fUnitScale))
+
+//    m4c[3][0] = m4c[3][0] * fUnitScale + vUnitOffset[0]; 
+    m4c[3][0] = m4c[3][0] * tInfo.vScale[0] + tInfo.vOffset[0]; 
+
+//    m4c[3][2] = (-m4c[3][2] - 40.f) * fUnitScale - 285.728333; 
+//    m4c[3][2] = m4c[3][2] * fUnitScale1 + vUnitOffset[1];
+    m4c[3][2] = m4c[3][2] * tInfo.vScale[1] + tInfo.vOffset[1];
 
     ref_trans->editSFMatrix()->setValue(m4c);
 
@@ -393,6 +419,24 @@ void key(unsigned char key, int x, int y)
                 !pTerrain->getShowSwitchDistance());
             break;
 
+        case 'a':
+            bAnimate = !bAnimate;
+            break;
+
+        case '[':
+            pTerrain->setScreenSpaceError(
+                pTerrain->getScreenSpaceError() - 0.01);
+
+            fprintf(stderr, "spe : %f\n", pTerrain->getScreenSpaceError());
+            break;
+
+        case ']':
+            pTerrain->setScreenSpaceError(
+                pTerrain->getScreenSpaceError() + 0.01);
+
+            fprintf(stderr, "spe : %f\n", pTerrain->getScreenSpaceError());
+            break;
+
 #ifdef OLD_BBQ
         case 's':
             terrainRenderOptions_.showSkirts =
@@ -544,10 +588,11 @@ int main (int argc, char **argv)
     pAlgoStage->setAlgorithm(pAlgo);
 #endif
 
-    BbqOutOfCoreDataSourcePtr pSource = BbqOutOfCoreDataSource::create();
+    pSource = BbqOutOfCoreDataSource::create();
 
 //    pSource->setFilename("data/ps_com.bbq");
     pSource->setFilename("data/ps.bbq");
+//    pSource->setFilename("/home/gerrit/mtmp/ps.bbq");
 
     pSource->setHeightScale  (6500.0f);
     pSource->setHeightOffset (0.0f  );
@@ -567,6 +612,45 @@ int main (int argc, char **argv)
     dlight->addChild(sceneTrN);
     dlight->addChild(refTrN  );
 
+    OSG::commitChanges();
+
+    const BbqDataSourceInformation &tInfo = 
+        pSource->getInformation();
+
+    fprintf(stderr, "%d %d\n",
+            tInfo.heightSampleCount[0],
+            tInfo.heightSampleCount[1]);
+
+    fprintf(stderr, "min %f %f\n",
+            tInfo.vOrigin[0],
+            tInfo.vOrigin[1]);
+
+    fprintf(stderr, "max %f %f\n",
+            tInfo.vOrigin[0] + 
+                tInfo.heightSampleCount[0] * tInfo.vPixelSize[0],
+            tInfo.vOrigin[1] + 
+                tInfo.heightSampleCount[1] * tInfo.vPixelSize[1]);
+
+    fprintf(stderr, "ts: %f\n", tInfo.sampleSpacing);
+
+
+    fprintf(stderr, "info Bbox min %f %f\n", 
+            tInfo.gridBBoxMin[0],
+            tInfo.gridBBoxMin[1]);
+
+    fprintf(stderr, "info Bbox max %f %f\n", 
+            tInfo.gridBBoxMax[0],
+            tInfo.gridBBoxMax[1]);
+
+    fUnitScale  = tInfo.sampleSpacing / tInfo.vPixelSize[0];
+    fUnitScale1 = tInfo.sampleSpacing / tInfo.vPixelSize[1];
+
+    //(- 285.728333 - (170.f * fUnitScale)
+    
+    vUnitOffset[0] = tInfo.gridBBoxMin[0] - (tInfo.vOrigin[0] * fUnitScale);
+    //m4c[3][2] = (-m4c[3][2] - 40.f) * fUnitScale - 285.728333; 
+
+    vUnitOffset[1] = tInfo.gridBBoxMin[1] - (tInfo.vOrigin[1] * fUnitScale1);
 
 #if 1
     NodePtr geoRef = Node::create();
