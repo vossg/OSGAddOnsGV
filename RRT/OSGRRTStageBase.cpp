@@ -211,6 +211,7 @@ RRTStageBase::TypeObject RRTStageBase::_type(
     0,
     (PrototypeCreateF) &RRTStageBase::createEmpty,
     RRTStage::initMethod,
+    RRTStage::exitMethod,
     (InitalInsertDescFunc) &RRTStageBase::classDescInserter,
     false,
     0,

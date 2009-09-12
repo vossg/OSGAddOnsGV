@@ -85,6 +85,7 @@ RTInfoAttachmentBase::TypeObject RTInfoAttachmentBase::_type(
     0,
     (PrototypeCreateF) &RTInfoAttachmentBase::createEmpty,
     RTInfoAttachment::initMethod,
+    RTInfoAttachment::exitMethod,
     NULL,
     false,
     0,

@@ -203,6 +203,7 @@ RTCacheAttachmentInst< DESC >::TypeObject                                     \
         0,                                                                    \
         (PrototypeCreateF) &Self::createEmpty,                                \
         NULL,                                                                 \
+        NULL,                                                                 \
         (InitalInsertDescFunc) &Self::classDescInserter,                      \
         true,                                                                 \
         0);                                                                   \

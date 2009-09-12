@@ -146,6 +146,7 @@ RTCacheGeometryStoreBase::TypeObject RTCacheGeometryStoreBase::_type(
     0,
     (PrototypeCreateF) &RTCacheGeometryStoreBase::createEmpty,
     RTCacheGeometryStore::initMethod,
+    RTCacheGeometryStore::exitMethod,
     (InitalInsertDescFunc) &RTCacheGeometryStoreBase::classDescInserter,
     false,
     0,

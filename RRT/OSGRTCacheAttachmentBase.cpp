@@ -85,6 +85,7 @@ RTCacheAttachmentBase::TypeObject RTCacheAttachmentBase::_type(
     0,
     (PrototypeCreateF) &RTCacheAttachmentBase::createEmpty,
     RTCacheAttachment::initMethod,
+    RTCacheAttachment::exitMethod,
     NULL,
     false,
     0,
