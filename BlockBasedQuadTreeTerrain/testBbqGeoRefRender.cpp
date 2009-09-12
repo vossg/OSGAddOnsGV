@@ -44,6 +44,7 @@ WindowPtr            win = NullFC;
 
 TransformPtr cam_trans   = NullFC;
 TransformPtr scene_trans = NullFC;
+TransformPtr ref_trans   = NullFC;
 
 #ifdef OLD_BBQ
 BbqTerrainEngine       *terrain_              = NULL;
@@ -72,6 +73,7 @@ Quaternion oldq;
 Vec3f      oldv;
 
 Matrix m1c;
+Matrix m4c;
 
 #ifdef OLD_BBQ
 void terrainRenderCB(DrawEnv *pEnv)
@@ -114,6 +116,14 @@ void terrainRenderCB(DrawEnv *pEnv)
 }
 #endif
 
+static float xPoints[][3] = 
+{
+    {170.0, -40.0, 0.0},
+    {175.0, -45.0, 0.0}
+};
+
+static float tStep = 0.001;
+static float t     = 0;
 
 void display(void)
 {
@@ -133,7 +143,7 @@ void display(void)
     cam_trans->editSFMatrix()->setValue(m1);
 
     
-#if 1
+#if 0
     m1c.setIdentity();
 
     Matrix m2c, m3c;
@@ -148,9 +158,64 @@ void display(void)
     m2c.setTranslate( tcamball.getPosition() );
     
     m1c.mult( m2c );
+#else
+    m1c.setIdentity();
+
+    float fLat  = xPoints[0][1] + (xPoints[1][1] - xPoints[0][1]) * t;
+    float fLong = xPoints[0][0] + (xPoints[1][0] - xPoints[0][0]) * t;
+
+    t += tStep;
+
+    if(t > 1)
+    {
+        tStep = -tStep;
+        t     = 1;
+    }
+    else if(t < 0)
+    {
+        tStep = -tStep;
+        t     = 0;
+    }
+
+    Pnt3f p1;
+
+    projectPnt(p1, fLat, fLong, 50);
+
+    m1c[3][0] = p1[0];
+    m1c[3][1] = p1[1];
+    m1c[3][2] = p1[2];
+
 #endif
 
     scene_trans->editSFMatrix()->setValue(m1c);
+
+    Vec3f x1(m1c[3][0],
+             m1c[3][1],
+             m1c[3][2]);
+    Vec3f x2;
+
+    backProjectPnt(x2, x1);
+
+
+/*
+    fprintf(stderr, "%f %f %f\n", 
+            osgRad2Degree(x2[0]), 
+            x2[2],
+            osgRad2Degree(x2[1]));
+ */
+
+/* -285.728333 -285.728333 | 494.500488 494.500488 */
+
+    m4c.setIdentity();
+
+    m4c[3][0] = osgRad2Degree(x2[0]);
+    m4c[3][1] = x2[2];
+    m4c[3][2] = -45.f - (osgRad2Degree(x2[1]) + 40.f);
+
+    m4c[3][0] = ((m4c[3][0] - 170.f) / 5) * 571.45666 -285.728333; 
+    m4c[3][2] = ((m4c[3][2] +  40.f) / 5) * 571.45666 +285.728333; 
+
+    ref_trans->editSFMatrix()->setValue(m4c);
 
     commitChanges();
 
@@ -436,7 +501,7 @@ int main (int argc, char **argv)
     {
         std::cerr << "Couldn't load file, ignoring" << std::endl;
 
-        file = makeSphere(4, 200.0);
+        file = makeSphere(4, 20.0);
     }
 
     Thread::getCurrentChangeList()->commitChanges();
@@ -454,6 +519,15 @@ int main (int argc, char **argv)
 
     sceneTrN->setCore (scene_trans);
     sceneTrN->addChild(file       );
+
+
+            ref_trans = Transform::create();
+    NodePtr refTrN    = Node::create();
+
+    refTrN->setCore (ref_trans);
+    refTrN->addChild(makeSphere(4, 20.0));
+
+
 
 #ifdef OLD_BBQ
     AlgorithmStagePtr pAlgoStage = AlgorithmStage::create();
@@ -491,6 +565,7 @@ int main (int argc, char **argv)
     dlight->addChild(pAlgoNode);
 
     dlight->addChild(sceneTrN);
+    dlight->addChild(refTrN  );
 
 
 #if 1
@@ -730,8 +805,10 @@ int main (int argc, char **argv)
     tball.setTranslationScale(scale * 400         );
     tball.setRotationCenter  (tCenter             );
 
-    pos.setValues(0, 400, 0);
-    
+//    pos.setValues(0, 400, 0);
+
+    projectPnt(pos, -42.5, 172.5, 10);
+
     tCenter.setValues(min[0] + (max[0] - min[0]) / 2,
                       min[1] + (max[1] - min[1]) / 2,
                       min[2] + (max[2] - min[2]) / 2);
@@ -742,12 +819,17 @@ int main (int argc, char **argv)
     tcamball.setStartPosition   (pos, true           );
     tcamball.setSum             (true                );
     tcamball.setTranslationMode (Trackball::OSGFree  );
-    tcamball.setTranslationScale(1000                 );
+    tcamball.setTranslationScale(100                 );
     tcamball.setRotationCenter  (tCenter             );
 
     m1c.setIdentity();
 
     m1c[3][1] = 5000;
+
+    m4c.setIdentity();
+
+    m4c[3][1] = 5000;
+
 
     pActiveTBall = &tball;
 

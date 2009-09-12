@@ -434,7 +434,7 @@ int main (int argc, char **argv)
     {
         std::cerr << "Couldn't load file, ignoring" << std::endl;
 
-        file = makeSphere(4, 200.0);
+        file = makeSphere(4, 2.0);
     }
 
     Thread::getCurrentChangeList()->commitChanges();
@@ -471,7 +471,8 @@ int main (int argc, char **argv)
     BbqOutOfCoreDataSourcePtr pSource = BbqOutOfCoreDataSource::create();
 
 //    pSource->setFilename("data/ps_com.bbq");
-    pSource->setFilename("data/ps.bbq");
+//    pSource->setFilename("data/ps.bbq");
+    pSource->setFilename("/home/gerrit/mtmp/ps.bbq");
 
     pSource->setHeightScale  (32.768f);
     pSource->setHeightOffset (0.0f   );
@@ -605,7 +606,7 @@ int main (int argc, char **argv)
     tball.setStartPosition   (pos, true           );
     tball.setSum             (true                );
     tball.setTranslationMode (Trackball::OSGFree  );
-    tball.setTranslationScale(scale * 400         );
+    tball.setTranslationScale(scale * 40          );
     tball.setRotationCenter  (tCenter             );
 
     pos.setValues(0, 400, 0);
@@ -620,7 +621,7 @@ int main (int argc, char **argv)
     tcamball.setStartPosition   (pos, true           );
     tcamball.setSum             (true                );
     tcamball.setTranslationMode (Trackball::OSGFree  );
-    tcamball.setTranslationScale(1000                 );
+    tcamball.setTranslationScale(100                 );
     tcamball.setRotationCenter  (tCenter             );
 
     m1c.setIdentity();

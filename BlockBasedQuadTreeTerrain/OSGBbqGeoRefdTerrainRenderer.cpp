@@ -361,6 +361,33 @@ void BbqGeoRefdTerrainRenderer<HeightType,
         }
     }
 
+    glBegin(GL_QUADS);
+    {
+        glVertex3f(rootNode->boundingBox.getMin().x(),
+                   0.f,
+                   rootNode->boundingBox.getMin().z());
+        glVertex3f(rootNode->boundingBox.getMax().x(),
+                   0.f,
+                   rootNode->boundingBox.getMin().z());
+        glVertex3f(rootNode->boundingBox.getMax().x(),
+                   0.f,
+                   rootNode->boundingBox.getMax().z());
+        glVertex3f(rootNode->boundingBox.getMin().x(),
+                   0.f,
+                   rootNode->boundingBox.getMax().z());
+    }
+    glEnd();
+
+
+/*
+    fprintf(stderr, "%f %f | %f %f\n",
+            rootNode->boundingBox.getMin().x(),
+            rootNode->boundingBox.getMin().z(),
+            rootNode->boundingBox.getMax().x(),
+            rootNode->boundingBox.getMax().z());
+ */
+
+
 //    glUseProgramObjectARB( 0 );
 //    _oTerrainShader.deactivate(options.pDrawEnv);
 }

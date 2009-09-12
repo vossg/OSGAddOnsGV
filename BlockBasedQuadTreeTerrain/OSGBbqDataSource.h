@@ -199,7 +199,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSource : public BbqDataSourceBase
 
     // Variables should all be in BbqDataSourceBase.
 
-    BbqDataSourceEngine *_pEngine;
+    BbqDataSourceEngine      *_pEngine;
+    BbqDataSourceInformation  _oDefaultInfo;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */

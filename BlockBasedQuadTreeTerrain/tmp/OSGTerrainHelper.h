@@ -184,7 +184,7 @@ enum BbqRenderCacheType
     BbqRenderCacheType_Count
 };
 
-class ImageBlockAccessor
+class ImageBlockAccessorX
 {
   protected:
     
@@ -192,8 +192,8 @@ class ImageBlockAccessor
 
   public:
 
-    ImageBlockAccessor(void);
-    ~ImageBlockAccessor(void);
+    ImageBlockAccessorX(void);
+    ~ImageBlockAccessorX(void);
 
     bool open(const std::string filename);
     bool isOpen(void);
@@ -220,6 +220,45 @@ class ImageBlockAccessor
   
     GeoReferenceAttachmentPtr getGeoRef(void);
 };
+
+#if 0
+class TiledImageBlockAccessor
+{
+  protected:
+    
+    std::vector<ImageBlockAccessorPtr> _vImages;
+
+  public:
+
+    TiledImageBlockAccessor(void);
+    ~TiledImageBlockAccessor(void);
+
+    bool open(const std::string filename);
+    bool isOpen(void);
+
+    Vec2i getSize(void);
+
+    Image::Type        getType  (void);
+    Image::PixelFormat getFormat(void);
+
+    bool readBlockRGB(Vec2i  vSampleOrigin,
+                      int    iTextureSize,
+                      UInt8 *pTarget,
+                      int    iTargetSizeBytes);
+
+    bool readBlockA16(Vec2i   vSampleOrigin,
+                      int     iTextureSize,
+                      UInt16 *pTarget,
+                      int     iTargetSizeBytes);
+
+    bool readBlockA16(Vec2i   vSampleOrigin,
+                      int     iTextureSize,
+                      Int16  *pTarget,
+                      int     iTargetSizeBytes);
+  
+    GeoReferenceAttachmentPtr getGeoRef(void);
+};
+#endif
 
 enum BufferUsage
 {
@@ -344,6 +383,155 @@ void projectPnt(Pnt3f  &result,
     result[1] = sinTheta          * ((1 - e2) * v);
     result[2] = cosTheta * cosPhi * v;
 }
+
+#if 1
+inline
+void backProjectPnt(Vec3f &result, 
+                    Vec3f &currpos)
+{
+#if 0
+    Real32 rSemiMajorAxis = 6378.137;
+    Real32 rSemiMinorAxis = 6356.7523142;
+
+
+    Real32 rSemiMajorAxisSquare = rSemiMajorAxis * rSemiMajorAxis;
+
+
+    Real32 e2 = (rSemiMajorAxisSquare - 
+                 rSemiMinorAxis * rSemiMinorAxis) / (rSemiMajorAxisSquare);
+
+    Real32 cosTheta = osgCos(osgDegree2Rad(lattitudeDeg));
+    Real32 sinTheta = osgSin(osgDegree2Rad(lattitudeDeg));
+
+    float v = rSemiMajorAxis / osgSqrt(1 - (e2 * sinTheta * sinTheta));
+
+    v += height;
+
+    Real32 cosPhi = osgCos(osgDegree2Rad(longitudeDeg));
+    Real32 sinPhi = osgSin(osgDegree2Rad(longitudeDeg));
+
+    result[0] = cosTheta * sinPhi * v;
+    result[1] = sinTheta          * ((1 - e2) * v);
+    result[2] = cosTheta * cosPhi * v;
+#endif
+
+    double W;        /* distance from Z axis */
+    double W2;       /* square of distance from Z axis */
+    double T0;       /* initial estimate of vertical component */
+    double T1;       /* corrected estimate of vertical component */
+    double S0;       /* initial estimate of horizontal component */
+    double S1;       /* corrected estimate of horizontal component */
+    double Sin_B0;   /* sin(B0), B0 is estimate of Bowring aux variable */
+    double Sin3_B0;  /* cube of sin(B0) */
+    double Cos_B0;   /* cos(B0) */
+    double Sin_p1;   /* sin(phi1), phi1 is estimated latitude */
+    double Cos_p1;   /* cos(phi1) */
+    double Rn;       /* Earth radius at location */
+    double Sum;      /* numerator of cos(phi1) */
+    int At_Pole;     /* indicates location is in polar region */
+
+#define X currpos[2]
+#define Y currpos[0]
+#define Z currpos[1]
+
+#define Longitude (&(result[0]))
+#define Latitude  (&(result[1]))
+#define Height    (&(result[2]))
+#define PI_OVER_2  (PI / 2.0e0)
+#define COS_67P5   0.38268343236508977 
+#define PI           3.14159265358979323846
+#define AD_C       1.0026000
+
+    static const int FALSE = 0;
+    static const int TRUE = 0;
+
+    Real32 a = 6378.137;
+    Real32 b = 6356.7523142;
+
+    double Geocent_a = a;
+    double Geocent_b = b;
+    double Geocent_a2 = a * a;
+    double Geocent_b2 = b * b;
+    double Geocent_e2 = (Geocent_a2 - Geocent_b2) / Geocent_a2;
+    double Geocent_ep2 = (Geocent_a2 - Geocent_b2) / Geocent_b2;
+
+
+    At_Pole = FALSE;
+    if (X != 0.0)
+    {
+        *Longitude = atan2(Y,X);
+    }
+    else
+    {
+        if (Y > 0)
+        {
+            *Longitude = PI_OVER_2;
+        }
+        else if (Y < 0)
+        {
+            *Longitude = -PI_OVER_2;
+        }
+        else
+        {
+            At_Pole = TRUE;
+            *Longitude = 0.0;
+            if (Z > 0.0)
+            {  /* north pole */
+                *Latitude = PI_OVER_2;
+            }
+            else if (Z < 0.0)
+            {  /* south pole */
+                *Latitude = -PI_OVER_2;
+            }
+            else
+            {  /* center of earth */
+                *Latitude = PI_OVER_2;
+                *Height = -Geocent_b;
+                return;
+            } 
+        }
+    }
+    W2 = X*X + Y*Y;
+    W = sqrt(W2);
+    T0 = Z * AD_C;
+    S0 = sqrt(T0 * T0 + W2);
+    Sin_B0 = T0 / S0;
+    Cos_B0 = W / S0;
+    Sin3_B0 = Sin_B0 * Sin_B0 * Sin_B0;
+    T1 = Z + Geocent_b * Geocent_ep2 * Sin3_B0;
+    Sum = W - Geocent_a * Geocent_e2 * Cos_B0 * Cos_B0 * Cos_B0;
+    S1 = sqrt(T1*T1 + Sum * Sum);
+    Sin_p1 = T1 / S1;
+    Cos_p1 = Sum / S1;
+    Rn = Geocent_a / sqrt(1.0 - Geocent_e2 * Sin_p1 * Sin_p1);
+    if (Cos_p1 >= COS_67P5)
+    {
+        *Height = W / Cos_p1 - Rn;
+    }
+    else if (Cos_p1 <= -COS_67P5)
+    {
+        *Height = W / -Cos_p1 - Rn;
+    }
+    else
+    {
+        *Height = Z / Sin_p1 + Rn * (Geocent_e2 - 1.0);
+    }
+    if (At_Pole == FALSE)
+    {
+        *Latitude = atan(Sin_p1 / Cos_p1);
+    }
+
+#undef X
+#undef Y
+#undef Z
+
+#undef Longitude
+#undef Latitude
+#undef Height   
+
+}
+#endif
+
 
 OSG_END_NAMESPACE
 

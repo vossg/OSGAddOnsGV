@@ -60,11 +60,11 @@ BbqCreateEngine<HeightType, TextureType>::~BbqCreateEngine(void)
 
 template<class HeightType, class TextureType> inline
 bool BbqCreateEngine<HeightType, TextureType>::start(
-    ImageBlockAccessor *pHeightFieldImage,
-    ImageBlockAccessor *pTextureImage,
-    BbqFileWriter      *pOutputFile,
-    Int32               iTileSize, 
-    Int32               iTextureSize     )
+    ImageBlockAccessorPtr  pHeightFieldImage,
+    ImageBlockAccessorX   *pTextureImage,
+    BbqFileWriter         *pOutputFile,
+    Int32                  iTileSize, 
+    Int32                  iTextureSize     )
 {
     Inherited::start(pHeightFieldImage,
                      pTextureImage,
@@ -528,7 +528,8 @@ void BbqCreateEngine<HeightType, TextureType>::getHeightData(
 
     for(UInt32 i = 0; i < oNode.data->heightData.size(); ++i)
     {
-        if(oNode.data->heightData[i] == -32768)
+        if(oNode.data->heightData[i] == 
+                                     std::numeric_limits<signed short>::min())
             oNode.data->heightData[i] = 0;
     }
 }

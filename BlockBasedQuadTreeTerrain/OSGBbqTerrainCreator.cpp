@@ -42,6 +42,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#include "OSGImageFileHandler.h"
 #include "OSGBbqTerrainCreator.h"
 #include "OSGLog.h"
 
@@ -57,7 +58,7 @@ BbqCreateEngineBase::BbqCreateEngineBase(void):
     _iTextureLeafLevel     (   0),
     _vHeightSampleCount    (0, 0),
     _vTextureSampleCount   (0, 0),
-    _pHeightFieldImage     (NULL),
+    _pHeightFieldImage     (    ),
     _pTextureImage         (NULL),
     _pOutputFile           (NULL),
     _oNodeIterator         (    )
@@ -68,11 +69,11 @@ BbqCreateEngineBase::~BbqCreateEngineBase(void)
 {
 }
 
-bool BbqCreateEngineBase::start(ImageBlockAccessor *pHeightFieldImage,
-                                ImageBlockAccessor *pTextureImage,
-                                BbqFileWriter      *pOutputFile,
-                                Int32               iTileSize, 
-                                Int32               iTextureSize     )
+bool BbqCreateEngineBase::start(ImageBlockAccessorPtr  pHeightFieldImage,
+                                ImageBlockAccessorX   *pTextureImage,
+                                BbqFileWriter         *pOutputFile,
+                                Int32                  iTileSize, 
+                                Int32                  iTextureSize     )
 {
     _pHeightFieldImage = pHeightFieldImage;
 
@@ -169,7 +170,7 @@ BbqNodeId BbqCreateEngineBase::getChildNodeId(BbqNodeId iId, Int32 iChildIndex)
 
 BbqTerrainCreator::BbqTerrainCreator(void) :
     _pEngine          (NULL),
-    _oHeightFieldImage(    ),
+    _pHeightFieldImage(    ),
     _oTextureImage    (    ),
     _oOutputFile      (    )
 {
@@ -198,8 +199,10 @@ bool BbqTerrainCreator::start(const std::string &szHeightFieldFilename,
         return false;
     }
 
-    
-    if(!_oHeightFieldImage.open(szHeightFieldFilename))
+    _pHeightFieldImage = 
+        ImageFileHandler::the()->open(szHeightFieldFilename.c_str());
+
+    if(_pHeightFieldImage == NULL ||  _pHeightFieldImage->isOpen() == false)
     {
         SWARNING <<  "Could not open heightmap file '"
                  << szHeightFieldFilename
@@ -209,8 +212,8 @@ bool BbqTerrainCreator::start(const std::string &szHeightFieldFilename,
     }   
     
     fprintf(stderr, "%x %x\n",
-            _oHeightFieldImage.getFormat(),
-            _oHeightFieldImage.getType  ());
+            _pHeightFieldImage->getFormat(),
+            _pHeightFieldImage->getType  ());
 
    
     if(!_oTextureImage.open(szTextureFilename))
@@ -229,13 +232,13 @@ bool BbqTerrainCreator::start(const std::string &szHeightFieldFilename,
         return false;
     }
 
-    if(_oHeightFieldImage.getFormat() == Image::OSG_L_PF)
+    if(_pHeightFieldImage->getFormat() == Image::OSG_L_PF)
     {
-        if(_oHeightFieldImage.getType  () == Image::OSG_UINT16_IMAGEDATA)
+        if(_pHeightFieldImage->getType() == Image::OSG_UINT16_IMAGEDATA)
         {
             _pEngine = new BbqCreateEngine<UInt16, UInt8>();
         }    
-        else if(_oHeightFieldImage.getType  () == Image::OSG_INT16_IMAGEDATA)
+        else if(_pHeightFieldImage->getType() == Image::OSG_INT16_IMAGEDATA)
         {
             _pEngine = new BbqCreateEngine<Int16, UInt8>();
         }    
@@ -249,7 +252,7 @@ bool BbqTerrainCreator::start(const std::string &szHeightFieldFilename,
         return false;
     }
 
-    _pEngine->start(&_oHeightFieldImage,
+    _pEngine->start( _pHeightFieldImage,
                     &_oTextureImage,
                     &_oOutputFile,
                       iTileSize,

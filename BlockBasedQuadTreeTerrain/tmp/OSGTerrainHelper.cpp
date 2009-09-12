@@ -14,17 +14,17 @@ OSG_BEGIN_NAMESPACE
 
 
 
-ImageBlockAccessor::ImageBlockAccessor(void) :
+ImageBlockAccessorX::ImageBlockAccessorX(void) :
     _pImage(NullFC)
 {
 }
 
-ImageBlockAccessor::~ImageBlockAccessor(void)
+ImageBlockAccessorX::~ImageBlockAccessorX(void)
 {
     OSG::subRef(_pImage);
 }
 
-bool ImageBlockAccessor::open(const std::string filename)
+bool ImageBlockAccessorX::open(const std::string filename)
 {
     _pImage = ImageFileHandler::the()->read(filename.c_str());
 
@@ -34,12 +34,12 @@ bool ImageBlockAccessor::open(const std::string filename)
     return _pImage != NullFC;
 }
 
-bool ImageBlockAccessor::isOpen(void)
+bool ImageBlockAccessorX::isOpen(void)
 {
     return _pImage != NullFC;
 }
 
-Vec2i ImageBlockAccessor::getSize(void)
+Vec2i ImageBlockAccessorX::getSize(void)
 {
     Vec2i returnValue(_pImage->getWidth (),
                       _pImage->getHeight());
@@ -48,21 +48,21 @@ Vec2i ImageBlockAccessor::getSize(void)
 }
 
 
-Image::Type ImageBlockAccessor::getType(void)
+Image::Type ImageBlockAccessorX::getType(void)
 {
     return Image::Type(_pImage->getDataType());
 }
 
-Image::PixelFormat ImageBlockAccessor::getFormat(void)
+Image::PixelFormat ImageBlockAccessorX::getFormat(void)
 {
     return Image::PixelFormat(_pImage->getPixelFormat());
 }
 
 
-bool ImageBlockAccessor::readBlockRGB(Vec2i  vSampleOrigin,
-                                      int    iTextureSize,
-                                      UInt8 *pTarget,
-                                      int    iTargetSizeBytes)
+bool ImageBlockAccessorX::readBlockRGB(Vec2i  vSampleOrigin,
+                                       int    iTextureSize,
+                                       UInt8 *pTarget,
+                                       int    iTargetSizeBytes)
 {
     const UInt8 *pData = _pImage->getData();
 
@@ -97,12 +97,14 @@ bool ImageBlockAccessor::readBlockRGB(Vec2i  vSampleOrigin,
         
         destIdx += (iTextureSize - (xMax - xMin)) * 3;
     }
+
+    return true;
 }
 
-bool ImageBlockAccessor::readBlockA16(Vec2i   vSampleOrigin,
-                                      int     iTextureSize,
-                                      UInt16 *pTarget,
-                                      int     iTargetSizeBytes)
+bool ImageBlockAccessorX::readBlockA16(Vec2i   vSampleOrigin,
+                                       int     iTextureSize,
+                                       UInt16 *pTarget,
+                                       int     iTargetSizeBytes)
 {
     const UInt8 *pData = _pImage->getData();
 
@@ -139,12 +141,14 @@ bool ImageBlockAccessor::readBlockA16(Vec2i   vSampleOrigin,
         
         destIdx += (iTextureSize - (xMax - xMin)) * 2;
     }
+
+    return true;
 }
 
-bool ImageBlockAccessor::readBlockA16(Vec2i   vSampleOrigin,
-                                      int     iTextureSize,
-                                      Int16  *pTarget,
-                                      int     iTargetSizeBytes)
+bool ImageBlockAccessorX::readBlockA16(Vec2i   vSampleOrigin,
+                                       int     iTextureSize,
+                                       Int16  *pTarget,
+                                       int     iTargetSizeBytes)
 {
     const UInt8 *pData = _pImage->getData();
 
@@ -181,9 +185,11 @@ bool ImageBlockAccessor::readBlockA16(Vec2i   vSampleOrigin,
         
         destIdx += (iTextureSize - (xMax - xMin)) * 2;
     }
+
+    return true;
 }
 
-GeoReferenceAttachmentPtr ImageBlockAccessor::getGeoRef(void)
+GeoReferenceAttachmentPtr ImageBlockAccessorX::getGeoRef(void)
 {
     if(_pImage != NULL)
     {
@@ -275,6 +281,8 @@ bool OpenGLGpuBuffer::uploadData(const void* sourceData,
 {
     glBindBuffer(_eGLType, _uiBufferId);		
     glBufferSubData(_eGLType, targetOffset, size, sourceData);
+
+    return true;
 }
 
 GLuint OpenGLGpuBuffer::getBufferId() const

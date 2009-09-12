@@ -64,14 +64,19 @@ int main( int argc, char** argv )
     int textureSize = -1;
 
 //    std::string heightFieldFilename = "data/ps_height_1k.png";
-    std::string heightFieldFilename = "data/Z_71_21.GTIF";
-//    std::string heightFieldFilename = "/tmp/ruapehu/bj34/w001001.gtif";
+//    std::string heightFieldFilename = "data/Z_71_21_5.GTIF";
+//    std::string heightFieldFilename = "/tmp/ruapehu/bj34/w001001.hdf4";
+//    std::string heightFieldFilename = "/home/gerrit/Downloads/FFocus/Camtech/new/xx/Camtech/data--29-Nov/nz/nz/w001001_2.gtif";
+//    std::string heightFieldFilename = "data/z_71_21.itf";
+    std::string heightFieldFilename = "data/nz.itf";
+
 //    std::string textureFilename     = "data/ps_texture_1k.png";
 //    std::string textureFilename     = "data/ps_texture_6k.png";
 //    std::string textureFilename     = "data/ps_texture_12_18.png";
     std::string textureFilename     = "";
 
-    std::string bbqTerrainFilename  = "data/ps.bbq";
+//    std::string bbqTerrainFilename  = "data/ps.bbq";
+    std::string bbqTerrainFilename  = "/home/gerrit/mtmp/ps.bbq";
 
 
     BbqTerrainCreator *terrainCreator = new BbqTerrainCreator();
@@ -88,13 +93,11 @@ int main( int argc, char** argv )
     
     while(!terrainCreator->isFinished() )
     {
-/*
         std::cout << "\rProgress = " 
                   << int( 100 * terrainCreator->getProgress() ) 
                   << "%                " 
                   << std::flush;
- */
-        
+       
         terrainCreator->step();
     }
 

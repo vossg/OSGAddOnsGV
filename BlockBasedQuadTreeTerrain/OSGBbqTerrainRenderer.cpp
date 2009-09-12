@@ -529,6 +529,8 @@ bool BbqTerrainRendererBase<HeightType,
     {
         return false;
     }
+
+    return true;
 }
 
 template<class HeightType, class HeightDeltaType, class TextureType>

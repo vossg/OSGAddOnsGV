@@ -219,14 +219,16 @@ void BbqDataSource::initMethod(InitPhase ePhase)
 /*----------------------- constructors & destructors ----------------------*/
 
 BbqDataSource::BbqDataSource(void) :
-     Inherited(    ),
-    _pEngine  (NULL)
+     Inherited   (    ),
+    _pEngine     (NULL),
+    _oDefaultInfo(    )
 {
 }
 
 BbqDataSource::BbqDataSource(const BbqDataSource &source) :
-     Inherited(source),
-    _pEngine  (NULL  )
+     Inherited   (source),
+    _pEngine     (NULL  ),
+    _oDefaultInfo(      )
 {
 }
 
@@ -255,7 +257,7 @@ const BbqDataSourceInformation &BbqDataSource::getInformation(void) const
     if(_pEngine != NULL)
         return _pEngine->getInformation();
 
-    return BbqDataSourceInformation();
+    return _oDefaultInfo;
 }
 
 Image::Type BbqDataSource::getHeightType(void) const

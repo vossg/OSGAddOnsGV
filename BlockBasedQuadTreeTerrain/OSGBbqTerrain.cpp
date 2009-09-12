@@ -433,9 +433,29 @@ void BbqTerrain::execute(DrawEnv *pDrawEnv)
 {
     Matrix m1c = getBeacon()->getToWorld();
 
-    Vec3f camPos(m1c[3][0],
-                 m1c[3][1],
-                 m1c[3][2]);
+    Vec3f camProj(m1c[3][0],
+                  m1c[3][1],
+                  m1c[3][2]);
+
+    Vec3f camPos;
+
+    if(getDataSource()->hasGeoRef() == true)
+    {
+        Vec3f camPosTmp;
+        
+        backProjectPnt(camPosTmp, camProj);
+        
+        camPos[0] = osgRad2Degree(camPosTmp[0]);
+        camPos[1] = camPosTmp[2];
+        camPos[2] = -45.f - (osgRad2Degree(camPosTmp[1]) + 40.f);
+
+        camPos[0] = ((camPos[0] - 170.f) / 5) * 571.45666 -285.728333; 
+        camPos[2] = ((camPos[2] +  40.f) / 5) * 571.45666 +285.728333; 
+    }
+    else
+    {
+        camPos = camProj;
+    }
 
     _oTerrainRenderOptions.showSkirts         = true;
     _oTerrainRenderOptions.showBoundingBoxes    = false;

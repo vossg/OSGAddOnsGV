@@ -46,7 +46,7 @@
 #ifndef _OSGBBQTERRAINCREATOR_H_
 #define _OSGBBQTERRAINCREATOR_H_
 
-
+#include "OSGImageFileType.h"
 #include "OSGBbqFile.h"
 #include "OSGBbqNodeIterator.h"
 #include "OSGTerrainHelper.h"
@@ -74,11 +74,11 @@ class BbqCreateEngineBase
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual bool start(ImageBlockAccessor *pHeightFieldImage,
-                       ImageBlockAccessor *pTextureImage,
-                       BbqFileWriter      *pOutputFile,
-                       Int32               iTileSize, 
-                       Int32               iTextureSize     );
+    virtual bool start(ImageBlockAccessorPtr  pHeightFieldImage,
+                       ImageBlockAccessorX   *pTextureImage,
+                       BbqFileWriter         *pOutputFile,
+                       Int32                  iTileSize, 
+                       Int32                  iTextureSize     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -106,19 +106,19 @@ class BbqCreateEngineBase
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
   
-    Int32               _iTileSize;
-    Int32               _iTextureSize;
-    Int32               _iLevelCount;
-    Int32               _iTextureLeafLevel;
+    Int32                  _iTileSize;
+    Int32                  _iTextureSize;
+    Int32                  _iLevelCount;
+    Int32                  _iTextureLeafLevel;
 
-    Vec2i               _vHeightSampleCount;
-    Vec2i               _vTextureSampleCount;
+    Vec2i                  _vHeightSampleCount;
+    Vec2i                  _vTextureSampleCount;
 
-    ImageBlockAccessor *_pHeightFieldImage;
-    ImageBlockAccessor *_pTextureImage;
+    ImageBlockAccessorPtr  _pHeightFieldImage;
+    ImageBlockAccessorX   *_pTextureImage;
         
-    BbqFileWriter      *_pOutputFile;
-    BbqNodeIterator     _oNodeIterator;
+    BbqFileWriter         *_pOutputFile;
+    BbqNodeIterator        _oNodeIterator;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -147,11 +147,11 @@ class BbqCreateEngine : public BbqCreateEngineBase
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual bool start(ImageBlockAccessor *pHeightFieldImage,
-                       ImageBlockAccessor *pTextureImage,
-                       BbqFileWriter      *pOutputFile,
-                       Int32               iTileSize, 
-                       Int32               iTextureSize     );
+    virtual bool start(ImageBlockAccessorPtr  pHeightFieldImage,
+                       ImageBlockAccessorX   *pTextureImage,
+                       BbqFileWriter         *pOutputFile,
+                       Int32                  iTileSize, 
+                       Int32                  iTextureSize     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -335,10 +335,10 @@ class BbqTerrainCreator
 
   protected:
 
-    BbqCreateEngineBase *_pEngine;
-    ImageBlockAccessor   _oHeightFieldImage;
-    ImageBlockAccessor   _oTextureImage;
-    BbqFileWriter        _oOutputFile;
+    BbqCreateEngineBase   *_pEngine;
+    ImageBlockAccessorPtr  _pHeightFieldImage;
+    ImageBlockAccessorX    _oTextureImage;
+    BbqFileWriter          _oOutputFile;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
