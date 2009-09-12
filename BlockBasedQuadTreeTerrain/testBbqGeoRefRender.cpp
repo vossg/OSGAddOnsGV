@@ -65,7 +65,7 @@ int uiSize = 500;
 float geoMorph = 0;
 
 bool move_obj = false;
-bool bAnimate  = true;
+bool bAnimate = false;
 
 int mouseb = 0;
 int lastx  = 0;
@@ -80,6 +80,9 @@ Matrix m4c;
 float fUnitScale  = 1.f;
 float fUnitScale1 = 1.f;
 Vec2f vUnitOffset(0.f, 0.f);
+
+Real32 tScale = 1.f;
+Real32 rScale = 1.f;
 
 #ifdef OLD_BBQ
 void terrainRenderCB(DrawEnv *pEnv)
@@ -126,11 +129,12 @@ static float xPoints[][3] =
 {
 //    {165.0, -35.0, 0.0},
 //    {180.0, -50.0, 0.0}
-    {170.0, -40.0, 0.5},
-    {175.0, -45.0, 0.5}
+//    {170.0, -40.0, 0.5},
+    {171.5, -41.5, 0.5},
+    {173.5, -43.5, 0.5}
 };
 
-static float tStep = 0.0005;
+static float tStep = 0.0004;
 static float t     = 0;
 
 void display(void)
@@ -171,6 +175,8 @@ void display(void)
 
     float fLat  = xPoints[0][1] + (xPoints[1][1] - xPoints[0][1]) * t;
     float fLong = xPoints[0][0] + (xPoints[1][0] - xPoints[0][0]) * t;
+
+//    fprintf(stderr, "%f %f\n", fLat, fLong);
 
     if(bAnimate == true)
     {
@@ -437,6 +443,40 @@ void key(unsigned char key, int x, int y)
             fprintf(stderr, "spe : %f\n", pTerrain->getScreenSpaceError());
             break;
 
+        case '+':
+            tScale *= 2;
+            fprintf(stderr, "ts %f\n", tScale);
+            tball.setTranslationScale(tScale);
+            break;
+
+        case '-':
+            tScale /= 2;
+            fprintf(stderr, "ts %f\n", tScale);
+            tball.setTranslationScale(tScale);
+            break;
+
+        case '\'':
+            rScale *= 2;
+            fprintf(stderr, "rs %f\n", rScale);
+            tball.setRotationScale(rScale);
+            break;
+
+        case ';':
+            rScale /= 2;
+            fprintf(stderr, "rs %f\n", rScale);
+            tball.setRotationScale(rScale);
+            break;
+
+        case ')':
+            tStep *= 2;
+            fprintf(stderr, "tst %f\n", tStep);
+            break;
+
+        case '(':
+            tStep /= 2;
+            fprintf(stderr, "tst %f\n", tStep);
+            break;
+
 #ifdef OLD_BBQ
         case 's':
             terrainRenderOptions_.showSkirts =
@@ -602,6 +642,8 @@ int main (int argc, char **argv)
 
     pTerrain->setBeacon    (sceneTrN);
     pTerrain->setDataSource(pSource );
+
+    pTerrain->setScreenSpaceError(6.0);
 
     NodePtr pAlgoNode = Node::create();
 
@@ -888,6 +930,10 @@ int main (int argc, char **argv)
     tball.setTranslationMode (Trackball::OSGFree  );
     tball.setTranslationScale(scale * 400         );
     tball.setRotationCenter  (tCenter             );
+
+    tScale = scale * 400;
+
+    fprintf(stderr, "tscale %f\n", tScale);
 
 //    pos.setValues(0, 400, 0);
 
