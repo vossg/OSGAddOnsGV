@@ -41,14 +41,18 @@
 
 #include "OSGRTTriangleAccelFields.h"
 
-#include <OSGSField.h>
-#include <OSGSField.ins>
-
 #include <OSGMField.h>
-#include <OSGMField.ins>
-
+#include <OSGBaseMFields.h>
 
 OSG_BEGIN_NAMESPACE
+
+template <class ValueT, Int32 iNamespace, class AllocT>
+FieldType MField<ValueT, iNamespace, AllocT>::_fieldType(
+    MFieldTraits::getMName(),
+    MFieldTraits::getPName(),
+    MFieldTraits::getType (),
+    FieldType::MULTI_FIELD,
+    MFString::getClassType());
 
 DataType FieldTraits<RTTriAccelBarycentric>::_type("RTTriAccelBarycentric", 
                                                    "BaseType"             );
