@@ -38,4 +38,13 @@
 		access="public"
 	>
 	</Field>
+	<Field
+		name="showSwitchDistance"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	</Field>    
 </FieldContainer>

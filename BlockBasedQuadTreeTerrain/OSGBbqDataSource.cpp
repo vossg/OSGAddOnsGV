@@ -48,6 +48,8 @@
 #include "OSGBbqDataSource.h"
 #include "OSGBbqTerrainNode.h"
 
+#include "OSGGeoReferenceAttachment.h"
+
 OSG_BEGIN_NAMESPACE
 
 // Documentation for this class is emitted in the
@@ -104,6 +106,16 @@ const BbqDataSourceInformation &BbqDataSourceEngine::getInformation(void) const
 Image::Type BbqDataSourceEngine::getHeightType(void) const
 {
     return _oInformation.heightType;
+}
+
+Image::Type BbqDataSourceEngine::getTextureType(void) const
+{
+    return _oInformation.textureType;
+}
+
+bool BbqDataSourceEngine::hasGeoRef(void) const
+{
+    return (_oInformation.uiDatum != GeoReferenceAttachment::UnknownDatum);
 }
 
 
@@ -181,6 +193,22 @@ Image::Type BbqDataSource::getHeightType(void) const
         return _pEngine->getHeightType();
 
     return Image::OSG_INVALID_IMAGEDATATYPE;
+}
+
+Image::Type BbqDataSource::getTextureType(void) const
+{
+    if(_pEngine != NULL)
+        return _pEngine->getTextureType();
+
+    return Image::OSG_INVALID_IMAGEDATATYPE;
+}
+
+bool BbqDataSource::hasGeoRef(void) const
+{
+    if(_pEngine != NULL)
+        return _pEngine->hasGeoRef();
+
+    return false;
 }
 
 bool BbqDataSource::loadNodeData(BbqTerrainNodeBase &oNode)

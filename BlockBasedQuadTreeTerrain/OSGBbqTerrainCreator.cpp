@@ -75,7 +75,15 @@ bool BbqCreateEngineBase::start(ImageBlockAccessor *pHeightFieldImage,
                                 Int32               iTextureSize     )
 {
     _pHeightFieldImage = pHeightFieldImage;
-    _pTextureImage     = pTextureImage;
+
+    if(pTextureImage->isOpen() == true)
+    {
+        _pTextureImage = pTextureImage;
+    }
+    else
+    {
+        _pTextureImage = NULL;
+    }
     
     _pOutputFile       = pOutputFile;
 
@@ -83,7 +91,15 @@ bool BbqCreateEngineBase::start(ImageBlockAccessor *pHeightFieldImage,
     _iTextureSize = iTextureSize;
     
     _vHeightSampleCount  = _pHeightFieldImage->getSize();
-    _vTextureSampleCount = _pTextureImage    ->getSize();
+
+    if(_pTextureImage != NULL)
+    {
+        _vTextureSampleCount = _pTextureImage    ->getSize();
+    }
+    else
+    {
+        _vTextureSampleCount.setValues(0, 0);
+    }
     
     // 1. step: build the hollow tree (dont read any data at all from the 
     // file for now)
@@ -96,19 +112,27 @@ bool BbqCreateEngineBase::start(ImageBlockAccessor *pHeightFieldImage,
                                     _vHeightSampleCount.y() - 1, 
                                     _iTileSize              - 1);
     
-    // get the level, where we need to store the texture leafs:
-    _iTextureLeafLevel = getQuadtreeDepth(_vTextureSampleCount.x(), 
-                                          _vTextureSampleCount.y(), 
-                                          _iTextureSize           ) - 1;
-    
-    if(_iTextureLeafLevel >= _iLevelCount)
+
+    if(_pTextureImage != NULL)
     {
-        // the texture image is to big to be displayed completely with this 
-        // per tile textureSize..
-        // todo: output a warning.
-        _iTextureLeafLevel = _iLevelCount - 1;
-    }
+        // get the level, where we need to store the texture leafs:
+        _iTextureLeafLevel = getQuadtreeDepth(_vTextureSampleCount.x(), 
+                                              _vTextureSampleCount.y(), 
+                                              _iTextureSize           ) - 1;
     
+        if(_iTextureLeafLevel >= _iLevelCount)
+        {
+            // the texture image is to big to be displayed completely with this 
+            // per tile textureSize..
+            // todo: output a warning.
+            _iTextureLeafLevel = _iLevelCount - 1;
+        }
+    }
+    else
+    {
+        _iTextureLeafLevel = 0;
+    }
+
     return true;
 }
 
@@ -192,10 +216,8 @@ bool BbqTerrainCreator::start(const std::string &szHeightFieldFilename,
     if(!_oTextureImage.open(szTextureFilename))
     {
         SWARNING << "Could not open texture file '" 
-                 << szHeightFieldFilename
+                 << szTextureFilename
                  << "' !\n" ;
-
-        return false;
     }
     
     if(!_oOutputFile.open(szOutputFilename))

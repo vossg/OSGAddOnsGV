@@ -95,6 +95,10 @@ OSG_BEGIN_NAMESPACE
     
 */
 
+/*! \var bool            BbqTerrainBase::_sfShowSwitchDistance
+    
+*/
+
 
 void BbqTerrainBase::classDescInserter(TypeObject &oType)
 {
@@ -134,6 +138,18 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         Field::SFDefaultFlags,
         static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleMaxNumResidentNodes),
         static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleMaxNumResidentNodes));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new SFBool::Description(
+        SFBool::getClassType(),
+        "showSwitchDistance",
+        "",
+        ShowSwitchDistanceFieldId, ShowSwitchDistanceFieldMask,
+        false,
+        Field::SFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleShowSwitchDistance),
+        static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleShowSwitchDistance));
 
     oType.addInitialDesc(pDesc);
 }
@@ -190,6 +206,15 @@ BbqTerrainBase::TypeObject BbqTerrainBase::_type(
     "\t\taccess=\"public\"\n"
     "\t>\n"
     "\t</Field>\n"
+    "\t<Field\n"
+    "\t\tname=\"showSwitchDistance\"\n"
+    "\t\ttype=\"bool\"\n"
+    "\t\tcardinality=\"single\"\n"
+    "\t\tvisibility=\"external\"\n"
+    "\t\tdefaultValue=\"false\"\n"
+    "\t\taccess=\"public\"\n"
+    "\t>\n"
+    "\t</Field>    \n"
     "</FieldContainer>\n",
     ""
     );
@@ -245,6 +270,25 @@ SFUInt32            *BbqTerrainBase::getSFMaxNumResidentNodes(void)
 }
 #endif
 
+SFBool *BbqTerrainBase::editSFShowSwitchDistance(void)
+{
+    editSField(ShowSwitchDistanceFieldMask);
+
+    return &_sfShowSwitchDistance;
+}
+
+const SFBool *BbqTerrainBase::getSFShowSwitchDistance(void) const
+{
+    return &_sfShowSwitchDistance;
+}
+
+#ifdef OSG_1_GET_COMPAT
+SFBool              *BbqTerrainBase::getSFShowSwitchDistance(void)
+{
+    return this->editSFShowSwitchDistance();
+}
+#endif
+
 
 
 
@@ -267,6 +311,10 @@ UInt32 BbqTerrainBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfMaxNumResidentNodes.getBinSize();
     }
+    if(FieldBits::NoField != (ShowSwitchDistanceFieldMask & whichField))
+    {
+        returnValue += _sfShowSwitchDistance.getBinSize();
+    }
 
     return returnValue;
 }
@@ -288,6 +336,10 @@ void BbqTerrainBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfMaxNumResidentNodes.copyToBin(pMem);
     }
+    if(FieldBits::NoField != (ShowSwitchDistanceFieldMask & whichField))
+    {
+        _sfShowSwitchDistance.copyToBin(pMem);
+    }
 }
 
 void BbqTerrainBase::copyFromBin(BinaryDataHandler &pMem,
@@ -306,6 +358,10 @@ void BbqTerrainBase::copyFromBin(BinaryDataHandler &pMem,
     if(FieldBits::NoField != (MaxNumResidentNodesFieldMask & whichField))
     {
         _sfMaxNumResidentNodes.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (ShowSwitchDistanceFieldMask & whichField))
+    {
+        _sfShowSwitchDistance.copyFromBin(pMem);
     }
 }
 
@@ -350,7 +406,8 @@ BbqTerrainBase::BbqTerrainBase(void) :
     Inherited(),
     _sfBeacon                 (NodePtr(NullFC)),
     _sfDataSource             (BbqDataSourcePtr(NullFC)),
-    _sfMaxNumResidentNodes    (UInt32(5000))
+    _sfMaxNumResidentNodes    (UInt32(5000)),
+    _sfShowSwitchDistance     (bool(false))
 {
 }
 
@@ -358,7 +415,8 @@ BbqTerrainBase::BbqTerrainBase(const BbqTerrainBase &source) :
     Inherited(source),
     _sfBeacon                 (NullFC),
     _sfDataSource             (NullFC),
-    _sfMaxNumResidentNodes    (source._sfMaxNumResidentNodes    )
+    _sfMaxNumResidentNodes    (source._sfMaxNumResidentNodes    ),
+    _sfShowSwitchDistance     (source._sfShowSwitchDistance     )
 {
 }
 
@@ -450,6 +508,28 @@ EditFieldHandlePtr BbqTerrainBase::editHandleMaxNumResidentNodes(void)
              this->getType().getFieldDesc(MaxNumResidentNodesFieldId)));
 
     editSField(MaxNumResidentNodesFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr BbqTerrainBase::getHandleShowSwitchDistance (void) const
+{
+    SFBool::GetHandlePtr returnValue(
+        new  SFBool::GetHandle(
+             &_sfShowSwitchDistance, 
+             this->getType().getFieldDesc(ShowSwitchDistanceFieldId)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr BbqTerrainBase::editHandleShowSwitchDistance(void)
+{
+    SFBool::EditHandlePtr returnValue(
+        new  SFBool::EditHandle(
+             &_sfShowSwitchDistance, 
+             this->getType().getFieldDesc(ShowSwitchDistanceFieldId)));
+
+    editSField(ShowSwitchDistanceFieldMask);
 
     return returnValue;
 }

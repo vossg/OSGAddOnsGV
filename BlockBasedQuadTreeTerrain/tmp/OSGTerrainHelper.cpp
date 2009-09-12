@@ -34,6 +34,11 @@ bool ImageBlockAccessor::open(const std::string filename)
     return _pImage != NullFC;
 }
 
+bool ImageBlockAccessor::isOpen(void)
+{
+    return _pImage != NullFC;
+}
+
 Vec2i ImageBlockAccessor::getSize(void)
 {
     Vec2i returnValue(_pImage->getWidth (),
@@ -176,6 +181,18 @@ bool ImageBlockAccessor::readBlockA16(Vec2i   vSampleOrigin,
         
         destIdx += (iTextureSize - (xMax - xMin)) * 2;
     }
+}
+
+GeoReferenceAttachmentPtr ImageBlockAccessor::getGeoRef(void)
+{
+    if(_pImage != NULL)
+    {
+        return dynamic_cast<GeoReferenceAttachmentPtr>(
+            _pImage->findAttachment(
+                GeoReferenceAttachment::getClassType().getGroupId()));
+    }
+
+    return NullFC;
 }
 
 

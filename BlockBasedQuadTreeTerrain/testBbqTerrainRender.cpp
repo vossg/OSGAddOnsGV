@@ -49,6 +49,8 @@ BbqOutOfCoreDataSource *outOfCoreDataSource_  = NULL;
 BbqRenderOptions        terrainRenderOptions_;
 #endif
 
+BbqTerrainPtr pTerrain = NullFC;
+
 Trackball tball;
 Trackball tcamball;
 
@@ -319,12 +321,12 @@ void key(unsigned char key, int x, int y)
             m1c[3][1] += 100;
             break;
 
-#ifdef OLD_BBQ
         case 'd':
-            terrainRenderOptions_.showSwitchDistance = 
-                !terrainRenderOptions_.showSwitchDistance;
+            pTerrain->setShowSwitchDistance( 
+                !pTerrain->getShowSwitchDistance());
             break;
 
+#ifdef OLD_BBQ
         case 's':
             terrainRenderOptions_.showSkirts =
                 !terrainRenderOptions_.showSkirts;
@@ -466,8 +468,6 @@ int main (int argc, char **argv)
     pAlgoStage->setAlgorithm(pAlgo);
 #endif
 
-    BbqTerrainPtr pTerrain = BbqTerrain::create();
-
     BbqOutOfCoreDataSourcePtr pSource = BbqOutOfCoreDataSource::create();
 
 //    pSource->setFilename("data/ps_com.bbq");
@@ -476,6 +476,8 @@ int main (int argc, char **argv)
     pSource->setHeightScale  (6500.0f);
     pSource->setHeightOffset (0.0f  );
     pSource->setSampleSpacing(1.0f  );
+
+    pTerrain = BbqTerrain::create();
 
     pTerrain->setBeacon    (sceneTrN);
     pTerrain->setDataSource(pSource );
@@ -625,6 +627,8 @@ int main (int argc, char **argv)
     m1c[3][1] = 5000;
 
     pActiveTBall = &tball;
+
+    commitChanges();
 
     // run...
     glutMainLoop();

@@ -52,6 +52,7 @@
 #include "OSGImage.h"
 #include "OSGSHLChunk.h"
 #include "OSGTextureObjChunk.h"
+#include "OSGGeoReferenceAttachment.h"
 
 #include <vector>
 
@@ -195,6 +196,7 @@ class ImageBlockAccessor
     ~ImageBlockAccessor(void);
 
     bool open(const std::string filename);
+    bool isOpen(void);
 
     Vec2i getSize(void);
 
@@ -215,7 +217,8 @@ class ImageBlockAccessor
                       int     iTextureSize,
                       Int16  *pTarget,
                       int     iTargetSizeBytes);
-                      
+  
+    GeoReferenceAttachmentPtr getGeoRef(void);
 };
 
 enum BufferUsage

@@ -198,14 +198,14 @@ BbqDataStatistics::BbqDataStatistics(void) :
 
 BbqTerrain::BbqTerrain(void) :
      Inherited            (    ),
-     terrainRenderOptions_(    ),
+    _oTerrainRenderOptions(    ),
     _pEngine              (NULL)
 {
 }
 
 BbqTerrain::BbqTerrain(const BbqTerrain &source) :
      Inherited            (source),
-     terrainRenderOptions_(      ),
+    _oTerrainRenderOptions(      ),
     _pEngine              (NULL  )
 {
 }
@@ -221,10 +221,160 @@ BbqTerrain::~BbqTerrain(void)
 /*----------------------------- class specific ----------------------------*/
 
 void BbqTerrain::changed(ConstFieldMaskArg whichField, 
-                            UInt32            origin,
-                            BitVector         details)
+                         UInt32            origin,
+                         BitVector         details)
 {
     Inherited::changed(whichField, origin, details);
+
+    if(0x0000 != (whichField & ShowSwitchDistanceFieldMask))
+    {
+        _oTerrainRenderOptions.showSwitchDistance = getShowSwitchDistance(); 
+    }
+
+    fprintf(stderr, "BBQ:TERR changed\n");
+
+    if(0x0000 != (whichField & DataSourceFieldMask))
+    {
+        fprintf(stderr, "BBQ:TERR DS changed\n");
+
+        if(_pEngine != NULL)
+        {
+            _pEngine->shutdown();
+
+            delete _pEngine;
+        }
+
+        if(getDataSource() != NULL)
+        {
+            Image::Type eHeightType = getDataSource()->getHeightType();
+            bool        bHasGeoRef  = getDataSource()->hasGeoRef    ();
+
+            bool rc = false;
+
+            if(bHasGeoRef == true)
+            {
+                if(eHeightType == Image::OSG_UINT16_IMAGEDATA)
+                {
+                    fprintf(stderr, "BBQT::UInt data\n");
+                    
+                    typedef 
+                        BbqGeoRefdTerrainRenderer<
+                            UInt16, Int16, UInt8> TerrainRenderer;
+
+                    BbqTerrainEngine<UInt16, 
+                        Int16, 
+                        UInt8,
+                        TerrainRenderer> *pEngine = 
+                        new BbqTerrainEngine<UInt16, 
+                        Int16, 
+                        UInt8,
+                        TerrainRenderer>();
+                    
+                    rc = pEngine->initialize(getDataSource(), 
+                                             getMaxNumResidentNodes());
+                    
+                    if(rc == true)
+                    {
+                        _pEngine = pEngine;
+                    }
+                    else
+                    {
+                        delete pEngine;
+                    }
+                }
+                else if(eHeightType == Image::OSG_INT16_IMAGEDATA)
+                {
+                    fprintf(stderr, "BBQT::Int data\n");
+                    
+                    typedef 
+                        BbqGeoRefdTerrainRenderer<
+                            Int16, Int16, UInt8> TerrainRenderer;
+
+                    BbqTerrainEngine<Int16, 
+                        Int16, 
+                        UInt8,
+                        TerrainRenderer> *pEngine = 
+                        new BbqTerrainEngine<Int16, 
+                        Int16, 
+                        UInt8,
+                        TerrainRenderer>();
+                    
+                    rc = pEngine->initialize(getDataSource(), 
+                                             getMaxNumResidentNodes());
+                    
+                    if(rc == true)
+                    {
+                        _pEngine = pEngine;
+                    }
+                    else
+                    {
+                        delete pEngine;
+                    }
+                }
+            }
+            else
+            {
+                if(eHeightType == Image::OSG_UINT16_IMAGEDATA)
+                {
+                    fprintf(stderr, "BBQT::UInt data\n");
+                    
+                    typedef 
+                        BbqTerrainRenderer<
+                            UInt16, Int16, UInt8> TerrainRenderer;
+
+                    BbqTerrainEngine<UInt16, 
+                        Int16, 
+                        UInt8,
+                        TerrainRenderer> *pEngine = 
+                        new BbqTerrainEngine<UInt16, 
+                        Int16, 
+                        UInt8,
+                        TerrainRenderer>();
+                    
+                    rc = pEngine->initialize(getDataSource(), 
+                                             getMaxNumResidentNodes());
+                    
+                    if(rc == true)
+                    {
+                        _pEngine = pEngine;
+                    }
+                    else
+                    {
+                        delete pEngine;
+                    }
+                }
+                else if(eHeightType == Image::OSG_INT16_IMAGEDATA)
+                {
+                    fprintf(stderr, "BBQT::Int data\n");
+
+                    typedef 
+                        BbqTerrainRenderer<
+                            Int16, Int16, UInt8> TerrainRenderer;
+                    
+                    BbqTerrainEngine<Int16, 
+                                     Int16, 
+                                     UInt8, 
+                                     TerrainRenderer> *pEngine = 
+                        new BbqTerrainEngine<Int16, 
+                                             Int16, 
+                                             UInt8,
+                                             TerrainRenderer>();
+                    
+                    rc = pEngine->initialize(getDataSource(), 
+                                             getMaxNumResidentNodes());
+                    
+                    if(rc == true)
+                    {
+                        _pEngine = pEngine;
+                    }
+                    else
+                    {
+                        delete pEngine;
+                    }
+                }
+            }
+        }
+    }
 }
 
 void BbqTerrain::dump(      UInt32    ,
@@ -270,100 +420,24 @@ Action::ResultE BbqTerrain::renderLeave(Action* action)
 
 void BbqTerrain::execute(DrawEnv *pDrawEnv)
 {
-#if 0
-    if(terrain_ == NULL && getDataSource() != NullFC)
-    {
-        outOfCoreDataSource_
-
-        bool rc = outOfCoreDataSource_->initialize( 
-//        "data/ps.bbq", 
-            "data/ps_com.bbq", 
-            650.0f, 
-            0.0f, 
-            1.0f );
-    }
-#endif
-
-    static bool bInit = false;
-
-    if(bInit == false)
-    {
-        if(getDataSource() != NULL)
-        {
-            Image::Type eHeightType = getDataSource()->getHeightType();
-
-            bool rc = false;
-
-            if(eHeightType == Image::OSG_UINT16_IMAGEDATA)
-            {
-                fprintf(stderr, "BBQT::UInt data\n");
-
-                BbqTerrainEngine<UInt16, Int16, UInt8> *pEngine = 
-                    new BbqTerrainEngine<UInt16, Int16, UInt8>();
-                
-                rc = pEngine->initialize(getDataSource(), 
-                                         getMaxNumResidentNodes());
-
-                if(rc == true)
-                {
-                    _pEngine = pEngine;
-                }
-                else
-                {
-                    delete pEngine;
-                }
-            }
-            else if(eHeightType == Image::OSG_INT16_IMAGEDATA)
-            {
-                fprintf(stderr, "BBQT::Int data\n");
-
-                BbqTerrainEngine<Int16, Int16, UInt8> *pEngine = 
-                    new BbqTerrainEngine<Int16, Int16, UInt8>();
-
-                rc = pEngine->initialize(getDataSource(), 
-                                         getMaxNumResidentNodes());
-
-                if(rc == true)
-                {
-                    _pEngine = pEngine;
-                }
-                else
-                {
-                    delete pEngine;
-                }
-            }
-
-            
-            fprintf(stderr, "t::init %d\n", rc);
-            
-            terrainRenderOptions_.showSkirts           = false;
-            terrainRenderOptions_.showSwitchDistance   = true;
-        }
-
-        bInit = true;
-
-        commitChanges();
-    }
-
-//    fprintf(stderr, "BBqTerrain::execute\n");
-
     Matrix m1c = getBeacon()->getToWorld();
 
     Vec3f camPos(m1c[3][0],
                  m1c[3][1],
                  m1c[3][2]);
 
-    terrainRenderOptions_.showBoundingBoxes    = false;
-    terrainRenderOptions_.useVboExtension      = true;
-    terrainRenderOptions_.enableFrustumCulling = false;
-    terrainRenderOptions_.screenSpaceError     = 5.f;
-    terrainRenderOptions_.fovy                 = osgDegree2Rad(90);
-    terrainRenderOptions_.screenSize.setValues(500, 500); //uiSize, uiSize);
-    terrainRenderOptions_.pDrawEnv             = pDrawEnv;
-    terrainRenderOptions_.viewerpos[0]         = camPos[0];
-    terrainRenderOptions_.viewerpos[1]         = camPos[1];
-    terrainRenderOptions_.viewerpos[2]         = camPos[2];
-    terrainRenderOptions_.geoMorphFactor       = 0; //geoMorph;
+    _oTerrainRenderOptions.showSkirts         = true;
+    _oTerrainRenderOptions.showBoundingBoxes    = false;
+    _oTerrainRenderOptions.useVboExtension      = true;
+    _oTerrainRenderOptions.enableFrustumCulling = false;
+    _oTerrainRenderOptions.screenSpaceError     = 5.f;
+    _oTerrainRenderOptions.fovy                 = osgDegree2Rad(90);
+    _oTerrainRenderOptions.screenSize.setValues(500, 500); //uiSize, uiSize);
+    _oTerrainRenderOptions.pDrawEnv             = pDrawEnv;
+    _oTerrainRenderOptions.viewerpos[0]         = camPos[0];
+    _oTerrainRenderOptions.viewerpos[1]         = camPos[1];
+    _oTerrainRenderOptions.viewerpos[2]         = camPos[2];
+    _oTerrainRenderOptions.geoMorphFactor       = 0; //geoMorph;
 
 //    Vec3f camPos(0, 1000, 0);
     
@@ -381,7 +455,7 @@ void BbqTerrain::execute(DrawEnv *pDrawEnv)
         
         glLoadMatrixf(&(pDrawEnv->getCameraViewing()[0][0]));
         
-        _pEngine->render(terrainRenderOptions_);
+        _pEngine->render(_oTerrainRenderOptions);
         
         glPopMatrix();
         

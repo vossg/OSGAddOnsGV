@@ -60,14 +60,16 @@ int main( int argc, char** argv )
     osgInit(argc, argv);
 
     int tileSize    = 65;
-    int textureSize = 128;
+//    int textureSize = 128;
+    int textureSize = -1;
 
 //    std::string heightFieldFilename = "data/ps_height_1k.png";
-//    std::string heightFieldFilename = "data/Z_71_21.GTIF";
-    std::string heightFieldFilename = "/tmp/ruapehu/bj34/w001001.gtif";
+    std::string heightFieldFilename = "data/Z_71_21.GTIF";
+//    std::string heightFieldFilename = "/tmp/ruapehu/bj34/w001001.gtif";
 //    std::string textureFilename     = "data/ps_texture_1k.png";
 //    std::string textureFilename     = "data/ps_texture_6k.png";
-    std::string textureFilename     = "data/ps_texture_12_18.png";
+//    std::string textureFilename     = "data/ps_texture_12_18.png";
+    std::string textureFilename     = "";
 
     std::string bbqTerrainFilename  = "data/ps.bbq";
 

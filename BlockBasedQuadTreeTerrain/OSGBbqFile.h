@@ -464,7 +464,11 @@ class BbqFile
         TextureFormat _eTextureFormat;      
         UInt32        _uiHeightCompressionQuality;
         
-        // todo: geographic referencing:
+        //geographic referencing:
+        UInt32        _uiDatum;
+        Vec2f         _vEllipsoidAxis;
+        Vec2f         _vOrigin;
+        Vec2f         _vPixelSize;
     };
 
     /*---------------------------------------------------------------------*/

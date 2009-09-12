@@ -40,10 +40,14 @@
 
 OSG_BEGIN_NAMESPACE
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 BbqTerrainEngine<HeightType, 
                  HeightDeltaType, 
-                 TextureType    >::BbqTerrainEngine(void) :
+                 TextureType,
+                 TerrainRenderer>::BbqTerrainEngine(void) :
 
      Inherited       (    ),
     _oRenderer       (    ),
@@ -53,29 +57,41 @@ BbqTerrainEngine<HeightType,
 {
 }
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 BbqTerrainEngine<HeightType, 
                  HeightDeltaType, 
-                 TextureType    >::~BbqTerrainEngine(void)
+                 TextureType,
+                 TerrainRenderer>::~BbqTerrainEngine(void)
 {
 }
 
 //-----------------------------------------------------------------------------
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 const BbqRenderStatistics &
     BbqTerrainEngine<HeightType, 
                      HeightDeltaType, 
-                     TextureType    >::getRenderStatistics(void) const
+                     TextureType,
+                     TerrainRenderer>::getRenderStatistics(void) const
 {
     return _oRenderer.getStatistics();
 }
 
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 void BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::shutdown(void)
+                      TextureType,
+                      TerrainRenderer>::shutdown(void)
 {
     Inherited::shutdown();
 
@@ -87,10 +103,14 @@ void BbqTerrainEngine<HeightType,
     _pRootNode = NULL;
 }
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 void BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::update(const Vec3f &vViewerPosition)
+                      TextureType,
+                      TerrainRenderer>::update(const Vec3f &vViewerPosition)
 {
 //    Profile( terrainUpdate );
     // lock
@@ -158,10 +178,14 @@ void BbqTerrainEngine<HeightType,
     // unlock
 }
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 void BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::render(const BbqRenderOptions &oOptions)
+                      TextureType,
+                      TerrainRenderer>::render(const BbqRenderOptions &oOptions)
 {
 //    Profile( terrainRender );
     
@@ -171,10 +195,14 @@ void BbqTerrainEngine<HeightType,
     // unlock
 } 
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 bool BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::initialize(
+                      TextureType,
+                      TerrainRenderer>::initialize(
                           BbqDataSource *pDataSource, 
                           Int32          iMaxResidentNodeCount)
 {
@@ -241,10 +269,14 @@ bool BbqTerrainEngine<HeightType,
 //-----------------------------------------------------------------------------
 
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 bool BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::prefetchNodeData(void)
+                      TextureType,
+                      TerrainRenderer>::prefetchNodeData(void)
 {
     //Profile( prefetchNodeData );
     
@@ -351,10 +383,14 @@ bool BbqTerrainEngine<HeightType,
 //-----------------------------------------------------------------------------
 
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 void BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::requestLoad(
+                      TextureType,
+                      TerrainRenderer>::requestLoad(
           BbqTerrNode *pNode, 
     const Vec3f       &vViewerPosition)
 {
@@ -373,10 +409,14 @@ void BbqTerrainEngine<HeightType,
 //-----------------------------------------------------------------------------
 
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 void BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::requestUnload(
+                      TextureType,
+                      TerrainRenderer>::requestUnload(
           BbqTerrNode *pNode, 
     const Vec3f       &vViewerPosition)
 {
@@ -390,10 +430,14 @@ void BbqTerrainEngine<HeightType,
 
 //-----------------------------------------------------------------------------
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 void BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::calculatePriority(
+                      TextureType,
+                      TerrainRenderer>::calculatePriority(
           BbqTerrNode *pNode, 
     const Vec3f       &vViewerPosition)
 {
@@ -438,10 +482,14 @@ void BbqTerrainEngine<HeightType,
 //-----------------------------------------------------------------------------
 
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 void BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::initializeNode(BbqTerrNode *pNode, 
+                      TextureType,
+                      TerrainRenderer>::initializeNode(BbqTerrNode *pNode, 
                                                        BbqNodeId    id, 
                                                        Int32        x0,
                                                        Int32        y0, 
@@ -467,10 +515,14 @@ void BbqTerrainEngine<HeightType,
 //-----------------------------------------------------------------------------
 
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 bool BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::allocateChildren(BbqTerrNode *pNode)
+                      TextureType,
+                      TerrainRenderer>::allocateChildren(BbqTerrNode *pNode)
 {
     assert(pNode              );
     assert(pNode->id >= 0     );
@@ -501,10 +553,14 @@ bool BbqTerrainEngine<HeightType,
 //-----------------------------------------------------------------------------
 
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 void BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::freeChildren(BbqTerrNode *pNode)
+                      TextureType,
+                      TerrainRenderer>::freeChildren(BbqTerrNode *pNode)
 {
     assert(pNode);
     
@@ -530,10 +586,14 @@ void BbqTerrainEngine<HeightType,
 //-----------------------------------------------------------------------------
 
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 bool BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::loadChildren(BbqTerrNode *pNode)
+                      TextureType,
+                      TerrainRenderer>::loadChildren(BbqTerrNode *pNode)
 {
     assert(pNode                 );
     assert(pNode->isPreLeafNode());
@@ -588,10 +648,14 @@ bool BbqTerrainEngine<HeightType,
 //-----------------------------------------------------------------------------
 
 
-template<class HeightType, class HeightDeltaType, class TextureType> inline
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer> inline
 void BbqTerrainEngine<HeightType, 
                       HeightDeltaType, 
-                      TextureType    >::checkTreeConsistency(BbqTerrNode *pNode)
+                      TextureType,
+                      TerrainRenderer>::checkTreeConsistency(BbqTerrNode *pNode)
 {
     assert(pNode                                 );
     assert(pNode->id >= 0                        );
@@ -607,8 +671,5 @@ void BbqTerrainEngine<HeightType,
         }
     }
 }
-
-
-
 
 OSG_END_NAMESPACE

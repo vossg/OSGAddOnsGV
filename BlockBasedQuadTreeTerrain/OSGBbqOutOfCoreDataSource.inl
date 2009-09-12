@@ -111,6 +111,21 @@ bool BbqOutOfCoreEngine<HeightType,
     _oInformation.heightOffset       = fHeightOffset;
     _oInformation.sampleSpacing      = fSampleSpacing;
     
+    _oInformation.uiDatum            = _oHeader._uiDatum;
+    _oInformation.vEllipsoidAxis     = _oHeader._vEllipsoidAxis;
+    _oInformation.vOrigin            = _oHeader._vOrigin;
+    _oInformation.vPixelSize         = _oHeader._vPixelSize;
+
+    fprintf(stderr, "%d \n%f %f\n%f %f | %f %f\n",
+            _oHeader._uiDatum,
+            _oHeader._vEllipsoidAxis[0],
+            _oHeader._vEllipsoidAxis[1],
+            _oHeader._vOrigin[0],
+            _oHeader._vOrigin[1],
+            _oHeader._vPixelSize[0],
+            _oHeader._vPixelSize[1]);
+    
+
     _oResidualDecompressor.initialize(&_oInput, 
                                         ResidualCompression::QuantizedHuffman, 
                                        _oHeader._uiHeightCompressionQuality, 

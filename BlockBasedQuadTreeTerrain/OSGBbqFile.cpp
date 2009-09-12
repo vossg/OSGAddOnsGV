@@ -160,6 +160,14 @@ bool BbqFileWriter::startWriting(const BbqFileHeader &oHeader)
     _oOutputStream.writeUInt32(oHeader._eHeightFormat             );
     _oOutputStream.writeUInt32(oHeader._eTextureFormat            );   
     _oOutputStream.writeUInt32(oHeader._uiHeightCompressionQuality);
+
+    _oOutputStream.writeUInt32(oHeader._uiDatum);
+    _oOutputStream.writeFloat (oHeader._vEllipsoidAxis[0]);
+    _oOutputStream.writeFloat (oHeader._vEllipsoidAxis[1]);
+    _oOutputStream.writeFloat (oHeader._vOrigin[0]);
+    _oOutputStream.writeFloat (oHeader._vOrigin[1]);
+    _oOutputStream.writeFloat (oHeader._vPixelSize[0]);
+    _oOutputStream.writeFloat (oHeader._vPixelSize[1]);
     
     _oNodeTablePos = _oOutputStream.getPosition();
     
@@ -267,6 +275,14 @@ bool BbqFileReader::open( const std::string& filename )
         (BbqFile::TextureFormat) _oInputStream.readUInt32();
 
     _oHeader._uiHeightCompressionQuality = _oInputStream.readUInt32();
+
+    _oHeader._uiDatum           = _oInputStream.readUInt32();
+    _oHeader._vEllipsoidAxis[0] = _oInputStream.readFloat ();
+    _oHeader._vEllipsoidAxis[1] = _oInputStream.readFloat ();
+    _oHeader._vOrigin[0]        = _oInputStream.readFloat ();
+    _oHeader._vOrigin[1]        = _oInputStream.readFloat ();
+    _oHeader._vPixelSize[0]     = _oInputStream.readFloat ();
+    _oHeader._vPixelSize[1]     = _oInputStream.readFloat ();
     
     return !_oInputStream.isBad();
 }

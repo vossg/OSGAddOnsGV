@@ -68,6 +68,7 @@
 #include "OSGNodeFields.h" // Beacon type
 #include "OSGBbqDataSourceFields.h" // DataSource type
 #include "OSGUInt32Fields.h" // MaxNumResidentNodes type
+#include "OSGBoolFields.h" // ShowSwitchDistance type
 
 #include "OSGBbqTerrainFields.h"
 
@@ -98,7 +99,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
         BeaconFieldId = Inherited::NextFieldId,
         DataSourceFieldId = BeaconFieldId + 1,
         MaxNumResidentNodesFieldId = DataSourceFieldId + 1,
-        NextFieldId = MaxNumResidentNodesFieldId + 1
+        ShowSwitchDistanceFieldId = MaxNumResidentNodesFieldId + 1,
+        NextFieldId = ShowSwitchDistanceFieldId + 1
     };
 
     static const OSG::BitVector BeaconFieldMask =
@@ -107,6 +109,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
         (TypeTraits<BitVector>::One << DataSourceFieldId);
     static const OSG::BitVector MaxNumResidentNodesFieldMask =
         (TypeTraits<BitVector>::One << MaxNumResidentNodesFieldId);
+    static const OSG::BitVector ShowSwitchDistanceFieldMask =
+        (TypeTraits<BitVector>::One << ShowSwitchDistanceFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
 
@@ -142,6 +146,12 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
                   SFUInt32            *editSFMaxNumResidentNodes(void);
             const SFUInt32            *getSFMaxNumResidentNodes (void) const;
 
+#ifdef OSG_1_GET_COMPAT
+                  SFBool              *getSFShowSwitchDistance (void);
+#endif
+                  SFBool              *editSFShowSwitchDistance(void);
+            const SFBool              *getSFShowSwitchDistance (void) const;
+
 
                   NodePtrConst getBeacon         (void) const;
 
@@ -153,6 +163,12 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
                   UInt32              &editMaxNumResidentNodes(void);
             const UInt32              &getMaxNumResidentNodes (void) const;
 
+#ifdef OSG_1_GET_COMPAT
+                  bool                &getShowSwitchDistance (void);
+#endif
+                  bool                &editShowSwitchDistance(void);
+            const bool                &getShowSwitchDistance (void) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
@@ -161,6 +177,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
             void setBeacon         (NodePtrConstArg value);
             void setDataSource     (BbqDataSourcePtrConstArg value);
             void setMaxNumResidentNodes(const UInt32 &value);
+            void setShowSwitchDistance(const bool &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -216,6 +233,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     SFNodePtr         _sfBeacon;
     SFBbqDataSourcePtr _sfDataSource;
     SFUInt32          _sfMaxNumResidentNodes;
+    SFBool            _sfShowSwitchDistance;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -250,6 +268,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     EditFieldHandlePtr editHandleDataSource     (void);
     GetFieldHandlePtr  getHandleMaxNumResidentNodes (void) const;
     EditFieldHandlePtr editHandleMaxNumResidentNodes(void);
+    GetFieldHandlePtr  getHandleShowSwitchDistance (void) const;
+    EditFieldHandlePtr editHandleShowSwitchDistance(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

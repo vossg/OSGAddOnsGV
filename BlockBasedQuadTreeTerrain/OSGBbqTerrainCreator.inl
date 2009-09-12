@@ -85,6 +85,23 @@ bool BbqCreateEngine<HeightType, TextureType>::start(
     // build quadtree:
     initializeNodesRec(0, 0, 0, iVirtualSize, iVirtualSize, 0);
     
+    GeoReferenceAttachmentPtr pGeoRef = 
+        pHeightFieldImage->getGeoRef();
+
+    if(pGeoRef != NullFC)
+    {
+        fprintf(stderr, "Got GeoRef\n");
+
+        fprintf(stderr, "%d \n%f %f\n%f %f | %f %f\n",
+                pGeoRef->getDatum(),
+                pGeoRef->getEllipsoidAxis()[0],
+                pGeoRef->getEllipsoidAxis()[1],
+                pGeoRef->getOrigin()[0],
+                pGeoRef->getOrigin()[1],
+                pGeoRef->getPixelSize()[0],
+                pGeoRef->getPixelSize()[1]);
+    }
+
     // 2. step: write the file header
     BbqFile::BbqFileHeader header;
     
@@ -100,10 +117,23 @@ bool BbqCreateEngine<HeightType, TextureType>::start(
     header._iLevelCount           = _iLevelCount;
     header._fSampleSpacing        =  1.0f;
     header._eHeightType           =  pHeightFieldImage->getType();
-    header._eTextureType          =  pTextureImage->getType();
+
+    if(_pTextureImage != NULL)
+    {
+        header._eTextureType          =  pTextureImage->getType();
+    }
+    else
+    {
+        header._eTextureType          =  Image::OSG_INVALID_IMAGEDATATYPE;
+    }
+
     header._eHeightFormat         =  BbqFile::AbsoluteValues;
     header._eTextureFormat        =  BbqFile::RGB8;
-    
+    header._uiDatum               =  pGeoRef->getDatum();
+    header._vEllipsoidAxis        =  pGeoRef->getEllipsoidAxis();
+    header._vOrigin               =  pGeoRef->getOrigin();
+    header._vPixelSize            =  pGeoRef->getPixelSize();
+
     _pOutputFile->startWriting(header);
     
     // 3. step: write the hollow tree to the file:
@@ -137,7 +167,9 @@ bool BbqCreateEngine<HeightType, TextureType>::start(
         element.textureDataValid = false;
 
         element.heightData .resize(    _iTileSize    * _iTileSize   );
-        element.textureData.resize(3 * _iTextureSize * _iTextureSize);
+
+        if(_pTextureImage != NULL)
+            element.textureData.resize(3 * _iTextureSize * _iTextureSize);
     }
     
     // we can start now...
@@ -320,26 +352,29 @@ void BbqCreateEngine<HeightType, TextureType>::processNode(BbqNodeId iId)
     const BbqNodeId childId01 = getChildNodeId(iId, 2);
     const BbqNodeId childId11 = getChildNodeId(iId, 3);
     
-    if(isLeafTextureNode)
+    if(_pTextureImage != NULL)
     {
-        // get the texture from the image
-        getTextureData(node);
+        if(isLeafTextureNode)
+        {
+            // get the texture from the image
+            getTextureData(node);
+        }
+        else if(node.treeLevel < _iTextureLeafLevel)
+        {
+            // else: combine the 4 child textures to one texture (subsampling)
+            BbqCreationNode &childNode00 = _vQuadtree[childId00];
+            BbqCreationNode &childNode10 = _vQuadtree[childId10];
+            BbqCreationNode &childNode01 = _vQuadtree[childId01];
+            BbqCreationNode &childNode11 = _vQuadtree[childId11];
+            
+            combineTextureData(node, 
+                               childNode00, 
+                               childNode10, 
+                               childNode01, 
+                               childNode11);
+        }
     }
-    else if(node.treeLevel < _iTextureLeafLevel)
-    {
-        // else: combine the 4 child textures to one texture (subsampling)
-        BbqCreationNode &childNode00 = _vQuadtree[childId00];
-        BbqCreationNode &childNode10 = _vQuadtree[childId10];
-        BbqCreationNode &childNode01 = _vQuadtree[childId01];
-        BbqCreationNode &childNode11 = _vQuadtree[childId11];
-        
-        combineTextureData(node, 
-                           childNode00, 
-                           childNode10, 
-                           childNode01, 
-                           childNode11);
-    }
-    
+
     // is this a leaf node?
     if(isLeafNodeId(iId))
     {

@@ -65,6 +65,12 @@ struct BbqDataSourceInformation
     Real32                 heightScale;
     Real32                 heightOffset;
     Real32                 sampleSpacing;
+
+    //geographic referencing:
+    UInt32                 uiDatum;
+    Vec2f                  vEllipsoidAxis;
+    Vec2f                  vOrigin;
+    Vec2f                  vPixelSize;
 };
 
 struct BbqTerrainNodeBase;
@@ -90,6 +96,8 @@ class BbqDataSourceEngine
 
     const BbqDataSourceInformation &getInformation(void) const;
           Image::Type               getHeightType (void) const;
+          Image::Type               getTextureType(void) const;
+          bool                      hasGeoRef     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -149,6 +157,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSource : public BbqDataSourceBase
 
     const BbqDataSourceInformation &getInformation(void) const;
           Image::Type               getHeightType (void) const;
+          Image::Type               getTextureType(void) const;
+          bool                      hasGeoRef     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

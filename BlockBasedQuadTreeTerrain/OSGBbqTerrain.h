@@ -201,7 +201,10 @@ class BbqTerrainEngineBase
   private:
 };
 
-template<class HeightType, class HeightDeltaType, class TextureType>
+template<class HeightType, 
+         class HeightDeltaType, 
+         class TextureType,
+         class TerrainRenderer>
 class BbqTerrainEngine : public BbqTerrainEngineBase
 {
     /*==========================  PUBLIC  =================================*/
@@ -283,15 +286,13 @@ class BbqTerrainEngine : public BbqTerrainEngineBase
     /*! \{                                                                 */
 
     // the renderer is in another class:
-    BbqOpenGLTerrainRenderer<HeightType, 
-                             HeightDeltaType, 
-                             TextureType    >  _oRenderer;
+    TerrainRenderer             _oRenderer;
 
     // the node allocator:
-    BbqTerrainNodeAllocator                    _oNodeAllocator;
+    BbqTerrainNodeAllocator     _oNodeAllocator;
 
-    BbqTerrNode                               *_pRootNode;
-    std::vector<BbqTerrNode *>                 _vTraversalStack;
+    BbqTerrNode                *_pRootNode;
+    std::vector<BbqTerrNode *>  _vTraversalStack;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -383,7 +384,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrain : public BbqTerrainBase
     // Variables should all be in BbqTerrainBase.
 
     // tmp
-    BbqRenderOptions       terrainRenderOptions_;
+    BbqRenderOptions      _oTerrainRenderOptions;
     BbqTerrainEngineBase *_pEngine;
 
     /*---------------------------------------------------------------------*/

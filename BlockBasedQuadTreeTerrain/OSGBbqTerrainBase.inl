@@ -140,6 +140,39 @@ void BbqTerrainBase::setMaxNumResidentNodes(const UInt32 &value)
 
     _sfMaxNumResidentNodes.setValue(value);
 }
+//! Get the value of the BbqTerrain::_sfShowSwitchDistance field.
+
+inline
+bool &BbqTerrainBase::editShowSwitchDistance(void)
+{
+    editSField(ShowSwitchDistanceFieldMask);
+
+    return _sfShowSwitchDistance.getValue();
+}
+
+//! Get the value of the BbqTerrain::_sfShowSwitchDistance field.
+inline
+const bool &BbqTerrainBase::getShowSwitchDistance(void) const
+{
+    return _sfShowSwitchDistance.getValue();
+}
+
+#ifdef OSG_1_GET_COMPAT
+inline
+bool                &BbqTerrainBase::getShowSwitchDistance(void)
+{
+    return this->editShowSwitchDistance();
+}
+#endif
+
+//! Set the value of the BbqTerrain::_sfShowSwitchDistance field.
+inline
+void BbqTerrainBase::setShowSwitchDistance(const bool &value)
+{
+    editSField(ShowSwitchDistanceFieldMask);
+
+    _sfShowSwitchDistance.setValue(value);
+}
 
 
 #ifdef OSG_MT_CPTR_ASPECT
@@ -160,6 +193,9 @@ void BbqTerrainBase::execSync (      BbqTerrainBase *pFrom,
 
     if(FieldBits::NoField != (MaxNumResidentNodesFieldMask & whichField))
         _sfMaxNumResidentNodes.syncWith(pFrom->_sfMaxNumResidentNodes);
+
+    if(FieldBits::NoField != (ShowSwitchDistanceFieldMask & whichField))
+        _sfShowSwitchDistance.syncWith(pFrom->_sfShowSwitchDistance);
 }
 #endif
 
