@@ -54,6 +54,7 @@
 #include "OSGTerrainTools.h"
 #include "OSGImageTextureDataSource.h"
 #include "OSGDrawEnv.h"
+#include "OSGImageFileHandler.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -198,6 +199,13 @@ void DynamicTerrain::changed(BitVector whichField,
     }
 }
 
+
+void DynamicTerrain::dumpIt(void)
+{
+    geoClipmaps_.dumpIt();
+    
+    ImageFileHandler::the()->write(getTextureData(), "/tmp/globaltex.png");
+}
 
 void DynamicTerrain::dump(UInt32, const BitVector) const
 {

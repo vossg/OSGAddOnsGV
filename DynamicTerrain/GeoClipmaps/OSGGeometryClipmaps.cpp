@@ -44,6 +44,18 @@
 
 OSG_BEGIN_NAMESPACE
 
+void GeometryClipmaps::dumpIt(void)
+{
+    fprintf(stderr, "Got %d levels\n", levels_.size());
+
+    for(UInt32 i = 0; i < levels_.size(); ++i)
+    {
+        fprintf(stderr, "Level %d\n", i);
+
+        levels_[i].dumpIt();
+    }
+}
+
 GeometryClipmaps::GeometryClipmaps()
 {
     heightSource_ = 0;
@@ -301,7 +313,9 @@ Pnt2i GeometryClipmaps::getWorldSampleCount() const
 }
 
 
-int GeometryClipmaps::updateLevel( GeometryClipmapLevel& level, GeometryClipmapLevel* parentLevel, const Pnt2i& newOrigin )
+int GeometryClipmaps::updateLevel( GeometryClipmapLevel& level, 
+                                   GeometryClipmapLevel* parentLevel, 
+                                   const Pnt2i& newOrigin )
 {
     //todo: move this into the GeometryClipmapLevel class??
     // how much samples do we have to update?
@@ -334,7 +348,9 @@ int GeometryClipmaps::updateLevel( GeometryClipmapLevel& level, GeometryClipmapL
         // full block update:
         // reset the block origin:
         level.blockOrigin.setValues( 0, 0 );
-        updatedSampleCount += updateLevelBlock( level, parentLevel, Rectangle2i( 0, 0, levelSampleCount, levelSampleCount ) );
+        updatedSampleCount += updateLevelBlock( level, 
+                                                parentLevel, 
+                                                Rectangle2i( 0, 0, levelSampleCount, levelSampleCount ) );
     }
     else if( updateSampleCount[ 0 ] != 0 || updateSampleCount[ 1 ] != 0 )
     {

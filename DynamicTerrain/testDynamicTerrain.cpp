@@ -121,6 +121,7 @@ int main( int argc, char**argv )
 
 	terrainCore = DynamicTerrain::create();
 
+    terrainCore->setEnableSmoothTransition(true);
 	terrainCore->setLevelSize( levelSize );
 
 	terrainCore->setSampleDistance( sampleDistance );
@@ -356,7 +357,8 @@ void keyboard(unsigned char k, int x, int y)
 		break;
 
 	case 'l':   
-		mgr->useOpenSGLogo();
+        terrainCore->dumpIt();
+//		mgr->useOpenSGLogo();
 		break;
 
 	case 'f':   

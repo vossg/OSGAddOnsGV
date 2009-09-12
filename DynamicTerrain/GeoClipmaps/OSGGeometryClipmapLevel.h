@@ -53,6 +53,8 @@ class TextureDataSource;
 
 struct GeometryClipmapLevel
 {
+    void dumpIt(void);
+
     GeometryClipmapLevel();
     
     Pnt2i       blockPosToSamplePos( const Pnt2i& blockPos ) const;

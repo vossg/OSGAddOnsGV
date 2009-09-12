@@ -42,8 +42,23 @@
 #include "OSGTextureDataSource.h"
 #include "OSGTerrainTools.h"
 #include <OSGImage.h>
+#include "OSGImageFileHandler.h"
 
 OSG_BEGIN_NAMESPACE
+
+void GeometryClipmapLevel::dumpIt(void)
+{
+    fprintf(stderr, "index %d\n", index);
+    fprintf(stderr, "block origin %d %d\n", blockOrigin[0], blockOrigin[1]);
+    fprintf(stderr, "sample origin %d %d\n", sampleOrigin[0], sampleOrigin[1]);
+    fprintf(stderr, "texdata %p\n", textureData);
+    fprintf(stderr, "sampleSpacing %d\n", sampleSpacing);
+    
+    char tmp[256];
+    sprintf(tmp, "/tmp/levelTex%d.png", index);
+
+    ImageFileHandler::the()->write(textureData, tmp);    
+}
 
 GeometryClipmapLevel::GeometryClipmapLevel()
 {

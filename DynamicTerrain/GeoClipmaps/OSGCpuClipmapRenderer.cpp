@@ -703,7 +703,8 @@ void CpuClipmapRenderer::createBlockIndices( GeometryClipmapLevel& level, const 
 	//-------------------------------------------------------------------------------------------------
 
 
-bool CpuClipmapRenderer::buildIndices( GeometryClipmapLevel& level, const GeometryClipmapLevel* finerLevel )
+bool CpuClipmapRenderer::buildIndices( GeometryClipmapLevel& level, 
+                                       const GeometryClipmapLevel* finerLevel )
 {		
     // todo: speedup?! (insert optimal tristrips here..)
     // and frustum culling...		

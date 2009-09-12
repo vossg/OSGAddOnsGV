@@ -94,6 +94,8 @@ class DynamicTerrain : public DynamicTerrainBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
     
+    void dumpIt(void);
+
     virtual void dump(      UInt32    uiIndent = 0, 
                       const BitVector bvFlags  = 0) const;
     

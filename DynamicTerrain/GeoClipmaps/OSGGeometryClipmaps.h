@@ -90,6 +90,8 @@ class GeometryClipmaps
     int                   getLevelCount() const;
     GeometryClipmapLevel &getLevel( int index );
     
+    void dumpIt(void);
+
   protected:
 
     int  updateLevel( GeometryClipmapLevel& level, 
