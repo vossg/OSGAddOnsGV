@@ -36,31 +36,26 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTCACHEBASE_H_
-#define _OSGRTCACHEBASE_H_
+#ifndef _OSGRTXCACHEKDBASE_H_
+#define _OSGRTXCACHEKDBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGFieldContainer.h"
-#include "OSGContribRRTDef.h"
-#include "OSGLine.h"
+#include "OSGRTCacheBase.h"
+#include "OSGRTCachePrimIdxStore.h"
 
-#include "OSGRTCacheGeometryStore.h"
-#include "OSGRTCacheGeometryStoreFields.h"
-#include "OSGRTTriangleAccelFields.h"
-
-#include <boost/bind.hpp>
+#include "OSGRTXCacheKDNode.h"
 
 OSG_BEGIN_NAMESPACE
 
 /*! Memory, simple reference counted memory object. Parent of
-    everything that should be shared, but must not be thread safe.
-    \ingroup GrpBaseBase
+  everything that should be shared, but must not be thread safe.
+  \ingroup GrpBaseBase
  */
 
 template<typename DescT>
-class RTCacheBase : public FieldContainer
+class RTXCacheKDBase : public RTCacheBase<DescT>
 {
     /*==========================  PUBLIC  =================================*/
 
@@ -70,11 +65,11 @@ class RTCacheBase : public FieldContainer
     typedef typename Desc::TriangleAccel                  TriangleAccel;
     typedef typename Desc::MFTriangleAccel                MFTriangleAccel;
 
-    typedef          RTCacheBase<DescT>                   Self;
+    typedef          RTXCacheKDBase<DescT>                Self;
 
     OSG_GEN_INTERNALPTR(Self);
 
-    typedef          FieldContainer                       Inherited;
+    typedef          RTCacheBase<DescT>                   Inherited;
     typedef typename Inherited::TypeObject                TypeObject;
     typedef typename TypeObject::InitPhase                InitPhase;
 
@@ -83,24 +78,16 @@ class RTCacheBase : public FieldContainer
 
     enum 
     { 
-        GeoStoreFieldId       = Inherited::NextFieldId, 
-        TriangleAccelFieldId  = GeoStoreFieldId       + 1,
-        BoundingVolumeFieldId = TriangleAccelFieldId  + 1,
+        PrimIdxStoreFieldId   = Inherited::NextFieldId,
 
-        NextFieldId           = BoundingVolumeFieldId + 1
+        NextFieldId           = PrimIdxStoreFieldId + 1
     };
 
-    static const BitVector GeoStoreFieldMask        = 
+    static const BitVector PrimIdxStoreFieldMask    = 
         Inherited::NextFieldMask;
-
-    static const BitVector TriangleAccelFieldMask   = 
-        GeoStoreFieldMask       << 1;
     
-    static const BitVector BoundingVolumeFieldMask  = 
-        TriangleAccelFieldMask  << 1;
-
     static const BitVector NextFieldMask            = 
-        BoundingVolumeFieldMask << 1;
+        PrimIdxStoreFieldMask << 1;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -113,47 +100,88 @@ class RTCacheBase : public FieldContainer
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    void addGeometry(GeometryPtr    pGeo,
-                     Matrixr       &oMatrix,
-                     State         *pState,
-                     StateOverride *pStateOverride);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Reference Counting                           */
-    /*! \{                                                                 */
-
-    const GeometryStorePtr  getGeoStore    (UInt32 uiIndex);
-    const MFTriangleAccel  &getTrianglAccel(void          );
-
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
 
+    struct BBoxEdge 
+    {
+        enum EdgeType
+        { 
+            START, 
+            END 
+        };
+
+        Real32   _rT;
+        Int32    _iPrimId;
+        EdgeType _eEdgeType;
+
+        BBoxEdge(void);
+        BBoxEdge(Real32 rT, Int32 iPrimNum, bool bStarting);
+
+        bool operator<(const BBoxEdge &rhs) const;
+    };
+
+
+    typedef          std::vector<BoxVolume>             BBoxStore;
+    typedef          std::vector<BBoxEdge >             BBoxEdgeStore;
+    typedef typename std::vector<BBoxEdge >::iterator   BBoxEdgeStoreIt;
+
+    typedef          std::vector<Int32>                 IndexStore;
+    typedef          std::vector<Int32>::iterator       IndexIterator;
+    typedef          std::vector<Int32>::size_type      IndexSize;
+
+    typedef          MFRTCachePrimIdxStore              PrimIdxStore;
+
+    RTXKDNode *buildTree(const BoxVolume     &nodeBounds,
+                         const BBoxStore     &vBoundsStore, 
+                               IndexIterator  currentPrimsIt,
+                               IndexSize      numCurrentPrims, 
+                               Int32          iCurrentDepth, 
+                               BBoxEdgeStore  vEdgeStore[3],
+                               IndexIterator  itPrimStore0, 
+                               IndexIterator  itPrimStore1, 
+                               Int32          iNumBadRefines = 0);
+
+    RTXKDNode *buildInternalTree(void                );
+
+    void       initAccel        (BBoxStore   &vBounds);
+
+    void       processNode      (RTXKDNode   *pParent,
+                                 boxVolume_t *box    );
+
+    void       optimize         (RTXKDNode   *rope, 
+                                 UInt8       face, 
+                                 boxVolume_t *box    );
+
     /*---------------------------------------------------------------------*/
+    /*! \name                 Reference Counting                           */
+    /*! \{                                                                 */
 
-    typedef std::vector<BoxVolume> BBoxStore;
+    static const Int32         otherAxis[3][2];
+    static       TypeObject   _type;
 
-    /*---------------------------------------------------------------------*/
+    MFRTCachePrimIdxStore     _mfPrimitives;
 
-    static TypeObject _type;
+    Int32                     _iIsectCost;
+    Int32                     _iTravCost;
+    Real32                    _fEmptyBonus;
+    Int32                     _iMaxPrims;
+    Int32                     _iMaxDepth;
 
-    /*---------------------------------------------------------------------*/
 
-    MFRTCacheGeometryStorePtr _mfGeos;
-    MFTriangleAccel           _mfTriangleAcc;
-    SFBoxVolume               _sfBoundingVolume;
+    UInt32                     nodeCounter;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    RTCacheBase(void);
-    RTCacheBase(const RTCacheBase &source);
+    RTXCacheKDBase(void);
+    RTXCacheKDBase(const RTXCacheKDBase &source);
 
-    virtual ~RTCacheBase(void); 
+    virtual ~RTXCacheKDBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -171,39 +199,20 @@ class RTCacheBase : public FieldContainer
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    void addGeoStore(RTCacheGeometryStorePtr pStore);
+    EditFieldHandlePtr editHandlePrimIdxStore  (void);
+    GetFieldHandlePtr  getHandlePrimIdxStore   (void) const;
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    void initAccel(BBoxStore &vBounds);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    EditFieldHandlePtr editHandleGeoStore      (void);
-    GetFieldHandlePtr  getHandleGeoStore       (void) const;
-
-    EditFieldHandlePtr editHandleTriangleAccel (void);
-    GetFieldHandlePtr  getHandleTriangleAccel  (void) const;
-
-    EditFieldHandlePtr editHandleBoundingVolume(void);
-    GetFieldHandlePtr  getHandleBoundingVolume (void) const;
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-            void execSync (      RTCacheBase        *pFrom,
-                                 ConstFieldMaskArg   whichField,
-                                 AspectOffsetStore  &oOffsets,
-                                 ConstFieldMaskArg   syncMode  ,
-                           const UInt32              uiSyncInfo);
+    void execSync (      RTXCacheKDBase     *pFrom,
+                         ConstFieldMaskArg   whichField,
+                         AspectOffsetStore  &oOffsets,
+                         ConstFieldMaskArg   syncMode  ,
+                   const UInt32              uiSyncInfo);
 #endif
 
     /*! \}                                                                 */
@@ -221,18 +230,18 @@ class RTCacheBase : public FieldContainer
     static void initMethod(InitPhase ePhase);
 
     /*! \}                                                                 */
-   /*==========================  PRIVATE  ================================*/
+    /*==========================  PRIVATE  ================================*/
 
   private:
 
     friend class FieldContainer;
 
     /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const RTCacheBase &source);
+    void operator =(const RTXCacheKDBase &source);
 };
 
 OSG_END_NAMESPACE
 
-#include "OSGRTCacheBase.inl"
+#include "OSGRTXCacheKDBase.inl"
 
-#endif /* _OSGRTCACHEBASE_H_ */
+#endif /* _OSGRTXCACHEKDBASE_H_ */

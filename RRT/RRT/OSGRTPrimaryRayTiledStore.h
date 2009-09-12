@@ -48,6 +48,10 @@
 #include "OSGCondVar.h"
 #include "OSGLock.h"
 
+#include "OSGPerspectiveCamera.h"
+
+#include "OSGRTTile.h"
+
 OSG_BEGIN_NAMESPACE
 
 class Camera;

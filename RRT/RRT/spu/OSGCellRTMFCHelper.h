@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *             Copyright (C) 2000-2008 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -34,55 +34,39 @@
  *                                                                           *
  *                                                                           *
  *                                                                           *
-\*---------------------------------------------------------------------------*/
+ \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
+#ifndef _OSGCELLRTMFCHELPER_H_
+#define _OSGCELLRTMFCHELPER_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
+//#include <stdio.h>
+#include <spu_mfcio.h>
 
-#include "OSGContribRRTDef.h"
-
-#include "OSGTriangleIterator.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
 #include "OSGCellRT.h"
-#ifdef OSG_CACHE_KD
-#ifndef OSG_XCACHEKD
-#include "OSGRTCacheKD.h"
-#else
-#include "OSGRTXCacheKD.h"
-#endif
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRTUpdateAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGRTImageTarget.h"
-#include "OSGRTScene.h"
-#include "OSGRTHitTile.h"
-#include "OSGRTPrimaryRayStore.h"
-#include "OSGRTPrimaryRayTiledStore.h"
-#include "OSGRTHitStore.h"
-#include "OSGRTHitTiledStore.h"
-#include "OSGRTFourRaySIMDPacket.h"
-#include "OSGRTFourHitSIMDPacket.h"
-#include "OSGRTCombinedThread.h"
-#include "OSGRTPrimaryRayThread.h"
-#include "OSGRTShadingThread.h"
-#include "OSGRTLocalPacketManager.h"
-#include "OSGRayTracerInst.h"
+
+
+void mfc_checkDMAParams(UInt64 lsa, UInt64 ea, UInt32 size);
+
+
+
+void mfc_getIn16kBatches(volatile void *lsa, 
+			 UInt64 ea, 
+			 UInt32 size, 
+			 UInt32 tag, 
+			 UInt32 tid,
+			 UInt32 rid);
+
+
+
+void mfc_putIn16kBatches(volatile void *lsa, 
+			 UInt64 ea, 
+			 UInt32 size, 
+			 UInt32 tag, 
+			 UInt32 tid, 
+			 UInt32 rid);
+
 
 #endif

@@ -38,4 +38,22 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+UInt32 RTStore::getNumTiles(void)
+{
+    return _uiNumTiles;
+}
+
+inline
+UInt32 RTStore::getNumVTiles(void)
+{
+    return _uiVTiles;
+}
+
+inline
+UInt32 RTStore::getNumHTiles(void)
+{
+    return _uiHTiles;
+}
+
 OSG_END_NAMESPACE

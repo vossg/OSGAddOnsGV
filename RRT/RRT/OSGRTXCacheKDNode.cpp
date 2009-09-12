@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *           Copyright (C) 2003 by the OpenSG Forum                          *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,53 +36,26 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
-#ifdef __sgi
-#pragma once
-#endif
+#include "OSGRTXCacheKDNode.h"
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
+#include <OSGMField.h>
+#include <OSGBaseMFields.h>
 
-#include "OSGContribRRTDef.h"
+OSG_BEGIN_NAMESPACE
 
-#include "OSGTriangleIterator.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
-#include "OSGCellRT.h"
-#ifdef OSG_CACHE_KD
-#ifndef OSG_XCACHEKD
-#include "OSGRTCacheKD.h"
-#else
-#include "OSGRTXCacheKD.h"
-#endif
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRTUpdateAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGRTImageTarget.h"
-#include "OSGRTScene.h"
-#include "OSGRTHitTile.h"
-#include "OSGRTPrimaryRayStore.h"
-#include "OSGRTPrimaryRayTiledStore.h"
-#include "OSGRTHitStore.h"
-#include "OSGRTHitTiledStore.h"
-#include "OSGRTFourRaySIMDPacket.h"
-#include "OSGRTFourHitSIMDPacket.h"
-#include "OSGRTCombinedThread.h"
-#include "OSGRTPrimaryRayThread.h"
-#include "OSGRTShadingThread.h"
-#include "OSGRTLocalPacketManager.h"
-#include "OSGRayTracerInst.h"
+template <class ValueT, Int32 iNamespace, class AllocT>
+FieldType MField<ValueT, iNamespace, AllocT>::_fieldType(
+    MFieldTraits::getMName(),
+    MFieldTraits::getPName(),
+    MFieldTraits::getType (),
+    FieldType::MULTI_FIELD,
+    MFString::getClassType());
 
-#endif
+DataType FieldTraits<RTXCacheKDNode>::_type("RTXCacheKDNode", 
+                                            "BaseType"      );
+
+OSG_FIELDTRAITS_GETTYPE(RTXCacheKDNode)
+
+OSG_FIELD_DLLEXPORT_DEF1(MField, RTXCacheKDNode)
+
+OSG_END_NAMESPACE

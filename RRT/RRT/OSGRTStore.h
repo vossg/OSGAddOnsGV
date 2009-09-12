@@ -70,6 +70,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RTStore : public MemoryObject
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
+    UInt32 getNumTiles (void);
+    UInt32 getNumVTiles(void);
+    UInt32 getNumHTiles(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */

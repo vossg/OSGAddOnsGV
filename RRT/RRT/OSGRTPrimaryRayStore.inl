@@ -103,6 +103,53 @@ void RTPrimaryRayStore<DescT>::startFrame(Camera &pCam, RTTarget &pTarget)
 
 #ifdef OSG_CELL
 
+template<typename DescT> inline
+void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::setupRays(
+    RTPrimaryRayStore<DescT> *pThis,
+    Camera                   &pCam, 
+    RTTarget                 &pTarget)
+{
+    if(pThis->_uiWidth  != pTarget.getWidth() || 
+       pThis->_uiHeight != pTarget.getHeight())
+    {
+        fprintf(stderr, "Update RS SIMD \n==============================\n"); 
+
+        pThis->updateNumTiles(pTarget.getWidth(), 
+                              pTarget.getHeight(),
+                              FourRayPacket::NumHRays,
+                              FourRayPacket::NumVRays);
+        
+        pThis->_vRays    .resize(pThis->_uiNumTiles);
+        pThis->_vRayInfos.resize(pThis->_uiNumTiles);
+    }
+}
+
+template<typename DescT> inline
+void RTPrimaryRayStore<DescT>::convCellStruct(UInt32         tileIndex,
+                                              rayTile_t     *rayTile,
+                                              rayInfoTile_t *rayInfoTile)
+{
+    OSG_ASSERT(tileIndex < _uiHTiles * _uiVTiles);
+
+    SingleRayPacket     &rayPacket     = _vRays    [tileIndex];
+    SingleRayPacketInfo &rayInfoPacket = _vRayInfos[tileIndex];
+
+    rayPacket.setOrigin(rayTile->fOrigin);
+
+    rayPacket.setDirX  (rayTile->fDir[0]);
+    rayPacket.setDirY  (rayTile->fDir[1]);
+    rayPacket.setDirZ  (rayTile->fDir[2]);
+  
+
+    rayInfoPacket.setActive(rayInfoTile->bIsActive[0], 0);
+    rayInfoPacket.setActive(rayInfoTile->bIsActive[1], 1);
+    rayInfoPacket.setActive(rayInfoTile->bIsActive[2], 2);
+    rayInfoPacket.setActive(rayInfoTile->bIsActive[3], 3);
+
+    rayInfoPacket.setXY(rayInfoTile->uiX, 
+                        rayInfoTile->uiY);
+}
+
 #else // OSG_CELL
 
 template<typename DescT> inline

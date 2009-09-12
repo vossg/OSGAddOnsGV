@@ -92,21 +92,30 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitSIMDPacket : public RTSIMDPacket
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void set       (UInt32 uiIdx,
-                    Real32 rDist, 
-                    Real32 rU, 
-                    Real32 rV, 
-                    UInt32 uiObjId,
-                    UInt32 uiTriId,
-                    UInt32 uiCacheId);
+    void set   (      UInt32 uiIdx,
+                      Real32 rDist, 
+                      Real32 rU, 
+                      Real32 rV, 
+                      UInt32 uiObjId,
+                      UInt32 uiTriId,
+                      UInt32 uiCacheId);
 
-    void set       (const UInt32 mask,
-                    const Float4 rDist, 
-                    const Float4 rU, 
-                    const Float4 rV, 
-                    const UInt32 uiObjId,
-                    const UInt32 uiTriId,
-                    const UInt32 uiCacheId);
+    void set   (const UInt32 mask,
+                const Float4 rDist, 
+                const Float4 rU, 
+                const Float4 rV, 
+                const UInt32 uiObjId,
+                const UInt32 uiTriId,
+                const UInt32 uiCacheId);
+
+#if defined(OSG_SIMD_ALTIVEC)
+    void setAll(const Float4 rDist,
+                const Float4 rU,
+                const Float4 rV,
+                const vector unsigned int uiObjId,
+                const vector unsigned int uiTriId,
+                const vector unsigned int uiCacheId);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

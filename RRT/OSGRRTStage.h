@@ -48,6 +48,7 @@
 #include "OSGTextureObjChunk.h"
 
 #include "OSGRTSIMD.h"
+#include "OSGCellRT.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -56,13 +57,21 @@ class RTTriAccelBarycentric;
 
 #ifdef OSG_CACHE_KD
 
+#ifndef OSG_XCACHEKD
+
 class RTCacheKDNode;
 
 template<typename DescT>
 class RTCacheKD;
 
+#else
+
+class RTXCacheKDNode;
+
 template<typename DescT>
-class RTCacheKDVer1;
+class RTXCacheKD;
+
+#endif
 
 #endif
 
@@ -175,8 +184,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef MFRTTriAccelBarycentric                MFTriangleAccel;
         
 #ifdef OSG_CACHE_KD
+#ifndef OSG_XCACHEKD
         typedef RTCacheKD<SinglePacketDescBase>        RTCache;
         typedef RTCacheKDNode                          RTCacheNode;
+#else
+        typedef RTXCacheKD<SinglePacketDescBase>       RTCache;
+        typedef RTXCacheKDNode                         RTCacheNode;
+#endif
 #endif 
 
 #ifdef OSG_CACHE_BIH
@@ -307,8 +321,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef MFRTTriAccelBarycentric              MFTriangleAccel;
 
 #ifdef OSG_CACHE_KD
+#ifndef OSG_XCACHEKD
         typedef RTCacheKD<SIMDPacketDescBase>        RTCache;
         typedef RTCacheKDNode                        RTCacheNode;
+#else
+        typedef RTXCacheKD<SIMDPacketDescBase>       RTCache;
+        typedef RTXCacheKDNode                       RTCacheNode;
+#endif
 #endif 
 
 #ifdef OSG_CACHE_BIH

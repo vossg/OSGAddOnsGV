@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *             Copyright (C) 2000-2008 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -34,55 +34,55 @@
  *                                                                           *
  *                                                                           *
  *                                                                           *
-\*---------------------------------------------------------------------------*/
+ \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
+#ifndef _OSGSPURTNEWMAIN_H_
+#define _OSGSPURTNEWMAIN_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
-
-#include "OSGContribRRTDef.h"
-
-#include "OSGTriangleIterator.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
 #include "OSGCellRT.h"
-#ifdef OSG_CACHE_KD
-#ifndef OSG_XCACHEKD
-#include "OSGRTCacheKD.h"
-#else
-#include "OSGRTXCacheKD.h"
-#endif
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRTUpdateAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGRTImageTarget.h"
-#include "OSGRTScene.h"
-#include "OSGRTHitTile.h"
-#include "OSGRTPrimaryRayStore.h"
-#include "OSGRTPrimaryRayTiledStore.h"
-#include "OSGRTHitStore.h"
-#include "OSGRTHitTiledStore.h"
-#include "OSGRTFourRaySIMDPacket.h"
-#include "OSGRTFourHitSIMDPacket.h"
-#include "OSGRTCombinedThread.h"
-#include "OSGRTPrimaryRayThread.h"
-#include "OSGRTShadingThread.h"
-#include "OSGRTLocalPacketManager.h"
-#include "OSGRayTracerInst.h"
+
+#include <malloc_align.h>
+#include <calloc_align.h>
+#include <free_align.h>
+
+
+#define DOUBLEBUFFER
+
+#define TRUE   1
+#define FALSE  0
+
+
+volatile envelopeInfo_t *envelopeInfo;
+
+volatile rayEnvelope_t     *rayEnvelope;
+
+volatile rayInfoEnvelope_t *rayInfoEnvelope;
+
+volatile hitEnvelope_t     *hitEnvelope;
+
+volatile triangleData_t* triangleAccel;
+
+volatile raySetupBase_t *raySetupBase;
+
+volatile cacheKDNode_t* cacheKDNode;
+
+volatile control_block_t cb __attribute__ ((aligned (128)));
+
+volatile cacheInfoPack_t* cacheInfoPack;
+
+volatile boxVolume_t* rootBoxVolume;
+
+volatile boxVolume_t* boxVolumeCache;
+
+volatile UInt32* primIndexArray;
+
+UInt32 gUiNodeLS;    // number of nodes in LS
+UInt32 gUiNodeCacheStIdx;  // main memory element index of NodeCache for first node LS  
+
+UInt32 gUiLeafNodeStIdx; // main memory element index for first leafNode in LS
+
 
 #endif

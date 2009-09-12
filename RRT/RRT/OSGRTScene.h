@@ -45,6 +45,8 @@
 #include "OSGMemoryObject.h"
 #include "OSGContribRRTDef.h"
 
+#include "OSGMaterialChunk.h"
+
 #include "OSGRTRayPacket.h"
 #include "OSGRTHitPacket.h"
 #include "OSGRTColorPacket.h"
@@ -53,6 +55,7 @@
 #include "OSGRTHitSIMDPacket.h"
 #include "OSGRTColorSIMDPacket.h"
 
+class Camera;
 
 OSG_BEGIN_NAMESPACE
 
@@ -81,6 +84,8 @@ class RTScene : public MemoryObject
     typedef typename Desc::BasicRayPacket     BasicRayPacket;
     typedef typename Desc::BasicSIMDRayPacket BasicSIMDRayPacket;
 
+    typedef typename std::vector<RTCache *>   RTCacheStore;
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -92,8 +97,20 @@ class RTScene : public MemoryObject
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    void addCache  (RTCache *pCache);
-    void clearCache(void           );
+          void          addCache     (RTCache *pCache);
+          void          clearCache   (void           );
+
+          UInt32        getNumCaches (void           );
+
+    const RTCacheStore &getCacheArray(void           );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Reference Counting                           */
+    /*! \{                                                                 */
+
+    void    setCamera(Camera *pCam);
+    Camera *getCamera(void        );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -134,7 +151,8 @@ class RTScene : public MemoryObject
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    std::vector<RTCache *> _vRTCaches;
+    Camera      *_pCam;
+    RTCacheStore _vRTCaches;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

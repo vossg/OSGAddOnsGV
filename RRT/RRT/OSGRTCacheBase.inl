@@ -46,6 +46,13 @@ const typename RTCacheBase<DescT>::GeometryStorePtr
 }
 
 template<typename DescT> inline
+const typename RTCacheBase<DescT>::MFTriangleAccel  &
+    RTCacheBase<DescT>::getTrianglAccel(void)
+{
+    return _mfTriangleAcc;
+}
+
+template<typename DescT> inline
 RTCacheBase<DescT>::RTCacheBase(void) :
      Inherited       (    ),
     _mfGeos          (    ),

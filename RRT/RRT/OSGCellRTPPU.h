@@ -1,8 +1,8 @@
-/*---------------------------------------------------------------------------*\
+/*---------------------------------------------------------------------------* \
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *             Copyright (C) 2000-2008 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,53 +36,46 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
+#ifndef _OSGCRTPPU_H_
+#define _OSGCRTPPU_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
-
-#include "OSGContribRRTDef.h"
-
-#include "OSGTriangleIterator.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
 #include "OSGCellRT.h"
-#ifdef OSG_CACHE_KD
-#ifndef OSG_XCACHEKD
-#include "OSGRTCacheKD.h"
-#else
-#include "OSGRTXCacheKD.h"
-#endif
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRTUpdateAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGRTImageTarget.h"
-#include "OSGRTScene.h"
-#include "OSGRTHitTile.h"
-#include "OSGRTPrimaryRayStore.h"
-#include "OSGRTPrimaryRayTiledStore.h"
-#include "OSGRTHitStore.h"
-#include "OSGRTHitTiledStore.h"
-#include "OSGRTFourRaySIMDPacket.h"
-#include "OSGRTFourHitSIMDPacket.h"
-#include "OSGRTCombinedThread.h"
-#include "OSGRTPrimaryRayThread.h"
-#include "OSGRTShadingThread.h"
-#include "OSGRTLocalPacketManager.h"
-#include "OSGRayTracerInst.h"
+
+#if defined(__PPU__) || defined(__SPU__)
+#include <libspe2.h>
+#include <pthread.h>
+#include <errno.h>
+#include <altivec.h>
+#include <malloc_align.h>
+#include <free_align.h>
+
+struct ppu_pthread_data 
+{
+    spe_context_ptr_t  speid;
+    pthread_t          pthread;
+    void              *argp;
+};
+
+typedef struct ppu_pthread_data ppu_pthread_data_t;
+
+// forced to exist 6 controlblocks due to envelopeInfo , fix later
+control_block_t cb[SPE_THREADS] __attribute__ ((aligned (128)));
+
+
+/* this is the pointer to the SPE code, to be used at thread creation time */
+extern spe_program_handle_t rrt_spu;
+
+/* these are the handles returned by "spe_context_create"
+   and "pthread_create" 
+*/
+
+ppu_pthread_data_t datas[SPE_THREADS];
 
 #endif
+
+
+#endif
+

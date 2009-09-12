@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *             Copyright (C) 2000-2008 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -34,55 +34,34 @@
  *                                                                           *
  *                                                                           *
  *                                                                           *
-\*---------------------------------------------------------------------------*/
+ \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
-#ifdef __sgi
-#pragma once
-#endif
+#include "OSGSPURTHitEnvelope.h"
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
+void prepareHitEnvelope(hitEnvelope_t* hitEnvelope, 
+			rayEnvelope_t* rayEnvelope,
+			rayInfoEnvelope_t* rayInfoEnvelope)
+			
+{
+  UInt16 i,j;
+  for(i = 0 ; i < envelopeTilesY ; ++i)
+    {
+      for(j = 0 ; j < envelopeTilesY ; ++j)
+	{
+	  hitEnvelope->tile[i][j].rDist = spu_splats((float)FLT_MAX);
+	  hitEnvelope->tile[i][j].rU    = spu_splats(-1.0f);
+	  hitEnvelope->tile[i][j].rV    = spu_splats(-1.0f);
+	  
+	  hitEnvelope->tile[i][j].uiCacheId = spu_splats((unsigned int) 0);
+	  hitEnvelope->tile[i][j].uiObjId   = spu_splats((unsigned int) 0);
+	  hitEnvelope->tile[i][j].uiTriId   = spu_splats((unsigned int) 0);
 
-#include "OSGContribRRTDef.h"
+	  assert(rayInfoEnvelope->tile[i][j].uiX<=cb.uiTargetWidth && rayInfoEnvelope->tile[i][j].uiY<=cb.uiTargetHeight);
+	
+	  hitEnvelope->tile[i][j].uiX = rayInfoEnvelope->tile[i][j].uiX;
+	  hitEnvelope->tile[i][j].uiY = rayInfoEnvelope->tile[i][j].uiY;
 
-#include "OSGTriangleIterator.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
-#include "OSGCellRT.h"
-#ifdef OSG_CACHE_KD
-#ifndef OSG_XCACHEKD
-#include "OSGRTCacheKD.h"
-#else
-#include "OSGRTXCacheKD.h"
-#endif
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRTUpdateAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGRTImageTarget.h"
-#include "OSGRTScene.h"
-#include "OSGRTHitTile.h"
-#include "OSGRTPrimaryRayStore.h"
-#include "OSGRTPrimaryRayTiledStore.h"
-#include "OSGRTHitStore.h"
-#include "OSGRTHitTiledStore.h"
-#include "OSGRTFourRaySIMDPacket.h"
-#include "OSGRTFourHitSIMDPacket.h"
-#include "OSGRTCombinedThread.h"
-#include "OSGRTPrimaryRayThread.h"
-#include "OSGRTShadingThread.h"
-#include "OSGRTLocalPacketManager.h"
-#include "OSGRayTracerInst.h"
-
-#endif
+	  //hitEnvelope[eId].tile[i][j].pRayPacket = rayEnvelopeEA +(UInt32)&rayEnvelope->tile[i][j];
+	}
+    }
+}

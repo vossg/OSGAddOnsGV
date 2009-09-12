@@ -30,6 +30,7 @@
 #include "OSGTextureObjChunk.h"
 #include "OSGTextureEnvChunk.h"
 
+#if 0
 #include "OSGRRTStage.h"
 #include "OSGRTInfoAttachment.h"
 
@@ -75,6 +76,9 @@
 #include "OSGRayTracerInst.h"
 
 #include "OSGRTCacheAttachmentInst.h"
+#else
+#include "OSGRRTExternalInclude.h"
+#endif
 
 using namespace OSG;
 

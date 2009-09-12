@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *             Copyright (C) 2000-2008 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -34,55 +34,71 @@
  *                                                                           *
  *                                                                           *
  *                                                                           *
-\*---------------------------------------------------------------------------*/
+ \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
+#ifndef _OSGSPURTTRIANGLE_H_
+#define _OSGSPURTTRIANGLE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
+#include "spu_intrinsics.h"
+#include <spu_mfcio.h>
 
-#include "OSGContribRRTDef.h"
-
-#include "OSGTriangleIterator.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
+#include "OSGSPURTCompositeIntrinsics.h"
+#include "OSGSPURTConstants.h"
 #include "OSGCellRT.h"
-#ifdef OSG_CACHE_KD
-#ifndef OSG_XCACHEKD
-#include "OSGRTCacheKD.h"
-#else
-#include "OSGRTXCacheKD.h"
-#endif
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRTUpdateAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGRTImageTarget.h"
-#include "OSGRTScene.h"
-#include "OSGRTHitTile.h"
-#include "OSGRTPrimaryRayStore.h"
-#include "OSGRTPrimaryRayTiledStore.h"
-#include "OSGRTHitStore.h"
-#include "OSGRTHitTiledStore.h"
-#include "OSGRTFourRaySIMDPacket.h"
-#include "OSGRTFourHitSIMDPacket.h"
-#include "OSGRTCombinedThread.h"
-#include "OSGRTPrimaryRayThread.h"
-#include "OSGRTShadingThread.h"
-#include "OSGRTLocalPacketManager.h"
-#include "OSGRayTracerInst.h"
+#include "OSGSPURTMain.h"
+
+#define KU aMod[triangle->uiProj + 1]
+#define KV aMod[triangle->uiProj + 2]
+
+
+
+void intersectTriangleSIMD(fourHitPacket_t* fourHitPacket,
+			   rayTile_t* rayTile,
+			   UInt32 uiCacheId,
+			   UInt16 uiActive,
+			   UInt32 nPrimitives,
+			   UInt32* prims,
+			   UInt32 mfcTagId,
+			   EA_t eaTriCache);
+
+void intersectSingleTriangleSIMD(fourHitPacket_t* fourHitPacket,
+				 rayTile_t* rayTile,
+				 UInt32 uiCacheId,
+				 UInt16 uiActive,
+				 triangleData_t* triangle);
+
+
+void intersectTriangleScalar(fourHitPacket_t* fourHitPacket,
+			     rayTile_t* rayTile,
+			     UInt32 uiCacheId,
+			     UInt16 uiRay,
+			     UInt32 nPrimitives,
+			     UInt32* prims,
+			     UInt32 mfcTagId,
+			     EA_t eaTriCache);
+
+void intersectSingleTriangleScalar(fourHitPacket_t* fourHitPacket,
+				   rayTile_t* rayTile,
+				   UInt32 uiCacheId,
+				   UInt16 uiRay,
+				   triangleData_t* triangle);
+
+
+void updateTriangleCache(UInt32 nPrimitives, 
+			 UInt32* prims, 
+			 UInt32 mfcTagId,
+			 EA_t eaTriCache); 
+
+void updateTriangleCacheSIMD(UInt32 nPrimitives, 
+			 UInt32* prims, 
+			 UInt32 mfcTagId,
+			 EA_t eaTriCache); 
+		       
+void resetTriangleCache(void);
+
+void resetTriangleCacheSIMD(void);
 
 #endif

@@ -40,8 +40,9 @@ OSG_BEGIN_NAMESPACE
 
 template<typename DescT> inline
 RTScene<DescT>::RTScene(void) :
-     Inherited(),
-    _vRTCaches()
+     Inherited(      ),
+    _pCam     (NullFC),
+    _vRTCaches(      )
 {
 }
 
@@ -66,14 +67,44 @@ void RTScene<DescT>::clearCache(void)
 }
 
 template<typename DescT> inline
+UInt32 RTScene<DescT>::getNumCaches(void)
+{
+    return _vRTCaches.size();
+}
+
+
+template<typename DescT> inline
+void RTScene<DescT>::setCamera(Camera* pCam)
+{
+    _pCam = pCam;
+}
+
+
+template<typename DescT> inline
+Camera* RTScene<DescT>::getCamera()
+{
+    return _pCam;
+}
+
+template<typename DescT> inline
+const typename RTScene<DescT>::RTCacheStore &RTScene<DescT>::getCacheArray(void)
+{
+    return _vRTCaches;
+}
+
+template<typename DescT> inline
 void RTScene<DescT>::tracePrimaryRays(BasicRayPacket &oRay, 
                                       HitPacket      &oHit,
                                       ElemStack      &sKDToDoStack,
                                       UInt16         *uiActive    )
 {
     for(UInt32 k = 0; k < _vRTCaches.size(); ++k)
-    {    
+    {
+#ifdef OSG_XCACHEKD
+        _vRTCaches[k]->intersect(oRay, oHit, k);
+#else
         _vRTCaches[k]->intersect(oRay, oHit, sKDToDoStack, k);
+#endif
     }
 }
 
@@ -84,8 +115,12 @@ void RTScene<DescT>::tracePrimaryRays(BasicSIMDRayPacket &oRay,
                                       UInt16             *uiActive    )
 {
     for(UInt32 k = 0; k < _vRTCaches.size(); ++k)
-    {    
+    {
+#ifdef OSG_XCACHEKD
+        _vRTCaches[k]->intersect(oRay, oHit, k, uiActive);
+#else
         _vRTCaches[k]->intersect(oRay, oHit, sKDToDoStack, k, uiActive);
+#endif
     }
 }
 

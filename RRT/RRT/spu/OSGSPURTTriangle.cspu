@@ -1,0 +1,413 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *             Copyright (C) 2000-2008 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ \*---------------------------------------------------------------------------*/
+
+#include "OSGSPURTTriangle.h"
+
+void updateTriangleCache(UInt32 nPrimitives, 
+			 UInt32* primIndex, 
+			 UInt32 mfcTagId,
+			 EA_t eaTriCache)
+{
+
+  UInt32 triDMAQueue[nPrimitives];
+  UInt32 tri2DMA = 0;
+     
+  UInt32 i,j;
+  for(i=0 ; i < nPrimitives ; ++i)
+    {
+      _Bool bInLS = 0; 
+      for(j=0 ; j < triLimitLS ; ++j)
+	{
+	  if( primIndex[i] == triangleAccel[j].uiTriId )
+	    {
+	      bInLS = 1;
+	      break;
+	    }
+	}
+      if(bInLS==0)
+	{
+	  triDMAQueue[tri2DMA] = primIndex[i];
+	  tri2DMA++;
+	}
+    }
+
+#if 1
+  if(tri2DMA>0)
+    printf("DMA Tri: ");
+  for(i=0 ; i < tri2DMA ; ++i)
+    printf("%d ", triDMAQueue[i]);
+  if(tri2DMA > 0)
+    printf("\n");
+#endif
+
+  UInt32 base = mfc_ea2l(eaTriCache);
+  UInt32 offset = sizeof(triangleData_t);
+      
+  UInt32 dma_list[tri2DMA*2];
+
+  for(i=0 ; i < tri2DMA ; ++i)
+    {
+      dma_list[2*i]=offset;
+      dma_list[2*i+1]=base+offset*triDMAQueue[i];
+    }
+
+  spu_mfcdma64(triangleAccel, 
+	       mfc_ea2h(eaTriCache), 
+	       (LSA_t) &dma_list,
+	       sizeof(dma_list),
+	       mfcTagId+8,
+	       MFC_GETL_CMD);
+  spu_writech(MFC_WrTagMask, 1 << mfcTagId+8);
+  (void)spu_mfcstat(MFC_TAG_UPDATE_ALL);
+}
+
+void updateTriangleCacheSIMD(UInt32 nPrimitives, 
+			     UInt32* primIndex, 
+			     UInt32 mfcTagId,
+			     EA_t eaTriCache)
+{
+  UInt32 triDMAQueue[nPrimitives];
+  UInt32 tri2DMA = 0;
+     
+  UInt32 i;
+
+  UInt32 loops = nPrimitives >> 2;
+
+  UInt32 ip = 0;
+  vec_uint4 *primVec;
+
+  for(i=0 ; i < loops ; i++)
+    {
+      primVec = (vec_uint4*)&primIndex[ip];
+
+      UInt32 it = 0;
+      for(it=0 ; it < triLimitLS ; it+=4)
+	{
+	  vec_uint4 triVec = {triangleAccel[it  ].uiTriId,
+			      triangleAccel[it+1].uiTriId, 
+			      triangleAccel[it+2].uiTriId, 
+			      triangleAccel[it+3].uiTriId};
+	  
+	  vec_uint4 res = spu_cmpeq(*primVec, triVec);
+
+	  UInt32 zero = 0;
+	  res = spu_sel(spu_splats(zero), triVec, res);
+	  
+	  UInt32 el;
+	  for(el = 0 ; el < 4 ; ++el)    // HACK, need full SIMD implementation
+	    {
+	      UInt32 triId = spu_extract(res, el);
+	      if(triId > 0)
+		{
+		  triDMAQueue[tri2DMA] = triId;
+		  tri2DMA++;
+		}
+	    }
+	}
+      ip+=4;
+    }
+  while(ip < nPrimitives)
+    {
+      _Bool bInLS = 0; 
+      UInt32 j;
+      for(j=0 ; j < triLimitLS ; ++j)
+	{
+	  if( primIndex[ip] == triangleAccel[j].uiTriId )
+	    {
+	      bInLS = 1;
+	      break;
+	    }
+	}
+      if(!bInLS)
+	{
+	  triDMAQueue[tri2DMA] = primIndex[ip];
+	  tri2DMA++;
+	}
+      ip++;
+    }
+
+  UInt32 dma_list[tri2DMA*2];
+  vec_uint4 *p, w;
+  p = (vector unsigned int *) &dma_list;
+
+  UInt32 size = sizeof(triangleData_t);
+  UInt32 base = mfc_ea2l(eaTriCache);
+  
+  vec_uint4 length = (vec_uint4) {size, 0, size, 0};
+
+  UInt32 k = 0; 
+  for(i=0 ; i < tri2DMA-1 ; i+=2)
+    {
+      w = spu_insert(base+size*triDMAQueue[i], length, 1);
+      w = spu_insert(base+size*triDMAQueue[i+1], w, 3);
+      p[k] = w;
+      k++;	  
+    }
+  if(tri2DMA % 2 != 0)
+    {
+      dma_list[2*i]=size;
+      dma_list[2*i+1]=base+size*triDMAQueue[i];
+    }
+
+  spu_mfcdma64(triangleAccel, 
+	       mfc_ea2h(eaTriCache), 
+	       (LSA_t) &dma_list,
+	       sizeof(dma_list),
+	       mfcTagId+8,
+	       MFC_GETL_CMD);
+  spu_writech(MFC_WrTagMask, 1 << mfcTagId+8);
+  (void)spu_mfcstat(MFC_TAG_UPDATE_ALL);
+}
+
+
+
+
+void intersectTriangleSIMD(fourHitPacket_t* fourHitPacket,
+			   rayTile_t* rayTile,
+			   UInt32 uiCacheId,
+			   UInt16 uiActive,
+			   UInt32 nPrimitives,
+			   UInt32* primIndex,
+			   UInt32 mfcTagId,
+			   EA_t eaTriCache)
+{
+    
+
+  updateTriangleCache(nPrimitives, primIndex, mfcTagId, eaTriCache);
+
+  UInt32 i;
+
+  for(i = 0 ; i < nPrimitives ; ++i)
+    {
+      //find correct triangle in LS
+      UInt32 id = 0;
+
+      while(primIndex[i] != triangleAccel[id].uiTriId)
+	id++;
+      
+      intersectSingleTriangleSIMD((fourHitPacket_t*)&fourHitPacket,
+				  (rayTile_t*)&rayTile,
+				  uiCacheId,
+				  uiActive,
+				  (triangleData_t*)&triangleAccel[id]);
+    }
+}
+
+void intersectSingleTriangleSIMD(fourHitPacket_t* fourHitPacket,
+				 rayTile_t* rayTile,
+				 UInt32 uiCacheId,
+				 UInt16 uiActive,
+				 triangleData_t* triangle)
+{
+  printf("Intersect raytile with triangle %d\n", triangle->uiTriId);
+
+  static const UInt32 aMod[] = {0, 1, 2, 0, 1};
+
+  vec_float4 nd = spu_add(spu_mul(spu_splats(triangle->nU), rayTile->fDir[KU]),
+			  spu_mul(spu_splats(triangle->nV), rayTile->fDir[KV]));
+
+
+  const Real32 f = (triangle->nD - rayTile->vOriginA[triangle->uiProj] -
+  		    triangle->nU * rayTile->vOriginA[KU] -
+  		    triangle->nV * rayTile->vOriginA[KV]);
+
+  nd = spu_add(nd, rayTile->fDir[triangle->uiProj]);
+
+  nd = spu_c_invert(nd);
+
+  vec_float4 f4 = spu_mul(nd, spu_splats(f));
+
+  vec_float4 fDist4 = fourHitPacket->rDist;
+    
+  vec_float4 mask = spu_convtf(spu_and(spu_cmpgt(fDist4, f4), spu_cmpgt(f4, SIMDEps)), 0);
+
+  if((spu_c_movemask(mask) & uiActive) == 0)
+    return;
+
+  const vec_float4 hu = spu_add(spu_splats(rayTile->vOriginA[KU]), spu_mul(f4, rayTile->fDir[KU]));
+  const vec_float4 hv = spu_add(spu_splats(rayTile->vOriginA[KV]), spu_mul(f4, rayTile->fDir[KV]));
+
+  vec_float4 lambda = spu_add(spu_mul(hu, spu_splats(triangle->bNU)), spu_mul(hv, spu_splats(triangle->bNV)));
+
+  lambda = spu_add(lambda, spu_splats(triangle->bD));
+
+  mask = spu_and(mask, spu_convtf(spu_c_cmple(SIMDZero, lambda), 0));
+
+  if((spu_c_movemask(mask) & uiActive) == 0)
+    return;
+
+  vec_float4 mue = spu_add(spu_mul(hu, spu_splats(triangle->cNU)), spu_mul(hv, spu_splats(triangle->cNV)));
+
+  mue = spu_add(mue, spu_splats(triangle->cD));
+
+  mask = spu_and(mask, spu_convtf(spu_c_cmple(SIMDZero, mue), 0));
+  
+  if((spu_c_movemask(mask) & uiActive) == 0)
+    return;
+
+  const vec_float4 finalMask = spu_and(spu_convtf(spu_c_cmple(spu_add(lambda, mue), SIMDOne), 0), mask);
+
+  const UInt32 uiFinalMask = spu_c_movemask(finalMask) & uiActive;
+
+  if(uiFinalMask == 0)
+    return;
+
+
+  const vec_uint4 maskCheck = {0x01, 0x02, 0x04, 0x08};
+  
+  // NOT SURE ABOUT THE CODE BELOW, CHECK LATER
+  vec_uint4 res = spu_cmpgt(spu_convtf(spu_and(spu_splats(uiFinalMask), maskCheck), 0), SIMDZero);
+
+  fourHitPacket->rDist     = spu_sel(f4,                            fourHitPacket->rDist,     res);
+  fourHitPacket->rU        = spu_sel(lambda,                        fourHitPacket->rU,        res);
+  fourHitPacket->rV        = spu_sel(mue,                           fourHitPacket->rV,        res);
+  fourHitPacket->uiObjId   = spu_sel(spu_splats(triangle->uiObjId), fourHitPacket->uiObjId,   res);
+  fourHitPacket->uiTriId   = spu_sel(spu_splats(triangle->uiTriId), fourHitPacket->uiTriId,   res);
+  fourHitPacket->uiCacheId = spu_sel(spu_splats(uiCacheId),         fourHitPacket->uiCacheId, res);
+}
+
+
+void intersectTriangleScalar(fourHitPacket_t* fourHitPacket,
+			     rayTile_t* rayTile,
+			     UInt32 uiCacheId,
+			     UInt16 uiRay,
+			     UInt32 nPrimitives,
+			     UInt32* primIndexArray,
+			     UInt32 mfcTagId,
+			     EA_t eaTriCache)
+{
+    
+
+  updateTriangleCache(nPrimitives, primIndexArray, mfcTagId, eaTriCache);
+
+  UInt32 i;
+
+  for(i = 0 ; i < nPrimitives ; ++i)
+    {
+      //find correct triangle in LS
+      UInt32 id = 0;
+
+      while(primIndexArray[i] != triangleAccel[id].uiTriId)
+	id++;
+      
+      intersectSingleTriangleScalar((fourHitPacket_t*)&fourHitPacket,
+				    (rayTile_t*)&rayTile,
+				    uiCacheId,
+				    uiRay,
+				    (triangleData_t*)&triangleAccel[id]);
+    }
+}
+
+void intersectSingleTriangleScalar(fourHitPacket_t* fourHitPacket,
+				   rayTile_t* rayTile,
+				   UInt32 uiCacheId,
+				   UInt16 uiRay,
+				   triangleData_t* triangle)
+{
+  printf("Intersect single ray with triangle %d\n", triangle->uiTriId);
+
+  static const UInt32 aMod[] = {0, 1, 2, 0, 1};
+
+  const Real32 nd = 1.f / (rayTile->vDirA[uiRay][triangle->uiProj] +
+			   triangle->nU * rayTile->vDirA[uiRay][KU] +
+			   triangle->nV * rayTile->vDirA[uiRay][KV]);
+
+  const Real32 f = (triangle->nD - rayTile->vOriginA[triangle->uiProj] -
+		    triangle->nU * rayTile->vOriginA[KU] -
+		    triangle->nV * rayTile->vOriginA[KV]) * nd;
+
+  if(spu_extract(fourHitPacket->rDist, uiRay) > f && f > 0.00001)
+    return;
+
+  const float hu = rayTile->vOriginA[KU] + f * rayTile->vDirA[uiRay][KU];
+  const float hv = rayTile->vOriginA[KV] + f * rayTile->vDirA[uiRay][KV];
+  
+  const float lambda = hu * triangle->bNU + hv * triangle->bNV + triangle->bD;
+
+  if(lambda < 0.0)
+    return;
+
+  const float mue = hu * triangle->cNU + hv * triangle->cNV + triangle->cD;
+
+  if(mue < 0.0)
+    return;
+  
+  if(lambda + mue > 1.0)
+    return;
+
+  fourHitPacket->rDist     = spu_insert(f,                 fourHitPacket->rDist,     uiRay);
+  fourHitPacket->rU        = spu_insert(lambda,            fourHitPacket->rU,        uiRay);
+  fourHitPacket->rV        = spu_insert(mue,               fourHitPacket->rV,        uiRay);
+  fourHitPacket->uiObjId   = spu_insert(triangle->uiObjId, fourHitPacket->uiObjId,   uiRay);
+  fourHitPacket->uiTriId   = spu_insert(triangle->uiTriId, fourHitPacket->uiTriId,   uiRay);
+  fourHitPacket->uiCacheId = spu_insert(uiCacheId,         fourHitPacket->uiCacheId, uiRay);
+}
+
+inline
+void resetTriangleCache(void)
+{
+  int i;
+  for(i=0;i<triLimitLS;++i)
+    {
+      triangleAccel[i].uiTriId = UINT_MAX;
+    }
+}
+
+  // NOT COMPLETED
+inline
+void resetTriangleCacheSIMD(void)
+{
+  int i;
+  vec_uint4 p =  {(UInt32)&triangleAccel[0].uiTriId,
+		  (UInt32)&triangleAccel[1].uiTriId,
+		  (UInt32)&triangleAccel[2].uiTriId,
+		  (UInt32)&triangleAccel[3].uiTriId};
+
+  vec_uint4 offset = spu_sub(spu_splats((UInt32)&triangleAccel[4].uiTriId), 
+			     spu_splats((UInt32)&triangleAccel[0].uiTriId));
+
+  vec_uint4 triId = spu_splats(UINT_MAX);
+
+  unsigned int step = triLimitLS/4;
+  for(i = 0 ; i < step ; i++)
+    {
+      p = triId;
+      
+      p = spu_add(p, offset);
+    }
+}

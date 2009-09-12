@@ -150,10 +150,18 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
     void setOrigin         (Real32 oX,
                             Real32 oY,
                             Real32 oZ     );
+
     void setOrigin         (Pnt3f  vOrigin);
+
+    void setOrigin         (Float4 origin );
+
 
     void setDirection      (Vec3f  vDir,
                             UInt32 uiIdx  );
+
+    void setDirX           (Float4 fDir   );
+    void setDirY           (Float4 fDir   );
+    void setDirZ           (Float4 fDir   );
 
     void normalizeDirection(void          );
 

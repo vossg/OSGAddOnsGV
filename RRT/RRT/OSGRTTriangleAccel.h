@@ -131,7 +131,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentric
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
-  protected:
+//  protected:
 
     // Variables should all be in RTTargetBase.
 

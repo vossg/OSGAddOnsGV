@@ -93,11 +93,13 @@ void RTLocalPacketManager<DescT>::trace(Camera *pCam, bool bTiled)
         {
             _pHitTiledStore       ->startFrame(       *_pTarget);
             _pPrimaryRayTiledStore->startFrame(*pCam, *_pTarget);
+            _pScene               ->setCamera ( pCam           );
         }
         else
         {
             _pHitStore       ->startFrame(       *_pTarget);
             _pPrimaryRayStore->startFrame(*pCam, *_pTarget);
+            _pScene          ->setCamera ( pCam           );
         }
 
         _pSyncBarrier->enter();

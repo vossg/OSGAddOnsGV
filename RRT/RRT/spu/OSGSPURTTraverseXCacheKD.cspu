@@ -1,0 +1,633 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *             Copyright (C) 2000-2008 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ \*---------------------------------------------------------------------------*/
+
+#include "OSGSPURTTraverseXCacheKD.h"
+
+#ifdef OSG_XCACHEKD
+
+void intersectXRayEnvelope(UInt32 envId, 
+			  const UInt16 uiCache,
+			  const UInt32 mfc_tag_id)
+{
+  UInt16 i,j;
+  for(i = 0 ; i < envelopeTilesY ; ++i)
+    {
+      for(j = 0 ; j < envelopeTilesX ; ++j)
+	{
+	  intersectXRayTileSIMD((fourHitPacket_t*)&hitEnvelope[envId].tile[i][j], 
+			       (rayTile_t*)&rayEnvelope[envId].tile[i][j], 
+			       (rayInfoTile_t*)&rayInfoEnvelope[envId].tile[i][j],
+			       uiCache,
+			       mfc_tag_id);
+	}
+    }
+}
+
+void intersectXRayEnvelopeDoubleBuffered(rayEnvelope_t* rayEnvelope,
+					rayInfoEnvelope_t* rayInfoEnvelope,
+					hitEnvelope_t* hitEnvelope,
+					const UInt16 uiCache,
+					const UInt32 mfc_tag_id)
+{
+  UInt16 i,j;
+  for(i = 0 ; i < envelopeTilesY ; ++i)
+    {
+      for(j = 0 ; j < envelopeTilesX ; ++j)
+	{
+	  intersectXRayTileSIMD((fourHitPacket_t*)&hitEnvelope->tile[i][j], 
+			       (rayTile_t*)&rayEnvelope->tile[i][j], 
+			       (rayInfoTile_t*)&rayInfoEnvelope->tile[i][j],
+			       uiCache,
+			       mfc_tag_id);
+	}
+    }
+}
+					
+
+void intersectXRayTileSIMD(fourHitPacket_t* fourHitPacket,
+			   rayTile_t* rayTile,
+			   rayInfoTile_t* rayInfoTile,
+			   const UInt16 uiCache,
+			   const UInt32 mfc_tag_id)
+{
+  vec_float4 tmin4       = SIMDZero;
+  vec_float4 tmax4       = SIMDInfinity;
+  vec_uint4  active  = spu_splats(UINT_MAX);
+  UInt32 termination = 0;
+
+  UInt16 stackIndex = 0;
+  Int32 activeMask;
+
+  customVec4_t invDir;
+
+  invDir.data[X] = spu_c_invert(rayTile->fDir[X]);
+  invDir.data[Y] = spu_c_invert(rayTile->fDir[Y]);
+  invDir.data[Z] = spu_c_invert(rayTile->fDir[Z]);
+
+  //ClipX
+  vec_float4 tmp1 = spu_splats(rootBoxVolume[uiCache].min[X]);
+  vec_float4 tmp2 = spu_splats(rayTile->vOriginA[X]);
+
+  const vec_float4 clipMinX = spu_mul(spu_sub(tmp1, tmp2), invDir.data[X]);
+
+  const vec_float4 clipMaxX = 
+    spu_mul(spu_sub(spu_splats(rootBoxVolume[uiCache].max[X]), spu_splats(rayTile->vOriginA[X])), invDir.data[X]);
+  
+  const vec_float4 cmpX = spu_convtf(spu_cmpgt(rayTile->fDir[X], SIMDZero), 0);
+
+  tmin4 = spu_c_max(tmin4, spu_c_update(cmpX, clipMinX, clipMaxX));
+  tmax4 = spu_c_min(tmax4, spu_c_update(cmpX, clipMaxX, clipMinX));
+
+  // ClipY
+  const vec_float4 clipMinY = 
+    spu_mul(spu_sub(spu_splats(rootBoxVolume[uiCache].min[Y]), spu_splats(rayTile->vOriginA[Y])), invDir.data[Y]);
+    
+  const vec_float4 clipMaxY = 
+    spu_mul(spu_sub(spu_splats(rootBoxVolume[uiCache].max[Y]), spu_splats(rayTile->vOriginA[Y])), invDir.data[Y]);
+
+  const vec_float4 cmpY = spu_convtf(spu_cmpgt(rayTile->fDir[Y], SIMDZero), 0);
+
+  tmin4 = spu_c_max(tmin4, spu_c_update(cmpY, clipMinY, clipMaxY));
+  tmax4 = spu_c_min(tmax4, spu_c_update(cmpY, clipMaxY, clipMinY));
+
+  // ClipZ
+  const vec_float4 clipMinZ = 
+    spu_mul(spu_sub(spu_splats(rootBoxVolume[uiCache].min[Z]), spu_splats(rayTile->vOriginA[Z])), invDir.data[Z]);
+    
+  const vec_float4 clipMaxZ = 
+    spu_mul(spu_sub(spu_splats(rootBoxVolume[uiCache].max[Z]), spu_splats(rayTile->vOriginA[Z])), invDir.data[Z]);
+    
+  const vec_float4 cmpZ = spu_convtf(spu_cmpgt(rayTile->fDir[Z], SIMDZero), 0);
+
+  tmin4 = spu_c_max(tmin4, spu_c_update(cmpZ, clipMinZ, clipMaxZ));
+  tmax4 = spu_c_min(tmax4, spu_c_update(cmpZ, clipMaxZ, clipMinZ));
+
+  active = spu_cmpgt(tmax4, tmin4);
+
+  if(spu_c_movemask(spu_convtf(active, 0)) == 0x0)
+    {return;} 
+
+
+  cacheKDNode_t* currNode[4];
+  currNode[0] = (cacheKDNode_t*)cacheKDNode;
+  currNode[1] = (cacheKDNode_t*)cacheKDNode;
+  currNode[2] = (cacheKDNode_t*)cacheKDNode;
+  currNode[3] = (cacheKDNode_t*)cacheKDNode;
+
+  vec_uint4 currNodeLSA = spu_splats((UInt32)&cacheKDNode);
+
+  vec_uint4 nilVector = spu_splats(UINT_MAX);
+
+  union _u
+  {
+    cacheKDNode_t* pointer;
+    LSA_t    lsa;
+  };
+ 
+  union _u travNode;
+
+  travNode.pointer = (cacheKDNode_t*)cacheKDNode;
+
+  customVec4_t rayTileEntryPoint;
+
+  rayTileEntryPoint.data[X] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[X]));
+  rayTileEntryPoint.data[Y] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[Y]));
+  rayTileEntryPoint.data[Z] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[Z])); 
+
+    while(1)
+      {
+        vec_uint4 active = spu_cmpgt(tmax4, tmin4);
+
+        currNodeLSA = spu_sel(nilVector, currNodeLSA, active);
+      
+	//travNode = ??
+
+
+        if((UInt32)&travNode == UINT_MAX)
+  	break;
+
+        while(1)
+  	{
+
+  	  if((travNode.pointer->uiFlags & 3) == 3) // found leaf
+  	    break;
+
+
+  	  // down traverse currNodes
+
+  	  active = spu_cmpeq(currNodeLSA, travNode.lsa);
+
+  	  Int32 axis = (travNode.pointer->uiFlags) & 3; 
+
+  	  const vec_float4 tplane4 = spu_mul(spu_sub(spu_splats(travNode.pointer->fSplitPos), 
+    						     spu_splats(rayTile->vOriginA[axis])),
+    					     invDir.data[axis]);
+	  
+  	  vec_uint4 onLeft = spu_and(spu_cmpgt(tplane4, tmin4), active);
+
+
+  	  currNodeLSA = spu_sel(spu_splats(travNode.lsa+(UInt32)travNode.pointer->uiAboveChild+sizeof(cacheKDNode_t)),
+  				spu_splats((UInt32)travNode.lsa + travNode.pointer->uiAboveChild), onLeft);
+
+  	  currNodeLSA = spu_sel(spu_splats(UINT_MAX), currNodeLSA, active);
+					     
+
+  	  //down traverse travNode
+
+  	  // 	  vec_uint4 axis4 = {UINT_MAX : (cacheKDNode_t*)(spu_extract(currNodeLSA, 0))->uiFlags & 3 
+  	  // 			     ? spu_extract(currNodeLSA, 0) < UINT_MAX , 
+  	  // 			     UINT_MAX : (cacheKDNode_t*)(spu_extract(currNodeLSA, 1))->uiFlags & 3 
+  	  // 			     ? spu_extract(currNodeLSA, 1) < UINT_MAX
+  	  // 			     UINT_MAX : (cacheKDNode_t*)(spu_extract(currNodeLSA, 2))->uiFlags & 3 
+  	  // 			     ? spu_extract(currNodeLSA, 2) < UINT_MAX
+  	  // 			     UINT_MAX : (cacheKDNode_t*)(spu_extract(currNodeLSA, 3))->uiFlags & 3 
+  	  // 			     ? spu_extract(currNodeLSA, 3) < UINT_MAX};
+
+
+  	  Int32 b1 = spu_c_movemask(spu_convtf(spu_cmpgt(tplane4, tmin4), 0));
+
+  	  activeMask = spu_c_movemask(spu_convtf(active, 0));
+
+  	  if(activeMask > 0)
+  	    {
+  	      if(b1 & activeMask == activeMask)
+  		{
+  		  travNode.lsa = travNode.lsa + (UInt32)travNode.pointer->uiAboveChild;
+  		  continue;
+  		}
+  	      if(b1 == 0x0)
+  		{
+  		  travNode.lsa = travNode.lsa + (UInt32)travNode.pointer->uiAboveChild + sizeof(cacheKDNode_t);
+  		  continue;
+  		}
+  	    }
+
+
+
+
+  	  Int32 entryLeft = b1 >> 3 + b1 >> 2 + b1 >> 1 + b1;
+
+
+
+	
+	      
+
+  	}
+      
+        UInt32 nPrimitives = travNode.pointer->uiNumPrims >> 2;
+
+        if(nPrimitives == 1)
+    	{
+    	  intersectTriangleSIMD(fourHitPacket, 
+    				rayTile, 
+    				uiCache, 
+    				activeMask, 
+    				nPrimitives,
+    				travNode.pointer->uiSinglePrimitive,
+    				triangleAccel,
+    				mfc_tag_id,
+    				cacheInfoPack[uiCache].eaTriCache);
+    	}
+        else 
+    	{
+  	  UInt32* primIndex = (UInt32*)&primIndexArray[travNode.pointer->pPrimitiveIdx*maxPrimInNode];
+  
+	  
+    	  intersectTriangleSIMD(fourHitPacket, 
+    				rayTile, 
+    				uiCache, 
+    				activeMask, 
+    				nPrimitives,
+    				primIndex,
+    				mfc_tag_id,
+    				cacheInfoPack[uiCache].eaTriCache);
+    	}
+	  
+
+
+
+        tmin4 = updateEntryParams(rayTile, currNodeLSA, travNode.pointer);
+
+        rayTileEntryPoint.data[X] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[X]));
+        rayTileEntryPoint.data[Y] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[Y]));
+        rayTileEntryPoint.data[Z] = spu_add(rayTile->fOrigin, spu_mul(tmin4, rayTile->fDir[Z])); 
+ 
+        UInt32 boxIdx = travNode.pointer->pPrimitiveIdx;
+
+        data3f_t u[3], v[3], w[3];
+
+        data3f_t n[6];
+        Real32 D[6];
+
+        n[right].x = 1.0;
+        n[right].y = 0.0;
+        n[right].z = 0.0;
+
+        n[left].x = -1.0;
+        n[left].y = 0.0;
+        n[left].z = 0.0;
+
+        n[top].x = 0.0;
+        n[top].y = 1.0;
+        n[top].z = 0.0;
+
+        n[bottom].x = 0.0;
+        n[bottom].y = -1.0;
+        n[bottom].z = 0.0;
+
+        n[front].x = 0.0;
+        n[front].y = 0.0;
+        n[front].z = 1.0;
+
+        n[back].x = 1.0;
+        n[back].y = 0.0;
+        n[back].z = 0.0;
+
+        D[right]  = - (n[right].x*boxVolumeCache[boxIdx].max[X] + 
+  		     n[right].y*boxVolumeCache[boxIdx].min[Y] + 
+  		     n[right].z*boxVolumeCache[boxIdx].min[Z]);
+
+        D[left]   = - (n[left].x*boxVolumeCache[boxIdx].min[X] + 
+  		     n[left].y*boxVolumeCache[boxIdx].min[Y] + 
+  		     n[left].z*boxVolumeCache[boxIdx].min[Z]);
+
+        D[top]    = - (n[top].x*boxVolumeCache[boxIdx].min[X] + 
+  		     n[top].y*boxVolumeCache[boxIdx].max[Y] + 
+  		     n[top].z*boxVolumeCache[boxIdx].min[Z]);
+
+        D[bottom] = - (n[bottom].x*boxVolumeCache[boxIdx].min[X] + 
+  		     n[bottom].y*boxVolumeCache[boxIdx].min[Y] + 
+  		     n[bottom].z*boxVolumeCache[boxIdx].min[Z]);
+
+        D[front]  = - (n[front].x*boxVolumeCache[boxIdx].min[X] + 
+  		     n[front].y*boxVolumeCache[boxIdx].min[Y] + 
+  		     n[front].z*boxVolumeCache[boxIdx].max[Z]);
+
+        D[back]   = - (n[back].x*boxVolumeCache[boxIdx].min[X] + 
+  		     n[back].y*boxVolumeCache[boxIdx].min[Y] + 
+  		     n[back].z*boxVolumeCache[boxIdx].min[Z]);
+
+
+        const Real32 epsilon = 0.000001;
+
+        UInt32 iRay;
+        for(iRay = 0 ; iRay < 4 ; ++iRay)
+  	{
+  	  if(activeMask & (1 << iRay) == 1)
+  	    {
+  	      if(n[right].x*rayTileEntryPoint.dataA[X][iRay] + n[right].y*rayTileEntryPoint.dataA[Y][iRay] + 
+  		 n[right].z*rayTileEntryPoint.dataA[Z][iRay] + D[right] < epsilon)
+  		{
+  		  currNodeLSA = spu_insert(travNode.lsa + travNode.pointer->ropeOffset[right],
+  					   currNodeLSA,
+  					   iRay);
+  		  continue;
+  		}
+  	      if(n[left].x*rayTileEntryPoint.dataA[X][iRay] + n[left].y*rayTileEntryPoint.dataA[Y][iRay] + 
+  		 n[left].z*rayTileEntryPoint.dataA[Z][iRay] + D[left] < epsilon)
+  		{
+  		  currNodeLSA = spu_insert(travNode.lsa + travNode.pointer->ropeOffset[left],
+  					   currNodeLSA,
+  					   iRay);
+  		  continue;
+  		}
+  	      if(n[top].x*rayTileEntryPoint.dataA[X][iRay] + n[top].y*rayTileEntryPoint.dataA[Y][iRay] + 
+  		 n[top].z*rayTileEntryPoint.dataA[Z][iRay] + D[top] < epsilon)
+  		{
+  		  currNodeLSA = spu_insert(travNode.lsa + travNode.pointer->ropeOffset[top],
+  					   currNodeLSA,
+  					   iRay);
+  		  continue;
+  		}
+  	      if(n[bottom].x*rayTileEntryPoint.dataA[X][iRay] + n[bottom].y*rayTileEntryPoint.dataA[Y][iRay] + 
+  		 n[bottom].z*rayTileEntryPoint.dataA[Z][iRay] + D[bottom] < epsilon)
+  		{
+  		  currNodeLSA = spu_insert(travNode.lsa + travNode.pointer->ropeOffset[bottom],
+  					   currNodeLSA,
+  					   iRay);
+  		  continue;
+  		}
+  	      if(n[front].x*rayTileEntryPoint.dataA[X][iRay] + n[front].y*rayTileEntryPoint.dataA[Y][iRay] + 
+  		 n[front].z*rayTileEntryPoint.dataA[Z][iRay] + D[front] < epsilon)
+  		{
+  		  currNodeLSA = spu_insert(travNode.lsa + travNode.pointer->ropeOffset[front],
+  					   currNodeLSA,
+  					   iRay);
+  		  continue;
+  		}
+  	      if(n[back].x*rayTileEntryPoint.dataA[X][iRay] + n[back].y*rayTileEntryPoint.dataA[Y][iRay] + 
+  		 n[back].z*rayTileEntryPoint.dataA[Z][iRay] + D[back] < epsilon)
+  		{
+  		  currNodeLSA = spu_insert(travNode.lsa + travNode.pointer->ropeOffset[back],
+  					   currNodeLSA,
+  					   iRay);
+  		  continue;
+  		}
+  	    }	 
+	
+  	  else
+  	    {
+  	      currNodeLSA = spu_insert(UINT_MAX, currNodeLSA, iRay);
+  	    }
+  	}
+      }
+
+
+
+
+
+}
+
+
+
+vec_float4 updateEntryParams(rayTile_t* rayTile,
+			     vec_uint4 currNodeLSA,
+			     cacheKDNode_t* travNode)
+{
+  vec_float4 tmin4 = SIMDZero;
+
+  customVec4_t invDir;
+
+  invDir.data[X] = spu_c_invert(rayTile->fDir[X]);
+  invDir.data[Y] = spu_c_invert(rayTile->fDir[Y]);
+  invDir.data[Z] = spu_c_invert(rayTile->fDir[Z]);
+
+  boxVolume_t* box = (boxVolume_t*)&boxVolumeCache[travNode->pPrimitiveIdx+1];
+
+  //ClipX
+  vec_float4 tmp1 = spu_splats(box->min[X]);
+  vec_float4 tmp2 = spu_splats(rayTile->vOriginA[X]);
+
+  const vec_float4 clipMinX = spu_mul(spu_sub(tmp1, tmp2), invDir.data[X]);
+
+  const vec_float4 clipMaxX = 
+    spu_mul(spu_sub(spu_splats(box->max[X]), spu_splats(rayTile->vOriginA[X])), invDir.data[X]);
+  
+  const vec_float4 cmpX = spu_convtf(spu_cmpgt(rayTile->fDir[X], SIMDZero), 0);
+
+  tmin4 = spu_c_max(tmin4, spu_c_update(cmpX, clipMinX, clipMaxX));
+
+  // ClipY
+  const vec_float4 clipMinY = 
+    spu_mul(spu_sub(spu_splats(box->min[Y]), spu_splats(rayTile->vOriginA[Y])), invDir.data[Y]);
+    
+  const vec_float4 clipMaxY = 
+    spu_mul(spu_sub(spu_splats(box->max[Y]), spu_splats(rayTile->vOriginA[Y])), invDir.data[Y]);
+
+  const vec_float4 cmpY = spu_convtf(spu_cmpgt(rayTile->fDir[Y], SIMDZero), 0);
+
+  tmin4 = spu_c_max(tmin4, spu_c_update(cmpY, clipMinY, clipMaxY));
+
+  // ClipZ
+  const vec_float4 clipMinZ = 
+    spu_mul(spu_sub(spu_splats(box->min[Z]), spu_splats(rayTile->vOriginA[Z])), invDir.data[Z]);
+    
+  const vec_float4 clipMaxZ = 
+    spu_mul(spu_sub(spu_splats(box->max[Z]), spu_splats(rayTile->vOriginA[Z])), invDir.data[Z]);
+    
+  const vec_float4 cmpZ = spu_convtf(spu_cmpgt(rayTile->fDir[Z], SIMDZero), 0);
+
+  tmin4 = spu_c_max(tmin4, spu_c_update(cmpZ, clipMinZ, clipMaxZ));
+
+  return tmin4;
+}
+  /*
+    NOT COMPLETED!
+
+    PPU code moved here from the file OSGRTXCacheKD
+  */
+void intersectXRayTileScalar(fourHitPacket_t* fourHitPacket,
+			     rayTile_t* rayTile,
+			     rayInfoTile_t* rayInfoTile,
+			     const UInt16 uiCache,
+			     const UInt32 mfc_tag_id)
+{
+
+  //  Line lineRay(oRay.getOrigin(), oRay.getDir());
+  //   Real32 entryDist, exitDist;
+
+  //   if(!this->_sfBoundingVolume.getValue().intersect(lineRay,  entryDist, exitDist))
+  //     {
+  //       return;
+  //     }
+  //   Real32 rootExit= exitDist;
+
+  //   RTKDNode *node = pKDTree;
+   
+  //   while(entryDist < exitDist)
+  //     {
+  //       while(node->isLeaf() == false)
+  // 	{
+  // 	  UInt32 axis = node->getSplitAxis();
+  // 	  Real32 entryVal = oRay.getOrigin()[axis]+ oRay.getDir()[axis]*entryDist;
+	  
+  // 	  if(entryVal <= node->getSplitPos())
+  //             {  
+  // 	      node=node->getBelowChild();
+  // 	    }
+  // 	  else if(entryVal > node->getSplitPos())
+  // 	    {
+  // 	      node=node->getAboveChild();
+  // 	    }
+  // 	}
+      
+  //       // at a leaf
+  //       const UInt32 nPrimitives = node->getNumPrimitives();
+	   
+  //       if(nPrimitives == 1)
+  // 	this->_mfTriangleAcc[node->getPrimitiveIdx()].intersectTriangle(oRay, oHit, uiCacheId);
+  //       else 
+  // 	{
+  // 	  std::vector<UInt32> &prims = 
+  // 	    this->_mfPrimitives[node->getPrimitiveIdx()];
+            
+  // 	  for(UInt32 i = 0; i < nPrimitives; ++i) 
+  // 	    this->_mfTriangleAcc[prims[i]].intersectTriangle(oRay, oHit, uiCacheId);
+  // 	}
+
+  //       exitDist = oHit.getDist() < FLT_MAX ? oHit.getDist() : exitDist;
+     
+  //       /*
+  //       //hack, optimize this
+  //       BoxVolume nodeBox(node->getBoundingBox()->getValue(0),
+  //       node->getBoundingBox()->getValue(1),
+  //       node->getBoundingBox()->getValue(2),
+  //       node->getBoundingBox()->getValue(3),
+  //       node->getBoundingBox()->getValue(4),
+  //       node->getBoundingBox()->getValue(5));
+
+    
+  //       Real32 tmpExit, tmpEntry;
+      
+  //       if(nodeBox.intersect(lineRay, tmpEntry, tmpExit)==false) 
+      
+  //       {
+  //       return;
+  //       }
+  //       entryDist=tmpExit; 
+  //       */
+  //       //
+	
+  //       entryDist=exitDist;  
+
+  //    //    RTKDNodeBoundingBox *pNodeBox = node->getBoundingBox();
+
+  // //       Pnt3f xPnt = oRay.getOrigin() + entryDist * oRay.getDir();
+
+
+  // //       if(pNodeBox->getValue(0) == xPnt.x())  //exit left
+  // // 	node = node->getRope(1);
+
+  // //       else if(pNodeBox->getValue(1) == xPnt.y())
+  // // 	node = node->getRope(3);
+
+  // //       else  if(pNodeBox->getValue(2) == xPnt.z())
+  // // 	node = node->getRope(5);
+
+  // //       else if(pNodeBox->getValue(3) == xPnt.x())
+  // // 	node = node->getRope(0); 
+
+  // //       else if(pNodeBox->getValue(4) == xPnt.y())
+  // // 	node = node->getRope(2);
+
+  // //       else if(pNodeBox->getValue(5) == xPnt.z())
+  // // 	node = node->getRope(4);
+
+  // //       if(node == NULL)
+  // // 	return;
+      
+  //     }
+
+}
+void printXCache(UInt32 cacheId)
+{
+  if(cb.speId == 0){
+    int i, c;
+
+    for(c = 0 ; c < cb.uiCaches ; ++c)
+      {
+	printf("Cache %d context:\n", c);
+
+	for(i = 1 ; i < cacheInfoPack[cacheId].uiNodes ; ++i)
+	  {
+	    if((cacheKDNode[i].uiFlags & 3) == 3) //leaf
+	      {
+		printf("%u: %u %u \t\tropes: %d %d %d %d %d %d\tbox: %u\n",
+		       i,  
+		       cacheKDNode[i].uiNumPrims >> 2, cacheKDNode[i].pPrimitiveIdx,
+		       cacheKDNode[i].ropeOffset[0],
+		       cacheKDNode[i].ropeOffset[1],
+		       cacheKDNode[i].ropeOffset[2], 
+		       cacheKDNode[i].ropeOffset[3],
+		       cacheKDNode[i].ropeOffset[4],
+		       cacheKDNode[i].ropeOffset[5],
+		       cacheKDNode[i].pPrimitiveIdx+1);
+	      }
+	    else
+	      {
+		printf("%u: %.2f %u \t\tropes: %d %d %d %d %d %d\n",
+		       i, 
+		       cacheKDNode[i].uiNumPrims >> 2, cacheKDNode[i].pPrimitiveIdx,
+		       cacheKDNode[i].ropeOffset[0],
+		       cacheKDNode[i].ropeOffset[1],
+		       cacheKDNode[i].ropeOffset[2], 
+		       cacheKDNode[i].ropeOffset[3],
+		       cacheKDNode[i].ropeOffset[4],
+		       cacheKDNode[i].ropeOffset[5]);
+	      }
+	  }
+      }
+  }
+}
+
+
+void updateBoxVolumeCache(UInt32 tag_id, UInt32 cacheId)
+{
+  UInt32 leafCount = (cacheInfoPack[cacheId].uiNodes+1)/2;
+
+  boxVolumeCache = (boxVolume_t*)_malloc_align(sizeof(boxVolume_t)*leafCount, 5);
+
+  spu_mfcdma64(boxVolumeCache, 
+	       mfc_ea2h(cacheInfoPack[cacheId].eaBoxCache), 
+	       mfc_ea2l(cacheInfoPack[cacheId].eaBoxCache),
+	       sizeof(boxVolume_t)*leafCount,
+	       tag_id+9,
+	       MFC_GET_CMD);
+}
+
+#endif

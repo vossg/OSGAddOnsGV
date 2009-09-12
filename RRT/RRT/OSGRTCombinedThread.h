@@ -43,6 +43,7 @@
 #endif
 
 #include "OSGRTThread.h"
+#include "OSGCellRTPPU.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -97,6 +98,7 @@ struct RTCombinedThreadHelper<DescT, RTSIMDMathTag>
 
     typedef typename Desc::RTCacheNode          CacheKDNode;
     typedef typename Desc::TriangleAccel        TriangleAccel;
+    typedef typename Desc::MFTriangleAccel      MFTriangleAccel;
 
     typedef typename Desc::MathTag              MathTag;
  

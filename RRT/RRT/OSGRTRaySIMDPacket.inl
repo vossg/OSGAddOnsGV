@@ -204,6 +204,12 @@ void RTRaySIMDPacket::setOrigin(Pnt3f vOrigin)
 #endif
 }
 
+inline
+void RTRaySIMDPacket::setOrigin(Float4 origin)
+{
+    _fOrigin = origin;
+}
+
 inline 
 void RTRaySIMDPacket::setDirection(Vec3f  vDir,
                                    UInt32 uiIdx)
@@ -217,6 +223,24 @@ void RTRaySIMDPacket::setDirection(Vec3f  vDir,
 #ifdef OSG_SIMD_RAYPACKET_DEBUG
     _vDir[uiIdx] = vDir;
 #endif
+}
+
+inline
+void RTRaySIMDPacket::setDirX(Float4 fDir)
+{
+    _fDir[0] = fDir;
+}
+
+inline
+void RTRaySIMDPacket::setDirY(Float4 fDir)
+{
+    _fDir[1] = fDir;
+}
+
+inline
+void RTRaySIMDPacket::setDirZ(Float4 fDir)
+{
+    _fDir[2] = fDir;
 }
 
 inline 

@@ -76,8 +76,11 @@
 #include "OSGRTScene.h"
 #include "OSGRTLocalPacketManager.h"
 #ifdef OSG_CACHE_KD
-#include "OSGRTCacheKDVer1.h"
+#ifndef OSG_XCACHEKD
 #include "OSGRTCacheKD.h"
+#else
+#include "OSGRTXCacheKD.h"
+#endif
 #endif
 #ifdef OSG_CACHE_BIH
 #include "OSGRTCacheBIH.h"
@@ -100,8 +103,13 @@
 #include "OSGRTCacheBase.ins"
 
 #ifdef OSG_CACHE_KD
+#ifndef OSG_XCACHEKD
 #include "OSGRTCacheKDBase.ins"
 #include "OSGRTCacheKD.ins"
+#else
+#include "OSGRTXCacheKDBase.ins"
+#include "OSGRTXCacheKD.ins"
+#endif
 #endif
 #ifdef OSG_CACHE_BIH
 #include "OSGRTCacheBIHBase.ins"
@@ -157,6 +165,7 @@ static DataType SIMDCacheKDBaseType(
     "RTCacheKDBaseSIMDPacketPtr",
     "RTCacheBaseSIMDPacketPtr");
 
+#ifndef OSG_XCACHEKD
 template<>
 DataType FieldTraits<RTCacheKD<RRTStage::SinglePacketDescBase> *>::_type(
     "RTCacheKDSinglePacketPtr",
@@ -180,6 +189,31 @@ DataType &
 {
     return _type;
 }
+#else
+template<>
+DataType FieldTraits<RTXCacheKD<RRTStage::SinglePacketDescBase> *>::_type(
+    "RTCacheKDSinglePacketPtr",
+    "RTCacheKDBaseSinglePacketPtr");
+
+template<>
+DataType FieldTraits<RTXCacheKD<RRTStage::SIMDPacketDescBase> *>::_type(
+    "RTCacheKDSIMDPacketPtr",
+    "RTCacheKDBaseSinglePacketPtr");
+
+template<>
+DataType &
+    FieldTraits<RTXCacheKD<RRTStage::SinglePacketDescBase> *>::getType(void)
+{
+    return _type;
+}
+
+template<>
+DataType &
+    FieldTraits<RTXCacheKD<RRTStage::SIMDPacketDescBase> *>::getType(void)
+{
+    return _type;
+}
+#endif
 #endif
 
 #ifdef OSG_CACHE_BIH
@@ -220,6 +254,7 @@ DataType &
 //OSG_FIELDTRAITS_GETTYPE (RTCacheKD<RRTStage::SIMDPacketDescBase  > *)
 
 #ifdef OSG_CACHE_KD
+#ifndef OSG_XCACHEKD
 OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
                          RTCacheKD<RRTStage::SinglePacketDescBase> *, 
                          SFFieldContainerPtr);
@@ -235,6 +270,23 @@ OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor,
 OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
                          RTCacheKD<RRTStage::SIMDPacketDescBase> *, 
                          MFFieldContainerPtr);
+#else
+OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
+                         RTXCacheKD<RRTStage::SinglePacketDescBase> *, 
+                         SFFieldContainerPtr);
+
+OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
+                         RTXCacheKD<RRTStage::SinglePacketDescBase> *, 
+                         MFFieldContainerPtr);
+
+OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
+                         RTXCacheKD<RRTStage::SIMDPacketDescBase> *, 
+                         SFFieldContainerPtr);
+
+OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
+                         RTXCacheKD<RRTStage::SIMDPacketDescBase> *, 
+                         MFFieldContainerPtr);
+#endif
 #endif
 
 #ifdef OSG_CACHE_BIH
@@ -278,20 +330,30 @@ CLASS < T >::TypeObject &              \
     return _type;                      \
 }
 
-OSG_FC_GET_TYPE_INST(RTCacheBase,   RRTStage::SIMDPacketDescBase)
+OSG_FC_GET_TYPE_INST(RTCacheBase,    RRTStage::SIMDPacketDescBase)
 #ifdef OSG_CACHE_KD
-OSG_FC_GET_TYPE_INST(RTCacheKD,     RRTStage::SIMDPacketDescBase)
-OSG_FC_GET_TYPE_INST(RTCacheKDBase, RRTStage::SIMDPacketDescBase)
+#ifndef OSG_XCACHEKD
+OSG_FC_GET_TYPE_INST(RTCacheKD,      RRTStage::SIMDPacketDescBase)
+OSG_FC_GET_TYPE_INST(RTCacheKDBase,  RRTStage::SIMDPacketDescBase)
+#else
+OSG_FC_GET_TYPE_INST(RTXCacheKD,     RRTStage::SIMDPacketDescBase)
+OSG_FC_GET_TYPE_INST(RTXCacheKDBase, RRTStage::SIMDPacketDescBase)
+#endif
 #endif
 #ifdef OSG_CACHE_BIH
 OSG_FC_GET_TYPE_INST(RTCacheBIH,     RRTStage::SIMDPacketDescBase)
 OSG_FC_GET_TYPE_INST(RTCacheBIHBase, RRTStage::SIMDPacketDescBase)
 #endif
 
-OSG_FC_GET_TYPE_INST(RTCacheBase  , RRTStage::SinglePacketDescBase)
+OSG_FC_GET_TYPE_INST(RTCacheBase  ,  RRTStage::SinglePacketDescBase)
 #ifdef OSG_CACHE_KD
-OSG_FC_GET_TYPE_INST(RTCacheKD,     RRTStage::SinglePacketDescBase)
-OSG_FC_GET_TYPE_INST(RTCacheKDBase, RRTStage::SinglePacketDescBase)
+#ifndef OSG_XCACHEKD
+OSG_FC_GET_TYPE_INST(RTCacheKD,      RRTStage::SinglePacketDescBase)
+OSG_FC_GET_TYPE_INST(RTCacheKDBase,  RRTStage::SinglePacketDescBase)
+#else
+OSG_FC_GET_TYPE_INST(RTXCacheKD,     RRTStage::SinglePacketDescBase)
+OSG_FC_GET_TYPE_INST(RTXCacheKDBase, RRTStage::SinglePacketDescBase)
+#endif
 #endif
 #ifdef OSG_CACHE_BIH
 OSG_FC_GET_TYPE_INST(RTCacheBIH,     RRTStage::SinglePacketDescBase)

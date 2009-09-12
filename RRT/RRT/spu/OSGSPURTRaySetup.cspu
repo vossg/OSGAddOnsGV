@@ -1,0 +1,369 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *             Copyright (C) 2000-2008 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ \*---------------------------------------------------------------------------*/
+
+#include "OSGSPURTRaySetup.h"
+
+inline
+vec_float4 initPrimaryRaySetup(UInt32 tag_id)
+{
+  envelopeInfo =(envelopeInfo_t*)_malloc_align(sizeof(envelopeInfo_t)*cb.uiEnvelopes,7);
+
+  mfc_getIn16kBatches(envelopeInfo, cb.eaEnvelopeInfo, 
+		      sizeof(envelopeInfo_t)*cb.uiEnvelopes,
+		      tag_id, 0, 0);
+ 
+ 
+  raySetupBase =(raySetupBase_t*)_malloc_align(sizeof(raySetupBase_t),6);
+
+  mfc_get(raySetupBase, cb.eaPrimRaySetupPack, sizeof(raySetupBase_t), tag_id+1, 0, 0);
+  mfc_write_tag_mask(1<<tag_id);
+  mfc_write_tag_mask(1<<tag_id+1);
+  mfc_read_tag_status_all();
+ 
+  raySetupBase->vRight = spu_mul(raySetupBase->vRight, spu_splats(spu_extract(raySetupBase->vMisc, 0)));
+  raySetupBase->vUp = spu_mul(raySetupBase->vUp, spu_splats(spu_extract(raySetupBase->vMisc, 3)));
+
+  const vec_float4 vDir = {0.0, 0.0, -1.0, 0.0};
+
+  vec_float4 tmp = spu_sub(vDir, raySetupBase->vRight); 
+  vec_float4 vTopLeft = spu_add(tmp, raySetupBase->vUp);
+
+  raySetupBase->vRight = spu_mul(raySetupBase->vRight, spu_splats((Real32)2/(cb.uiTargetWidth - 1)));
+  raySetupBase->vUp    = spu_mul(raySetupBase->vUp,    spu_splats((Real32)2/(cb.uiTargetHeight - 1)));
+
+  return vTopLeft;
+}
+
+void setupPrimaryRaysDB(UInt32 tag_id, const UInt32 batchCount)
+{
+  vec_float4 vTopLeft = initPrimaryRaySetup(tag_id);
+
+  assert(batchCount % 2 == 0);
+
+  EA_t eaRayEnvelopeBatch  = cb.eaRayEnvelope;
+  EA_t eaRayInfoEnvelopeBatch = cb.eaRayInfoEnvelope;
+  
+  rayEnvelope     =(rayEnvelope_t*)_malloc_align(sizeof(rayEnvelope_t)*batchCount,7);
+  rayInfoEnvelope =(rayInfoEnvelope_t*)_malloc_align(sizeof(rayInfoEnvelope_t)*batchCount, 4);
+
+  rayEnvelope_t* rayEnvelopeB2     =(rayEnvelope_t*)_malloc_align(sizeof(rayEnvelope_t)*batchCount,7);
+  rayInfoEnvelope_t* rayInfoEnvelopeB2 =(rayInfoEnvelope_t*)_malloc_align(sizeof(rayInfoEnvelope_t)*batchCount, 4);
+
+  rayEnvelope_t* pRayEnvelopeBuffer[2];        
+  rayInfoEnvelope_t* pRayInfoEnvelopeBuffer[2];
+
+  pRayEnvelopeBuffer[0] = (rayEnvelope_t*)rayEnvelope;
+  pRayEnvelopeBuffer[1] = rayEnvelopeB2;
+
+  pRayInfoEnvelopeBuffer[0] = (rayInfoEnvelope_t*)rayInfoEnvelope;
+  pRayInfoEnvelopeBuffer[1] = rayInfoEnvelopeB2;
+
+  UInt32 i;
+  UInt32 eIdx = 0;
+  char swap = 0;
+
+  const UInt32 loopCount = (UInt32)cb.uiEnvelopes/batchCount;
+  const UInt32 finalBatch = cb.uiEnvelopes-(loopCount*batchCount);
+   
+  for(i = 0 ; i < loopCount ; ++i)
+    {
+      UInt32 j;
+      for(j =  0 ; j < batchCount ; ++j)
+	{
+	  setupSingleEnvelopeSIMD((rayEnvelope_t*)pRayEnvelopeBuffer[swap&1]+j, 
+				  (rayInfoEnvelope_t*)pRayInfoEnvelopeBuffer[swap&1]+j,
+				  envelopeInfo[eIdx].topX, 
+				  envelopeInfo[eIdx].topY, 
+				  vTopLeft);
+	  eIdx++;
+	}
+      mfc_put(pRayEnvelopeBuffer[swap&1], 
+	      eaRayEnvelopeBatch,
+	      sizeof(rayEnvelope_t)*batchCount,
+	      tag_id+(swap&1), 0, 0);
+      
+      mfc_put(pRayInfoEnvelopeBuffer[swap&1],
+	      eaRayInfoEnvelopeBatch,
+	      sizeof(rayInfoEnvelope_t)*batchCount,
+	      tag_id+2+(swap&1), 0, 0);
+			 
+      eaRayEnvelopeBatch     += batchCount*sizeof(rayEnvelope_t);
+      eaRayInfoEnvelopeBatch += batchCount*sizeof(rayInfoEnvelope_t);
+
+      mfc_write_tag_mask(1<<(tag_id+2+(swap^1)) | 1 << (tag_id+(swap^1)));
+      mfc_read_tag_status_all();  
+
+      swap^=1;
+    }
+  
+  assert(eIdx == cb.uiEnvelopes-finalBatch);
+  
+  for(i = 0 ; i < finalBatch ; ++i)
+    {
+      setupSingleEnvelopeSIMD((rayEnvelope_t*)pRayEnvelopeBuffer[swap&1]+i, 
+			      (rayInfoEnvelope_t*)pRayInfoEnvelopeBuffer[swap&1]+i,
+			      envelopeInfo[eIdx].topX, 
+			      envelopeInfo[eIdx].topY, 
+			      vTopLeft);
+      eIdx++;
+    }
+
+  mfc_put(pRayEnvelopeBuffer[swap&1], 
+	  eaRayEnvelopeBatch,
+	  sizeof(rayEnvelope_t)*finalBatch,
+	  tag_id+(swap&1), 0, 0);
+      
+  mfc_put(pRayInfoEnvelopeBuffer[swap&1],
+	  eaRayInfoEnvelopeBatch,
+	  sizeof(rayInfoEnvelope_t)*finalBatch,
+	  tag_id+2+(swap&1), 0, 0);
+
+  assert(eIdx == cb.uiEnvelopes);
+
+  mfc_write_tag_mask(1<<tag_id | 1 << tag_id+1 | 1 << tag_id+2 | 1 << tag_id+3);
+  mfc_read_tag_status_all();  
+
+  _free_align((void*)rayEnvelopeB2);
+  _free_align((void*)rayInfoEnvelopeB2);
+}
+
+
+void setupPrimaryRays(UInt32 tag_id, const UInt32 batchCount)
+{
+  vec_float4 vTopLeft = initPrimaryRaySetup(tag_id);
+
+  EA_t rayEnvelopeBatchEA;
+  EA_t rayInfoEnvelopeBatchEA;
+  
+  rayEnvelopeBatchEA = cb.eaRayEnvelope;
+  rayInfoEnvelopeBatchEA = cb.eaRayInfoEnvelope;
+
+  rayEnvelope     =(rayEnvelope_t*)_malloc_align(sizeof(rayEnvelope_t)*batchCount,7);
+  rayInfoEnvelope =(rayInfoEnvelope_t*)_malloc_align(sizeof(rayInfoEnvelope_t)*batchCount, 4);
+ 
+  UInt32 i, e, index;
+  for(i = 0 ; cb.uiEnvelopes-i > batchCount ; i=i+batchCount)
+    {
+      index = 0;
+      for(e = i ; e < i+batchCount ; ++e)
+	{
+	  setupSingleEnvelopeSIMD((rayEnvelope_t*)rayEnvelope+index, 
+				  (rayInfoEnvelope_t*)rayInfoEnvelope+index,
+				  envelopeInfo[e].topX, 
+				  envelopeInfo[e].topY, 
+				  vTopLeft);
+	  index++;
+	}
+      mfc_putIn16kBatches(rayEnvelope, rayEnvelopeBatchEA ,sizeof(rayEnvelope_t)*batchCount, tag_id,0,0);
+      mfc_write_tag_mask(1<<tag_id);
+      mfc_read_tag_status_all();
+
+      mfc_put(rayInfoEnvelope, rayInfoEnvelopeBatchEA, sizeof(rayInfoEnvelope_t)*batchCount, tag_id, 0, 0);
+      mfc_write_tag_mask(1<<tag_id);
+      mfc_read_tag_status_all();
+
+      rayEnvelopeBatchEA     += batchCount*sizeof(rayEnvelope_t);
+      rayInfoEnvelopeBatchEA += batchCount*sizeof(rayInfoEnvelope_t);
+    }
+
+  UInt32 finalBatch = cb.uiEnvelopes - i;
+  
+  index=0;
+  for(e=i ; e < cb.uiEnvelopes ; ++e)
+    {
+      setupSingleEnvelopeSIMD((rayEnvelope_t*)rayEnvelope+index, 
+			      (rayInfoEnvelope_t*)rayInfoEnvelope+index,
+			      envelopeInfo[e].topX, 
+			      envelopeInfo[e].topY, 
+			      vTopLeft);
+      index++;
+    }
+
+  mfc_putIn16kBatches(rayEnvelope, rayEnvelopeBatchEA ,sizeof(rayEnvelope_t)*finalBatch, tag_id,0,0);
+  mfc_write_tag_mask(1<<tag_id);
+  mfc_read_tag_status_all();
+
+  mfc_put(rayInfoEnvelope, rayInfoEnvelopeBatchEA, sizeof(rayInfoEnvelope_t)*finalBatch, tag_id, 0, 0);
+  mfc_write_tag_mask(1<<tag_id);
+  mfc_read_tag_status_all();
+}
+
+
+#if 0 // Hack function! should not be used, use setupSingleEnvelopeSIMD()
+void setupSingleEnvelope(rayEnvelope_t* rayEnvelope,
+			 rayInfoEnvelope_t* rayInfoEnvelope,
+			 UInt32 topX, 
+			 UInt32 topY, 
+			 vec_float4 vTopLeft)
+{
+  vTopLeft=spu_add(vTopLeft, spu_mul(spu_splats((Real32)topX), raySetupBase->vRight));
+  vTopLeft=spu_sub(vTopLeft, spu_mul(spu_splats((Real32)topY), raySetupBase->vUp));
+
+  vec_float4 vCurrX = vTopLeft;
+  vec_float4 vCurrY = vTopLeft;
+
+  UInt16 i, j, k, l;
+  UInt16 uiPacketIndex = 0;
+
+  for(k = 0 ; k < envelopeTilesY ; ++k)
+    {
+      for(i=0 ; i < 2 ; ++i)   
+	{
+	  vCurrX = vCurrY;
+
+	  for(l = 0 ; l < envelopeTilesX ; ++l)
+	    {
+	      for(j=0 ; j < 2 ; ++j)
+		{
+		  uiPacketIndex = i * 2 + j;
+		  
+		  rayEnvelope->tile[k][l].vDirA[X][uiPacketIndex] = spu_extract(vCurrX, X);
+		  rayEnvelope->tile[k][l].vDirA[Y][uiPacketIndex] = spu_extract(vCurrX, Y);
+		  rayEnvelope->tile[k][l].vDirA[Z][uiPacketIndex] = spu_extract(vCurrX, Z);;
+		
+		  vCurrX = spu_add(vCurrX, raySetupBase->vRight);
+
+		  rayInfoEnvelope->tile[k][l].bIsActive[uiPacketIndex] = 1;
+		}
+	    }
+	  vCurrY = spu_sub(vCurrY, raySetupBase->vUp);
+	}
+    }
+  for(k = 0 ; k < envelopeTilesY ; ++k)
+    {
+      for(l = 0 ; l < envelopeTilesX ; ++l)
+	{
+	  rayEnvelope->tile[k][l].fOrigin = raySetupBase->vOrigin;
+	  
+	  assert(topX+2*l <= cb.uiTargetWidth && topY+2*k <= cb.uiTargetHeight);
+	  
+	  rayInfoEnvelope->tile[k][l].uiX = topX + 2*l;
+	  rayInfoEnvelope->tile[k][l].uiY = topY + 2*k;
+
+	  vec_float4 v1  = spu_mul(rayEnvelope->tile[k][l].fDir[X], 
+				   rayEnvelope->tile[k][l].fDir[X]);
+	  vec_float4 v2  = spu_mul(rayEnvelope->tile[k][l].fDir[Y], 
+				   rayEnvelope->tile[k][l].fDir[Y]);
+	  vec_float4 v3  = spu_mul(rayEnvelope->tile[k][l].fDir[Z], 
+				   rayEnvelope->tile[k][l].fDir[Z]);
+
+	  vec_float4 sum = spu_add(v1, spu_add(v2, v3));
+
+	  vec_float4 nr         = spu_rsqrte(sum);
+
+	  vec_float4 mulsum     = spu_mul(spu_mul(sum, nr), nr);
+
+	  vec_float4 reciprocal = spu_mul(spu_mul(SIMDHalf,  nr    ), 
+					  spu_sub(SIMDThree, mulsum));
+
+	  rayEnvelope->tile[k][l].fDir[X] = spu_mul(rayEnvelope->tile[k][l].fDir[X], 
+						    reciprocal );
+	  rayEnvelope->tile[k][l].fDir[Y] = spu_mul(rayEnvelope->tile[k][l].fDir[Y], 
+						    reciprocal );
+	  rayEnvelope->tile[k][l].fDir[Z] = spu_mul(rayEnvelope->tile[k][l].fDir[Z], 
+						    reciprocal );
+	}
+    }
+}
+#endif
+
+void setupSingleEnvelopeSIMD(rayEnvelope_t* rayEnvelope,
+			     rayInfoEnvelope_t* rayInfoEnvelope,
+			     UInt32 topX, 
+			     UInt32 topY, 
+			     vec_float4 vTopLeft)
+{
+  vTopLeft=spu_add(vTopLeft, spu_mul(spu_splats((Real32)topX), raySetupBase->vRight));
+  vTopLeft=spu_sub(vTopLeft, spu_mul(spu_splats((Real32)topY), raySetupBase->vUp));
+
+  vec_float4 vCurrH =  vTopLeft;
+  vec_float4 vCurrV =  vTopLeft;
+
+  const vec_float4 vXOff = {0.0, spu_extract(raySetupBase->vRight, 0), 0.0, spu_extract(raySetupBase->vRight, 0)};
+  const vec_float4 vYOff = {0.0, 0.0, spu_extract(raySetupBase->vUp, 1), spu_extract(raySetupBase->vUp, 1)};
+
+  UInt16 k, l;
+
+  for(k = 0 ; k < envelopeTilesY ; ++k)
+    {
+      vCurrH = vCurrV;
+
+      for(l = 0 ; l < envelopeTilesX ; ++l)
+	{
+	  vec_float4 vDirX = spu_splats(spu_extract(vCurrH, X));
+	  vec_float4 vDirY = spu_splats(spu_extract(vCurrH, Y));
+	  vec_float4 vDirZ = spu_splats(spu_extract(vCurrH, Z));	      
+	      
+	  vDirX = spu_add(vDirX, vXOff);
+	  vDirY = spu_sub(vDirY, vYOff);
+	      
+	  // MAKE this SIMD
+	  rayInfoEnvelope->tile[k][l].bIsActive[0] = 1;
+	  rayInfoEnvelope->tile[k][l].bIsActive[1] = 1;
+	  rayInfoEnvelope->tile[k][l].bIsActive[2] = 1;
+	  rayInfoEnvelope->tile[k][l].bIsActive[3] = 1;
+	  
+	  assert(topX+2*l <= cb.uiTargetWidth && topY+2*k <= cb.uiTargetHeight);
+	  
+	  rayInfoEnvelope->tile[k][l].uiX = topX + 2*l;
+	  rayInfoEnvelope->tile[k][l].uiY = topY + 2*k;
+
+	  vec_float4 v1  = spu_mul(vDirX, vDirX);
+	  vec_float4 v2  = spu_mul(vDirY, vDirY);
+	  vec_float4 v3  = spu_mul(vDirZ, vDirZ);
+
+	  vec_float4 sum = spu_add(v1, spu_add(v2, v3));
+
+	  vec_float4 nr         = spu_rsqrte(sum);
+
+	  vec_float4 mulsum     = spu_mul(spu_mul(sum, nr), nr);
+
+	  vec_float4 reciprocal = spu_mul(spu_mul(SIMDHalf, nr), spu_sub(SIMDThree, mulsum));
+
+	  rayEnvelope->tile[k][l].fDir[X] = spu_mul(vDirX, reciprocal);
+	  rayEnvelope->tile[k][l].fDir[Y] = spu_mul(vDirY, reciprocal);
+	  rayEnvelope->tile[k][l].fDir[Z] = spu_mul(vDirZ, reciprocal);
+
+	  rayEnvelope->tile[k][l].fOrigin = raySetupBase->vOrigin;
+
+	  vCurrH = spu_add(vCurrH, spu_mul(spu_splats((Real32) 2.0), raySetupBase->vRight));
+	}
+      vCurrV = spu_sub(vCurrV, spu_mul(spu_splats((Real32) 2.0), raySetupBase->vUp));
+    }
+}
+

@@ -47,6 +47,11 @@
 #include "OSGCondVar.h"
 #include "OSGLock.h"
 
+#include "OSGPerspectiveCamera.h"
+
+// CELL related, move when cell code moving to other location
+#include "OSGCellRTPPU.h"
+
 OSG_BEGIN_NAMESPACE
 
 class Camera;
@@ -133,6 +138,12 @@ class RTPrimaryRayStore : public RTStore
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
+
+#ifdef OSG_CELL
+    void convCellStruct(UInt32         tileIndex,
+                        rayTile_t     *rayTile,
+                        rayInfoTile_t *rayInfoTile);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

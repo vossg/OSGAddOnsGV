@@ -73,7 +73,8 @@ OSG_END_NAMESPACE
 #define OSG_CACHE_KD
 
 #if defined(OSG_SIMD_ALTIVEC)
-//#define OSG_CELL
+#define OSG_CELL
+//#define XCACHEKD
 #endif
 
 #endif /* _OSGCONTRIBRRTDEF_H_ */

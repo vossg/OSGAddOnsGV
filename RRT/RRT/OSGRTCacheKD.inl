@@ -1028,5 +1028,51 @@ void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft,
     }
 }
 
+template<typename DescT> inline
+RTCacheKDNode *RTCacheKD<DescT>::getNode(UInt32 idx)
+{
+    return &(_mfKDTree[idx]);
+}
+
+template<typename DescT> inline
+UInt32 RTCacheKD<DescT>::getNumNodes(void)
+{
+    return _uiNextFreeNode;
+}
+
+
+template<typename DescT> inline
+boxVolume_t RTCacheKD<DescT>::getBoxVolume(void)
+{
+    BoxVolume &boxVolume = this->_sfBoundingVolume.getValue();
+    boxVolume_t box;
+
+    for(int i = 0 ; i < 3 ; i++)
+    {
+        box.min[i] = boxVolume.getMin()[i];
+        box.max[i] = boxVolume.getMax()[i];
+    }
+
+    return box;
+}
+
+template<typename DescT> inline
+const RTCachePrimIdxStore &
+    RTCacheKD<DescT>::getPrimitiveIndexList(UInt32 nodePrimIdx)
+{
+    return this->_mfPrimitives[nodePrimIdx];
+}
+
+template<typename DescT> inline
+UInt32 RTCacheKD<DescT>::getNumTriangles(void)
+{
+    return this->_mfTriangleAcc.size();
+}
+
+template<typename DescT> inline
+UInt32 RTCacheKD<DescT>::getPrimitiveListSize(void)
+{
+    return this->_mfPrimitives.size();
+}
 
 OSG_END_NAMESPACE

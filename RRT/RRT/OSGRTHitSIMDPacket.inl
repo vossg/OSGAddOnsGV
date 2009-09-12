@@ -172,6 +172,64 @@ void RTHitSIMDPacket::set(const UInt32 mask,
 }
 #endif
 
+#if defined(OSG_SIMD_ALTIVEC)
+inline
+void RTHitSIMDPacket::setAll(const Float4 rDist,
+                             const Float4 rU,
+                             const Float4 rV,
+                             const vector unsigned int uiObjId,
+                             const vector unsigned int uiTriId,
+                             const vector unsigned int uiCacheId)
+{
+    union
+    {
+        vector unsigned int sseObjId;
+        UInt32 arrayObjId[4];
+    };  
+    union
+    {
+        vector unsigned int sseTriId;
+        UInt32 arrayTriId[4];
+    };  
+    union
+    {
+        vector unsigned int sseCacheId;
+        UInt32 arrayCacheId[4];
+    }; 
+    union
+    {
+        Float4 sseRDist;
+        Real32 arrayRDist[4];
+    }; 
+    union
+    {
+        Float4 sseRU;
+        Real32 arrayRU[4];
+    }; 
+    union
+    {
+        Float4 sseRV;
+        Real32 arrayRV[4];
+    };
+
+    sseObjId   = uiObjId;
+    sseTriId   = uiTriId;
+    sseCacheId = uiCacheId;
+    sseRDist   = rDist;
+    sseRU      = rU;
+    sseRV      = rV;
+
+    for(UInt32 i = 0; i < 4; ++i)
+    {
+        _uiObjId  [i] = arrayObjId  [i];
+        _uiTriId  [i] = arrayTriId  [i];
+        _uiCacheId[i] = arrayCacheId[i];
+        _rDist    [i] = arrayRDist  [i];
+        _rU       [i] = arrayRU     [i];
+        _rV       [i] = arrayRV     [i];
+    }
+}
+#endif			 
 
 inline
 Real32 RTHitSIMDPacket::getDist(UInt32 uiIdx)

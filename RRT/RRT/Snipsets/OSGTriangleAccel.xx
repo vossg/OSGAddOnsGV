@@ -1,0 +1,508 @@
+class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentricVer1
+{
+  protected:
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    RTTriAccelBarycentricVer1(void);
+    RTTriAccelBarycentricVer1(const RTTriAccelBarycentricVer1 &source);
+
+    ~RTTriAccelBarycentricVer1(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void setup(Pnt3f  A, 
+               Pnt3f  B, 
+               Pnt3f  C, 
+               UInt32 uiObjId,
+               UInt32 uiTriId);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void intersect(RTRayPacket     &oRay, 
+                   RTHitPacket     &oHit,
+                   UInt32           uiCacheId);
+
+    void intersect(RTRaySIMDPacket &oRay, 
+                   RTHitSIMDPacket &oHit,
+                   UInt32           uiCacheId,
+                   UInt32           uiActive  );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void operator =(const RTTriAccelBarycentricVer1 &source);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    // Variables should all be in RTTargetBase.
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    Pnt3f _a;
+    Pnt3f _b;
+    Pnt3f _c;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    UInt32 _uiObjId;
+    UInt32 _uiTriId;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+
+    // prohibit default functions (move to 'public' if you need one)
+};
+
+
+class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentricVer2
+{
+  protected:
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    RTTriAccelBarycentricVer2(void);
+    RTTriAccelBarycentricVer2(const RTTriAccelBarycentricVer2 &source);
+
+    ~RTTriAccelBarycentricVer2(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void setup(Pnt3f  A, 
+               Pnt3f  B, 
+               Pnt3f  C, 
+               UInt32 uiObjId,
+               UInt32 uiTriId);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void intersect(RTRayPacket     &oRay, 
+                   RTHitPacket     &oHit,
+                   UInt32           uiCacheId);
+
+    void intersect(RTRaySIMDPacket &oRay, 
+                   RTHitSIMDPacket &oHit,
+                   UInt32           uiCacheId,
+                   UInt32           uiActive );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void operator =(const RTTriAccelBarycentricVer2 &source);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    // Variables should all be in RTTargetBase.
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    Pnt3f _a;
+    Pnt3f _b;
+    Pnt3f _c;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    UInt32 _uiObjId;
+    UInt32 _uiTriId;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+
+    // prohibit default functions (move to 'public' if you need one)
+};
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+inline
+RTTriAccelBarycentricVer1::RTTriAccelBarycentricVer1(void) :
+    _a      (   ),
+    _b      (   ),
+    _c      (   ),
+    _uiObjId(0  ),
+    _uiTriId(0  )
+{
+}
+
+inline
+RTTriAccelBarycentricVer1::RTTriAccelBarycentricVer1(
+    const RTTriAccelBarycentricVer1 &source) :
+
+    _a      (source._a      ),
+    _b      (source._b      ),
+    _c      (source._c      ),
+    _uiObjId(source._uiObjId),
+    _uiTriId(source._uiTriId)
+{
+}
+
+inline
+RTTriAccelBarycentricVer1::~RTTriAccelBarycentricVer1(void)
+{
+}
+
+inline
+void RTTriAccelBarycentricVer1::operator =(
+    const RTTriAccelBarycentricVer1 &source)
+{
+    _a        = source._a;
+    _b        = source._b;
+    _c        = source._c;
+    _uiObjId  = source._uiObjId;
+    _uiTriId  = source._uiTriId;
+}
+
+
+inline
+void RTTriAccelBarycentricVer1::setup(Pnt3f  A, 
+                                      Pnt3f  B, 
+                                      Pnt3f  C, 
+                                      UInt32 uiObjId,
+                                      UInt32 uiTriId)
+{
+    _a = A;
+    _b = B;
+    _c = C;
+
+    _uiObjId = uiObjId;
+    _uiTriId = uiTriId;
+}
+
+
+inline
+void RTTriAccelBarycentricVer1::intersect(RTRayPacket &oRay, 
+                                          RTHitPacket &oHit,
+                                          UInt32       uiCacheId)
+{
+    Vec3f b = _c - _a;
+    Vec3f c = _b - _a;
+    
+    Vec3f d = oRay.getOrigin() - _a;
+    Vec3f n = c.cross(b);
+
+    n.normalize();
+
+    Real32 t_plane = - d.dot(n) / oRay.getDir().dot(n);
+
+    if(t_plane < 0.000001 || t_plane > oHit.getDist())
+        return;
+
+    UInt32 k, u, v;
+
+    if(osgAbs(n[0]) > osgAbs(n[1])) 
+    { 
+        if(osgAbs(n[0]) > osgAbs(n[2])) 
+            k = 0; 
+        else
+            k = 2;
+    }
+    else 
+    { 
+        if(osgAbs(n[1]) > osgAbs(n[2]))
+            k = 1; 
+        else
+            k = 2;
+    }
+
+    u = (k + 1) % 3;
+    v = (k + 2) % 3;
+
+    Real32 H[3];
+
+    H[u] = oRay.getOrigin()[u] + t_plane * oRay.getDir()[u] - _a[u];
+    H[v] = oRay.getOrigin()[v] + t_plane * oRay.getDir()[v] - _a[v];
+
+    Real32 beta = (b[u] * H[v] - b[v] * H[u]) / (b[u] * c[v] - b[v] * c[u]);
+
+    if(beta < 0.f)
+        return;
+
+    Real32 gamma = (c[v] * H[u] - c[u] * H[v]) / (b[u] * c[v] - b[v] * c[u]);
+
+    if(gamma < 0.f)
+        return;
+
+    if(beta + gamma > 1.f)
+        return;
+
+    oHit.set(t_plane, beta, gamma, _uiObjId, _uiTriId, uiCacheId);
+}
+
+
+inline
+void RTTriAccelBarycentricVer1::intersect(RTRaySIMDPacket &oRay, 
+                                          RTHitSIMDPacket &oHit,
+                                          UInt32           uiCacheId,
+                                          UInt32           uiActive)
+{
+#if 0
+    Vec3f b = _c - _a;
+    Vec3f c = _b - _a;
+    
+    Vec3f d = oRay.getOrigin() - _a;
+    Vec3f n = c.cross(b);
+
+    n.normalize();
+
+    for(UInt32 i = 0; i < RTRaySIMDPacket::NumRays; ++i)
+    {
+        if(uiActive[i] == 0)
+            continue;
+
+        Real32 t_plane = - d.dot(n) / oRay.getDir(i).dot(n);
+
+        if(t_plane < 0.000001 || t_plane > oHit.getDist(i))
+            continue;
+
+        UInt32 k, u, v;
+
+        if(osgAbs(n[0]) > osgAbs(n[1])) 
+        { 
+            if(osgAbs(n[0]) > osgAbs(n[2])) 
+                k = 0; 
+            else
+                k = 2;
+        }
+        else 
+        { 
+            if(osgAbs(n[1]) > osgAbs(n[2]))
+                k = 1; 
+            else
+                k = 2;
+        }
+
+        u = (k + 1) % 3;
+        v = (k + 2) % 3;
+        
+        Real32 H[3];
+
+        H[u] = oRay.getOrigin()[u] + t_plane * oRay.getDir(i)[u] - _a[u];
+        H[v] = oRay.getOrigin()[v] + t_plane * oRay.getDir(i)[v] - _a[v];
+
+        Real32 beta = (b[u] * H[v] - b[v] * H[u]) / 
+                      (b[u] * c[v] - b[v] * c[u]);
+
+        if(beta < 0.f)
+            continue;
+        
+        Real32 gamma = (c[v] * H[u] - c[u] * H[v]) / 
+                       (b[u] * c[v] - b[v] * c[u]);
+
+        if(gamma < 0.f)
+            continue;
+        
+        if(beta + gamma > 1.f)
+            continue;
+
+        oHit.set(i, t_plane, beta, gamma, _uiObjId, _uiTriId, uiCacheId);
+    }
+#endif
+}
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+inline
+RTTriAccelBarycentricVer2::RTTriAccelBarycentricVer2(void) :
+    _a      (   ),
+    _b      (   ),
+    _c      (   ),
+    _uiObjId(0  ),
+    _uiTriId(0  )
+{
+}
+
+inline
+RTTriAccelBarycentricVer2::RTTriAccelBarycentricVer2(
+    const RTTriAccelBarycentricVer2 &source) :
+
+    _a      (source._a      ),
+    _b      (source._b      ),
+    _c      (source._c      ),
+    _uiObjId(source._uiObjId),
+    _uiTriId(source._uiTriId)
+{
+}
+
+inline
+RTTriAccelBarycentricVer2::~RTTriAccelBarycentricVer2(void)
+{
+}
+
+inline
+void RTTriAccelBarycentricVer2::operator =(
+    const RTTriAccelBarycentricVer2 &source)
+{
+    _a        = source._a;
+    _b        = source._b;
+    _c        = source._c;
+    _uiObjId  = source._uiObjId;
+    _uiTriId  = source._uiTriId;
+}
+
+
+inline
+void RTTriAccelBarycentricVer2::setup(Pnt3f  A, 
+                                      Pnt3f  B, 
+                                      Pnt3f  C, 
+                                      UInt32 uiObjId,
+                                      UInt32 uiTriId)
+{
+    _a = A;
+    _b = B;
+    _c = C;
+
+    _uiObjId = uiObjId;
+    _uiTriId = uiTriId;
+}
+
+inline
+void RTTriAccelBarycentricVer2::intersect(RTRayPacket &oRay, 
+                                          RTHitPacket &oHit,
+                                          UInt32       uiCacheId)
+{
+	Vec3f e1 = _b - _a;
+	Vec3f e2 = _c - _a;
+
+	Vec3f s1 = oRay.getDir().cross(e2);
+
+	float divisor = s1.dot(e1);
+
+	if(divisor == 0.)
+		return;
+
+	float invDivisor = 1.f / divisor;
+
+	Vec3f d = oRay.getOrigin() - _a;
+
+	float b1 = d.dot(s1) * invDivisor;
+
+	if(b1 < 0. || b1 > 1.)
+		return;
+
+	Vec3f s2 = d.cross(e1);
+
+	float b2 = oRay.getDir().dot(s2) * invDivisor;
+
+	if (b2 < 0. || b1 + b2 > 1.)
+		return;
+
+	float t = e2.dot(s2) * invDivisor;
+
+	if (t < 0.0001 || t > oHit.getDist())
+		return;
+
+    oHit.set(t, b1, b2, _uiObjId, _uiTriId, uiCacheId);
+}
+
+
+inline
+void RTTriAccelBarycentricVer2::intersect(RTRaySIMDPacket &oRay, 
+                                          RTHitSIMDPacket &oHit,
+                                          UInt32           uiCacheId,
+                                          UInt32           uiActive  )
+{
+#if 0
+	Vec3f e1 = _b - _a;
+	Vec3f e2 = _c - _a;
+
+    for(UInt32 i = 0; i < RTRaySIMDPacket::NumRays; ++i)
+    {
+        if(uiActive[i] == 0)
+            continue;
+
+        Vec3f s1 = oRay.getDir(i).cross(e2);
+
+        float divisor = s1.dot(e1);
+        
+        if(divisor == 0.)
+            continue;
+
+        float invDivisor = 1.f / divisor;
+    
+        Vec3f d = oRay.getOrigin() - _a;
+
+        float b1 = d.dot(s1) * invDivisor;
+
+        if(b1 < 0. || b1 > 1.)
+            continue;
+
+        Vec3f s2 = d.cross(e1);
+
+        float b2 = oRay.getDir(i).dot(s2) * invDivisor;
+
+        if (b2 < 0. || b1 + b2 > 1.)
+            continue;
+
+        float t = e2.dot(s2) * invDivisor;
+
+        if (t < 0.0001 || t > oHit.getDist(i))
+            continue;
+
+        oHit.set(i, t, b1, b2, _uiObjId, _uiTriId, uiCacheId);
+    }
+#endif
+}

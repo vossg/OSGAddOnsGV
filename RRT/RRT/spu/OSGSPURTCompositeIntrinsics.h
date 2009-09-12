@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *             Copyright (C) 2000-2008 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -34,55 +34,93 @@
  *                                                                           *
  *                                                                           *
  *                                                                           *
-\*---------------------------------------------------------------------------*/
+ \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRRTEXTERNALINCLUDE_H_
-#define _OSGRRTEXTERNALINCLUDE_H_
+
+#ifndef _OSGSPURTCOMPOSITEINTRINSICS_H_
+#define _OSGSPURTCOMPOSITEINTRINSICS_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-// Just if you want to use some pieces outside this dir use this include.
-// As there are a lot of forward declaration it can be hard to guess the
-// correct include order from scratch ;-)
 
-#include "OSGContribRRTDef.h"
+#include "spu_intrinsics.h"
 
-#include "OSGTriangleIterator.h"
-#include "OSGOSGWriter.h"
-#include "OSGRTTarget.h"
-#include "OSGRTRaySIMDPacket.h"
-#include "OSGRTHitSIMDPacket.h"
-#include "OSGRTTriangleAccel.h"
-#include "OSGCellRT.h"
-#ifdef OSG_CACHE_KD
-#ifndef OSG_XCACHEKD
-#include "OSGRTCacheKD.h"
-#else
-#include "OSGRTXCacheKD.h"
-#endif
-#endif
-#ifdef OSG_CACHE_BIH
-#include "OSGRTCacheBIH.h"
-#endif
-#include "OSGRTInitAction.h"
-#include "OSGRTUpdateAction.h"
-#include "OSGRRTStage.h"
-#include "OSGRTCacheAttachmentInst.h"
-#include "OSGRTInfoAttachment.h"
-#include "OSGRTImageTarget.h"
-#include "OSGRTScene.h"
-#include "OSGRTHitTile.h"
-#include "OSGRTPrimaryRayStore.h"
-#include "OSGRTPrimaryRayTiledStore.h"
-#include "OSGRTHitStore.h"
-#include "OSGRTHitTiledStore.h"
-#include "OSGRTFourRaySIMDPacket.h"
-#include "OSGRTFourHitSIMDPacket.h"
-#include "OSGRTCombinedThread.h"
-#include "OSGRTPrimaryRayThread.h"
-#include "OSGRTShadingThread.h"
-#include "OSGRTLocalPacketManager.h"
-#include "OSGRayTracerInst.h"
+static inline int spu_c_movemask(const vector float v) __attribute__((__always_inline__));
+
+static inline int spu_c_isum(const vector signed int v);
+
+static inline float spu_c_fsum(const vector float v) __attribute__((__always_inline__));
+
+static inline vector float spu_c_invert(const vector float v) __attribute__((__always_inline__));
+
+static inline vector float spu_c_update(const vector float mask, 
+					const vector float v1, 
+					const vector float v2) __attribute__((__always_inline__));
+
+static inline vector unsigned int spu_c_cmple(vector float v1, 
+					      vector float v2) __attribute__((__always_inline__));
+
+static inline vector float spu_c_min(const vector float v1, 
+				     const vector float v2) __attribute__((__always_inline__));
+
+static inline vector float spu_c_max(const vector float v1, 
+				     const vector float v2) __attribute__((__always_inline__));
+
+
+// ------------------------------------------------------------------------------------------------
+
+static inline
+int spu_c_movemask(const vector float v)
+{
+  vector unsigned int cmp = spu_cmpgt(((vector signed int) {0, 0, 0, 0}), (vector signed int) v);
+  vector unsigned int res = spu_and(cmp, ((vector unsigned int){1<<0, 1<<1, 1<<2, 1<<3}));
+  //return spu_c_isum((vector signed int)res);
+  return (int)spu_extract(res,0)+spu_extract(res,1)+spu_extract(res,2)+spu_extract(res,3);
+}
+
+static inline
+int spu_c_isum(const vector signed int v) 
+{
+  return spu_extract(v,0)+spu_extract(v,1)+spu_extract(v,2)+spu_extract(v,3);
+}
+
+static inline
+float spu_c_fsum(const vector float v)
+{
+  return spu_extract(v,0)+spu_extract(v,1)+spu_extract(v,2)+spu_extract(v,3);
+}
+
+static inline
+vector float spu_c_invert(const vector float v)
+{
+  vector float re = spu_re(v);
+  return spu_sub(spu_add(re, re), spu_mul(spu_mul(re, re), v));
+}
+
+static inline
+vector float spu_c_update(const vector float mask, const vector float v1, const vector float v2)
+{
+  vector float res = spu_or(spu_and(v1, mask), spu_andc(mask, v2));
+  return res;
+}
+
+static inline
+vector unsigned int spu_c_cmple(vector float v1, vector float v2)
+{
+  return spu_or(spu_cmpgt(v2, v1), spu_cmpeq(v1, v2));
+}
+
+static inline
+vector float spu_c_min(const vector float v1, const vector float v2)
+{
+  return spu_sel(v1, v2, spu_cmpgt(v1,v2));
+}
+
+static inline
+vector float spu_c_max(const vector float v1, const vector float v2)
+{
+  return spu_sel(v2, v1, spu_cmpgt(v1, v2));
+}
 
 #endif
