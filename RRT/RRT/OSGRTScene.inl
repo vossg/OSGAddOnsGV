@@ -106,7 +106,67 @@ void RTScene<DescT>::shade(RTHitPacket   &oHit,
 
         if(pMat != NULL)
         {
-            oResult.set(pMat->getDiffuse());
+            if(geoStore._pGeo != NULL)
+            {
+                GeoVectorPropertyPtr pNormals =
+                    geoStore._pGeo->getProperty(Geometry::NormalsIndex);
+
+                GeoIntegralPropertyPtr pNormalsIdx =
+                    geoStore._pGeo->getIndex(Geometry::NormalsIndex);
+                
+                if(pNormals != NULL && pNormalsIdx != NULL)
+                {
+                    Vec3f n1;
+                    Vec3f n2;
+                    Vec3f n3;
+
+                    Real32 gamma = 1.f - (oHit.getU() + oHit.getV());
+
+                    UInt32 idx = pNormalsIdx->getValue(oHit.getTriId() * 3);
+
+                    pNormals->getValue(n1, idx);
+
+                    idx = pNormalsIdx->getValue(oHit.getTriId() * 3 + 1);
+
+                    pNormals->getValue(n2, idx);
+
+                    idx = pNormalsIdx->getValue(oHit.getTriId() * 3 + 2);
+
+                    pNormals->getValue(n3, idx);
+
+                    n1[0] = 
+                        n2[0] * oHit.getU() + 
+                        n3[0] * oHit.getV() +
+                        n1[0] * gamma;
+
+                    n1[1] = 
+                        n2[1] * oHit.getU() + 
+                        n3[1] * oHit.getV() +
+                        n1[1] * gamma;
+
+                    n1[2] = 
+                        n2[2] * oHit.getU() + 
+                        n3[2] * oHit.getV() +
+                        n1[2] * gamma;
+
+                    n1.normalize();
+
+                    n2 = oRay.getDir();
+                    n2 *= -1.f;
+
+                    gamma = n1.dot(n2);
+
+                    oResult.set(pMat->getDiffuse()[0] * gamma,
+                                pMat->getDiffuse()[1] * gamma,
+                                pMat->getDiffuse()[2] * gamma,
+                                1.f);
+                                
+                }
+            }
+            else
+            {
+                oResult.set(pMat->getDiffuse());
+            }
         }
         else
         {
@@ -124,6 +184,24 @@ void RTScene<DescT>::shade(RTHitSIMDPacket   &oHit,
                            RTRaySIMDPacket   &oRay,
                            RTColorSIMDPacket &oResult)
 {
+    Vec3f vRayDirs[4];
+
+    union
+    {
+        Float4 dir;
+        Real32 dirConv[4];
+    };
+
+    for(UInt32 i = 0; i < 3; ++i)
+    {
+        dir = oRay.getDir(i);
+
+        vRayDirs[0][i] = dirConv[0];
+        vRayDirs[1][i] = dirConv[1];
+        vRayDirs[2][i] = dirConv[2];
+        vRayDirs[3][i] = dirConv[3];
+    }
+
     for(UInt32 i = 0; i < RTHitSIMDPacket::NumHits; ++i)
     {
         if(oHit.getU(i) > -0.5)
@@ -135,10 +213,72 @@ void RTScene<DescT>::shade(RTHitSIMDPacket   &oHit,
                 dynamic_cast<MaterialChunkPtr>(
                     geoStore._pState->getChunk(
                         MaterialChunk::getStaticClassId()));
-
+            
             if(pMat != NULL)
             {
-                oResult.set(i, pMat->getDiffuse());
+                if(geoStore._pGeo != NULL)
+                {
+                    GeoVectorPropertyPtr pNormals =
+                        geoStore._pGeo->getProperty(Geometry::NormalsIndex);
+                    
+                    GeoIntegralPropertyPtr pNormalsIdx =
+                        geoStore._pGeo->getIndex(Geometry::NormalsIndex);
+                    
+                    if(pNormals != NULL && pNormalsIdx != NULL)
+                    {
+                        Vec3f n1;
+                        Vec3f n2;
+                        Vec3f n3;
+                        
+                        Real32 gamma = 1.f - (oHit.getU(i) + oHit.getV(i));
+                        
+                        UInt32 idx = 
+                            pNormalsIdx->getValue(oHit.getTriId(i) * 3);
+
+                        pNormals->getValue(n1, idx);
+                        
+                        idx = pNormalsIdx->getValue(oHit.getTriId(i) * 3 + 1);
+
+                        pNormals->getValue(n2, idx);
+                        
+                        idx = pNormalsIdx->getValue(oHit.getTriId(i) * 3 + 2);
+                        
+                        pNormals->getValue(n3, idx);
+                        
+                        n1[0] = 
+                            n2[0] * oHit.getU(i) + 
+                            n3[0] * oHit.getV(i) +
+                            n1[0] * gamma;
+                        
+                        n1[1] = 
+                            n2[1] * oHit.getU(i) + 
+                            n3[1] * oHit.getV(i) +
+                            n1[1] * gamma;
+                        
+                        n1[2] = 
+                            n2[2] * oHit.getU(i) + 
+                            n3[2] * oHit.getV(i) +
+                            n1[2] * gamma;
+                        
+                        n1.normalize();
+                        
+                        n2 = vRayDirs[i];
+                        n2 *= -1.f;
+                        
+                        gamma = n1.dot(n2);
+                        
+                        oResult.set(i,
+                                    pMat->getDiffuse()[0] * gamma,
+                                    pMat->getDiffuse()[1] * gamma,
+                                    pMat->getDiffuse()[2] * gamma,
+                                    1.f);
+                        
+                    }
+                }
+                else
+                {
+                    oResult.set(i, pMat->getDiffuse());
+                }
             }
             else
             {
