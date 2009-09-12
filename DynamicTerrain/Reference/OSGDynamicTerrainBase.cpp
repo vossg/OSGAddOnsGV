@@ -371,6 +371,7 @@ DynamicTerrainBase::TypeObject DynamicTerrainBase::_type(
     0,
     (PrototypeCreateF) &DynamicTerrainBase::createEmpty,
     DynamicTerrain::initMethod,
+    DynamicTerrain::exitMethod,
     (InitalInsertDescFunc) &DynamicTerrainBase::classDescInserter,
     false,
     0,
