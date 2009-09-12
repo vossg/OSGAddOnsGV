@@ -188,7 +188,7 @@ class ImageBlockAccessorX
 {
   protected:
     
-    ImagePtr _pImage;
+    ImageUnrecPtr _pImage;
 
   public:
 
@@ -302,7 +302,7 @@ class OpenGLGpuBuffer
 
 class OpenGLShader
 {
-    SHLChunkPtr _pShader;
+    SHLChunkUnrecPtr _pShader;
 
   public:
 
@@ -331,8 +331,8 @@ class OpenGLShader
 class OpenGLTexture
 {
 
-    TextureObjChunkPtr _pTexture;
-    bool               _bCompressed;
+    TextureObjChunkUnrecPtr _pTexture;
+    bool                    _bCompressed;
 
   public:
 

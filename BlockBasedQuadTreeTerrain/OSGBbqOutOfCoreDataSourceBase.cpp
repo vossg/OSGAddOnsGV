@@ -158,7 +158,7 @@ BbqOutOfCoreDataSourceBase::TypeObject BbqOutOfCoreDataSourceBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &BbqOutOfCoreDataSourceBase::createEmpty,
+    (PrototypeCreateF) &BbqOutOfCoreDataSourceBase::createEmptyLocal,
     BbqOutOfCoreDataSource::initMethod,
     BbqOutOfCoreDataSource::exitMethod,
     (InitalInsertDescFunc) &BbqOutOfCoreDataSourceBase::classDescInserter,
@@ -393,14 +393,32 @@ void BbqOutOfCoreDataSourceBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-BbqOutOfCoreDataSourcePtr BbqOutOfCoreDataSourceBase::create(void)
+BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::create(void)
 {
-    BbqOutOfCoreDataSourcePtr fc;
+    BbqOutOfCoreDataSourceTransitPtr fc;
 
     if(getClassType().getPrototype() != NullFC)
     {
-        fc = dynamic_cast<BbqOutOfCoreDataSource::ObjPtr>(
-            getClassType().getPrototype()-> shallowCopy());
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
+
+        fc = dynamic_pointer_cast<BbqOutOfCoreDataSource>(tmpPtr);
+    }
+
+    return fc;
+}
+
+//! create a new instance of the class
+BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::createLocal(BitVector bFlags)
+{
+    BbqOutOfCoreDataSourceTransitPtr fc;
+
+    if(getClassType().getPrototype() != NullFC)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyLocal(bFlags);
+
+        fc = dynamic_pointer_cast<BbqOutOfCoreDataSource>(tmpPtr);
     }
 
     return fc;
@@ -411,16 +429,50 @@ BbqOutOfCoreDataSourcePtr BbqOutOfCoreDataSourceBase::createEmpty(void)
 {
     BbqOutOfCoreDataSourcePtr returnValue;
 
-    newPtr<BbqOutOfCoreDataSource>(returnValue);
+    newPtr<BbqOutOfCoreDataSource>(returnValue, Thread::getCurrentLocalFlags());
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= 
+        ~Thread::getCurrentLocalFlags(); 
 
     return returnValue;
 }
 
-FieldContainerPtr BbqOutOfCoreDataSourceBase::shallowCopy(void) const
+BbqOutOfCoreDataSourcePtr BbqOutOfCoreDataSourceBase::createEmptyLocal(BitVector bFlags)
 {
     BbqOutOfCoreDataSourcePtr returnValue;
 
-    newPtr(returnValue, dynamic_cast<const BbqOutOfCoreDataSource *>(this));
+    newPtr<BbqOutOfCoreDataSource>(returnValue, bFlags);
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr BbqOutOfCoreDataSourceBase::shallowCopy(void) const
+{
+    BbqOutOfCoreDataSourcePtr tmpPtr;
+
+    newPtr(tmpPtr, 
+           dynamic_cast<const BbqOutOfCoreDataSource *>(this), 
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr BbqOutOfCoreDataSourceBase::shallowCopyLocal(
+    BitVector bFlags) const
+{
+    BbqOutOfCoreDataSourcePtr tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const BbqOutOfCoreDataSource *>(this), bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
 
     return returnValue;
 }

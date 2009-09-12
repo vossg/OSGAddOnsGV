@@ -145,8 +145,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFNodePtr           *getSFBeacon          (void) const;
-            const SFBbqDataSourcePtr  *getSFDataSource      (void) const;
+            const SFUnrecNodePtr      *getSFBeacon          (void) const;
+            const SFUnrecBbqDataSourcePtr *getSFDataSource      (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   SFUInt32            *getSFMaxNumResidentNodes (void);
@@ -222,7 +222,6 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -240,15 +239,23 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  BbqTerrainPtr create     (void);
-    static  BbqTerrainPtr createEmpty(void);
+    static  BbqTerrainTransitPtr create          (void);
+    static  BbqTerrainPtr        createEmpty     (void);
+
+    static  BbqTerrainTransitPtr createLocal     (
+                                              BitVector bFlags = FCLocal::All);
+
+    static  BbqTerrainPtr        createEmptyLocal(
+                                              BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
     /*! \{                                                                 */
 
-    virtual FieldContainerPtr shallowCopy(void) const;
+    virtual FieldContainerTransitPtr shallowCopy     (void) const;
+    virtual FieldContainerTransitPtr shallowCopyLocal(
+                                       BitVector bFlags = FCLocal::All) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -264,8 +271,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFNodePtr         _sfBeacon;
-    SFBbqDataSourcePtr _sfDataSource;
+    SFUnrecNodePtr    _sfBeacon;
+    SFUnrecBbqDataSourcePtr _sfDataSource;
     SFUInt32          _sfMaxNumResidentNodes;
     SFReal32          _sfScreenSpaceError;
     SFBool            _sfEnableSkirts;
@@ -359,22 +366,13 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*==========================  PRIVATE  ================================*/
 
   private:
+    /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const BbqTerrainBase &source);
 };
 
 typedef BbqTerrainBase *BbqTerrainBaseP;
-
-/** Type specific RefPtr type for BbqTerrain. */
-typedef RefPtr<BbqTerrainPtr> BbqTerrainRefPtr;
-
-typedef boost::mpl::if_<
-    boost::mpl::bool_<BbqTerrainBase::isNodeCore>,
-    CoredNodePtr<BbqTerrain>,
-    FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC>::type
-
-        BbqTerrainNodePtr;
 
 OSG_END_NAMESPACE
 

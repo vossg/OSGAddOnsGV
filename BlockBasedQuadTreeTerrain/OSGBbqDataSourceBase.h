@@ -150,7 +150,6 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSourceBase : public FieldContainer
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -252,22 +251,13 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSourceBase : public FieldContainer
     /*==========================  PRIVATE  ================================*/
 
   private:
+    /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const BbqDataSourceBase &source);
 };
 
 typedef BbqDataSourceBase *BbqDataSourceBaseP;
-
-/** Type specific RefPtr type for BbqDataSource. */
-typedef RefPtr<BbqDataSourcePtr> BbqDataSourceRefPtr;
-
-typedef boost::mpl::if_<
-    boost::mpl::bool_<BbqDataSourceBase::isNodeCore>,
-    CoredNodePtr<BbqDataSource>,
-    FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC>::type
-
-        BbqDataSourceNodePtr;
 
 OSG_END_NAMESPACE
 

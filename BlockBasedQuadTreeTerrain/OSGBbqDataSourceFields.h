@@ -58,9 +58,8 @@
 #include "OSGDrawableDef.h"
 
 #include "OSGFieldContainerFields.h"
-
-#include "OSGSFieldAdaptor.h"
-#include "OSGMFieldAdaptor.h"
+#include "OSGFieldContainerPtrSField.h"
+#include "OSGFieldContainerPtrMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -97,9 +96,63 @@ struct FieldTraits<BbqDataSourcePtr> :
 
     static OSG_DRAWABLE_DLLMAPPING DataType &getType(void);
 
-    static const char *getSName(void) { return "SFBbqDataSourcePtr"; }
-    static const char *getMName(void) { return "MFBbqDataSourcePtr"; }
+    template<typename RefCountPolicy> inline
+    static const Char8    *getSName     (void);
+
+//    static const char *getSName(void) { return "SFBbqDataSourcePtr"; }
+    template<typename RefCountPolicy> inline
+    static const Char8    *getMName     (void);
+
+//    static const char *getMName(void) { return "MFBbqDataSourcePtr"; }
 };
+
+template<> inline
+const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getSName<RecordedRefCountPolicy>(void)
+{
+    return "SFRecBbqDataSourcePtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getSName<UnrecordedRefCountPolicy>(void)
+{
+    return "SFUnrecBbqDataSourcePtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getSName<WeakRefCountPolicy>(void)
+{
+    return "SFWeakBbqDataSourcePtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getSName<NoRefCountPolicy>(void)
+{
+    return "SFUnrefdBbqDataSourcePtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getMName<RecordedRefCountPolicy>(void)
+{
+    return "MFRecBbqDataSourcePtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getMName<UnrecordedRefCountPolicy>(void)
+{
+    return "MFUnrecBbqDataSourcePtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getMName<WeakRefCountPolicy>(void)
+{
+    return "MFWeakBbqDataSourcePtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getMName<NoRefCountPolicy>(void)
+{
+    return "MFUnrefdBbqDataSourcePtr"; 
+}
 
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \class  FieldTraitsTemplateBase<BbqDataSourcePtr, 0>
@@ -113,14 +166,28 @@ struct FieldTraits<BbqDataSourcePtr> :
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpDrawableFieldSingle */
 
-typedef SFieldAdaptor<BbqDataSourcePtr, SFFieldContainerPtr> SFBbqDataSourcePtr;
+typedef FieldContainerPtrSField<BbqDataSourcePtr,
+                                RecordedRefCountPolicy  > SFRecBbqDataSourcePtr;
+typedef FieldContainerPtrSField<BbqDataSourcePtr,
+                                UnrecordedRefCountPolicy> SFUnrecBbqDataSourcePtr;
+typedef FieldContainerPtrSField<BbqDataSourcePtr,
+                                WeakRefCountPolicy      > SFWeakBbqDataSourcePtr;
+typedef FieldContainerPtrSField<BbqDataSourcePtr,
+                                NoRefCountPolicy        > SFUncountedBbqDataSourcePtr;
 #endif
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpDrawableFieldMulti */
 
-typedef MFieldAdaptor<BbqDataSourcePtr, MFFieldContainerPtr> MFBbqDataSourcePtr;
+typedef FieldContainerPtrMField<BbqDataSourcePtr,
+                                RecordedRefCountPolicy  > MFRecBbqDataSourcePtr;
+typedef FieldContainerPtrMField<BbqDataSourcePtr,
+                                UnrecordedRefCountPolicy> MFUnrecBbqDataSourcePtr;
+typedef FieldContainerPtrMField<BbqDataSourcePtr,
+                                WeakRefCountPolicy      > MFWeakBbqDataSourcePtr;
+typedef FieldContainerPtrMField<BbqDataSourcePtr,
+                                NoRefCountPolicy        > MFUncountedBbqDataSourcePtr;
 #endif
 
 

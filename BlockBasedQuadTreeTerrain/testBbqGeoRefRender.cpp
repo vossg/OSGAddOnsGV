@@ -35,16 +35,16 @@ using namespace OSG;
 
 RenderAction *rentravact = NullFC;
 
-NodePtr  root = NullFC;
-NodePtr  file = NullFC;
+NodeUnrecPtr  root = NullFC;
+NodeUnrecPtr  file = NullFC;
 
-PerspectiveCameraPtr cam = NullFC;
-ViewportPtr          vp  = NullFC;
-WindowPtr            win = NullFC;
+PerspectiveCameraUnrecPtr cam = NullFC;
+ViewportUnrecPtr          vp  = NullFC;
+WindowUnrecPtr            win = NullFC;
 
-TransformPtr cam_trans   = NullFC;
-TransformPtr scene_trans = NullFC;
-TransformPtr ref_trans   = NullFC;
+TransformUnrecPtr cam_trans   = NullFC;
+TransformUnrecPtr scene_trans = NullFC;
+TransformUnrecPtr ref_trans   = NullFC;
 
 #ifdef OLD_BBQ
 BbqTerrainEngine       *terrain_              = NULL;
@@ -52,8 +52,8 @@ BbqOutOfCoreDataSource *outOfCoreDataSource_  = NULL;
 BbqRenderOptions        terrainRenderOptions_;
 #endif
 
-BbqTerrainPtr             pTerrain = NullFC;
-BbqOutOfCoreDataSourcePtr pSource  = NullFC;
+BbqTerrainUnrecPtr             pTerrain = NullFC;
+BbqOutOfCoreDataSourceUnrecPtr pSource  = NullFC;
 
 Trackball tball;
 Trackball tcamball;
@@ -376,12 +376,24 @@ void key(unsigned char key, int x, int y)
     switch ( key )
     {
         case 27:    
-            subRef(win);
             delete rentravact;
 #ifdef OLD_BBQ
             delete terrain_;
             delete outOfCoreDataSource_;
 #endif
+
+            root = NullFC;
+            file = NullFC;
+            cam = NullFC;
+            vp  = NullFC;
+            win = NullFC;
+            cam_trans   = NullFC;
+            scene_trans = NullFC;
+            ref_trans   = NullFC;
+            pTerrain = NullFC;
+            pSource  = NullFC;
+
+
             osgExit(); 
             exit(0);
         case 'A':   
@@ -536,14 +548,14 @@ int main (int argc, char **argv)
     // create the graph
 
     // beacon for camera and light  
-    NodePtr  b1n = Node::create();
-    GroupPtr b1  = Group::create();
+    NodeUnrecPtr  b1n = Node::create();
+    GroupUnrecPtr b1  = Group::create();
 
     b1n->setCore( b1 );
 
     // transformation
-    NodePtr      t1n = Node::create();
-    TransformPtr t1  = Transform::create();
+    NodeUnrecPtr      t1n = Node::create();
+    TransformUnrecPtr t1  = Transform::create();
 
     t1n->setCore (t1 );
     t1n->addChild(b1n);
@@ -552,8 +564,8 @@ int main (int argc, char **argv)
 
     // light
     
-    NodePtr             dlight = Node::create();
-    DirectionalLightPtr dl     = DirectionalLight::create();
+    NodeUnrecPtr             dlight = Node::create();
+    DirectionalLightUnrecPtr dl     = DirectionalLight::create();
 
     {
         dlight->setCore(dl);
@@ -565,8 +577,8 @@ int main (int argc, char **argv)
     }
 
     // root
-    root         = Node:: create();
-    GroupPtr gr1 = Group::create();
+    root              = Node:: create();
+    GroupUnrecPtr gr1 = Group::create();
 
     root->setCore (gr1   );
     root->addChild(t1n   );
@@ -574,7 +586,7 @@ int main (int argc, char **argv)
 
     // Load the file
 
-    NodePtr file = NullFC;
+    NodeUnrecPtr file = NullFC;
     
     if(argc > 1)
     {
@@ -598,15 +610,15 @@ int main (int argc, char **argv)
     
     std::cout << "Volume: from " << min << " to " << max << std::endl;
 
-            scene_trans = Transform::create();
-    NodePtr sceneTrN    = Node::create();
+                 scene_trans = Transform::create();
+    NodeUnrecPtr sceneTrN    = Node::create();
 
     sceneTrN->setCore (scene_trans);
     sceneTrN->addChild(file       );
 
 
-            ref_trans = Transform::create();
-    NodePtr refTrN    = Node::create();
+                 ref_trans = Transform::create();
+    NodeUnrecPtr refTrN    = Node::create();
 
     refTrN->setCore (ref_trans);
     refTrN->addChild(makeSphere(4, 20.0));
@@ -614,13 +626,13 @@ int main (int argc, char **argv)
 
 
 #ifdef OLD_BBQ
-    AlgorithmStagePtr pAlgoStage = AlgorithmStage::create();
+    AlgorithmStageUnrecPtr pAlgoStage = AlgorithmStage::create();
 
     pAlgoStage->setInheritedTarget(true);
     pAlgoStage->setProjectionMode(AlgorithmStage::Ignore);
     pAlgoStage->setCopyViewing(true);
 
-    CallbackAlgorithmPtr pAlgo = CallbackAlgorithm::create();
+    CallbackAlgorithmUnrecPtr pAlgo = CallbackAlgorithm::create();
 
 
     pAlgo->setCallback(&terrainRenderCB, "");
@@ -645,7 +657,7 @@ int main (int argc, char **argv)
 
     pTerrain->setScreenSpaceError(6.0);
 
-    NodePtr pAlgoNode = Node::create();
+    NodeUnrecPtr pAlgoNode = Node::create();
 
     pAlgoNode->setCore(pTerrain);
 
@@ -695,13 +707,13 @@ int main (int argc, char **argv)
     vUnitOffset[1] = tInfo.gridBBoxMin[1] - (tInfo.vOrigin[1] * fUnitScale1);
 
 #if 1
-    NodePtr geoRef = Node::create();
+    NodeUnrecPtr geoRef = Node::create();
     
     geoRef->setCore(Group::create());
 
-    NodePtr           pEll     = Node::create();
-    MaterialGroupPtr  pEllMatG = MaterialGroup::create();
-    SimpleMaterialPtr pEllMat  = SimpleMaterial::create();
+    NodeUnrecPtr           pEll     = Node::create();
+    MaterialGroupUnrecPtr  pEllMatG = MaterialGroup::create();
+    SimpleMaterialUnrecPtr pEllMat  = SimpleMaterial::create();
 
     pEllMat->editDiffuse().setValuesRGB(0.3, 0.3, 0.3);
 
@@ -726,9 +738,9 @@ int main (int argc, char **argv)
 
 
 #if 0
-    NodePtr           pEllSeg     = Node::create();
-    MaterialGroupPtr  pEllSegMatG = MaterialGroup::create();
-    SimpleMaterialPtr pEllSegMat  = SimpleMaterial::create();
+    NodeUnrecPtr           pEllSeg     = Node::create();
+    MaterialGroupUnrecPtr  pEllSegMatG = MaterialGroup::create();
+    SimpleMaterialUnrecPtr pEllSegMat  = SimpleMaterial::create();
 
     pEllSegMat->editDiffuse().setValuesRGB(1.0, 0.0, 0.0);
     
@@ -750,15 +762,15 @@ int main (int argc, char **argv)
 #endif
 
 
-    NodePtr pCorner0 = Node::create();
-    NodePtr pCorner1 = Node::create();
-    NodePtr pCorner2 = Node::create();
-    NodePtr pCorner3 = Node::create();
+    NodeUnrecPtr pCorner0 = Node::create();
+    NodeUnrecPtr pCorner1 = Node::create();
+    NodeUnrecPtr pCorner2 = Node::create();
+    NodeUnrecPtr pCorner3 = Node::create();
 
-    TransformPtr pCornerTr0 = Transform::create();
-    TransformPtr pCornerTr1 = Transform::create();
-    TransformPtr pCornerTr2 = Transform::create();
-    TransformPtr pCornerTr3 = Transform::create();
+    TransformUnrecPtr pCornerTr0 = Transform::create();
+    TransformUnrecPtr pCornerTr1 = Transform::create();
+    TransformUnrecPtr pCornerTr2 = Transform::create();
+    TransformUnrecPtr pCornerTr3 = Transform::create();
 
     pCorner0->setCore(pCornerTr0);
     pCorner1->setCore(pCornerTr1);
@@ -825,7 +837,7 @@ int main (int argc, char **argv)
     }
 
     // Background
-    SolidBackgroundPtr bkgnd = SolidBackground::create();
+    SolidBackgroundUnrecPtr bkgnd = SolidBackground::create();
     {
         bkgnd->setColor(Color3f(0,0,1));
     }
@@ -841,7 +853,7 @@ int main (int argc, char **argv)
 
 
     // Window
-    GLUTWindowPtr gwin;
+    GLUTWindowUnrecPtr gwin;
 
     GLint glvp[4];
 

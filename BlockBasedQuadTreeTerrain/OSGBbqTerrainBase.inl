@@ -87,7 +87,7 @@ void BbqTerrainBase::setBeacon(NodePtrConstArg value)
 {
     editSField(BeaconFieldMask);
 
-    setRefd(_sfBeacon.getValue(), value);
+    _sfBeacon.setValue(value);
 
 }
 
@@ -104,7 +104,7 @@ void BbqTerrainBase::setDataSource(BbqDataSourcePtrConstArg value)
 {
     editSField(DataSourceFieldMask);
 
-    setRefd(_sfDataSource.getValue(), value);
+    _sfDataSource.setValue(value);
 
 }
 //! Get the value of the BbqTerrain::_sfMaxNumResidentNodes field.

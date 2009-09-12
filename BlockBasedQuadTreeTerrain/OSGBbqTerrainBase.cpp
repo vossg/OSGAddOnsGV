@@ -113,8 +113,8 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
     FieldDescriptionBase *pDesc = NULL;
 
 
-    pDesc = new SFNodePtr::Description(
-        SFNodePtr::getClassType(),
+    pDesc = new SFUnrecNodePtr::Description(
+        SFUnrecNodePtr::getClassType(),
         "beacon",
         "",
         BeaconFieldId, BeaconFieldMask,
@@ -125,8 +125,8 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
 
     oType.addInitialDesc(pDesc);
 
-    pDesc = new SFBbqDataSourcePtr::Description(
-        SFBbqDataSourcePtr::getClassType(),
+    pDesc = new SFUnrecBbqDataSourcePtr::Description(
+        SFUnrecBbqDataSourcePtr::getClassType(),
         "dataSource",
         "",
         DataSourceFieldId, DataSourceFieldMask,
@@ -192,7 +192,7 @@ BbqTerrainBase::TypeObject BbqTerrainBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &BbqTerrainBase::createEmpty,
+    (PrototypeCreateF) &BbqTerrainBase::createEmptyLocal,
     BbqTerrain::initMethod,
     BbqTerrain::exitMethod,
     (InitalInsertDescFunc) &BbqTerrainBase::classDescInserter,
@@ -290,13 +290,13 @@ UInt32 BbqTerrainBase::getContainerSize(void) const
 
 
 //! Get the BbqTerrain::_sfBeacon field.
-const SFNodePtr *BbqTerrainBase::getSFBeacon(void) const
+const SFUnrecNodePtr *BbqTerrainBase::getSFBeacon(void) const
 {
     return &_sfBeacon;
 }
 
 //! Get the BbqTerrain::_sfDataSource field.
-const SFBbqDataSourcePtr *BbqTerrainBase::getSFDataSource(void) const
+const SFUnrecBbqDataSourcePtr *BbqTerrainBase::getSFDataSource(void) const
 {
     return &_sfDataSource;
 }
@@ -478,14 +478,32 @@ void BbqTerrainBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-BbqTerrainPtr BbqTerrainBase::create(void)
+BbqTerrainTransitPtr BbqTerrainBase::create(void)
 {
-    BbqTerrainPtr fc;
+    BbqTerrainTransitPtr fc;
 
     if(getClassType().getPrototype() != NullFC)
     {
-        fc = dynamic_cast<BbqTerrain::ObjPtr>(
-            getClassType().getPrototype()-> shallowCopy());
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
+
+        fc = dynamic_pointer_cast<BbqTerrain>(tmpPtr);
+    }
+
+    return fc;
+}
+
+//! create a new instance of the class
+BbqTerrainTransitPtr BbqTerrainBase::createLocal(BitVector bFlags)
+{
+    BbqTerrainTransitPtr fc;
+
+    if(getClassType().getPrototype() != NullFC)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyLocal(bFlags);
+
+        fc = dynamic_pointer_cast<BbqTerrain>(tmpPtr);
     }
 
     return fc;
@@ -496,16 +514,50 @@ BbqTerrainPtr BbqTerrainBase::createEmpty(void)
 {
     BbqTerrainPtr returnValue;
 
-    newPtr<BbqTerrain>(returnValue);
+    newPtr<BbqTerrain>(returnValue, Thread::getCurrentLocalFlags());
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= 
+        ~Thread::getCurrentLocalFlags(); 
 
     return returnValue;
 }
 
-FieldContainerPtr BbqTerrainBase::shallowCopy(void) const
+BbqTerrainPtr BbqTerrainBase::createEmptyLocal(BitVector bFlags)
 {
     BbqTerrainPtr returnValue;
 
-    newPtr(returnValue, dynamic_cast<const BbqTerrain *>(this));
+    newPtr<BbqTerrain>(returnValue, bFlags);
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr BbqTerrainBase::shallowCopy(void) const
+{
+    BbqTerrainPtr tmpPtr;
+
+    newPtr(tmpPtr, 
+           dynamic_cast<const BbqTerrain *>(this), 
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr BbqTerrainBase::shallowCopyLocal(
+    BitVector bFlags) const
+{
+    BbqTerrainPtr tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const BbqTerrain *>(this), bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
 
     return returnValue;
 }
@@ -558,8 +610,8 @@ void BbqTerrainBase::onCreate(const BbqTerrain *source)
 
 GetFieldHandlePtr BbqTerrainBase::getHandleBeacon          (void) const
 {
-    SFNodePtr::GetHandlePtr returnValue(
-        new  SFNodePtr::GetHandle(
+    SFUnrecNodePtr::GetHandlePtr returnValue(
+        new  SFUnrecNodePtr::GetHandle(
              &_sfBeacon, 
              this->getType().getFieldDesc(BeaconFieldId)));
 
@@ -568,8 +620,8 @@ GetFieldHandlePtr BbqTerrainBase::getHandleBeacon          (void) const
 
 EditFieldHandlePtr BbqTerrainBase::editHandleBeacon         (void)
 {
-    SFNodePtr::EditHandlePtr returnValue(
-        new  SFNodePtr::EditHandle(
+    SFUnrecNodePtr::EditHandlePtr returnValue(
+        new  SFUnrecNodePtr::EditHandle(
              &_sfBeacon, 
              this->getType().getFieldDesc(BeaconFieldId)));
 
@@ -583,8 +635,8 @@ EditFieldHandlePtr BbqTerrainBase::editHandleBeacon         (void)
 
 GetFieldHandlePtr BbqTerrainBase::getHandleDataSource      (void) const
 {
-    SFBbqDataSourcePtr::GetHandlePtr returnValue(
-        new  SFBbqDataSourcePtr::GetHandle(
+    SFUnrecBbqDataSourcePtr::GetHandlePtr returnValue(
+        new  SFUnrecBbqDataSourcePtr::GetHandle(
              &_sfDataSource, 
              this->getType().getFieldDesc(DataSourceFieldId)));
 
@@ -593,8 +645,8 @@ GetFieldHandlePtr BbqTerrainBase::getHandleDataSource      (void) const
 
 EditFieldHandlePtr BbqTerrainBase::editHandleDataSource     (void)
 {
-    SFBbqDataSourcePtr::EditHandlePtr returnValue(
-        new  SFBbqDataSourcePtr::EditHandle(
+    SFUnrecBbqDataSourcePtr::EditHandlePtr returnValue(
+        new  SFUnrecBbqDataSourcePtr::EditHandle(
              &_sfDataSource, 
              this->getType().getFieldDesc(DataSourceFieldId)));
 

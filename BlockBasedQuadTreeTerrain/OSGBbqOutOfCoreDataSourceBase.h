@@ -201,7 +201,6 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -219,15 +218,23 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  BbqOutOfCoreDataSourcePtr create     (void);
-    static  BbqOutOfCoreDataSourcePtr createEmpty(void);
+    static  BbqOutOfCoreDataSourceTransitPtr create          (void);
+    static  BbqOutOfCoreDataSourcePtr        createEmpty     (void);
+
+    static  BbqOutOfCoreDataSourceTransitPtr createLocal     (
+                                              BitVector bFlags = FCLocal::All);
+
+    static  BbqOutOfCoreDataSourcePtr        createEmptyLocal(
+                                              BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
     /*! \{                                                                 */
 
-    virtual FieldContainerPtr shallowCopy(void) const;
+    virtual FieldContainerTransitPtr shallowCopy     (void) const;
+    virtual FieldContainerTransitPtr shallowCopyLocal(
+                                       BitVector bFlags = FCLocal::All) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -331,22 +338,13 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
     /*==========================  PRIVATE  ================================*/
 
   private:
+    /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const BbqOutOfCoreDataSourceBase &source);
 };
 
 typedef BbqOutOfCoreDataSourceBase *BbqOutOfCoreDataSourceBaseP;
-
-/** Type specific RefPtr type for BbqOutOfCoreDataSource. */
-typedef RefPtr<BbqOutOfCoreDataSourcePtr> BbqOutOfCoreDataSourceRefPtr;
-
-typedef boost::mpl::if_<
-    boost::mpl::bool_<BbqOutOfCoreDataSourceBase::isNodeCore>,
-    CoredNodePtr<BbqOutOfCoreDataSource>,
-    FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC>::type
-
-        BbqOutOfCoreDataSourceNodePtr;
 
 OSG_END_NAMESPACE
 

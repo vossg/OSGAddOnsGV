@@ -57,10 +57,9 @@
 #include "OSGConfig.h"
 #include "OSGDrawableDef.h"
 
-#include "OSGStageDrawableFields.h"
-
-#include "OSGSFieldAdaptor.h"
-#include "OSGMFieldAdaptor.h"
+#include "OSGFieldContainerFields.h"
+#include "OSGFieldContainerPtrSField.h"
+#include "OSGFieldContainerPtrMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -95,6 +94,8 @@ struct FieldTraits<BbqTerrainPtr> :
 
     enum                        { Convertible = NotConvertible };
 };
+
+
 
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \class  FieldTraitsTemplateBase<BbqTerrainPtr, 0>

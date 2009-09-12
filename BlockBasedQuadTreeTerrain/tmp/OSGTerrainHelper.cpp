@@ -21,7 +21,7 @@ ImageBlockAccessorX::ImageBlockAccessorX(void) :
 
 ImageBlockAccessorX::~ImageBlockAccessorX(void)
 {
-    OSG::subRef(_pImage);
+    _pImage = NullFC;
 }
 
 bool ImageBlockAccessorX::open(const std::string filename)
@@ -376,7 +376,7 @@ bool OpenGLTexture::create2D(Image::PixelFormat pf,
 {
     if(_pTexture == NullFC)
     {
-        ImagePtr pImg = Image          ::create();
+        ImageUnrecPtr pImg = Image          ::create();
 
         pImg->set(pf, iWidth, iHeight);
 

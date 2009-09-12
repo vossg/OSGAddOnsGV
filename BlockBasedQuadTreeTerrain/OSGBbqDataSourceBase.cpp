@@ -294,20 +294,18 @@ void BbqDataSourceBase::resolveLinks(void)
 }
 
 
-OSG_END_NAMESPACE
-
-#include "OSGSFieldAdaptor.ins"
-#include "OSGMFieldAdaptor.ins"
-
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldTraits<BbqDataSourcePtr>::_type("BbqDataSourcePtr", "FieldContainerPtr");
 #endif
 
 OSG_FIELDTRAITS_GETTYPE(BbqDataSourcePtr)
 
-OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, BbqDataSourcePtr, SFFieldContainerPtr);
-OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, BbqDataSourcePtr, MFFieldContainerPtr);
+OSG_EXPORT_PTR_SFIELD_FULL(FieldContainerPtrSField, 
+                           BbqDataSourcePtr, 
+                           0);
+
+OSG_EXPORT_PTR_MFIELD_FULL(FieldContainerPtrMField, 
+                           BbqDataSourcePtr, 
+                           0);
 
 OSG_END_NAMESPACE
