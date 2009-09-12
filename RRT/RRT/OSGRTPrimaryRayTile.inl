@@ -75,7 +75,7 @@ void RTPrimaryRayTile<DescT>::setDirection(UInt32 uiPacketIndex, Vec3f vDir)
 }
 
 template<typename DescT> inline
-void RTPrimaryRayTile<DescT>::setActive(UInt32 uiPacketIndex, UInt32 uiVal)
+void RTPrimaryRayTile<DescT>::setActive(UInt32 uiPacketIndex, UInt16 uiVal)
 {
     OSG_ASSERT(uiPacketIndex < _vActiveStore.size());
 
@@ -98,7 +98,7 @@ typename RTPrimaryRayTile<DescT>::ActiveStore &
 }
 
 template<typename DescT> inline
-UInt32 *RTPrimaryRayTile<DescT>::getActiveRays(void)
+UInt16 *RTPrimaryRayTile<DescT>::getActiveRays(void)
 {
     return &(_vActiveStore[0]);
 }

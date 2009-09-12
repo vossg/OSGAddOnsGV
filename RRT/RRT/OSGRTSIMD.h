@@ -113,7 +113,7 @@ class AlignedAllocator
     void  construct(pointer __p, const _Tp &__val);
     void  destroy  (pointer __p                  );
 };
-#endif
+#endif // OSG_HAS_POSIXMEMALIGN
 
 
 
@@ -168,6 +168,7 @@ Float4 osgSIMDInvert(const Float4 v);
 Int32  osgSIMDMoveMask(const Float4 v);
 
 Float4 osgSIMDSet(const Real32 rVal);
+
 Float4 osgSIMDSet(const Real32 rVal0,
                   const Real32 rVal1,
                   const Real32 rVal2,

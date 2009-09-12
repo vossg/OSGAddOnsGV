@@ -72,7 +72,7 @@ class RTHitTile : public RTTile
     typedef typename Desc::RayPacket        RayPacket;
     typedef typename Desc::PrimaryRayTile   PrimaryRayTile;
 
-    typedef std::vector<UInt32   >          ActiveStore;
+    typedef std::vector<UInt16   >          ActiveStore;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

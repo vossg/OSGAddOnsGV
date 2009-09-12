@@ -111,6 +111,7 @@ class RTPrimaryRayStore : public RTStore
     typedef          DescT                     Desc;
     typedef typename Desc::SingleRayPacket     SingleRayPacket;
     typedef typename Desc::SingleRayPacketInfo SingleRayPacketInfo;
+    typedef typename Desc::RayInfoStore        RayInfoStore;
     typedef typename Desc::RayStore            RayStore;
 
     typedef typename Desc::MathTag             MathTag;
@@ -149,8 +150,6 @@ class RTPrimaryRayStore : public RTStore
   protected:
 
     typedef RTStore                      Inherited;
-
-    typedef std::vector<SingleRayPacketInfo> RayInfoStore;
 
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */

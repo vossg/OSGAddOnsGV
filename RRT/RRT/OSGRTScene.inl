@@ -69,7 +69,7 @@ template<typename DescT> inline
 void RTScene<DescT>::tracePrimaryRays(BasicRayPacket &oRay, 
                                       HitPacket      &oHit,
                                       ElemStack      &sKDToDoStack,
-                                      UInt32         *uiActive    )
+                                      UInt16         *uiActive    )
 {
     for(UInt32 k = 0; k < _vRTCaches.size(); ++k)
     {    
@@ -81,7 +81,7 @@ template<typename DescT> inline
 void RTScene<DescT>::tracePrimaryRays(BasicSIMDRayPacket &oRay, 
                                       HitPacket          &oHit,
                                       ElemStack          &sKDToDoStack,
-                                      UInt32             *uiActive    )
+                                      UInt16             *uiActive    )
 {
     for(UInt32 k = 0; k < _vRTCaches.size(); ++k)
     {    

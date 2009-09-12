@@ -103,12 +103,12 @@ class RTScene : public MemoryObject
     void tracePrimaryRays(BasicRayPacket  &oRay, 
                           HitPacket       &oHit,
                           ElemStack       &sKDToDoStack,
-                          UInt32          *uiActive     );
+                          UInt16          *uiActive     );
 
     void tracePrimaryRays(BasicSIMDRayPacket &oRay, 
                           HitPacket          &oHit,
                           ElemStack          &sKDToDoStack,
-                          UInt32             *uiActive     );
+                          UInt16             *uiActive     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -78,7 +78,7 @@ bool RTRayPacketInfo::hasActive(void)
 }
 
 inline
-UInt32 *RTRayPacketInfo::getActiveRays(void)
+UInt16 *RTRayPacketInfo::getActiveRays(void)
 {
     return NULL;
 }

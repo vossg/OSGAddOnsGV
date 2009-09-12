@@ -96,7 +96,7 @@ bool RTRaySIMDPacketInfo::hasActive(void)
 }
 
 inline
-UInt32 *RTRaySIMDPacketInfo::getActiveRays(void)
+UInt16 *RTRaySIMDPacketInfo::getActiveRays(void)
 {
     return _bIsActive;
 }

@@ -493,7 +493,7 @@ void RTCacheKD<DescT>::intersectSingle(BasicSIMDRayPacket &oRay,
                                        RTHitSIMDPacket    &oHit,
                                        KDElemStack        &sKDToDoStack,
                                        UInt32              uiCacheId,
-                                       UInt32             *uiActive     )
+                                       UInt16             *uiActive     )
 {
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
     Vec3f vRayDirs[4];
@@ -697,7 +697,7 @@ void RTCacheKD<DescT>::intersect(BasicSIMDRayPacket &oRay,
                                  RTHitSIMDPacket    &oHit,
                                  KDElemStack        &sKDToDoStack,
                                  UInt32              uiCacheId,
-                                 UInt32             *uiActive     )
+                                 UInt16             *uiActive     )
 {
 #if 0
     for(UInt32 i = 0; i < this->_mfTriangleAcc.size(); ++i)
@@ -973,7 +973,7 @@ void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft,
 
     if(pLeft == NULL)
     {
-        if(pRight->isLeave() == true)
+        if(pRight->isLeaf() == true)
         {
             ++_uiNextFreeNode;
 
@@ -999,7 +999,7 @@ void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft,
         UInt32 uiRight = _uiNextFreeNode++;
 
 
-        if(pLeft->isLeave() == false)
+        if(pLeft->isLeaf() == false)
         {
             _mfKDTree[uiLeft].initInterior(pLeft);
             _mfKDTree[uiLeft]._uiAboveChild = 2 * sizeof(RTCacheKDNode);
@@ -1012,7 +1012,7 @@ void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft,
         }
 
 
-        if(pRight->isLeave() == false)
+        if(pRight->isLeaf() == false)
         {
             _mfKDTree[uiRight].initInterior(pRight);
 

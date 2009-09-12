@@ -156,7 +156,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
     /*==========================  PUBLIC  =================================*/
 
-
     struct PacketDescBase
     {
         typedef RTRayPacket     BasicRayPacket;
@@ -195,7 +194,9 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
         typedef BasicRayPacket                         RayPacket;
         typedef RTRayPacketInfo                        RayPacketInfo;
         typedef RTSingleRayPacket<BasicRayPacket>      SingleRayPacket;
+
         typedef RTSingleRayPacketInfo                  SingleRayPacketInfo;
+        typedef std::vector<RTSingleRayPacketInfo>     RayInfoStore;
 
         typedef RTHitTile<SinglePacketDescBase>        HitTile;
         typedef RTPrimaryRayTile<SinglePacketDescBase> PrimaryRayTile;
@@ -330,6 +331,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
         typedef RTHitTile<SIMDPacketDescBase>        HitTile;
         typedef RTPrimaryRayTile<SIMDPacketDescBase> PrimaryRayTile;
+
+        typedef std::vector<
+                  SingleRayPacketInfo,
+                  AlignedAllocator<
+                      SingleRayPacketInfo> >         RayInfoStore;
 
         typedef AlignedAllocator<SingleRayPacket>    SIMDRayAllocator;
 

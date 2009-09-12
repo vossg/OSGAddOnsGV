@@ -50,7 +50,7 @@ struct RTKDNode
 {
   protected:
     
-    bool                 _bIsLeave;
+    bool                 _bIsLeaf;
     
     UInt32               _uiSplitAxis;
     Real32               _fSplitPos;
@@ -76,7 +76,7 @@ struct RTKDNode
                       Real32                 fSplitPos);
     
     
-    bool                 isLeave         (void           );
+    bool                 isLeaf          (void           );
     
     void                 setAboveChild   (RTKDNode *pNode);
     RTKDNode            *getAboveChild   (void           );
@@ -94,7 +94,7 @@ struct RTCacheKDNode
 {
     union 
     {
-        UInt32 _uiFlags;     // Leave + Interior
+        UInt32 _uiFlags;     // Leaf + Interior
         Real32 _fSplitPos;   // Interior
         UInt32 _uiNumPrims;  // Leaf
     };

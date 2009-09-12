@@ -115,11 +115,27 @@ RTCombinedThread<DescT>::~RTCombinedThread(void)
     OSG::subRef(_pSyncBarrier  );
 }
 
-
 template<class DescT> inline
 void RTCombinedThread<DescT>::workProc(void)
 {
-    _pSyncBarrier->enter();
+    RTCombinedThreadHelper<DescT, MathTag>::workProcHelper(this, *_pTarget);
+}
+
+template<class DescT> inline
+void RTCombinedThreadHelper<DescT, RTFloatMathTag>::workProcHelper(
+    RTCombinedThread<DescT> *pThis,
+    RTTarget                &oTarget)
+{
+    OSG_ASSERT(false);
+    // for SingleRay on PowerPC use the same code as below
+}
+
+template<class DescT> inline
+void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
+    RTCombinedThread<DescT> *pThis,
+    RTTarget                &oTarget)
+{
+    pThis->_pSyncBarrier->enter();
 
     UInt32 uiRayStat;
     UInt32 uiHitStat;
@@ -130,30 +146,31 @@ void RTCombinedThread<DescT>::workProc(void)
 
     ColorPacket oColor;
 
-    if(_pRayStore != NULL)
+    if(pThis->_pRayStore != NULL)
     {
         while(true)
         {
-            _pSyncBarrier->enter();
+            pThis->_pSyncBarrier->enter();
             
-            UInt32 uiRayIndex = _pRayStore->nextIndex();
+            UInt32 uiRayIndex = pThis->_pRayStore->nextIndex();
 
             uiRayStat = 0;
             uiHitStat = 0;
             
             while(uiRayIndex != PrimaryRayStore::Empty) 
             {
-                UInt32             uiHitIndex = _pHitStore->getWriteIndex();
+                UInt32               uiHitIndex = 
+                    pThis->_pHitStore->getWriteIndex();
                 
                 SingleRayPacket     &oRayPacket = 
-                    _pRayStore->getRayPacket(uiRayIndex);
+                    pThis->_pRayStore->getRayPacket(uiRayIndex);
 
                 SingleRayPacketInfo &oRayPacketInfo = 
-                    _pRayStore->getRayPacketInfo(uiRayIndex);
+                    pThis->_pRayStore->getRayPacketInfo(uiRayIndex);
                 
                 SingleHitPacket &oHitPacket = 
-                    _pHitStore->getPacket   (uiHitIndex);
-                
+                    pThis->_pHitStore->getPacket   (uiHitIndex);
+
                 oHitPacket.reset();
 
                 oHitPacket.setXY       (oRayPacketInfo.getX(), 
@@ -161,41 +178,125 @@ void RTCombinedThread<DescT>::workProc(void)
 
                 oHitPacket.setRayPacket(&oRayPacket);
 
-                _pScene->tracePrimaryRays(oRayPacket, 
-                                          oHitPacket, 
-                                          sKDToDoStack,
-                                          oRayPacketInfo.getActiveRays());
-                
-                _pHitStore->pushWriteIndex(uiHitIndex);
+                pThis->_pScene->tracePrimaryRays(
+                    oRayPacket, 
+                    oHitPacket, 
+                    sKDToDoStack,
+                    oRayPacketInfo.getActiveRays());
+
+                pThis->_pHitStore->pushWriteIndex(uiHitIndex);
 
                 ++uiRayStat;
                 
-                uiRayIndex = _pRayStore->nextIndex();
+                uiRayIndex = pThis->_pRayStore->nextIndex();
             }
             
-            UInt32 uiHitIndex = _pHitStore->getReadIndex();
-            
+            UInt32 uiHitIndex = pThis->_pHitStore->getReadIndex();
+
+#if 0  
+            // Prints a diagonal set of raytiles to console or raytiles in
+            // leftmost column of stage
+            //for(UInt32 i = 0; i < pThis->_pRayStore->getNumTiles() ; 
+            // i=i+pThis->_pRayStore->getNumHTiles()+1)
+
+            for(UInt32 i = 0; 
+                       i < pThis->_pRayStore->getNumTiles() ; 
+                       i = i + pThis->_pRayStore->getNumHTiles())
+            {
+                SingleRayPacket &oRayTile = pThis->_pRayStore->getRayPacket(i);
+                union
+                {
+                    Float4 dir;
+                    Real32 arrayDir[4];
+                };        
+
+                dir = oRayTile.getDir(0);
+
+                printf("%d\n", i);
+                printf("x: %f %f %f %f\n", 
+                       arrayDir[0], arrayDir[1], arrayDir[2], arrayDir[3]);
+
+                dir = oRayTile.getDir(1);
+
+                printf("y: %f %f %f %f\n", 
+                       arrayDir[0], arrayDir[1], arrayDir[2], arrayDir[3]);
+
+                dir = oRayTile.getDir(2);
+
+                printf("z: %f %f %f %f\n", 
+                       arrayDir[0], arrayDir[1], arrayDir[2], arrayDir[3]);
+            }
+
+            exit(-1);
+#endif
+
+
+#if 0   // Write binary to file
+
+            FILE* fp;
+            fp=fopen(
+                "/home/filip/tmp/OpenSG/Standalone.app/HitPacketsPPU_box.bin", 
+                "wb+");
+
+            UInt32 hits = 0;
+
+            for(UInt32 i = 0; i < 4096 ; ++i)
+            {
+                SingleHitPacket     &oHitPacket = 
+                    pThis->_pHitStore->getPacket(i);
+    
+                Real32 rDist[4], rU[4], rV[4];
+                UInt32 objId[4], triId[4], cacheId[4];
+
+                for(UInt32 j = 0 ; j < 4 ; ++j)
+                {
+                    rDist[j] = oHitPacket.getDist(j);
+                    rU[j] = oHitPacket.getU(j);
+                    rV[j] = oHitPacket.getV(j);
+                    objId[j] = oHitPacket.getObjId(j);
+                    triId[j] = oHitPacket.getTriId(j);
+                    cacheId[j] = oHitPacket.getCacheId(j); 
+
+                    if(rDist[j] < FLT_MAX)
+                        hits++;
+                }
+          
+                fwrite(&rDist, 4, 4, fp);
+                fwrite(&rU, 4, 4, fp);
+                fwrite(&rV, 4, 4, fp);
+                fwrite(&objId, 4, 4, fp);
+                fwrite(&triId, 4, 4, fp);
+                fwrite(&cacheId, 4, 4, fp);
+            }
+        
+            fclose(fp);
+
+            printf("Hits %u\n", hits);
+            printf("Binary hitdata written to file\n");
+            exit(-1);
+#endif
+
             while(uiHitIndex != HitStore::Empty)
             {
                 if(uiHitIndex != HitStore::Waiting)
                 {
                     SingleHitPacket &oHitPacket = 
-                        _pHitStore->getPacket(uiHitIndex);
+                        pThis->_pHitStore->getPacket(uiHitIndex);
 
                     SingleRayPacket *pRayPacket = 
                         oHitPacket.getRayPacket();
 
-                    _pScene->shade(oHitPacket, *pRayPacket, oColor);
+                    pThis->_pScene->shade(oHitPacket, *pRayPacket, oColor);
 
-                    _pTarget->setPixel(oHitPacket.getX(), 
-                                       oHitPacket.getY(),
-                                       oColor           );
+                    pThis->_pTarget->setPixel(oHitPacket.getX(), 
+                                              oHitPacket.getY(),
+                                              oColor           );
                 
 #if 0
                     if(oHitPacket.getU() > -0.5)
                     {
                         _pTarget->markPixelHit(oHitPacket.getX(), 
-                                           oHitPacket.getY());
+                                               oHitPacket.getY());
                     }
                     else
                     {
@@ -211,14 +312,14 @@ void RTCombinedThread<DescT>::workProc(void)
                     osgSleep(1);
                 }
 
-                uiHitIndex = _pHitStore->getReadIndex();
+                uiHitIndex = pThis->_pHitStore->getReadIndex();
             }
             
 #if 0
             fprintf(stderr, "%p : %d %d\n", this, uiRayStat, uiHitStat);
 #endif
 
-            _pSyncBarrier->enter();
+            pThis->_pSyncBarrier->enter();
         }
     }
     else
@@ -229,9 +330,9 @@ void RTCombinedThread<DescT>::workProc(void)
             fprintf(stderr, "Frame start\n");
 #endif
 
-            _pSyncBarrier->enter();
+            pThis->_pSyncBarrier->enter();
             
-            UInt32 uiTileIndex = _pRayTiledStore->nextIndex();
+            UInt32 uiTileIndex = pThis->_pRayTiledStore->nextIndex();
 
             uiRayStat = 0;
             uiHitStat = 0;
@@ -239,13 +340,13 @@ void RTCombinedThread<DescT>::workProc(void)
             while(uiTileIndex != PrimaryRayTiledStore::Empty) 
             {
                 UInt32             uiHitIndex = 
-                    _pHitTiledStore->getWriteIndex();
+                    pThis->_pHitTiledStore->getWriteIndex();
                 
                 PrimaryRayTile &oRayTile = 
-                    _pRayTiledStore->getRayPacket(uiTileIndex);
+                    pThis->_pRayTiledStore->getRayPacket(uiTileIndex);
 
                 HitTile        &oHitTile = 
-                    _pHitTiledStore->getPacket   (uiHitIndex);
+                    pThis->_pHitTiledStore->getPacket   (uiHitIndex);
 
                 oHitTile.reset     (                     );
                 oHitTile.setRayTile(&oRayTile            );
@@ -265,10 +366,10 @@ void RTCombinedThread<DescT>::workProc(void)
                     if(oRayTile.hasActive(i) == false)
                         continue;
 
-                    _pScene->tracePrimaryRays(oRayPacket, 
-                                              oHitPacket, 
-                                              sKDToDoStack,
-                                              oRayTile.getActiveRays());
+                    pThis->_pScene->tracePrimaryRays(oRayPacket, 
+                                                     oHitPacket, 
+                                                     sKDToDoStack,
+                                                     oRayTile.getActiveRays());
 
                     ++uiRayStat;
                 }
@@ -318,20 +419,20 @@ void RTCombinedThread<DescT>::workProc(void)
                 }
 #endif
                 
-                _pHitTiledStore->pushWriteIndex(uiHitIndex);
+                pThis->_pHitTiledStore->pushWriteIndex(uiHitIndex);
                 
-                uiTileIndex = _pRayTiledStore->nextIndex();
+                uiTileIndex = pThis->_pRayTiledStore->nextIndex();
             }
             
             
-            UInt32 uiHitIndex = _pHitTiledStore->getReadIndex();
+            UInt32 uiHitIndex = pThis->_pHitTiledStore->getReadIndex();
             
             while(uiHitIndex != HitTiledStore::Empty)
             {
                 if(uiHitIndex != HitStore::Waiting)
                 {
                     HitTile &oHitTile = 
-                        _pHitTiledStore->getPacket(uiHitIndex);
+                        pThis->_pHitTiledStore->getPacket(uiHitIndex);
 
                     for(UInt32 i = 0; i < HitTile::NumVPackets; ++i)
                     {
@@ -355,9 +456,9 @@ void RTCombinedThread<DescT>::workProc(void)
                             UInt32 uiY =
                                 oHitTile.getY() * HitTile::NumVPackets + i;
                                 
-                            _pScene->shade(oHitPacket, pRayPacket, oColor);
+                            pThis->_pScene->shade(oHitPacket, pRayPacket, oColor);
                                 
-                            _pTarget->setPixel(uiX, uiY, oColor);
+                            pThis->_pTarget->setPixel(uiX, uiY, oColor);
 
 #if 0
                             if(oHitPacket.getU() > -0.5)
@@ -379,13 +480,13 @@ void RTCombinedThread<DescT>::workProc(void)
                     osgSleep(1);
                 }
 
-                uiHitIndex = _pHitTiledStore->getReadIndex();
+                uiHitIndex = pThis->_pHitTiledStore->getReadIndex();
             }
 
 #if 0
             fprintf(stderr, "%p : %d %d\n", this, uiRayStat, uiHitStat);
 #endif            
-            _pSyncBarrier->enter();
+            pThis->_pSyncBarrier->enter();
         }
     }
 }

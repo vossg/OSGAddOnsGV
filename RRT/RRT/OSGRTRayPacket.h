@@ -84,7 +84,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayPacketInfo
     bool    isActive (void     );
     bool    hasActive(void     );
 
-    UInt32 *getActiveRays(void);
+    UInt16 *getActiveRays(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -98,7 +98,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayPacketInfo
 
   protected:
 
-    UInt32 _bIsActive;
+    UInt16 _bIsActive;
 
   private:
 };

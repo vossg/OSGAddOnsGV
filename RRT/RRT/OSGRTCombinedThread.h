@@ -55,6 +55,60 @@ class RTTarget;
  */
 
 template<typename DescT>
+class RTCombinedThread;
+
+template<typename DescT, typename MathTag>
+struct RTCombinedThreadHelper;
+
+
+template<typename DescT>
+struct RTCombinedThreadHelper<DescT, RTFloatMathTag>
+{
+
+    static void workProcHelper(RTCombinedThread<DescT> *pThis, 
+                               RTTarget                &oTarget);
+};
+
+template<typename DescT>
+struct RTCombinedThreadHelper<DescT, RTSIMDMathTag>
+{
+    typedef          DescT                     Desc;
+
+    typedef typename Desc::Scene                Scene;
+    typedef typename Desc::RTCache              RTCache;
+
+    typedef typename Desc::PrimaryRayTile       PrimaryRayTile;
+    typedef typename Desc::HitTile              HitTile;
+
+    typedef typename Desc::HitStore             HitStore;
+    typedef typename Desc::HitTiledStore        HitTiledStore;
+    typedef typename Desc::PrimaryRayStore      PrimaryRayStore;
+    typedef typename Desc::PrimaryRayTiledStore PrimaryRayTiledStore;
+ 
+
+    typedef typename Desc::SingleHitPacket      SingleHitPacket;
+    typedef typename Desc::SingleRayPacket      SingleRayPacket;
+    typedef typename Desc::SingleRayPacketInfo  SingleRayPacketInfo;
+
+    typedef typename Desc::HitPacket            HitPacket;
+    typedef typename Desc::RayPacket            RayPacket;
+
+    typedef typename Desc::ColorPacket          ColorPacket;
+
+    typedef typename Desc::RTCacheNode          CacheKDNode;
+    typedef typename Desc::TriangleAccel        TriangleAccel;
+
+    typedef typename Desc::MathTag              MathTag;
+ 
+
+    static void workProcHelper(RTCombinedThread<DescT> *pThis, 
+                               RTTarget                &oTarget);
+ 
+    friend class RTCombinedThread<DescT>;     
+};
+
+
+template<typename DescT>
 class RTCombinedThread : public RTThread
 {
 
@@ -85,6 +139,8 @@ class RTCombinedThread : public RTThread
     typedef typename Desc::RayPacket            RayPacket;
 
     typedef typename Desc::ColorPacket          ColorPacket;
+
+    typedef typename Desc::MathTag              MathTag;
 
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
@@ -147,6 +203,9 @@ class RTCombinedThread : public RTThread
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
+
+    friend struct RTCombinedThreadHelper<DescT, RTFloatMathTag>;
+    friend struct RTCombinedThreadHelper<DescT, RTSIMDMathTag >;
 
     void workProc(void);
 

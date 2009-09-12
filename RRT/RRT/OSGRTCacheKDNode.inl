@@ -40,7 +40,7 @@ OSG_BEGIN_NAMESPACE
 
 inline
 RTKDNode::RTKDNode(void) :
-    _bIsLeave   (false),
+    _bIsLeaf    (false),
     _uiSplitAxis(0    ),
     _fSplitPos  (0.f  ),
     _pAboveChild(NULL ),
@@ -61,7 +61,7 @@ void RTKDNode::initLeaf(IndexIterator          primNums,
                         IndexSize              np,
                         MFRTCachePrimIdxStore &vStore)
 {
-    _bIsLeave = true;
+    _bIsLeaf = true;
 
     _pAboveChild = NULL;
     _pBelowChild = NULL;
@@ -82,7 +82,7 @@ inline
 void RTKDNode::initInterior(UInt32 uiAxis, 
                             Real32 fSplitPos)
 {
-    _bIsLeave    = false;
+    _bIsLeaf     = false;
     _uiSplitAxis = uiAxis;
     _fSplitPos   = fSplitPos;
 
@@ -92,9 +92,9 @@ void RTKDNode::initInterior(UInt32 uiAxis,
 
 
 inline
-bool RTKDNode::isLeave(void)
+bool RTKDNode::isLeaf(void)
 {
-    return _bIsLeave;
+    return _bIsLeaf;
 }
 
 inline

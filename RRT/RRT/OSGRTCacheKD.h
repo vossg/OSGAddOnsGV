@@ -149,13 +149,13 @@ class RTCacheKD : public RTCacheKDBase<DescT>
                                RTHitSIMDPacket    &oHit,
                                KDElemStack        &sKDToDoStack,
                                UInt32              uiCacheId   ,
-                               UInt32             *uiActive    );
+                               UInt16             *uiActive    );
 
     void intersectSingle      (BasicSIMDRayPacket &oRay, 
                                RTHitSIMDPacket    &oHit,
                                KDElemStack        &sKDToDoStack,
                                UInt32              uiCacheId   ,
-                               UInt32             *uiActive    );
+                               UInt16             *uiActive    );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

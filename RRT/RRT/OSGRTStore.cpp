@@ -60,16 +60,16 @@ RTStore::RTStore(const RTStore &source)
 
 void RTStore::updateNumTiles(UInt32 uiTargetWidth, 
                              UInt32 uiTargetHeight,
-                             UInt32 uiTileWdith,
+                             UInt32 uiTileWidth,
                              UInt32 uiTileHeight )
 {
     fprintf(stderr, "TS : %d %d\n", 
             uiTargetWidth, uiTargetHeight);
     
-    _uiHTiles = uiTargetWidth  / uiTileWdith;
+    _uiHTiles = uiTargetWidth  / uiTileWidth;
     _uiVTiles = uiTargetHeight / uiTileHeight;
     
-    UInt32 uiPartialH = uiTargetWidth  % uiTileWdith;
+    UInt32 uiPartialH = uiTargetWidth  % uiTileWidth;
     UInt32 uiPartialV = uiTargetHeight % uiTileHeight;
     
     fprintf(stderr, "TS : %d %d | %d %d\n", 
