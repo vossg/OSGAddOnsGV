@@ -80,6 +80,7 @@ bool RTRayPacketInfo::hasActive(void)
 inline
 UInt32 *RTRayPacketInfo::getActiveRays(void)
 {
+    return NULL;
 }
 
 inline 

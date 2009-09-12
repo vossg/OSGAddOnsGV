@@ -171,6 +171,8 @@ struct FieldTraits<RTCachePrimIdxStore> :
             }
             ++c;
         }
+
+        return true;
     }
 
 
