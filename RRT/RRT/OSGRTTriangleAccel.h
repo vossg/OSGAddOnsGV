@@ -88,6 +88,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentric
                    RTHitPacket     &oHit,
                    UInt32           uiCacheId);
 
+    void intersectSingle(RTRaySIMDPacket &oRay, 
+                         RTHitSIMDPacket &oHit,
+                         UInt32           uiCacheId,
+                         UInt32           uiActive  );
+
     void intersect(RTRaySIMDPacket &oRay, 
                    RTHitSIMDPacket &oHit,
                    UInt32           uiCacheId,

@@ -52,7 +52,7 @@ RTHitSIMDPacket::RTHitSIMDPacket(void) :
 {
     for(UInt32 i = 0; i < NumHits; ++i)
     {
-        _rDist    [i] = FLT_MAX;
+        _rDist    [i] = std::numeric_limits<Real32>::max();
         _rU       [i] = -1.f;
         _rV       [i] = -1.f;
         _uiCacheId[i] = 0;
@@ -92,7 +92,7 @@ void RTHitSIMDPacket::reset(void)
 {
     for(UInt32 i = 0; i < NumHits; ++i)
     {
-        _rDist    [i] = FLT_MAX;
+        _rDist    [i] = std::numeric_limits<Real32>::max();
         _rU       [i] = -1.f;
         _rV       [i] = -1.f;
         _uiCacheId[i] = 0;
@@ -120,7 +120,7 @@ void RTHitSIMDPacket::set(UInt32 uiIdx,
     _uiCacheId[uiIdx] = uiCacheId;
 }
 
-#if 0
+#if 1
 inline
 void RTHitSIMDPacket::set(const UInt32 mask,
                           const Float4 rDist, 

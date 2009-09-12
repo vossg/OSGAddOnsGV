@@ -587,7 +587,7 @@ void RTCacheKD<DescT>::intersectSingle(RTRaySIMDPacket &oRay,
 
             if(nPrimitives == 1) 
             {
-                this->_vTriangleAcc[node->_uiSinglePrimitive].intersect(
+                this->_vTriangleAcc[node->_uiSinglePrimitive].intersectSingle(
                     oRay, oHit, uiCacheId, iRay);
             }
             else 
@@ -597,10 +597,10 @@ void RTCacheKD<DescT>::intersectSingle(RTRaySIMDPacket &oRay,
                 
                 for(u_int i = 0; i < nPrimitives; ++i) 
                 {
-                    this->_vTriangleAcc[prims[i]].intersect(oRay, 
-                                                            oHit,
-                                                            uiCacheId,
-                                                            iRay);
+                    this->_vTriangleAcc[prims[i]].intersectSingle(oRay, 
+                                                                  oHit,
+                                                                  uiCacheId,
+                                                                  iRay);
                 }
             }
             
@@ -913,7 +913,7 @@ void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay,
     tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpZ, clipMinZ, clipMaxZ));
     tmax4 = osgSIMDMin(tmax4, osgSIMDUpdate(cmpZ, clipMaxZ, clipMinZ));
 
-    activeMask = osgSIMDMoveMask(osgSIMDCmpLE(tmin4, tmax4));
+    activeMask = osgSIMDMoveMask(osgSIMDCmpLT(tmin4, tmax4));
 
 
 
@@ -1266,6 +1266,7 @@ void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay,
 
         static const UInt32 ActiveMask[4] = { 0x1, 0x2, 0x4, 0x8 };
 
+#if 0
         if(nPrimitives == 1) 
         {
             for(UInt32 iRay = 0; iRay < 4; ++iRay)
@@ -1296,13 +1297,68 @@ void RTCacheKD<DescT>::intersect(RTRaySIMDPacket &oRay,
                 }
             }
         }
-        
+#else
+        if(nPrimitives == 1) 
+        {
+//            for(UInt32 iRay = 0; iRay < 4; ++iRay)
+//            {
+//              if(activeMask & ActiveMask[iRay])
+//              {
+                    this->_vTriangleAcc[node->_uiSinglePrimitive].intersect(
+                        oRay, oHit, uiCacheId, activeMask);
+//                }
+//            }
+        }
+        else 
+        {
+            std::vector<UInt32> &prims = 
+                this->_vPrimitives[node->_pPrimitiveIdx];
+            
+            for(u_int i = 0; i < nPrimitives; ++i) 
+            {
+//                for(UInt32 iRay = 0; iRay < 4; ++iRay)
+//                {
+//                    if(activeMask & ActiveMask[iRay])
+//                    {
+                        this->_vTriangleAcc[prims[i]].intersect(oRay, 
+                                                                oHit,
+                                                                uiCacheId,
+                                                                activeMask);
+//                    }
+//                }
+            }
+        }
+#endif        
+
         termination |= (activeMask &
-            osgSIMDMoveMask(osgSIMDCmpLE(osgSIMDSet(oHit.getDist(0),
-                                                    oHit.getDist(1),
+            osgSIMDMoveMask(osgSIMDCmpLE(osgSIMDSet(oHit.getDist(3),
                                                     oHit.getDist(2),
-                                                    oHit.getDist(3)),
+                                                    oHit.getDist(1),
+                                                    oHit.getDist(0)),
                                          tmax4)));
+
+#if 0
+        if(termination & 0x8)
+        {
+            union
+            {
+                Float4 fdata;
+                Real32 vdata[4];
+            };
+
+            fdata = tmax4;
+
+            fprintf(stderr, "%f %f | %f %f\n",
+                    oHit.getDist(0),
+                    vdata[0],
+                    oHit.getU(0),
+                    oHit.getV(0));
+
+            OSG_ASSERT(oHit.getDist(0) <  1000000.f);
+            OSG_ASSERT(oHit.getU   (0) >= 0.f);
+            OSG_ASSERT(oHit.getV   (0) <= 1.f);
+        }
+#endif
     
         term[0] |= (oHit.getDist(0) <= tmax[0]) & active[0];
         term[1] |= (oHit.getDist(1) <= tmax[1]) & active[1];
