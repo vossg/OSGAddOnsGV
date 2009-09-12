@@ -86,9 +86,9 @@ struct RTCombinedThreadHelper<DescT, RTSIMDMathTag>
     typedef typename Desc::PrimaryRayTiledStore PrimaryRayTiledStore;
  
 
-    typedef typename Desc::SingleHitPacket      SingleHitPacket;
-    typedef typename Desc::SingleRayPacket      SingleRayPacket;
-    typedef typename Desc::SingleRayPacketInfo  SingleRayPacketInfo;
+    typedef typename Desc::SingleHitPacket      FourHitPacket;
+    typedef typename Desc::SingleRayPacket      FourRayPacket;
+    typedef typename Desc::SingleRayPacketInfo  FourRayPacketInfo;
 
     typedef typename Desc::HitPacket            HitPacket;
     typedef typename Desc::RayPacket            RayPacket;

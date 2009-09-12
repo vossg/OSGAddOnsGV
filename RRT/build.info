@@ -17,6 +17,10 @@ else:
         test_cpppath = []
         test_libpath = []
 
+        if compiler == "ppu-g++":
+           other_test_libs = ['spe2']
+           osg_test_libs.append('rrt_spu')
+
     else:
     
         stop_traversal = True

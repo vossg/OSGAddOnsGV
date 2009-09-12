@@ -202,7 +202,7 @@ void RTCacheKD<DescT>::execSync (
 template<typename DescT> inline
 void RTCacheKD<DescT>::buildStructure(void)
 {
-	_uiNextFreeNode = _uiNumAllocedNodes = 0;
+    _uiNextFreeNode = _uiNumAllocedNodes = 0;
 
     RTKDNode *pKDTree = Inherited::buildInternalTree();
 

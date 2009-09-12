@@ -162,13 +162,13 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                 UInt32               uiHitIndex = 
                     pThis->_pHitStore->getWriteIndex();
                 
-                SingleRayPacket     &oRayPacket = 
+                FourRayPacket     &oRayPacket = 
                     pThis->_pRayStore->getRayPacket(uiRayIndex);
 
-                SingleRayPacketInfo &oRayPacketInfo = 
+                FourRayPacketInfo &oRayPacketInfo = 
                     pThis->_pRayStore->getRayPacketInfo(uiRayIndex);
                 
-                SingleHitPacket &oHitPacket = 
+                FourHitPacket &oHitPacket = 
                     pThis->_pHitStore->getPacket   (uiHitIndex);
 
                 oHitPacket.reset();
@@ -203,7 +203,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                        i < pThis->_pRayStore->getNumTiles() ; 
                        i = i + pThis->_pRayStore->getNumHTiles())
             {
-                SingleRayPacket &oRayTile = pThis->_pRayStore->getRayPacket(i);
+                FourRayPacket &oRayTile = pThis->_pRayStore->getRayPacket(i);
                 union
                 {
                     Float4 dir;
@@ -242,7 +242,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
             for(UInt32 i = 0; i < 4096 ; ++i)
             {
-                SingleHitPacket     &oHitPacket = 
+                FourHitPacket     &oHitPacket = 
                     pThis->_pHitStore->getPacket(i);
     
                 Real32 rDist[4], rU[4], rV[4];
@@ -280,10 +280,10 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
             {
                 if(uiHitIndex != HitStore::Waiting)
                 {
-                    SingleHitPacket &oHitPacket = 
+                    FourHitPacket &oHitPacket = 
                         pThis->_pHitStore->getPacket(uiHitIndex);
 
-                    SingleRayPacket *pRayPacket = 
+                    FourRayPacket *pRayPacket = 
                         oHitPacket.getRayPacket();
 
                     pThis->_pScene->shade(oHitPacket, *pRayPacket, oColor);
@@ -383,7 +383,7 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                         UInt32 uiPacketIndex = 
                             i * HitTile::NumHPackets + j;
 
-                        SingleRayPacket &oRayPacket = 
+                        FourRayPacket &oRayPacket = 
                             oRayTile.getPacket(uiPacketIndex);
 
                         HitPacket       &oHitPacket = 

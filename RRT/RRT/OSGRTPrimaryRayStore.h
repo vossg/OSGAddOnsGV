@@ -80,8 +80,8 @@ template<typename DescT>
 struct RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>
 {
     typedef          DescT                     Desc;
-    typedef typename Desc::SingleRayPacket     SingleRayPacket;
-    typedef typename Desc::SingleRayPacketInfo SingleRayPacketInfo;
+    typedef typename Desc::SingleRayPacket     FourRayPacket;
+    typedef typename Desc::SingleRayPacketInfo FourRayPacketInfo;
 
     static void setupRays(RTPrimaryRayStore<DescT> *pThis,
                           Camera                   &pCam, 
