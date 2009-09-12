@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class BbqTerrain!
+ **     class BbqOutOfCoreDataSource!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -53,98 +53,163 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &BbqTerrainBase::getClassType(void)
+OSG::FieldContainerType &BbqOutOfCoreDataSourceBase::getClassType(void)
 {
     return _type;
 }
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 BbqTerrainBase::getClassTypeId(void)
+OSG::UInt32 BbqOutOfCoreDataSourceBase::getClassTypeId(void)
 {
     return _type.getId();
 }
 
 inline
-OSG::UInt16 BbqTerrainBase::getClassGroupId(void)
+OSG::UInt16 BbqOutOfCoreDataSourceBase::getClassGroupId(void)
 {
     return _type.getGroupId();
 }
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the value of the BbqOutOfCoreDataSource::_sfFilename field.
 
-//! Get the value of the BbqTerrain::_sfBeacon field.
 inline
-NodePtrConst BbqTerrainBase::getBeacon(void) const
+std::string &BbqOutOfCoreDataSourceBase::editFilename(void)
 {
-    return _sfBeacon.getValue();
+    editSField(FilenameFieldMask);
+
+    return _sfFilename.getValue();
 }
 
-//! Set the value of the BbqTerrain::_sfBeacon field.
+//! Get the value of the BbqOutOfCoreDataSource::_sfFilename field.
 inline
-void BbqTerrainBase::setBeacon(NodePtrConstArg value)
+const std::string &BbqOutOfCoreDataSourceBase::getFilename(void) const
 {
-    editSField(BeaconFieldMask);
-
-    setRefd(_sfBeacon.getValue(), value);
-
-}
-
-//! Get the value of the BbqTerrain::_sfDataSource field.
-inline
-BbqDataSourcePtrConst BbqTerrainBase::getDataSource(void) const
-{
-    return _sfDataSource.getValue();
-}
-
-//! Set the value of the BbqTerrain::_sfDataSource field.
-inline
-void BbqTerrainBase::setDataSource(BbqDataSourcePtrConstArg value)
-{
-    editSField(DataSourceFieldMask);
-
-    setRefd(_sfDataSource.getValue(), value);
-
-}
-//! Get the value of the BbqTerrain::_sfMaxNumResidentNodes field.
-
-inline
-UInt32 &BbqTerrainBase::editMaxNumResidentNodes(void)
-{
-    editSField(MaxNumResidentNodesFieldMask);
-
-    return _sfMaxNumResidentNodes.getValue();
-}
-
-//! Get the value of the BbqTerrain::_sfMaxNumResidentNodes field.
-inline
-const UInt32 &BbqTerrainBase::getMaxNumResidentNodes(void) const
-{
-    return _sfMaxNumResidentNodes.getValue();
+    return _sfFilename.getValue();
 }
 
 #ifdef OSG_1_GET_COMPAT
 inline
-UInt32              &BbqTerrainBase::getMaxNumResidentNodes(void)
+std::string         &BbqOutOfCoreDataSourceBase::getFilename       (void)
 {
-    return this->editMaxNumResidentNodes();
+    return this->editFilename       ();
 }
 #endif
 
-//! Set the value of the BbqTerrain::_sfMaxNumResidentNodes field.
+//! Set the value of the BbqOutOfCoreDataSource::_sfFilename field.
 inline
-void BbqTerrainBase::setMaxNumResidentNodes(const UInt32 &value)
+void BbqOutOfCoreDataSourceBase::setFilename(const std::string &value)
 {
-    editSField(MaxNumResidentNodesFieldMask);
+    editSField(FilenameFieldMask);
 
-    _sfMaxNumResidentNodes.setValue(value);
+    _sfFilename.setValue(value);
+}
+//! Get the value of the BbqOutOfCoreDataSource::_sfHeightScale field.
+
+inline
+Real32 &BbqOutOfCoreDataSourceBase::editHeightScale(void)
+{
+    editSField(HeightScaleFieldMask);
+
+    return _sfHeightScale.getValue();
+}
+
+//! Get the value of the BbqOutOfCoreDataSource::_sfHeightScale field.
+inline
+const Real32 &BbqOutOfCoreDataSourceBase::getHeightScale(void) const
+{
+    return _sfHeightScale.getValue();
+}
+
+#ifdef OSG_1_GET_COMPAT
+inline
+Real32              &BbqOutOfCoreDataSourceBase::getHeightScale    (void)
+{
+    return this->editHeightScale    ();
+}
+#endif
+
+//! Set the value of the BbqOutOfCoreDataSource::_sfHeightScale field.
+inline
+void BbqOutOfCoreDataSourceBase::setHeightScale(const Real32 &value)
+{
+    editSField(HeightScaleFieldMask);
+
+    _sfHeightScale.setValue(value);
+}
+//! Get the value of the BbqOutOfCoreDataSource::_sfHeightOffset field.
+
+inline
+Real32 &BbqOutOfCoreDataSourceBase::editHeightOffset(void)
+{
+    editSField(HeightOffsetFieldMask);
+
+    return _sfHeightOffset.getValue();
+}
+
+//! Get the value of the BbqOutOfCoreDataSource::_sfHeightOffset field.
+inline
+const Real32 &BbqOutOfCoreDataSourceBase::getHeightOffset(void) const
+{
+    return _sfHeightOffset.getValue();
+}
+
+#ifdef OSG_1_GET_COMPAT
+inline
+Real32              &BbqOutOfCoreDataSourceBase::getHeightOffset   (void)
+{
+    return this->editHeightOffset   ();
+}
+#endif
+
+//! Set the value of the BbqOutOfCoreDataSource::_sfHeightOffset field.
+inline
+void BbqOutOfCoreDataSourceBase::setHeightOffset(const Real32 &value)
+{
+    editSField(HeightOffsetFieldMask);
+
+    _sfHeightOffset.setValue(value);
+}
+//! Get the value of the BbqOutOfCoreDataSource::_sfSampleSpacing field.
+
+inline
+Real32 &BbqOutOfCoreDataSourceBase::editSampleSpacing(void)
+{
+    editSField(SampleSpacingFieldMask);
+
+    return _sfSampleSpacing.getValue();
+}
+
+//! Get the value of the BbqOutOfCoreDataSource::_sfSampleSpacing field.
+inline
+const Real32 &BbqOutOfCoreDataSourceBase::getSampleSpacing(void) const
+{
+    return _sfSampleSpacing.getValue();
+}
+
+#ifdef OSG_1_GET_COMPAT
+inline
+Real32              &BbqOutOfCoreDataSourceBase::getSampleSpacing  (void)
+{
+    return this->editSampleSpacing  ();
+}
+#endif
+
+//! Set the value of the BbqOutOfCoreDataSource::_sfSampleSpacing field.
+inline
+void BbqOutOfCoreDataSourceBase::setSampleSpacing(const Real32 &value)
+{
+    editSField(SampleSpacingFieldMask);
+
+    _sfSampleSpacing.setValue(value);
 }
 
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline
-void BbqTerrainBase::execSync (      BbqTerrainBase *pFrom,
+void BbqOutOfCoreDataSourceBase::execSync (      BbqOutOfCoreDataSourceBase *pFrom,
                                         ConstFieldMaskArg  whichField,
                                         AspectOffsetStore &oOffsets,
                                         ConstFieldMaskArg  syncMode,
@@ -152,24 +217,27 @@ void BbqTerrainBase::execSync (      BbqTerrainBase *pFrom,
 {
     Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
 
-    if(FieldBits::NoField != (BeaconFieldMask & whichField))
-        _sfBeacon.syncWith(pFrom->_sfBeacon);
+    if(FieldBits::NoField != (FilenameFieldMask & whichField))
+        _sfFilename.syncWith(pFrom->_sfFilename);
 
-    if(FieldBits::NoField != (DataSourceFieldMask & whichField))
-        _sfDataSource.syncWith(pFrom->_sfDataSource);
+    if(FieldBits::NoField != (HeightScaleFieldMask & whichField))
+        _sfHeightScale.syncWith(pFrom->_sfHeightScale);
 
-    if(FieldBits::NoField != (MaxNumResidentNodesFieldMask & whichField))
-        _sfMaxNumResidentNodes.syncWith(pFrom->_sfMaxNumResidentNodes);
+    if(FieldBits::NoField != (HeightOffsetFieldMask & whichField))
+        _sfHeightOffset.syncWith(pFrom->_sfHeightOffset);
+
+    if(FieldBits::NoField != (SampleSpacingFieldMask & whichField))
+        _sfSampleSpacing.syncWith(pFrom->_sfSampleSpacing);
 }
 #endif
 
 
 inline
-Char8 *BbqTerrainBase::getClassname(void)
+Char8 *BbqOutOfCoreDataSourceBase::getClassname(void)
 {
-    return "BbqTerrain";
+    return "BbqOutOfCoreDataSource";
 }
-OSG_GEN_CONTAINERPTR(BbqTerrain);
+OSG_GEN_CONTAINERPTR(BbqOutOfCoreDataSource);
 
 OSG_END_NAMESPACE
 

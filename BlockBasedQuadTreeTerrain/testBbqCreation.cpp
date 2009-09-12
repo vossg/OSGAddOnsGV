@@ -64,30 +64,32 @@ int main( int argc, char** argv )
 
 
 
-	BbqTerrainCreator terrainCreator;
+	BbqTerrainCreator *terrainCreator = new BbqTerrainCreator();
     
-	if( !terrainCreator.start( heightFieldFilename, 
-                               textureFilename, 
-                               bbqTerrainFilename, 
-                               tileSize, 
-                               textureSize ) )
+	if( !terrainCreator->start( heightFieldFilename, 
+                                textureFilename, 
+                                bbqTerrainFilename, 
+                                tileSize, 
+                                textureSize ) )
 	{
 		std::cout << "Could not produce the .bbq Terrain File!\n";
 		return 1;
 	}
     
-	while(!terrainCreator.isFinished() )
+	while(!terrainCreator->isFinished() )
 	{
 		std::cout << "\rProgress = " 
-                  << int( 100 * terrainCreator.getProgress() ) 
+                  << int( 100 * terrainCreator->getProgress() ) 
                   << "%                " 
                   << std::flush;
         
-		terrainCreator.step();
+		terrainCreator->step();
 	}
 
 	std::cout << "\rFinished!                            \n";
     
+    delete terrainCreator;
+
     OSG::osgExit();
 
 	return 0;

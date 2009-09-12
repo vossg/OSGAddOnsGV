@@ -62,6 +62,7 @@
 
 
 #include <OSGNode.h> // Beacon Class
+#include <OSGBbqDataSource.h> // DataSource Class
 
 #include "OSGBbqTerrainBase.h"
 #include "OSGBbqTerrain.h"
@@ -86,6 +87,14 @@ OSG_BEGIN_NAMESPACE
     
 */
 
+/*! \var BbqDataSourcePtr BbqTerrainBase::_sfDataSource
+    
+*/
+
+/*! \var UInt32          BbqTerrainBase::_sfMaxNumResidentNodes
+    
+*/
+
 
 void BbqTerrainBase::classDescInserter(TypeObject &oType)
 {
@@ -101,6 +110,30 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         Field::SFDefaultFlags,
         static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleBeacon),
         static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleBeacon));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new SFBbqDataSourcePtr::Description(
+        SFBbqDataSourcePtr::getClassType(),
+        "dataSource",
+        "",
+        DataSourceFieldId, DataSourceFieldMask,
+        false,
+        Field::SFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleDataSource),
+        static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleDataSource));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new SFUInt32::Description(
+        SFUInt32::getClassType(),
+        "maxNumResidentNodes",
+        "",
+        MaxNumResidentNodesFieldId, MaxNumResidentNodesFieldMask,
+        false,
+        Field::SFDefaultFlags,
+        static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleMaxNumResidentNodes),
+        static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleMaxNumResidentNodes));
 
     oType.addInitialDesc(pDesc);
 }
@@ -139,6 +172,24 @@ BbqTerrainBase::TypeObject BbqTerrainBase::_type(
     "\t\taccess=\"public\"\n"
     "\t>\n"
     "\t</Field>\n"
+    "\t<Field\n"
+    "\t\tname=\"dataSource\"\n"
+    "\t\ttype=\"BbqDataSourcePtr\"\n"
+    "\t\tcardinality=\"single\"\n"
+    "\t\tvisibility=\"external\"\n"
+    "\t\tdefaultValue=\"NullFC\"\n"
+    "\t\taccess=\"public\"\n"
+    "\t>\n"
+    "\t</Field>\n"
+    "\t<Field\n"
+    "\t\tname=\"maxNumResidentNodes\"\n"
+    "\t\ttype=\"UInt32\"\n"
+    "\t\tcardinality=\"single\"\n"
+    "\t\tvisibility=\"external\"\n"
+    "\t\tdefaultValue=\"5000\"\n"
+    "\t\taccess=\"public\"\n"
+    "\t>\n"
+    "\t</Field>\n"
     "</FieldContainer>\n",
     ""
     );
@@ -169,6 +220,31 @@ const SFNodePtr *BbqTerrainBase::getSFBeacon(void) const
     return &_sfBeacon;
 }
 
+//! Get the BbqTerrain::_sfDataSource field.
+const SFBbqDataSourcePtr *BbqTerrainBase::getSFDataSource(void) const
+{
+    return &_sfDataSource;
+}
+
+SFUInt32 *BbqTerrainBase::editSFMaxNumResidentNodes(void)
+{
+    editSField(MaxNumResidentNodesFieldMask);
+
+    return &_sfMaxNumResidentNodes;
+}
+
+const SFUInt32 *BbqTerrainBase::getSFMaxNumResidentNodes(void) const
+{
+    return &_sfMaxNumResidentNodes;
+}
+
+#ifdef OSG_1_GET_COMPAT
+SFUInt32            *BbqTerrainBase::getSFMaxNumResidentNodes(void)
+{
+    return this->editSFMaxNumResidentNodes();
+}
+#endif
+
 
 
 
@@ -183,6 +259,14 @@ UInt32 BbqTerrainBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfBeacon.getBinSize();
     }
+    if(FieldBits::NoField != (DataSourceFieldMask & whichField))
+    {
+        returnValue += _sfDataSource.getBinSize();
+    }
+    if(FieldBits::NoField != (MaxNumResidentNodesFieldMask & whichField))
+    {
+        returnValue += _sfMaxNumResidentNodes.getBinSize();
+    }
 
     return returnValue;
 }
@@ -196,6 +280,14 @@ void BbqTerrainBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfBeacon.copyToBin(pMem);
     }
+    if(FieldBits::NoField != (DataSourceFieldMask & whichField))
+    {
+        _sfDataSource.copyToBin(pMem);
+    }
+    if(FieldBits::NoField != (MaxNumResidentNodesFieldMask & whichField))
+    {
+        _sfMaxNumResidentNodes.copyToBin(pMem);
+    }
 }
 
 void BbqTerrainBase::copyFromBin(BinaryDataHandler &pMem,
@@ -206,6 +298,14 @@ void BbqTerrainBase::copyFromBin(BinaryDataHandler &pMem,
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
     {
         _sfBeacon.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (DataSourceFieldMask & whichField))
+    {
+        _sfDataSource.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (MaxNumResidentNodesFieldMask & whichField))
+    {
+        _sfMaxNumResidentNodes.copyFromBin(pMem);
     }
 }
 
@@ -248,13 +348,17 @@ FieldContainerPtr BbqTerrainBase::shallowCopy(void) const
 
 BbqTerrainBase::BbqTerrainBase(void) :
     Inherited(),
-    _sfBeacon                 (NodePtr(NullFC))
+    _sfBeacon                 (NodePtr(NullFC)),
+    _sfDataSource             (BbqDataSourcePtr(NullFC)),
+    _sfMaxNumResidentNodes    (UInt32(5000))
 {
 }
 
 BbqTerrainBase::BbqTerrainBase(const BbqTerrainBase &source) :
     Inherited(source),
-    _sfBeacon                 (NullFC)
+    _sfBeacon                 (NullFC),
+    _sfDataSource             (NullFC),
+    _sfMaxNumResidentNodes    (source._sfMaxNumResidentNodes    )
 {
 }
 
@@ -273,6 +377,8 @@ void BbqTerrainBase::onCreate(const BbqTerrain *source)
     {
 
         this->setBeacon(source->getBeacon());
+
+        this->setDataSource(source->getDataSource());
     }
 }
 
@@ -297,6 +403,53 @@ EditFieldHandlePtr BbqTerrainBase::editHandleBeacon         (void)
                                           static_cast<BbqTerrain *>(this), _1));
 
     editSField(BeaconFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr BbqTerrainBase::getHandleDataSource      (void) const
+{
+    SFBbqDataSourcePtr::GetHandlePtr returnValue(
+        new  SFBbqDataSourcePtr::GetHandle(
+             &_sfDataSource, 
+             this->getType().getFieldDesc(DataSourceFieldId)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr BbqTerrainBase::editHandleDataSource     (void)
+{
+    SFBbqDataSourcePtr::EditHandlePtr returnValue(
+        new  SFBbqDataSourcePtr::EditHandle(
+             &_sfDataSource, 
+             this->getType().getFieldDesc(DataSourceFieldId)));
+
+    returnValue->setSetMethod(boost::bind(&BbqTerrain::setDataSource, 
+                                          static_cast<BbqTerrain *>(this), _1));
+
+    editSField(DataSourceFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr BbqTerrainBase::getHandleMaxNumResidentNodes (void) const
+{
+    SFUInt32::GetHandlePtr returnValue(
+        new  SFUInt32::GetHandle(
+             &_sfMaxNumResidentNodes, 
+             this->getType().getFieldDesc(MaxNumResidentNodesFieldId)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr BbqTerrainBase::editHandleMaxNumResidentNodes(void)
+{
+    SFUInt32::EditHandlePtr returnValue(
+        new  SFUInt32::EditHandle(
+             &_sfMaxNumResidentNodes, 
+             this->getType().getFieldDesc(MaxNumResidentNodesFieldId)));
+
+    editSField(MaxNumResidentNodesFieldMask);
 
     return returnValue;
 }
@@ -335,6 +488,8 @@ void BbqTerrainBase::resolveLinks(void)
     Inherited::resolveLinks();
 
     static_cast<BbqTerrain *>(this)->setBeacon(NullFC);
+
+    static_cast<BbqTerrain *>(this)->setDataSource(NullFC);
 
 
 }

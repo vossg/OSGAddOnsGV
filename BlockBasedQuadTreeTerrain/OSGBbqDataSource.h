@@ -43,8 +43,29 @@
 #endif
 
 #include "OSGBbqDataSourceBase.h"
+#include "OSGBbqNode.h"
+#include "OSGBbqFile.h"
 
 OSG_BEGIN_NAMESPACE
+
+struct BbqDataSourceInformation
+{
+    Int32                  levelCount;
+    Int32                  nodeCount;
+    BbqFile::HeightFormat  heightFormat;
+    Int32                  heightTileSize;
+    Vec2i                  heightSampleCount;
+    BbqFile::TextureFormat textureFormat;
+    Int32                  textureTileSize;
+    Vec2i                  textureSampleCount;
+    
+    // terrain scaling information:
+    Real32                 heightScale;
+    Real32                 heightOffset;
+    Real32                 sampleSpacing;
+};
+
+struct BbqTerrainNode;
 
 /*! \brief BbqDataSource class. See \ref
            PageDrawableBbqDataSource for a description.
@@ -74,6 +95,26 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSource : public BbqDataSourceBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
+    const BbqDataSourceInformation &getInformation(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    // load height and texture data: return false, if the data could not be
+    // found/is invalid 
+    // the returned data is valid until the next call to loadNodeData..
+    // this loads the data synchronously.. you can use this method from a
+    // separate thread to prevent any frame rate stalls.. 
+
+    bool loadNodeData(BbqTerrainNode &oNode);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
     virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
 
@@ -83,6 +124,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSource : public BbqDataSourceBase
   protected:
 
     // Variables should all be in BbqDataSourceBase.
+
+    BbqDataSourceInformation _oInformation;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
@@ -104,6 +147,17 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSource : public BbqDataSourceBase
     /*! \{                                                                 */
 
     static void initMethod(InitPhase ePhase);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+            void computeBoundingBox(BbqTerrainNode &oNode, 
+                                    Real32          fMinHeightSample, 
+                                    Real32          fMaxHeightSample);
+
+    virtual bool onLoadNodeData    (BbqTerrainNode &oNode           ) = 0;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

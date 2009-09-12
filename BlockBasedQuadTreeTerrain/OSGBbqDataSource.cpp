@@ -46,6 +46,7 @@
 #include <OSGConfig.h>
 
 #include "OSGBbqDataSource.h"
+#include "OSGBbqTerrainNode.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -110,5 +111,47 @@ void BbqDataSource::dump(      UInt32    ,
 {
     SLOG << "Dump BbqDataSource NI" << std::endl;
 }
+
+const BbqDataSourceInformation &BbqDataSource::getInformation(void) const
+{
+    return _oInformation;
+}
+
+bool BbqDataSource::loadNodeData(BbqTerrainNode &oNode)
+{
+    return onLoadNodeData(oNode);
+}
+
+void BbqDataSource::computeBoundingBox(BbqTerrainNode &oNode, 
+                                       Real32          fMinHeightSample, 
+                                       Real32          fMaxHeightSample)
+{
+    const Real32 blockDimension = (Real32)(_oInformation.heightTileSize - 1);
+
+    const Vec2f objectBlockScale = 
+        Vec2f(_oInformation.sampleSpacing * oNode.blockScale, 
+              _oInformation.sampleSpacing * oNode.blockScale);
+
+    const Vec2f objectBlockOffset = 
+        _oInformation.sampleSpacing * oNode.blockOrigin;
+
+    
+    const Vec2f objectBlockSize(blockDimension * objectBlockScale.x(), 
+                                blockDimension * objectBlockScale.y());
+    
+    const Vec3f boxMin( 
+        objectBlockOffset.x(), 
+        fMinHeightSample * _oInformation.heightScale + 
+                           _oInformation.heightOffset, 
+        objectBlockOffset.y() );
+
+    const Vec3f boxMax(objectBlockOffset.x() + objectBlockSize.x(), 
+                       fMaxHeightSample * _oInformation.heightScale + 
+                                          _oInformation.heightOffset,
+                       objectBlockOffset.y() + objectBlockSize.y() );
+    
+    oNode.boundingBox.setBounds(boxMin, boxMax);
+}
+
 
 OSG_END_NAMESPACE

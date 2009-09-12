@@ -49,7 +49,7 @@
 
 //-----------------------------------------------------------------------------
 
-#include "OSGBbqDataSourceEngine.h"
+#include "OSGBbqDataSource.h"
 #include "OSGBbqRenderCache.h"
 
 #include "OSGVector.h"

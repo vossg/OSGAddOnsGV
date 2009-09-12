@@ -828,9 +828,11 @@ void BbqOpenGLTerrainRenderer::renderNodeVbo(
     terrainShader_.setUniform( "heightScale", databaseInfo_.heightScale );
     terrainShader_.setUniform( "heightOffset", databaseInfo_.heightOffset );
 
+/*
     fprintf(stderr, "bs/bo %f %f %f %f\n",
             blockScale[0], blockScale[1],
             blockOffset[0], blockOffset[1]);
+ */
 
     terrainShader_.activate(options.pDrawEnv);
 
@@ -1163,7 +1165,7 @@ void BbqOpenGLTerrainRenderer::calculateTextureParameters(
         float(node->sampleRect.y0 - textureNode->sampleRect.y0 ) / 
         float(textureNode->blockScale * ( databaseInfo_.heightTileSize - 1)));
 
-#if 1
+#if 0
     fprintf(stderr, "x %d %d\n", 
             node->sampleRect.x0, textureNode->sampleRect.x0);
     fprintf(stderr, "y %d %d\n", 
@@ -1522,11 +1524,13 @@ void BbqOpenGLTerrainRenderer::prepareHeightData(
         *targetPtr++ = -skirtSize;
     }
 
+/*
     for( int i = 0; i < target.size(); i+=2)
     {
         fprintf(stderr, "%d %f %f\n", 
                 i/2, target[i], target[i+1]);
     }
+ */
 }
 
 

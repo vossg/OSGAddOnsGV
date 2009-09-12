@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class BbqTerrain
+ **     class BbqOutOfCoreDataSource
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGBBQTERRAINBASE_H_
-#define _OSGBBQTERRAINBASE_H_
+#ifndef _OSGBBQOUTOFCOREDATASOURCEBASE_H_
+#define _OSGBBQOUTOFCOREDATASOURCEBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -63,31 +63,32 @@
 
 #include "OSGBaseTypes.h"
 
-#include "OSGStageDrawable.h" // Parent
+#include "OSGBbqDataSource.h" // Parent
 
-#include "OSGNodeFields.h" // Beacon type
-#include "OSGBbqDataSourceFields.h" // DataSource type
-#include "OSGUInt32Fields.h" // MaxNumResidentNodes type
+#include "OSGStringFields.h" // Filename type
+#include "OSGReal32Fields.h" // HeightScale type
+#include "OSGReal32Fields.h" // HeightOffset type
+#include "OSGReal32Fields.h" // SampleSpacing type
 
-#include "OSGBbqTerrainFields.h"
+#include "OSGBbqOutOfCoreDataSourceFields.h"
 
 OSG_BEGIN_NAMESPACE
 
-class BbqTerrain;
+class BbqOutOfCoreDataSource;
 
-//! \brief BbqTerrain Base Class.
+//! \brief BbqOutOfCoreDataSource Base Class.
 
-class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
+class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
 {
   public:
 
-    typedef StageDrawable Inherited;
-    typedef StageDrawable ParentContainer;
+    typedef BbqDataSource Inherited;
+    typedef BbqDataSource ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
 
-    OSG_GEN_INTERNALPTR(BbqTerrain);
+    OSG_GEN_INTERNALPTR(BbqOutOfCoreDataSource);
 
     /*==========================  PUBLIC  =================================*/
 
@@ -95,18 +96,21 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
 
     enum
     {
-        BeaconFieldId = Inherited::NextFieldId,
-        DataSourceFieldId = BeaconFieldId + 1,
-        MaxNumResidentNodesFieldId = DataSourceFieldId + 1,
-        NextFieldId = MaxNumResidentNodesFieldId + 1
+        FilenameFieldId = Inherited::NextFieldId,
+        HeightScaleFieldId = FilenameFieldId + 1,
+        HeightOffsetFieldId = HeightScaleFieldId + 1,
+        SampleSpacingFieldId = HeightOffsetFieldId + 1,
+        NextFieldId = SampleSpacingFieldId + 1
     };
 
-    static const OSG::BitVector BeaconFieldMask =
-        (TypeTraits<BitVector>::One << BeaconFieldId);
-    static const OSG::BitVector DataSourceFieldMask =
-        (TypeTraits<BitVector>::One << DataSourceFieldId);
-    static const OSG::BitVector MaxNumResidentNodesFieldMask =
-        (TypeTraits<BitVector>::One << MaxNumResidentNodesFieldId);
+    static const OSG::BitVector FilenameFieldMask =
+        (TypeTraits<BitVector>::One << FilenameFieldId);
+    static const OSG::BitVector HeightScaleFieldMask =
+        (TypeTraits<BitVector>::One << HeightScaleFieldId);
+    static const OSG::BitVector HeightOffsetFieldMask =
+        (TypeTraits<BitVector>::One << HeightOffsetFieldId);
+    static const OSG::BitVector SampleSpacingFieldMask =
+        (TypeTraits<BitVector>::One << SampleSpacingFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
 
@@ -133,39 +137,65 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFNodePtr           *getSFBeacon          (void) const;
-            const SFBbqDataSourcePtr  *getSFDataSource      (void) const;
 
 #ifdef OSG_1_GET_COMPAT
-                  SFUInt32            *getSFMaxNumResidentNodes (void);
+                  SFString            *getSFFilename        (void);
 #endif
-                  SFUInt32            *editSFMaxNumResidentNodes(void);
-            const SFUInt32            *getSFMaxNumResidentNodes (void) const;
-
-
-                  NodePtrConst getBeacon         (void) const;
-
-                  BbqDataSourcePtrConst getDataSource     (void) const;
+                  SFString            *editSFFilename       (void);
+            const SFString            *getSFFilename        (void) const;
 
 #ifdef OSG_1_GET_COMPAT
-                  UInt32              &getMaxNumResidentNodes (void);
+                  SFReal32            *getSFHeightScale     (void);
 #endif
-                  UInt32              &editMaxNumResidentNodes(void);
-            const UInt32              &getMaxNumResidentNodes (void) const;
+                  SFReal32            *editSFHeightScale    (void);
+            const SFReal32            *getSFHeightScale     (void) const;
+
+#ifdef OSG_1_GET_COMPAT
+                  SFReal32            *getSFHeightOffset    (void);
+#endif
+                  SFReal32            *editSFHeightOffset   (void);
+            const SFReal32            *getSFHeightOffset    (void) const;
+
+#ifdef OSG_1_GET_COMPAT
+                  SFReal32            *getSFSampleSpacing   (void);
+#endif
+                  SFReal32            *editSFSampleSpacing  (void);
+            const SFReal32            *getSFSampleSpacing   (void) const;
+
+
+#ifdef OSG_1_GET_COMPAT
+                  std::string         &getFilename        (void);
+#endif
+                  std::string         &editFilename       (void);
+            const std::string         &getFilename        (void) const;
+
+#ifdef OSG_1_GET_COMPAT
+                  Real32              &getHeightScale     (void);
+#endif
+                  Real32              &editHeightScale    (void);
+            const Real32              &getHeightScale     (void) const;
+
+#ifdef OSG_1_GET_COMPAT
+                  Real32              &getHeightOffset    (void);
+#endif
+                  Real32              &editHeightOffset   (void);
+            const Real32              &getHeightOffset    (void) const;
+
+#ifdef OSG_1_GET_COMPAT
+                  Real32              &getSampleSpacing   (void);
+#endif
+                  Real32              &editSampleSpacing  (void);
+            const Real32              &getSampleSpacing   (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setBeacon         (NodePtrConstArg value);
-            void setDataSource     (BbqDataSourcePtrConstArg value);
-            void setMaxNumResidentNodes(const UInt32 &value);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                Ptr Field Set                                 */
-    /*! \{                                                                 */
+            void setFilename       (const std::string &value);
+            void setHeightScale    (const Real32 &value);
+            void setHeightOffset   (const Real32 &value);
+            void setSampleSpacing  (const Real32 &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -189,8 +219,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  BbqTerrainPtr create     (void);
-    static  BbqTerrainPtr createEmpty(void);
+    static  BbqOutOfCoreDataSourcePtr create     (void);
+    static  BbqOutOfCoreDataSourcePtr createEmpty(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -213,43 +243,45 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFNodePtr         _sfBeacon;
-    SFBbqDataSourcePtr _sfDataSource;
-    SFUInt32          _sfMaxNumResidentNodes;
+    SFString          _sfFilename;
+    SFReal32          _sfHeightScale;
+    SFReal32          _sfHeightOffset;
+    SFReal32          _sfSampleSpacing;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    BbqTerrainBase(void);
-    BbqTerrainBase(const BbqTerrainBase &source);
+    BbqOutOfCoreDataSourceBase(void);
+    BbqOutOfCoreDataSourceBase(const BbqOutOfCoreDataSourceBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~BbqTerrainBase(void);
+    virtual ~BbqOutOfCoreDataSourceBase(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     onCreate                                */
     /*! \{                                                                 */
 
-    void onCreate(const BbqTerrain *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleBeacon          (void) const;
-    EditFieldHandlePtr editHandleBeacon         (void);
-    GetFieldHandlePtr  getHandleDataSource      (void) const;
-    EditFieldHandlePtr editHandleDataSource     (void);
-    GetFieldHandlePtr  getHandleMaxNumResidentNodes (void) const;
-    EditFieldHandlePtr editHandleMaxNumResidentNodes(void);
+    GetFieldHandlePtr  getHandleFilename        (void) const;
+    EditFieldHandlePtr editHandleFilename       (void);
+    GetFieldHandlePtr  getHandleHeightScale     (void) const;
+    EditFieldHandlePtr editHandleHeightScale    (void);
+    GetFieldHandlePtr  getHandleHeightOffset    (void) const;
+    EditFieldHandlePtr editHandleHeightOffset   (void);
+    GetFieldHandlePtr  getHandleSampleSpacing   (void) const;
+    EditFieldHandlePtr editHandleSampleSpacing  (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -263,7 +295,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
                                  ConstFieldMaskArg  syncMode  ,
                            const UInt32             uiSyncInfo);
 
-            void execSync (      BbqTerrainBase *pFrom,
+            void execSync (      BbqOutOfCoreDataSourceBase *pFrom,
                                  ConstFieldMaskArg  whichField,
                                  AspectOffsetStore &oOffsets,
                                  ConstFieldMaskArg  syncMode  ,
@@ -301,21 +333,21 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
   private:
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const BbqTerrainBase &source);
+    void operator =(const BbqOutOfCoreDataSourceBase &source);
 };
 
-typedef BbqTerrainBase *BbqTerrainBaseP;
+typedef BbqOutOfCoreDataSourceBase *BbqOutOfCoreDataSourceBaseP;
 
-/** Type specific RefPtr type for BbqTerrain. */
-typedef RefPtr<BbqTerrainPtr> BbqTerrainRefPtr;
+/** Type specific RefPtr type for BbqOutOfCoreDataSource. */
+typedef RefPtr<BbqOutOfCoreDataSourcePtr> BbqOutOfCoreDataSourceRefPtr;
 
 typedef boost::mpl::if_<
-    boost::mpl::bool_<BbqTerrainBase::isNodeCore>,
-    CoredNodePtr<BbqTerrain>,
+    boost::mpl::bool_<BbqOutOfCoreDataSourceBase::isNodeCore>,
+    CoredNodePtr<BbqOutOfCoreDataSource>,
     FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC>::type
 
-        BbqTerrainNodePtr;
+        BbqOutOfCoreDataSourceNodePtr;
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGBBQTERRAINBASE_H_ */
+#endif /* _OSGBBQOUTOFCOREDATASOURCEBASE_H_ */

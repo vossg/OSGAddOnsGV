@@ -27,6 +27,7 @@
 #endif
 
 #include "OSGBbqTerrain.h"
+#include "OSGBbqOutOfCoreDataSource.h"
 
 using namespace OSG;
 
@@ -151,7 +152,7 @@ void display(void)
 
 //    win->render(rentravact);
 
-    fprintf(stderr, "Frame\n==========================================\n");
+//    fprintf(stderr, "Frame\n==========================================\n");
 
     win->activate ();
     win->frameInit();    // query recently registered GL extensions
@@ -465,7 +466,16 @@ int main (int argc, char **argv)
 
     BbqTerrainPtr pTerrain = BbqTerrain::create();
 
-    pTerrain->setBeacon(sceneTrN);
+    BbqOutOfCoreDataSourcePtr pSource = BbqOutOfCoreDataSource::create();
+
+    pSource->setFilename("data/ps_com.bbq");
+
+    pSource->setHeightScale  (650.0f);
+    pSource->setHeightOffset (0.0f  );
+    pSource->setSampleSpacing(1.0f  );
+
+    pTerrain->setBeacon    (sceneTrN);
+    pTerrain->setDataSource(pSource );
 
     NodePtr pAlgoNode = Node::create();
 

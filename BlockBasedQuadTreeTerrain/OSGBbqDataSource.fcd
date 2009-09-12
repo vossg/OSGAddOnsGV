@@ -3,7 +3,7 @@
 <FieldContainer
     name="BbqDataSource"
     parent="FieldContainer"
-    pointerfieldtypes="none"
+    pointerfieldtypes="both"
     structure="abstract"
     systemcomponent="true"
     parentsystemcomponent="true"

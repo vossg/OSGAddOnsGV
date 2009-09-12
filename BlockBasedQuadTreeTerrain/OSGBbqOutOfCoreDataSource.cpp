@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2007 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -33,30 +33,61 @@
  *                                                                           *
  *                                                                           *
  *                                                                           *
-\*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*\
- *                                Notes                                      *
- *                                                                           *
- * Implementation based on the original thesis work by Julien Koenen         *
- *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include "OSGBbqOutOfCoreDataSourceEngine.h"
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <cstdlib>
+#include <cstdio>
+
+#include <OSGConfig.h>
+
+#include "OSGBbqOutOfCoreDataSource.h"
 #include "OSGBbqNode.h"
 #include "OSGBbqTerrainNode.h"
 
 #include "OSGBaseFunctions.h"
 
-//-----------------------------------------------------------------------------
-
 OSG_BEGIN_NAMESPACE
 
-//-----------------------------------------------------------------------------
+// Documentation for this class is emitted in the
+// OSGBbqOutOfCoreDataSourceBase.cpp file.
+// To modify it, please change the .fcd file (OSGBbqOutOfCoreDataSource.fcd) and
+// regenerate the base file.
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+void BbqOutOfCoreDataSource::initMethod(InitPhase ePhase)
+{
+    Inherited::initMethod(ePhase);
+
+    if(ePhase == TypeObject::SystemPost)
+    {
+    }
+}
 
 
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
 
-BbqOutOfCoreDataSourceEngine::BbqOutOfCoreDataSourceEngine(void):
+/*-------------------------------------------------------------------------*\
+ -  private                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*----------------------- constructors & destructors ----------------------*/
+
+BbqOutOfCoreDataSource::BbqOutOfCoreDataSource(void) :
+     Inherited            (),
     _oInput               (),
     _oHeader              (),
     _oStaticNodeData      (),
@@ -65,22 +96,72 @@ BbqOutOfCoreDataSourceEngine::BbqOutOfCoreDataSourceEngine(void):
 {
 }
 
+BbqOutOfCoreDataSource::BbqOutOfCoreDataSource(
+    const BbqOutOfCoreDataSource &source) :
 
-//-----------------------------------------------------------------------------
-
-
-BbqOutOfCoreDataSourceEngine::~BbqOutOfCoreDataSourceEngine(void)
+     Inherited            (source),
+    _oInput               (),
+    _oHeader              (),
+    _oStaticNodeData      (),
+    _oResidualDecompressor(),
+    _vResidualBuffer      ()
 {
 }
 
+BbqOutOfCoreDataSource::~BbqOutOfCoreDataSource(void)
+{
+}
 
-//-----------------------------------------------------------------------------
+/*----------------------------- class specific ----------------------------*/
+
+void BbqOutOfCoreDataSource::changed(ConstFieldMaskArg whichField, 
+                                     UInt32            origin,
+                                     BitVector         details)
+{
+    Inherited::changed(whichField, origin, details);
+
+    if(0x0000 != (whichField & (FilenameFieldMask     |
+                                HeightScaleFieldMask  |
+                                HeightOffsetFieldMask |
+                                SampleSpacingFieldMask)))
+    {
+        initialize(getFilename().c_str(),
+                   getHeightScale  (),
+                   getHeightOffset (),
+                   getSampleSpacing());
+        
+        
+        const BbqDataSourceInformation &bbqInfo = 
+            this->getInformation();
+        
+        
+        fprintf(stderr, "%d %d\n",
+                bbqInfo.levelCount,
+                bbqInfo.nodeCount);
+        
+        fprintf(stderr, "%d %d %d\n",
+                bbqInfo.heightTileSize,
+                bbqInfo.heightSampleCount[0],
+                bbqInfo.heightSampleCount[1]);
+        
+        fprintf(stderr, "%f %f %f\n",
+                bbqInfo.heightScale,
+                bbqInfo.heightOffset,
+                bbqInfo.sampleSpacing);
+    }
+}
+
+void BbqOutOfCoreDataSource::dump(      UInt32    ,
+                         const BitVector ) const
+{
+    SLOG << "Dump BbqOutOfCoreDataSource NI" << std::endl;
+}
 
 
-bool BbqOutOfCoreDataSourceEngine::initialize(const std::string &szFilename, 
-                                                    Real32       fHeightScale, 
-                                                    Real32       fHeightOffset, 
-                                                    Real32       fSampleSpacing)
+bool BbqOutOfCoreDataSource::initialize(const std::string &szFilename, 
+                                              Real32       fHeightScale, 
+                                              Real32       fHeightOffset, 
+                                              Real32       fSampleSpacing)
 {
     if(!_oInput.open(szFilename))
     {
@@ -135,7 +216,7 @@ bool BbqOutOfCoreDataSourceEngine::initialize(const std::string &szFilename,
 //-----------------------------------------------------------------------------
 
 
-bool BbqOutOfCoreDataSourceEngine::onLoadNodeData(BbqTerrainNode &oNode)
+bool BbqOutOfCoreDataSource::onLoadNodeData(BbqTerrainNode &oNode)
 {
     assert(isValidNodeId(oNode.id, (Int32) _oStaticNodeData.size()));
     
@@ -229,8 +310,4 @@ bool BbqOutOfCoreDataSourceEngine::onLoadNodeData(BbqTerrainNode &oNode)
     return true;
 }
 
-//-----------------------------------------------------------------------------
-
 OSG_END_NAMESPACE
-
-

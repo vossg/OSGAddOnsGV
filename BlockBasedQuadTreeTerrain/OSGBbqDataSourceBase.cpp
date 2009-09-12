@@ -94,7 +94,7 @@ BbqDataSourceBase::TypeObject BbqDataSourceBase::_type(
     "<FieldContainer\n"
     "    name=\"BbqDataSource\"\n"
     "    parent=\"FieldContainer\"\n"
-    "    pointerfieldtypes=\"none\"\n"
+    "    pointerfieldtypes=\"both\"\n"
     "    structure=\"abstract\"\n"
     "    systemcomponent=\"true\"\n"
     "    parentsystemcomponent=\"true\"\n"
@@ -203,9 +203,20 @@ void BbqDataSourceBase::resolveLinks(void)
 }
 
 
+OSG_END_NAMESPACE
+
+#include "OSGSFieldAdaptor.ins"
+#include "OSGMFieldAdaptor.ins"
+
+OSG_BEGIN_NAMESPACE
+
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldTraits<BbqDataSourcePtr>::_type("BbqDataSourcePtr", "FieldContainerPtr");
 #endif
 
+OSG_FIELDTRAITS_GETTYPE(BbqDataSourcePtr)
+
+OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, BbqDataSourcePtr, SFFieldContainerPtr);
+OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, BbqDataSourcePtr, MFFieldContainerPtr);
 
 OSG_END_NAMESPACE

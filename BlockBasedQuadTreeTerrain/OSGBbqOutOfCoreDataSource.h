@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2007 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -33,116 +33,126 @@
  *                                                                           *
  *                                                                           *
  *                                                                           *
-\*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*\
- *                                Notes                                      *
- *                                                                           *
- * Implementation based on the original thesis work by Julien Koenen         *
- *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//-----------------------------------------------------------------------------
+#ifndef _OSGBBQOUTOFCOREDATASOURCE_H_
+#define _OSGBBQOUTOFCOREDATASOURCE_H_
+#ifdef __sgi
+#pragma once
+#endif
 
-#ifndef _OSGBBQDATASOURCEENGINE_H_
-#define _OSGBBQDATASOURCEENGINE_H_
+#include "OSGBbqOutOfCoreDataSourceBase.h"
+#include "OSGBbqResidualCompression.h"
 
-//-----------------------------------------------------------------------------
-
-#include "OSGBbqNode.h"
-#include "OSGBbqFile.h"
-
-#include <vector>
-
-//-----------------------------------------------------------------------------
 
 OSG_BEGIN_NAMESPACE
-    
-//-----------------------------------------------------------------------------
 
+/*! \brief BbqOutOfCoreDataSource class. See \ref
+           PageDrawableBbqOutOfCoreDataSource for a description.
+*/
 
-struct BbqDataSourceInformation
+class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSource : 
+    public BbqOutOfCoreDataSourceBase
 {
-    Int32                  levelCount;
-    Int32                  nodeCount;
-    BbqFile::HeightFormat  heightFormat;
-    Int32                  heightTileSize;
-    Vec2i                  heightSampleCount;
-    BbqFile::TextureFormat textureFormat;
-    Int32                  textureTileSize;
-    Vec2i                  textureSampleCount;
-    
-    // terrain scaling information:
-    Real32                 heightScale;
-    Real32                 heightOffset;
-    Real32                 sampleSpacing;
-};
+  protected:
 
-
-//-----------------------------------------------------------------------------
-
-struct BbqTerrainNode;
-
-class BbqDataSourceEngine
-{
     /*==========================  PUBLIC  =================================*/
 
   public:
 
+    typedef BbqOutOfCoreDataSourceBase Inherited;
+    typedef BbqOutOfCoreDataSource     Self;
+
     /*---------------------------------------------------------------------*/
-    /*! \name                    Constructor                               */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    BbqDataSourceEngine(void);
-    virtual ~BbqDataSourceEngine(void);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
-    /*! \{                                                                 */
-
-    const BbqDataSourceInformation &getInformation(void) const;
-    
+    virtual void changed(ConstFieldMaskArg whichField,
+                         UInt32            origin,
+                         BitVector         details    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
+    /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    // load height and texture data: return false, if the data could not be
-    // found/is invalid 
-    // the returned data is valid until the next call to loadNodeData..
-    // this loads the data synchronously.. you can use this method from a
-    // separate thread to prevent any frame rate stalls.. 
+    virtual void dump(      UInt32     uiIndent = 0,
+                      const BitVector  bvFlags  = 0) const;
 
-    bool loadNodeData(BbqTerrainNode &oNode);
-    
     /*! \}                                                                 */
-    /*==========================  PROTECTRED  =============================*/
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
 
   protected:
 
-    BbqDataSourceInformation _oInformation;
-    
+    BbqFileReader            _oInput;
+    BbqFile::BbqFileHeader   _oHeader;
+    std::vector<BbqFileNode> _oStaticNodeData;
+    ResidualDecompressor     _oResidualDecompressor;
+    std::vector<Int16>       _vResidualBuffer;
+
     /*---------------------------------------------------------------------*/
-    /*! \name                   formated output                            */
+    /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-            void computeBoundingBox(BbqTerrainNode &oNode, 
-                                    Real32          fMinHeightSample, 
-                                    Real32          fMaxHeightSample);
+    BbqOutOfCoreDataSource(void);
+    BbqOutOfCoreDataSource(const BbqOutOfCoreDataSource &source);
 
-    virtual bool onLoadNodeData    (BbqTerrainNode &oNode           ) = 0;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
+    virtual ~BbqOutOfCoreDataSource(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    static void initMethod(InitPhase ePhase);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    virtual bool onLoadNodeData(BbqTerrainNode &oNode);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    bool initialize(const std::string &szFilename, 
+                          Real32       fHeightScale, 
+                          Real32       fHeightOffset, 
+                          Real32       fSampleSpacing);
+    
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
 
   private:
+
+    friend class FieldContainer;
+    friend class BbqOutOfCoreDataSourceBase;
+
+    // prohibit default functions (move to 'public' if you need one)
+    void operator =(const BbqOutOfCoreDataSource &source);
 };
 
-//-----------------------------------------------------------------------------
+typedef BbqOutOfCoreDataSource *BbqOutOfCoreDataSourceP;
 
 OSG_END_NAMESPACE
 
-#endif // _OSGBBQDATASOURCEENGINE_H_
+#include "OSGBbqOutOfCoreDataSourceBase.inl"
+#include "OSGBbqOutOfCoreDataSource.inl"
 
+#endif /* _OSGBBQOUTOFCOREDATASOURCE_H_ */
