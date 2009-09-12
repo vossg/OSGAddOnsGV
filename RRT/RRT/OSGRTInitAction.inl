@@ -362,44 +362,71 @@ void RTInitAction<DescT>::overrideMaterial(Material        *pMaterial,
 template<typename DescT> inline
 void RTInitAction<DescT>::pushState(void)
 {
-    StateOverride *pNewState = _pStatePool->create();
+    if(_pCurrentCache != NULL)
+    {
+        StateOverride *pNewState = _pStatePool->create();
     
-    pNewState->fillFrom(_sStateOverrides.top());
-    
-    _sStateOverrides.push(pNewState);
+        if(_sStateOverrides.empty() == false)
+            pNewState->fillFrom(_sStateOverrides.top());
+        
+        _sStateOverrides.push(pNewState);
+    }
 }
 
 template<typename DescT> inline
 void RTInitAction<DescT>::popState(void)
 {
-    _sStateOverrides.pop();
+    if(_pCurrentCache != NULL)
+    {
+        _sStateOverrides.pop();
+    }
 }
 
 template<typename DescT> inline
 void RTInitAction<DescT>::addOverride(UInt32 uiSlot, StateChunk *pChunk)
 {
-    _sStateOverrides.top()->addOverride(uiSlot, pChunk);
+    if(_pCurrentCache != NULL)
+    {
+        if(_sStateOverrides.empty() == true)
+        {
+            StateOverride *pNewState = _pStatePool->create();
+            
+            _sStateOverrides.push(pNewState);
+        }
+        
+        _sStateOverrides.top()->addOverride(uiSlot, pChunk);
+    }
 }
 
 template<typename DescT> inline
 Int32 RTInitAction<DescT>::allocateLightIndex(void)
 {
-    Int32 returnValue = _iNextLightIndex++;
-
-    if(_iNextLightIndex > 7)
+    if(_pCurrentCache != NULL)
     {
-        return -_iNextLightIndex;
+        Int32 returnValue = _iNextLightIndex++;
+
+        if(_iNextLightIndex > 7)
+        {
+            return -_iNextLightIndex;
+        }
+        else
+        {
+            return returnValue;
+        }
     }
     else
     {
-        return returnValue;
+        return -1;
     }
 }
 
 template<typename DescT> inline
 void RTInitAction<DescT>::releaseLightIndex(void)
 {
-    --_iNextLightIndex;
+    if(_pCurrentCache != NULL)
+    {
+        --_iNextLightIndex;
+    }
 }
 
 inline
@@ -689,14 +716,6 @@ Action::ResultE LightRTInitEnter(const NodeCorePtr              &pCore,
     if(iLightIndex >= 0)
     {
         action->addOverride(uiSlot + iLightIndex, getCPtr(pChunk));
-    }
-    else
-    {
-        SWARNING << "maximum light source limit ("
-                 << -iLightIndex
-                 << ") is reached" 
-                 << " skipping light sources!"
-                 << std::endl;
     }
 
     return r;
