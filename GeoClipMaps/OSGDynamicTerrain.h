@@ -36,15 +36,15 @@
 *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//-------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
-#ifndef _OSGTERRAIN_H_
-#define _OSGTERRAIN_H_
+#ifndef _OSGDYNAMICTERRAIN_H_
+#define _OSGDYNAMICTERRAIN_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-//-------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
 #include "OSGConfig.h"
 #include "OSGDynamicTerrainBase.h"
@@ -53,131 +53,126 @@
 #include "OSGImageHeightDataSource.h"
 #include "OSGImageTextureDataSource.h"
 #include "OSGTextureEnvChunk.h"
+#include "OSGTextureObjChunk.h"
 
-//-------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
-namespace OSG
+OSG_BEGIN_NAMESPACE
+
+//----------------------------------------------------------------------------
+
+class HeightDataSource;
+class TextureDataSource;
+
+//----------------------------------------------------------------------------
+
+class DynamicTerrain : public DynamicTerrainBase
 {
+  private:
+    
+    typedef DynamicTerrainBase Inherited;
+    
+    /*==========================  PUBLIC  =================================*/
+  
+  public:
+    
+    // action handlers:
+    virtual Action::ResultE     drawPrimitives( DrawEnv * pEnv );
+    virtual void                adjustVolume( Volume & volume );
+    virtual Action::ResultE     intersect(Action* action );
+    
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+    
+    virtual void changed(ConstFieldMaskArg  whichField, 
+                         UInt32             origin,
+                         BitVector          details   );
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+    
+    virtual void dump(      UInt32    uiIndent = 0, 
+                      const BitVector bvFlags  = 0) const;
+    
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
 
-	//-------------------------------------------------------------------------------------------------
+  protected:
+    
+    // Variables should all be in TerrainBase.
+    
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+    
+    DynamicTerrain(void);
+    DynamicTerrain(const DynamicTerrain &source);
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
 
-	class HeightDataSource;
-	class TextureDataSource;
-
-	//-------------------------------------------------------------------------------------------------
-
-	class DynamicTerrain : public DynamicTerrainBase
-	{
-	private:
-
-		typedef DynamicTerrainBase Inherited;
-
-		/*==========================  PUBLIC  =================================*/
-	public:
-
-		// action handlers:
-		virtual Action::ResultE		drawPrimitives( DrawEnv * pEnv );
-		virtual void				adjustVolume( Volume & volume );
-		virtual Action::ResultE		intersect(Action* action );
-
-		/*---------------------------------------------------------------------*/
-		/*! \name                      Sync                                    */
-		/*! \{                                                                 */
-
-		virtual void				changed(ConstFieldMaskArg  whichField, UInt32 origin );
-
-		/*! \}                                                                 */
-		/*---------------------------------------------------------------------*/
-		/*! \name                     Output                                   */
-		/*! \{                                                                 */
-
-		virtual void				dump( UInt32 uiIndent = 0, const BitVector bvFlags = 0 ) const;
-
-		/*! \}                                                                 */
-		/*=========================  PROTECTED  ===============================*/
-	protected:
-		// Variables should all be in TerrainBase.
-
-		/*---------------------------------------------------------------------*/
-		/*! \name                  Constructors                                */
-		/*! \{                                                                 */
-
-		DynamicTerrain();
-		DynamicTerrain( const DynamicTerrain& source );
-
-		/*! \}                                                                 */
-		/*---------------------------------------------------------------------*/
-		/*! \name                   Destructors                                */
-		/*! \{                                                                 */
-		virtual						~DynamicTerrain(); 
-
-		/*! \}                                                                 */
-
-        /*---------------------------------------------------------------------*/
-        /*! \name                       Init                                   */
-        /*! \{                                                                 */
+    virtual                     ~DynamicTerrain(); 
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Init                                   */
+    /*! \{                                                                 */
         
-        static void initMethod(InitPhase ePhase);
-        
-        /*! \}                                                                 */
-		/*==========================  PRIVATE  ================================*/
-	private:
-        template<class ContainerFactoryT>
-        friend struct CPtrConstructionFunctions;
-        
-        template<class ContainerFactoryT>
-        friend struct PtrConstructionFunctions;
+    static void initMethod(InitPhase ePhase);
+    
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
 
-		friend class DynamicTerrainBase;
+  private:
 
-		TextureDataSource*			getTextureSource();
+    friend class FieldContainer;
+    friend class DynamicTerrainBase;
+    
+    TextureDataSource *getTextureSource();
+
+    
+    // private 'stateless' data (this data is not replicated to any 
+    // other thread/node. So we need to be careful what we store in here. 
+    // (all data here should be determined through the values of the Fields. 
+    
+    // Image Data sources: (this fields are used if the compressed data 
+    // fields contain no data:)
+
+    ImageHeightDataSource       imageHeightSource_;
+    ImageTextureDataSource      imageTextureSource_;
+    
+    TextureObjChunkPtr          globalTextureObj_;
+    TextureEnvChunkPtr          globalTextureEnv_;
+    
+    // use this source if the field CompressedHeightData contains valid data:
+    //CompressedHeightDataSource    compressedHeightSource_;
+    
+    // the clipmap object: (this stores the clipmaps)
+    GeometryClipmaps            geoClipmaps_;
+    
+    bool                        needInitialize_;
+    
+
+    Pnt2f               getWorldOffset   (void) const;
+    Pnt2f               getWorldSize     (void) const;
+    WorldTransformation getWorldTransform(void);
+    
+    // prohibit default functions (move to 'public' if you need one)
+    void operator =(const DynamicTerrain &source);
+};
 
 
-		// private 'stateless' data (this data is not replicated to any other thread/node. So we need
-		// to be careful what we store in here. (all data here should be determined through the 
-		// values of the Fields. 
-
-		// Image Data sources: (this fields are used if the compressed data fields contain no data:)
-		ImageHeightDataSource		imageHeightSource_;
-		ImageTextureDataSource		imageTextureSource_;
-
-		TextureObjChunkPtr			globalTextureObj_;
-		TextureEnvChunkPtr			globalTextureEnv_;
-		
-		// use this source if the field CompressedHeightData contains valid data:
-		//CompressedHeightDataSource	compressedHeightSource_;
-
-		// the clipmap object: (this stores the clipmaps)
-		GeometryClipmaps			geoClipmaps_;
-		
-		bool						needInitialize_;
-
-		Pnt2f						getWorldOffset() const;
-		Pnt2f						getWorldSize() const;
-		WorldTransformation			getWorldTransform();
-		
-		// prohibit default functions (move to 'public' if you need one)
-		void operator =(const DynamicTerrain &source);
-	};
+typedef DynamicTerrain *DynamicTerrainP;
 
 
-	//-------------------------------------------------------------------------------------------------
-
-	typedef DynamicTerrain* DynamicTerrainP;
-
-	//-------------------------------------------------------------------------------------------------
-
-}
-
-//-------------------------------------------------------------------------------------------------
+OSG_END_NAMESPACE
 
 #include "OSGDynamicTerrainBase.inl"
 #include "OSGDynamicTerrain.inl"
 
-#define OSGTERRAIN_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.23 2005/03/05 11:27:26 dirk Exp $"
-
-//-------------------------------------------------------------------------------------------------
-
 #endif /* _OSGTERRAIN_H_ */
-
-//-------------------------------------------------------------------------------------------------

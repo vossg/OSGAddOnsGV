@@ -1,160 +1,160 @@
 <?xml version="1.0"?>
 
 <FieldContainer
-	name="DynamicTerrain"
-	parent="MaterialDrawable"
-	pointerfieldtypes="none"
-	structure="concrete"
-	systemcomponent="true"
-	parentsystemcomponent="true"
-	decoratable="false"
-	useLocalIncludes="false"
+    name="DynamicTerrain"
+    parent="MaterialDrawable"
+    pointerfieldtypes="none"
+    structure="concrete"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    decoratable="false"
+    useLocalIncludes="false"
     library="Drawable"
 >
   <Field
-		name="levelSize"
-		type="Int32"
-		cardinality="single"
-		visibility="external"
-		access="public"
-    defaultValue="63"
-	>
+        name="levelSize"
+        type="Int32"
+        cardinality="single"
+        visibility="external"
+        access="public"
+        defaultValue="63"
+    >
   </Field>
   <Field
-		name="heightData"
-		type="ImagePtr"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
+        name="heightData"
+        type="ImagePtr"
+        cardinality="single"
+        visibility="external"
+        access="public"
+    >
   </Field>
   <Field
-		name="heightDataScale"
-		type="Real32"
-		cardinality="single"
-		visibility="external"
-		access="public"
-    defaultValue="1.0"
-	>
+        name="heightDataScale"
+        type="Real32"
+        cardinality="single"
+        visibility="external"
+        access="public"
+        defaultValue="1.0"
+    >
   </Field>
   <Field
-		name="heightDataOffset"
-		type="Real32"
-		cardinality="single"
-		visibility="external"
-		access="public"
-    defaultValue="0"
-	>
+        name="heightDataOffset"
+        type="Real32"
+        cardinality="single"
+        visibility="external"
+        access="public"
+        defaultValue="0"
+    >
   </Field>
   <Field
-		name="sampleDistance"
-		type="Real32"
-		cardinality="single"
-		visibility="external"
-		access="public"
-    defaultValue="1.0"
-	>
+        name="sampleDistance"
+        type="Real32"
+        cardinality="single"
+        visibility="external"
+        access="public"
+        defaultValue="1.0"
+    >
   </Field>
   <Field
-		name="textureData"
-		type="ImagePtr"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
+        name="textureData"
+        type="ImagePtr"
+        cardinality="single"
+        visibility="external"
+        access="public"
+    >
   </Field>  
   <Field
-		name="heightColorTexture"
-		type="TextureObjChunkPtr"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
+        name="heightColorTexture"
+        type="TextureObjChunkPtr"
+        cardinality="single"
+        visibility="external"
+        access="public"
+    >
   </Field>
   <Field
-		name="sampleUpdateBudget"
-		type="Int32"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
+        name="sampleUpdateBudget"
+        type="Int32"
+        cardinality="single"
+        visibility="external"
+        access="public"
+    >
   </Field>
   <Field
-		name="enableFrustumCulling"
-		type="bool"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
+        name="enableFrustumCulling"
+        type="bool"
+        cardinality="single"
+        visibility="external"
+        access="public"
+    >
   </Field>
   <Field
-		name="useGpuRenderer"
-		type="bool"
-		cardinality="single"
-		visibility="external"
-		access="public"
+        name="useGpuRenderer"
+        type="bool"
+        cardinality="single"
+        visibility="external"
+        access="public"
     defaultValue="false"
-	>
+    >
   </Field>
   <Field
-		name="useVboExtension"
-		type="bool"
-		cardinality="single"
-		visibility="external"
-		access="public"
+        name="useVboExtension"
+        type="bool"
+        cardinality="single"
+        visibility="external"
+        access="public"
     defaultValue="true"
-	>
+    >
   </Field>
   <Field
-		name="enableSmoothTransition"
-		type="bool"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
+        name="enableSmoothTransition"
+        type="bool"
+        cardinality="single"
+        visibility="external"
+        access="public"
+    >
   </Field>
   <Field
-		name="showBoundingBoxes"
-		type="bool"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
+        name="showBoundingBoxes"
+        type="bool"
+        cardinality="single"
+        visibility="external"
+        access="public"
+    >
   </Field>
   <Field
-		name="showTransitionRegions"
-		type="bool"
-		cardinality="single"
-		visibility="external"
-		access="public"
+        name="showTransitionRegions"
+        type="bool"
+        cardinality="single"
+        visibility="external"
+        access="public"
     defaultValue="false"
-	>
+    >
   </Field>
   <Field
-		name="disableUpdate"
-		type="bool"
-		cardinality="single"
-		visibility="external"
-		access="public"
+        name="disableUpdate"
+        type="bool"
+        cardinality="single"
+        visibility="external"
+        access="public"
     defaultValue="false"
-	>
+    >
   </Field>
   <Field
-		name="cpuVertexProgram"
-		type="std::string"
-		cardinality="single"
-		visibility="external"
-		access="public"
+        name="cpuVertexProgram"
+        type="std::string"
+        cardinality="single"
+        visibility="external"
+        access="public"
     defaultValue=""
-	>
+    >
   </Field>
   <Field
-		name="cpuFragmentProgram"
-		type="std::string"
-		cardinality="single"
-		visibility="external"
-		access="public"
+        name="cpuFragmentProgram"
+        type="std::string"
+        cardinality="single"
+        visibility="external"
+        access="public"
     defaultValue=""
-	>
+    >
   </Field>
 </FieldContainer>
