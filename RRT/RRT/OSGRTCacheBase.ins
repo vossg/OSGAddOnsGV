@@ -43,8 +43,8 @@ void RTCacheBase<DescT>::classDescInserter(TypeObject &oType)
 {
     FieldDescriptionBase *pDesc;
 
-    pDesc = new MFRTCacheGeometryStorePtr::Description(
-        MFRTCacheGeometryStorePtr::getClassType(),
+    pDesc = new MFUnrecRTCacheGeometryStorePtr::Description(
+        MFUnrecRTCacheGeometryStorePtr::getClassType(),
         "geoStore",
         "",
         OSG_RC_FIELD_DESC(Self::GeoStore),

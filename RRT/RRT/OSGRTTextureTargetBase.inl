@@ -53,7 +53,7 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldBundleType &RTTextureTargetBase::getClassType(void)
+OSG::FieldContainerType &RTTextureTargetBase::getClassType(void)
 {
     return _type;
 }
@@ -87,25 +87,25 @@ void RTTextureTargetBase::setTexObjChunk(TextureObjChunkPtrConstArg value)
 {
     editSField(TexObjChunkFieldMask);
 
-    setRefd(_sfTexObjChunk.getValue(), value);
+    _sfTexObjChunk.setValue(value);
 
 }
 
-//! create a new instance of the class
+
+#ifdef OSG_MT_CPTR_ASPECT
 inline
-RTTextureTargetP RTTextureTargetBase::create(void)
+void RTTextureTargetBase::execSync (      RTTextureTargetBase *pFrom,
+                                        ConstFieldMaskArg  whichField,
+                                        AspectOffsetStore &oOffsets,
+                                        ConstFieldMaskArg  syncMode,
+                                  const UInt32             uiSyncInfo)
 {
-    RTTextureTargetP fc;
+    Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
 
-    if(getClassType().getPrototype() != NULL)
-    {
-        fc = dynamic_cast<RTTextureTarget::ObjPtr>(
-            getClassType().getPrototype()-> shallowCopy());
-    }
-
-    return fc;
+    if(FieldBits::NoField != (TexObjChunkFieldMask & whichField))
+        _sfTexObjChunk.syncWith(pFrom->_sfTexObjChunk);
 }
-
+#endif
 
 
 inline
@@ -113,8 +113,7 @@ Char8 *RTTextureTargetBase::getClassname(void)
 {
     return "RTTextureTarget";
 }
-
-OSG_GEN_BUNDLEP(RTTextureTarget);
+OSG_GEN_CONTAINERPTR(RTTextureTarget);
 
 OSG_END_NAMESPACE
 

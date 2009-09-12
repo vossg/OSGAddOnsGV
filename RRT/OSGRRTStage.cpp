@@ -117,8 +117,8 @@
 #include "OSGRTCacheBIH.ins"
 #endif
 
-#include "OSGSFieldAdaptor.ins"
-#include "OSGMFieldAdaptor.ins"
+//#include "OSGSFieldAdaptor.ins"
+//#include "OSGMFieldAdaptor.ins"
 
 OSG_BEGIN_NAMESPACE
 
@@ -256,56 +256,56 @@ DataType &
 
 #ifdef OSG_CACHE_KD
 #ifndef OSG_XCACHEKD
-OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
                          RTCacheKD<RRT::SinglePacketDescBase> *, 
-                         SFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
                          RTCacheKD<RRT::SinglePacketDescBase> *, 
-                         MFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
                          RTCacheKD<RRT::SIMDPacketDescBase> *, 
-                         SFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
                          RTCacheKD<RRT::SIMDPacketDescBase> *, 
-                         MFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 #else
-OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
                          RTXCacheKD<RRT::SinglePacketDescBase> *, 
-                         SFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
                          RTXCacheKD<RRT::SinglePacketDescBase> *, 
-                         MFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
                          RTXCacheKD<RRT::SIMDPacketDescBase> *, 
-                         SFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
                          RTXCacheKD<RRT::SIMDPacketDescBase> *, 
-                         MFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 #endif
 #endif
 
 #ifdef OSG_CACHE_BIH
-OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
                          RTCacheBIH<RRT::SinglePacketDescBase> *, 
-                         SFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
                          RTCacheBIH<RRT::SinglePacketDescBase> *, 
-                         MFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrSField, 
                          RTCacheBIH<RRT::SIMDPacketDescBase> *, 
-                         SFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 
-OSG_FIELD_DLLEXPORT_DEF2(MFieldAdaptor, 
+OSG_FIELD_DLLEXPORT_DEF2(FieldContainerPtrMField, 
                          RTCacheBIH<RRT::SIMDPacketDescBase> *, 
-                         MFFieldContainerPtr);
+                         UnrecordedRefCountPolicy);
 #endif
 
 #define OSG_FC_GET_TYPE_INST(CLASS, T) \
@@ -449,7 +449,7 @@ void RRTStage::run(CameraP     pCam,
 
         if(_sfTextureTarget.getValue() != NullFC)
         {
-            RTTextureTargetP pTexTarget = RTTextureTarget::create();
+            RTTextureTargetUnrecPtr pTexTarget = RTTextureTarget::create();
 
             pTexTarget->setTexObjChunk(_sfTextureTarget.getValue());
 
@@ -458,7 +458,7 @@ void RRTStage::run(CameraP     pCam,
 #ifdef RT_DEBUG_IMAGE
         else
         {
-            RTImageTargetP pImgTarget = RTImageTarget::create();
+            RTImageTargetUnrecPtr pImgTarget = RTImageTarget::create();
 
             _pRayTracer->setTarget(pImgTarget);
         }
@@ -494,7 +494,10 @@ void RRTStage::run(CameraP     pCam,
     {
         if(getRTCamera() == NULL)
         {
-            setRTCamera(RTCameraDecorator::create());
+            RTCameraDecoratorUnrecPtr pRTCamDeco = 
+                RTCameraDecorator::create();
+
+            setRTCamera(pRTCamDeco);
         }
 
         pRTCam = getRTCamera();
@@ -541,9 +544,7 @@ void RRTStage::onCreateAspect(const RRTStage *createAspect,
     if(GlobalSystemState != Running)
         return;
 
-    _pRayTracer = ActiveRayTracer::create();
-
-    addRef(_pRayTracer);
+    _pRayTracer = ActiveRayTracer::createLocal();
 }
 
 void RRTStage::onDestroy(UInt32 uiContainerId)
@@ -554,8 +555,6 @@ void RRTStage::onDestroy(UInt32 uiContainerId)
 void RRTStage::onDestroyAspect(UInt32    uiContainerId,
                                UInt32    uiAspect     )
 {
-    subRef(_pRayTracer);
-
     _pRayTracer = NULL;
 
     Inherited::onDestroyAspect(uiContainerId, uiAspect);

@@ -55,7 +55,8 @@ RTLocalPacketManager<DescT>::RTLocalPacketManager(void) :
 template<typename DescT> inline
 RTLocalPacketManager<DescT>::~RTLocalPacketManager(void)
 {
-    OSG::subRef(_pTarget              );
+    _pTarget = NullFC;
+
     OSG::subRef(_pScene               );
 
     OSG::subRef(_pPrimaryRayStore     );
@@ -72,7 +73,7 @@ RTLocalPacketManager<DescT>::~RTLocalPacketManager(void)
 template<typename DescT> inline
 void RTLocalPacketManager<DescT>::setTarget(RTTarget *pTarget)
 {
-    setRefd(_pTarget, pTarget);
+    _pTarget = pTarget;
 }
 
 template<typename DescT> inline

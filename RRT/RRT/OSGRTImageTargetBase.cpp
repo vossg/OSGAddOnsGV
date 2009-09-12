@@ -56,7 +56,6 @@
 #include <cstdlib>
 #include <cstdio>
 #include <boost/assign/list_of.hpp>
-#include "boost/bind.hpp"
 
 #include <OSGConfig.h>
 
@@ -66,6 +65,8 @@
 
 #include "OSGRTImageTargetBase.h"
 #include "OSGRTImageTarget.h"
+
+#include "boost/bind.hpp"
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,8 +92,8 @@ void RTImageTargetBase::classDescInserter(TypeObject &oType)
     FieldDescriptionBase *pDesc = NULL;
 
 
-    pDesc = new SFImagePtr::Description(
-        SFImagePtr::getClassType(),
+    pDesc = new SFUnrecImagePtr::Description(
+        SFUnrecImagePtr::getClassType(),
         "image",
         "",
         ImageFieldId, ImageFieldMask,
@@ -110,8 +111,9 @@ RTImageTargetBase::TypeObject RTImageTargetBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (ProtoBundleCreateF) &RTImageTargetBase::createEmpty,
+    (PrototypeCreateF) &RTImageTargetBase::createEmptyLocal,
     RTImageTarget::initMethod,
+    RTImageTarget::exitMethod,
     (InitalInsertDescFunc) &RTImageTargetBase::classDescInserter,
     false,
     0,
@@ -144,12 +146,12 @@ RTImageTargetBase::TypeObject RTImageTargetBase::_type(
 
 /*------------------------------ get -----------------------------------*/
 
-FieldBundleType &RTImageTargetBase::getType(void)
+FieldContainerType &RTImageTargetBase::getType(void)
 {
     return _type;
 }
 
-const FieldBundleType &RTImageTargetBase::getType(void) const
+const FieldContainerType &RTImageTargetBase::getType(void) const
 {
     return _type;
 }
@@ -163,7 +165,7 @@ UInt32 RTImageTargetBase::getContainerSize(void) const
 
 
 //! Get the RTImageTarget::_sfImage field.
-const SFImagePtr *RTImageTargetBase::getSFImage(void) const
+const SFUnrecImagePtr *RTImageTargetBase::getSFImage(void) const
 {
     return &_sfImage;
 }
@@ -208,21 +210,87 @@ void RTImageTargetBase::copyFromBin(BinaryDataHandler &pMem,
     }
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-RTImageTargetP RTImageTargetBase::createEmpty(void)
+//! create a new instance of the class
+RTImageTargetTransitPtr RTImageTargetBase::create(void)
 {
-    RTImageTargetP returnValue;
+    RTImageTargetTransitPtr fc;
 
-    newPtr<RTImageTarget>(returnValue);
+    if(getClassType().getPrototype() != NullFC)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
+
+        fc = dynamic_pointer_cast<RTImageTarget>(tmpPtr);
+    }
+
+    return fc;
+}
+
+//! create a new instance of the class
+RTImageTargetTransitPtr RTImageTargetBase::createLocal(BitVector bFlags)
+{
+    RTImageTargetTransitPtr fc;
+
+    if(getClassType().getPrototype() != NullFC)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyLocal(bFlags);
+
+        fc = dynamic_pointer_cast<RTImageTarget>(tmpPtr);
+    }
+
+    return fc;
+}
+
+//! create an empty new instance of the class, do not copy the prototype
+RTImageTargetPtr RTImageTargetBase::createEmpty(void)
+{
+    RTImageTargetPtr returnValue;
+
+    newPtr<RTImageTarget>(returnValue, Thread::getCurrentLocalFlags());
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= 
+        ~Thread::getCurrentLocalFlags(); 
 
     return returnValue;
 }
 
-FieldBundleP RTImageTargetBase::shallowCopy(void) const
+RTImageTargetPtr RTImageTargetBase::createEmptyLocal(BitVector bFlags)
 {
-    RTImageTargetP returnValue;
+    RTImageTargetPtr returnValue;
 
-    newPtr(returnValue, dynamic_cast<const RTImageTarget *>(this));
+    newPtr<RTImageTarget>(returnValue, bFlags);
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RTImageTargetBase::shallowCopy(void) const
+{
+    RTImageTargetPtr tmpPtr;
+
+    newPtr(tmpPtr, 
+           dynamic_cast<const RTImageTarget *>(this), 
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RTImageTargetBase::shallowCopyLocal(
+    BitVector bFlags) const
+{
+    RTImageTargetPtr tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const RTImageTarget *>(this), bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
 
     return returnValue;
 }
@@ -239,9 +307,10 @@ RTImageTargetBase::RTImageTargetBase(void) :
 
 RTImageTargetBase::RTImageTargetBase(const RTImageTargetBase &source) :
     Inherited(source),
-    _sfImage                  ()
+    _sfImage                  (NullFC)
 {
 }
+
 
 /*-------------------------- destructors ----------------------------------*/
 
@@ -260,17 +329,10 @@ void RTImageTargetBase::onCreate(const RTImageTarget *source)
     }
 }
 
-void RTImageTargetBase::resolveLinks(void)
-{
-    Inherited::resolveLinks();
-
-    static_cast<RTImageTarget *>(this)->setImage(NullFC);
-}
-
 GetFieldHandlePtr RTImageTargetBase::getHandleImage           (void) const
 {
-    SFImagePtr::GetHandlePtr returnValue(
-        new  SFImagePtr::GetHandle(
+    SFUnrecImagePtr::GetHandlePtr returnValue(
+        new  SFUnrecImagePtr::GetHandle(
              &_sfImage, 
              this->getType().getFieldDesc(ImageFieldId)));
 
@@ -279,8 +341,8 @@ GetFieldHandlePtr RTImageTargetBase::getHandleImage           (void) const
 
 EditFieldHandlePtr RTImageTargetBase::editHandleImage          (void)
 {
-    SFImagePtr::EditHandlePtr returnValue(
-        new  SFImagePtr::EditHandle(
+    SFUnrecImagePtr::EditHandlePtr returnValue(
+        new  SFUnrecImagePtr::EditHandle(
              &_sfImage, 
              this->getType().getFieldDesc(ImageFieldId)));
 
@@ -293,20 +355,53 @@ EditFieldHandlePtr RTImageTargetBase::editHandleImage          (void)
 }
 
 
-
-OSG_END_NAMESPACE
-
-#include "OSGSFieldAdaptor.ins"
-
-OSG_BEGIN_NAMESPACE
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTImageTargetP>::_type("RTImageTargetP", "RTTargetP");
+#ifdef OSG_MT_CPTR_ASPECT
+void RTImageTargetBase::execSyncV(      FieldContainer    &oFrom,
+                                        ConstFieldMaskArg  whichField,
+                                        AspectOffsetStore &oOffsets,
+                                        ConstFieldMaskArg  syncMode,
+                                  const UInt32             uiSyncInfo)
+{
+    this->execSync(static_cast<RTImageTargetBase *>(&oFrom),
+                   whichField,
+                   oOffsets,
+                   syncMode,
+                   uiSyncInfo);
+}
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTImageTargetP)
 
-OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, RTImageTargetP, SFFieldBundleP);
+#ifdef OSG_MT_CPTR_ASPECT
+FieldContainerPtr RTImageTargetBase::createAspectCopy(void) const
+{
+    RTImageTargetPtr returnValue;
+
+    newAspectCopy(returnValue,
+                  dynamic_cast<const RTImageTarget *>(this));
+
+    return returnValue;
+}
+#endif
+
+void RTImageTargetBase::resolveLinks(void)
+{
+    Inherited::resolveLinks();
+
+    static_cast<RTImageTarget *>(this)->setImage(NullFC);
+
+
+}
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<RTImageTargetPtr>::_type("RTImageTargetPtr", "RTTargetPtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(RTImageTargetPtr)
+
+OSG_EXPORT_PTR_SFIELD_FULL(FieldContainerPtrSField, 
+                           RTImageTargetPtr, 
+                           0);
 
 
 OSG_END_NAMESPACE

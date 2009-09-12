@@ -49,9 +49,9 @@ void RTCacheAttachmentInst<DescT>::addGeometry(GeometryPtr    pGeo,
 {
     if(_sfCache.getValue() == NULL)
     {
-        _sfCache.setValue(RTCache::create());
-        
-        OSG::addRef(_sfCache.getValue());
+        RTCacheUnrecPtr pTmp = RTCache::create();
+
+        _sfCache.setValue(pTmp);
     }
     
     _sfCache.getValue()->addGeometry(pGeo, oMatrix, pState, pStateOverride);
@@ -124,7 +124,7 @@ void RTCacheAttachmentInst<DescT>::setCache(typename RTCache::ObjPtr pCache)
 {
     editSField(CacheFieldMask);
 
-    OSG::setRefd(_sfCache.getValue(), pCache);
+    _sfCache.setValue(pCache);
 }
 
 template<typename DescT> inline
@@ -188,7 +188,7 @@ void RTCacheAttachmentInst<DescT>::resolveLinks(void)
 {
     Inherited::resolveLinks();
 
-    OSG::subRef(_sfCache.getValue());
+    _sfCache.setValue(NullFC);
 }
 
 /*---------------------------------------------------------------------*/

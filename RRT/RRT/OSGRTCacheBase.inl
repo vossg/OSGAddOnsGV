@@ -75,7 +75,7 @@ RTCacheBase<DescT>::~RTCacheBase(void)
 {
     for(UInt32 i = 0; i < _mfGeos.size(); ++i)
     {
-        OSG::subRef(_mfGeos[i]);
+        _mfGeos.replace(i, NullFC);
     }
 }
 
@@ -172,8 +172,8 @@ void RTCacheBase<DescT>::addGeoStore(RTCacheGeometryStorePtr pStore)
 template<typename DescT> inline
 EditFieldHandlePtr RTCacheBase<DescT>::editHandleGeoStore(void)
 {
-    MFRTCacheGeometryStorePtr::EditHandlePtr returnValue(
-        new  MFRTCacheGeometryStorePtr::EditHandle(
+    MFUnrecRTCacheGeometryStorePtr::EditHandlePtr returnValue(
+        new  MFUnrecRTCacheGeometryStorePtr::EditHandle(
              &_mfGeos, 
              this->getType().getFieldDesc(GeoStoreFieldId)));
 
@@ -186,8 +186,8 @@ EditFieldHandlePtr RTCacheBase<DescT>::editHandleGeoStore(void)
 template<typename DescT> inline
 GetFieldHandlePtr RTCacheBase<DescT>::getHandleGeoStore(void) const
 {
-    MFRTCacheGeometryStorePtr::GetHandlePtr returnValue(
-        new  MFRTCacheGeometryStorePtr::GetHandle(
+    MFUnrecRTCacheGeometryStorePtr::GetHandlePtr returnValue(
+        new  MFUnrecRTCacheGeometryStorePtr::GetHandle(
              &_mfGeos, 
              this->getType().getFieldDesc(GeoStoreFieldId)));
 
@@ -251,7 +251,7 @@ void RTCacheBase<DescT>::addGeometry(GeometryPtr    pGeo,
 {
     if(pGeo != NULL)
     {
-        GeometryStorePtr oNewElem = GeometryStore::create();
+        GeometryStoreUnrecPtr oNewElem = GeometryStore::create();
 
         oNewElem->setGeo   (pGeo   );
         oNewElem->setMatrix(oMatrix);

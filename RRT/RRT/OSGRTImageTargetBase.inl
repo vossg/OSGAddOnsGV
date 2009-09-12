@@ -53,7 +53,7 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldBundleType &RTImageTargetBase::getClassType(void)
+OSG::FieldContainerType &RTImageTargetBase::getClassType(void)
 {
     return _type;
 }
@@ -87,25 +87,25 @@ void RTImageTargetBase::setImage(ImagePtrConstArg value)
 {
     editSField(ImageFieldMask);
 
-    setRefd(_sfImage.getValue(), value);
+    _sfImage.setValue(value);
 
 }
 
-//! create a new instance of the class
+
+#ifdef OSG_MT_CPTR_ASPECT
 inline
-RTImageTargetP RTImageTargetBase::create(void)
+void RTImageTargetBase::execSync (      RTImageTargetBase *pFrom,
+                                        ConstFieldMaskArg  whichField,
+                                        AspectOffsetStore &oOffsets,
+                                        ConstFieldMaskArg  syncMode,
+                                  const UInt32             uiSyncInfo)
 {
-    RTImageTargetP fc;
+    Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
 
-    if(getClassType().getPrototype() != NULL)
-    {
-        fc = dynamic_cast<RTImageTarget::ObjPtr>(
-            getClassType().getPrototype()-> shallowCopy());
-    }
-
-    return fc;
+    if(FieldBits::NoField != (ImageFieldMask & whichField))
+        _sfImage.syncWith(pFrom->_sfImage);
 }
-
+#endif
 
 
 inline
@@ -113,8 +113,7 @@ Char8 *RTImageTargetBase::getClassname(void)
 {
     return "RTImageTarget";
 }
-
-OSG_GEN_BUNDLEP(RTImageTarget);
+OSG_GEN_CONTAINERPTR(RTImageTarget);
 
 OSG_END_NAMESPACE
 

@@ -149,8 +149,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFNodePtr           *getSFBackgroundRoot  (void) const;
-            const SFTextureObjChunkPtr *getSFTextureTarget   (void) const;
+            const SFUnrecNodePtr      *getSFBackgroundRoot  (void) const;
+            const SFUnrecTextureObjChunkPtr *getSFTextureTarget   (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   SFUInt32            *getSFWidth           (void);
@@ -175,7 +175,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
 #endif
                   SFBool              *editSFTiled          (void);
             const SFBool              *getSFTiled           (void) const;
-            const SFRTCameraDecoratorPtr *getSFRTCamera        (void) const;
+            const SFUnrecRTCameraDecoratorPtr *getSFRTCamera        (void) const;
 
 
                   NodePtrConst getBackgroundRoot (void) const;
@@ -230,7 +230,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -248,15 +247,23 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RRTStagePtr create     (void);
-    static  RRTStagePtr createEmpty(void);
+    static  RRTStageTransitPtr create          (void);
+    static  RRTStagePtr        createEmpty     (void);
+
+    static  RRTStageTransitPtr createLocal     (
+                                              BitVector bFlags = FCLocal::All);
+
+    static  RRTStagePtr        createEmptyLocal(
+                                              BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
     /*! \{                                                                 */
 
-    virtual FieldContainerPtr shallowCopy(void) const;
+    virtual FieldContainerTransitPtr shallowCopy     (void) const;
+    virtual FieldContainerTransitPtr shallowCopyLocal(
+                                       BitVector bFlags = FCLocal::All) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -272,13 +279,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFNodePtr         _sfBackgroundRoot;
-    SFTextureObjChunkPtr _sfTextureTarget;
+    SFUnrecNodePtr    _sfBackgroundRoot;
+    SFUnrecTextureObjChunkPtr _sfTextureTarget;
     SFUInt32          _sfWidth;
     SFUInt32          _sfHeight;
     SFBool            _sfSplitThreads;
     SFBool            _sfTiled;
-    SFRTCameraDecoratorPtr _sfRTCamera;
+    SFUnrecRTCameraDecoratorPtr _sfRTCamera;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -370,22 +377,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*==========================  PRIVATE  ================================*/
 
   private:
+    /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const RRTStageBase &source);
 };
 
 typedef RRTStageBase *RRTStageBaseP;
-
-/** Type specific RefPtr type for RRTStage. */
-typedef RefPtr<RRTStagePtr> RRTStageRefPtr;
-
-typedef boost::mpl::if_<
-    boost::mpl::bool_<RRTStageBase::isNodeCore>,
-    CoredNodePtr<RRTStage>,
-    FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC>::type
-
-        RRTStageNodePtr;
 
 OSG_END_NAMESPACE
 

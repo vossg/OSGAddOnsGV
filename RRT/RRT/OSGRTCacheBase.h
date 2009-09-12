@@ -80,6 +80,7 @@ class RTCacheBase : public FieldContainer
 
     typedef          RTCacheGeometryStore                 GeometryStore;
     typedef          RTCacheGeometryStorePtr              GeometryStorePtr;
+    typedef          RTCacheGeometryStoreUnrecPtr         GeometryStoreUnrecPtr;
 
     enum 
     { 
@@ -141,9 +142,9 @@ class RTCacheBase : public FieldContainer
 
     /*---------------------------------------------------------------------*/
 
-    MFRTCacheGeometryStorePtr _mfGeos;
-    MFTriangleAccel           _mfTriangleAcc;
-    SFBoxVolume               _sfBoundingVolume;
+    MFUnrecRTCacheGeometryStorePtr _mfGeos;
+    MFTriangleAccel                _mfTriangleAcc;
+    SFBoxVolume                    _sfBoundingVolume;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

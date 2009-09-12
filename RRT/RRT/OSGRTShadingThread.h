@@ -148,15 +148,15 @@ class RTShadingThread : public RTThread
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    RTTarget        *_pTarget;
-    Scene           *_pScene;
+    RTTargetUnrecPtr  _pTarget;
+    Scene            *_pScene;
 
-    HitStore        *_pHitStore;
-    HitTiledStore   *_pHitTiledStore;
+    HitStore         *_pHitStore;
+    HitTiledStore    *_pHitTiledStore;
 
-    Barrier         *_pSyncBarrier;
+    Barrier          *_pSyncBarrier;
 
-    Int32            _iID;
+    Int32             _iID;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

@@ -56,7 +56,6 @@
 #include <cstdlib>
 #include <cstdio>
 #include <boost/assign/list_of.hpp>
-#include "boost/bind.hpp"
 
 #include <OSGConfig.h>
 
@@ -67,6 +66,8 @@
 
 #include "OSGRayTracerBase.h"
 #include "OSGRayTracer.h"
+
+#include "boost/bind.hpp"
 
 OSG_BEGIN_NAMESPACE
 
@@ -104,8 +105,8 @@ void RayTracerBase::classDescInserter(TypeObject &oType)
     FieldDescriptionBase *pDesc = NULL;
 
 
-    pDesc = new SFNodePtr::Description(
-        SFNodePtr::getClassType(),
+    pDesc = new SFUnrecNodePtr::Description(
+        SFUnrecNodePtr::getClassType(),
         "RayTracingRoot",
         "",
         RayTracingRootFieldId, RayTracingRootFieldMask,
@@ -116,8 +117,8 @@ void RayTracerBase::classDescInserter(TypeObject &oType)
 
     oType.addInitialDesc(pDesc);
 
-    pDesc = new SFNodePtr::Description(
-        SFNodePtr::getClassType(),
+    pDesc = new SFUnrecNodePtr::Description(
+        SFUnrecNodePtr::getClassType(),
         "BackgroundRoot",
         "",
         BackgroundRootFieldId, BackgroundRootFieldMask,
@@ -159,8 +160,9 @@ RayTracerBase::TypeObject RayTracerBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (ProtoBundleCreateF) &RayTracerBase::createEmpty,
+    (PrototypeCreateF) &RayTracerBase::createEmptyLocal,
     RayTracer::initMethod,
+    RayTracer::exitMethod,
     (InitalInsertDescFunc) &RayTracerBase::classDescInserter,
     false,
     0,
@@ -168,7 +170,7 @@ RayTracerBase::TypeObject RayTracerBase::_type(
     "\n"
     "<FieldContainer\n"
     "    name=\"RayTracer\"\n"
-    "    parent=\"FieldBundle\"\n"
+    "    parent=\"FieldContainer\"\n"
     "    library=\"ContribRRT\"\n"
     "    pointerfieldtypes=\"none\"\n"
     "    structure=\"concrete\"\n"
@@ -217,12 +219,12 @@ RayTracerBase::TypeObject RayTracerBase::_type(
 
 /*------------------------------ get -----------------------------------*/
 
-FieldBundleType &RayTracerBase::getType(void)
+FieldContainerType &RayTracerBase::getType(void)
 {
     return _type;
 }
 
-const FieldBundleType &RayTracerBase::getType(void) const
+const FieldContainerType &RayTracerBase::getType(void) const
 {
     return _type;
 }
@@ -236,13 +238,13 @@ UInt32 RayTracerBase::getContainerSize(void) const
 
 
 //! Get the RayTracer::_sfRayTracingRoot field.
-const SFNodePtr *RayTracerBase::getSFRayTracingRoot(void) const
+const SFUnrecNodePtr *RayTracerBase::getSFRayTracingRoot(void) const
 {
     return &_sfRayTracingRoot;
 }
 
 //! Get the RayTracer::_sfBackgroundRoot field.
-const SFNodePtr *RayTracerBase::getSFBackgroundRoot(void) const
+const SFUnrecNodePtr *RayTracerBase::getSFBackgroundRoot(void) const
 {
     return &_sfBackgroundRoot;
 }
@@ -361,21 +363,87 @@ void RayTracerBase::copyFromBin(BinaryDataHandler &pMem,
     }
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-RayTracerP RayTracerBase::createEmpty(void)
+//! create a new instance of the class
+RayTracerTransitPtr RayTracerBase::create(void)
 {
-    RayTracerP returnValue;
+    RayTracerTransitPtr fc;
 
-    newPtr<RayTracer>(returnValue);
+    if(getClassType().getPrototype() != NullFC)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
+
+        fc = dynamic_pointer_cast<RayTracer>(tmpPtr);
+    }
+
+    return fc;
+}
+
+//! create a new instance of the class
+RayTracerTransitPtr RayTracerBase::createLocal(BitVector bFlags)
+{
+    RayTracerTransitPtr fc;
+
+    if(getClassType().getPrototype() != NullFC)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyLocal(bFlags);
+
+        fc = dynamic_pointer_cast<RayTracer>(tmpPtr);
+    }
+
+    return fc;
+}
+
+//! create an empty new instance of the class, do not copy the prototype
+RayTracerPtr RayTracerBase::createEmpty(void)
+{
+    RayTracerPtr returnValue;
+
+    newPtr<RayTracer>(returnValue, Thread::getCurrentLocalFlags());
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= 
+        ~Thread::getCurrentLocalFlags(); 
 
     return returnValue;
 }
 
-FieldBundleP RayTracerBase::shallowCopy(void) const
+RayTracerPtr RayTracerBase::createEmptyLocal(BitVector bFlags)
 {
-    RayTracerP returnValue;
+    RayTracerPtr returnValue;
 
-    newPtr(returnValue, dynamic_cast<const RayTracer *>(this));
+    newPtr<RayTracer>(returnValue, bFlags);
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RayTracerBase::shallowCopy(void) const
+{
+    RayTracerPtr tmpPtr;
+
+    newPtr(tmpPtr, 
+           dynamic_cast<const RayTracer *>(this), 
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RayTracerBase::shallowCopyLocal(
+    BitVector bFlags) const
+{
+    RayTracerPtr tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const RayTracer *>(this), bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
 
     return returnValue;
 }
@@ -395,12 +463,13 @@ RayTracerBase::RayTracerBase(void) :
 
 RayTracerBase::RayTracerBase(const RayTracerBase &source) :
     Inherited(source),
-    _sfRayTracingRoot         (),
-    _sfBackgroundRoot         (),
+    _sfRayTracingRoot         (NullFC),
+    _sfBackgroundRoot         (NullFC),
     _sfWidth                  (source._sfWidth                  ),
     _sfHeight                 (source._sfHeight                 )
 {
 }
+
 
 /*-------------------------- destructors ----------------------------------*/
 
@@ -421,19 +490,10 @@ void RayTracerBase::onCreate(const RayTracer *source)
     }
 }
 
-void RayTracerBase::resolveLinks(void)
-{
-    Inherited::resolveLinks();
-
-    static_cast<RayTracer *>(this)->setRayTracingRoot(NullFC);
-
-    static_cast<RayTracer *>(this)->setBackgroundRoot(NullFC);
-}
-
 GetFieldHandlePtr RayTracerBase::getHandleRayTracingRoot  (void) const
 {
-    SFNodePtr::GetHandlePtr returnValue(
-        new  SFNodePtr::GetHandle(
+    SFUnrecNodePtr::GetHandlePtr returnValue(
+        new  SFUnrecNodePtr::GetHandle(
              &_sfRayTracingRoot, 
              this->getType().getFieldDesc(RayTracingRootFieldId)));
 
@@ -442,8 +502,8 @@ GetFieldHandlePtr RayTracerBase::getHandleRayTracingRoot  (void) const
 
 EditFieldHandlePtr RayTracerBase::editHandleRayTracingRoot (void)
 {
-    SFNodePtr::EditHandlePtr returnValue(
-        new  SFNodePtr::EditHandle(
+    SFUnrecNodePtr::EditHandlePtr returnValue(
+        new  SFUnrecNodePtr::EditHandle(
              &_sfRayTracingRoot, 
              this->getType().getFieldDesc(RayTracingRootFieldId)));
 
@@ -457,8 +517,8 @@ EditFieldHandlePtr RayTracerBase::editHandleRayTracingRoot (void)
 
 GetFieldHandlePtr RayTracerBase::getHandleBackgroundRoot  (void) const
 {
-    SFNodePtr::GetHandlePtr returnValue(
-        new  SFNodePtr::GetHandle(
+    SFUnrecNodePtr::GetHandlePtr returnValue(
+        new  SFUnrecNodePtr::GetHandle(
              &_sfBackgroundRoot, 
              this->getType().getFieldDesc(BackgroundRootFieldId)));
 
@@ -467,8 +527,8 @@ GetFieldHandlePtr RayTracerBase::getHandleBackgroundRoot  (void) const
 
 EditFieldHandlePtr RayTracerBase::editHandleBackgroundRoot (void)
 {
-    SFNodePtr::EditHandlePtr returnValue(
-        new  SFNodePtr::EditHandle(
+    SFUnrecNodePtr::EditHandlePtr returnValue(
+        new  SFUnrecNodePtr::EditHandle(
              &_sfBackgroundRoot, 
              this->getType().getFieldDesc(BackgroundRootFieldId)));
 
@@ -525,11 +585,49 @@ EditFieldHandlePtr RayTracerBase::editHandleHeight         (void)
 }
 
 
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RayTracerP>::_type("RayTracerP", "FieldBundleP");
+#ifdef OSG_MT_CPTR_ASPECT
+void RayTracerBase::execSyncV(      FieldContainer    &oFrom,
+                                        ConstFieldMaskArg  whichField,
+                                        AspectOffsetStore &oOffsets,
+                                        ConstFieldMaskArg  syncMode,
+                                  const UInt32             uiSyncInfo)
+{
+    this->execSync(static_cast<RayTracerBase *>(&oFrom),
+                   whichField,
+                   oOffsets,
+                   syncMode,
+                   uiSyncInfo);
+}
 #endif
 
+
+#ifdef OSG_MT_CPTR_ASPECT
+FieldContainerPtr RayTracerBase::createAspectCopy(void) const
+{
+    RayTracerPtr returnValue;
+
+    newAspectCopy(returnValue,
+                  dynamic_cast<const RayTracer *>(this));
+
+    return returnValue;
+}
+#endif
+
+void RayTracerBase::resolveLinks(void)
+{
+    Inherited::resolveLinks();
+
+    static_cast<RayTracer *>(this)->setRayTracingRoot(NullFC);
+
+    static_cast<RayTracer *>(this)->setBackgroundRoot(NullFC);
+
+
+}
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<RayTracerPtr>::_type("RayTracerPtr", "FieldContainerPtr");
+#endif
 
 
 OSG_END_NAMESPACE

@@ -468,12 +468,12 @@ void triangulateSimple(GeometryPtr pGeo)
 
     Geometry::IndexBag sourceIndexBag = pGeo->getUniqueIndexBag();
 
-    std::vector<GeoIntegralPropertyPtr> targetIndexBag;
+    std::vector<GeoIntegralPropertyUnrecPtr> targetIndexBag;
 
     for(UInt32 i = 0; i < sourceIndexBag.size(); ++i)
     {
         targetIndexBag.push_back(
-            dynamic_cast<GeoIntegralPropertyPtr>(
+            dynamic_pointer_cast<GeoIntegralProperty>(
                 sourceIndexBag[i].first->shallowCopy()));
 
         targetIndexBag.back()->clear();
@@ -669,8 +669,8 @@ ActionBase::ResultE MaterialGroupRTInitEnter(const NodeCorePtr &pCore,
        pMatGroup                != NullFC &&
        pMatGroup->getMaterial() != NullFC  )
     {
-        pRTInit->overrideMaterial(getCPtr(pMatGroup->getMaterial()), 
-                                  pRTInit->getActNode()            );
+        pRTInit->overrideMaterial(pMatGroup->getMaterial(), 
+                                  pRTInit->getActNode()   );
     }
 
     return ActionBase::Continue;
@@ -715,7 +715,7 @@ Action::ResultE LightRTInitEnter(const NodeCorePtr              &pCore,
        
     if(iLightIndex >= 0)
     {
-        action->addOverride(uiSlot + iLightIndex, getCPtr(pChunk));
+        action->addOverride(uiSlot + iLightIndex, pChunk);
     }
 
     return r;

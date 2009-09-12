@@ -461,10 +461,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
 
 //    typedef SinglePacketRayTracer   ActiveRayTracer;
-    typedef SIMDPacketRayTracer   ActiveRayTracer;
+    typedef SIMDPacketRayTracer                   ActiveRayTracer;
 
-    typedef RRTStageBase          Inherited;
-    typedef RRTStage              Self;
+    typedef RefCountPtr<ActiveRayTracer , 
+                        UnrecordedRefCountPolicy> ActiveRayTracerUnrecPtr;
+
+    typedef RRTStageBase                          Inherited;
+    typedef RRTStage                              Self;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -507,8 +510,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
     // Variables should all be in RRTStageBase.
 
-    bool             _bInitialized;
-    ActiveRayTracer *_pRayTracer;
+    bool                    _bInitialized;
+    ActiveRayTracerUnrecPtr _pRayTracer;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */

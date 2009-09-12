@@ -40,7 +40,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-OSG_FIELD_BUNDLE_TMPL_NO_TYPE_DEF  (RayTracerInst, DescT)
+OSG_FIELD_CONTAINER_TMPL_NO_TYPE_DEF  (RayTracerInst, DescT)
 OSG_RC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(RayTracerInst, DescT)
 
 template<typename DescT> inline

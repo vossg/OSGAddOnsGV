@@ -44,11 +44,13 @@
 
 #include "OSGRTCacheKDBase.h"
 
+/*
 #include "OSGSFieldAdaptor.h"
 #include "OSGFieldContainerSFields.h"
 
 #include "OSGMFieldAdaptor.h"
 #include "OSGFieldContainerMFields.h"
+ */
 
 #include "stack"
 #include <boost/mpl/if.hpp>
@@ -101,11 +103,19 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     typedef typename Inherited::TypeObject              TypeObject;
     typedef typename TypeObject::InitPhase              InitPhase;
     
+    
+#if 0
     typedef          SFieldAdaptor<ObjPtr, 
                                    SFFieldContainerPtr> SField;
     typedef          MFieldAdaptor<ObjPtr, 
                                    MFFieldContainerPtr> MField;
+#endif
 
+    typedef          FieldContainerPtrSField<ObjPtr, 
+                                UnrecordedRefCountPolicy> SField;
+
+    typedef          FieldContainerPtrMField<ObjPtr, 
+                                UnrecordedRefCountPolicy> MField;
 
     enum 
     { 

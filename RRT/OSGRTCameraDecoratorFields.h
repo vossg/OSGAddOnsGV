@@ -57,10 +57,9 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGCameraDecoratorFields.h"
-
-#include "OSGSFieldAdaptor.h"
-#include "OSGMFieldAdaptor.h"
+#include "OSGFieldContainerFields.h"
+#include "OSGFieldContainerPtrSField.h"
+#include "OSGFieldContainerPtrMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -97,9 +96,63 @@ struct FieldTraits<RTCameraDecoratorPtr> :
 
     static OSG_CONTRIBRRT_DLLMAPPING DataType &getType(void);
 
-    static const char *getSName(void) { return "SFRTCameraDecoratorPtr"; }
-    static const char *getMName(void) { return "MFRTCameraDecoratorPtr"; }
+    template<typename RefCountPolicy> inline
+    static const Char8    *getSName     (void);
+
+//    static const char *getSName(void) { return "SFRTCameraDecoratorPtr"; }
+    template<typename RefCountPolicy> inline
+    static const Char8    *getMName     (void);
+
+//    static const char *getMName(void) { return "MFRTCameraDecoratorPtr"; }
 };
+
+template<> inline
+const Char8 *FieldTraits<RTCameraDecoratorPtr, 0>::getSName<RecordedRefCountPolicy>(void)
+{
+    return "SFRecRTCameraDecoratorPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTCameraDecoratorPtr, 0>::getSName<UnrecordedRefCountPolicy>(void)
+{
+    return "SFUnrecRTCameraDecoratorPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTCameraDecoratorPtr, 0>::getSName<WeakRefCountPolicy>(void)
+{
+    return "SFWeakRTCameraDecoratorPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTCameraDecoratorPtr, 0>::getSName<NoRefCountPolicy>(void)
+{
+    return "SFUnrefdRTCameraDecoratorPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTCameraDecoratorPtr, 0>::getMName<RecordedRefCountPolicy>(void)
+{
+    return "MFRecRTCameraDecoratorPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTCameraDecoratorPtr, 0>::getMName<UnrecordedRefCountPolicy>(void)
+{
+    return "MFUnrecRTCameraDecoratorPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTCameraDecoratorPtr, 0>::getMName<WeakRefCountPolicy>(void)
+{
+    return "MFWeakRTCameraDecoratorPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTCameraDecoratorPtr, 0>::getMName<NoRefCountPolicy>(void)
+{
+    return "MFUnrefdRTCameraDecoratorPtr"; 
+}
 
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \class  FieldTraitsTemplateBase<RTCameraDecoratorPtr, 0>
@@ -113,14 +166,28 @@ struct FieldTraits<RTCameraDecoratorPtr> :
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef SFieldAdaptor<RTCameraDecoratorPtr, SFFieldContainerPtr> SFRTCameraDecoratorPtr;
+typedef FieldContainerPtrSField<RTCameraDecoratorPtr,
+                                RecordedRefCountPolicy  > SFRecRTCameraDecoratorPtr;
+typedef FieldContainerPtrSField<RTCameraDecoratorPtr,
+                                UnrecordedRefCountPolicy> SFUnrecRTCameraDecoratorPtr;
+typedef FieldContainerPtrSField<RTCameraDecoratorPtr,
+                                WeakRefCountPolicy      > SFWeakRTCameraDecoratorPtr;
+typedef FieldContainerPtrSField<RTCameraDecoratorPtr,
+                                NoRefCountPolicy        > SFUncountedRTCameraDecoratorPtr;
 #endif
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldMulti */
 
-typedef MFieldAdaptor<RTCameraDecoratorPtr, MFFieldContainerPtr> MFRTCameraDecoratorPtr;
+typedef FieldContainerPtrMField<RTCameraDecoratorPtr,
+                                RecordedRefCountPolicy  > MFRecRTCameraDecoratorPtr;
+typedef FieldContainerPtrMField<RTCameraDecoratorPtr,
+                                UnrecordedRefCountPolicy> MFUnrecRTCameraDecoratorPtr;
+typedef FieldContainerPtrMField<RTCameraDecoratorPtr,
+                                WeakRefCountPolicy      > MFWeakRTCameraDecoratorPtr;
+typedef FieldContainerPtrMField<RTCameraDecoratorPtr,
+                                NoRefCountPolicy        > MFUncountedRTCameraDecoratorPtr;
 #endif
 
 

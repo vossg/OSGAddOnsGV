@@ -55,7 +55,9 @@ void RTCombinedThread<DescT>::setup(Scene             *pScene,
                                     Int32              iID )
 {
     OSG::setRefd(_pScene,       pScene      );
-    OSG::setRefd(_pTarget,      pTarget     );
+    
+    _pTarget = pTarget;
+
     OSG::setRefd(_pRayStore,    pRayStore   );
     OSG::setRefd(_pHitStore,    pHitStore   );
     OSG::setRefd(_pSyncBarrier, pSyncBarrier);
@@ -72,7 +74,9 @@ void RTCombinedThread<DescT>::setup(Scene                  *pScene,
                                     Int32                   iID )
 {
     OSG::setRefd(_pScene,            pScene      );
-    OSG::setRefd(_pTarget,           pTarget     );
+    
+    _pTarget = pTarget;
+
     OSG::setRefd(_pRayTiledStore,    pRayStore   );
     OSG::setRefd(_pHitTiledStore,    pHitStore   );
     OSG::setRefd(_pSyncBarrier,      pSyncBarrier);
@@ -107,7 +111,9 @@ template<class DescT> inline
 RTCombinedThread<DescT>::~RTCombinedThread(void)
 {
     OSG::subRef(_pScene        );
-    OSG::subRef(_pTarget       );
+
+    _pTarget = NullFC;
+
     OSG::subRef(_pRayStore     );
     OSG::subRef(_pHitStore     );
     OSG::subRef(_pRayTiledStore);

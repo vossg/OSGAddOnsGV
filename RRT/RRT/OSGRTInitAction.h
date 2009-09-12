@@ -81,10 +81,11 @@ class RTInitAction : public Action
         AutoTriangulate = 0x0001
     };
 
-    typedef          DescT                   Desc;
+    typedef          DescT                        Desc;
 
-    typedef typename Desc::CacheAttachment   CacheAttachment;
-    typedef typename CacheAttachment::ObjPtr CacheAttachmentPtr;
+    typedef typename Desc::CacheAttachment        CacheAttachment;
+    typedef typename CacheAttachment::ObjPtr      CacheAttachmentPtr;
+    typedef typename CacheAttachment::ObjUnrecPtr CacheAttachmentUnrecPtr;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
@@ -217,22 +218,22 @@ class RTInitAction : public Action
     /*! \name                   Internal updates                           */
     /*! \{                                                                 */
 
-    UInt32                _uiInitMode;
-    CacheAttachmentPtr    _pCurrentCache;
-    NodePtr               _pCacheNode;
+    UInt32                   _uiInitMode;
+    CacheAttachmentUnrecPtr  _pCurrentCache;
+    NodePtr                  _pCacheNode;
 
-    UInt32                _uiMatrixId;
-    MatrixStore           _currMatrix;
-    MatrixStack           _vMatrixStack;
+    UInt32                   _uiMatrixId;
+    MatrixStore              _currMatrix;
+    MatrixStack              _vMatrixStack;
 
-    Material             *_pMaterial;
-    NodePtr               _pMaterialNode;
+    Material                *_pMaterial;
+    NodePtr                  _pMaterialNode;
 
-    Int32                 _iNextLightIndex;
+    Int32                    _iNextLightIndex;
 
-    StateOverridePool    *_pStatePool;
+    StateOverridePool       *_pStatePool;
     
-    OverrideStack         _sStateOverrides;
+    OverrideStack            _sStateOverrides;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

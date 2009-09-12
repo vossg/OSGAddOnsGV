@@ -57,10 +57,9 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGFieldBundleFields.h"
-
-#include "OSGSFieldAdaptor.h"
-#include "OSGMFieldAdaptor.h"
+#include "OSGFieldContainerFields.h"
+#include "OSGFieldContainerPtrSField.h"
+#include "OSGFieldContainerPtrMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -68,9 +67,9 @@ OSG_BEGIN_NAMESPACE
 class RayTracer;
 
 #if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! RayTracerP
+//! RayTracerPtr
 
-OSG_GEN_BUNDLEP(RayTracer);
+OSG_GEN_CONTAINERPTR(RayTracer);
 
 #endif
 
@@ -82,8 +81,8 @@ OSG_GEN_BUNDLEP(RayTracer);
 #endif
 
 template <>
-struct FieldTraits<RayTracerP> :
-    public FieldTraitsTemplateBase<RayTracerP>
+struct FieldTraits<RayTracerPtr> :
+    public FieldTraitsFCPtrBase<RayTracerPtr>
 {
   private:
 
@@ -91,13 +90,15 @@ struct FieldTraits<RayTracerP> :
 
   public:
 
-    typedef FieldTraits<RayTracerP>  Self;
+    typedef FieldTraits<RayTracerPtr>  Self;
 
     enum                        { Convertible = NotConvertible };
 };
 
+
+
 #if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<RayTracerP, 0>
+/*! \class  FieldTraitsTemplateBase<RayTracerPtr, 0>
     \hideinhierarchy
  */
 #endif

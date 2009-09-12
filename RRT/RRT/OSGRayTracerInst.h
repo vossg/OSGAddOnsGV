@@ -91,7 +91,7 @@ class RayTracerInst : public RayTracer
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    OSG_FIELD_BUNDLE_TMPL_DECL;
+    OSG_FIELD_CONTAINER_TMPL_DECL;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -171,7 +171,7 @@ class RayTracerInst : public RayTracer
 
   private:
 
-    friend class FieldBundle;
+    friend class FieldContainer;
     
     /*!\brief prohibit default functions (move to 'public' if needed) */
     void operator =(const RayTracerInst &source);
@@ -188,7 +188,8 @@ RayTracerInst< DESC >::TypeObject                                             \
         Desc::getParentTypeName(),                                            \
         Desc::getGroupName     (),                                            \
         0,                                                                    \
-        (ProtoBundleCreateF) &Self::createEmpty,                              \
+        (PrototypeCreateF) &Self::createEmpty,                                \
+        NULL,                                                                 \
         NULL,                                                                 \
         NULL,                                                                 \
         true,                                                                 \

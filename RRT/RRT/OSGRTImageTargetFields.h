@@ -57,10 +57,9 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGRTTargetFields.h"
-
-#include "OSGSFieldAdaptor.h"
-#include "OSGMFieldAdaptor.h"
+#include "OSGFieldContainerFields.h"
+#include "OSGFieldContainerPtrSField.h"
+#include "OSGFieldContainerPtrMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -68,9 +67,9 @@ OSG_BEGIN_NAMESPACE
 class RTImageTarget;
 
 #if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! RTImageTargetP
+//! RTImageTargetPtr
 
-OSG_GEN_BUNDLEP(RTImageTarget);
+OSG_GEN_CONTAINERPTR(RTImageTarget);
 
 #endif
 
@@ -82,8 +81,8 @@ OSG_GEN_BUNDLEP(RTImageTarget);
 #endif
 
 template <>
-struct FieldTraits<RTImageTargetP> :
-    public FieldTraitsTemplateBase<RTImageTargetP>
+struct FieldTraits<RTImageTargetPtr> :
+    public FieldTraitsFCPtrBase<RTImageTargetPtr>
 {
   private:
 
@@ -91,17 +90,45 @@ struct FieldTraits<RTImageTargetP> :
 
   public:
 
-    typedef FieldTraits<RTImageTargetP>  Self;
+    typedef FieldTraits<RTImageTargetPtr>  Self;
 
     enum                        { Convertible = NotConvertible };
 
     static OSG_CONTRIBRRT_DLLMAPPING DataType &getType(void);
 
-    static const char *getSName(void) { return "SFRTImageTargetP"; }
+    template<typename RefCountPolicy> inline
+    static const Char8    *getSName     (void);
+
+//    static const char *getSName(void) { return "SFRTImageTargetPtr"; }
 };
 
+template<> inline
+const Char8 *FieldTraits<RTImageTargetPtr, 0>::getSName<RecordedRefCountPolicy>(void)
+{
+    return "SFRecRTImageTargetPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTImageTargetPtr, 0>::getSName<UnrecordedRefCountPolicy>(void)
+{
+    return "SFUnrecRTImageTargetPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTImageTargetPtr, 0>::getSName<WeakRefCountPolicy>(void)
+{
+    return "SFWeakRTImageTargetPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTImageTargetPtr, 0>::getSName<NoRefCountPolicy>(void)
+{
+    return "SFUnrefdRTImageTargetPtr"; 
+}
+
+
 #if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<RTImageTargetP, 0>
+/*! \class  FieldTraitsTemplateBase<RTImageTargetPtr, 0>
     \hideinhierarchy
  */
 #endif
@@ -112,7 +139,14 @@ struct FieldTraits<RTImageTargetP> :
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef SFieldAdaptor<RTImageTargetP, SFFieldBundleP> SFRTImageTargetP;
+typedef FieldContainerPtrSField<RTImageTargetPtr,
+                                RecordedRefCountPolicy  > SFRecRTImageTargetPtr;
+typedef FieldContainerPtrSField<RTImageTargetPtr,
+                                UnrecordedRefCountPolicy> SFUnrecRTImageTargetPtr;
+typedef FieldContainerPtrSField<RTImageTargetPtr,
+                                WeakRefCountPolicy      > SFWeakRTImageTargetPtr;
+typedef FieldContainerPtrSField<RTImageTargetPtr,
+                                NoRefCountPolicy        > SFUncountedRTImageTargetPtr;
 #endif
 
 

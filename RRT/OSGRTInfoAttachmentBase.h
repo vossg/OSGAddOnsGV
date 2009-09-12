@@ -126,15 +126,23 @@ class OSG_CONTRIBRRT_DLLMAPPING RTInfoAttachmentBase : public FieldContainerAtta
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTInfoAttachmentPtr create     (void);
-    static  RTInfoAttachmentPtr createEmpty(void);
+    static  RTInfoAttachmentTransitPtr create          (void);
+    static  RTInfoAttachmentPtr        createEmpty     (void);
+
+    static  RTInfoAttachmentTransitPtr createLocal     (
+                                              BitVector bFlags = FCLocal::All);
+
+    static  RTInfoAttachmentPtr        createEmptyLocal(
+                                              BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
     /*! \{                                                                 */
 
-    virtual FieldContainerPtr shallowCopy(void) const;
+    virtual FieldContainerTransitPtr shallowCopy     (void) const;
+    virtual FieldContainerTransitPtr shallowCopyLocal(
+                                       BitVector bFlags = FCLocal::All) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -220,22 +228,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTInfoAttachmentBase : public FieldContainerAtta
     /*==========================  PRIVATE  ================================*/
 
   private:
+    /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const RTInfoAttachmentBase &source);
 };
 
 typedef RTInfoAttachmentBase *RTInfoAttachmentBaseP;
-
-/** Type specific RefPtr type for RTInfoAttachment. */
-typedef RefPtr<RTInfoAttachmentPtr> RTInfoAttachmentRefPtr;
-
-typedef boost::mpl::if_<
-    boost::mpl::bool_<RTInfoAttachmentBase::isNodeCore>,
-    CoredNodePtr<RTInfoAttachment>,
-    FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC>::type
-
-        RTInfoAttachmentNodePtr;
 
 OSG_END_NAMESPACE
 

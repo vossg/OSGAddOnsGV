@@ -53,7 +53,7 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldBundleType &RTTargetBase::getClassType(void)
+OSG::FieldContainerType &RTTargetBase::getClassType(void)
 {
     return _type;
 }
@@ -140,21 +140,24 @@ void RTTargetBase::setHeight(const UInt32 &value)
     _sfHeight.setValue(value);
 }
 
-//! create a new instance of the class
+
+#ifdef OSG_MT_CPTR_ASPECT
 inline
-RTTargetP RTTargetBase::create(void)
+void RTTargetBase::execSync (      RTTargetBase *pFrom,
+                                        ConstFieldMaskArg  whichField,
+                                        AspectOffsetStore &oOffsets,
+                                        ConstFieldMaskArg  syncMode,
+                                  const UInt32             uiSyncInfo)
 {
-    RTTargetP fc;
+    Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
 
-    if(getClassType().getPrototype() != NULL)
-    {
-        fc = dynamic_cast<RTTarget::ObjPtr>(
-            getClassType().getPrototype()-> shallowCopy());
-    }
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+        _sfWidth.syncWith(pFrom->_sfWidth);
 
-    return fc;
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+        _sfHeight.syncWith(pFrom->_sfHeight);
 }
-
+#endif
 
 
 inline
@@ -162,8 +165,7 @@ Char8 *RTTargetBase::getClassname(void)
 {
     return "RTTarget";
 }
-
-OSG_GEN_BUNDLEP(RTTarget);
+OSG_GEN_CONTAINERPTR(RTTarget);
 
 OSG_END_NAMESPACE
 

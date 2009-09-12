@@ -57,10 +57,9 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGRTTargetFields.h"
-
-#include "OSGSFieldAdaptor.h"
-#include "OSGMFieldAdaptor.h"
+#include "OSGFieldContainerFields.h"
+#include "OSGFieldContainerPtrSField.h"
+#include "OSGFieldContainerPtrMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -68,9 +67,9 @@ OSG_BEGIN_NAMESPACE
 class RTTextureTarget;
 
 #if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! RTTextureTargetP
+//! RTTextureTargetPtr
 
-OSG_GEN_BUNDLEP(RTTextureTarget);
+OSG_GEN_CONTAINERPTR(RTTextureTarget);
 
 #endif
 
@@ -82,8 +81,8 @@ OSG_GEN_BUNDLEP(RTTextureTarget);
 #endif
 
 template <>
-struct FieldTraits<RTTextureTargetP> :
-    public FieldTraitsTemplateBase<RTTextureTargetP>
+struct FieldTraits<RTTextureTargetPtr> :
+    public FieldTraitsFCPtrBase<RTTextureTargetPtr>
 {
   private:
 
@@ -91,17 +90,45 @@ struct FieldTraits<RTTextureTargetP> :
 
   public:
 
-    typedef FieldTraits<RTTextureTargetP>  Self;
+    typedef FieldTraits<RTTextureTargetPtr>  Self;
 
     enum                        { Convertible = NotConvertible };
 
     static OSG_CONTRIBRRT_DLLMAPPING DataType &getType(void);
 
-    static const char *getSName(void) { return "SFRTTextureTargetP"; }
+    template<typename RefCountPolicy> inline
+    static const Char8    *getSName     (void);
+
+//    static const char *getSName(void) { return "SFRTTextureTargetPtr"; }
 };
 
+template<> inline
+const Char8 *FieldTraits<RTTextureTargetPtr, 0>::getSName<RecordedRefCountPolicy>(void)
+{
+    return "SFRecRTTextureTargetPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTTextureTargetPtr, 0>::getSName<UnrecordedRefCountPolicy>(void)
+{
+    return "SFUnrecRTTextureTargetPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTTextureTargetPtr, 0>::getSName<WeakRefCountPolicy>(void)
+{
+    return "SFWeakRTTextureTargetPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTTextureTargetPtr, 0>::getSName<NoRefCountPolicy>(void)
+{
+    return "SFUnrefdRTTextureTargetPtr"; 
+}
+
+
 #if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<RTTextureTargetP, 0>
+/*! \class  FieldTraitsTemplateBase<RTTextureTargetPtr, 0>
     \hideinhierarchy
  */
 #endif
@@ -112,7 +139,14 @@ struct FieldTraits<RTTextureTargetP> :
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef SFieldAdaptor<RTTextureTargetP, SFFieldBundleP> SFRTTextureTargetP;
+typedef FieldContainerPtrSField<RTTextureTargetPtr,
+                                RecordedRefCountPolicy  > SFRecRTTextureTargetPtr;
+typedef FieldContainerPtrSField<RTTextureTargetPtr,
+                                UnrecordedRefCountPolicy> SFUnrecRTTextureTargetPtr;
+typedef FieldContainerPtrSField<RTTextureTargetPtr,
+                                WeakRefCountPolicy      > SFWeakRTTextureTargetPtr;
+typedef FieldContainerPtrSField<RTTextureTargetPtr,
+                                NoRefCountPolicy        > SFUncountedRTTextureTargetPtr;
 #endif
 
 

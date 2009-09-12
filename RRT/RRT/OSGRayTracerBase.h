@@ -63,7 +63,7 @@
 
 #include "OSGBaseTypes.h"
 
-#include "OSGFieldBundle.h" // Parent
+#include "OSGFieldContainer.h" // Parent
 
 #include "OSGNodeFields.h" // RayTracingRoot type
 #include "OSGNodeFields.h" // BackgroundRoot type
@@ -78,12 +78,12 @@ class RayTracer;
 
 //! \brief RayTracer Base Class.
 
-class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldBundle
+class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldContainer
 {
   public:
 
-    typedef FieldBundle Inherited;
-    typedef FieldBundle ParentContainer;
+    typedef FieldContainer Inherited;
+    typedef FieldContainer ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
@@ -118,17 +118,17 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldBundle
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static FieldBundleType &getClassType   (void);
-    static UInt32           getClassTypeId (void);
-    static UInt16           getClassGroupId(void);
+    static FieldContainerType &getClassType   (void);
+    static UInt32              getClassTypeId (void);
+    static UInt16              getClassGroupId(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
-    virtual       FieldBundleType &getType         (void);
-    virtual const FieldBundleType &getType         (void) const;
+    virtual       FieldContainerType &getType         (void);
+    virtual const FieldContainerType &getType         (void) const;
 
     virtual       UInt32              getContainerSize(void) const;
 
@@ -137,8 +137,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldBundle
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFNodePtr           *getSFRayTracingRoot  (void) const;
-            const SFNodePtr           *getSFBackgroundRoot  (void) const;
+            const SFUnrecNodePtr      *getSFRayTracingRoot  (void) const;
+            const SFUnrecNodePtr      *getSFBackgroundRoot  (void) const;
 
 
                   NodePtrConst getRayTracingRoot (void) const;
@@ -162,7 +162,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldBundle
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -180,15 +179,23 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldBundle
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RayTracerP create     (void);
-    static  RayTracerP createEmpty(void);
+    static  RayTracerTransitPtr create          (void);
+    static  RayTracerPtr        createEmpty     (void);
+
+    static  RayTracerTransitPtr createLocal     (
+                                              BitVector bFlags = FCLocal::All);
+
+    static  RayTracerPtr        createEmptyLocal(
+                                              BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
     /*! \{                                                                 */
 
-    virtual FieldBundleP shallowCopy(void) const;
+    virtual FieldContainerTransitPtr shallowCopy     (void) const;
+    virtual FieldContainerTransitPtr shallowCopyLocal(
+                                       BitVector bFlags = FCLocal::All) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -204,8 +211,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldBundle
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFNodePtr         _sfRayTracingRoot;
-    SFNodePtr         _sfBackgroundRoot;
+    SFUnrecNodePtr    _sfRayTracingRoot;
+    SFUnrecNodePtr    _sfBackgroundRoot;
     SFUInt32          _sfWidth;
     SFUInt32          _sfHeight;
 
@@ -288,12 +295,24 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldBundle
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
-
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
+
+#ifdef OSG_MT_CPTR_ASPECT
+    virtual void execSyncV(      FieldContainer    &oFrom,
+                                 ConstFieldMaskArg  whichField,
+                                 AspectOffsetStore &oOffsets,
+                                 ConstFieldMaskArg  syncMode  ,
+                           const UInt32             uiSyncInfo);
+
+            void execSync (      RayTracerBase *pFrom,
+                                 ConstFieldMaskArg  whichField,
+                                 AspectOffsetStore &oOffsets,
+                                 ConstFieldMaskArg  syncMode  ,
+                           const UInt32             uiSyncInfo);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -304,6 +323,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldBundle
     /*---------------------------------------------------------------------*/
     /*! \name                     Aspect Create                            */
     /*! \{                                                                 */
+
+#ifdef OSG_MT_CPTR_ASPECT
+    virtual FieldContainerPtr createAspectCopy(void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -320,14 +343,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldBundle
     /*==========================  PRIVATE  ================================*/
 
   private:
+    /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const RayTracerBase &source);
 };
 
-/** Type specific RefPtr type for RayTracer. */
-typedef RefPtr<RayTracerP> RayTracerRefP;
-
+typedef RayTracerBase *RayTracerBaseP;
 
 OSG_END_NAMESPACE
 

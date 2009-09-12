@@ -217,7 +217,7 @@ class RTCombinedThread : public RTThread
     /*! \{                                                                 */
 
     Scene                   *_pScene;
-    RTTarget                *_pTarget;
+    RTTargetUnrecPtr         _pTarget;
     PrimaryRayStore         *_pRayStore;
     HitStore                *_pHitStore;
     PrimaryRayTiledStore    *_pRayTiledStore;

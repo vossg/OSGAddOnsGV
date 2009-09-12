@@ -122,7 +122,7 @@ class RTLocalPacketManager : public MemoryObject
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    RTTarget               *_pTarget;
+    RTTargetUnrecPtr        _pTarget;
     Scene                  *_pScene;
 
     PrimaryRayStore        *_pPrimaryRayStore;

@@ -118,8 +118,8 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
     FieldDescriptionBase *pDesc = NULL;
 
 
-    pDesc = new SFNodePtr::Description(
-        SFNodePtr::getClassType(),
+    pDesc = new SFUnrecNodePtr::Description(
+        SFUnrecNodePtr::getClassType(),
         "BackgroundRoot",
         "",
         BackgroundRootFieldId, BackgroundRootFieldMask,
@@ -130,8 +130,8 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
 
     oType.addInitialDesc(pDesc);
 
-    pDesc = new SFTextureObjChunkPtr::Description(
-        SFTextureObjChunkPtr::getClassType(),
+    pDesc = new SFUnrecTextureObjChunkPtr::Description(
+        SFUnrecTextureObjChunkPtr::getClassType(),
         "TextureTarget",
         "",
         TextureTargetFieldId, TextureTargetFieldMask,
@@ -190,8 +190,8 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
 
     oType.addInitialDesc(pDesc);
 
-    pDesc = new SFRTCameraDecoratorPtr::Description(
-        SFRTCameraDecoratorPtr::getClassType(),
+    pDesc = new SFUnrecRTCameraDecoratorPtr::Description(
+        SFUnrecRTCameraDecoratorPtr::getClassType(),
         "RTCamera",
         "",
         RTCameraFieldId, RTCameraFieldMask,
@@ -209,7 +209,7 @@ RRTStageBase::TypeObject RRTStageBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &RRTStageBase::createEmpty,
+    (PrototypeCreateF) &RRTStageBase::createEmptyLocal,
     RRTStage::initMethod,
     RRTStage::exitMethod,
     (InitalInsertDescFunc) &RRTStageBase::classDescInserter,
@@ -317,13 +317,13 @@ UInt32 RRTStageBase::getContainerSize(void) const
 
 
 //! Get the RRTStage::_sfBackgroundRoot field.
-const SFNodePtr *RRTStageBase::getSFBackgroundRoot(void) const
+const SFUnrecNodePtr *RRTStageBase::getSFBackgroundRoot(void) const
 {
     return &_sfBackgroundRoot;
 }
 
 //! Get the RRTStage::_sfTextureTarget field.
-const SFTextureObjChunkPtr *RRTStageBase::getSFTextureTarget(void) const
+const SFUnrecTextureObjChunkPtr *RRTStageBase::getSFTextureTarget(void) const
 {
     return &_sfTextureTarget;
 }
@@ -405,7 +405,7 @@ SFBool              *RRTStageBase::getSFTiled          (void)
 #endif
 
 //! Get the RRTStage::_sfRTCamera field.
-const SFRTCameraDecoratorPtr *RRTStageBase::getSFRTCamera(void) const
+const SFUnrecRTCameraDecoratorPtr *RRTStageBase::getSFRTCamera(void) const
 {
     return &_sfRTCamera;
 }
@@ -523,14 +523,32 @@ void RRTStageBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-RRTStagePtr RRTStageBase::create(void)
+RRTStageTransitPtr RRTStageBase::create(void)
 {
-    RRTStagePtr fc;
+    RRTStageTransitPtr fc;
 
     if(getClassType().getPrototype() != NullFC)
     {
-        fc = dynamic_cast<RRTStage::ObjPtr>(
-            getClassType().getPrototype()-> shallowCopy());
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
+
+        fc = dynamic_pointer_cast<RRTStage>(tmpPtr);
+    }
+
+    return fc;
+}
+
+//! create a new instance of the class
+RRTStageTransitPtr RRTStageBase::createLocal(BitVector bFlags)
+{
+    RRTStageTransitPtr fc;
+
+    if(getClassType().getPrototype() != NullFC)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyLocal(bFlags);
+
+        fc = dynamic_pointer_cast<RRTStage>(tmpPtr);
     }
 
     return fc;
@@ -541,16 +559,50 @@ RRTStagePtr RRTStageBase::createEmpty(void)
 {
     RRTStagePtr returnValue;
 
-    newPtr<RRTStage>(returnValue);
+    newPtr<RRTStage>(returnValue, Thread::getCurrentLocalFlags());
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= 
+        ~Thread::getCurrentLocalFlags(); 
 
     return returnValue;
 }
 
-FieldContainerPtr RRTStageBase::shallowCopy(void) const
+RRTStagePtr RRTStageBase::createEmptyLocal(BitVector bFlags)
 {
     RRTStagePtr returnValue;
 
-    newPtr(returnValue, dynamic_cast<const RRTStage *>(this));
+    newPtr<RRTStage>(returnValue, bFlags);
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RRTStageBase::shallowCopy(void) const
+{
+    RRTStagePtr tmpPtr;
+
+    newPtr(tmpPtr, 
+           dynamic_cast<const RRTStage *>(this), 
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RRTStageBase::shallowCopyLocal(
+    BitVector bFlags) const
+{
+    RRTStagePtr tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const RRTStage *>(this), bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
 
     return returnValue;
 }
@@ -607,8 +659,8 @@ void RRTStageBase::onCreate(const RRTStage *source)
 
 GetFieldHandlePtr RRTStageBase::getHandleBackgroundRoot  (void) const
 {
-    SFNodePtr::GetHandlePtr returnValue(
-        new  SFNodePtr::GetHandle(
+    SFUnrecNodePtr::GetHandlePtr returnValue(
+        new  SFUnrecNodePtr::GetHandle(
              &_sfBackgroundRoot, 
              this->getType().getFieldDesc(BackgroundRootFieldId)));
 
@@ -617,8 +669,8 @@ GetFieldHandlePtr RRTStageBase::getHandleBackgroundRoot  (void) const
 
 EditFieldHandlePtr RRTStageBase::editHandleBackgroundRoot (void)
 {
-    SFNodePtr::EditHandlePtr returnValue(
-        new  SFNodePtr::EditHandle(
+    SFUnrecNodePtr::EditHandlePtr returnValue(
+        new  SFUnrecNodePtr::EditHandle(
              &_sfBackgroundRoot, 
              this->getType().getFieldDesc(BackgroundRootFieldId)));
 
@@ -632,8 +684,8 @@ EditFieldHandlePtr RRTStageBase::editHandleBackgroundRoot (void)
 
 GetFieldHandlePtr RRTStageBase::getHandleTextureTarget   (void) const
 {
-    SFTextureObjChunkPtr::GetHandlePtr returnValue(
-        new  SFTextureObjChunkPtr::GetHandle(
+    SFUnrecTextureObjChunkPtr::GetHandlePtr returnValue(
+        new  SFUnrecTextureObjChunkPtr::GetHandle(
              &_sfTextureTarget, 
              this->getType().getFieldDesc(TextureTargetFieldId)));
 
@@ -642,8 +694,8 @@ GetFieldHandlePtr RRTStageBase::getHandleTextureTarget   (void) const
 
 EditFieldHandlePtr RRTStageBase::editHandleTextureTarget  (void)
 {
-    SFTextureObjChunkPtr::EditHandlePtr returnValue(
-        new  SFTextureObjChunkPtr::EditHandle(
+    SFUnrecTextureObjChunkPtr::EditHandlePtr returnValue(
+        new  SFUnrecTextureObjChunkPtr::EditHandle(
              &_sfTextureTarget, 
              this->getType().getFieldDesc(TextureTargetFieldId)));
 
@@ -745,8 +797,8 @@ EditFieldHandlePtr RRTStageBase::editHandleTiled          (void)
 
 GetFieldHandlePtr RRTStageBase::getHandleRTCamera        (void) const
 {
-    SFRTCameraDecoratorPtr::GetHandlePtr returnValue(
-        new  SFRTCameraDecoratorPtr::GetHandle(
+    SFUnrecRTCameraDecoratorPtr::GetHandlePtr returnValue(
+        new  SFUnrecRTCameraDecoratorPtr::GetHandle(
              &_sfRTCamera, 
              this->getType().getFieldDesc(RTCameraFieldId)));
 
@@ -755,8 +807,8 @@ GetFieldHandlePtr RRTStageBase::getHandleRTCamera        (void) const
 
 EditFieldHandlePtr RRTStageBase::editHandleRTCamera       (void)
 {
-    SFRTCameraDecoratorPtr::EditHandlePtr returnValue(
-        new  SFRTCameraDecoratorPtr::EditHandle(
+    SFUnrecRTCameraDecoratorPtr::EditHandlePtr returnValue(
+        new  SFUnrecRTCameraDecoratorPtr::EditHandle(
              &_sfRTCamera, 
              this->getType().getFieldDesc(RTCameraFieldId)));
 

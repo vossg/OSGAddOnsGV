@@ -67,7 +67,8 @@ class  RTCacheAttachmentInst : public RTCacheAttachment
 
     typedef typename Desc::RTCache   RTCache;
 
-    typedef typename RTCache::SField RTCacheField;
+    typedef typename RTCache::SField      RTCacheField;
+    typedef typename RTCache::ObjUnrecPtr RTCacheUnrecPtr;
 
     OSG_GEN_INTERNALPTR(Self);
 

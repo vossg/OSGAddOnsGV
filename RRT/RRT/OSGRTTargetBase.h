@@ -63,7 +63,7 @@
 
 #include "OSGBaseTypes.h"
 
-#include "OSGFieldBundle.h" // Parent
+#include "OSGFieldContainer.h" // Parent
 
 #include "OSGUInt32Fields.h" // Width type
 #include "OSGUInt32Fields.h" // Height type
@@ -76,12 +76,12 @@ class RTTarget;
 
 //! \brief RTTarget Base Class.
 
-class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldBundle
+class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldContainer
 {
   public:
 
-    typedef FieldBundle Inherited;
-    typedef FieldBundle ParentContainer;
+    typedef FieldContainer Inherited;
+    typedef FieldContainer ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
@@ -110,17 +110,17 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldBundle
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static FieldBundleType &getClassType   (void);
-    static UInt32           getClassTypeId (void);
-    static UInt16           getClassGroupId(void);
+    static FieldContainerType &getClassType   (void);
+    static UInt32              getClassTypeId (void);
+    static UInt16              getClassGroupId(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
-    virtual       FieldBundleType &getType         (void);
-    virtual const FieldBundleType &getType         (void) const;
+    virtual       FieldContainerType &getType         (void);
+    virtual const FieldContainerType &getType         (void) const;
 
     virtual       UInt32              getContainerSize(void) const;
 
@@ -141,15 +141,23 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldBundle
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTTargetP create     (void);
-    static  RTTargetP createEmpty(void);
+    static  RTTargetTransitPtr create          (void);
+    static  RTTargetPtr        createEmpty     (void);
+
+    static  RTTargetTransitPtr createLocal     (
+                                              BitVector bFlags = FCLocal::All);
+
+    static  RTTargetPtr        createEmptyLocal(
+                                              BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
     /*! \{                                                                 */
 
-    virtual FieldBundleP shallowCopy(void) const;
+    virtual FieldContainerTransitPtr shallowCopy     (void) const;
+    virtual FieldContainerTransitPtr shallowCopyLocal(
+                                       BitVector bFlags = FCLocal::All) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -242,12 +250,24 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldBundle
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
-
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
+
+#ifdef OSG_MT_CPTR_ASPECT
+    virtual void execSyncV(      FieldContainer    &oFrom,
+                                 ConstFieldMaskArg  whichField,
+                                 AspectOffsetStore &oOffsets,
+                                 ConstFieldMaskArg  syncMode  ,
+                           const UInt32             uiSyncInfo);
+
+            void execSync (      RTTargetBase *pFrom,
+                                 ConstFieldMaskArg  whichField,
+                                 AspectOffsetStore &oOffsets,
+                                 ConstFieldMaskArg  syncMode  ,
+                           const UInt32             uiSyncInfo);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -258,6 +278,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldBundle
     /*---------------------------------------------------------------------*/
     /*! \name                     Aspect Create                            */
     /*! \{                                                                 */
+
+#ifdef OSG_MT_CPTR_ASPECT
+    virtual FieldContainerPtr createAspectCopy(void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -274,14 +298,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldBundle
     /*==========================  PRIVATE  ================================*/
 
   private:
+    /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const RTTargetBase &source);
 };
 
-/** Type specific RefPtr type for RTTarget. */
-typedef RefPtr<RTTargetP> RTTargetRefP;
-
+typedef RTTargetBase *RTTargetBaseP;
 
 OSG_END_NAMESPACE
 

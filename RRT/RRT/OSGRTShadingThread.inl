@@ -53,7 +53,8 @@ void RTShadingThread<DescT>::setup(RTTarget   *pTarget,
                                    Barrier    *pSyncBarrier,
                                    Int32       iID)
 {
-    setRefd(_pTarget,      pTarget     );
+    _pTarget = pTarget;
+
     setRefd(_pScene,       pScene      );
     setRefd(_pHitStore,    pHitStore   );
     setRefd(_pSyncBarrier, pSyncBarrier);
@@ -68,7 +69,8 @@ void RTShadingThread<DescT>::setup(RTTarget        *pTarget,
                                    Barrier         *pSyncBarrier,
                                    Int32            iID)
 {
-    setRefd(_pTarget,        pTarget     );
+    _pTarget = pTarget;
+
     setRefd(_pScene,         pScene      );
     setRefd(_pHitTiledStore, pHitStore   );
     setRefd(_pSyncBarrier,   pSyncBarrier);
@@ -100,7 +102,8 @@ RTShadingThread<DescT>::RTShadingThread(const OSG::Char8  *szName,
 template<typename DescT> inline
 RTShadingThread<DescT>::~RTShadingThread(void)
 {
-    OSG::subRef(_pTarget       );
+    _pTarget = NullFC;
+
     OSG::subRef(_pScene        );
     OSG::subRef(_pHitStore     );
     OSG::subRef(_pHitTiledStore);

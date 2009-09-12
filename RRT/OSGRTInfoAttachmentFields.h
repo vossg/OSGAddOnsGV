@@ -57,10 +57,9 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGFieldContainerAttachmentFields.h"
-
-#include "OSGSFieldAdaptor.h"
-#include "OSGMFieldAdaptor.h"
+#include "OSGFieldContainerFields.h"
+#include "OSGFieldContainerPtrSField.h"
+#include "OSGFieldContainerPtrMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -97,9 +96,63 @@ struct FieldTraits<RTInfoAttachmentPtr> :
 
     static OSG_CONTRIBRRT_DLLMAPPING DataType &getType(void);
 
-    static const char *getSName(void) { return "SFRTInfoAttachmentPtr"; }
-    static const char *getMName(void) { return "MFRTInfoAttachmentPtr"; }
+    template<typename RefCountPolicy> inline
+    static const Char8    *getSName     (void);
+
+//    static const char *getSName(void) { return "SFRTInfoAttachmentPtr"; }
+    template<typename RefCountPolicy> inline
+    static const Char8    *getMName     (void);
+
+//    static const char *getMName(void) { return "MFRTInfoAttachmentPtr"; }
 };
+
+template<> inline
+const Char8 *FieldTraits<RTInfoAttachmentPtr, 0>::getSName<RecordedRefCountPolicy>(void)
+{
+    return "SFRecRTInfoAttachmentPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTInfoAttachmentPtr, 0>::getSName<UnrecordedRefCountPolicy>(void)
+{
+    return "SFUnrecRTInfoAttachmentPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTInfoAttachmentPtr, 0>::getSName<WeakRefCountPolicy>(void)
+{
+    return "SFWeakRTInfoAttachmentPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTInfoAttachmentPtr, 0>::getSName<NoRefCountPolicy>(void)
+{
+    return "SFUnrefdRTInfoAttachmentPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTInfoAttachmentPtr, 0>::getMName<RecordedRefCountPolicy>(void)
+{
+    return "MFRecRTInfoAttachmentPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTInfoAttachmentPtr, 0>::getMName<UnrecordedRefCountPolicy>(void)
+{
+    return "MFUnrecRTInfoAttachmentPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTInfoAttachmentPtr, 0>::getMName<WeakRefCountPolicy>(void)
+{
+    return "MFWeakRTInfoAttachmentPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTInfoAttachmentPtr, 0>::getMName<NoRefCountPolicy>(void)
+{
+    return "MFUnrefdRTInfoAttachmentPtr"; 
+}
 
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \class  FieldTraitsTemplateBase<RTInfoAttachmentPtr, 0>
@@ -113,14 +166,28 @@ struct FieldTraits<RTInfoAttachmentPtr> :
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef SFieldAdaptor<RTInfoAttachmentPtr, SFFieldContainerPtr> SFRTInfoAttachmentPtr;
+typedef FieldContainerPtrSField<RTInfoAttachmentPtr,
+                                RecordedRefCountPolicy  > SFRecRTInfoAttachmentPtr;
+typedef FieldContainerPtrSField<RTInfoAttachmentPtr,
+                                UnrecordedRefCountPolicy> SFUnrecRTInfoAttachmentPtr;
+typedef FieldContainerPtrSField<RTInfoAttachmentPtr,
+                                WeakRefCountPolicy      > SFWeakRTInfoAttachmentPtr;
+typedef FieldContainerPtrSField<RTInfoAttachmentPtr,
+                                NoRefCountPolicy        > SFUncountedRTInfoAttachmentPtr;
 #endif
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldMulti */
 
-typedef MFieldAdaptor<RTInfoAttachmentPtr, MFFieldContainerPtr> MFRTInfoAttachmentPtr;
+typedef FieldContainerPtrMField<RTInfoAttachmentPtr,
+                                RecordedRefCountPolicy  > MFRecRTInfoAttachmentPtr;
+typedef FieldContainerPtrMField<RTInfoAttachmentPtr,
+                                UnrecordedRefCountPolicy> MFUnrecRTInfoAttachmentPtr;
+typedef FieldContainerPtrMField<RTInfoAttachmentPtr,
+                                WeakRefCountPolicy      > MFWeakRTInfoAttachmentPtr;
+typedef FieldContainerPtrMField<RTInfoAttachmentPtr,
+                                NoRefCountPolicy        > MFUncountedRTInfoAttachmentPtr;
 #endif
 
 

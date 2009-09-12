@@ -126,15 +126,23 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheAttachmentBase : public FieldContainerAtt
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTCacheAttachmentPtr create     (void);
-    static  RTCacheAttachmentPtr createEmpty(void);
+    static  RTCacheAttachmentTransitPtr create          (void);
+    static  RTCacheAttachmentPtr        createEmpty     (void);
+
+    static  RTCacheAttachmentTransitPtr createLocal     (
+                                              BitVector bFlags = FCLocal::All);
+
+    static  RTCacheAttachmentPtr        createEmptyLocal(
+                                              BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
     /*! \{                                                                 */
 
-    virtual FieldContainerPtr shallowCopy(void) const;
+    virtual FieldContainerTransitPtr shallowCopy     (void) const;
+    virtual FieldContainerTransitPtr shallowCopyLocal(
+                                       BitVector bFlags = FCLocal::All) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -220,22 +228,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheAttachmentBase : public FieldContainerAtt
     /*==========================  PRIVATE  ================================*/
 
   private:
+    /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const RTCacheAttachmentBase &source);
 };
 
 typedef RTCacheAttachmentBase *RTCacheAttachmentBaseP;
-
-/** Type specific RefPtr type for RTCacheAttachment. */
-typedef RefPtr<RTCacheAttachmentPtr> RTCacheAttachmentRefPtr;
-
-typedef boost::mpl::if_<
-    boost::mpl::bool_<RTCacheAttachmentBase::isNodeCore>,
-    CoredNodePtr<RTCacheAttachment>,
-    FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC>::type
-
-        RTCacheAttachmentNodePtr;
 
 OSG_END_NAMESPACE
 

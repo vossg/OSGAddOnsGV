@@ -87,7 +87,7 @@ void RRTStageBase::setBackgroundRoot(NodePtrConstArg value)
 {
     editSField(BackgroundRootFieldMask);
 
-    setRefd(_sfBackgroundRoot.getValue(), value);
+    _sfBackgroundRoot.setValue(value);
 
 }
 
@@ -104,7 +104,7 @@ void RRTStageBase::setTextureTarget(TextureObjChunkPtrConstArg value)
 {
     editSField(TextureTargetFieldMask);
 
-    setRefd(_sfTextureTarget.getValue(), value);
+    _sfTextureTarget.setValue(value);
 
 }
 //! Get the value of the RRTStage::_sfWidth field.
@@ -253,7 +253,7 @@ void RRTStageBase::setRTCamera(RTCameraDecoratorPtrConstArg value)
 {
     editSField(RTCameraFieldMask);
 
-    setRefd(_sfRTCamera.getValue(), value);
+    _sfRTCamera.setValue(value);
 
 }
 

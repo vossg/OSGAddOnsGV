@@ -53,7 +53,7 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldBundleType &RayTracerBase::getClassType(void)
+OSG::FieldContainerType &RayTracerBase::getClassType(void)
 {
     return _type;
 }
@@ -87,7 +87,7 @@ void RayTracerBase::setRayTracingRoot(NodePtrConstArg value)
 {
     editSField(RayTracingRootFieldMask);
 
-    setRefd(_sfRayTracingRoot.getValue(), value);
+    _sfRayTracingRoot.setValue(value);
 
 }
 
@@ -104,7 +104,7 @@ void RayTracerBase::setBackgroundRoot(NodePtrConstArg value)
 {
     editSField(BackgroundRootFieldMask);
 
-    setRefd(_sfBackgroundRoot.getValue(), value);
+    _sfBackgroundRoot.setValue(value);
 
 }
 //! Get the value of the RayTracer::_sfWidth field.
@@ -174,21 +174,30 @@ void RayTracerBase::setHeight(const UInt32 &value)
     _sfHeight.setValue(value);
 }
 
-//! create a new instance of the class
+
+#ifdef OSG_MT_CPTR_ASPECT
 inline
-RayTracerP RayTracerBase::create(void)
+void RayTracerBase::execSync (      RayTracerBase *pFrom,
+                                        ConstFieldMaskArg  whichField,
+                                        AspectOffsetStore &oOffsets,
+                                        ConstFieldMaskArg  syncMode,
+                                  const UInt32             uiSyncInfo)
 {
-    RayTracerP fc;
+    Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
 
-    if(getClassType().getPrototype() != NULL)
-    {
-        fc = dynamic_cast<RayTracer::ObjPtr>(
-            getClassType().getPrototype()-> shallowCopy());
-    }
+    if(FieldBits::NoField != (RayTracingRootFieldMask & whichField))
+        _sfRayTracingRoot.syncWith(pFrom->_sfRayTracingRoot);
 
-    return fc;
+    if(FieldBits::NoField != (BackgroundRootFieldMask & whichField))
+        _sfBackgroundRoot.syncWith(pFrom->_sfBackgroundRoot);
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+        _sfWidth.syncWith(pFrom->_sfWidth);
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+        _sfHeight.syncWith(pFrom->_sfHeight);
 }
-
+#endif
 
 
 inline
@@ -196,8 +205,7 @@ Char8 *RayTracerBase::getClassname(void)
 {
     return "RayTracer";
 }
-
-OSG_GEN_BUNDLEP(RayTracer);
+OSG_GEN_CONTAINERPTR(RayTracer);
 
 OSG_END_NAMESPACE
 

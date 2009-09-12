@@ -126,15 +126,23 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecoratorBase : public CameraDecorator
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTCameraDecoratorPtr create     (void);
-    static  RTCameraDecoratorPtr createEmpty(void);
+    static  RTCameraDecoratorTransitPtr create          (void);
+    static  RTCameraDecoratorPtr        createEmpty     (void);
+
+    static  RTCameraDecoratorTransitPtr createLocal     (
+                                              BitVector bFlags = FCLocal::All);
+
+    static  RTCameraDecoratorPtr        createEmptyLocal(
+                                              BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
     /*! \{                                                                 */
 
-    virtual FieldContainerPtr shallowCopy(void) const;
+    virtual FieldContainerTransitPtr shallowCopy     (void) const;
+    virtual FieldContainerTransitPtr shallowCopyLocal(
+                                       BitVector bFlags = FCLocal::All) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -220,22 +228,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecoratorBase : public CameraDecorator
     /*==========================  PRIVATE  ================================*/
 
   private:
+    /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const RTCameraDecoratorBase &source);
 };
 
 typedef RTCameraDecoratorBase *RTCameraDecoratorBaseP;
-
-/** Type specific RefPtr type for RTCameraDecorator. */
-typedef RefPtr<RTCameraDecoratorPtr> RTCameraDecoratorRefPtr;
-
-typedef boost::mpl::if_<
-    boost::mpl::bool_<RTCameraDecoratorBase::isNodeCore>,
-    CoredNodePtr<RTCameraDecorator>,
-    FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC>::type
-
-        RTCameraDecoratorNodePtr;
 
 OSG_END_NAMESPACE
 

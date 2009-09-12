@@ -87,7 +87,7 @@ void RTCacheGeometryStoreBase::setGeo(GeometryPtrConstArg value)
 {
     editSField(GeoFieldMask);
 
-    setRefd(_sfGeo.getValue(), value);
+    _sfGeo.setValue(value);
 
 }
 //! Get the value of the RTCacheGeometryStore::_sfMatrix field.
@@ -137,7 +137,7 @@ void RTCacheGeometryStoreBase::setState(StatePtrConstArg value)
 {
     editSField(StateFieldMask);
 
-    setRefd(_sfState.getValue(), value);
+    _sfState.setValue(value);
 
 }
 

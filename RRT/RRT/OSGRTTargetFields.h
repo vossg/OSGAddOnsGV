@@ -57,10 +57,9 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGFieldBundleFields.h"
-
-#include "OSGSFieldAdaptor.h"
-#include "OSGMFieldAdaptor.h"
+#include "OSGFieldContainerFields.h"
+#include "OSGFieldContainerPtrSField.h"
+#include "OSGFieldContainerPtrMField.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -68,9 +67,9 @@ OSG_BEGIN_NAMESPACE
 class RTTarget;
 
 #if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! RTTargetP
+//! RTTargetPtr
 
-OSG_GEN_BUNDLEP(RTTarget);
+OSG_GEN_CONTAINERPTR(RTTarget);
 
 #endif
 
@@ -82,8 +81,8 @@ OSG_GEN_BUNDLEP(RTTarget);
 #endif
 
 template <>
-struct FieldTraits<RTTargetP> :
-    public FieldTraitsTemplateBase<RTTargetP>
+struct FieldTraits<RTTargetPtr> :
+    public FieldTraitsFCPtrBase<RTTargetPtr>
 {
   private:
 
@@ -91,17 +90,45 @@ struct FieldTraits<RTTargetP> :
 
   public:
 
-    typedef FieldTraits<RTTargetP>  Self;
+    typedef FieldTraits<RTTargetPtr>  Self;
 
     enum                        { Convertible = NotConvertible };
 
     static OSG_CONTRIBRRT_DLLMAPPING DataType &getType(void);
 
-    static const char *getSName(void) { return "SFRTTargetP"; }
+    template<typename RefCountPolicy> inline
+    static const Char8    *getSName     (void);
+
+//    static const char *getSName(void) { return "SFRTTargetPtr"; }
 };
 
+template<> inline
+const Char8 *FieldTraits<RTTargetPtr, 0>::getSName<RecordedRefCountPolicy>(void)
+{
+    return "SFRecRTTargetPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTTargetPtr, 0>::getSName<UnrecordedRefCountPolicy>(void)
+{
+    return "SFUnrecRTTargetPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTTargetPtr, 0>::getSName<WeakRefCountPolicy>(void)
+{
+    return "SFWeakRTTargetPtr"; 
+}
+
+template<> inline
+const Char8 *FieldTraits<RTTargetPtr, 0>::getSName<NoRefCountPolicy>(void)
+{
+    return "SFUnrefdRTTargetPtr"; 
+}
+
+
 #if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<RTTargetP, 0>
+/*! \class  FieldTraitsTemplateBase<RTTargetPtr, 0>
     \hideinhierarchy
  */
 #endif
@@ -112,7 +139,14 @@ struct FieldTraits<RTTargetP> :
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef SFieldAdaptor<RTTargetP, SFFieldBundleP> SFRTTargetP;
+typedef FieldContainerPtrSField<RTTargetPtr,
+                                RecordedRefCountPolicy  > SFRecRTTargetPtr;
+typedef FieldContainerPtrSField<RTTargetPtr,
+                                UnrecordedRefCountPolicy> SFUnrecRTTargetPtr;
+typedef FieldContainerPtrSField<RTTargetPtr,
+                                WeakRefCountPolicy      > SFWeakRTTargetPtr;
+typedef FieldContainerPtrSField<RTTargetPtr,
+                                NoRefCountPolicy        > SFUncountedRTTargetPtr;
 #endif
 
 

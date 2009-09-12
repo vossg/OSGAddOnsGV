@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
 <FieldContainer
-    name="RayTracer"
-    parent="FieldBundle"
+    name="RTTarget"
+    parent="FieldContainer"
     library="ContribRRT"
-    pointerfieldtypes="none"
+    pointerfieldtypes="single"
     structure="concrete"
     systemcomponent="true"
     parentsystemcomponent="true"
@@ -13,22 +13,6 @@
     isNodeCore="false"
     libnamespace="OSG"
 >
-    <Field
-        name="RayTracingRoot"
-        type="NodePtr"
-        cardinality="single"
-        visibility="external"
-        access="public"
-    >
-    </Field>
-    <Field
-        name="BackgroundRoot"
-        type="NodePtr"
-        cardinality="single"
-        visibility="external"
-        access="public"
-    >
-    </Field>
 	<Field
 		name="width"
 		type="UInt32"

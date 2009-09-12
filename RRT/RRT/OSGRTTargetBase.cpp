@@ -56,7 +56,6 @@
 #include <cstdlib>
 #include <cstdio>
 #include <boost/assign/list_of.hpp>
-#include "boost/bind.hpp"
 
 #include <OSGConfig.h>
 
@@ -65,6 +64,8 @@
 
 #include "OSGRTTargetBase.h"
 #include "OSGRTTarget.h"
+
+#include "boost/bind.hpp"
 
 OSG_BEGIN_NAMESPACE
 
@@ -125,8 +126,9 @@ RTTargetBase::TypeObject RTTargetBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (ProtoBundleCreateF) &RTTargetBase::createEmpty,
+    (PrototypeCreateF) &RTTargetBase::createEmptyLocal,
     RTTarget::initMethod,
+    RTTarget::exitMethod,
     (InitalInsertDescFunc) &RTTargetBase::classDescInserter,
     false,
     0,
@@ -134,7 +136,7 @@ RTTargetBase::TypeObject RTTargetBase::_type(
     "\n"
     "<FieldContainer\n"
     "    name=\"RTTarget\"\n"
-    "    parent=\"FieldBundle\"\n"
+    "    parent=\"FieldContainer\"\n"
     "    library=\"ContribRRT\"\n"
     "    pointerfieldtypes=\"single\"\n"
     "    structure=\"concrete\"\n"
@@ -167,12 +169,12 @@ RTTargetBase::TypeObject RTTargetBase::_type(
 
 /*------------------------------ get -----------------------------------*/
 
-FieldBundleType &RTTargetBase::getType(void)
+FieldContainerType &RTTargetBase::getType(void)
 {
     return _type;
 }
 
-const FieldBundleType &RTTargetBase::getType(void) const
+const FieldContainerType &RTTargetBase::getType(void) const
 {
     return _type;
 }
@@ -275,21 +277,87 @@ void RTTargetBase::copyFromBin(BinaryDataHandler &pMem,
     }
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-RTTargetP RTTargetBase::createEmpty(void)
+//! create a new instance of the class
+RTTargetTransitPtr RTTargetBase::create(void)
 {
-    RTTargetP returnValue;
+    RTTargetTransitPtr fc;
 
-    newPtr<RTTarget>(returnValue);
+    if(getClassType().getPrototype() != NullFC)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
+
+        fc = dynamic_pointer_cast<RTTarget>(tmpPtr);
+    }
+
+    return fc;
+}
+
+//! create a new instance of the class
+RTTargetTransitPtr RTTargetBase::createLocal(BitVector bFlags)
+{
+    RTTargetTransitPtr fc;
+
+    if(getClassType().getPrototype() != NullFC)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyLocal(bFlags);
+
+        fc = dynamic_pointer_cast<RTTarget>(tmpPtr);
+    }
+
+    return fc;
+}
+
+//! create an empty new instance of the class, do not copy the prototype
+RTTargetPtr RTTargetBase::createEmpty(void)
+{
+    RTTargetPtr returnValue;
+
+    newPtr<RTTarget>(returnValue, Thread::getCurrentLocalFlags());
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= 
+        ~Thread::getCurrentLocalFlags(); 
 
     return returnValue;
 }
 
-FieldBundleP RTTargetBase::shallowCopy(void) const
+RTTargetPtr RTTargetBase::createEmptyLocal(BitVector bFlags)
 {
-    RTTargetP returnValue;
+    RTTargetPtr returnValue;
 
-    newPtr(returnValue, dynamic_cast<const RTTarget *>(this));
+    newPtr<RTTarget>(returnValue, bFlags);
+
+    returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RTTargetBase::shallowCopy(void) const
+{
+    RTTargetPtr tmpPtr;
+
+    newPtr(tmpPtr, 
+           dynamic_cast<const RTTarget *>(this), 
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RTTargetBase::shallowCopyLocal(
+    BitVector bFlags) const
+{
+    RTTargetPtr tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const RTTarget *>(this), bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
 
     return returnValue;
 }
@@ -312,17 +380,13 @@ RTTargetBase::RTTargetBase(const RTTargetBase &source) :
 {
 }
 
+
 /*-------------------------- destructors ----------------------------------*/
 
 RTTargetBase::~RTTargetBase(void)
 {
 }
 
-
-void RTTargetBase::resolveLinks(void)
-{
-    Inherited::resolveLinks();
-}
 
 GetFieldHandlePtr RTTargetBase::getHandleWidth           (void) const
 {
@@ -369,20 +433,51 @@ EditFieldHandlePtr RTTargetBase::editHandleHeight         (void)
 }
 
 
-
-OSG_END_NAMESPACE
-
-#include "OSGSFieldAdaptor.ins"
-
-OSG_BEGIN_NAMESPACE
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTTargetP>::_type("RTTargetP", "FieldBundleP");
+#ifdef OSG_MT_CPTR_ASPECT
+void RTTargetBase::execSyncV(      FieldContainer    &oFrom,
+                                        ConstFieldMaskArg  whichField,
+                                        AspectOffsetStore &oOffsets,
+                                        ConstFieldMaskArg  syncMode,
+                                  const UInt32             uiSyncInfo)
+{
+    this->execSync(static_cast<RTTargetBase *>(&oFrom),
+                   whichField,
+                   oOffsets,
+                   syncMode,
+                   uiSyncInfo);
+}
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTTargetP)
 
-OSG_FIELD_DLLEXPORT_DEF2(SFieldAdaptor, RTTargetP, SFFieldBundleP);
+#ifdef OSG_MT_CPTR_ASPECT
+FieldContainerPtr RTTargetBase::createAspectCopy(void) const
+{
+    RTTargetPtr returnValue;
+
+    newAspectCopy(returnValue,
+                  dynamic_cast<const RTTarget *>(this));
+
+    return returnValue;
+}
+#endif
+
+void RTTargetBase::resolveLinks(void)
+{
+    Inherited::resolveLinks();
+
+
+}
+
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<RTTargetPtr>::_type("RTTargetPtr", "FieldContainerPtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(RTTargetPtr)
+
+OSG_EXPORT_PTR_SFIELD_FULL(FieldContainerPtrSField, 
+                           RTTargetPtr, 
+                           0);
 
 
 OSG_END_NAMESPACE

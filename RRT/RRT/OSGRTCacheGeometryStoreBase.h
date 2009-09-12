@@ -133,14 +133,14 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFGeometryPtr       *getSFGeo             (void) const;
+            const SFUnrecGeometryPtr  *getSFGeo             (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   SFMatrix            *getSFMatrix          (void);
 #endif
                   SFMatrix            *editSFMatrix         (void);
             const SFMatrix            *getSFMatrix          (void) const;
-            const SFStatePtr          *getSFState           (void) const;
+            const SFUnrecStatePtr     *getSFState           (void) const;
 
 
                   GeometryPtrConst getGeo            (void) const;
@@ -171,7 +171,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -189,15 +188,23 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTCacheGeometryStorePtr create     (void);
-    static  RTCacheGeometryStorePtr createEmpty(void);
+    static  RTCacheGeometryStoreTransitPtr create          (void);
+    static  RTCacheGeometryStorePtr        createEmpty     (void);
+
+    static  RTCacheGeometryStoreTransitPtr createLocal     (
+                                              BitVector bFlags = FCLocal::All);
+
+    static  RTCacheGeometryStorePtr        createEmptyLocal(
+                                              BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
     /*! \{                                                                 */
 
-    virtual FieldContainerPtr shallowCopy(void) const;
+    virtual FieldContainerTransitPtr shallowCopy     (void) const;
+    virtual FieldContainerTransitPtr shallowCopyLocal(
+                                       BitVector bFlags = FCLocal::All) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -213,9 +220,9 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFGeometryPtr     _sfGeo;
+    SFUnrecGeometryPtr _sfGeo;
     SFMatrix          _sfMatrix;
-    SFStatePtr        _sfState;
+    SFUnrecStatePtr   _sfState;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -299,22 +306,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
     /*==========================  PRIVATE  ================================*/
 
   private:
+    /*---------------------------------------------------------------------*/
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const RTCacheGeometryStoreBase &source);
 };
 
 typedef RTCacheGeometryStoreBase *RTCacheGeometryStoreBaseP;
-
-/** Type specific RefPtr type for RTCacheGeometryStore. */
-typedef RefPtr<RTCacheGeometryStorePtr> RTCacheGeometryStoreRefPtr;
-
-typedef boost::mpl::if_<
-    boost::mpl::bool_<RTCacheGeometryStoreBase::isNodeCore>,
-    CoredNodePtr<RTCacheGeometryStore>,
-    FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC>::type
-
-        RTCacheGeometryStoreNodePtr;
 
 OSG_END_NAMESPACE
 
