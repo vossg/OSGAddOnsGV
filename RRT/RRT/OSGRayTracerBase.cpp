@@ -105,8 +105,8 @@ void RayTracerBase::classDescInserter(TypeObject &oType)
     FieldDescriptionBase *pDesc = NULL;
 
 
-    pDesc = new SFUnrecNodePtr::Description(
-        SFUnrecNodePtr::getClassType(),
+    pDesc = new SFWeakNodePtr::Description(
+        SFWeakNodePtr::getClassType(),
         "RayTracingRoot",
         "",
         RayTracingRootFieldId, RayTracingRootFieldMask,
@@ -183,7 +183,8 @@ RayTracerBase::TypeObject RayTracerBase::_type(
     ">\n"
     "    <Field\n"
     "        name=\"RayTracingRoot\"\n"
-    "        type=\"NodePtr\"\n"
+    "        type=\"Node\"\n"
+    "        category=\"weakpointer\"\n"
     "        cardinality=\"single\"\n"
     "        visibility=\"external\"\n"
     "        access=\"public\"\n"
@@ -238,7 +239,7 @@ UInt32 RayTracerBase::getContainerSize(void) const
 
 
 //! Get the RayTracer::_sfRayTracingRoot field.
-const SFUnrecNodePtr *RayTracerBase::getSFRayTracingRoot(void) const
+const SFWeakNodePtr *RayTracerBase::getSFRayTracingRoot(void) const
 {
     return &_sfRayTracingRoot;
 }
@@ -492,8 +493,8 @@ void RayTracerBase::onCreate(const RayTracer *source)
 
 GetFieldHandlePtr RayTracerBase::getHandleRayTracingRoot  (void) const
 {
-    SFUnrecNodePtr::GetHandlePtr returnValue(
-        new  SFUnrecNodePtr::GetHandle(
+    SFWeakNodePtr::GetHandlePtr returnValue(
+        new  SFWeakNodePtr::GetHandle(
              &_sfRayTracingRoot, 
              this->getType().getFieldDesc(RayTracingRootFieldId)));
 
@@ -502,8 +503,8 @@ GetFieldHandlePtr RayTracerBase::getHandleRayTracingRoot  (void) const
 
 EditFieldHandlePtr RayTracerBase::editHandleRayTracingRoot (void)
 {
-    SFUnrecNodePtr::EditHandlePtr returnValue(
-        new  SFUnrecNodePtr::EditHandle(
+    SFWeakNodePtr::EditHandlePtr returnValue(
+        new  SFWeakNodePtr::EditHandle(
              &_sfRayTracingRoot, 
              this->getType().getFieldDesc(RayTracingRootFieldId)));
 

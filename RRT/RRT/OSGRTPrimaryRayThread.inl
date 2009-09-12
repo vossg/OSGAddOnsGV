@@ -84,9 +84,15 @@ void RTPrimaryRayThread<DescT>::setup(Scene                  *pScene,
 }
 
 template<typename DescT> inline
+void RTPrimaryRayThread<DescT>::setRunning(bool bVal)
+{
+    _bRunning = bVal;
+}
+
+template<typename DescT> inline
 RTPrimaryRayThread<DescT>::RTPrimaryRayThread(const OSG::Char8  *szName, 
                                                     OSG::UInt32  uiId  ) :
-    Inherited      (szName, 
+     Inherited     (szName, 
                     uiId  ),
     _pScene        (NULL  ),
     _pRayStore     (NULL  ),
@@ -94,7 +100,8 @@ RTPrimaryRayThread<DescT>::RTPrimaryRayThread(const OSG::Char8  *szName,
     _pRayTiledStore(NULL  ),
     _pHitTiledStore(NULL  ),
     _pSyncBarrier  (NULL  ),
-    _iID           (   -1 )
+    _iID           (   -1 ),
+    _bRunning      (false )
 {
 }
 
@@ -121,10 +128,17 @@ void RTPrimaryRayThread<DescT>::workProc(void)
 
     if(_pRayStore != NULL)
     {
+        _bRunning = true;
+
         while(true)
         {
             _pSyncBarrier->enter();
             
+            if(_bRunning == false)
+            {
+                break;
+            }
+
             UInt32 uiRayIndex = _pRayStore->nextIndex();
             
             while(uiRayIndex != PrimaryRayStore::Empty)
@@ -164,10 +178,17 @@ void RTPrimaryRayThread<DescT>::workProc(void)
     }
     else
     {
+        _bRunning = true;
+
         while(true)
         {
             _pSyncBarrier->enter();
             
+            if(_bRunning == false)
+            {
+                break;
+            }
+
             UInt32 uiTileIndex = _pRayTiledStore->nextIndex();
             
             while(uiTileIndex != PrimaryRayTiledStore::Empty)

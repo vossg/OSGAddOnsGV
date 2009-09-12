@@ -69,6 +69,85 @@ RTLocalPacketManager<DescT>::~RTLocalPacketManager(void)
 
 }
 
+template<typename DescT> inline
+void RTLocalPacketManager<DescT>::resolveLinks(void)
+{
+    ThreadStore::iterator       tIt  = _vThreads.begin();
+    ThreadStore::const_iterator tEnd = _vThreads.end  ();
+
+    for(; tIt != tEnd; ++tIt)
+    {
+        RTCombinedThread<Desc> *cThread = 
+            dynamic_cast<RTCombinedThread<Desc> *>(*tIt);
+
+        if(cThread != NULL)
+        {
+            cThread->setRunning(false);
+
+            continue;
+        }
+
+        RTPrimaryRayThread<Desc> *prThread = 
+            dynamic_cast<RTPrimaryRayThread<Desc> *>(*tIt);
+
+        if(prThread != NULL)
+        {
+            prThread->setRunning(false);
+
+            continue;
+        }
+
+        RTShadingThread<Desc> *shThread = 
+            dynamic_cast<RTShadingThread<Desc> *>(*tIt);
+
+        if(shThread != NULL)
+        {
+            shThread->setRunning(false);
+
+            continue;
+        }
+    }
+
+    _pSyncBarrier->enter();
+
+    tIt  = _vThreads.begin();
+    tEnd = _vThreads.end  ();
+
+    for(; tIt != tEnd; ++tIt)
+    {
+        Thread::join(*tIt);
+
+        OSG::subRef(*tIt);
+    }
+
+    _vThreads.clear();
+
+    _pTarget = NullFC;
+
+    OSG::subRef(_pScene               );
+
+    _pScene = NULL;
+
+    OSG::subRef(_pPrimaryRayStore     );
+
+    _pPrimaryRayStore = NULL;
+
+    OSG::subRef(_pHitStore            );
+
+    _pHitStore = NULL;
+
+    OSG::subRef(_pPrimaryRayTiledStore);
+
+    _pPrimaryRayTiledStore = NULL;
+
+    OSG::subRef(_pHitTiledStore       );
+
+    _pHitTiledStore = NULL;
+
+    OSG::subRef(_pSyncBarrier         );
+
+    _pSyncBarrier = NULL;
+}
 
 template<typename DescT> inline
 void RTLocalPacketManager<DescT>::setTarget(RTTarget *pTarget)

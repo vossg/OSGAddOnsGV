@@ -624,7 +624,7 @@ void initScene(int argc, char **argv)
     vpPlane->addForeground(pFG);
 }
 
-int main (int argc, char **argv)
+int doMain (int argc, char **argv)
 {
     osgInit(argc,argv);
     
@@ -717,10 +717,14 @@ int main (int argc, char **argv)
     tball.setTranslationScale(scale);
     tball.setRotationCenter(tCenter);
 
-    // run...
-    
+    return 0;
+}
+
+int main (int argc, char **argv)
+{
+    doMain(argc, argv);
+
     glutMainLoop();
     
     return 0;
 }
-

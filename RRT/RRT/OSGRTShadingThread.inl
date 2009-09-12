@@ -79,6 +79,12 @@ void RTShadingThread<DescT>::setup(RTTarget        *pTarget,
 }
 
 template<typename DescT> inline
+void RTShadingThread<DescT>::setRunning(bool bVal)
+{
+    _bRunning = bVal;
+}
+
+template<typename DescT> inline
 OSG::BaseThread *RTShadingThread<DescT>::create(const OSG::Char8  *szName, 
                                                       OSG::UInt32  uiId)
 {
@@ -95,7 +101,8 @@ RTShadingThread<DescT>::RTShadingThread(const OSG::Char8  *szName,
    _pHitStore     (NULL  ),
    _pHitTiledStore(NULL  ),
    _pSyncBarrier  (NULL  ),
-   _iID           (-1    )
+   _iID           (-1    ),
+   _bRunning      (false )
 {
 }
 
@@ -119,10 +126,17 @@ void RTShadingThread<DescT>::workProc(void)
 
     if(_pHitStore != NULL)
     {
+        _bRunning = true;
+
         while(true)
         {
             _pSyncBarrier->enter();
             
+            if(_bRunning == false)
+            {
+                break;
+            }
+
             UInt32 uiHitIndex = _pHitStore->getReadIndex();
             
             while(uiHitIndex != HitStore::Empty)
@@ -169,10 +183,17 @@ void RTShadingThread<DescT>::workProc(void)
     }
     else
     {
+        _bRunning = true;
+
         while(true)
         {
             _pSyncBarrier->enter();
             
+            if(_bRunning == false)
+            {
+                break;
+            }
+
             UInt32 uiHitIndex = _pHitTiledStore->getReadIndex();
             
             while(uiHitIndex != HitTiledStore::Empty)

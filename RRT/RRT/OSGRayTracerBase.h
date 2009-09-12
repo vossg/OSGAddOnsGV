@@ -137,7 +137,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFUnrecNodePtr      *getSFRayTracingRoot  (void) const;
+            const SFWeakNodePtr       *getSFRayTracingRoot  (void) const;
             const SFUnrecNodePtr      *getSFBackgroundRoot  (void) const;
 
 
@@ -211,7 +211,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFUnrecNodePtr    _sfRayTracingRoot;
+    SFWeakNodePtr     _sfRayTracingRoot;
     SFUnrecNodePtr    _sfBackgroundRoot;
     SFUInt32          _sfWidth;
     SFUInt32          _sfHeight;

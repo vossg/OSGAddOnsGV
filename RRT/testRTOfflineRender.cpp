@@ -66,7 +66,7 @@ RRTStageUnrecPtr        pStage = NullFC;
 
 
 
-int main (int argc, char **argv)
+int doMain (int argc, char **argv)
 {
     osgInit(argc,argv);
     
@@ -312,8 +312,14 @@ int main (int argc, char **argv)
     pStage      = NullFC;
     pRayTracer  = NullFC;
 
+    return 0;
+}
+
+int main (int argc, char **argv)
+{
+    doMain(argc, argv);
+
     osgExit();
 
     return 0;
 }
-

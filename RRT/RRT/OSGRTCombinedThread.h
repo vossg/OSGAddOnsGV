@@ -172,6 +172,13 @@ class RTCombinedThread : public RTThread
                Int32                   iID         );
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    void setRunning(bool bVal);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
@@ -225,6 +232,7 @@ class RTCombinedThread : public RTThread
     Barrier                 *_pSyncBarrier;
 
     Int32                    _iID;
+    bool                     _bRunning;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

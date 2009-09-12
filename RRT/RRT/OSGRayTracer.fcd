@@ -15,7 +15,8 @@
 >
     <Field
         name="RayTracingRoot"
-        type="NodePtr"
+        type="Node"
+        category="weakpointer"
         cardinality="single"
         visibility="external"
         access="public"

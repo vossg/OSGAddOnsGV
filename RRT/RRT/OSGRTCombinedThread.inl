@@ -94,7 +94,7 @@ OSG::BaseThread *RTCombinedThread<DescT>::create(const OSG::Char8  *szName,
 template<class DescT> inline
 RTCombinedThread<DescT>::RTCombinedThread(const OSG::Char8  *szName, 
                                                 OSG::UInt32  uiId  ) :
-    Inherited      (szName, 
+     Inherited     (szName, 
                     uiId  ),
     _pScene        (NULL  ),
     _pTarget       (NULL  ),
@@ -103,7 +103,8 @@ RTCombinedThread<DescT>::RTCombinedThread(const OSG::Char8  *szName,
     _pRayTiledStore(NULL  ),
     _pHitTiledStore(NULL  ),
     _pSyncBarrier  (NULL  ),
-    _iID           (  -1  )
+    _iID           (  -1  ),
+    _bRunning      (false )
 {
 }
 
@@ -119,6 +120,12 @@ RTCombinedThread<DescT>::~RTCombinedThread(void)
     OSG::subRef(_pRayTiledStore);
     OSG::subRef(_pHitTiledStore);
     OSG::subRef(_pSyncBarrier  );
+}
+
+template<class DescT> inline
+void RTCombinedThread<DescT>::setRunning(bool bVal)
+{
+    _bRunning = bVal;
 }
 
 template<class DescT> inline
@@ -1064,10 +1071,17 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
     if(pThis->_pRayStore != NULL)
     {
+        pThis->_bRunning = true;
+
         while(true)
         {
             pThis->_pSyncBarrier->enter();
             
+            if(pThis->_bRunning == false)
+            {
+                break;
+            }
+
             UInt32 uiRayIndex = pThis->_pRayStore->nextIndex();
 
             uiRayStat = 0;
@@ -1260,9 +1274,13 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
             pThis->_pSyncBarrier->enter();
         }
+
+        fprintf(stderr, "Combined thread terminate\n");
     }
     else
     {
+        pThis->_bRunning = true;
+
         while(true)
         {
 #if 0
@@ -1270,6 +1288,11 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 #endif
 
             pThis->_pSyncBarrier->enter();
+
+            if(pThis->_bRunning == false)
+            {
+                break;
+            }
             
             UInt32 uiTileIndex = pThis->_pRayTiledStore->nextIndex();
 
@@ -1427,6 +1450,9 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 #endif            
             pThis->_pSyncBarrier->enter();
         }
+
+        fprintf(stderr, "Combined thread terminate\n");
+
     }
 }
 

@@ -53,6 +53,11 @@ RTScene<DescT>::~RTScene(void)
 }
 
 template<typename DescT> inline
+void RTScene<DescT>::resolveLinks(void)
+{
+}
+
+template<typename DescT> inline
 void RTScene<DescT>::addCache(RTCache *pCache)
 {
     if(pCache != NULL)

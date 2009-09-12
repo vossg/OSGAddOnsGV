@@ -278,7 +278,7 @@ void key(unsigned char key, int x, int y)
 }
 
 
-int main (int argc, char **argv)
+int doMain (int argc, char **argv)
 {
     osgInit(argc,argv);
     
@@ -306,11 +306,15 @@ int main (int argc, char **argv)
     NodeUnrecPtr  b1n = Node::create();
     GroupUnrecPtr b1  = Group::create();
 
+    fprintf(stderr, "create b1n: %p\n", b1n.get());
+
     b1n->setCore( b1 );
 
     // transformation
     NodeUnrecPtr      t1n = Node::create();
     TransformUnrecPtr t1  = Transform::create();
+
+    fprintf(stderr, "create t1n: %p\n", t1n.get());
 
     t1n->setCore (t1 );
     t1n->addChild(b1n);
@@ -333,6 +337,8 @@ int main (int argc, char **argv)
 //        dl->setBeacon( b1n);
     }
 
+    fprintf(stderr, "create dlight: %p\n", dlight.get());
+
     // root
     root              = Node:: create();
     GroupUnrecPtr gr1 = Group::create();
@@ -340,6 +346,8 @@ int main (int argc, char **argv)
     root->setCore (gr1   );
     root->addChild(t1n   );
     root->addChild(dlight);
+
+    fprintf(stderr, "create root: %p\n", root.get());
 
     // Load the file
 
@@ -357,6 +365,8 @@ int main (int argc, char **argv)
         file = makeSphere(4, 2.0);
     }
 
+    fprintf(stderr, "create file: %p\n", file.get());
+
     Thread::getCurrentChangeList()->commitChanges();
 
     file->updateVolume();
@@ -372,6 +382,8 @@ int main (int argc, char **argv)
 
     sceneTrN->setCore (scene_trans);
     sceneTrN->addChild(file       );
+
+    fprintf(stderr, "create sceneTrN: %p\n", sceneTrN.get());
 
 
     dlight->addChild(sceneTrN);
@@ -473,12 +485,14 @@ int main (int argc, char **argv)
 
     NodeUnrecPtr pStageNode = Node::create();
 
+    fprintf(stderr, "create stageNode: %p\n", pStageNode.get());
+
     pStage = RRTStage::create();
 
     pStage->setRenderTarget (pFBO);
     pStage->setTextureTarget(tx1o);
   
-    pStage->setSplitThreads(false );
+    pStage->setSplitThreads(false);
 //    pStage->setTiled       (true);
     pStage->setTiled       (false);
     pStage->setWidth       (128  );
@@ -497,6 +511,8 @@ int main (int argc, char **argv)
 
     VisitSubTreeUnrecPtr pVisit     = VisitSubTree::create();
     NodeUnrecPtr         pVisitNode = Node::create();
+
+    fprintf(stderr, "create pVisitNode: %p\n", pVisitNode.get());
 
     pVisit    ->setSubTreeRoot(dlight);
 //    pVisit    ->setSubTreeRoot(file);
@@ -555,9 +571,21 @@ int main (int argc, char **argv)
     tball.setTranslationScale(scale               );
     tball.setRotationCenter  (tCenter             );
 
-    // run...
-    glutMainLoop();
-    
+    fprintf(stderr, "create stageNode: %p %d %d\n", 
+            pStageNode.get(),
+            pStageNode->getRefCount(),
+            pStageNode->getWeakRefCount());
+
+   
     return 0;
 }
 
+int main (int argc, char **argv)
+{
+    doMain(argc, argv);
+
+    // run...
+    glutMainLoop();
+
+    return 0;
+}

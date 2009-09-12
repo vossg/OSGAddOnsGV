@@ -108,6 +108,13 @@ class RTPrimaryRayThread : public RTThread
                Int32                   iID      );
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    void setRunning(bool bVal);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
@@ -157,6 +164,7 @@ class RTPrimaryRayThread : public RTThread
     Barrier                 *_pSyncBarrier;
 
     Int32                    _iID;
+    bool                     _bRunning;
 
     /*! \}                                                                 */
    /*==========================  PRIVATE  ================================*/

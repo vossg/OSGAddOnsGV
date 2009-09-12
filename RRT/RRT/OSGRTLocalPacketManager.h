@@ -109,6 +109,13 @@ class RTLocalPacketManager : public MemoryObject
     void finish    (void        );
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual void resolveLinks(void);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
@@ -141,11 +148,6 @@ class RTLocalPacketManager : public MemoryObject
     /*! \{                                                                 */
 
     virtual ~RTLocalPacketManager(void); 
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

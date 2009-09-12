@@ -73,6 +73,32 @@ void RayTracerInst<DescT>::initMethod(InitPhase ePhase)
 }
 
 template<typename DescT> inline
+void RayTracerInst<DescT>::resolveLinks(void)
+{
+    fprintf(stderr, "RayTracerInst::resolveLinks %p\n", this);
+
+    Inherited::resolveLinks();
+
+    if(_pScene != NULL)
+    {
+        _pScene->resolveLinks();
+
+        subRef(_pScene);
+    }
+
+    _pScene = NULL;
+
+    if(_pPacketManager != NULL)
+    {
+        _pPacketManager->resolveLinks();
+        
+        subRef(_pPacketManager);
+    }
+
+    _pPacketManager = NULL;
+}
+
+template<typename DescT> inline
 void RayTracerInst<DescT>::addCache(RTCache *pCache)
 {
     _pScene->addCache(pCache);
