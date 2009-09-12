@@ -90,7 +90,7 @@ const Int32 &DynamicTerrainBase::getLevelSize(void) const
     return _sfLevelSize.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 Int32               &DynamicTerrainBase::getLevelSize      (void)
 {
@@ -140,7 +140,7 @@ const Real32 &DynamicTerrainBase::getHeightDataScale(void) const
     return _sfHeightDataScale.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 Real32              &DynamicTerrainBase::getHeightDataScale(void)
 {
@@ -173,7 +173,7 @@ const Real32 &DynamicTerrainBase::getHeightDataOffset(void) const
     return _sfHeightDataOffset.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 Real32              &DynamicTerrainBase::getHeightDataOffset(void)
 {
@@ -206,7 +206,7 @@ const Real32 &DynamicTerrainBase::getSampleDistance(void) const
     return _sfSampleDistance.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 Real32              &DynamicTerrainBase::getSampleDistance (void)
 {
@@ -273,7 +273,7 @@ const Int32 &DynamicTerrainBase::getSampleUpdateBudget(void) const
     return _sfSampleUpdateBudget.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 Int32               &DynamicTerrainBase::getSampleUpdateBudget(void)
 {
@@ -306,7 +306,7 @@ const bool &DynamicTerrainBase::getEnableFrustumCulling(void) const
     return _sfEnableFrustumCulling.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 bool                &DynamicTerrainBase::getEnableFrustumCulling(void)
 {
@@ -339,7 +339,7 @@ const bool &DynamicTerrainBase::getUseGpuRenderer(void) const
     return _sfUseGpuRenderer.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 bool                &DynamicTerrainBase::getUseGpuRenderer (void)
 {
@@ -372,7 +372,7 @@ const bool &DynamicTerrainBase::getUseVboExtension(void) const
     return _sfUseVboExtension.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 bool                &DynamicTerrainBase::getUseVboExtension(void)
 {
@@ -405,7 +405,7 @@ const bool &DynamicTerrainBase::getEnableSmoothTransition(void) const
     return _sfEnableSmoothTransition.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 bool                &DynamicTerrainBase::getEnableSmoothTransition(void)
 {
@@ -438,7 +438,7 @@ const bool &DynamicTerrainBase::getShowBoundingBoxes(void) const
     return _sfShowBoundingBoxes.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 bool                &DynamicTerrainBase::getShowBoundingBoxes(void)
 {
@@ -471,7 +471,7 @@ const bool &DynamicTerrainBase::getShowTransitionRegions(void) const
     return _sfShowTransitionRegions.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 bool                &DynamicTerrainBase::getShowTransitionRegions(void)
 {
@@ -504,7 +504,7 @@ const bool &DynamicTerrainBase::getDisableUpdate(void) const
     return _sfDisableUpdate.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 bool                &DynamicTerrainBase::getDisableUpdate  (void)
 {
@@ -537,7 +537,7 @@ const std::string &DynamicTerrainBase::getCpuVertexProgram(void) const
     return _sfCpuVertexProgram.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 std::string         &DynamicTerrainBase::getCpuVertexProgram(void)
 {
@@ -570,7 +570,7 @@ const std::string &DynamicTerrainBase::getCpuFragmentProgram(void) const
     return _sfCpuFragmentProgram.getValue();
 }
 
-#ifdef OSG_1_COMPAT
+#ifdef OSG_1_GET_COMPAT
 inline
 std::string         &DynamicTerrainBase::getCpuFragmentProgram(void)
 {
@@ -587,83 +587,6 @@ void DynamicTerrainBase::setCpuFragmentProgram(const std::string &value)
     _sfCpuFragmentProgram.setValue(value);
 }
 
-//! create a new instance of the class
-inline
-DynamicTerrainPtr DynamicTerrainBase::create(void)
-{
-    DynamicTerrainPtr fc;
-
-    if(getClassType().getPrototype() != NullFC)
-    {
-        fc = OSG::cast_dynamic<DynamicTerrain::ObjPtr>(
-            getClassType().getPrototype()-> shallowCopy());
-    }
-
-    return fc;
-}
-
-#ifdef OSG_MT_FIELDCONTAINERPTR
-inline
-void DynamicTerrainBase::execSync(      DynamicTerrainBase *pOther,
-                                       ConstFieldMaskArg  whichField,
-                                       ConstFieldMaskArg  syncMode,
-                                 const UInt32             uiSyncInfo,
-                                       UInt32             uiCopyOffset)
-{
-    Inherited::execSync(pOther, whichField, syncMode, uiSyncInfo, uiCopyOffset);
-
-    if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
-        _sfLevelSize.syncWith(pOther->_sfLevelSize);
-
-    if(FieldBits::NoField != (HeightDataFieldMask & whichField))
-        _sfHeightData.syncWith(pOther->_sfHeightData);
-
-    if(FieldBits::NoField != (HeightDataScaleFieldMask & whichField))
-        _sfHeightDataScale.syncWith(pOther->_sfHeightDataScale);
-
-    if(FieldBits::NoField != (HeightDataOffsetFieldMask & whichField))
-        _sfHeightDataOffset.syncWith(pOther->_sfHeightDataOffset);
-
-    if(FieldBits::NoField != (SampleDistanceFieldMask & whichField))
-        _sfSampleDistance.syncWith(pOther->_sfSampleDistance);
-
-    if(FieldBits::NoField != (TextureDataFieldMask & whichField))
-        _sfTextureData.syncWith(pOther->_sfTextureData);
-
-    if(FieldBits::NoField != (HeightColorTextureFieldMask & whichField))
-        _sfHeightColorTexture.syncWith(pOther->_sfHeightColorTexture);
-
-    if(FieldBits::NoField != (SampleUpdateBudgetFieldMask & whichField))
-        _sfSampleUpdateBudget.syncWith(pOther->_sfSampleUpdateBudget);
-
-    if(FieldBits::NoField != (EnableFrustumCullingFieldMask & whichField))
-        _sfEnableFrustumCulling.syncWith(pOther->_sfEnableFrustumCulling);
-
-    if(FieldBits::NoField != (UseGpuRendererFieldMask & whichField))
-        _sfUseGpuRenderer.syncWith(pOther->_sfUseGpuRenderer);
-
-    if(FieldBits::NoField != (UseVboExtensionFieldMask & whichField))
-        _sfUseVboExtension.syncWith(pOther->_sfUseVboExtension);
-
-    if(FieldBits::NoField != (EnableSmoothTransitionFieldMask & whichField))
-        _sfEnableSmoothTransition.syncWith(pOther->_sfEnableSmoothTransition);
-
-    if(FieldBits::NoField != (ShowBoundingBoxesFieldMask & whichField))
-        _sfShowBoundingBoxes.syncWith(pOther->_sfShowBoundingBoxes);
-
-    if(FieldBits::NoField != (ShowTransitionRegionsFieldMask & whichField))
-        _sfShowTransitionRegions.syncWith(pOther->_sfShowTransitionRegions);
-
-    if(FieldBits::NoField != (DisableUpdateFieldMask & whichField))
-        _sfDisableUpdate.syncWith(pOther->_sfDisableUpdate);
-
-    if(FieldBits::NoField != (CpuVertexProgramFieldMask & whichField))
-        _sfCpuVertexProgram.syncWith(pOther->_sfCpuVertexProgram);
-
-    if(FieldBits::NoField != (CpuFragmentProgramFieldMask & whichField))
-        _sfCpuFragmentProgram.syncWith(pOther->_sfCpuFragmentProgram);
-}
-#endif
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline
@@ -728,30 +651,13 @@ void DynamicTerrainBase::execSync (      DynamicTerrainBase *pFrom,
 }
 #endif
 
-#if 0
-inline
-void DynamicTerrainBase::execBeginEdit(ConstFieldMaskArg whichField,
-                                      UInt32            uiAspect,
-                                      UInt32            uiContainerSize)
-{
-    Inherited::execBeginEdit(whichField, uiAspect, uiContainerSize);
-}
-#endif
-
 
 inline
 Char8 *DynamicTerrainBase::getClassname(void)
 {
     return "DynamicTerrain";
 }
-
-typedef PointerBuilder<DynamicTerrain>::ObjPtr          DynamicTerrainPtr;
-typedef PointerBuilder<DynamicTerrain>::ObjPtrConst     DynamicTerrainPtrConst;
-typedef PointerBuilder<DynamicTerrain>::ObjConstPtr     DynamicTerrainConstPtr;
-
-typedef PointerBuilder<DynamicTerrain>::ObjPtrArg       DynamicTerrainPtrArg;
-typedef PointerBuilder<DynamicTerrain>::ObjConstPtrArg  DynamicTerrainConstPtrArg;
-typedef PointerBuilder<DynamicTerrain>::ObjPtrConstArg  DynamicTerrainPtrConstArg;
+OSG_GEN_CONTAINERPTR(DynamicTerrain);
 
 OSG_END_NAMESPACE
 

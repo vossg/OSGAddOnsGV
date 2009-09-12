@@ -70,24 +70,7 @@ class DynamicTerrain;
 #if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
 //! DynamicTerrainPtr
 
-typedef PointerFwdBuilder<MaterialDrawablePtr,
-                          MaterialDrawableConstPtr,
-                          DynamicTerrain>::ObjPtr         DynamicTerrainPtr;
-typedef PointerFwdBuilder<MaterialDrawablePtr,
-                          MaterialDrawableConstPtr,
-                          DynamicTerrain>::ObjPtrConst    DynamicTerrainPtrConst;
-typedef PointerFwdBuilder<MaterialDrawablePtr,
-                          MaterialDrawableConstPtr,
-                          DynamicTerrain>::ObjConstPtr    DynamicTerrainConstPtr;
-typedef PointerFwdBuilder<MaterialDrawablePtr,
-                          MaterialDrawableConstPtr,
-                          DynamicTerrain>::ObjPtrArg      DynamicTerrainPtrArg;
-typedef PointerFwdBuilder<MaterialDrawablePtr,
-                          MaterialDrawableConstPtr,
-                          DynamicTerrain>::ObjConstPtrArg DynamicTerrainConstPtrArg;
-typedef PointerFwdBuilder<MaterialDrawablePtr,
-                          MaterialDrawableConstPtr,
-                          DynamicTerrain>::ObjPtrConstArg DynamicTerrainPtrConstArg;
+OSG_GEN_CONTAINERPTR(DynamicTerrain);
 
 #endif
 
@@ -100,7 +83,7 @@ typedef PointerFwdBuilder<MaterialDrawablePtr,
 
 template <>
 struct FieldTraits<DynamicTerrainPtr> :
-    public FieldTraitsTemplateBase<DynamicTerrainPtr>
+    public FieldTraitsFCPtrBase<DynamicTerrainPtr>
 {
   private:
 
