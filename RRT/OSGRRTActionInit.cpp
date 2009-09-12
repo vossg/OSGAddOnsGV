@@ -86,7 +86,7 @@ ActionBase::ResultE RRTStageRenderEnter(const NodeCorePtr &pCore,
 
         if(pPort != NULL)
         {
-            pPart->setViewport(pPort         );
+//            pPart->setViewport(pPort         );
             pPart->setWindow  (a->getWindow());
             
             pPart->calcViewportDimension(pPort->getLeft  (),
