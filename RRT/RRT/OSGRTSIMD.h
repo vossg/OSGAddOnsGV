@@ -134,21 +134,24 @@ struct SSEVec4
     };
 };
 
-Float4 osgSIMDMadd(const Float4 vM1, const Float4 vM2, const Float4 vS);
-Float4 osgSIMDMul (const Float4 v1,  const Float4 v2);
-Float4 osgSIMDAdd (const Float4 v1,  const Float4 v2);
-Float4 osgSIMDSub (const Float4 v1,  const Float4 v2);
+Float4 osgSIMDMadd  (const Float4 vM1, const Float4 vM2, const Float4 vS);
+Float4 osgSIMDMul   (const Float4 v1,  const Float4 v2);
+Float4 osgSIMDAdd   (const Float4 v1,  const Float4 v2);
+Float4 osgSIMDSub   (const Float4 v1,  const Float4 v2);
 
-Float4 osgSIMDAnd (const Float4 v1,  const Float4 v2);
+Float4 osgSIMDAnd   (const Float4 v1,  const Float4 v2);
+Float4 osgSIMDOr    (const Float4 v1,  const Float4 v2);
 
-Float4 osgSIMDMax (const Float4 v1,  const Float4 v2);
-Float4 osgSIMDMin (const Float4 v1,  const Float4 v2);
+Float4 osgSIMDAndNot(const Float4 v1,  const Float4 v2);
 
-Float4 osgSIMDCmpGT(const Float4 v1, const Float4 v2);
-Float4 osgSIMDCmpGE(const Float4 v1, const Float4 v2);
+Float4 osgSIMDMax   (const Float4 v1,  const Float4 v2);
+Float4 osgSIMDMin   (const Float4 v1,  const Float4 v2);
 
-Float4 osgSIMDCmpLT(const Float4 v1, const Float4 v2);
-Float4 osgSIMDCmpLE(const Float4 v1, const Float4 v2);
+Float4 osgSIMDCmpGT (const Float4 v1, const Float4 v2);
+Float4 osgSIMDCmpGE (const Float4 v1, const Float4 v2);
+
+Float4 osgSIMDCmpLT (const Float4 v1, const Float4 v2);
+Float4 osgSIMDCmpLE (const Float4 v1, const Float4 v2);
 
 Float4 osgSIMDRSqrtE(const Float4 v);
 Float4 osgSIMDInvert(const Float4 v);

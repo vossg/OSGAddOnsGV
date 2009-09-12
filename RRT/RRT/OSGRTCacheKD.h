@@ -188,15 +188,14 @@ class RTCacheKD : public RTCacheKDBase<DescT>
 
     struct KDSIMDStackElem 
     {
-/*
         Float4         tmin4;
         Float4         tmax4;
+/*
         Float4         tTmpMin4;
  */
 
-        Real32         tmin4[4];
-        Real32         tmax4[4];
-        bool           active[4];
+        Real32         tmin[4];
+        Real32         tmax[4];
 
         union
         {

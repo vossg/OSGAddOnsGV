@@ -54,7 +54,7 @@ Float4 osgSIMDMul(const Float4 v1,  const Float4 v2)
 
 
 inline
-Float4 osgSIMDAdd (const Float4 v1,  const Float4 v2)
+Float4 osgSIMDAdd(const Float4 v1,  const Float4 v2)
 {
     Float4 returnValue;
 
@@ -67,7 +67,20 @@ Float4 osgSIMDAdd (const Float4 v1,  const Float4 v2)
 }
 
 inline
-Float4 osgSIMDAnd (const Float4 v1,  const Float4 v2)
+Float4 osgSIMDSub(const Float4 v1,  const Float4 v2)
+{
+    Float4 returnValue;
+
+    returnValue.data[0] = v1.data[0] - v2.data[0];
+    returnValue.data[1] = v1.data[1] - v2.data[1];
+    returnValue.data[2] = v1.data[2] - v2.data[2];
+    returnValue.data[3] = v1.data[3] - v2.data[3];
+
+    return returnValue;
+}
+
+inline
+Float4 osgSIMDAnd(const Float4 v1,  const Float4 v2)
 {
     Float4 returnValue;
 
@@ -75,6 +88,111 @@ Float4 osgSIMDAnd (const Float4 v1,  const Float4 v2)
     returnValue.idata[1] = v1.idata[1] & v2.idata[1];
     returnValue.idata[2] = v1.idata[2] & v2.idata[2];
     returnValue.idata[3] = v1.idata[3] & v2.idata[3];
+
+    return returnValue;
+}
+
+inline
+Float4 osgSIMDOr(const Float4 v1, const Float4 v2)
+{
+    Float4 returnValue;
+
+    returnValue.idata[0] = v1.idata[0] | v2.idata[0];
+    returnValue.idata[1] = v1.idata[1] | v2.idata[1];
+    returnValue.idata[2] = v1.idata[2] | v2.idata[2];
+    returnValue.idata[3] = v1.idata[3] | v2.idata[3];
+
+    return returnValue;
+}
+
+inline
+Float4 osgSIMDAndNot(const Float4 v1, const Float4 v2)
+{
+    Float4 returnValue;
+
+    returnValue.idata[0] = ~v1.idata[0] & v2.idata[0];
+    returnValue.idata[1] = ~v1.idata[1] & v2.idata[1];
+    returnValue.idata[2] = ~v1.idata[2] & v2.idata[2];
+    returnValue.idata[3] = ~v1.idata[3] & v2.idata[3];
+
+    return returnValue;   
+}
+
+inline
+Float4 osgSIMDMax(const Float4 v1,  const Float4 v2)
+{
+    Float4 returnValue;
+
+    returnValue.data[0] = osgMax(v1.data[0], v2.data[0]);
+    returnValue.data[1] = osgMax(v1.data[1], v2.data[1]);
+    returnValue.data[2] = osgMax(v1.data[2], v2.data[2]);
+    returnValue.data[3] = osgMax(v1.data[3], v2.data[3]);
+
+    return returnValue;
+}
+
+inline
+Float4 osgSIMDMin(const Float4 v1,  const Float4 v2)
+{
+    Float4 returnValue;
+
+    returnValue.data[0] = osgMin(v1.data[0], v2.data[0]);
+    returnValue.data[1] = osgMin(v1.data[1], v2.data[1]);
+    returnValue.data[2] = osgMin(v1.data[2], v2.data[2]);
+    returnValue.data[3] = osgMin(v1.data[3], v2.data[3]);
+
+    return returnValue;
+}
+
+inline
+Float4 osgSIMDCmpGT(const Float4 v1, const Float4 v2)
+{
+    Float4 returnValue;
+
+    returnValue.idata[0] = v1.data[0] > v2.data[0] ? 0xffffffff : 0x00000000;
+    returnValue.idata[1] = v1.data[1] > v2.data[1] ? 0xffffffff : 0x00000000;
+    returnValue.idata[2] = v1.data[2] > v2.data[2] ? 0xffffffff : 0x00000000;
+    returnValue.idata[3] = v1.data[3] > v2.data[3] ? 0xffffffff : 0x00000000;
+
+    return returnValue;
+}
+
+inline
+Float4 osgSIMDCmpGE(const Float4 v1, const Float4 v2)
+{
+    Float4 returnValue;
+
+    returnValue.idata[0] = v1.data[0] >= v2.data[0] ? 0xffffffff : 0x00000000;
+    returnValue.idata[1] = v1.data[1] >= v2.data[1] ? 0xffffffff : 0x00000000;
+    returnValue.idata[2] = v1.data[2] >= v2.data[2] ? 0xffffffff : 0x00000000;
+    returnValue.idata[3] = v1.data[3] >= v2.data[3] ? 0xffffffff : 0x00000000;
+
+    return returnValue;
+}
+
+inline
+Float4 osgSIMDCmpLT(const Float4 v1, const Float4 v2)
+{
+    Float4 returnValue;
+
+    returnValue.idata[0] = v1.data[0] < v2.data[0] ? 0xffffffff : 0x00000000;
+    returnValue.idata[1] = v1.data[1] < v2.data[1] ? 0xffffffff : 0x00000000;
+    returnValue.idata[2] = v1.data[2] < v2.data[2] ? 0xffffffff : 0x00000000;
+    returnValue.idata[3] = v1.data[3] < v2.data[3] ? 0xffffffff : 0x00000000;
+
+    return returnValue;
+}
+
+
+inline
+Float4 osgSIMDCmpLE(const Float4 v1, const Float4 v2)
+{
+    Float4 returnValue;
+
+    returnValue.idata[0] = v1.data[0] <= v2.data[0] ? 0xffffffff : 0x00000000;
+    returnValue.idata[1] = v1.data[1] <= v2.data[1] ? 0xffffffff : 0x00000000;
+    returnValue.idata[2] = v1.data[2] <= v2.data[2] ? 0xffffffff : 0x00000000;
+    returnValue.idata[3] = v1.data[3] <= v2.data[3] ? 0xffffffff : 0x00000000;
 
     return returnValue;
 }
@@ -90,6 +208,18 @@ Float4 osgSIMDInvert(const Float4 v)
     returnValue.data[3] = 1.f / v.data[3];
 
     return returnValue;
+}
+
+
+inline
+Int32  osgSIMDMoveMask(const Float4 v)
+{
+    Int32 returnValue = 
+        ((v.idata[0] & 0x80000000) ? 0x1 : 0x0) |
+        ((v.idata[1] & 0x80000000) ? 0x2 : 0x0) |
+        ((v.idata[2] & 0x80000000) ? 0x4 : 0x0) |
+        ((v.idata[3] & 0x80000000) ? 0x8 : 0x0);
+    
 }
 
 inline
@@ -120,6 +250,13 @@ Float4 osgSIMDSet(const Real32 rVal0,
     returnValue.data[3] = rVal3;
 
     return returnValue;
+}
+
+inline
+Float4 osgSIMDUpdate(const Float4 mask, const Float4 v1, const Float4 v2)
+{
+    return osgSIMDOr(osgSIMDAnd   (v1,   mask),
+                     osgSIMDAndNot(mask, v2  ));
 }
 
 OSG_END_NAMESPACE
