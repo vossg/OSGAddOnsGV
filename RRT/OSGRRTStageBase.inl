@@ -76,14 +76,14 @@ OSG::UInt16 RRTStageBase::getClassGroupId(void)
 
 //! Get the value of the RRTStage::_sfBackgroundRoot field.
 inline
-NodePtrConst RRTStageBase::getBackgroundRoot(void) const
+NodePtr RRTStageBase::getBackgroundRoot(void) const
 {
     return _sfBackgroundRoot.getValue();
 }
 
 //! Set the value of the RRTStage::_sfBackgroundRoot field.
 inline
-void RRTStageBase::setBackgroundRoot(NodePtrConstArg value)
+void RRTStageBase::setBackgroundRoot(const NodePtr value)
 {
     editSField(BackgroundRootFieldMask);
 
@@ -93,14 +93,14 @@ void RRTStageBase::setBackgroundRoot(NodePtrConstArg value)
 
 //! Get the value of the RRTStage::_sfTextureTarget field.
 inline
-TextureObjChunkPtrConst RRTStageBase::getTextureTarget(void) const
+TextureObjChunkPtr RRTStageBase::getTextureTarget(void) const
 {
     return _sfTextureTarget.getValue();
 }
 
 //! Set the value of the RRTStage::_sfTextureTarget field.
 inline
-void RRTStageBase::setTextureTarget(TextureObjChunkPtrConstArg value)
+void RRTStageBase::setTextureTarget(const TextureObjChunkPtr value)
 {
     editSField(TextureTargetFieldMask);
 
@@ -242,14 +242,14 @@ void RRTStageBase::setTiled(const bool &value)
 
 //! Get the value of the RRTStage::_sfRTCamera field.
 inline
-RTCameraDecoratorPtrConst RRTStageBase::getRTCamera(void) const
+RTCameraDecoratorPtr RRTStageBase::getRTCamera(void) const
 {
     return _sfRTCamera.getValue();
 }
 
 //! Set the value of the RRTStage::_sfRTCamera field.
 inline
-void RRTStageBase::setRTCamera(RTCameraDecoratorPtrConstArg value)
+void RRTStageBase::setRTCamera(const RTCameraDecoratorPtr value)
 {
     editSField(RTCameraFieldMask);
 

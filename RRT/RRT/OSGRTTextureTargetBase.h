@@ -128,14 +128,14 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTextureTargetBase : public RTTarget
             const SFUnrecTextureObjChunkPtr *getSFTexObjChunk     (void) const;
 
 
-                  TextureObjChunkPtrConst getTexObjChunk    (void) const;
+                  TextureObjChunkPtr getTexObjChunk    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setTexObjChunk    (TextureObjChunkPtrConstArg value);
+            void setTexObjChunk    (const TextureObjChunkPtr value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

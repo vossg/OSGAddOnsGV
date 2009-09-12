@@ -76,14 +76,14 @@ OSG::UInt16 RTCacheGeometryStoreBase::getClassGroupId(void)
 
 //! Get the value of the RTCacheGeometryStore::_sfGeo field.
 inline
-GeometryPtrConst RTCacheGeometryStoreBase::getGeo(void) const
+GeometryPtr RTCacheGeometryStoreBase::getGeo(void) const
 {
     return _sfGeo.getValue();
 }
 
 //! Set the value of the RTCacheGeometryStore::_sfGeo field.
 inline
-void RTCacheGeometryStoreBase::setGeo(GeometryPtrConstArg value)
+void RTCacheGeometryStoreBase::setGeo(const GeometryPtr value)
 {
     editSField(GeoFieldMask);
 
@@ -126,14 +126,14 @@ void RTCacheGeometryStoreBase::setMatrix(const Matrix &value)
 
 //! Get the value of the RTCacheGeometryStore::_sfState field.
 inline
-StatePtrConst RTCacheGeometryStoreBase::getState(void) const
+StatePtr RTCacheGeometryStoreBase::getState(void) const
 {
     return _sfState.getValue();
 }
 
 //! Set the value of the RTCacheGeometryStore::_sfState field.
 inline
-void RTCacheGeometryStoreBase::setState(StatePtrConstArg value)
+void RTCacheGeometryStoreBase::setState(const StatePtr value)
 {
     editSField(StateFieldMask);
 

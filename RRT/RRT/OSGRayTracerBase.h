@@ -141,17 +141,17 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldContainer
             const SFUnrecNodePtr      *getSFBackgroundRoot  (void) const;
 
 
-                  NodePtrConst getRayTracingRoot (void) const;
+                  NodePtr getRayTracingRoot (void) const;
 
-                  NodePtrConst getBackgroundRoot (void) const;
+                  NodePtr getBackgroundRoot (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setRayTracingRoot (NodePtrConstArg value);
-            void setBackgroundRoot (NodePtrConstArg value);
+            void setRayTracingRoot (const NodePtr value);
+            void setBackgroundRoot (const NodePtr value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

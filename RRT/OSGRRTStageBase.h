@@ -178,9 +178,9 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
             const SFUnrecRTCameraDecoratorPtr *getSFRTCamera        (void) const;
 
 
-                  NodePtrConst getBackgroundRoot (void) const;
+                  NodePtr getBackgroundRoot (void) const;
 
-                  TextureObjChunkPtrConst getTextureTarget  (void) const;
+                  TextureObjChunkPtr getTextureTarget  (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   UInt32              &getWidth           (void);
@@ -206,20 +206,20 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
                   bool                &editTiled          (void);
             const bool                &getTiled           (void) const;
 
-                  RTCameraDecoratorPtrConst getRTCamera       (void) const;
+                  RTCameraDecoratorPtr getRTCamera       (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setBackgroundRoot (NodePtrConstArg value);
-            void setTextureTarget  (TextureObjChunkPtrConstArg value);
+            void setBackgroundRoot (const NodePtr value);
+            void setTextureTarget  (const TextureObjChunkPtr value);
             void setWidth          (const UInt32 &value);
             void setHeight         (const UInt32 &value);
             void setSplitThreads   (const bool &value);
             void setTiled          (const bool &value);
-            void setRTCamera       (RTCameraDecoratorPtrConstArg value);
+            void setRTCamera       (const RTCameraDecoratorPtr value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

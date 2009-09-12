@@ -128,14 +128,14 @@ class OSG_CONTRIBRRT_DLLMAPPING RTImageTargetBase : public RTTarget
             const SFUnrecImagePtr     *getSFImage           (void) const;
 
 
-                  ImagePtrConst getImage          (void) const;
+                  ImagePtr getImage          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setImage          (ImagePtrConstArg value);
+            void setImage          (const ImagePtr value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

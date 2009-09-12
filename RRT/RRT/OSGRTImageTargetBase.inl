@@ -76,14 +76,14 @@ OSG::UInt16 RTImageTargetBase::getClassGroupId(void)
 
 //! Get the value of the RTImageTarget::_sfImage field.
 inline
-ImagePtrConst RTImageTargetBase::getImage(void) const
+ImagePtr RTImageTargetBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
 //! Set the value of the RTImageTarget::_sfImage field.
 inline
-void RTImageTargetBase::setImage(ImagePtrConstArg value)
+void RTImageTargetBase::setImage(const ImagePtr value)
 {
     editSField(ImageFieldMask);
 

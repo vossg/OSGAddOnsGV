@@ -76,14 +76,14 @@ OSG::UInt16 RayTracerBase::getClassGroupId(void)
 
 //! Get the value of the RayTracer::_sfRayTracingRoot field.
 inline
-NodePtrConst RayTracerBase::getRayTracingRoot(void) const
+NodePtr RayTracerBase::getRayTracingRoot(void) const
 {
     return _sfRayTracingRoot.getValue();
 }
 
 //! Set the value of the RayTracer::_sfRayTracingRoot field.
 inline
-void RayTracerBase::setRayTracingRoot(NodePtrConstArg value)
+void RayTracerBase::setRayTracingRoot(const NodePtr value)
 {
     editSField(RayTracingRootFieldMask);
 
@@ -93,14 +93,14 @@ void RayTracerBase::setRayTracingRoot(NodePtrConstArg value)
 
 //! Get the value of the RayTracer::_sfBackgroundRoot field.
 inline
-NodePtrConst RayTracerBase::getBackgroundRoot(void) const
+NodePtr RayTracerBase::getBackgroundRoot(void) const
 {
     return _sfBackgroundRoot.getValue();
 }
 
 //! Set the value of the RayTracer::_sfBackgroundRoot field.
 inline
-void RayTracerBase::setBackgroundRoot(NodePtrConstArg value)
+void RayTracerBase::setBackgroundRoot(const NodePtr value)
 {
     editSField(BackgroundRootFieldMask);
 
