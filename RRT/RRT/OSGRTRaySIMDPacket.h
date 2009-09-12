@@ -124,6 +124,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
 
     static const UInt32 NumRays  = Inherited::NumElements;
 
+    static const UInt32 X        = 0;
+    static const UInt32 Y        = 1;
+    static const UInt32 Z        = 2;
+
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
@@ -158,9 +162,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    Pnt3f getOrigin(void        );
+    Float4 getOrigin         (      void          );
+    Real32 getOriginComponent(const UInt32 uiCoord);
 
-    Vec3f getDir   (UInt32 uiIdx);
+    Float4 getDir            (const UInt32 uiCoord);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -186,11 +191,21 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
 
     /*==========================  PRIVATE  ================================*/
 
-    Pnt3f  _vOrigin;
-    Vec3f  _vDir[NumRays];
+    typedef Real32 Real32_4[4];
+
+    union
+    {
+        Float4  _vOrigin;
+        Real32  _vOriginA[4];
+    };
+
+    union
+    {
+        Float4    _vDir [3];
+        Real32_4  _vDirA[3];
+    };
 
   private:
-
 };
 
 OSG_END_NAMESPACE

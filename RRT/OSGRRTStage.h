@@ -48,6 +48,8 @@
 #include "OSGTextureObjChunk.h"
 #include "OSGRTCacheAttachmentInst.h"
 
+#include "OSGRTSIMD.h"
+
 OSG_BEGIN_NAMESPACE
 
 class RayTracer;
@@ -139,6 +141,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
         typedef RTHitTile<SinglePacketDescBase>        HitTile;
         typedef RTPrimaryRayTile<SinglePacketDescBase> PrimaryRayTile;
+
+        typedef std::vector<SingleRayPacket    >       RayStore;
     };
     
 
@@ -161,6 +165,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
 
         typedef RTHitTile<SIMDPacketDescBase>        HitTile;
         typedef RTPrimaryRayTile<SIMDPacketDescBase> PrimaryRayTile;
+
+        typedef AlignedAllocator<SingleRayPacket>    SIMDRayAllocator;
+
+        typedef std::vector<SingleRayPacket,
+                            SIMDRayAllocator>        RayStore;
     };
 
 

@@ -121,6 +121,56 @@ void RTHitSIMDPacket::set(UInt32 uiIdx,
 }
 
 inline
+void RTHitSIMDPacket::set(const UInt32 mask,
+                          const Float4 rDist, 
+                          const Float4 rU, 
+                          const Float4 rV, 
+                          const UInt32 uiObjId,
+                          const UInt32 uiTriId,
+                          const UInt32 uiCacheId)
+{
+    // Hack need full SIMD impl.
+
+    static const UInt32 maskCheck[4] = { 0x01, 0x02, 0x04, 0x08 };
+
+    union
+    {
+        Float4 sseDist;
+        Real32 arrayDist[4];
+    };
+
+    union
+    {
+        Float4 sseRU;
+        Real32 arrayRU[4];
+    };
+
+    union
+    {
+        Float4 sseRV;
+        Real32 arrayRV[4];
+    };
+
+    sseDist = rDist;
+    sseRU   = rU;
+    sseRV   = rV;
+
+    for(UInt32 i = 0; i < 4; ++i)
+    {
+        if((mask & maskCheck[i]) != 0)
+        {
+            _rDist    [i] = arrayDist[i];
+            _rU       [i] = arrayRU[i];
+            _rV       [i] = arrayRV[i];
+            _uiObjId  [i] = uiObjId;
+            _uiTriId  [i] = uiTriId;
+            _uiCacheId[i] = uiCacheId;
+        }
+    }
+}
+
+
+inline
 Real32 RTHitSIMDPacket::getDist(UInt32 uiIdx)
 {
     OSG_ASSERT(uiIdx < NumHits);

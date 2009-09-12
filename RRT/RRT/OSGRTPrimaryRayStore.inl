@@ -251,6 +251,8 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::setupRays(
     fprintf(stderr, "RS %d\n", pThis->_uiNumRays);
 #endif
 
+    // Hack need full SIMD impl.
+
     if(pThis->_uiWidth  != pTarget.getWidth() || 
        pThis->_uiHeight != pTarget.getHeight())
     {

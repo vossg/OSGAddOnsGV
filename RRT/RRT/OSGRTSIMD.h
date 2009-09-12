@@ -36,90 +36,122 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGRTSIMDPACKET_H_
-#define _OSGRTSIMDPACKET_H_
+#ifndef _OSGRTRAYSIMD_H_
+#define _OSGRTRAYSIMD_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include "OSGContribRRTDef.h"
-#include "OSGRTSIMD.h"
+#include <OSGConfig.h>
+
+#ifdef OSG_SIMD_SSE
+#  define __inline inline
+#  include <xmmintrin.h>
+#endif
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief RTTarget class. See \ref
-           PageContribRRTRTTarget for a description.
-*/
-
-class OSG_CONTRIBRRT_DLLMAPPING RTSIMDPacket 
+#ifdef OSG_HAS_POSIXMEMALIGN
+template<typename _Tp>
+class AlignedAllocator
 {
-  protected:
-
-    /*==========================  PUBLIC  =================================*/
-
   public:
 
-    typedef RTSIMDPacket Self;
+    typedef size_t     size_type;
+    typedef ptrdiff_t  difference_type;
 
-    static const UInt32 NumHElements = 2;
-    static const UInt32 NumVElements = 2;
+    typedef       _Tp *pointer;
+    typedef const _Tp *const_pointer;
+    typedef       _Tp &reference;
+    typedef const _Tp &const_reference;
+    typedef       _Tp  value_type;
+    
+    /*---------------------------------------------------------------------*/
 
-    static const UInt32 NumElements  = NumHElements * NumVElements;
+    template<typename _Tp1>
+    struct rebind
+    { 
+        typedef AlignedAllocator<_Tp1> other; 
+    };
+    
+    /*---------------------------------------------------------------------*/
+
+    AlignedAllocator(void) throw();
+    
+    AlignedAllocator(const AlignedAllocator &) throw();
+    
+    template<typename _Tp1>
+    AlignedAllocator(const AlignedAllocator<_Tp1> &) throw();
+    
+    ~AlignedAllocator(void) throw();
+    
+    /*---------------------------------------------------------------------*/
+
+    pointer       address(      reference __x) const;
+    const_pointer address(const_reference __x) const;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                  Constructors                                */
-    /*! \{                                                                 */
 
-    RTSIMDPacket(void);
+    pointer allocate  (size_type __n, const void      * = 0);
+    void    deallocate(pointer   __p,       size_type      );
 
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
-    /*! \{                                                                 */
 
-    ~RTSIMDPacket(void);
+    size_type max_size(void) const throw();
 
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-
-  protected:
-
-    RTSIMDPacket(const RTSIMDPacket &source);
-    void operator =(const RTSIMDPacket &rhs);
-
-    /*==========================  PRIVATE  ================================*/
-
-  private:
-
+    void  construct(pointer __p, const _Tp &__val);
+    void  destroy  (pointer __p                  );
 };
+#endif
+
+
+
+#ifdef OSG_SIMD_SSE
+typedef __m128 Float4;
+#else
+struct Float4
+{
+    Real32 data[4];
+};
+#endif
+
+Float4 osgSIMDMadd(const Float4 vM1, const Float4 vM2, const Float4 vS);
+Float4 osgSIMDMul (const Float4 v1,  const Float4 v2);
+Float4 osgSIMDAdd (const Float4 v1,  const Float4 v2);
+
+Float4 osgSIMDAnd (const Float4 v1,  const Float4 v2);
+
+Float4 osgSIMDCmpGT(const Float4 v1, const Float4 v2);
+Float4 osgSIMDCmpGE(const Float4 v1, const Float4 v2);
+
+Float4 osgSIMDCmpLT(const Float4 v1, const Float4 v2);
+Float4 osgSIMDCmpLE(const Float4 v1, const Float4 v2);
+
+Float4 osgSIMDRSqrtE(const Float4 v);
+Float4 osgSIMDInvert(const Float4 v);
+
+Int32  osgSIMDMoveMask(const Float4 v);
+
+Float4 osgSIMDSet(const Real32 rVal);
+Float4 osgSIMDSet(const Real32 rVal0,
+                  const Real32 rVal1,
+                  const Real32 rVal2,
+                  const Real32 rVal3);
+
+static const Float4 SIMDZero = osgSIMDSet(0.f);
+static const Float4 SIMDOne  = osgSIMDSet(1.f);
+static const Float4 SIMDEps  = osgSIMDSet(0.00001);
 
 OSG_END_NAMESPACE
 
-#include "OSGRTSIMDPacket.inl"
+#include "OSGRTSIMD.inl"
 
-#endif /* _OSGRTSIMDPACKET_H_ */
+#ifdef OSG_SIMD_SSE
+#include "OSGRTSIMD_SSE.inl"
+#else
+#include "OSGRTSIMD_FPU.inl"
+#endif
+
+#endif
