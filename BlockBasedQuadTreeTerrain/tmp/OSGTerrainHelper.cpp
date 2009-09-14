@@ -344,17 +344,17 @@ void OpenGLShader::update(DrawEnv *pEnv)
 
 void OpenGLShader::setSampler(const Char8 *szName, Int32 iVal)
 {
-    _pShader->setUniformParameter(szName, iVal);
+    _pShader->addUniformVariable(szName, iVal);
 }
 
 void OpenGLShader::setUniform(const Char8 *szName, Real32 rVal)
 {
-    _pShader->setUniformParameter(szName, rVal);
+    _pShader->addUniformVariable(szName, rVal);
 }
 
 void OpenGLShader::setUniform(const Char8 *szName, Vec2f  vVal)
 {
-    _pShader->setUniformParameter(szName, vVal);
+    _pShader->addUniformVariable(szName, vVal);
 }
 
 
