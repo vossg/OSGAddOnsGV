@@ -85,22 +85,14 @@ Int32 &DynamicTerrainBase::editLevelSize(void)
 
 //! Get the value of the DynamicTerrain::_sfLevelSize field.
 inline
-const Int32 DynamicTerrainBase::getLevelSize(void) const
+      Int32  DynamicTerrainBase::getLevelSize(void) const
 {
     return _sfLevelSize.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Int32               &DynamicTerrainBase::getLevelSize      (void)
-{
-    return this->editLevelSize      ();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfLevelSize field.
 inline
-void DynamicTerrainBase::setLevelSize(const Int32 &value)
+void DynamicTerrainBase::setLevelSize(const Int32 value)
 {
     editSField(LevelSizeFieldMask);
 
@@ -134,22 +126,14 @@ Real32 &DynamicTerrainBase::editHeightDataScale(void)
 
 //! Get the value of the DynamicTerrain::_sfHeightDataScale field.
 inline
-const Real32 DynamicTerrainBase::getHeightDataScale(void) const
+      Real32  DynamicTerrainBase::getHeightDataScale(void) const
 {
     return _sfHeightDataScale.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Real32              &DynamicTerrainBase::getHeightDataScale(void)
-{
-    return this->editHeightDataScale();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfHeightDataScale field.
 inline
-void DynamicTerrainBase::setHeightDataScale(const Real32 &value)
+void DynamicTerrainBase::setHeightDataScale(const Real32 value)
 {
     editSField(HeightDataScaleFieldMask);
 
@@ -167,22 +151,14 @@ Real32 &DynamicTerrainBase::editHeightDataOffset(void)
 
 //! Get the value of the DynamicTerrain::_sfHeightDataOffset field.
 inline
-const Real32 DynamicTerrainBase::getHeightDataOffset(void) const
+      Real32  DynamicTerrainBase::getHeightDataOffset(void) const
 {
     return _sfHeightDataOffset.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Real32              &DynamicTerrainBase::getHeightDataOffset(void)
-{
-    return this->editHeightDataOffset();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfHeightDataOffset field.
 inline
-void DynamicTerrainBase::setHeightDataOffset(const Real32 &value)
+void DynamicTerrainBase::setHeightDataOffset(const Real32 value)
 {
     editSField(HeightDataOffsetFieldMask);
 
@@ -200,22 +176,14 @@ Real32 &DynamicTerrainBase::editSampleDistance(void)
 
 //! Get the value of the DynamicTerrain::_sfSampleDistance field.
 inline
-const Real32 DynamicTerrainBase::getSampleDistance(void) const
+      Real32  DynamicTerrainBase::getSampleDistance(void) const
 {
     return _sfSampleDistance.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Real32              &DynamicTerrainBase::getSampleDistance (void)
-{
-    return this->editSampleDistance ();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfSampleDistance field.
 inline
-void DynamicTerrainBase::setSampleDistance(const Real32 &value)
+void DynamicTerrainBase::setSampleDistance(const Real32 value)
 {
     editSField(SampleDistanceFieldMask);
 
@@ -265,22 +233,14 @@ Int32 &DynamicTerrainBase::editSampleUpdateBudget(void)
 
 //! Get the value of the DynamicTerrain::_sfSampleUpdateBudget field.
 inline
-const Int32 DynamicTerrainBase::getSampleUpdateBudget(void) const
+      Int32  DynamicTerrainBase::getSampleUpdateBudget(void) const
 {
     return _sfSampleUpdateBudget.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Int32               &DynamicTerrainBase::getSampleUpdateBudget(void)
-{
-    return this->editSampleUpdateBudget();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfSampleUpdateBudget field.
 inline
-void DynamicTerrainBase::setSampleUpdateBudget(const Int32 &value)
+void DynamicTerrainBase::setSampleUpdateBudget(const Int32 value)
 {
     editSField(SampleUpdateBudgetFieldMask);
 
@@ -298,22 +258,14 @@ bool &DynamicTerrainBase::editEnableFrustumCulling(void)
 
 //! Get the value of the DynamicTerrain::_sfEnableFrustumCulling field.
 inline
-const bool DynamicTerrainBase::getEnableFrustumCulling(void) const
+      bool  DynamicTerrainBase::getEnableFrustumCulling(void) const
 {
     return _sfEnableFrustumCulling.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &DynamicTerrainBase::getEnableFrustumCulling(void)
-{
-    return this->editEnableFrustumCulling();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfEnableFrustumCulling field.
 inline
-void DynamicTerrainBase::setEnableFrustumCulling(const bool &value)
+void DynamicTerrainBase::setEnableFrustumCulling(const bool value)
 {
     editSField(EnableFrustumCullingFieldMask);
 
@@ -331,22 +283,14 @@ bool &DynamicTerrainBase::editUseGpuRenderer(void)
 
 //! Get the value of the DynamicTerrain::_sfUseGpuRenderer field.
 inline
-const bool DynamicTerrainBase::getUseGpuRenderer(void) const
+      bool  DynamicTerrainBase::getUseGpuRenderer(void) const
 {
     return _sfUseGpuRenderer.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &DynamicTerrainBase::getUseGpuRenderer (void)
-{
-    return this->editUseGpuRenderer ();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfUseGpuRenderer field.
 inline
-void DynamicTerrainBase::setUseGpuRenderer(const bool &value)
+void DynamicTerrainBase::setUseGpuRenderer(const bool value)
 {
     editSField(UseGpuRendererFieldMask);
 
@@ -364,22 +308,14 @@ bool &DynamicTerrainBase::editUseVboExtension(void)
 
 //! Get the value of the DynamicTerrain::_sfUseVboExtension field.
 inline
-const bool DynamicTerrainBase::getUseVboExtension(void) const
+      bool  DynamicTerrainBase::getUseVboExtension(void) const
 {
     return _sfUseVboExtension.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &DynamicTerrainBase::getUseVboExtension(void)
-{
-    return this->editUseVboExtension();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfUseVboExtension field.
 inline
-void DynamicTerrainBase::setUseVboExtension(const bool &value)
+void DynamicTerrainBase::setUseVboExtension(const bool value)
 {
     editSField(UseVboExtensionFieldMask);
 
@@ -397,22 +333,14 @@ bool &DynamicTerrainBase::editEnableSmoothTransition(void)
 
 //! Get the value of the DynamicTerrain::_sfEnableSmoothTransition field.
 inline
-const bool DynamicTerrainBase::getEnableSmoothTransition(void) const
+      bool  DynamicTerrainBase::getEnableSmoothTransition(void) const
 {
     return _sfEnableSmoothTransition.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &DynamicTerrainBase::getEnableSmoothTransition(void)
-{
-    return this->editEnableSmoothTransition();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfEnableSmoothTransition field.
 inline
-void DynamicTerrainBase::setEnableSmoothTransition(const bool &value)
+void DynamicTerrainBase::setEnableSmoothTransition(const bool value)
 {
     editSField(EnableSmoothTransitionFieldMask);
 
@@ -430,22 +358,14 @@ bool &DynamicTerrainBase::editShowBoundingBoxes(void)
 
 //! Get the value of the DynamicTerrain::_sfShowBoundingBoxes field.
 inline
-const bool DynamicTerrainBase::getShowBoundingBoxes(void) const
+      bool  DynamicTerrainBase::getShowBoundingBoxes(void) const
 {
     return _sfShowBoundingBoxes.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &DynamicTerrainBase::getShowBoundingBoxes(void)
-{
-    return this->editShowBoundingBoxes();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfShowBoundingBoxes field.
 inline
-void DynamicTerrainBase::setShowBoundingBoxes(const bool &value)
+void DynamicTerrainBase::setShowBoundingBoxes(const bool value)
 {
     editSField(ShowBoundingBoxesFieldMask);
 
@@ -463,22 +383,14 @@ bool &DynamicTerrainBase::editShowTransitionRegions(void)
 
 //! Get the value of the DynamicTerrain::_sfShowTransitionRegions field.
 inline
-const bool DynamicTerrainBase::getShowTransitionRegions(void) const
+      bool  DynamicTerrainBase::getShowTransitionRegions(void) const
 {
     return _sfShowTransitionRegions.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &DynamicTerrainBase::getShowTransitionRegions(void)
-{
-    return this->editShowTransitionRegions();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfShowTransitionRegions field.
 inline
-void DynamicTerrainBase::setShowTransitionRegions(const bool &value)
+void DynamicTerrainBase::setShowTransitionRegions(const bool value)
 {
     editSField(ShowTransitionRegionsFieldMask);
 
@@ -496,22 +408,14 @@ bool &DynamicTerrainBase::editDisableUpdate(void)
 
 //! Get the value of the DynamicTerrain::_sfDisableUpdate field.
 inline
-const bool DynamicTerrainBase::getDisableUpdate(void) const
+      bool  DynamicTerrainBase::getDisableUpdate(void) const
 {
     return _sfDisableUpdate.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &DynamicTerrainBase::getDisableUpdate  (void)
-{
-    return this->editDisableUpdate  ();
-}
-#endif
-
 //! Set the value of the DynamicTerrain::_sfDisableUpdate field.
 inline
-void DynamicTerrainBase::setDisableUpdate(const bool &value)
+void DynamicTerrainBase::setDisableUpdate(const bool value)
 {
     editSField(DisableUpdateFieldMask);
 
@@ -529,18 +433,10 @@ std::string &DynamicTerrainBase::editCpuVertexProgram(void)
 
 //! Get the value of the DynamicTerrain::_sfCpuVertexProgram field.
 inline
-const std::string DynamicTerrainBase::getCpuVertexProgram(void) const
+const std::string &DynamicTerrainBase::getCpuVertexProgram(void) const
 {
     return _sfCpuVertexProgram.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-std::string         &DynamicTerrainBase::getCpuVertexProgram(void)
-{
-    return this->editCpuVertexProgram();
-}
-#endif
 
 //! Set the value of the DynamicTerrain::_sfCpuVertexProgram field.
 inline
@@ -562,18 +458,10 @@ std::string &DynamicTerrainBase::editCpuFragmentProgram(void)
 
 //! Get the value of the DynamicTerrain::_sfCpuFragmentProgram field.
 inline
-const std::string DynamicTerrainBase::getCpuFragmentProgram(void) const
+const std::string &DynamicTerrainBase::getCpuFragmentProgram(void) const
 {
     return _sfCpuFragmentProgram.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-std::string         &DynamicTerrainBase::getCpuFragmentProgram(void)
-{
-    return this->editCpuFragmentProgram();
-}
-#endif
 
 //! Set the value of the DynamicTerrain::_sfCpuFragmentProgram field.
 inline

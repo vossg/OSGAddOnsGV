@@ -190,29 +190,17 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*! \{                                                                 */
 
 
-#ifdef OSG_1_GET_COMPAT
-                  SFInt32             *getSFLevelSize       (void);
-#endif
                   SFInt32             *editSFLevelSize      (void);
             const SFInt32             *getSFLevelSize       (void) const;
             const SFUnrecImagePtr     *getSFHeightData     (void) const;
                   SFUnrecImagePtr     *editSFHeightData     (void);
 
-#ifdef OSG_1_GET_COMPAT
-                  SFReal32            *getSFHeightDataScale (void);
-#endif
                   SFReal32            *editSFHeightDataScale(void);
             const SFReal32            *getSFHeightDataScale (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFReal32            *getSFHeightDataOffset (void);
-#endif
                   SFReal32            *editSFHeightDataOffset(void);
             const SFReal32            *getSFHeightDataOffset (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFReal32            *getSFSampleDistance  (void);
-#endif
                   SFReal32            *editSFSampleDistance (void);
             const SFReal32            *getSFSampleDistance  (void) const;
             const SFUnrecImagePtr     *getSFTextureData    (void) const;
@@ -220,177 +208,105 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
             const SFUnrecTextureObjChunkPtr *getSFHeightColorTexture(void) const;
                   SFUnrecTextureObjChunkPtr *editSFHeightColorTexture(void);
 
-#ifdef OSG_1_GET_COMPAT
-                  SFInt32             *getSFSampleUpdateBudget (void);
-#endif
                   SFInt32             *editSFSampleUpdateBudget(void);
             const SFInt32             *getSFSampleUpdateBudget (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFEnableFrustumCulling (void);
-#endif
                   SFBool              *editSFEnableFrustumCulling(void);
             const SFBool              *getSFEnableFrustumCulling (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFUseGpuRenderer  (void);
-#endif
                   SFBool              *editSFUseGpuRenderer (void);
             const SFBool              *getSFUseGpuRenderer  (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFUseVboExtension (void);
-#endif
                   SFBool              *editSFUseVboExtension(void);
             const SFBool              *getSFUseVboExtension (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFEnableSmoothTransition (void);
-#endif
                   SFBool              *editSFEnableSmoothTransition(void);
             const SFBool              *getSFEnableSmoothTransition (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFShowBoundingBoxes (void);
-#endif
                   SFBool              *editSFShowBoundingBoxes(void);
             const SFBool              *getSFShowBoundingBoxes (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFShowTransitionRegions (void);
-#endif
                   SFBool              *editSFShowTransitionRegions(void);
             const SFBool              *getSFShowTransitionRegions (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFDisableUpdate   (void);
-#endif
                   SFBool              *editSFDisableUpdate  (void);
             const SFBool              *getSFDisableUpdate   (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFString            *getSFCpuVertexProgram (void);
-#endif
                   SFString            *editSFCpuVertexProgram(void);
             const SFString            *getSFCpuVertexProgram (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFString            *getSFCpuFragmentProgram (void);
-#endif
                   SFString            *editSFCpuFragmentProgram(void);
             const SFString            *getSFCpuFragmentProgram (void) const;
 
 
-#ifdef OSG_1_GET_COMPAT
-                  Int32               &getLevelSize       (void);
-#endif
                   Int32               &editLevelSize      (void);
-            const Int32                getLevelSize       (void) const;
+                  Int32                getLevelSize       (void) const;
 
                   Image * getHeightData     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Real32              &getHeightDataScale (void);
-#endif
                   Real32              &editHeightDataScale(void);
-            const Real32               getHeightDataScale (void) const;
+                  Real32               getHeightDataScale (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Real32              &getHeightDataOffset (void);
-#endif
                   Real32              &editHeightDataOffset(void);
-            const Real32               getHeightDataOffset (void) const;
+                  Real32               getHeightDataOffset (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Real32              &getSampleDistance  (void);
-#endif
                   Real32              &editSampleDistance (void);
-            const Real32               getSampleDistance  (void) const;
+                  Real32               getSampleDistance  (void) const;
 
                   Image * getTextureData    (void) const;
 
                   TextureObjChunk * getHeightColorTexture(void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Int32               &getSampleUpdateBudget (void);
-#endif
                   Int32               &editSampleUpdateBudget(void);
-            const Int32                getSampleUpdateBudget (void) const;
+                  Int32                getSampleUpdateBudget (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getEnableFrustumCulling (void);
-#endif
                   bool                &editEnableFrustumCulling(void);
-            const bool                 getEnableFrustumCulling (void) const;
+                  bool                 getEnableFrustumCulling (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getUseGpuRenderer  (void);
-#endif
                   bool                &editUseGpuRenderer (void);
-            const bool                 getUseGpuRenderer  (void) const;
+                  bool                 getUseGpuRenderer  (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getUseVboExtension (void);
-#endif
                   bool                &editUseVboExtension(void);
-            const bool                 getUseVboExtension (void) const;
+                  bool                 getUseVboExtension (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getEnableSmoothTransition (void);
-#endif
                   bool                &editEnableSmoothTransition(void);
-            const bool                 getEnableSmoothTransition (void) const;
+                  bool                 getEnableSmoothTransition (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getShowBoundingBoxes (void);
-#endif
                   bool                &editShowBoundingBoxes(void);
-            const bool                 getShowBoundingBoxes (void) const;
+                  bool                 getShowBoundingBoxes (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getShowTransitionRegions (void);
-#endif
                   bool                &editShowTransitionRegions(void);
-            const bool                 getShowTransitionRegions (void) const;
+                  bool                 getShowTransitionRegions (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getDisableUpdate   (void);
-#endif
                   bool                &editDisableUpdate  (void);
-            const bool                 getDisableUpdate   (void) const;
+                  bool                 getDisableUpdate   (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  std::string         &getCpuVertexProgram (void);
-#endif
                   std::string         &editCpuVertexProgram(void);
-            const std::string          getCpuVertexProgram (void) const;
+            const std::string         &getCpuVertexProgram (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  std::string         &getCpuFragmentProgram (void);
-#endif
                   std::string         &editCpuFragmentProgram(void);
-            const std::string          getCpuFragmentProgram (void) const;
+            const std::string         &getCpuFragmentProgram (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setLevelSize      (const Int32 &value);
+            void setLevelSize      (const Int32 value);
             void setHeightData     (Image * const value);
-            void setHeightDataScale(const Real32 &value);
-            void setHeightDataOffset(const Real32 &value);
-            void setSampleDistance (const Real32 &value);
+            void setHeightDataScale(const Real32 value);
+            void setHeightDataOffset(const Real32 value);
+            void setSampleDistance (const Real32 value);
             void setTextureData    (Image * const value);
             void setHeightColorTexture(TextureObjChunk * const value);
-            void setSampleUpdateBudget(const Int32 &value);
-            void setEnableFrustumCulling(const bool &value);
-            void setUseGpuRenderer (const bool &value);
-            void setUseVboExtension(const bool &value);
-            void setEnableSmoothTransition(const bool &value);
-            void setShowBoundingBoxes(const bool &value);
-            void setShowTransitionRegions(const bool &value);
-            void setDisableUpdate  (const bool &value);
+            void setSampleUpdateBudget(const Int32 value);
+            void setEnableFrustumCulling(const bool value);
+            void setUseGpuRenderer (const bool value);
+            void setUseVboExtension(const bool value);
+            void setEnableSmoothTransition(const bool value);
+            void setShowBoundingBoxes(const bool value);
+            void setShowTransitionRegions(const bool value);
+            void setDisableUpdate  (const bool value);
             void setCpuVertexProgram(const std::string &value);
             void setCpuFragmentProgram(const std::string &value);
 

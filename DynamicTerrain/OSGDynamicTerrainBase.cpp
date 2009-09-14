@@ -570,12 +570,6 @@ const SFInt32 *DynamicTerrainBase::getSFLevelSize(void) const
     return &_sfLevelSize;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFInt32             *DynamicTerrainBase::getSFLevelSize      (void)
-{
-    return this->editSFLevelSize      ();
-}
-#endif
 
 //! Get the DynamicTerrain::_sfHeightData field.
 const SFUnrecImagePtr *DynamicTerrainBase::getSFHeightData(void) const
@@ -602,12 +596,6 @@ const SFReal32 *DynamicTerrainBase::getSFHeightDataScale(void) const
     return &_sfHeightDataScale;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFReal32            *DynamicTerrainBase::getSFHeightDataScale(void)
-{
-    return this->editSFHeightDataScale();
-}
-#endif
 
 SFReal32 *DynamicTerrainBase::editSFHeightDataOffset(void)
 {
@@ -621,12 +609,6 @@ const SFReal32 *DynamicTerrainBase::getSFHeightDataOffset(void) const
     return &_sfHeightDataOffset;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFReal32            *DynamicTerrainBase::getSFHeightDataOffset(void)
-{
-    return this->editSFHeightDataOffset();
-}
-#endif
 
 SFReal32 *DynamicTerrainBase::editSFSampleDistance(void)
 {
@@ -640,12 +622,6 @@ const SFReal32 *DynamicTerrainBase::getSFSampleDistance(void) const
     return &_sfSampleDistance;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFReal32            *DynamicTerrainBase::getSFSampleDistance (void)
-{
-    return this->editSFSampleDistance ();
-}
-#endif
 
 //! Get the DynamicTerrain::_sfTextureData field.
 const SFUnrecImagePtr *DynamicTerrainBase::getSFTextureData(void) const
@@ -685,12 +661,6 @@ const SFInt32 *DynamicTerrainBase::getSFSampleUpdateBudget(void) const
     return &_sfSampleUpdateBudget;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFInt32             *DynamicTerrainBase::getSFSampleUpdateBudget(void)
-{
-    return this->editSFSampleUpdateBudget();
-}
-#endif
 
 SFBool *DynamicTerrainBase::editSFEnableFrustumCulling(void)
 {
@@ -704,12 +674,6 @@ const SFBool *DynamicTerrainBase::getSFEnableFrustumCulling(void) const
     return &_sfEnableFrustumCulling;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *DynamicTerrainBase::getSFEnableFrustumCulling(void)
-{
-    return this->editSFEnableFrustumCulling();
-}
-#endif
 
 SFBool *DynamicTerrainBase::editSFUseGpuRenderer(void)
 {
@@ -723,12 +687,6 @@ const SFBool *DynamicTerrainBase::getSFUseGpuRenderer(void) const
     return &_sfUseGpuRenderer;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *DynamicTerrainBase::getSFUseGpuRenderer (void)
-{
-    return this->editSFUseGpuRenderer ();
-}
-#endif
 
 SFBool *DynamicTerrainBase::editSFUseVboExtension(void)
 {
@@ -742,12 +700,6 @@ const SFBool *DynamicTerrainBase::getSFUseVboExtension(void) const
     return &_sfUseVboExtension;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *DynamicTerrainBase::getSFUseVboExtension(void)
-{
-    return this->editSFUseVboExtension();
-}
-#endif
 
 SFBool *DynamicTerrainBase::editSFEnableSmoothTransition(void)
 {
@@ -761,12 +713,6 @@ const SFBool *DynamicTerrainBase::getSFEnableSmoothTransition(void) const
     return &_sfEnableSmoothTransition;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *DynamicTerrainBase::getSFEnableSmoothTransition(void)
-{
-    return this->editSFEnableSmoothTransition();
-}
-#endif
 
 SFBool *DynamicTerrainBase::editSFShowBoundingBoxes(void)
 {
@@ -780,12 +726,6 @@ const SFBool *DynamicTerrainBase::getSFShowBoundingBoxes(void) const
     return &_sfShowBoundingBoxes;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *DynamicTerrainBase::getSFShowBoundingBoxes(void)
-{
-    return this->editSFShowBoundingBoxes();
-}
-#endif
 
 SFBool *DynamicTerrainBase::editSFShowTransitionRegions(void)
 {
@@ -799,12 +739,6 @@ const SFBool *DynamicTerrainBase::getSFShowTransitionRegions(void) const
     return &_sfShowTransitionRegions;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *DynamicTerrainBase::getSFShowTransitionRegions(void)
-{
-    return this->editSFShowTransitionRegions();
-}
-#endif
 
 SFBool *DynamicTerrainBase::editSFDisableUpdate(void)
 {
@@ -818,12 +752,6 @@ const SFBool *DynamicTerrainBase::getSFDisableUpdate(void) const
     return &_sfDisableUpdate;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *DynamicTerrainBase::getSFDisableUpdate  (void)
-{
-    return this->editSFDisableUpdate  ();
-}
-#endif
 
 SFString *DynamicTerrainBase::editSFCpuVertexProgram(void)
 {
@@ -837,12 +765,6 @@ const SFString *DynamicTerrainBase::getSFCpuVertexProgram(void) const
     return &_sfCpuVertexProgram;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFString            *DynamicTerrainBase::getSFCpuVertexProgram(void)
-{
-    return this->editSFCpuVertexProgram();
-}
-#endif
 
 SFString *DynamicTerrainBase::editSFCpuFragmentProgram(void)
 {
@@ -856,12 +778,6 @@ const SFString *DynamicTerrainBase::getSFCpuFragmentProgram(void) const
     return &_sfCpuFragmentProgram;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFString            *DynamicTerrainBase::getSFCpuFragmentProgram(void)
-{
-    return this->editSFCpuFragmentProgram();
-}
-#endif
 
 
 
