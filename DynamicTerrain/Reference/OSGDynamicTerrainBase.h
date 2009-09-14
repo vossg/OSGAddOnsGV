@@ -364,6 +364,8 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     static  DynamicTerrain            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
+    static  DynamicTerrainTransitPtr  createDependent  (BitVector bFlags);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
@@ -372,6 +374,8 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     virtual FieldContainerTransitPtr shallowCopy     (void) const;
     virtual FieldContainerTransitPtr shallowCopyLocal(
                                        BitVector bFlags = FCLocal::All) const;
+    virtual FieldContainerTransitPtr shallowCopyDependent(
+                                                      BitVector bFlags) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

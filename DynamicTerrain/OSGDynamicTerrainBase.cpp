@@ -1028,6 +1028,22 @@ DynamicTerrainTransitPtr DynamicTerrainBase::createLocal(BitVector bFlags)
     return fc;
 }
 
+//! create a new instance of the class, copy the container flags
+DynamicTerrainTransitPtr DynamicTerrainBase::createDependent(BitVector bFlags)
+{
+    DynamicTerrainTransitPtr fc;
+
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
+
+        fc = dynamic_pointer_cast<DynamicTerrain>(tmpPtr);
+    }
+
+    return fc;
+}
+
 //! create a new instance of the class
 DynamicTerrainTransitPtr DynamicTerrainBase::create(void)
 {
@@ -1079,6 +1095,20 @@ FieldContainerTransitPtr DynamicTerrainBase::shallowCopyLocal(
     FieldContainerTransitPtr returnValue(tmpPtr);
 
     tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr DynamicTerrainBase::shallowCopyDependent(
+    BitVector bFlags) const
+{
+    DynamicTerrain *tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const DynamicTerrain *>(this), ~bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
 
     return returnValue;
 }
