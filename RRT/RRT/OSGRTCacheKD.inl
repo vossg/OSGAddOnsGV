@@ -157,10 +157,10 @@ void RTCacheKD<DescT>::copyFromBin(BinaryDataHandler &pMem,
 
 #ifdef OSG_MT_CPTR_ASPECT
 template<typename DescT> inline
-typename RTCacheKD<DescT>::ObjPtr 
+typename RTCacheKD<DescT>::ObjCPtr 
     RTCacheKD<DescT>::createAspectCopy(void) const
 {
-    ObjPtr returnValue;
+    ObjCPtr returnValue;
 
     newAspectCopy(returnValue,
                   dynamic_cast<const Self *>(this));

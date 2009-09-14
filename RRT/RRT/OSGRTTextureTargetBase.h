@@ -125,17 +125,18 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTextureTargetBase : public RTTarget
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFUnrecTextureObjChunkPtr *getSFTexObjChunk     (void) const;
+            const SFUnrecTextureObjChunkPtr *getSFTexObjChunk    (void) const;
+                  SFUnrecTextureObjChunkPtr *editSFTexObjChunk    (void);
 
 
-                  TextureObjChunkPtr getTexObjChunk    (void) const;
+                  TextureObjChunk * getTexObjChunk    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setTexObjChunk    (const TextureObjChunkPtr value);
+            void setTexObjChunk    (TextureObjChunk * const value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -146,6 +147,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTextureTargetBase : public RTTarget
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -163,13 +165,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTextureTargetBase : public RTTarget
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTTextureTargetTransitPtr create          (void);
-    static  RTTextureTargetPtr        createEmpty     (void);
+    static  RTTextureTargetTransitPtr  create          (void);
+    static  RTTextureTarget           *createEmpty     (void);
 
-    static  RTTextureTargetTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  RTTextureTargetTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  RTTextureTargetPtr        createEmptyLocal(
+    static  RTTextureTarget            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -257,7 +259,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTextureTargetBase : public RTTarget
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

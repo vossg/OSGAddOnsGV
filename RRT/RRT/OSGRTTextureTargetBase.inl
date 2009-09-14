@@ -76,19 +76,18 @@ OSG::UInt16 RTTextureTargetBase::getClassGroupId(void)
 
 //! Get the value of the RTTextureTarget::_sfTexObjChunk field.
 inline
-TextureObjChunkPtr RTTextureTargetBase::getTexObjChunk(void) const
+TextureObjChunk * RTTextureTargetBase::getTexObjChunk(void) const
 {
     return _sfTexObjChunk.getValue();
 }
 
 //! Set the value of the RTTextureTarget::_sfTexObjChunk field.
 inline
-void RTTextureTargetBase::setTexObjChunk(const TextureObjChunkPtr value)
+void RTTextureTargetBase::setTexObjChunk(TextureObjChunk * const value)
 {
     editSField(TexObjChunkFieldMask);
 
     _sfTexObjChunk.setValue(value);
-
 }
 
 

@@ -126,13 +126,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecoratorBase : public CameraDecorator
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTCameraDecoratorTransitPtr create          (void);
-    static  RTCameraDecoratorPtr        createEmpty     (void);
+    static  RTCameraDecoratorTransitPtr  create          (void);
+    static  RTCameraDecorator           *createEmpty     (void);
 
-    static  RTCameraDecoratorTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  RTCameraDecoratorTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  RTCameraDecoratorPtr        createEmptyLocal(
+    static  RTCameraDecorator            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -210,7 +210,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecoratorBase : public CameraDecorator
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

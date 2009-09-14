@@ -141,13 +141,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldContainer
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTTargetTransitPtr create          (void);
-    static  RTTargetPtr        createEmpty     (void);
+    static  RTTargetTransitPtr  create          (void);
+    static  RTTarget           *createEmpty     (void);
 
-    static  RTTargetTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  RTTargetTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  RTTargetPtr        createEmptyLocal(
+    static  RTTarget            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -213,30 +213,18 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldContainer
     /*! \{                                                                 */
 
 
-#ifdef OSG_1_GET_COMPAT
-                  SFUInt32            *getSFWidth           (void);
-#endif
                   SFUInt32            *editSFWidth          (void);
             const SFUInt32            *getSFWidth           (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFUInt32            *getSFHeight          (void);
-#endif
                   SFUInt32            *editSFHeight         (void);
             const SFUInt32            *getSFHeight          (void) const;
 
 
-#ifdef OSG_1_GET_COMPAT
-                  UInt32              &getWidth           (void);
-#endif
                   UInt32              &editWidth          (void);
-            const UInt32              &getWidth           (void) const;
+            const UInt32               getWidth           (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  UInt32              &getHeight          (void);
-#endif
                   UInt32              &editHeight         (void);
-            const UInt32              &getHeight          (void) const;
+            const UInt32               getHeight          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -250,6 +238,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldContainer
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
@@ -280,7 +269,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldContainer
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

@@ -92,7 +92,7 @@ class  RTCacheAttachmentInst : public RTCacheAttachment
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    void     addGeometry(GeometryPtr    pGeo,
+    void     addGeometry(Geometry      *pGeo,
                          Matrixr       &oMatrix,
                          State         *pState,
                          StateOverride *pStateOverride);
@@ -163,7 +163,7 @@ class  RTCacheAttachmentInst : public RTCacheAttachment
     /*! \name                      Init                                    */
     /*! \{                                                                 */
 
-    void setCache(typename RTCache::ObjPtr pCache);
+    void setCache(typename RTCache::ObjCPtr pCache);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

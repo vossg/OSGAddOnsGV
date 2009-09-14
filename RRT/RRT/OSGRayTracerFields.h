@@ -81,8 +81,8 @@ OSG_GEN_CONTAINERPTR(RayTracer);
 #endif
 
 template <>
-struct FieldTraits<RayTracerPtr> :
-    public FieldTraitsFCPtrBase<RayTracerPtr>
+struct FieldTraits<RayTracer *> :
+    public FieldTraitsFCPtrBase<RayTracer *>
 {
   private:
 
@@ -90,7 +90,7 @@ struct FieldTraits<RayTracerPtr> :
 
   public:
 
-    typedef FieldTraits<RayTracerPtr>  Self;
+    typedef FieldTraits<RayTracer *>  Self;
 
     enum                        { Convertible = NotConvertible };
 };

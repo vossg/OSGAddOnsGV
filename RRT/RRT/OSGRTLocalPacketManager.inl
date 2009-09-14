@@ -55,7 +55,7 @@ RTLocalPacketManager<DescT>::RTLocalPacketManager(void) :
 template<typename DescT> inline
 RTLocalPacketManager<DescT>::~RTLocalPacketManager(void)
 {
-    _pTarget = NullFC;
+    _pTarget = NULL;
 
     OSG::subRef(_pScene               );
 
@@ -122,7 +122,7 @@ void RTLocalPacketManager<DescT>::resolveLinks(void)
 
     _vThreads.clear();
 
-    _pTarget = NullFC;
+    _pTarget = NULL;
 
     OSG::subRef(_pScene               );
 

@@ -441,7 +441,7 @@ void RRTStage::changed(ConstFieldMaskArg whichField,
 
 void RRTStage::run(CameraP     pCam,
                    Background *pBackground,
-                   NodePtr     pRoot)
+                   Node       *pRoot)
 {
     if(_bInitialized == false)
     {
@@ -452,7 +452,7 @@ void RRTStage::run(CameraP     pCam,
         _pRayTracer->setResolution(4, 4);
 #endif
 
-        if(_sfTextureTarget.getValue() != NullFC)
+        if(_sfTextureTarget.getValue() != NULL)
         {
             RTTextureTargetUnrecPtr pTexTarget = RTTextureTarget::create();
 
@@ -480,8 +480,8 @@ void RRTStage::run(CameraP     pCam,
 
     if(pBackground != NULL)
     {
-        SolidBackgroundPtr pBack = 
-            dynamic_cast<SolidBackgroundPtr>(pBackground);
+        SolidBackground *pBack = 
+            dynamic_cast<SolidBackground *>(pBackground);
         
         if(pBack != NULL)
         {
@@ -493,7 +493,7 @@ void RRTStage::run(CameraP     pCam,
         }
     }
 
-    RTCameraDecoratorPtr pRTCam = dynamic_cast<RTCameraDecoratorPtr>(pCam);
+    RTCameraDecorator *pRTCam = dynamic_cast<RTCameraDecorator *>(pCam);
 
     if(pRTCam == NULL)
     {

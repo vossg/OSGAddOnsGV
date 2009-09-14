@@ -42,7 +42,7 @@ OSG_BEGIN_NAMESPACE
 
 
 template<typename DescT> inline
-void RTCacheAttachmentInst<DescT>::addGeometry(GeometryPtr    pGeo,
+void RTCacheAttachmentInst<DescT>::addGeometry(Geometry      *pGeo,
                                                Matrixr       &oMatrix,
                                                State         *pState,
                                                StateOverride *pStateOverride)
@@ -120,7 +120,7 @@ RTCacheAttachmentInst<DescT>::~RTCacheAttachmentInst(void)
 }
 
 template<typename DescT> inline
-void RTCacheAttachmentInst<DescT>::setCache(typename RTCache::ObjPtr pCache)
+void RTCacheAttachmentInst<DescT>::setCache(typename RTCache::ObjCPtr pCache)
 {
     editSField(CacheFieldMask);
 
@@ -188,7 +188,7 @@ void RTCacheAttachmentInst<DescT>::resolveLinks(void)
 {
     Inherited::resolveLinks();
 
-    _sfCache.setValue(NullFC);
+    _sfCache.setValue(NULL);
 }
 
 /*---------------------------------------------------------------------*/

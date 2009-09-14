@@ -64,12 +64,12 @@ class RTUpdateAction : public Action
 
   public:
 
-    typedef          DescT                   Desc;
+    typedef          DescT                    Desc;
 
-    typedef typename Desc::CacheAttachment   CacheAttachment;
-    typedef typename CacheAttachment::ObjPtr CacheAttachmentPtr;
+    typedef typename Desc::CacheAttachment    CacheAttachment;
+    typedef typename CacheAttachment::ObjCPtr CacheAttachmentPtr;
 
-    typedef typename Desc::RTRayTracer       RTRayTracer;
+    typedef typename Desc::RTRayTracer        RTRayTracer;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
@@ -92,7 +92,7 @@ class RTUpdateAction : public Action
     /*! \name                   Lights                                     */
     /*! \{                                                                 */
 
-    void dropGeometry(GeometryPtr pGeo);
+    void dropGeometry(Geometry *pGeo);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -168,8 +168,8 @@ class RTUpdateAction : public Action
     /*! \name                   Internal updates                           */
     /*! \{                                                                 */
 
-    ActionBase::ResultE nodeEnter(const NodePtr pNode, Action *pAction);
-    ActionBase::ResultE nodeExit (const NodePtr pNode, Action *pAction);
+    ActionBase::ResultE nodeEnter(Node * const pNode, Action *pAction);
+    ActionBase::ResultE nodeExit (Node * const pNode, Action *pAction);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -178,7 +178,7 @@ class RTUpdateAction : public Action
 
     RTRayTracer        *_pRayTracer;
     CacheAttachmentPtr  _pCurrentCache;
-    NodePtr             _pCacheNode;
+    Node               *_pCacheNode;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -137,21 +137,23 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFWeakNodePtr       *getSFRayTracingRoot  (void) const;
-            const SFUnrecNodePtr      *getSFBackgroundRoot  (void) const;
+            const SFWeakNodePtr       *getSFRayTracingRoot (void) const;
+                  SFWeakNodePtr       *editSFRayTracingRoot (void);
+            const SFUnrecNodePtr      *getSFBackgroundRoot (void) const;
+                  SFUnrecNodePtr      *editSFBackgroundRoot (void);
 
 
-                  NodePtr getRayTracingRoot (void) const;
+                  Node * getRayTracingRoot (void) const;
 
-                  NodePtr getBackgroundRoot (void) const;
+                  Node * getBackgroundRoot (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setRayTracingRoot (const NodePtr value);
-            void setBackgroundRoot (const NodePtr value);
+            void setRayTracingRoot (Node * const value);
+            void setBackgroundRoot (Node * const value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -162,6 +164,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldContainer
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -179,13 +182,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldContainer
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RayTracerTransitPtr create          (void);
-    static  RayTracerPtr        createEmpty     (void);
+    static  RayTracerTransitPtr  create          (void);
+    static  RayTracer           *createEmpty     (void);
 
-    static  RayTracerTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  RayTracerTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  RayTracerPtr        createEmptyLocal(
+    static  RayTracer            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -258,30 +261,18 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldContainer
     /*! \{                                                                 */
 
 
-#ifdef OSG_1_GET_COMPAT
-                  SFUInt32            *getSFWidth           (void);
-#endif
                   SFUInt32            *editSFWidth          (void);
             const SFUInt32            *getSFWidth           (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFUInt32            *getSFHeight          (void);
-#endif
                   SFUInt32            *editSFHeight         (void);
             const SFUInt32            *getSFHeight          (void) const;
 
 
-#ifdef OSG_1_GET_COMPAT
-                  UInt32              &getWidth           (void);
-#endif
                   UInt32              &editWidth          (void);
-            const UInt32              &getWidth           (void) const;
+            const UInt32               getWidth           (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  UInt32              &getHeight          (void);
-#endif
                   UInt32              &editHeight         (void);
-            const UInt32              &getHeight          (void) const;
+            const UInt32               getHeight          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -295,6 +286,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldContainer
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
@@ -325,7 +317,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldContainer
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

@@ -102,7 +102,7 @@ RayTracer::RayTracer(const RayTracer &source) :
 
 RayTracer::~RayTracer(void)
 {
-    _pTarget = NullFC;
+    _pTarget = NULL;
 }
 
 /*----------------------------- class specific ----------------------------*/

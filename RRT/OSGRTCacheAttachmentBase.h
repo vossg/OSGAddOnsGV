@@ -126,13 +126,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheAttachmentBase : public Attachment
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTCacheAttachmentTransitPtr create          (void);
-    static  RTCacheAttachmentPtr        createEmpty     (void);
+    static  RTCacheAttachmentTransitPtr  create          (void);
+    static  RTCacheAttachment           *createEmpty     (void);
 
-    static  RTCacheAttachmentTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  RTCacheAttachmentTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  RTCacheAttachmentPtr        createEmptyLocal(
+    static  RTCacheAttachment            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -210,7 +210,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheAttachmentBase : public Attachment
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

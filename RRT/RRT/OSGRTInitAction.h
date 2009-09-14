@@ -84,7 +84,7 @@ class RTInitAction : public Action
     typedef          DescT                        Desc;
 
     typedef typename Desc::CacheAttachment        CacheAttachment;
-    typedef typename CacheAttachment::ObjPtr      CacheAttachmentPtr;
+    typedef typename CacheAttachment::ObjCPtr     CacheAttachmentPtr;
     typedef typename CacheAttachment::ObjUnrecPtr CacheAttachmentUnrecPtr;
 
     /*---------------------------------------------------------------------*/
@@ -106,8 +106,8 @@ class RTInitAction : public Action
     /*! \name                   Culling                                    */
     /*! \{                                                                 */
 
-    void overrideMaterial(      Material *pMaterial,
-                          const NodePtr   pNode    );
+    void overrideMaterial(Material *        pMaterial,
+                          Node     * const  pNode    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -132,7 +132,7 @@ class RTInitAction : public Action
     /*! \name                   Lights                                     */
     /*! \{                                                                 */
 
-    void dropGeometry(GeometryPtr pGeo);
+    void dropGeometry(Geometry *pGeo);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -210,8 +210,8 @@ class RTInitAction : public Action
     /*! \name                   Internal updates                           */
     /*! \{                                                                 */
 
-    ActionBase::ResultE nodeEnter(const NodePtr pNode, Action *pAction);
-    ActionBase::ResultE nodeExit (const NodePtr pNode, Action *pAction);
+    ActionBase::ResultE nodeEnter(Node * const pNode, Action *pAction);
+    ActionBase::ResultE nodeExit (Node * const pNode, Action *pAction);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -220,14 +220,14 @@ class RTInitAction : public Action
 
     UInt32                   _uiInitMode;
     CacheAttachmentUnrecPtr  _pCurrentCache;
-    NodePtr                  _pCacheNode;
+    Node                    *_pCacheNode;
 
     UInt32                   _uiMatrixId;
     MatrixStore              _currMatrix;
     MatrixStack              _vMatrixStack;
 
     Material                *_pMaterial;
-    NodePtr                  _pMaterialNode;
+    Node                    *_pMaterialNode;
 
     Int32                    _iNextLightIndex;
 

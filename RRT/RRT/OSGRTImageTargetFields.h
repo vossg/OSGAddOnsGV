@@ -81,8 +81,8 @@ OSG_GEN_CONTAINERPTR(RTImageTarget);
 #endif
 
 template <>
-struct FieldTraits<RTImageTargetPtr> :
-    public FieldTraitsFCPtrBase<RTImageTargetPtr>
+struct FieldTraits<RTImageTarget *> :
+    public FieldTraitsFCPtrBase<RTImageTarget *>
 {
   private:
 
@@ -90,7 +90,7 @@ struct FieldTraits<RTImageTargetPtr> :
 
   public:
 
-    typedef FieldTraits<RTImageTargetPtr>  Self;
+    typedef FieldTraits<RTImageTarget *>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -103,25 +103,25 @@ struct FieldTraits<RTImageTargetPtr> :
 };
 
 template<> inline
-const Char8 *FieldTraits<RTImageTargetPtr, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTImageTarget *, 0>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecRTImageTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTImageTargetPtr, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTImageTarget *, 0>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecRTImageTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTImageTargetPtr, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<RTImageTarget *, 0>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakRTImageTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTImageTargetPtr, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<RTImageTarget *, 0>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdRTImageTargetPtr"; 
 }
@@ -139,13 +139,13 @@ const Char8 *FieldTraits<RTImageTargetPtr, 0>::getSName<NoRefCountPolicy>(void)
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef PointerSField<RTImageTargetPtr,
+typedef PointerSField<RTImageTarget *,
                       RecordedRefCountPolicy  > SFRecRTImageTargetPtr;
-typedef PointerSField<RTImageTargetPtr,
+typedef PointerSField<RTImageTarget *,
                       UnrecordedRefCountPolicy> SFUnrecRTImageTargetPtr;
-typedef PointerSField<RTImageTargetPtr,
+typedef PointerSField<RTImageTarget *,
                       WeakRefCountPolicy      > SFWeakRTImageTargetPtr;
-typedef PointerSField<RTImageTargetPtr,
+typedef PointerSField<RTImageTarget *,
                       NoRefCountPolicy        > SFUncountedRTImageTargetPtr;
 #endif
 

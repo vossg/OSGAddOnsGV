@@ -282,7 +282,7 @@ RTTargetTransitPtr RTTargetBase::create(void)
 {
     RTTargetTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopy();
@@ -298,7 +298,7 @@ RTTargetTransitPtr RTTargetBase::createLocal(BitVector bFlags)
 {
     RTTargetTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyLocal(bFlags);
@@ -310,9 +310,9 @@ RTTargetTransitPtr RTTargetBase::createLocal(BitVector bFlags)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-RTTargetPtr RTTargetBase::createEmpty(void)
+RTTarget *RTTargetBase::createEmpty(void)
 {
-    RTTargetPtr returnValue;
+    RTTarget *returnValue;
 
     newPtr<RTTarget>(returnValue, Thread::getCurrentLocalFlags());
 
@@ -322,9 +322,9 @@ RTTargetPtr RTTargetBase::createEmpty(void)
     return returnValue;
 }
 
-RTTargetPtr RTTargetBase::createEmptyLocal(BitVector bFlags)
+RTTarget *RTTargetBase::createEmptyLocal(BitVector bFlags)
 {
-    RTTargetPtr returnValue;
+    RTTarget *returnValue;
 
     newPtr<RTTarget>(returnValue, bFlags);
 
@@ -335,7 +335,7 @@ RTTargetPtr RTTargetBase::createEmptyLocal(BitVector bFlags)
 
 FieldContainerTransitPtr RTTargetBase::shallowCopy(void) const
 {
-    RTTargetPtr tmpPtr;
+    RTTarget *tmpPtr;
 
     newPtr(tmpPtr, 
            dynamic_cast<const RTTarget *>(this), 
@@ -351,7 +351,7 @@ FieldContainerTransitPtr RTTargetBase::shallowCopy(void) const
 FieldContainerTransitPtr RTTargetBase::shallowCopyLocal(
     BitVector bFlags) const
 {
-    RTTargetPtr tmpPtr;
+    RTTarget *tmpPtr;
 
     newPtr(tmpPtr, dynamic_cast<const RTTarget *>(this), bFlags);
 
@@ -450,9 +450,9 @@ void RTTargetBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainerPtr RTTargetBase::createAspectCopy(void) const
+FieldContainer *RTTargetBase::createAspectCopy(void) const
 {
-    RTTargetPtr returnValue;
+    RTTarget *returnValue;
 
     newAspectCopy(returnValue,
                   dynamic_cast<const RTTarget *>(this));
@@ -470,13 +470,13 @@ void RTTargetBase::resolveLinks(void)
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTTargetPtr>::_type("RTTargetPtr", "FieldContainerPtr");
+DataType FieldTraits<RTTarget *>::_type("RTTargetPtr", "FieldContainerPtr");
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTTargetPtr)
+OSG_FIELDTRAITS_GETTYPE(RTTarget *)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           RTTargetPtr, 
+                           RTTarget *, 
                            0);
 
 

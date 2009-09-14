@@ -82,7 +82,7 @@ OSG_BEGIN_NAMESPACE
  *                         Field Description                               *
 \***************************************************************************/
 
-/*! \var ImagePtr        RTImageTargetBase::_sfImage
+/*! \var Image *         RTImageTargetBase::_sfImage
     
 */
 
@@ -170,6 +170,13 @@ const SFUnrecImagePtr *RTImageTargetBase::getSFImage(void) const
     return &_sfImage;
 }
 
+SFUnrecImagePtr     *RTImageTargetBase::editSFImage          (void)
+{
+    editSField(ImageFieldMask);
+
+    return &_sfImage;
+}
+
 
 
 
@@ -215,7 +222,7 @@ RTImageTargetTransitPtr RTImageTargetBase::create(void)
 {
     RTImageTargetTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopy();
@@ -231,7 +238,7 @@ RTImageTargetTransitPtr RTImageTargetBase::createLocal(BitVector bFlags)
 {
     RTImageTargetTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyLocal(bFlags);
@@ -243,9 +250,9 @@ RTImageTargetTransitPtr RTImageTargetBase::createLocal(BitVector bFlags)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-RTImageTargetPtr RTImageTargetBase::createEmpty(void)
+RTImageTarget *RTImageTargetBase::createEmpty(void)
 {
-    RTImageTargetPtr returnValue;
+    RTImageTarget *returnValue;
 
     newPtr<RTImageTarget>(returnValue, Thread::getCurrentLocalFlags());
 
@@ -255,9 +262,9 @@ RTImageTargetPtr RTImageTargetBase::createEmpty(void)
     return returnValue;
 }
 
-RTImageTargetPtr RTImageTargetBase::createEmptyLocal(BitVector bFlags)
+RTImageTarget *RTImageTargetBase::createEmptyLocal(BitVector bFlags)
 {
-    RTImageTargetPtr returnValue;
+    RTImageTarget *returnValue;
 
     newPtr<RTImageTarget>(returnValue, bFlags);
 
@@ -268,7 +275,7 @@ RTImageTargetPtr RTImageTargetBase::createEmptyLocal(BitVector bFlags)
 
 FieldContainerTransitPtr RTImageTargetBase::shallowCopy(void) const
 {
-    RTImageTargetPtr tmpPtr;
+    RTImageTarget *tmpPtr;
 
     newPtr(tmpPtr, 
            dynamic_cast<const RTImageTarget *>(this), 
@@ -284,7 +291,7 @@ FieldContainerTransitPtr RTImageTargetBase::shallowCopy(void) const
 FieldContainerTransitPtr RTImageTargetBase::shallowCopyLocal(
     BitVector bFlags) const
 {
-    RTImageTargetPtr tmpPtr;
+    RTImageTarget *tmpPtr;
 
     newPtr(tmpPtr, dynamic_cast<const RTImageTarget *>(this), bFlags);
 
@@ -301,13 +308,13 @@ FieldContainerTransitPtr RTImageTargetBase::shallowCopyLocal(
 
 RTImageTargetBase::RTImageTargetBase(void) :
     Inherited(),
-    _sfImage                  (NullFC)
+    _sfImage                  (NULL)
 {
 }
 
 RTImageTargetBase::RTImageTargetBase(const RTImageTargetBase &source) :
     Inherited(source),
-    _sfImage                  (NullFC)
+    _sfImage                  (NULL)
 {
 }
 
@@ -324,8 +331,9 @@ void RTImageTargetBase::onCreate(const RTImageTarget *source)
 
     if(source != NULL)
     {
+        RTImageTarget *pThis = static_cast<RTImageTarget *>(this);
 
-        this->setImage(source->getImage());
+        pThis->setImage(source->getImage());
     }
 }
 
@@ -372,9 +380,9 @@ void RTImageTargetBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainerPtr RTImageTargetBase::createAspectCopy(void) const
+FieldContainer *RTImageTargetBase::createAspectCopy(void) const
 {
-    RTImageTargetPtr returnValue;
+    RTImageTarget *returnValue;
 
     newAspectCopy(returnValue,
                   dynamic_cast<const RTImageTarget *>(this));
@@ -387,20 +395,20 @@ void RTImageTargetBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
 
-    static_cast<RTImageTarget *>(this)->setImage(NullFC);
+    static_cast<RTImageTarget *>(this)->setImage(NULL);
 
 
 }
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTImageTargetPtr>::_type("RTImageTargetPtr", "RTTargetPtr");
+DataType FieldTraits<RTImageTarget *>::_type("RTImageTargetPtr", "RTTargetPtr");
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTImageTargetPtr)
+OSG_FIELDTRAITS_GETTYPE(RTImageTarget *)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           RTImageTargetPtr, 
+                           RTImageTarget *, 
                            0);
 
 

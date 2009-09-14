@@ -34,19 +34,19 @@
 
 using namespace OSG;
 
-NodeUnrecPtr pStageNode = NullFC;
+NodeUnrecPtr pStageNode = NULL;
 
-RenderAction *rentravact = NullFC;
+RenderAction *rentravact = NULL;
 
-NodeUnrecPtr  root = NullFC;
-NodeUnrecPtr  file = NullFC;
+NodeUnrecPtr  root = NULL;
+NodeUnrecPtr  file = NULL;
 
-PerspectiveCameraUnrecPtr cam = NullFC;
-ViewportUnrecPtr          vp  = NullFC;
-WindowUnrecPtr            win = NullFC;
+PerspectiveCameraUnrecPtr cam = NULL;
+ViewportUnrecPtr          vp  = NULL;
+WindowUnrecPtr            win = NULL;
 
-TransformUnrecPtr cam_trans   = NullFC;
-TransformUnrecPtr scene_trans = NullFC;
+TransformUnrecPtr cam_trans   = NULL;
+TransformUnrecPtr scene_trans = NULL;
 
 Trackball tball;
 
@@ -59,9 +59,9 @@ int lasty  = 0;
 Quaternion oldq;
 Vec3f      oldv;
 
-TextureObjChunkUnrecPtr tx1o   = NullFC;
-TextureEnvChunkUnrecPtr tx1e   = NullFC;
-RRTStageUnrecPtr        pStage = NullFC;
+TextureObjChunkUnrecPtr tx1o   = NULL;
+TextureEnvChunkUnrecPtr tx1e   = NULL;
+RRTStageUnrecPtr        pStage = NULL;
 
 
 
@@ -117,14 +117,14 @@ int doMain (int argc, char **argv)
 
     // Load the file
 
-    NodeUnrecPtr file = NullFC;
+    NodeUnrecPtr file = NULL;
     
     if(argc > 1)
     {
         file = SceneFileHandler::the()->read(argv[1], NULL);
     }
 
-    if(file == NullFC)
+    if(file == NULL)
     {
         std::cerr << "Couldn't load file, ignoring" << std::endl;
 
@@ -299,18 +299,18 @@ int doMain (int argc, char **argv)
     
     delete rentravact;
 
-    pStageNode  = NullFC;
-    root        = NullFC;
-    file        = NullFC;
-    cam         = NullFC;
-    vp          = NullFC;
-    win         = NullFC;
-    cam_trans   = NullFC;
-    scene_trans = NullFC;
-    tx1o        = NullFC;
-    tx1e        = NullFC;
-    pStage      = NullFC;
-    pRayTracer  = NullFC;
+    pStageNode  = NULL;
+    root        = NULL;
+    file        = NULL;
+    cam         = NULL;
+    vp          = NULL;
+    win         = NULL;
+    cam_trans   = NULL;
+    scene_trans = NULL;
+    tx1o        = NULL;
+    tx1e        = NULL;
+    pStage      = NULL;
+    pRayTracer  = NULL;
 
     return 0;
 }

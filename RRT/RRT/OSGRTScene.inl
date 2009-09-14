@@ -42,7 +42,7 @@ template<typename DescT> inline
 RTScene<DescT>::RTScene(void) :
      Inherited  (                     ),
     _cBackground(0.4f, 0.4f, 0.4f, 1.f),
-    _pCam       (NullFC               ),
+    _pCam       (NULL                 ),
     _vRTCaches  (                     )
 {
 }
@@ -141,21 +141,21 @@ void RTScene<DescT>::shade(RTHitPacket    &oHit,
         const typename RTCache::GeometryStorePtr geoStore = 
             _vRTCaches[oHit.getCacheId()]->getGeoStore(oHit.getObjId());
 
-        MaterialChunkPtr pMat = 
-            dynamic_cast<MaterialChunkPtr>(
+        MaterialChunk *pMat = 
+            dynamic_cast<MaterialChunk *>(
                 geoStore->getState()->getChunk(
                     MaterialChunk::getStaticClassId()));
 
         if(pMat != NULL)
         {
-            GeometryPtr pGeo = geoStore->getGeo();
+            Geometry *pGeo = geoStore->getGeo();
 
             if(pGeo != NULL)
             {
-                GeoVectorPropertyPtr pNormals =
+                GeoVectorProperty *pNormals =
                     pGeo->getProperty(Geometry::NormalsIndex);
 
-                GeoIntegralPropertyPtr pNormalsIdx =
+                GeoIntegralProperty *pNormalsIdx =
                     pGeo->getIndex(Geometry::NormalsIndex);
                 
                 if(pNormals != NULL && pNormalsIdx != NULL)
@@ -259,21 +259,21 @@ void RTScene<DescT>::shade(RTHitSIMDPacket    &oHit,
             const typename RTCache::GeometryStorePtr geoStore = 
                 _vRTCaches[oHit.getCacheId(i)]->getGeoStore(oHit.getObjId(i));
 
-            MaterialChunkPtr pMat = 
-                dynamic_cast<MaterialChunkPtr>(
+            MaterialChunk *pMat = 
+                dynamic_cast<MaterialChunk *>(
                     geoStore->getState()->getChunk(
                         MaterialChunk::getStaticClassId()));
             
             if(pMat != NULL)
             {
-                GeometryPtr pGeo = geoStore->getGeo();
+                Geometry *pGeo = geoStore->getGeo();
 
                 if(pGeo != NULL)
                 {
-                    GeoVectorPropertyPtr pNormals =
+                    GeoVectorProperty *pNormals =
                         pGeo->getProperty(Geometry::NormalsIndex);
                     
-                    GeoIntegralPropertyPtr pNormalsIdx =
+                    GeoIntegralProperty *pNormalsIdx =
                         pGeo->getIndex(Geometry::NormalsIndex);
                     
                     if(pNormals != NULL && pNormalsIdx != NULL)

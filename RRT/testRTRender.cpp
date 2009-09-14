@@ -35,17 +35,17 @@
 
 using namespace OSG;
 
-RenderAction *rentravact = NullFC;
+RenderAction *rentravact = NULL;
 
-NodeUnrecPtr  root = NullFC;
-NodeUnrecPtr  file = NullFC;
+NodeUnrecPtr  root = NULL;
+NodeUnrecPtr  file = NULL;
 
-PerspectiveCameraUnrecPtr cam = NullFC;
-ViewportUnrecPtr          vp  = NullFC;
-WindowUnrecPtr            win = NullFC;
+PerspectiveCameraUnrecPtr cam = NULL;
+ViewportUnrecPtr          vp  = NULL;
+WindowUnrecPtr            win = NULL;
 
-TransformUnrecPtr cam_trans   = NullFC;
-TransformUnrecPtr scene_trans = NullFC;
+TransformUnrecPtr cam_trans   = NULL;
+TransformUnrecPtr scene_trans = NULL;
 
 Trackball tball;
 
@@ -58,9 +58,9 @@ int lasty  = 0;
 Quaternion oldq;
 Vec3f      oldv;
 
-TextureObjChunkUnrecPtr tx1o   = NullFC;
-TextureEnvChunkUnrecPtr tx1e   = NullFC;
-RRTStageUnrecPtr        pStage = NullFC;
+TextureObjChunkUnrecPtr tx1o   = NULL;
+TextureEnvChunkUnrecPtr tx1e   = NULL;
+RRTStageUnrecPtr        pStage = NULL;
 
 
 void display(void)
@@ -195,16 +195,16 @@ void key(unsigned char key, int x, int y)
         case 27:    
             delete rentravact;
 
-            root        = NullFC;
-            file        = NullFC;
-            cam         = NullFC;
-            vp          = NullFC;
-            win         = NullFC;
-            cam_trans   = NullFC;
-            scene_trans = NullFC;
-            tx1o        = NullFC;
-            tx1e        = NullFC;
-            pStage      = NullFC;
+            root        = NULL;
+            file        = NULL;
+            cam         = NULL;
+            vp          = NULL;
+            win         = NULL;
+            cam_trans   = NULL;
+            scene_trans = NULL;
+            tx1o        = NULL;
+            tx1e        = NULL;
+            pStage      = NULL;
 
             osgExit(); 
             exit(0);
@@ -351,14 +351,14 @@ int doMain (int argc, char **argv)
 
     // Load the file
 
-    NodeUnrecPtr file = NullFC;
+    NodeUnrecPtr file = NULL;
     
     if(argc > 1)
     {
         file = SceneFileHandler::the()->read(argv[1], NULL);
     }
 
-    if(file == NullFC)
+    if(file == NULL)
     {
         std::cerr << "Couldn't load file, ignoring" << std::endl;
 

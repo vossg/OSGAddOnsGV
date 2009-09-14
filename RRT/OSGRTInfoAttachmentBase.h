@@ -126,13 +126,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTInfoAttachmentBase : public Attachment
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTInfoAttachmentTransitPtr create          (void);
-    static  RTInfoAttachmentPtr        createEmpty     (void);
+    static  RTInfoAttachmentTransitPtr  create          (void);
+    static  RTInfoAttachment           *createEmpty     (void);
 
-    static  RTInfoAttachmentTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  RTInfoAttachmentTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  RTInfoAttachmentPtr        createEmptyLocal(
+    static  RTInfoAttachment            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -210,7 +210,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTInfoAttachmentBase : public Attachment
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

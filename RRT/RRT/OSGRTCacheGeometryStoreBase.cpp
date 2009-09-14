@@ -83,7 +83,7 @@ OSG_BEGIN_NAMESPACE
  *                         Field Description                               *
 \***************************************************************************/
 
-/*! \var GeometryPtr     RTCacheGeometryStoreBase::_sfGeo
+/*! \var Geometry *      RTCacheGeometryStoreBase::_sfGeo
     
 */
 
@@ -91,7 +91,7 @@ OSG_BEGIN_NAMESPACE
     
 */
 
-/*! \var StatePtr        RTCacheGeometryStoreBase::_sfState
+/*! \var State *         RTCacheGeometryStoreBase::_sfState
     
 */
 
@@ -170,7 +170,7 @@ RTCacheGeometryStoreBase::TypeObject RTCacheGeometryStoreBase::_type(
     "        cardinality=\"single\"\n"
     "        visibility=\"external\"\n"
     "        access=\"public\"\n"
-    "        defaultValue=\"NullFC\"\n"
+    "        defaultValue=\"NULL\"\n"
     "    >\n"
     "    </Field>\n"
     "    <Field\n"
@@ -188,7 +188,7 @@ RTCacheGeometryStoreBase::TypeObject RTCacheGeometryStoreBase::_type(
     "        cardinality=\"single\"\n"
     "        visibility=\"external\"\n"
     "        access=\"public\"\n"
-    "        defaultValue=\"NullFC\"\n"
+    "        defaultValue=\"NULL\"\n"
     "    >\n"
     "    </Field>\n"
     "</FieldContainer>\n",
@@ -221,6 +221,13 @@ const SFUnrecGeometryPtr *RTCacheGeometryStoreBase::getSFGeo(void) const
     return &_sfGeo;
 }
 
+SFUnrecGeometryPtr  *RTCacheGeometryStoreBase::editSFGeo            (void)
+{
+    editSField(GeoFieldMask);
+
+    return &_sfGeo;
+}
+
 SFMatrix *RTCacheGeometryStoreBase::editSFMatrix(void)
 {
     editSField(MatrixFieldMask);
@@ -243,6 +250,13 @@ SFMatrix            *RTCacheGeometryStoreBase::getSFMatrix         (void)
 //! Get the RTCacheGeometryStore::_sfState field.
 const SFUnrecStatePtr *RTCacheGeometryStoreBase::getSFState(void) const
 {
+    return &_sfState;
+}
+
+SFUnrecStatePtr     *RTCacheGeometryStoreBase::editSFState          (void)
+{
+    editSField(StateFieldMask);
+
     return &_sfState;
 }
 
@@ -315,7 +329,7 @@ RTCacheGeometryStoreTransitPtr RTCacheGeometryStoreBase::create(void)
 {
     RTCacheGeometryStoreTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopy();
@@ -331,7 +345,7 @@ RTCacheGeometryStoreTransitPtr RTCacheGeometryStoreBase::createLocal(BitVector b
 {
     RTCacheGeometryStoreTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyLocal(bFlags);
@@ -343,9 +357,9 @@ RTCacheGeometryStoreTransitPtr RTCacheGeometryStoreBase::createLocal(BitVector b
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-RTCacheGeometryStorePtr RTCacheGeometryStoreBase::createEmpty(void)
+RTCacheGeometryStore *RTCacheGeometryStoreBase::createEmpty(void)
 {
-    RTCacheGeometryStorePtr returnValue;
+    RTCacheGeometryStore *returnValue;
 
     newPtr<RTCacheGeometryStore>(returnValue, Thread::getCurrentLocalFlags());
 
@@ -355,9 +369,9 @@ RTCacheGeometryStorePtr RTCacheGeometryStoreBase::createEmpty(void)
     return returnValue;
 }
 
-RTCacheGeometryStorePtr RTCacheGeometryStoreBase::createEmptyLocal(BitVector bFlags)
+RTCacheGeometryStore *RTCacheGeometryStoreBase::createEmptyLocal(BitVector bFlags)
 {
-    RTCacheGeometryStorePtr returnValue;
+    RTCacheGeometryStore *returnValue;
 
     newPtr<RTCacheGeometryStore>(returnValue, bFlags);
 
@@ -368,7 +382,7 @@ RTCacheGeometryStorePtr RTCacheGeometryStoreBase::createEmptyLocal(BitVector bFl
 
 FieldContainerTransitPtr RTCacheGeometryStoreBase::shallowCopy(void) const
 {
-    RTCacheGeometryStorePtr tmpPtr;
+    RTCacheGeometryStore *tmpPtr;
 
     newPtr(tmpPtr, 
            dynamic_cast<const RTCacheGeometryStore *>(this), 
@@ -384,7 +398,7 @@ FieldContainerTransitPtr RTCacheGeometryStoreBase::shallowCopy(void) const
 FieldContainerTransitPtr RTCacheGeometryStoreBase::shallowCopyLocal(
     BitVector bFlags) const
 {
-    RTCacheGeometryStorePtr tmpPtr;
+    RTCacheGeometryStore *tmpPtr;
 
     newPtr(tmpPtr, dynamic_cast<const RTCacheGeometryStore *>(this), bFlags);
 
@@ -401,17 +415,17 @@ FieldContainerTransitPtr RTCacheGeometryStoreBase::shallowCopyLocal(
 
 RTCacheGeometryStoreBase::RTCacheGeometryStoreBase(void) :
     Inherited(),
-    _sfGeo                    (GeometryPtr(NullFC)),
+    _sfGeo                    (NULL),
     _sfMatrix                 (),
-    _sfState                  (StatePtr(NullFC))
+    _sfState                  (NULL)
 {
 }
 
 RTCacheGeometryStoreBase::RTCacheGeometryStoreBase(const RTCacheGeometryStoreBase &source) :
     Inherited(source),
-    _sfGeo                    (NullFC),
+    _sfGeo                    (NULL),
     _sfMatrix                 (source._sfMatrix                 ),
-    _sfState                  (NullFC)
+    _sfState                  (NULL)
 {
 }
 
@@ -428,10 +442,11 @@ void RTCacheGeometryStoreBase::onCreate(const RTCacheGeometryStore *source)
 
     if(source != NULL)
     {
+        RTCacheGeometryStore *pThis = static_cast<RTCacheGeometryStore *>(this);
 
-        this->setGeo(source->getGeo());
+        pThis->setGeo(source->getGeo());
 
-        this->setState(source->getState());
+        pThis->setState(source->getState());
     }
 }
 
@@ -525,9 +540,9 @@ void RTCacheGeometryStoreBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainerPtr RTCacheGeometryStoreBase::createAspectCopy(void) const
+FieldContainer *RTCacheGeometryStoreBase::createAspectCopy(void) const
 {
-    RTCacheGeometryStorePtr returnValue;
+    RTCacheGeometryStore *returnValue;
 
     newAspectCopy(returnValue,
                   dynamic_cast<const RTCacheGeometryStore *>(this));
@@ -540,26 +555,26 @@ void RTCacheGeometryStoreBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
 
-    static_cast<RTCacheGeometryStore *>(this)->setGeo(NullFC);
+    static_cast<RTCacheGeometryStore *>(this)->setGeo(NULL);
 
-    static_cast<RTCacheGeometryStore *>(this)->setState(NullFC);
+    static_cast<RTCacheGeometryStore *>(this)->setState(NULL);
 
 
 }
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTCacheGeometryStorePtr>::_type("RTCacheGeometryStorePtr", "FieldContainerPtr");
+DataType FieldTraits<RTCacheGeometryStore *>::_type("RTCacheGeometryStorePtr", "FieldContainerPtr");
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTCacheGeometryStorePtr)
+OSG_FIELDTRAITS_GETTYPE(RTCacheGeometryStore *)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           RTCacheGeometryStorePtr, 
+                           RTCacheGeometryStore *, 
                            0);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
-                           RTCacheGeometryStorePtr, 
+                           RTCacheGeometryStore *, 
                            0);
 
 OSG_END_NAMESPACE

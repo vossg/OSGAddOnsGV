@@ -159,7 +159,7 @@ RTCacheAttachmentTransitPtr RTCacheAttachmentBase::create(void)
 {
     RTCacheAttachmentTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopy();
@@ -175,7 +175,7 @@ RTCacheAttachmentTransitPtr RTCacheAttachmentBase::createLocal(BitVector bFlags)
 {
     RTCacheAttachmentTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyLocal(bFlags);
@@ -187,9 +187,9 @@ RTCacheAttachmentTransitPtr RTCacheAttachmentBase::createLocal(BitVector bFlags)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-RTCacheAttachmentPtr RTCacheAttachmentBase::createEmpty(void)
+RTCacheAttachment *RTCacheAttachmentBase::createEmpty(void)
 {
-    RTCacheAttachmentPtr returnValue;
+    RTCacheAttachment *returnValue;
 
     newPtr<RTCacheAttachment>(returnValue, Thread::getCurrentLocalFlags());
 
@@ -199,9 +199,9 @@ RTCacheAttachmentPtr RTCacheAttachmentBase::createEmpty(void)
     return returnValue;
 }
 
-RTCacheAttachmentPtr RTCacheAttachmentBase::createEmptyLocal(BitVector bFlags)
+RTCacheAttachment *RTCacheAttachmentBase::createEmptyLocal(BitVector bFlags)
 {
-    RTCacheAttachmentPtr returnValue;
+    RTCacheAttachment *returnValue;
 
     newPtr<RTCacheAttachment>(returnValue, bFlags);
 
@@ -212,7 +212,7 @@ RTCacheAttachmentPtr RTCacheAttachmentBase::createEmptyLocal(BitVector bFlags)
 
 FieldContainerTransitPtr RTCacheAttachmentBase::shallowCopy(void) const
 {
-    RTCacheAttachmentPtr tmpPtr;
+    RTCacheAttachment *tmpPtr;
 
     newPtr(tmpPtr, 
            dynamic_cast<const RTCacheAttachment *>(this), 
@@ -228,7 +228,7 @@ FieldContainerTransitPtr RTCacheAttachmentBase::shallowCopy(void) const
 FieldContainerTransitPtr RTCacheAttachmentBase::shallowCopyLocal(
     BitVector bFlags) const
 {
-    RTCacheAttachmentPtr tmpPtr;
+    RTCacheAttachment *tmpPtr;
 
     newPtr(tmpPtr, dynamic_cast<const RTCacheAttachment *>(this), bFlags);
 
@@ -279,9 +279,9 @@ void RTCacheAttachmentBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainerPtr RTCacheAttachmentBase::createAspectCopy(void) const
+FieldContainer *RTCacheAttachmentBase::createAspectCopy(void) const
 {
-    RTCacheAttachmentPtr returnValue;
+    RTCacheAttachment *returnValue;
 
     newAspectCopy(returnValue,
                   dynamic_cast<const RTCacheAttachment *>(this));
@@ -299,17 +299,17 @@ void RTCacheAttachmentBase::resolveLinks(void)
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTCacheAttachmentPtr>::_type("RTCacheAttachmentPtr", "AttachmentPtr");
+DataType FieldTraits<RTCacheAttachment *>::_type("RTCacheAttachmentPtr", "AttachmentPtr");
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTCacheAttachmentPtr)
+OSG_FIELDTRAITS_GETTYPE(RTCacheAttachment *)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           RTCacheAttachmentPtr, 
+                           RTCacheAttachment *, 
                            0);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
-                           RTCacheAttachmentPtr, 
+                           RTCacheAttachment *, 
                            0);
 
 OSG_END_NAMESPACE

@@ -109,7 +109,7 @@ RTShadingThread<DescT>::RTShadingThread(const OSG::Char8  *szName,
 template<typename DescT> inline
 RTShadingThread<DescT>::~RTShadingThread(void)
 {
-    _pTarget = NullFC;
+    _pTarget = NULL;
 
     OSG::subRef(_pScene        );
     OSG::subRef(_pHitStore     );

@@ -76,36 +76,34 @@ OSG::UInt16 RRTStageBase::getClassGroupId(void)
 
 //! Get the value of the RRTStage::_sfBackgroundRoot field.
 inline
-NodePtr RRTStageBase::getBackgroundRoot(void) const
+Node * RRTStageBase::getBackgroundRoot(void) const
 {
     return _sfBackgroundRoot.getValue();
 }
 
 //! Set the value of the RRTStage::_sfBackgroundRoot field.
 inline
-void RRTStageBase::setBackgroundRoot(const NodePtr value)
+void RRTStageBase::setBackgroundRoot(Node * const value)
 {
     editSField(BackgroundRootFieldMask);
 
     _sfBackgroundRoot.setValue(value);
-
 }
 
 //! Get the value of the RRTStage::_sfTextureTarget field.
 inline
-TextureObjChunkPtr RRTStageBase::getTextureTarget(void) const
+TextureObjChunk * RRTStageBase::getTextureTarget(void) const
 {
     return _sfTextureTarget.getValue();
 }
 
 //! Set the value of the RRTStage::_sfTextureTarget field.
 inline
-void RRTStageBase::setTextureTarget(const TextureObjChunkPtr value)
+void RRTStageBase::setTextureTarget(TextureObjChunk * const value)
 {
     editSField(TextureTargetFieldMask);
 
     _sfTextureTarget.setValue(value);
-
 }
 //! Get the value of the RRTStage::_sfWidth field.
 
@@ -119,7 +117,7 @@ UInt32 &RRTStageBase::editWidth(void)
 
 //! Get the value of the RRTStage::_sfWidth field.
 inline
-const UInt32 &RRTStageBase::getWidth(void) const
+const UInt32 RRTStageBase::getWidth(void) const
 {
     return _sfWidth.getValue();
 }
@@ -152,7 +150,7 @@ UInt32 &RRTStageBase::editHeight(void)
 
 //! Get the value of the RRTStage::_sfHeight field.
 inline
-const UInt32 &RRTStageBase::getHeight(void) const
+const UInt32 RRTStageBase::getHeight(void) const
 {
     return _sfHeight.getValue();
 }
@@ -185,7 +183,7 @@ bool &RRTStageBase::editSplitThreads(void)
 
 //! Get the value of the RRTStage::_sfSplitThreads field.
 inline
-const bool &RRTStageBase::getSplitThreads(void) const
+const bool RRTStageBase::getSplitThreads(void) const
 {
     return _sfSplitThreads.getValue();
 }
@@ -218,7 +216,7 @@ bool &RRTStageBase::editTiled(void)
 
 //! Get the value of the RRTStage::_sfTiled field.
 inline
-const bool &RRTStageBase::getTiled(void) const
+const bool RRTStageBase::getTiled(void) const
 {
     return _sfTiled.getValue();
 }
@@ -242,19 +240,18 @@ void RRTStageBase::setTiled(const bool &value)
 
 //! Get the value of the RRTStage::_sfRTCamera field.
 inline
-RTCameraDecoratorPtr RRTStageBase::getRTCamera(void) const
+RTCameraDecorator * RRTStageBase::getRTCamera(void) const
 {
     return _sfRTCamera.getValue();
 }
 
 //! Set the value of the RRTStage::_sfRTCamera field.
 inline
-void RRTStageBase::setRTCamera(const RTCameraDecoratorPtr value)
+void RRTStageBase::setRTCamera(RTCameraDecorator * const value)
 {
     editSField(RTCameraFieldMask);
 
     _sfRTCamera.setValue(value);
-
 }
 
 

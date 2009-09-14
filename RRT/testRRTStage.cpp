@@ -220,18 +220,18 @@ void key(unsigned char key, int x, int y)
         case 27:   
             delete rentravact;
 
-            root           = NullFC;
-            animRoot       = NullFC;
-            file           = NullFC;
-            vpScene        = NullFC;
-            vpPlane        = NullFC;
-            win            = NullFC;
-            cam_transScene = NullFC;
-            cam_transPlane = NullFC;
-            tx1o           = NullFC;
-            tx1e           = NullFC;
-            pStage         = NullFC;
-            pVisit         = NullFC;
+            root           = NULL;
+            animRoot       = NULL;
+            file           = NULL;
+            vpScene        = NULL;
+            vpPlane        = NULL;
+            win            = NULL;
+            cam_transScene = NULL;
+            cam_transPlane = NULL;
+            tx1o           = NULL;
+            tx1e           = NULL;
+            pStage         = NULL;
+            pVisit         = NULL;
 
             osgExit(); 
             exit(0);
@@ -331,7 +331,7 @@ void initRTStage(void)
 
     file->setCore(Group::create());
     
-    if(file == NullFC)
+    if(file == NULL)
     {
         std::cerr << "Couldn't load file, ignoring" << std::endl;
 
@@ -491,14 +491,14 @@ void initScene(int argc, char **argv)
 
     // Load the file
 
-    file = NullFC;
+    file = NULL;
     
     if(argc > 1)
     {
         file = SceneFileHandler::the()->read(argv[1], NULL);
     }
 
-    if(file == NullFC)
+    if(file == NULL)
     {
         file = makeSphere(4, 0.5f);
 //        file = makeTorus(.5, 2, 16, 16);

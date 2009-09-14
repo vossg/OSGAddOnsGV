@@ -113,7 +113,7 @@ RTCombinedThread<DescT>::~RTCombinedThread(void)
 {
     OSG::subRef(_pScene        );
 
-    _pTarget = NullFC;
+    _pTarget = NULL;
 
     OSG::subRef(_pRayStore     );
     OSG::subRef(_pHitStore     );

@@ -149,8 +149,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFUnrecNodePtr      *getSFBackgroundRoot  (void) const;
-            const SFUnrecTextureObjChunkPtr *getSFTextureTarget   (void) const;
+            const SFUnrecNodePtr      *getSFBackgroundRoot (void) const;
+                  SFUnrecNodePtr      *editSFBackgroundRoot (void);
+            const SFUnrecTextureObjChunkPtr *getSFTextureTarget  (void) const;
+                  SFUnrecTextureObjChunkPtr *editSFTextureTarget  (void);
 
 #ifdef OSG_1_GET_COMPAT
                   SFUInt32            *getSFWidth           (void);
@@ -175,51 +177,52 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
 #endif
                   SFBool              *editSFTiled          (void);
             const SFBool              *getSFTiled           (void) const;
-            const SFUnrecRTCameraDecoratorPtr *getSFRTCamera        (void) const;
+            const SFUnrecRTCameraDecoratorPtr *getSFRTCamera       (void) const;
+                  SFUnrecRTCameraDecoratorPtr *editSFRTCamera       (void);
 
 
-                  NodePtr getBackgroundRoot (void) const;
+                  Node * getBackgroundRoot (void) const;
 
-                  TextureObjChunkPtr getTextureTarget  (void) const;
+                  TextureObjChunk * getTextureTarget  (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   UInt32              &getWidth           (void);
 #endif
                   UInt32              &editWidth          (void);
-            const UInt32              &getWidth           (void) const;
+            const UInt32               getWidth           (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   UInt32              &getHeight          (void);
 #endif
                   UInt32              &editHeight         (void);
-            const UInt32              &getHeight          (void) const;
+            const UInt32               getHeight          (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   bool                &getSplitThreads    (void);
 #endif
                   bool                &editSplitThreads   (void);
-            const bool                &getSplitThreads    (void) const;
+            const bool                 getSplitThreads    (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   bool                &getTiled           (void);
 #endif
                   bool                &editTiled          (void);
-            const bool                &getTiled           (void) const;
+            const bool                 getTiled           (void) const;
 
-                  RTCameraDecoratorPtr getRTCamera       (void) const;
+                  RTCameraDecorator * getRTCamera       (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setBackgroundRoot (const NodePtr value);
-            void setTextureTarget  (const TextureObjChunkPtr value);
+            void setBackgroundRoot (Node * const value);
+            void setTextureTarget  (TextureObjChunk * const value);
             void setWidth          (const UInt32 &value);
             void setHeight         (const UInt32 &value);
             void setSplitThreads   (const bool &value);
             void setTiled          (const bool &value);
-            void setRTCamera       (const RTCameraDecoratorPtr value);
+            void setRTCamera       (RTCameraDecorator * const value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -230,6 +233,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -247,13 +251,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RRTStageTransitPtr create          (void);
-    static  RRTStagePtr        createEmpty     (void);
+    static  RRTStageTransitPtr  create          (void);
+    static  RRTStage           *createEmpty     (void);
 
-    static  RRTStageTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  RRTStageTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  RRTStagePtr        createEmptyLocal(
+    static  RRTStage            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -359,7 +363,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

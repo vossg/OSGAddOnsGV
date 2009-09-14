@@ -113,14 +113,14 @@ void RTImageTarget::dump(      UInt32    ,
 
 void RTImageTarget::finalize(DrawEnv *pEnv)
 {
-    if(_sfImage.getValue() == NullFC)
+    if(_sfImage.getValue() == NULL)
     {
         ImageUnrecPtr pImage = Image::create();
 
         _sfImage.setValue(pImage);
     }
 
-    ImagePtr pImage = _sfImage.getValue();
+    Image *pImage = _sfImage.getValue();
 
     pImage->set(Image::OSG_RGB_PF ,
                 _sfWidth .getValue(), 

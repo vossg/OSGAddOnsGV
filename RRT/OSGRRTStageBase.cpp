@@ -84,11 +84,11 @@ OSG_BEGIN_NAMESPACE
  *                         Field Description                               *
 \***************************************************************************/
 
-/*! \var NodePtr         RRTStageBase::_sfBackgroundRoot
+/*! \var Node *          RRTStageBase::_sfBackgroundRoot
     
 */
 
-/*! \var TextureObjChunkPtr RRTStageBase::_sfTextureTarget
+/*! \var TextureObjChunk * RRTStageBase::_sfTextureTarget
     
 */
 
@@ -108,7 +108,7 @@ OSG_BEGIN_NAMESPACE
     
 */
 
-/*! \var RTCameraDecoratorPtr RRTStageBase::_sfRTCamera
+/*! \var RTCameraDecorator * RRTStageBase::_sfRTCamera
     
 */
 
@@ -235,7 +235,7 @@ RRTStageBase::TypeObject RRTStageBase::_type(
     "        cardinality=\"single\"\n"
     "        visibility=\"external\"\n"
     "        access=\"public\"\n"
-    "        defaultValue=\"NullFC\"\n"
+    "        defaultValue=\"NULL\"\n"
     "    >\n"
     "    </Field>\n"
     "    <Field\n"
@@ -244,7 +244,7 @@ RRTStageBase::TypeObject RRTStageBase::_type(
     "        cardinality=\"single\"\n"
     "        visibility=\"external\"\n"
     "        access=\"public\"\n"
-    "        defaultValue=\"NullFC\"\n"
+    "        defaultValue=\"NULL\"\n"
     "    >\n"
     "    </Field>\n"
     "\t<Field\n"
@@ -322,9 +322,23 @@ const SFUnrecNodePtr *RRTStageBase::getSFBackgroundRoot(void) const
     return &_sfBackgroundRoot;
 }
 
+SFUnrecNodePtr      *RRTStageBase::editSFBackgroundRoot (void)
+{
+    editSField(BackgroundRootFieldMask);
+
+    return &_sfBackgroundRoot;
+}
+
 //! Get the RRTStage::_sfTextureTarget field.
 const SFUnrecTextureObjChunkPtr *RRTStageBase::getSFTextureTarget(void) const
 {
+    return &_sfTextureTarget;
+}
+
+SFUnrecTextureObjChunkPtr *RRTStageBase::editSFTextureTarget  (void)
+{
+    editSField(TextureTargetFieldMask);
+
     return &_sfTextureTarget;
 }
 
@@ -407,6 +421,13 @@ SFBool              *RRTStageBase::getSFTiled          (void)
 //! Get the RRTStage::_sfRTCamera field.
 const SFUnrecRTCameraDecoratorPtr *RRTStageBase::getSFRTCamera(void) const
 {
+    return &_sfRTCamera;
+}
+
+SFUnrecRTCameraDecoratorPtr *RRTStageBase::editSFRTCamera       (void)
+{
+    editSField(RTCameraFieldMask);
+
     return &_sfRTCamera;
 }
 
@@ -527,7 +548,7 @@ RRTStageTransitPtr RRTStageBase::create(void)
 {
     RRTStageTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopy();
@@ -543,7 +564,7 @@ RRTStageTransitPtr RRTStageBase::createLocal(BitVector bFlags)
 {
     RRTStageTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyLocal(bFlags);
@@ -555,9 +576,9 @@ RRTStageTransitPtr RRTStageBase::createLocal(BitVector bFlags)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-RRTStagePtr RRTStageBase::createEmpty(void)
+RRTStage *RRTStageBase::createEmpty(void)
 {
-    RRTStagePtr returnValue;
+    RRTStage *returnValue;
 
     newPtr<RRTStage>(returnValue, Thread::getCurrentLocalFlags());
 
@@ -567,9 +588,9 @@ RRTStagePtr RRTStageBase::createEmpty(void)
     return returnValue;
 }
 
-RRTStagePtr RRTStageBase::createEmptyLocal(BitVector bFlags)
+RRTStage *RRTStageBase::createEmptyLocal(BitVector bFlags)
 {
-    RRTStagePtr returnValue;
+    RRTStage *returnValue;
 
     newPtr<RRTStage>(returnValue, bFlags);
 
@@ -580,7 +601,7 @@ RRTStagePtr RRTStageBase::createEmptyLocal(BitVector bFlags)
 
 FieldContainerTransitPtr RRTStageBase::shallowCopy(void) const
 {
-    RRTStagePtr tmpPtr;
+    RRTStage *tmpPtr;
 
     newPtr(tmpPtr, 
            dynamic_cast<const RRTStage *>(this), 
@@ -596,7 +617,7 @@ FieldContainerTransitPtr RRTStageBase::shallowCopy(void) const
 FieldContainerTransitPtr RRTStageBase::shallowCopyLocal(
     BitVector bFlags) const
 {
-    RRTStagePtr tmpPtr;
+    RRTStage *tmpPtr;
 
     newPtr(tmpPtr, dynamic_cast<const RRTStage *>(this), bFlags);
 
@@ -613,25 +634,25 @@ FieldContainerTransitPtr RRTStageBase::shallowCopyLocal(
 
 RRTStageBase::RRTStageBase(void) :
     Inherited(),
-    _sfBackgroundRoot         (NodePtr(NullFC)),
-    _sfTextureTarget          (TextureObjChunkPtr(NullFC)),
+    _sfBackgroundRoot         (NULL),
+    _sfTextureTarget          (NULL),
     _sfWidth                  (UInt32(16)),
     _sfHeight                 (UInt32(16)),
     _sfSplitThreads           (bool(false)),
     _sfTiled                  (bool(false)),
-    _sfRTCamera               (RTCameraDecoratorPtr(false))
+    _sfRTCamera               (false)
 {
 }
 
 RRTStageBase::RRTStageBase(const RRTStageBase &source) :
     Inherited(source),
-    _sfBackgroundRoot         (NullFC),
-    _sfTextureTarget          (NullFC),
+    _sfBackgroundRoot         (NULL),
+    _sfTextureTarget          (NULL),
     _sfWidth                  (source._sfWidth                  ),
     _sfHeight                 (source._sfHeight                 ),
     _sfSplitThreads           (source._sfSplitThreads           ),
     _sfTiled                  (source._sfTiled                  ),
-    _sfRTCamera               (NullFC)
+    _sfRTCamera               (NULL)
 {
 }
 
@@ -648,12 +669,13 @@ void RRTStageBase::onCreate(const RRTStage *source)
 
     if(source != NULL)
     {
+        RRTStage *pThis = static_cast<RRTStage *>(this);
 
-        this->setBackgroundRoot(source->getBackgroundRoot());
+        pThis->setBackgroundRoot(source->getBackgroundRoot());
 
-        this->setTextureTarget(source->getTextureTarget());
+        pThis->setTextureTarget(source->getTextureTarget());
 
-        this->setRTCamera(source->getRTCamera());
+        pThis->setRTCamera(source->getRTCamera());
     }
 }
 
@@ -838,9 +860,9 @@ void RRTStageBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainerPtr RRTStageBase::createAspectCopy(void) const
+FieldContainer *RRTStageBase::createAspectCopy(void) const
 {
-    RRTStagePtr returnValue;
+    RRTStage *returnValue;
 
     newAspectCopy(returnValue,
                   dynamic_cast<const RRTStage *>(this));
@@ -853,18 +875,18 @@ void RRTStageBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
 
-    static_cast<RRTStage *>(this)->setBackgroundRoot(NullFC);
+    static_cast<RRTStage *>(this)->setBackgroundRoot(NULL);
 
-    static_cast<RRTStage *>(this)->setTextureTarget(NullFC);
+    static_cast<RRTStage *>(this)->setTextureTarget(NULL);
 
-    static_cast<RRTStage *>(this)->setRTCamera(NullFC);
+    static_cast<RRTStage *>(this)->setRTCamera(NULL);
 
 
 }
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RRTStagePtr>::_type("RRTStagePtr", "StagePtr");
+DataType FieldTraits<RRTStage *>::_type("RRTStagePtr", "StagePtr");
 #endif
 
 

@@ -125,17 +125,18 @@ class OSG_CONTRIBRRT_DLLMAPPING RTImageTargetBase : public RTTarget
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFUnrecImagePtr     *getSFImage           (void) const;
+            const SFUnrecImagePtr     *getSFImage          (void) const;
+                  SFUnrecImagePtr     *editSFImage          (void);
 
 
-                  ImagePtr getImage          (void) const;
+                  Image * getImage          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setImage          (const ImagePtr value);
+            void setImage          (Image * const value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -146,6 +147,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTImageTargetBase : public RTTarget
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -163,13 +165,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTImageTargetBase : public RTTarget
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTImageTargetTransitPtr create          (void);
-    static  RTImageTargetPtr        createEmpty     (void);
+    static  RTImageTargetTransitPtr  create          (void);
+    static  RTImageTarget           *createEmpty     (void);
 
-    static  RTImageTargetTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  RTImageTargetTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  RTImageTargetPtr        createEmptyLocal(
+    static  RTImageTarget            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -257,7 +259,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTImageTargetBase : public RTTarget
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

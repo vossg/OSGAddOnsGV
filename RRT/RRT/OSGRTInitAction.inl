@@ -247,11 +247,11 @@ RTInitAction<DescT>::RTInitAction(const RTInitAction &source) :
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTInitAction<DescT>::nodeEnter(const NodePtr  pNode, 
-                                                         Action  *pAction)
+ActionBase::ResultE RTInitAction<DescT>::nodeEnter(Node   * const  pNode, 
+                                                   Action *        pAction)
 {
-    RTInfoAttachmentPtr pRTInfo = 
-        dynamic_cast<RTInfoAttachmentPtr>(
+    RTInfoAttachment *pRTInfo = 
+        dynamic_cast<RTInfoAttachment *>(
             pNode->findAttachment(RTInfoAttachment::getClassType()));
 
     if(pRTInfo != NULL)
@@ -287,8 +287,8 @@ ActionBase::ResultE RTInitAction<DescT>::nodeEnter(const NodePtr  pNode,
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTInitAction<DescT>::nodeExit(const NodePtr  pNode, 
-                                                        Action  *pAction)
+ActionBase::ResultE RTInitAction<DescT>::nodeExit(Node   * const  pNode, 
+                                                  Action *        pAction)
 {
     if(pNode == _pCacheNode)
     {
@@ -334,12 +334,12 @@ void RTInitAction<DescT>::popMatrix(void)
 }
 
 template<typename DescT> inline
-void RTInitAction<DescT>::overrideMaterial(      Material *pMaterial,
-                                           const NodePtr   pNode    )
+void RTInitAction<DescT>::overrideMaterial(Material *       pMaterial,
+                                           Node     * const pNode    )
 {
     if(_pCurrentCache != NULL)
     {
-        if(_pMaterialNode == NullFC)
+        if(_pMaterialNode == NULL)
         {
             _pMaterial     = pMaterial;
             _pMaterialNode = pNode;
@@ -349,7 +349,7 @@ void RTInitAction<DescT>::overrideMaterial(      Material *pMaterial,
             if(pMaterial == NULL)
             {
                 _pMaterial     = NULL;
-                _pMaterialNode = NullFC;
+                _pMaterialNode = NULL;
             }
             else
             {
@@ -430,16 +430,16 @@ void RTInitAction<DescT>::releaseLightIndex(void)
 }
 
 inline
-bool isTriangulated(GeometryPtr pGeo)
+bool isTriangulated(Geometry *pGeo)
 {
     bool returnValue = false;
 
-    if(pGeo == NullFC)
+    if(pGeo == NULL)
         return returnValue;
 
-    GeoIntegralPropertyPtr pTypes = pGeo->getTypes();
+    GeoIntegralProperty *pTypes = pGeo->getTypes();
 
-    if(pTypes == NullFC)
+    if(pTypes == NULL)
         return returnValue;
 
     returnValue = true;
@@ -461,9 +461,9 @@ bool isTriangulated(GeometryPtr pGeo)
 }
 
 inline
-void triangulateSimple(GeometryPtr pGeo)
+void triangulateSimple(Geometry *pGeo)
 {
-    if(pGeo == NullFC)
+    if(pGeo == NULL)
         return;
 
     Geometry::IndexBag sourceIndexBag = pGeo->getUniqueIndexBag();
@@ -512,8 +512,8 @@ void triangulateSimple(GeometryPtr pGeo)
     }
 
 
-    GeoIntegralPropertyPtr pTypes   = pGeo->getTypes  ();
-    GeoIntegralPropertyPtr pLengths = pGeo->getLengths();
+    GeoIntegralProperty *pTypes   = pGeo->getTypes  ();
+    GeoIntegralProperty *pLengths = pGeo->getLengths();
     
     pTypes->clear();
     pTypes->push_back(GL_TRIANGLES);
@@ -523,7 +523,7 @@ void triangulateSimple(GeometryPtr pGeo)
 }
 
 template<typename DescT> inline
-void RTInitAction<DescT>::dropGeometry(GeometryPtr pGeo)
+void RTInitAction<DescT>::dropGeometry(Geometry *pGeo)
 {
     if(_pCurrentCache != NULL)
     {
@@ -534,9 +534,9 @@ void RTInitAction<DescT>::dropGeometry(GeometryPtr pGeo)
             pOverride = _sStateOverrides.top();
         }
 
-        MaterialPtr pMat = _pMaterial;
+        Material *pMat = _pMaterial;
 
-        if(pMat == NullFC)
+        if(pMat == NULL)
         {
             pMat = pGeo->getMaterial();
         }
@@ -594,12 +594,12 @@ ActionBase::ResultE RTInitAction<DescT>::stop(ActionBase::ResultE res)
 /*                             Destructor                                  */
 
 template<typename DescT> inline
-ActionBase::ResultE GeometryRTInitEnter(const NodeCorePtr &pCore,
-                                              Action      *action)
+ActionBase::ResultE GeometryRTInitEnter(NodeCore * const pCore,
+                                        Action   *       action)
 {
     fprintf(stderr, "Enter GeoRTInit %p\n", &(*pCore));
 
-    GeometryPtr          pGeo    = dynamic_cast<GeometryPtr          >(pCore);
+    Geometry            *pGeo    = dynamic_cast<Geometry            *>(pCore);
     RTInitAction<DescT> *pRTInit = dynamic_cast<RTInitAction<DescT> *>(action);
 
     if(pRTInit != NULL)
@@ -611,8 +611,8 @@ ActionBase::ResultE GeometryRTInitEnter(const NodeCorePtr &pCore,
 }
 
 inline
-ActionBase::ResultE GeometryRTInitLeave(const NodeCorePtr &pCore,
-                                              Action      *action)
+ActionBase::ResultE GeometryRTInitLeave(NodeCore * const pCore,
+                                        Action   *       action)
 {
     fprintf(stderr, "Leave GeoRTInit %p\n", &(*pCore));
 
@@ -621,14 +621,14 @@ ActionBase::ResultE GeometryRTInitLeave(const NodeCorePtr &pCore,
 
 
 template<typename DescT> inline
-ActionBase::ResultE TransformRTInitEnter(const NodeCorePtr &pCore,
-                                               Action      *action)
+ActionBase::ResultE TransformRTInitEnter(NodeCore * const pCore,
+                                         Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter Transform %p\n", &(*pCore)));
 #endif
 
-    TransformPtr pThis = dynamic_cast<TransformPtr>(pCore);
+    Transform *pThis = dynamic_cast<Transform *>(pCore);
 
     RTInitAction<DescT> *pRTInit = dynamic_cast<RTInitAction<DescT> *>(action);
 
@@ -638,8 +638,8 @@ ActionBase::ResultE TransformRTInitEnter(const NodeCorePtr &pCore,
 }
 
 template<typename DescT> inline
-ActionBase::ResultE TransformRTInitLeave(const NodeCorePtr &pCore,
-                                               Action      *action)
+ActionBase::ResultE TransformRTInitLeave(NodeCore * const pCore,
+                                         Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Leave Transform %p\n", &(*pCore)));
@@ -653,8 +653,8 @@ ActionBase::ResultE TransformRTInitLeave(const NodeCorePtr &pCore,
 }
 
 template<typename DescT> inline
-ActionBase::ResultE MaterialGroupRTInitEnter(const NodeCorePtr &pCore,
-                                                   Action      *action)
+ActionBase::ResultE MaterialGroupRTInitEnter(NodeCore * const pCore,
+                                             Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter MaterialGroup %p\n", &(*pCore)));
@@ -663,11 +663,11 @@ ActionBase::ResultE MaterialGroupRTInitEnter(const NodeCorePtr &pCore,
     RTInitAction<DescT> *pRTInit   = 
         dynamic_cast<RTInitAction<DescT> *>(action);
 
-    MaterialGroupPtr     pMatGroup = dynamic_cast<MaterialGroupPtr>(pCore);
+    MaterialGroup       *pMatGroup = dynamic_cast<MaterialGroup *>(pCore);
 
-    if(pRTInit                  != NULL   && 
-       pMatGroup                != NullFC &&
-       pMatGroup->getMaterial() != NullFC  )
+    if(pRTInit                  != NULL && 
+       pMatGroup                != NULL &&
+       pMatGroup->getMaterial() != NULL  )
     {
         pRTInit->overrideMaterial(pMatGroup->getMaterial(), 
                                   pRTInit->getActNode()   );
@@ -677,8 +677,8 @@ ActionBase::ResultE MaterialGroupRTInitEnter(const NodeCorePtr &pCore,
 }
 
 template<typename DescT> inline
-ActionBase::ResultE MaterialGroupRTInitLeave(const NodeCorePtr &pCore,
-                                                   Action      *action)
+ActionBase::ResultE MaterialGroupRTInitLeave(NodeCore * const pCore,
+                                             Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Leave MaterialGroup %p\n", &(*pCore)));
@@ -695,19 +695,19 @@ ActionBase::ResultE MaterialGroupRTInitLeave(const NodeCorePtr &pCore,
 }
 
 template<typename DescT> inline
-Action::ResultE LightRTInitEnter(const NodeCorePtr              &pCore,
-                                       LightEngine::LightTypeE   eType,
-                                       RTInitAction<DescT>      *action)
+Action::ResultE LightRTInitEnter(NodeCore                * const pCore,
+                                 LightEngine::LightTypeE         eType,
+                                 RTInitAction<DescT>     *       action)
 {    
-    Action::ResultE r      = Action::Continue;
-    LightPtr        pLight = dynamic_cast<LightPtr>(pCore);
+    Action::ResultE  r           = Action::Continue;
+    Light           *pLight      = dynamic_cast<Light *>(pCore);
 
 
-    StateChunkPtr pChunk          = pLight->getChunk();
+    StateChunk      *pChunk      = pLight->getChunk();
         
-    UInt32        uiSlot          = pChunk->getClassId();
+    UInt32           uiSlot      = pChunk->getClassId();
         
-    Int32         iLightIndex     = action->allocateLightIndex();
+    Int32            iLightIndex = action->allocateLightIndex();
         
     action->pushState();
  
@@ -722,14 +722,14 @@ Action::ResultE LightRTInitEnter(const NodeCorePtr              &pCore,
 }
 
 template<typename DescT> inline
-Action::ResultE LightRTInitLeave(const NodeCorePtr              &pCore,
-                                       LightEngine::LightTypeE   eType,
-                                       Action                   *action)
+Action::ResultE LightRTInitLeave(NodeCore                * const pCore,
+                                 LightEngine::LightTypeE         eType,
+                                 Action                  *       action)
 {
-    Action::ResultE      r = Action::Continue;
+    Action::ResultE      r       = Action::Continue;
     RTInitAction<DescT> *pRTInit = dynamic_cast<RTInitAction<DescT> *>(action);
 
-    LightPtr         pLight  = dynamic_cast<LightPtr>(pCore);
+    Light               *pLight  = dynamic_cast<Light *>(pCore);
 
     pRTInit->releaseLightIndex();
     pRTInit->popState();
@@ -738,8 +738,8 @@ Action::ResultE LightRTInitLeave(const NodeCorePtr              &pCore,
 }
 
 template<typename DescT> inline
-Action::ResultE DirectionalLightRTInitEnter(const NodeCorePtr &pCore,
-                                                  Action      *action)
+Action::ResultE DirectionalLightRTInitEnter(NodeCore * const pCore,
+                                            Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter DirLight %p\n", &(*pCore)));
@@ -751,8 +751,8 @@ Action::ResultE DirectionalLightRTInitEnter(const NodeCorePtr &pCore,
 }
 
 template<typename DescT> inline
-Action::ResultE DirectionalLightRTInitLeave(const NodeCorePtr &pCore,
-                                                  Action      *action)
+Action::ResultE DirectionalLightRTInitLeave(NodeCore * const pCore,
+                                            Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Leave DirLight %p\n", &(*pCore)));
@@ -762,8 +762,8 @@ Action::ResultE DirectionalLightRTInitLeave(const NodeCorePtr &pCore,
 }
 
 template<typename DescT> inline
-Action::ResultE PointLightRTInitEnter(const NodeCorePtr &pCore,
-                                            Action      *action)
+Action::ResultE PointLightRTInitEnter(NodeCore * const pCore,
+                                      Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter PointLight %p\n", &(*pCore)));
@@ -777,8 +777,8 @@ Action::ResultE PointLightRTInitEnter(const NodeCorePtr &pCore,
 }
 
 template<typename DescT> inline
-Action::ResultE PointLightRTInitLeave(const NodeCorePtr &pCore,
-                                            Action      *action)
+Action::ResultE PointLightRTInitLeave(NodeCore * const pCore,
+                                      Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Leave PointLight %p\n", &(*pCore)));
@@ -790,8 +790,8 @@ Action::ResultE PointLightRTInitLeave(const NodeCorePtr &pCore,
 }
 
 template<typename DescT> inline
-Action::ResultE SpotLightRTInitEnter(const NodeCorePtr &pCore,
-                                           Action      *action)
+Action::ResultE SpotLightRTInitEnter(NodeCore * const pCore,
+                                     Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter SpotLight %p\n", &(*pCore)));
@@ -805,8 +805,8 @@ Action::ResultE SpotLightRTInitEnter(const NodeCorePtr &pCore,
 }
 
 template<typename DescT> inline
-Action::ResultE SpotLightRTInitLeave(const NodeCorePtr &pCore,
-                                           Action      *action)
+Action::ResultE SpotLightRTInitLeave(NodeCore * const pCore,
+                                     Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Leave SpotLight %p\n", &(*pCore)));
@@ -819,8 +819,8 @@ Action::ResultE SpotLightRTInitLeave(const NodeCorePtr &pCore,
 
 
 template<typename DescT> inline
-ActionBase::ResultE GroupRTInitEnter(const NodeCorePtr &pCore,
-                                           Action      *action)
+ActionBase::ResultE GroupRTInitEnter(NodeCore * const pCore,
+                                     Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter Group %p\n", &(*pCore)));
@@ -829,8 +829,8 @@ ActionBase::ResultE GroupRTInitEnter(const NodeCorePtr &pCore,
 }
 
 template<typename DescT> inline
-ActionBase::ResultE GroupRTInitLeave(const NodeCorePtr &pCore,
-                                           Action      *action)
+ActionBase::ResultE GroupRTInitLeave(NodeCore * const pCore,
+                                     Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Leave Group %p\n", &(*pCore)));
@@ -840,15 +840,15 @@ ActionBase::ResultE GroupRTInitLeave(const NodeCorePtr &pCore,
 }
 
 template<typename DescT> inline
-ActionBase::ResultE VisitSubTreeRTInitEnter(const NodeCorePtr &pCore,
-                                                  Action      *action)
+ActionBase::ResultE VisitSubTreeRTInitEnter(NodeCore * const pCore,
+                                            Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter Group %p\n", &(*pCore)));
 #endif
 //    RenderAction *a = dynamic_cast<RenderAction *>(action);
 
-    VisitSubTreePtr pVisit  = dynamic_cast<VisitSubTreePtr>(pCore);
+    VisitSubTree *pVisit  = dynamic_cast<VisitSubTree *>(pCore);
 
     action->useNodeList();
     

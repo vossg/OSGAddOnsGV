@@ -159,7 +159,7 @@ RTInfoAttachmentTransitPtr RTInfoAttachmentBase::create(void)
 {
     RTInfoAttachmentTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopy();
@@ -175,7 +175,7 @@ RTInfoAttachmentTransitPtr RTInfoAttachmentBase::createLocal(BitVector bFlags)
 {
     RTInfoAttachmentTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyLocal(bFlags);
@@ -187,9 +187,9 @@ RTInfoAttachmentTransitPtr RTInfoAttachmentBase::createLocal(BitVector bFlags)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-RTInfoAttachmentPtr RTInfoAttachmentBase::createEmpty(void)
+RTInfoAttachment *RTInfoAttachmentBase::createEmpty(void)
 {
-    RTInfoAttachmentPtr returnValue;
+    RTInfoAttachment *returnValue;
 
     newPtr<RTInfoAttachment>(returnValue, Thread::getCurrentLocalFlags());
 
@@ -199,9 +199,9 @@ RTInfoAttachmentPtr RTInfoAttachmentBase::createEmpty(void)
     return returnValue;
 }
 
-RTInfoAttachmentPtr RTInfoAttachmentBase::createEmptyLocal(BitVector bFlags)
+RTInfoAttachment *RTInfoAttachmentBase::createEmptyLocal(BitVector bFlags)
 {
-    RTInfoAttachmentPtr returnValue;
+    RTInfoAttachment *returnValue;
 
     newPtr<RTInfoAttachment>(returnValue, bFlags);
 
@@ -212,7 +212,7 @@ RTInfoAttachmentPtr RTInfoAttachmentBase::createEmptyLocal(BitVector bFlags)
 
 FieldContainerTransitPtr RTInfoAttachmentBase::shallowCopy(void) const
 {
-    RTInfoAttachmentPtr tmpPtr;
+    RTInfoAttachment *tmpPtr;
 
     newPtr(tmpPtr, 
            dynamic_cast<const RTInfoAttachment *>(this), 
@@ -228,7 +228,7 @@ FieldContainerTransitPtr RTInfoAttachmentBase::shallowCopy(void) const
 FieldContainerTransitPtr RTInfoAttachmentBase::shallowCopyLocal(
     BitVector bFlags) const
 {
-    RTInfoAttachmentPtr tmpPtr;
+    RTInfoAttachment *tmpPtr;
 
     newPtr(tmpPtr, dynamic_cast<const RTInfoAttachment *>(this), bFlags);
 
@@ -279,9 +279,9 @@ void RTInfoAttachmentBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainerPtr RTInfoAttachmentBase::createAspectCopy(void) const
+FieldContainer *RTInfoAttachmentBase::createAspectCopy(void) const
 {
-    RTInfoAttachmentPtr returnValue;
+    RTInfoAttachment *returnValue;
 
     newAspectCopy(returnValue,
                   dynamic_cast<const RTInfoAttachment *>(this));
@@ -299,17 +299,17 @@ void RTInfoAttachmentBase::resolveLinks(void)
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTInfoAttachmentPtr>::_type("RTInfoAttachmentPtr", "AttachmentPtr");
+DataType FieldTraits<RTInfoAttachment *>::_type("RTInfoAttachmentPtr", "AttachmentPtr");
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTInfoAttachmentPtr)
+OSG_FIELDTRAITS_GETTYPE(RTInfoAttachment *)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           RTInfoAttachmentPtr, 
+                           RTInfoAttachment *, 
                            0);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
-                           RTInfoAttachmentPtr, 
+                           RTInfoAttachment *, 
                            0);
 
 OSG_END_NAMESPACE

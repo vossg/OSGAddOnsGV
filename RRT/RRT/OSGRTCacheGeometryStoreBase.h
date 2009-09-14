@@ -133,34 +133,36 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFUnrecGeometryPtr  *getSFGeo             (void) const;
+            const SFUnrecGeometryPtr  *getSFGeo            (void) const;
+                  SFUnrecGeometryPtr  *editSFGeo            (void);
 
 #ifdef OSG_1_GET_COMPAT
                   SFMatrix            *getSFMatrix          (void);
 #endif
                   SFMatrix            *editSFMatrix         (void);
             const SFMatrix            *getSFMatrix          (void) const;
-            const SFUnrecStatePtr     *getSFState           (void) const;
+            const SFUnrecStatePtr     *getSFState          (void) const;
+                  SFUnrecStatePtr     *editSFState          (void);
 
 
-                  GeometryPtr getGeo            (void) const;
+                  Geometry * getGeo            (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   Matrix              &getMatrix          (void);
 #endif
                   Matrix              &editMatrix         (void);
-            const Matrix              &getMatrix          (void) const;
+            const Matrix               getMatrix          (void) const;
 
-                  StatePtr getState          (void) const;
+                  State * getState          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setGeo            (const GeometryPtr value);
+            void setGeo            (Geometry * const value);
             void setMatrix         (const Matrix &value);
-            void setState          (const StatePtr value);
+            void setState          (State * const value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -171,6 +173,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -188,13 +191,13 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  RTCacheGeometryStoreTransitPtr create          (void);
-    static  RTCacheGeometryStorePtr        createEmpty     (void);
+    static  RTCacheGeometryStoreTransitPtr  create          (void);
+    static  RTCacheGeometryStore           *createEmpty     (void);
 
-    static  RTCacheGeometryStoreTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  RTCacheGeometryStoreTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  RTCacheGeometryStorePtr        createEmptyLocal(
+    static  RTCacheGeometryStore            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -288,7 +291,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

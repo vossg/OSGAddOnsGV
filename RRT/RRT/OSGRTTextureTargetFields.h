@@ -81,8 +81,8 @@ OSG_GEN_CONTAINERPTR(RTTextureTarget);
 #endif
 
 template <>
-struct FieldTraits<RTTextureTargetPtr> :
-    public FieldTraitsFCPtrBase<RTTextureTargetPtr>
+struct FieldTraits<RTTextureTarget *> :
+    public FieldTraitsFCPtrBase<RTTextureTarget *>
 {
   private:
 
@@ -90,7 +90,7 @@ struct FieldTraits<RTTextureTargetPtr> :
 
   public:
 
-    typedef FieldTraits<RTTextureTargetPtr>  Self;
+    typedef FieldTraits<RTTextureTarget *>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -103,25 +103,25 @@ struct FieldTraits<RTTextureTargetPtr> :
 };
 
 template<> inline
-const Char8 *FieldTraits<RTTextureTargetPtr, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTextureTarget *, 0>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecRTTextureTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTextureTargetPtr, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTextureTarget *, 0>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecRTTextureTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTextureTargetPtr, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTextureTarget *, 0>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakRTTextureTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTextureTargetPtr, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTextureTarget *, 0>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdRTTextureTargetPtr"; 
 }
@@ -139,13 +139,13 @@ const Char8 *FieldTraits<RTTextureTargetPtr, 0>::getSName<NoRefCountPolicy>(void
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef PointerSField<RTTextureTargetPtr,
+typedef PointerSField<RTTextureTarget *,
                       RecordedRefCountPolicy  > SFRecRTTextureTargetPtr;
-typedef PointerSField<RTTextureTargetPtr,
+typedef PointerSField<RTTextureTarget *,
                       UnrecordedRefCountPolicy> SFUnrecRTTextureTargetPtr;
-typedef PointerSField<RTTextureTargetPtr,
+typedef PointerSField<RTTextureTarget *,
                       WeakRefCountPolicy      > SFWeakRTTextureTargetPtr;
-typedef PointerSField<RTTextureTargetPtr,
+typedef PointerSField<RTTextureTarget *,
                       NoRefCountPolicy        > SFUncountedRTTextureTargetPtr;
 #endif
 

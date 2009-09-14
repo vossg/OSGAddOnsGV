@@ -81,8 +81,8 @@ OSG_GEN_CONTAINERPTR(RTCacheAttachment);
 #endif
 
 template <>
-struct FieldTraits<RTCacheAttachmentPtr> :
-    public FieldTraitsFCPtrBase<RTCacheAttachmentPtr>
+struct FieldTraits<RTCacheAttachment *> :
+    public FieldTraitsFCPtrBase<RTCacheAttachment *>
 {
   private:
 
@@ -90,7 +90,7 @@ struct FieldTraits<RTCacheAttachmentPtr> :
 
   public:
 
-    typedef FieldTraits<RTCacheAttachmentPtr>  Self;
+    typedef FieldTraits<RTCacheAttachment *>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -107,49 +107,49 @@ struct FieldTraits<RTCacheAttachmentPtr> :
 };
 
 template<> inline
-const Char8 *FieldTraits<RTCacheAttachmentPtr, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheAttachment *, 0>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecRTCacheAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheAttachmentPtr, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheAttachment *, 0>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecRTCacheAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheAttachmentPtr, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheAttachment *, 0>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakRTCacheAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheAttachmentPtr, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheAttachment *, 0>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdRTCacheAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheAttachmentPtr, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheAttachment *, 0>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecRTCacheAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheAttachmentPtr, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheAttachment *, 0>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecRTCacheAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheAttachmentPtr, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheAttachment *, 0>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakRTCacheAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheAttachmentPtr, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheAttachment *, 0>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdRTCacheAttachmentPtr"; 
 }
@@ -166,13 +166,13 @@ const Char8 *FieldTraits<RTCacheAttachmentPtr, 0>::getMName<NoRefCountPolicy>(vo
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef PointerSField<RTCacheAttachmentPtr,
+typedef PointerSField<RTCacheAttachment *,
                       RecordedRefCountPolicy  > SFRecRTCacheAttachmentPtr;
-typedef PointerSField<RTCacheAttachmentPtr,
+typedef PointerSField<RTCacheAttachment *,
                       UnrecordedRefCountPolicy> SFUnrecRTCacheAttachmentPtr;
-typedef PointerSField<RTCacheAttachmentPtr,
+typedef PointerSField<RTCacheAttachment *,
                       WeakRefCountPolicy      > SFWeakRTCacheAttachmentPtr;
-typedef PointerSField<RTCacheAttachmentPtr,
+typedef PointerSField<RTCacheAttachment *,
                       NoRefCountPolicy        > SFUncountedRTCacheAttachmentPtr;
 #endif
 
@@ -180,13 +180,13 @@ typedef PointerSField<RTCacheAttachmentPtr,
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldMulti */
 
-typedef PointerMField<RTCacheAttachmentPtr,
+typedef PointerMField<RTCacheAttachment *,
                       RecordedRefCountPolicy  > MFRecRTCacheAttachmentPtr;
-typedef PointerMField<RTCacheAttachmentPtr,
+typedef PointerMField<RTCacheAttachment *,
                       UnrecordedRefCountPolicy> MFUnrecRTCacheAttachmentPtr;
-typedef PointerMField<RTCacheAttachmentPtr,
+typedef PointerMField<RTCacheAttachment *,
                       WeakRefCountPolicy      > MFWeakRTCacheAttachmentPtr;
-typedef PointerMField<RTCacheAttachmentPtr,
+typedef PointerMField<RTCacheAttachment *,
                       NoRefCountPolicy        > MFUncountedRTCacheAttachmentPtr;
 #endif
 

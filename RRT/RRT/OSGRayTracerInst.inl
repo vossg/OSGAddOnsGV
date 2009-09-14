@@ -107,7 +107,7 @@ void RayTracerInst<DescT>::addCache(RTCache *pCache)
 template<typename DescT> inline
 void RayTracerInst<DescT>::init(bool bTiled, bool bSplitThreads)
 {
-    NodePtr pRoot = _sfRayTracingRoot.getValue();
+    Node *pRoot = _sfRayTracingRoot.getValue();
 
     if(pRoot != NULL)
     {
@@ -175,7 +175,7 @@ void RayTracerInst<DescT>::trace(RTCameraDecorator *pCam, bool bTiled)
         return;
     }
 
-    NodePtr pRoot = _sfRayTracingRoot.getValue();
+    Node *pRoot = _sfRayTracingRoot.getValue();
 
     UpdateAction *pUpdateAction = UpdateAction::create();
     

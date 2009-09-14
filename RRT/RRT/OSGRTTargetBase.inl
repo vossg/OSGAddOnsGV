@@ -85,7 +85,7 @@ UInt32 &RTTargetBase::editWidth(void)
 
 //! Get the value of the RTTarget::_sfWidth field.
 inline
-const UInt32 &RTTargetBase::getWidth(void) const
+const UInt32 RTTargetBase::getWidth(void) const
 {
     return _sfWidth.getValue();
 }
@@ -118,7 +118,7 @@ UInt32 &RTTargetBase::editHeight(void)
 
 //! Get the value of the RTTarget::_sfHeight field.
 inline
-const UInt32 &RTTargetBase::getHeight(void) const
+const UInt32 RTTargetBase::getHeight(void) const
 {
     return _sfHeight.getValue();
 }

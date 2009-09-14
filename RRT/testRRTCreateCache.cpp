@@ -299,7 +299,7 @@ void initRTStage(void)
 
     file->setCore(Group::create());
     
-    if(file == NullFC)
+    if(file == NULL)
     {
         std::cerr << "Couldn't load file, ignoring" << std::endl;
 
@@ -457,14 +457,14 @@ void initScene(int argc, char **argv)
 
     // Load the file
 
-    file = NullFC;
+    file = NULL;
     
     if(argc > 1)
     {
         file = SceneFileHandler::the()->read(argv[1]);
     }
 
-    if(file == NullFC)
+    if(file == NULL)
     {
 //        file = makeSphere(4, 0.5f);
         file = makeTorus(.5, 2, 16, 16);
@@ -687,7 +687,7 @@ int main (int argc, char **argv)
 {
     OSG::osgInit(argc,argv);
 
-    OSG::NodeUnrecPtr file = NullFC;
+    OSG::NodeUnrecPtr file = NULL;
     
     if(argc > 1)
     {
@@ -730,7 +730,7 @@ int main (int argc, char **argv)
 
     OSG::SceneFileHandler::the()->write(file, "/tmp/foocache.osb");
 
-    file = NullFC;
+    file = NULL;
 
     OSG::osgExit();
 }

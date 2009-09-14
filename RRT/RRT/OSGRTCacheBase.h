@@ -79,7 +79,7 @@ class RTCacheBase : public FieldContainer
     typedef typename TypeObject::InitPhase                InitPhase;
 
     typedef          RTCacheGeometryStore                 GeometryStore;
-    typedef          RTCacheGeometryStorePtr              GeometryStorePtr;
+    typedef          RTCacheGeometryStore                *GeometryStorePtr;
     typedef          RTCacheGeometryStoreUnrecPtr         GeometryStoreUnrecPtr;
 
     enum 
@@ -114,7 +114,7 @@ class RTCacheBase : public FieldContainer
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    void addGeometry(GeometryPtr    pGeo,
+    void addGeometry(Geometry      *pGeo,
                      Matrixr       &oMatrix,
                      State         *pState,
                      StateOverride *pStateOverride);
@@ -172,7 +172,7 @@ class RTCacheBase : public FieldContainer
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    void addGeoStore(RTCacheGeometryStorePtr pStore);
+    void addGeoStore(RTCacheGeometryStore *pStore);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

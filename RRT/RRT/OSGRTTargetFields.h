@@ -81,8 +81,8 @@ OSG_GEN_CONTAINERPTR(RTTarget);
 #endif
 
 template <>
-struct FieldTraits<RTTargetPtr> :
-    public FieldTraitsFCPtrBase<RTTargetPtr>
+struct FieldTraits<RTTarget *> :
+    public FieldTraitsFCPtrBase<RTTarget *>
 {
   private:
 
@@ -90,7 +90,7 @@ struct FieldTraits<RTTargetPtr> :
 
   public:
 
-    typedef FieldTraits<RTTargetPtr>  Self;
+    typedef FieldTraits<RTTarget *>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -103,25 +103,25 @@ struct FieldTraits<RTTargetPtr> :
 };
 
 template<> inline
-const Char8 *FieldTraits<RTTargetPtr, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTarget *, 0>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecRTTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTargetPtr, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTarget *, 0>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecRTTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTargetPtr, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTarget *, 0>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakRTTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTargetPtr, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTarget *, 0>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdRTTargetPtr"; 
 }
@@ -139,13 +139,13 @@ const Char8 *FieldTraits<RTTargetPtr, 0>::getSName<NoRefCountPolicy>(void)
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpContribRRTFieldSingle */
 
-typedef PointerSField<RTTargetPtr,
+typedef PointerSField<RTTarget *,
                       RecordedRefCountPolicy  > SFRecRTTargetPtr;
-typedef PointerSField<RTTargetPtr,
+typedef PointerSField<RTTarget *,
                       UnrecordedRefCountPolicy> SFUnrecRTTargetPtr;
-typedef PointerSField<RTTargetPtr,
+typedef PointerSField<RTTarget *,
                       WeakRefCountPolicy      > SFWeakRTTargetPtr;
-typedef PointerSField<RTTargetPtr,
+typedef PointerSField<RTTarget *,
                       NoRefCountPolicy        > SFUncountedRTTargetPtr;
 #endif
 

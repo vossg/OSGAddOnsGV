@@ -106,10 +106,10 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     typedef typename TypeObject::InitPhase              InitPhase;
     
     
-    typedef          PointerSField<ObjPtr, 
+    typedef          PointerSField<ObjCPtr, 
                                    UnrecordedRefCountPolicy> SField;
 
-    typedef          PointerMField<ObjPtr, 
+    typedef          PointerMField<ObjCPtr, 
                                    UnrecordedRefCountPolicy> MField;
 
     enum 
@@ -291,7 +291,7 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual ObjPtr createAspectCopy(void) const;
+    virtual ObjCPtr createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

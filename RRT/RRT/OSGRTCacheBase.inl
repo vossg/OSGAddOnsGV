@@ -75,7 +75,7 @@ RTCacheBase<DescT>::~RTCacheBase(void)
 {
     for(UInt32 i = 0; i < _mfGeos.size(); ++i)
     {
-        _mfGeos.replace(i, NullFC);
+        _mfGeos.replace(i, NULL);
     }
 }
 
@@ -162,7 +162,7 @@ void RTCacheBase<DescT>::execSync(      RTCacheBase        *pFrom,
 }
 
 template<typename DescT> inline
-void RTCacheBase<DescT>::addGeoStore(RTCacheGeometryStorePtr pStore)
+void RTCacheBase<DescT>::addGeoStore(RTCacheGeometryStore *pStore)
 {
     editMField(GeoStoreFieldMask, _mfGeos);
 
@@ -244,7 +244,7 @@ GetFieldHandlePtr  RTCacheBase<DescT>::getHandleBoundingVolume(void) const
 }
 
 template<typename DescT> inline
-void RTCacheBase<DescT>::addGeometry(GeometryPtr    pGeo,
+void RTCacheBase<DescT>::addGeometry(Geometry      *pGeo,
                                      Matrixr       &oMatrix,
                                      State         *pState,
                                      StateOverride *pStateOverride)
@@ -270,9 +270,9 @@ void RTCacheBase<DescT>::initAccel(BBoxStore &vBounds)
 
     for(UInt32 i = 0; i < _mfGeos.size(); ++i)
     {
-        GeometryPtr pGeo = _mfGeos[i]->getGeo();
+        Geometry *pGeo = _mfGeos[i]->getGeo();
 
-        GeoVectorPropertyPtr posPtr = pGeo->getPositions();
+        GeoVectorProperty *posPtr = pGeo->getPositions();
 
         TriangleAccel triangleAccel;
         Pnt3f         a;
