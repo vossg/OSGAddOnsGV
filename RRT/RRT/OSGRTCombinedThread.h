@@ -251,7 +251,7 @@ template<>                                                                  \
 OSG::MPThreadType RTCombinedThread< DESC >::_type(                          \
     NAME,                                                                   \
     "RTThread",                                                             \
-    (OSG::CreateThreadF) RTCombinedThread::create,                          \
+    static_cast<OSG::CreateThreadF>(RTCombinedThread::create),              \
     NULL);                                                                  \
                                                                             \
 template<>                                                                  \

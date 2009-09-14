@@ -183,7 +183,7 @@ template <>                                                            \
 OSG::MPThreadType RTPrimaryRayThread< DESC >::_type(                   \
     NAME,                                                              \
     "RTThread",                                                        \
-    (OSG::CreateThreadF) RTPrimaryRayThread::create,                   \
+    static_cast<OSG::CreateThreadF>(RTPrimaryRayThread::create),       \
     NULL);                                                             \
                                                                        \
 template<>                                                             \

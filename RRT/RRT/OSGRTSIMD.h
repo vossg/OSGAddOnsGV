@@ -181,8 +181,30 @@ Float4 osgSIMDSet(const UInt32 uiVal0,
                   const UInt32 uiVal2,
                   const UInt32 uiVal3);
 
+#ifdef OSG_DEBUG_OLD_C_CASTS
+
+#ifdef __OPTIMIZE__
+extern __inline __m128 __attribute__((__gnu_inline__, __always_inline__, __artificial__))
+_osg_mm_shuffle_ps (__m128 __A, __m128 __B, int const __mask)
+{
+  return __m128(__builtin_ia32_shufps (__v4sf(__A), __v4sf(__B), __mask));
+}
+#else
+#define _osg_mm_shuffle_ps(A, B, MASK)                                 \
+    (__m128(__builtin_ia32_shufps (__v4sf(__m128((A))),                \
+                                   __v4sf(__m128((B))), int(MASK))))
+#endif
+
+#define osgSIMDSplat(v, i) \
+    _osg_mm_shuffle_ps((v), (v), _MM_SHUFFLE((i), (i), (i), (i)))
+
+#else
+
 #define osgSIMDSplat(v, i) \
     _mm_shuffle_ps((v), (v), _MM_SHUFFLE((i), (i), (i), (i)))
+
+#endif
+
 
 Float4 osgSIMDUpdate(const Float4 mask, const Float4 v1, const Float4 v2);
 

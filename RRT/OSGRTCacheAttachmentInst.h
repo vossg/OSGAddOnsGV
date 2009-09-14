@@ -202,10 +202,10 @@ RTCacheAttachmentInst< DESC >::TypeObject                                     \
         Desc::getParentTypeName(),                                            \
         Desc::getGroupName     (),                                            \
         0,                                                                    \
-        (PrototypeCreateF) &Self::createEmpty,                                \
+        reinterpret_cast<PrototypeCreateF>(&Self::createEmpty),               \
         NULL,                                                                 \
         NULL,                                                                 \
-        (InitalInsertDescFunc) &Self::classDescInserter,                      \
+        reinterpret_cast<InitalInsertDescFunc>(&Self::classDescInserter),     \
         true,                                                                 \
         0);                                                                   \
                                                                               \

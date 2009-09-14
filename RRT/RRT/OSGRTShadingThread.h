@@ -183,7 +183,7 @@ template<>                                                                 \
 OSG::MPThreadType RTShadingThread< DESC >::_type(                          \
     NAME,                                                                  \
     "RTThread",                                                            \
-    (OSG::CreateThreadF) RTShadingThread::create,                          \
+    static_cast<OSG::CreateThreadF>(RTShadingThread::create),              \
     NULL);                                                                 \
                                                                            \
 template<>                                                                 \

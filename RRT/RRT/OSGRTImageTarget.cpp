@@ -129,7 +129,7 @@ void RTImageTarget::finalize(DrawEnv *pEnv)
                 1,
                 1,
                 0.0,
-                (const UInt8 *) &(_mfPixel[0]),
+                reinterpret_cast<const UInt8 *>(&(_mfPixel[0])),
                 Image::OSG_FLOAT32_IMAGEDATA);
 
     pImage->convertDataTypeTo(Image::OSG_UINT8_IMAGEDATA);

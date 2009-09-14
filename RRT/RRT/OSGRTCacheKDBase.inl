@@ -61,7 +61,7 @@ bool RTCacheKDBase<DescT>::BBoxEdge::operator<(const BBoxEdge &rhs) const
 {
     if(_rT == rhs._rT)
     {
-        return (Int32) _eEdgeType < (Int32) rhs._eEdgeType;
+        return Int32(_eEdgeType) < Int32(rhs._eEdgeType);
     }
     else 
     {

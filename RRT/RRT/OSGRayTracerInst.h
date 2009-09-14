@@ -195,7 +195,7 @@ RayTracerInst< DESC >::TypeObject                                             \
         Desc::getParentTypeName(),                                            \
         Desc::getGroupName     (),                                            \
         0,                                                                    \
-        (PrototypeCreateF) &Self::createEmpty,                                \
+        reinterpret_cast<PrototypeCreateF>(&Self::createEmpty),               \
         NULL,                                                                 \
         NULL,                                                                 \
         NULL,                                                                 \
