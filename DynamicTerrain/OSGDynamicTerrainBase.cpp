@@ -164,7 +164,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         LevelSizeFieldId, LevelSizeFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleLevelSize),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleLevelSize));
 
@@ -176,7 +176,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         HeightDataFieldId, HeightDataFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleHeightData),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleHeightData));
 
@@ -188,7 +188,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         HeightDataScaleFieldId, HeightDataScaleFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleHeightDataScale),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleHeightDataScale));
 
@@ -200,7 +200,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         HeightDataOffsetFieldId, HeightDataOffsetFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleHeightDataOffset),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleHeightDataOffset));
 
@@ -212,7 +212,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         SampleDistanceFieldId, SampleDistanceFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleSampleDistance),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleSampleDistance));
 
@@ -224,7 +224,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         TextureDataFieldId, TextureDataFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleTextureData),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleTextureData));
 
@@ -236,7 +236,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         HeightColorTextureFieldId, HeightColorTextureFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleHeightColorTexture),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleHeightColorTexture));
 
@@ -248,7 +248,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         SampleUpdateBudgetFieldId, SampleUpdateBudgetFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleSampleUpdateBudget),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleSampleUpdateBudget));
 
@@ -260,7 +260,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         EnableFrustumCullingFieldId, EnableFrustumCullingFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleEnableFrustumCulling),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleEnableFrustumCulling));
 
@@ -272,7 +272,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         UseGpuRendererFieldId, UseGpuRendererFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleUseGpuRenderer),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleUseGpuRenderer));
 
@@ -284,7 +284,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         UseVboExtensionFieldId, UseVboExtensionFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleUseVboExtension),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleUseVboExtension));
 
@@ -296,7 +296,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         EnableSmoothTransitionFieldId, EnableSmoothTransitionFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleEnableSmoothTransition),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleEnableSmoothTransition));
 
@@ -308,7 +308,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         ShowBoundingBoxesFieldId, ShowBoundingBoxesFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleShowBoundingBoxes),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleShowBoundingBoxes));
 
@@ -320,7 +320,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         ShowTransitionRegionsFieldId, ShowTransitionRegionsFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleShowTransitionRegions),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleShowTransitionRegions));
 
@@ -332,7 +332,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         DisableUpdateFieldId, DisableUpdateFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleDisableUpdate),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleDisableUpdate));
 
@@ -344,7 +344,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         CpuVertexProgramFieldId, CpuVertexProgramFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleCpuVertexProgram),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleCpuVertexProgram));
 
@@ -356,7 +356,7 @@ void DynamicTerrainBase::classDescInserter(TypeObject &oType)
         "",
         CpuFragmentProgramFieldId, CpuFragmentProgramFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleCpuFragmentProgram),
         static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleCpuFragmentProgram));
 
@@ -1012,22 +1012,6 @@ void DynamicTerrainBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-DynamicTerrainTransitPtr DynamicTerrainBase::create(void)
-{
-    DynamicTerrainTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<DynamicTerrain>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 DynamicTerrainTransitPtr DynamicTerrainBase::createLocal(BitVector bFlags)
 {
     DynamicTerrainTransitPtr fc;
@@ -1043,17 +1027,20 @@ DynamicTerrainTransitPtr DynamicTerrainBase::createLocal(BitVector bFlags)
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-DynamicTerrain *DynamicTerrainBase::createEmpty(void)
+//! create a new instance of the class
+DynamicTerrainTransitPtr DynamicTerrainBase::create(void)
 {
-    DynamicTerrain *returnValue;
+    DynamicTerrainTransitPtr fc;
 
-    newPtr<DynamicTerrain>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<DynamicTerrain>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 DynamicTerrain *DynamicTerrainBase::createEmptyLocal(BitVector bFlags)
@@ -1067,20 +1054,19 @@ DynamicTerrain *DynamicTerrainBase::createEmptyLocal(BitVector bFlags)
     return returnValue;
 }
 
-FieldContainerTransitPtr DynamicTerrainBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+DynamicTerrain *DynamicTerrainBase::createEmpty(void)
 {
-    DynamicTerrain *tmpPtr;
+    DynamicTerrain *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const DynamicTerrain *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<DynamicTerrain>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr DynamicTerrainBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -1095,6 +1081,22 @@ FieldContainerTransitPtr DynamicTerrainBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr DynamicTerrainBase::shallowCopy(void) const
+{
+    DynamicTerrain *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const DynamicTerrain *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -1171,7 +1173,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleLevelSize       (void) const
 {
     SFInt32::GetHandlePtr returnValue(
         new  SFInt32::GetHandle(
-             &_sfLevelSize, 
+             &_sfLevelSize,
              this->getType().getFieldDesc(LevelSizeFieldId)));
 
     return returnValue;
@@ -1181,8 +1183,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleLevelSize      (void)
 {
     SFInt32::EditHandlePtr returnValue(
         new  SFInt32::EditHandle(
-             &_sfLevelSize, 
+             &_sfLevelSize,
              this->getType().getFieldDesc(LevelSizeFieldId)));
+
 
     editSField(LevelSizeFieldMask);
 
@@ -1193,7 +1196,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleHeightData      (void) const
 {
     SFUnrecImagePtr::GetHandlePtr returnValue(
         new  SFUnrecImagePtr::GetHandle(
-             &_sfHeightData, 
+             &_sfHeightData,
              this->getType().getFieldDesc(HeightDataFieldId)));
 
     return returnValue;
@@ -1203,11 +1206,12 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleHeightData     (void)
 {
     SFUnrecImagePtr::EditHandlePtr returnValue(
         new  SFUnrecImagePtr::EditHandle(
-             &_sfHeightData, 
+             &_sfHeightData,
              this->getType().getFieldDesc(HeightDataFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&DynamicTerrain::setHeightData, 
-                                          static_cast<DynamicTerrain *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&DynamicTerrain::setHeightData,
+                    static_cast<DynamicTerrain *>(this), _1));
 
     editSField(HeightDataFieldMask);
 
@@ -1218,7 +1222,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleHeightDataScale (void) const
 {
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
-             &_sfHeightDataScale, 
+             &_sfHeightDataScale,
              this->getType().getFieldDesc(HeightDataScaleFieldId)));
 
     return returnValue;
@@ -1228,8 +1232,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleHeightDataScale(void)
 {
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
-             &_sfHeightDataScale, 
+             &_sfHeightDataScale,
              this->getType().getFieldDesc(HeightDataScaleFieldId)));
+
 
     editSField(HeightDataScaleFieldMask);
 
@@ -1240,7 +1245,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleHeightDataOffset (void) const
 {
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
-             &_sfHeightDataOffset, 
+             &_sfHeightDataOffset,
              this->getType().getFieldDesc(HeightDataOffsetFieldId)));
 
     return returnValue;
@@ -1250,8 +1255,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleHeightDataOffset(void)
 {
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
-             &_sfHeightDataOffset, 
+             &_sfHeightDataOffset,
              this->getType().getFieldDesc(HeightDataOffsetFieldId)));
+
 
     editSField(HeightDataOffsetFieldMask);
 
@@ -1262,7 +1268,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleSampleDistance  (void) const
 {
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
-             &_sfSampleDistance, 
+             &_sfSampleDistance,
              this->getType().getFieldDesc(SampleDistanceFieldId)));
 
     return returnValue;
@@ -1272,8 +1278,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleSampleDistance (void)
 {
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
-             &_sfSampleDistance, 
+             &_sfSampleDistance,
              this->getType().getFieldDesc(SampleDistanceFieldId)));
+
 
     editSField(SampleDistanceFieldMask);
 
@@ -1284,7 +1291,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleTextureData     (void) const
 {
     SFUnrecImagePtr::GetHandlePtr returnValue(
         new  SFUnrecImagePtr::GetHandle(
-             &_sfTextureData, 
+             &_sfTextureData,
              this->getType().getFieldDesc(TextureDataFieldId)));
 
     return returnValue;
@@ -1294,11 +1301,12 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleTextureData    (void)
 {
     SFUnrecImagePtr::EditHandlePtr returnValue(
         new  SFUnrecImagePtr::EditHandle(
-             &_sfTextureData, 
+             &_sfTextureData,
              this->getType().getFieldDesc(TextureDataFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&DynamicTerrain::setTextureData, 
-                                          static_cast<DynamicTerrain *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&DynamicTerrain::setTextureData,
+                    static_cast<DynamicTerrain *>(this), _1));
 
     editSField(TextureDataFieldMask);
 
@@ -1309,7 +1317,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleHeightColorTexture (void) const
 {
     SFUnrecTextureObjChunkPtr::GetHandlePtr returnValue(
         new  SFUnrecTextureObjChunkPtr::GetHandle(
-             &_sfHeightColorTexture, 
+             &_sfHeightColorTexture,
              this->getType().getFieldDesc(HeightColorTextureFieldId)));
 
     return returnValue;
@@ -1319,11 +1327,12 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleHeightColorTexture(void)
 {
     SFUnrecTextureObjChunkPtr::EditHandlePtr returnValue(
         new  SFUnrecTextureObjChunkPtr::EditHandle(
-             &_sfHeightColorTexture, 
+             &_sfHeightColorTexture,
              this->getType().getFieldDesc(HeightColorTextureFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&DynamicTerrain::setHeightColorTexture, 
-                                          static_cast<DynamicTerrain *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&DynamicTerrain::setHeightColorTexture,
+                    static_cast<DynamicTerrain *>(this), _1));
 
     editSField(HeightColorTextureFieldMask);
 
@@ -1334,7 +1343,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleSampleUpdateBudget (void) const
 {
     SFInt32::GetHandlePtr returnValue(
         new  SFInt32::GetHandle(
-             &_sfSampleUpdateBudget, 
+             &_sfSampleUpdateBudget,
              this->getType().getFieldDesc(SampleUpdateBudgetFieldId)));
 
     return returnValue;
@@ -1344,8 +1353,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleSampleUpdateBudget(void)
 {
     SFInt32::EditHandlePtr returnValue(
         new  SFInt32::EditHandle(
-             &_sfSampleUpdateBudget, 
+             &_sfSampleUpdateBudget,
              this->getType().getFieldDesc(SampleUpdateBudgetFieldId)));
+
 
     editSField(SampleUpdateBudgetFieldMask);
 
@@ -1356,7 +1366,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleEnableFrustumCulling (void) const
 {
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
-             &_sfEnableFrustumCulling, 
+             &_sfEnableFrustumCulling,
              this->getType().getFieldDesc(EnableFrustumCullingFieldId)));
 
     return returnValue;
@@ -1366,8 +1376,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleEnableFrustumCulling(void)
 {
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
-             &_sfEnableFrustumCulling, 
+             &_sfEnableFrustumCulling,
              this->getType().getFieldDesc(EnableFrustumCullingFieldId)));
+
 
     editSField(EnableFrustumCullingFieldMask);
 
@@ -1378,7 +1389,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleUseGpuRenderer  (void) const
 {
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
-             &_sfUseGpuRenderer, 
+             &_sfUseGpuRenderer,
              this->getType().getFieldDesc(UseGpuRendererFieldId)));
 
     return returnValue;
@@ -1388,8 +1399,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleUseGpuRenderer (void)
 {
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
-             &_sfUseGpuRenderer, 
+             &_sfUseGpuRenderer,
              this->getType().getFieldDesc(UseGpuRendererFieldId)));
+
 
     editSField(UseGpuRendererFieldMask);
 
@@ -1400,7 +1412,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleUseVboExtension (void) const
 {
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
-             &_sfUseVboExtension, 
+             &_sfUseVboExtension,
              this->getType().getFieldDesc(UseVboExtensionFieldId)));
 
     return returnValue;
@@ -1410,8 +1422,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleUseVboExtension(void)
 {
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
-             &_sfUseVboExtension, 
+             &_sfUseVboExtension,
              this->getType().getFieldDesc(UseVboExtensionFieldId)));
+
 
     editSField(UseVboExtensionFieldMask);
 
@@ -1422,7 +1435,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleEnableSmoothTransition (void) con
 {
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
-             &_sfEnableSmoothTransition, 
+             &_sfEnableSmoothTransition,
              this->getType().getFieldDesc(EnableSmoothTransitionFieldId)));
 
     return returnValue;
@@ -1432,8 +1445,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleEnableSmoothTransition(void)
 {
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
-             &_sfEnableSmoothTransition, 
+             &_sfEnableSmoothTransition,
              this->getType().getFieldDesc(EnableSmoothTransitionFieldId)));
+
 
     editSField(EnableSmoothTransitionFieldMask);
 
@@ -1444,7 +1458,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleShowBoundingBoxes (void) const
 {
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
-             &_sfShowBoundingBoxes, 
+             &_sfShowBoundingBoxes,
              this->getType().getFieldDesc(ShowBoundingBoxesFieldId)));
 
     return returnValue;
@@ -1454,8 +1468,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleShowBoundingBoxes(void)
 {
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
-             &_sfShowBoundingBoxes, 
+             &_sfShowBoundingBoxes,
              this->getType().getFieldDesc(ShowBoundingBoxesFieldId)));
+
 
     editSField(ShowBoundingBoxesFieldMask);
 
@@ -1466,7 +1481,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleShowTransitionRegions (void) cons
 {
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
-             &_sfShowTransitionRegions, 
+             &_sfShowTransitionRegions,
              this->getType().getFieldDesc(ShowTransitionRegionsFieldId)));
 
     return returnValue;
@@ -1476,8 +1491,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleShowTransitionRegions(void)
 {
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
-             &_sfShowTransitionRegions, 
+             &_sfShowTransitionRegions,
              this->getType().getFieldDesc(ShowTransitionRegionsFieldId)));
+
 
     editSField(ShowTransitionRegionsFieldMask);
 
@@ -1488,7 +1504,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleDisableUpdate   (void) const
 {
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
-             &_sfDisableUpdate, 
+             &_sfDisableUpdate,
              this->getType().getFieldDesc(DisableUpdateFieldId)));
 
     return returnValue;
@@ -1498,8 +1514,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleDisableUpdate  (void)
 {
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
-             &_sfDisableUpdate, 
+             &_sfDisableUpdate,
              this->getType().getFieldDesc(DisableUpdateFieldId)));
+
 
     editSField(DisableUpdateFieldMask);
 
@@ -1510,7 +1527,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleCpuVertexProgram (void) const
 {
     SFString::GetHandlePtr returnValue(
         new  SFString::GetHandle(
-             &_sfCpuVertexProgram, 
+             &_sfCpuVertexProgram,
              this->getType().getFieldDesc(CpuVertexProgramFieldId)));
 
     return returnValue;
@@ -1520,8 +1537,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleCpuVertexProgram(void)
 {
     SFString::EditHandlePtr returnValue(
         new  SFString::EditHandle(
-             &_sfCpuVertexProgram, 
+             &_sfCpuVertexProgram,
              this->getType().getFieldDesc(CpuVertexProgramFieldId)));
+
 
     editSField(CpuVertexProgramFieldMask);
 
@@ -1532,7 +1550,7 @@ GetFieldHandlePtr DynamicTerrainBase::getHandleCpuFragmentProgram (void) const
 {
     SFString::GetHandlePtr returnValue(
         new  SFString::GetHandle(
-             &_sfCpuFragmentProgram, 
+             &_sfCpuFragmentProgram,
              this->getType().getFieldDesc(CpuFragmentProgramFieldId)));
 
     return returnValue;
@@ -1542,8 +1560,9 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleCpuFragmentProgram(void)
 {
     SFString::EditHandlePtr returnValue(
         new  SFString::EditHandle(
-             &_sfCpuFragmentProgram, 
+             &_sfCpuFragmentProgram,
              this->getType().getFieldDesc(CpuFragmentProgramFieldId)));
+
 
     editSField(CpuFragmentProgramFieldMask);
 
