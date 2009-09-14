@@ -45,10 +45,11 @@
 #include "OSGContribLabelingDef.h"
 #include "OSGTextureObjChunk.h"
 #include "OSGTextLabelBase.h"
+#include "OSGTextTXFFace.h"
 
 OSG_BEGIN_NAMESPACE
 
-class TextTXFFace;
+
 class TextLayoutParam;
 class TextLayoutResult;
 
@@ -148,7 +149,7 @@ class OSG_CONTRIBLABELING_DLLMAPPING TextLabel : public TextLabelBase
     /*==========================  PRIVATE  ================================*/
 
   private:
-    TextTXFFace*       _face;
+    TextTXFFaceRefPtr  _face;
 
     // recreate for every render cycle...
     TextLayoutParam*   _cachedTextLayoutParam;
