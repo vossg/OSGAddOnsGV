@@ -74,9 +74,9 @@ class OSG_WINDOW_DLLMAPPING PCSSShadowMapHandler : public TreeHandler
     ChunkMaterialUnrecPtr        _shadowCmat;
     SHLChunkUnrecPtr             _shadowSHL;
     Int32                        _firstRun;
-    GLuint                       _fb;
+//    GLuint                       _fb;
     GLuint                       _fb2;
-    GLuint                       _rb_depth;
+//    GLuint                       _rb_depth;
     bool                         _initTexturesDone;
 };
 

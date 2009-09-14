@@ -83,9 +83,9 @@ class OSG_WINDOW_DLLMAPPING PCFShadowMapHandler : public TreeHandler
     Int32                        _firstRun;
     Matrix                       _transforms[6];
 
-    GLuint  _fb;
+//    GLuint  _fb;
     GLuint  _fb2;
-    GLuint  _rb_depth;
+//    GLuint  _rb_depth;
     Real32  _oldRange;
     
     bool    _initTexturesDone;

@@ -139,7 +139,9 @@ TreeHandler::TreeHandler(ShadowStage *source) :
     _colorMapO(NULL),
     _activeFactorMap(1),
     _shadowFactorMapO(NULL),
-    _shadowFactorMap2O(NULL)
+    _shadowFactorMap2O(NULL),
+    _pFB(NULL),
+    _pFB2(NULL)
 
 {
     GLint   max_tex_size = 0;
@@ -246,6 +248,10 @@ TreeHandler::~TreeHandler(void)
     _colorMapO         = NULL;
     _shadowFactorMapO  = NULL;
     _shadowFactorMap2O = NULL;
+ 
+    _pFB               = NULL;
+    _pFB2              = NULL;
+
 }
 
 void TreeHandler::initialize(Window *win)

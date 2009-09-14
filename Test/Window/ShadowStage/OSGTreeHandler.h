@@ -27,6 +27,7 @@
 #include "OSGSHLChunk.h"
 #include "OSGTextureObjChunk.h"
 #include "OSGTextureEnvChunk.h"
+#include "OSGFrameBufferObject.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -167,6 +168,9 @@ class OSG_WINDOW_DLLMAPPING TreeHandler
 
     TextureObjChunkUnrecPtr      _shadowFactorMapO;
     TextureObjChunkUnrecPtr      _shadowFactorMap2O;
+
+    FrameBufferObjectUnrecPtr    _pFB;
+    FrameBufferObjectUnrecPtr    _pFB2;
 
     void setupDrawCombineMap1(Action  *pAction);
     void doDrawCombineMap1   (DrawEnv *pEnv   );

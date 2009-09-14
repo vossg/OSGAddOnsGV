@@ -76,9 +76,9 @@ private:
     SHLChunkUnrecPtr             _depthSHL;
     Int32                        _firstRun;
 
-    GLuint                       _fb;
+//    GLuint                       _fb;
     GLuint                       _fb2;
-    GLuint                       _rb_depth;
+//    GLuint                       _rb_depth;
     GLuint                       _rb_depth2;
     bool                         _texChanged;
     bool                         _initTexturesDone;

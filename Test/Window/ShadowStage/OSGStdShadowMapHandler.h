@@ -69,9 +69,9 @@ class OSG_WINDOW_DLLMAPPING StdShadowMapHandler : public TreeHandler
     void createShadowFactorMap(DrawEnv *pEnv, RenderAction *pTmpAction);
     void createColorMap(DrawEnv *pEnv, RenderAction *pTmpAction);
 
-    GLuint _fb;
+//    GLuint _fb;
     GLuint _fb2;
-    GLuint _rb_depth;
+//    GLuint _rb_depth;
     Matrix _transforms[6];
     
     TileCameraDecoratorUnrecPtr  _tiledeco;

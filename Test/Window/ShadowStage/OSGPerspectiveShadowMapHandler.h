@@ -90,9 +90,9 @@ private:
     void printMatrix(Matrix m);
     void printPoint(Pnt3f p);
 
-    GLuint _fb;
+//    GLuint _fb;
     GLuint _fb2;
-    GLuint _rb_depth;
+//    GLuint _rb_depth;
     Matrix _transforms[6];
 
     std::vector<Matrix>          _perspectiveLPM;

@@ -24,6 +24,9 @@
 #include "OSGTreeHandler.h"
 #include "OSGGLU.h"
 
+#include "OSGRenderBuffer.h"
+#include "OSGTextureBuffer.h"
+
 #define USE_FBO_FOR_COLOR_AND_FACTOR_MAP
 
 //--------------------------------------------------------------------
@@ -2488,9 +2491,9 @@ PCFShadowMapHandler::PCFShadowMapHandler(ShadowStage *source) :
     _shadowCubeSHL(NULL),
     _firstRun(1),
     _transforms(),
-    _fb(0),
+//    _fb(0),
     _fb2(0),
-    _rb_depth(0),
+//    _rb_depth(0),
     _oldRange(0),
     _initTexturesDone(false)
 {
@@ -2797,10 +2800,12 @@ PCFShadowMapHandler::~PCFShadowMapHandler(void)
     _shadowCmat       = NULL;
 
 #ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
+#if 0
     if(_fb != 0)
         glDeleteFramebuffersEXT(1, &_fb);
     if(_rb_depth != 0)
         glDeleteRenderbuffersEXT(1, &_rb_depth);
+#endif
 #endif
     if(_fb2 != 0)
         glDeleteFramebuffersEXT(1, &_fb2);
@@ -2876,8 +2881,7 @@ bool PCFShadowMapHandler::initFBO(DrawEnv *pEnv)
 
         Window *win = pEnv->getWindow();
 
-#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
-        _width = pEnv->getPixelWidth();
+        _width  = pEnv->getPixelWidth();
         _height = pEnv->getPixelHeight();
 
         _colorMapImage->set(GL_RGB, _width, _height);
@@ -2888,37 +2892,82 @@ bool PCFShadowMapHandler::initFBO(DrawEnv *pEnv)
 
         commitChanges();
 
-        glGenFramebuffersEXT(1, &_fb);
-        glGenRenderbuffersEXT(1, &_rb_depth);
 
-        win->validateGLObject(_colorMapO->getGLId(), pEnv);
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
-        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
-                                  GL_TEXTURE_2D,
-                                  win->getGLObjectId(_colorMapO->getGLId()), 0);
-        win->validateGLObject(_shadowFactorMapO->getGLId(), pEnv);
-        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT,
-                                  GL_TEXTURE_2D,
-                                  win->getGLObjectId(_shadowFactorMapO->getGLId
-                                                     ()), 0);
-        win->validateGLObject(_shadowFactorMap2O->getGLId(), pEnv);
-        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT2_EXT,
-                                  GL_TEXTURE_2D,
-                                  win->getGLObjectId(_shadowFactorMap2O->getGLId
-                                                     ()), 0);
+//        glGenFramebuffersEXT(1, &_fb);
+//        glGenRenderbuffersEXT(1, &_rb_depth);
 
+        _pFB = FrameBufferObject::create();
+        
+        _pFB->setSize(_width, _height);
+
+        RenderBufferUnrecPtr pDepthRB = RenderBuffer::create();
+        
+        pDepthRB->setInternalFormat(GL_DEPTH_COMPONENT24);
+
+//        win->validateGLObject(_colorMapO->getGLId(), pEnv);
+//        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
+//        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, 
+//                                  GL_COLOR_ATTACHMENT0_EXT,
+//                                  GL_TEXTURE_2D,
+//                                  win->getGLObjectId(_colorMapO->getGLId()), 
+//                                  0);
+
+        TextureBufferUnrecPtr pTexBuffer = TextureBuffer::create();
+
+        pTexBuffer->setTexture(_colorMapO);
+
+        _pFB->setColorAttachment(pTexBuffer, 0);
+
+//        win->validateGLObject(_shadowFactorMapO->getGLId(), pEnv);
+//        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, 
+//                                  GL_COLOR_ATTACHMENT1_EXT,
+//                                  GL_TEXTURE_2D,
+//                                  win->getGLObjectId(
+//                                      _shadowFactorMapO->getGLId()), 
+//                                  0);
+
+        pTexBuffer = TextureBuffer::create();
+
+        pTexBuffer->setTexture(_shadowFactorMapO);
+
+        _pFB->setColorAttachment(pTexBuffer, 1);
+
+//        win->validateGLObject(_shadowFactorMap2O->getGLId(), pEnv);
+//        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, 
+//                                  GL_COLOR_ATTACHMENT2_EXT,
+//                                  GL_TEXTURE_2D,
+//                                  win->getGLObjectId(
+//                                      _shadowFactorMap2O->getGLId()), 
+//                                  0);
+
+        pTexBuffer = TextureBuffer::create();
+
+        pTexBuffer->setTexture(_shadowFactorMap2O);
+
+        _pFB->setColorAttachment(pTexBuffer, 2);
+
+
+#if 0
         //Initialize Depth Renderbuffer
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, _rb_depth);
         if(_useNPOTTextures)
-            glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB
+            glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, 
+                                     GL_DEPTH_COMPONENT24_ARB
                                      , width, height);
         else
-            glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB
+            glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, 
+                                     GL_DEPTH_COMPONENT24_ARB
                                      , _widthHeightPOT, _widthHeightPOT);
         //Attach Renderbuffer to Framebuffer depth Buffer
         glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT
                                      , GL_RENDERBUFFER_EXT, _rb_depth);
+#endif
 
+        _pFB->setDepthAttachment(pDepthRB);
+
+        commitChanges();
+
+#if 0
         win->validateGLObject(_colorMapO->getGLId(), pEnv);
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
                                   GL_TEXTURE_2D,
@@ -2968,6 +3017,7 @@ void PCFShadowMapHandler::reInit(DrawEnv *pEnv)
 
     Window *win = pEnv->getWindow();
 
+#if 0
     win->validateGLObject(_colorMapO->getGLId(), pEnv);
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
@@ -2995,6 +3045,7 @@ void PCFShadowMapHandler::reInit(DrawEnv *pEnv)
     //Attach Renderbuffer to Framebuffer depth Buffer
     glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT
                                  , _rb_depth);
+#endif
 #endif
 }
 
@@ -3712,7 +3763,8 @@ void PCFShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
     buffers = new GLenum[1];
     buffers[0] = GL_COLOR_ATTACHMENT0_EXT;
 
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
+    //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
+    _pFB->activate(pEnv);
 
     glDrawBuffer(*buffers);
 
@@ -3745,7 +3797,8 @@ void PCFShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
 #endif
     _shadowVP->checkLightsOcclusion(pTmpAction);
 
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    _pFB->deactivate(pEnv);
 
     delete[] buffers;
 
@@ -4474,7 +4527,9 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
         buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
 
         //Setup FBO
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
+        //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
+        _pFB->activate(pEnv);
+
         glDrawBuffer(*buffers);
 		
         //clear all ShadowFactorMaps
@@ -4498,7 +4553,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
         buffers[0] = GL_COLOR_ATTACHMENT2_EXT;
 
         //Setup FBO
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
+        //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
         glDrawBuffer(*buffers);
 		
         // ACHTUNG der fbo kann nur 0,w,0,h rendern
@@ -4508,6 +4563,8 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
         glEnable(GL_SCISSOR_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glDisable(GL_SCISSOR_TEST);
+
+        _pFB->deactivate(pEnv);
 
         delete[] buffers;
     }
@@ -4663,7 +4720,8 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                     buffers[0] = GL_COLOR_ATTACHMENT2_EXT;
 
                 //Setup FBO
-                glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
+                //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
+                _pFB->activate(pEnv);
 
                 glDrawBuffer(*buffers);
 
@@ -4672,7 +4730,8 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 #endif
                 _shadowVP->renderLight(pTmpAction, _shadowCmat, i);
 
-                glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+                //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+                _pFB->deactivate(pEnv);
 
                 delete[] buffers;
                 _firstRun = 0;
@@ -5017,7 +5076,8 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 
 
             //Setup FBO
-            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
+            //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
+            _pFB->activate(pEnv);
 
             glDrawBuffer(*buffers);
 
@@ -5026,7 +5086,8 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 #endif
             _shadowVP->renderLight(pTmpAction, _shadowCmat, i);
 
-            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+            //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+            _pFB->deactivate(pEnv);
 
             _firstRun = 0;
             if(_activeFactorMap == 0)
