@@ -252,7 +252,7 @@ void LabelForeground::drawLabel(Node* labelNode) const
     glTranslatef(label->getPixelOffset().x(), label->getPixelOffset().y(), 0);
 
     // draw background
-    glColor4fv((GLfloat*)label->getBgColor().getValuesRGBA());
+    glColor4fv(label->getBgColor().getValuesRGBA());
     glBegin(GL_QUADS);
         glVertex2f(0,        -pixHeight);
         glVertex2f(pixWidth, -pixHeight);
@@ -263,7 +263,7 @@ void LabelForeground::drawLabel(Node* labelNode) const
     // draw border
     if(bColor.alpha() >= 0.0f)
     {
-        glColor4fv((GLfloat*)bColor.getValuesRGBA());
+        glColor4fv(bColor.getValuesRGBA());
         glBegin(GL_LINE_LOOP);
             glVertex2f(bOffset.x(),             -pixHeight+1+ bOffset.y());
             glVertex2f(pixWidth-1- bOffset.x(), -pixHeight+1+ bOffset.y());
@@ -280,14 +280,14 @@ void LabelForeground::drawLabel(Node* labelNode) const
     texEnv->activate(_cachedDrawEnv);
 
     // --- draw label shadow -----------------------------------
-    glColor4fv((GLfloat*)label->getShadowColor().getValuesRGBA());
+    glColor4fv(label->getShadowColor().getValuesRGBA());
     glPushMatrix();
     glTranslatef(sOffset.x(), sOffset.y(), 0);
     label->onLabelRendering(_cachedDrawEnv);
     glPopMatrix();
 
     // --- draw label content (text or icon) -------------------
-    glColor4fv((GLfloat *)label->getColor().getValuesRGBA());
+    glColor4fv(label->getColor().getValuesRGBA());
     label->onLabelRendering(_cachedDrawEnv);
 
     texEnv->deactivate(_cachedDrawEnv);

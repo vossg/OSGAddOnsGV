@@ -210,6 +210,10 @@
 
 /* #define SINGLE */
 
+#if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#endif
+
 #ifdef SINGLE
 #define REAL float
 #else /* not SINGLE */
