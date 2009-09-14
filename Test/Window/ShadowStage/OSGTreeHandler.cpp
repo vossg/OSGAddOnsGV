@@ -136,10 +136,10 @@ TreeHandler::TreeHandler(ShadowStage *source) :
     _combineSHL(NULL),
     _combineDepth(NULL),
     _combineCmat(NULL),
-    _colorMap(NULL),
+    _colorMapO(NULL),
     _activeFactorMap(1),
-    _shadowFactorMap(NULL),
-    _shadowFactorMap2(NULL)
+    _shadowFactorMapO(NULL),
+    _shadowFactorMap2O(NULL)
 
 {
     GLint   max_tex_size = 0;
@@ -238,7 +238,14 @@ TreeHandler::TreeHandler(ShadowStage *source) :
 
 TreeHandler::~TreeHandler(void)
 {
-    _unlitMat       = NULL;
+    _unlitMat          = NULL;
+
+    _combineSHL        = NULL;
+    _combineDepth      = NULL;
+    _combineCmat       = NULL;
+    _colorMapO         = NULL;
+    _shadowFactorMapO  = NULL;
+    _shadowFactorMap2O = NULL;
 }
 
 void TreeHandler::initialize(Window *win)
@@ -571,12 +578,16 @@ void TreeHandler::doDrawCombineMap2(DrawEnv *pEnv)
     _combineCmat->clearChunks();
 
     _combineCmat->addChunk(_combineSHL);
-    _combineCmat->addChunk(_colorMap);
+    _combineCmat->addChunk(_colorMapO);
 
     if(_activeFactorMap == 0 && _useFBO)
-        _combineCmat->addChunk(_shadowFactorMap2);
+    {
+        _combineCmat->addChunk(_shadowFactorMap2O);
+    }
     else
-        _combineCmat->addChunk(_shadowFactorMap);
+    {
+        _combineCmat->addChunk(_shadowFactorMapO);
+    }
 
     _combineCmat->addChunk(_combineDepth);
 

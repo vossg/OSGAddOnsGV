@@ -305,17 +305,17 @@ VarianceShadowMapHandler::VarianceShadowMapHandler(ShadowStage *source) :
 #endif
 
     //Prepare Color Map grabbing
-    _colorMap = TextureChunk::create();
+    _colorMapO = TextureObjChunk::create();
     _colorMapImage = Image::create();
 
-    _colorMap->setImage(_colorMapImage);
-    _colorMap->setInternalFormat(GL_RGB);
-    _colorMap->setExternalFormat(GL_RGB);
-    _colorMap->setMinFilter(GL_NEAREST);
-    _colorMap->setMagFilter(GL_NEAREST);
-    _colorMap->setWrapS(GL_REPEAT);
-    _colorMap->setWrapT(GL_REPEAT);
-    _colorMap->setTarget(GL_TEXTURE_2D);
+    _colorMapO->setImage(_colorMapImage);
+    _colorMapO->setInternalFormat(GL_RGB);
+    _colorMapO->setExternalFormat(GL_RGB);
+    _colorMapO->setMinFilter(GL_NEAREST);
+    _colorMapO->setMagFilter(GL_NEAREST);
+    _colorMapO->setWrapS(GL_REPEAT);
+    _colorMapO->setWrapT(GL_REPEAT);
+    _colorMapO->setTarget(GL_TEXTURE_2D);
 
 
 #if 0
@@ -330,17 +330,17 @@ VarianceShadowMapHandler::VarianceShadowMapHandler(ShadowStage *source) :
 #endif
 
     //Prepare Shadow Factor Map grabbing
-    _shadowFactorMap = TextureChunk::create();
+    _shadowFactorMapO = TextureObjChunk::create();
     _shadowFactorMapImage = Image::create();
 
-    _shadowFactorMap->setImage(_shadowFactorMapImage);
-    _shadowFactorMap->setInternalFormat(GL_RGB);
-    _shadowFactorMap->setExternalFormat(GL_RGB);
-    _shadowFactorMap->setMinFilter(GL_LINEAR);
-    _shadowFactorMap->setMagFilter(GL_LINEAR);
-    _shadowFactorMap->setWrapS(GL_REPEAT);
-    _shadowFactorMap->setWrapT(GL_REPEAT);
-    _shadowFactorMap->setTarget(GL_TEXTURE_2D);
+    _shadowFactorMapO->setImage(_shadowFactorMapImage);
+    _shadowFactorMapO->setInternalFormat(GL_RGB);
+    _shadowFactorMapO->setExternalFormat(GL_RGB);
+    _shadowFactorMapO->setMinFilter(GL_LINEAR);
+    _shadowFactorMapO->setMagFilter(GL_LINEAR);
+    _shadowFactorMapO->setWrapS(GL_REPEAT);
+    _shadowFactorMapO->setWrapT(GL_REPEAT);
+    _shadowFactorMapO->setTarget(GL_TEXTURE_2D);
 
 #if 0
     if(_useNPOTTextures)
@@ -377,8 +377,8 @@ VarianceShadowMapHandler::VarianceShadowMapHandler(ShadowStage *source) :
     //Combine Shader
     _combineCmat = ChunkMaterial::create();
     _combineCmat->addChunk(_combineSHL);
-    _combineCmat->addChunk(_colorMap);
-    _combineCmat->addChunk(_shadowFactorMap);
+    _combineCmat->addChunk(_colorMapO);
+    _combineCmat->addChunk(_shadowFactorMapO);
     _combineCmat->addChunk(_combineDepth);
 
     //SHL Depth
@@ -397,8 +397,6 @@ VarianceShadowMapHandler::~VarianceShadowMapHandler(void)
 {
     _tiledeco        = NULL;
 
-    _colorMap        = NULL;
-    _shadowFactorMap = NULL;
     _shadowSHL       = NULL;
     _depthSHL        = NULL;
     _combineSHL      = NULL;
@@ -535,15 +533,15 @@ bool VarianceShadowMapHandler::initFBO(DrawEnv *pEnv)
         glGenFramebuffersEXT(1, &_fb);
         glGenRenderbuffersEXT(1, &_rb_depth);
 
-        win->validateGLObject(_colorMap->getGLId(), pEnv);
+        win->validateGLObject(_colorMapO->getGLId(), pEnv);
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
                                   GL_TEXTURE_2D,
-                                  win->getGLObjectId(_colorMap->getGLId()), 0);
-        win->validateGLObject(_shadowFactorMap->getGLId(), pEnv);
+                                  win->getGLObjectId(_colorMapO->getGLId()), 0);
+        win->validateGLObject(_shadowFactorMapO->getGLId(), pEnv);
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT,
                                   GL_TEXTURE_2D,
-                                  win->getGLObjectId(_shadowFactorMap->getGLId
+                                  win->getGLObjectId(_shadowFactorMapO->getGLId
                                                      ()), 0);
 
         //Initialize Depth Renderbuffer
@@ -565,17 +563,17 @@ bool VarianceShadowMapHandler::initFBO(DrawEnv *pEnv)
         glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT
                                      , GL_RENDERBUFFER_EXT, _rb_depth);
 
-        win->validateGLObject(_colorMap->getGLId(), pEnv);
+        win->validateGLObject(_colorMapO->getGLId(), pEnv);
         //setTarget(win, win->getGLObjectId(_colorMap->getGLId()), 0, GL_TEXTURE_2D);
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
                                   GL_TEXTURE_2D,
-                                  win->getGLObjectId(_colorMap->getGLId()), 0);
+                                  win->getGLObjectId(_colorMapO->getGLId()), 0);
 
-        win->validateGLObject(_shadowFactorMap->getGLId(), pEnv);
+        win->validateGLObject(_shadowFactorMapO->getGLId(), pEnv);
         //setTarget(win, win->getGLObjectId(_shadowFactorMap->getGLId()), 1, GL_TEXTURE_2D);
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT,
                                   GL_TEXTURE_2D,
-                                  win->getGLObjectId(_shadowFactorMap->getGLId
+                                  win->getGLObjectId(_shadowFactorMapO->getGLId
                                                      ()), 0);
 
         bool    result = checkFrameBufferStatus(win);
@@ -621,15 +619,15 @@ void VarianceShadowMapHandler::reInit(DrawEnv *pEnv)
 
     Window *win = pEnv->getWindow();
 
-    win->validateGLObject(_colorMap->getGLId(), pEnv);
+    win->validateGLObject(_colorMapO->getGLId(), pEnv);
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
                               GL_TEXTURE_2D,
-                              win->getGLObjectId(_colorMap->getGLId()), 0);
-    win->validateGLObject(_shadowFactorMap->getGLId(), pEnv);
+                              win->getGLObjectId(_colorMapO->getGLId()), 0);
+    win->validateGLObject(_shadowFactorMapO->getGLId(), pEnv);
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT,
                               GL_TEXTURE_2D,
-                              win->getGLObjectId(_shadowFactorMap->getGLId()),
+                              win->getGLObjectId(_shadowFactorMapO->getGLId()),
                               0);
 
     //Initialize Depth Renderbuffer
@@ -902,11 +900,11 @@ void VarianceShadowMapHandler::createColorMap(DrawEnv *pEnv,
 #endif
     _shadowVP->checkLightsOcclusion(pTmpAction);
 
-    pEnv->getWindow()->validateGLObject(_colorMap->getGLId(), pEnv);
+    pEnv->getWindow()->validateGLObject(_colorMapO->getGLId(), pEnv);
 
     _shadowVP->setReadBuffer(); // set the right read buffer for the copy texture.
     glBindTexture(GL_TEXTURE_2D,
-                  pEnv->getWindow()->getGLObjectId(_colorMap->getGLId()));
+                  pEnv->getWindow()->getGLObjectId(_colorMapO->getGLId()));
 #if 0
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0,
                         _shadowVP->getPixelWidth(),
@@ -1140,19 +1138,19 @@ void VarianceShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
         _shadowCmat->clearChunks();
         _shadowCmat->addChunk(_shadowSHL);
         _shadowCmat->addChunk(_shadowVP->_texChunks[num]);
-        _shadowCmat->addChunk(_shadowFactorMap);
+        _shadowCmat->addChunk(_shadowFactorMapO);
 
 #if 0
         _shadowVP->renderLight(pEnv->getAction(), _shadowCmat, num);
 #endif
         _shadowVP->renderLight(pTmpAction, _shadowCmat, num);
 
-        pEnv->getWindow()->validateGLObject(_shadowFactorMap->getGLId(),
+        pEnv->getWindow()->validateGLObject(_shadowFactorMapO->getGLId(),
                                             pEnv);
 
         glBindTexture(GL_TEXTURE_2D,
                       pEnv->getWindow()->getGLObjectId(
-                      _shadowFactorMap->getGLId()));
+                      _shadowFactorMapO->getGLId()));
 #if 0
         glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0,
                             _shadowVP->getPixelWidth(),
@@ -1348,7 +1346,7 @@ void VarianceShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
         _shadowCmat->clearChunks();
         _shadowCmat->addChunk(_shadowSHL);
         _shadowCmat->addChunk(_shadowVP->_texChunks[num]);
-        _shadowCmat->addChunk(_shadowFactorMap);
+        _shadowCmat->addChunk(_shadowFactorMapO);
 
         GLenum  *buffers = NULL;
         buffers = new GLenum[1];

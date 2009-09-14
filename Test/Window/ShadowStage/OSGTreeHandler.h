@@ -23,8 +23,10 @@
 #include <OSGSimpleMaterial.h>
 
 
-#include <OSGDepthChunk.h>
-#include <OSGSHLChunk.h>
+#include "OSGDepthChunk.h"
+#include "OSGSHLChunk.h"
+#include "OSGTextureObjChunk.h"
+#include "OSGTextureEnvChunk.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -160,11 +162,11 @@ class OSG_WINDOW_DLLMAPPING TreeHandler
     SHLChunkUnrecPtr             _combineSHL;
     DepthChunkUnrecPtr           _combineDepth;
     ChunkMaterialUnrecPtr        _combineCmat;
-    TextureChunkUnrecPtr         _colorMap;
-    UInt32 _activeFactorMap;
+    TextureObjChunkUnrecPtr      _colorMapO;
+    UInt32                       _activeFactorMap;
 
-    TextureChunkUnrecPtr         _shadowFactorMap;
-    TextureChunkUnrecPtr         _shadowFactorMap2;
+    TextureObjChunkUnrecPtr      _shadowFactorMapO;
+    TextureObjChunkUnrecPtr      _shadowFactorMap2O;
 
     void setupDrawCombineMap1(Action  *pAction);
     void doDrawCombineMap1   (DrawEnv *pEnv   );
