@@ -45,12 +45,6 @@
 #include "OSGBbqTerrainCompressor.h"
 #include <iostream>
 
-//-------------------------------------------------------------------------------------------------
-
-OSG_USING_NAMESPACE
-
-//-------------------------------------------------------------------------------------------------
-
 int main( int argc, char** argv )
 {
     std::string bbqSourceFilename = "data/ps.bbq";
