@@ -167,7 +167,7 @@ static DataType SIMDCacheKDBaseType(
     "RTCacheBaseSIMDPacketPtr");
 
 #ifndef OSG_XCACHEKD
-template<>
+template<>  
 DataType FieldTraits<RTCacheKD<RRT::SinglePacketDescBase> *>::_type(
     "RTCacheKDSinglePacketPtr",
     "RTCacheKDBaseSinglePacketPtr");
@@ -177,14 +177,14 @@ DataType FieldTraits<RTCacheKD<RRT::SIMDPacketDescBase> *>::_type(
     "RTCacheKDSIMDPacketPtr",
     "RTCacheKDBaseSinglePacketPtr");
 
-template<>
+template<> OSG_DLL_EXPORT
 DataType &
     FieldTraits<RTCacheKD<RRT::SinglePacketDescBase> *>::getType(void)
 {
     return _type;
 }
 
-template<>
+template<> OSG_DLL_EXPORT
 DataType &
     FieldTraits<RTCacheKD<RRT::SIMDPacketDescBase> *>::getType(void)
 {

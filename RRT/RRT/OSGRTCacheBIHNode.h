@@ -43,7 +43,8 @@
 #endif
 
 #include "OSGConfig.h"
-#include "OSGBaseTypes.h"
+#include "OSGDataType.h"
+#include "OSGContribRRTDef.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -135,7 +136,7 @@ struct FieldTraits<RTCacheBIHNode> :
     enum                  { Convertible = (Self::FromStringConvertible |
                                            Self::ToStreamConvertible   )     };
 
-    static OSG_BASE_DLLMAPPING
+    static OSG_CONTRIBRRT_DLLMAPPING
                  DataType     &getType     (void);
 
     static const Char8        *getPName    (void)

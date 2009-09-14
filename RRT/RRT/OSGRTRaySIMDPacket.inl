@@ -85,7 +85,7 @@ bool RTRaySIMDPacketInfo::isActive(UInt32 uiIdx)
 inline
 bool RTRaySIMDPacketInfo::hasActive(void)
 {
-    bool returnValue = false;
+    UInt16 returnValue = false;
 
     for(UInt32 i = 0; i < NumRays; ++i)
     {

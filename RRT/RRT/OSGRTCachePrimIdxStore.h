@@ -43,6 +43,7 @@
 #endif
 
 #include "OSGMField.h"
+#include "OSGContribRRTDef.h"
 
 #include "vector"
 
@@ -65,7 +66,7 @@ struct FieldTraits<RTCachePrimIdxStore> :
     enum                  { Convertible = (Self::FromStringConvertible |
                                            Self::ToStreamConvertible   )     };
 
-    static OSG_BASE_DLLMAPPING
+    static OSG_CONTRIBRRT_DLLMAPPING
                  DataType     &getType     (void);
 
     static const Char8        *getPName    (void)

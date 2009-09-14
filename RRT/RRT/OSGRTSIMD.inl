@@ -38,7 +38,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-#ifdef OSG_HAS_POSIXMEMALIGN
 template<typename _Tp> inline
 AlignedAllocator<_Tp>::AlignedAllocator(void) throw()
 {
@@ -79,27 +78,36 @@ template<typename _Tp> inline
 typename AlignedAllocator<_Tp>::pointer 
     AlignedAllocator<_Tp>::allocate(size_type __n, const void *)
 { 
-    if (__builtin_expect(__n > this->max_size(), false))
+#ifndef WIN32
+	if (__builtin_expect(__n > this->max_size(), false))
         std::__throw_bad_alloc();
-    
-    fprintf(stderr, "al::alocate\n");
-    
+#endif
+
     void *returnValue;
     
-#ifdef __APPLE__ // Already aligned
+#if defined(__APPLE__) // Already aligned
     returnValue = malloc(__n * sizeof(_Tp));
-#else
+#elif defined(OSG_HAS_POSIXMEMALIGN)
     posix_memalign(&returnValue, 16, __n * sizeof(_Tp));
+#elif defined(WIN32)
+	returnValue = _aligned_malloc(__n * sizeof(_Tp), 16);
+#else
+# error "don't know how to allocate alligned mem"
 #endif
+
     return static_cast<_Tp *>(returnValue);
 }
 
 template<typename _Tp> inline
 void AlignedAllocator<_Tp>::deallocate(pointer __p, size_type)
 { 
-    fprintf(stderr, "al::deallocate\n");
-    
+#if defined(__APPLE__) || defined(OSG_HAS_POSIXMEMALIGN)
     free(__p); 
+#elif defined(WIN32)
+    _aligned_free(__p);
+#else
+# error "don't know how to allocate alligned mem"
+#endif
 }
 
 template<typename _Tp> inline
@@ -120,6 +128,5 @@ void  AlignedAllocator<_Tp>::destroy(pointer __p)
 {
     __p->~_Tp(); 
 }
-#endif
 
 OSG_END_NAMESPACE

@@ -267,7 +267,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
     Int32  iCurrAxis     = 0;
     Int32  iBestAxis     = -1;
     Int32  iBestOffset   = -1;
-    Real32 fBestCost     = INFINITY;
+	Real32 fBestCost     = TypeTraits<Real32>::getMax();
     Real32 fOldCost      = _iIsectCost * Real32(numCurrentPrims);
 
     Vec3f  vDiag         = nodeBounds.getMax() - nodeBounds.getMin();

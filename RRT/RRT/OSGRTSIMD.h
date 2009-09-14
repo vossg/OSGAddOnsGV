@@ -60,7 +60,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-#ifdef OSG_HAS_POSIXMEMALIGN
 template<typename _Tp>
 class AlignedAllocator
 {
@@ -113,8 +112,6 @@ class AlignedAllocator
     void  construct(pointer __p, const _Tp &__val);
     void  destroy  (pointer __p                  );
 };
-#endif // OSG_HAS_POSIXMEMALIGN
-
 
 
 #if defined(OSG_SIMD_SSE)

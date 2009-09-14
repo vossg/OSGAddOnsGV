@@ -64,7 +64,7 @@ struct FieldTraits<RTTriAccelBarycentric> :
     enum                  { Convertible = (Self::FromStringConvertible |
                                            Self::ToStreamConvertible   )     };
 
-    static OSG_BASE_DLLMAPPING
+    static OSG_CONTRIBRRT_DLLMAPPING
                  DataType     &getType     (void);
 
     static const Char8        *getPName    (void)
