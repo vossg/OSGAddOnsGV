@@ -102,30 +102,45 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
 #endif
 
     // disable all lights more speed
-    std::vector<bool> lightStates;
-    for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
+    std::vector<bool> vLocalLightStates;
+
+    const ShadowStageData::LightStore  &vLights      = 
+        _pStageData->getLights();
+
+    const ShadowStageData::LStateStore &vLightStates = 
+        _pStageData->getLightStates();
+
+    const ShadowStageData::CamStore    &vLCams       =
+        _pStageData->getLightCameras();
+
+    const ShadowStageData::StatusStore &vExclActive  =
+        _pStageData->getExcludeNodeActive();
+
+    for(UInt32 i = 0;i < vLights.size();++i)
     {
         // store old states.
-        lightStates.push_back(_shadowVP->_lights[i].second->getOn());
-        _shadowVP->_lights[i].second->setOn(false);
+        vLocalLightStates.push_back(vLights[i].second->getOn());
+
+        vLights[i].second->setOn(false);
     }
 
     // deactivate exclude nodes:
-    for(UInt32 i = 0;i < _shadowVP->getMFExcludeNodes()->size();++i)
+    for(UInt32 i = 0;i < _pStage->getMFExcludeNodes()->size();++i)
     {
-        Node *exnode = _shadowVP->getExcludeNodes(i);
+        Node *exnode = _pStage->getExcludeNodes(i);
+
         if(exnode != NULL)
             exnode->setTravMask(0);
     }
 
     ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
 
-    for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
+    for(UInt32 i = 0;i < vLights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
+        if(vLightStates[i] != 0)
         {
-            if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-               _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
+            if(_pStage->getGlobalShadowIntensity() != 0.0 ||
+               vLights[i].second->getShadowIntensity() != 0.0)
             {
                 a->pushPartition();
                 {
@@ -137,29 +152,29 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                     
                     pPart->calcViewportDimension(0.f,
                                                  0.f,
-                                                 _shadowVP->getMapSize()-1,
-                                                 _shadowVP->getMapSize()-1,
+                                                 _pStage->getMapSize()-1,
+                                                 _pStage->getMapSize()-1,
                                                  
-                                                 _shadowVP->getMapSize(),
-                                                 _shadowVP->getMapSize() );
+                                                 _pStage->getMapSize(),
+                                                 _pStage->getMapSize() );
                     
                     
                     Matrix m, t;
                     
                     // set the projection
-                    _shadowVP->_lightCameras[i]->getProjection          (
+                    vLCams[i]->getProjection(
                         m, 
                         pPart->getViewportWidth (), 
                         pPart->getViewportHeight());
                     
-                    _shadowVP->_lightCameras[i]->getProjectionTranslation(
+                    vLCams[i]->getProjectionTranslation(
                         t, 
                         pPart->getViewportWidth (), 
                         pPart->getViewportHeight());
                     
                     pPart->setupProjection(m, t);
                     
-                    _shadowVP->_lightCameras[i]->getViewing(
+                    vLCams[i]->getViewing(
                         m, 
                         pPart->getViewportWidth (),
                         pPart->getViewportHeight());
@@ -167,17 +182,15 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                     
                     pPart->setupViewing(m);
                     
-                    pPart->setNear     (
-                        _shadowVP->_lightCameras[i]->getNear());
-                    pPart->setFar      (
-                        _shadowVP->_lightCameras[i]->getFar ());
+                    pPart->setNear     (vLCams[i]->getNear());
+                    pPart->setFar      (vLCams[i]->getFar ());
                     
                     pPart->calcFrustum();
                     
                     pPart->setBackground(_pClearSMapBack);
                     
-                    Node *light  = _shadowVP->_lights[i].first;
-                    Node *parent =  light->getParent();
+                    Node *light  = vLights[i].first;
+                    Node *parent = light->getParent();
                     
                     if(parent != NULL)
                     {
@@ -201,19 +214,23 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
 
     //-------Restoring old states of Window and Viewport----------
     // enable all lights.
-    for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
+    for(UInt32 i = 0;i < vLights.size();++i)
     {
         // restore old states.
-        _shadowVP->_lights[i].second->setOn(lightStates[i]);
+        vLights[i].second->setOn(vLocalLightStates[i]);
     }
 
     // activate exclude nodes:
-    for(UInt32 i = 0;i < _shadowVP->getMFExcludeNodes()->size();++i)
+    for(UInt32 i = 0;i < _pStage->getMFExcludeNodes()->size();++i)
     {
-        Node *exnode = _shadowVP->getExcludeNodes(i);
+        Node *exnode = _pStage->getExcludeNodes(i);
         if(exnode != NULL)
-            if(_shadowVP->_excludeNodeActive[i])
+        {
+            if(vExclActive[i])
+            {
                 exnode->setTravMask(TypeTraits<UInt32>::BitsSet);
+            }
+        }
     }
 
 
@@ -242,7 +259,7 @@ void PCSSShadowMapHandler::createColorMapFBO(DrawEnv *pEnv)
         pPart->setRenderTarget(_pSceneFBO);
         pPart->setDrawBuffer  (GL_COLOR_ATTACHMENT0_EXT);
 
-        Node *parent = _shadowVP->getSceneRoot()->getParent();
+        Node *parent = a->getActNode()->getParent();
 
         if(parent != NULL)
         {
@@ -251,7 +268,7 @@ void PCSSShadowMapHandler::createColorMapFBO(DrawEnv *pEnv)
         
         pPart->setBackground(a->getBackground());
 
-        a->recurse(_shadowVP->getSceneRoot());
+        a->recurseNoNodeCallbacks(a->getActNode());
 
         if(parent != NULL)
         {
@@ -272,50 +289,62 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
 
     Real32  activeLights = 0;
 
-    if(_shadowVP->getGlobalShadowIntensity() != 0.0)
+    const ShadowStageData::LightStore  &vLights      = 
+        _pStageData->getLights();
+
+    const ShadowStageData::LStateStore &vLightStates = 
+        _pStageData->getLightStates();
+
+    const ShadowStageData::CamStore    &vLCams       =
+        _pStageData->getLightCameras();
+
+
+    if(_pStage->getGlobalShadowIntensity() != 0.0)
     {
-        for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
+        for(UInt32 i = 0;i < vLights.size();i++)
         {
-            if(_shadowVP->_lightStates[i] != 0)
+            if(vLightStates[i] != 0)
                 activeLights++;
         }
     }
     else
     {
-        for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
+        for(UInt32 i = 0;i < vLights.size();i++)
         {
-            if(_shadowVP->_lightStates[i] != 0 &&
-               _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
+            if(vLightStates[i]                         != 0 &&
+               vLights[i].second->getShadowIntensity() != 0.0)
+            {
                 activeLights++;
+            }
         }
     }
 
     Real32  shadowIntensity;
 
-    if(_shadowVP->getGlobalShadowIntensity() != 0.0)
+    if(_pStage->getGlobalShadowIntensity() != 0.0)
     {
-        shadowIntensity = (_shadowVP->getGlobalShadowIntensity() /
+        shadowIntensity = (_pStage->getGlobalShadowIntensity() /
                            activeLights);
     }
     else
     {
         shadowIntensity = 
-            (_shadowVP->_lights[num].second->getShadowIntensity() /
+            (vLights[num].second->getShadowIntensity() /
              activeLights);
     }
 
-    if(_shadowVP->_lights[num].second->getShadowIntensity() != 0.0 ||
-       _shadowVP->getGlobalShadowIntensity() != 0.0)
+    if(vLights[num].second->getShadowIntensity() != 0.0 ||
+       _pStage->getGlobalShadowIntensity()     != 0.0)
     {
 
         Matrix  LVM, LPM, CVM;
 
-        _shadowVP->_lightCameras[num]->getViewing(
+        vLCams[num]->getViewing(
             LVM,
             pEnv->getPixelWidth(),
             pEnv->getPixelHeight());
 
-        _shadowVP->_lightCameras[num]->getProjection(
+        vLCams[num]->getProjection(
             LPM,
             pEnv->getPixelWidth(),
             pEnv->getPixelHeight());
@@ -327,10 +356,8 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
 
         Real32  texFactor;
 
-        if(_shadowVP->_lights[num].second->getType() == 
-                                                 SpotLight::getClassType () ||
-           _shadowVP->_lights[num].second->getType() == 
-                                                 PointLight::getClassType()  )
+        if(vLights[num].second->getType() == SpotLight::getClassType () ||
+           vLights[num].second->getType() == PointLight::getClassType()  )
         {
             texFactor = Real32(_width) / Real32(_height);
         }
@@ -347,14 +374,14 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
         Real32  yFactor = 1.0;
 
         Real32  lightSize;
-        if(_shadowVP->_lights[num].second->getType() != 
-                                             DirectionalLight::getClassType())
+
+        if(vLights[num].second->getType() != DirectionalLight::getClassType())
         {
-            lightSize = _shadowVP->getShadowSmoothness() * 10.0;
+            lightSize = _pStage->getShadowSmoothness() * 10.0;
         }
         else
         {
-            lightSize = _shadowVP->getShadowSmoothness() / 25.0;
+            lightSize = _pStage->getShadowSmoothness() / 25.0;
         }
 
         if(_vShadowCmat.size() == uiActiveLightCount)
@@ -388,7 +415,7 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
 
         _vShadowSHLVar[uiActiveLightCount]->addUniformVariable(
             "mapSize",
-            Real32(_shadowVP->getMapSize()));
+            Real32(_pStage->getMapSize()));
 
         _vShadowSHLVar[uiActiveLightCount]->addUniformVariable(
             "lightSize", Real32(lightSize));
@@ -436,8 +463,8 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
             pPart->setRenderTarget(_pSceneFBO);
             pPart->setDrawBuffer  (GL_COLOR_ATTACHMENT1_EXT);
             
-            Node *light  = _shadowVP->_lights[num].first;
-            Node *parent =  light->getParent();
+            Node *light  = vLights[num].first;
+            Node *parent = light->getParent();
             
             if(parent != NULL)
             {
@@ -472,8 +499,11 @@ void PCSSShadowMapHandler::configureShadowMaps(void)
 {
     ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
 
+    const ShadowStageData::LightStore  &vLights  = _pStageData->getLights();
+
+
     UInt32 uiSHMSize = vShadowMaps.size();
-    UInt32 uiMapSize = _shadowVP-> getMapSize ();
+    UInt32 uiMapSize = _pStage-> getMapSize ();
 
     for(UInt32 i = 0; i < uiSHMSize; ++i)
     {
@@ -490,8 +520,7 @@ void PCSSShadowMapHandler::configureShadowMaps(void)
             vShadowMaps[i].pTexO->setInternalFormat(GL_DEPTH_COMPONENT);
             vShadowMaps[i].pTexO->setExternalFormat(GL_DEPTH_COMPONENT);
 
-            if(_shadowVP->_lights[i].second->getType() != 
-                                                   PointLight::getClassType())
+            if(vLights[i].second->getType() != PointLight::getClassType())
             {
                 vShadowMaps[i].pTexO->setWrapS(GL_CLAMP_TO_EDGE);
                 vShadowMaps[i].pTexO->setWrapT(GL_CLAMP_TO_EDGE);
@@ -528,16 +557,25 @@ void PCSSShadowMapHandler::render(DrawEnv *pEnv)
 {
     glPushAttrib(GL_ENABLE_BIT);
 
+    const ShadowStageData::LightStore  &vLights      = 
+        _pStageData->getLights();
+
+    const ShadowStageData::NodeStore   &vTransparents = 
+        _pStageData->getTransparents();
+
+    const ShadowStageData::LStateStore &vLightStates = 
+        _pStageData->getLightStates();
+
 #ifndef SHADOW_CHECK
     if(_bShadowMapsConfigured == false)
         _pStageData->getShadowMaps().clear();
 #endif
 
-    if(_pStageData->getShadowMaps().size() != _shadowVP->_lights.size())
+    if(_pStageData->getShadowMaps().size() != vLights.size())
     {
         fprintf(stderr, "ShadowMaps.size() != Light.size() (%d|%d)\n",
                 _pStageData->getShadowMaps().size(),
-                _shadowVP->_lights.size());
+                vLights.size());
 
         initShadowMaps();
     }
@@ -548,11 +586,11 @@ void PCSSShadowMapHandler::render(DrawEnv *pEnv)
         configureShadowMaps();
     }
 
-    if(_uiMapSize != _shadowVP->getMapSize())
+    if(_uiMapSize != _pStage->getMapSize())
     {
         fprintf(stderr, "MapSize changed (%d|%d)\n",
                 _uiMapSize,
-                _shadowVP->getMapSize());
+                _pStage->getMapSize());
 
         updateShadowMapSize();
     }
@@ -583,20 +621,20 @@ void PCSSShadowMapHandler::render(DrawEnv *pEnv)
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
     _firstRun = 1;
 
-    if(_shadowVP->getMapAutoUpdate() == true ||
-       _shadowVP->_trigger_update    == true  )
+    if(_pStage->getMapAutoUpdate() == true ||
+       _pStage->_trigger_update    == true  )
     {
-        _pPoly->setOffsetFill  (true                     );
-        _pPoly->setOffsetFactor(_shadowVP->getOffFactor());
-        _pPoly->setOffsetBias  (_shadowVP->getOffBias  ());
+        _pPoly->setOffsetFill  (true                   );
+        _pPoly->setOffsetFactor(_pStage->getOffFactor());
+        _pPoly->setOffsetBias  (_pStage->getOffBias  ());
 
         createColorMapFBO(pEnv);
 
 
         //deactivate transparent Nodes
-        for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+        for(UInt32 t = 0;t < vTransparents.size();++t)
         {
-            _shadowVP->_transparent[t]->setTravMask(0);
+            vTransparents[t]->setTravMask(0);
         }
 
 
@@ -604,22 +642,20 @@ void PCSSShadowMapHandler::render(DrawEnv *pEnv)
 
 
         // switch on all transparent geos
-        for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+        for(UInt32 t = 0;t < vTransparents.size();++t)
         {
-            _shadowVP->_transparent[t]->setTravMask(
-                TypeTraits<UInt32>::BitsSet);
+            vTransparents[t]->setTravMask(TypeTraits<UInt32>::BitsSet);
         }
 
 
         UInt32 uiActiveLightCount = 0;
 
-        for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
+        for(UInt32 i = 0;i < vLights.size();i++)
         {
-            if(_shadowVP->_lightStates[i] != 0)
+            if(vLightStates[i] != 0)
             {
-                if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-                   _shadowVP->_lights[i].second->getShadowIntensity() != 
-                   0.0)
+                if(_pStage->getGlobalShadowIntensity()   != 0.0 ||
+                   vLights[i].second->getShadowIntensity() != 0.0)
                 {
                     createShadowFactorMapFBO(pEnv, 
                                              i,
@@ -630,7 +666,7 @@ void PCSSShadowMapHandler::render(DrawEnv *pEnv)
             }
         }
         
-        _shadowVP->_trigger_update = false;
+        _pStage->_trigger_update = false;
     }
     
     setupDrawCombineMap1(pEnv->getAction());

@@ -93,7 +93,7 @@ TreeHandler::TreeHandler(ShadowStage     *pSource,
     _PLMapSize            (1                     ),
     _maxTexSize           (0                     ),
 
-    _shadowVP             (pSource               ),
+    _pStage               (pSource               ),
     _pStageData           (pData                 ),
 
     _colorMapO            (NULL                  ),
@@ -205,7 +205,7 @@ TreeHandler::TreeHandler(ShadowStage     *pSource,
 
 TreeHandler::~TreeHandler(void)
 {
-    _shadowVP             = NULL;
+    _pStage               = NULL;
     _pStageData           = NULL;
  
     _colorMapO            = NULL;
@@ -242,11 +242,6 @@ bool TreeHandler::initSceneFBO(DrawEnv *pEnv,
 
     if(width <= 0 || height <= 0)
         return false;
-
-#ifdef MAPS_IN_STAGE
-    if(_pSceneFBO != NULL)
-        return true;
-#endif
 
     Window *win = pEnv->getWindow();
 
@@ -358,14 +353,16 @@ void TreeHandler::initShadowMaps(void)
 {
     ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
 
-    if(_shadowVP->_lights.size() < vShadowMaps.size())
+    const ShadowStageData::LightStore  &vLights  = _pStageData->getLights();
+
+    if(vLights.size() < vShadowMaps.size())
     {
-        vShadowMaps.resize(_shadowVP->_lights.size());
+        vShadowMaps.resize(vLights.size());
     }
     else
     {
-        UInt32 uiLSize   = _shadowVP->_lights.size();
-        UInt32 uiMapSize = _shadowVP-> getMapSize ();
+        UInt32 uiLSize   = vLights.size();
+        UInt32 uiMapSize = _pStage->getMapSize ();
 
         if(vShadowMaps.size() == 0) 
         {
@@ -374,8 +371,7 @@ void TreeHandler::initShadowMaps(void)
 
         for(UInt32 i = vShadowMaps.size(); i < uiLSize; ++i)
         {
-            if(_shadowVP->_lights[i].second->getType() != 
-                                                   PointLight::getClassType())
+            if(vLights[i].second->getType() != PointLight::getClassType())
             {
                 ShadowStageData::ShadowMapElem tmpElem;
 
@@ -493,7 +489,7 @@ void TreeHandler::updateShadowMapSize(void)
     ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
  
     UInt32 uiSHMSize    =  vShadowMaps.size();
-    UInt32 uiNewMapSize = _shadowVP->getMapSize();
+    UInt32 uiNewMapSize = _pStage->getMapSize();
 
     for(UInt32 i = 0; i < uiSHMSize; ++i)
     {
@@ -515,9 +511,11 @@ void TreeHandler::configureShadowMaps(void)
 {
     ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
 
+    const ShadowStageData::LightStore  &vLights  = _pStageData->getLights();
+
     UInt32 uiSHMSize = vShadowMaps.size();
 
-    UInt32 uiMapSize = _shadowVP-> getMapSize ();
+    UInt32 uiMapSize = _pStage-> getMapSize ();
 
     for(UInt32 i = 0; i < uiSHMSize; ++i)
     {
@@ -534,8 +532,7 @@ void TreeHandler::configureShadowMaps(void)
             vShadowMaps[i].pTexO->setInternalFormat(GL_DEPTH_COMPONENT);
             vShadowMaps[i].pTexO->setExternalFormat(GL_DEPTH_COMPONENT);
 
-            if(_shadowVP->_lights[i].second->getType() != 
-                                                   PointLight::getClassType())
+            if(vLights[i].second->getType() != PointLight::getClassType())
             {
                 vShadowMaps[i].pTexO->setWrapS(GL_CLAMP_TO_EDGE);
                 vShadowMaps[i].pTexO->setWrapT(GL_CLAMP_TO_EDGE);
@@ -734,11 +731,17 @@ void TreeHandler::doDrawCombineMap1(DrawEnv *pEnv)
 
 bool TreeHandler::hasFactorMap(void)
 {
-    for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
+    const ShadowStageData::LightStore  &vLights      = 
+        _pStageData->getLights();
+
+    const ShadowStageData::LStateStore &vLightStates = 
+        _pStageData->getLightStates();
+
+    for(UInt32 i = 0;i < vLights.size();i++)
     {
-        if (_shadowVP->_lightStates[i] != 0 &&
-            (_shadowVP->_lights[i].second->getShadowIntensity() != 0.0 ||
-			_shadowVP->getGlobalShadowIntensity() != 0.0))
+        if (vLightStates[i] != 0 &&
+            (vLights[i].second->getShadowIntensity() != 0.0 ||
+             _pStage->getGlobalShadowIntensity() != 0.0))
         {
             return true;
         }

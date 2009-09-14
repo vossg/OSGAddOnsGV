@@ -70,4 +70,64 @@ ShadowStageData::ShadowMapStore &ShadowStageData::getShadowMaps(void)
     return _vShadowMaps;
 }
 
+inline
+ShadowStageData::NodeStore  &ShadowStageData::getTransparents(void)
+{
+    return _vTransparents;
+}
+
+inline
+ShadowStageData::LightStore &ShadowStageData::getLights(void)
+{
+    return _vLights;
+}
+
+inline
+ShadowStageData::LightStore &ShadowStageData::getOldLights(void)
+{
+    return _vOldLights;
+}
+
+inline
+ShadowStageData::CamStore &ShadowStageData::getLightCameras(void)
+{
+    return _vLightCameras;
+}
+
+inline
+ShadowStageData::TransStore &ShadowStageData::getLightCamTrans(void)
+{
+    return _vLightCamTrans;
+}
+
+inline
+ShadowStageData::NodeStore &ShadowStageData::getLightCamBeacons(void)
+{
+    return _vLightCamBeacons;
+}
+
+inline
+ShadowStageData::LStateStore &ShadowStageData::getLightStates(void)
+{
+    return _vLightStates;
+}
+
+inline
+ShadowStageData::StatusStore &ShadowStageData::getExcludeNodeActive(void)
+{
+    return _vExcludeNodeActive;
+}
+
+inline
+ShadowStageData::StatusStore &ShadowStageData::getRealPointLight(void)
+{
+    return _vRealPointLight;
+}
+
+inline
+Node *ShadowStageData::getLightRoot(UInt32 index)
+{
+    return _vLights[index].first;
+}
+
 OSG_END_NAMESPACE

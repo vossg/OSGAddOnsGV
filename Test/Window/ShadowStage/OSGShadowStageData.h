@@ -46,6 +46,10 @@
 #include "OSGTreeHandler.h"
 #include "OSGTextureEnvChunk.h"
 
+#include "OSGLight.h"
+#include "OSGTransform.h"
+#include "OSGCamera.h"
+
 OSG_BEGIN_NAMESPACE
 
 /*! \brief ShadowStageData class. See \ref
@@ -115,6 +119,13 @@ class OSG_WINDOW_DLLMAPPING ShadowStageData : public ShadowStageDataBase
 
     typedef std::vector<ShadowMapElem> ShadowMapStore;
 
+    typedef std::vector<NodeUnrecPtr>                            NodeStore;
+    typedef std::vector<std::pair<NodeUnrecPtr, LightUnrecPtr> > LightStore;
+    typedef std::vector<CameraUnrecPtr>                          CamStore;
+    typedef std::vector<TransformUnrecPtr>                       TransStore;
+    typedef std::vector<UInt32>                                  LStateStore;
+    typedef std::vector<bool>                                    StatusStore;
+
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -144,7 +155,27 @@ class OSG_WINDOW_DLLMAPPING ShadowStageData : public ShadowStageDataBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    ShadowMapStore &getShadowMaps(void);
+    ShadowMapStore &getShadowMaps       (void);
+
+    NodeStore      &getTransparents     (void);
+    LightStore     &getLights           (void);
+    LightStore     &getOldLights        (void);
+    CamStore       &getLightCameras     (void);
+    TransStore     &getLightCamTrans    (void);
+    NodeStore      &getLightCamBeacons  (void);
+    LStateStore    &getLightStates      (void);
+
+    StatusStore    &getExcludeNodeActive(void);
+    StatusStore    &getRealPointLight   (void);
+
+    void            clearLightData      (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    Node *getLightRoot(UInt32 index);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -161,10 +192,24 @@ class OSG_WINDOW_DLLMAPPING ShadowStageData : public ShadowStageDataBase
 
     // Variables should all be in ShadowStageDataBase.
 
-    bool              _bRunning;
-    TreeHandlerRefPtr _pTreeHandler;
+    bool               _bRunning;
+    TreeHandlerRefPtr  _pTreeHandler;
 
-    ShadowMapStore    _vShadowMaps;
+    ShadowMapStore     _vShadowMaps;
+
+    NodeStore          _vTransparents;
+    LightStore         _vLights;
+    LightStore         _vOldLights;
+    CamStore           _vLightCameras;
+    TransStore         _vLightCamTrans;
+    NodeStore          _vLightCamBeacons;
+    LStateStore        _vLightStates;
+
+    StatusStore        _vExcludeNodeActive;
+    StatusStore        _vRealPointLight;
+#if 0
+    std::vector<bool*> _renderSide;
+#endif
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */

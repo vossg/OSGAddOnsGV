@@ -36,8 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#define GL_GLEXT_PROTOTYPES
-
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
@@ -156,36 +154,14 @@ void ShadowStage::initMethod(InitPhase ePhase)
 /*----------------------- constructors & destructors ----------------------*/
 
 ShadowStage::ShadowStage(void) :
-    Inherited(),
-    _mapSizeChanged(false),
-    _transparent(),
-    _lights(),
-    _oldLights(),
-    _lightCameras(),
-    _lightCamTrans(),
-    _lightCamBeacons(),
-    _lightStates(),
-    _excludeNodeActive(),
-    _realPointLight(),
-    _renderSide(),
+     Inherited     (     ),
     _trigger_update(false),
-    _occlusionQuery(0)
+    _occlusionQuery(0    )
 {
 }
 
 ShadowStage::ShadowStage(const ShadowStage &source) :
-    Inherited(source),
-    _mapSizeChanged(source._mapSizeChanged),
-    _transparent(source._transparent),
-    _lights(source._lights),
-    _oldLights(source._oldLights),
-    _lightCameras(source._lightCameras),
-    _lightCamTrans(source._lightCamTrans),
-    _lightCamBeacons(source._lightCamBeacons),
-    _lightStates(source._lightStates),
-    _excludeNodeActive(source._excludeNodeActive),
-    _realPointLight(source._realPointLight),
-    _renderSide(source._renderSide),
+     Inherited     (source                ),
     _trigger_update(source._trigger_update),
     _occlusionQuery(source._occlusionQuery)
 {
@@ -204,6 +180,7 @@ void ShadowStage::changed(BitVector whichField,
 {
     if(whichField & LightNodesFieldMask)
     {
+#if 0
         FDEBUG(("ShadowStage::changed : light nodes changed.\n"));
         _lights.clear();
         for(UInt32 i = 0;i < getMFLightNodes()->size();++i)
@@ -211,6 +188,7 @@ void ShadowStage::changed(BitVector whichField,
                 std::make_pair(
                     getLightNodes(i), 
                     dynamic_cast<Light *>(getLightNodes(i)->getCore())));
+#endif
     }
 
     if(whichField & MapAutoUpdateFieldMask)
@@ -267,8 +245,6 @@ void ShadowStage::onCreate(const ShadowStage *source)
 void ShadowStage::onDestroy(UInt32 uiContainerId)
 {
     Inherited::onDestroy(uiContainerId);
-
-    clearLights(_lights.size());
 }
 
 ActionBase::ResultE ShadowStage::renderEnter(Action *action)
@@ -316,9 +292,7 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
     {       
         pTreeHandler = NULL;
 
-        clearLights(_oldLights.size());
-
-        _mapSizeChanged = true;
+//        clearLights(_oldLights.size());
 
         switch(getShadowMode())
         {
@@ -397,13 +371,30 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
     }
 
 
+#if 0
     if(getSceneRoot() == NULL)
     {
         setSceneRoot(action->getActNode());
     }
+#endif
 
-    _excludeNodeActive.clear();
-    _realPointLight   .clear();
+    const ShadowStageData::LightStore  &vLights      = 
+        pData->getLights();
+
+    const ShadowStageData::LStateStore &vLightStates = 
+        pData->getLightStates();
+
+          ShadowStageData::StatusStore &vRealPLight  = 
+        pData->getRealPointLight();
+
+          ShadowStageData::StatusStore &vExclActive  =
+        pData->getExcludeNodeActive();
+
+          ShadowStageData::NodeStore   &vTransparents = 
+        pData->getTransparents();
+
+    vExclActive.clear();
+    vRealPLight.clear();
 
     //get excludeNode states
     for(UInt32 i = 0;i < getMFExcludeNodes()->size();i++)
@@ -412,15 +403,15 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
 
         if(exnode != NULL)
         {
-            _excludeNodeActive.push_back(exnode->getTravMask() != 0);
+            vExclActive.push_back(exnode->getTravMask() != 0);
         }
         else
         {
-            _excludeNodeActive.push_back(false);
+            vExclActive.push_back(false);
         }
     }
 
-    checkLights(ract);
+    checkLights(ract, pData);
 
     bool allLightsZero = true;
 
@@ -430,16 +421,17 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
     }
     else
     {
-        for(UInt32 i = 0;i < _lights.size();i++)
+        for(UInt32 i = 0;i < vLights.size();i++)
         {
-            if(_lights[i].second->getShadowIntensity() != 0.0 && 
-               _lightStates[i] != 0)
+            if(vLights     [i].second->getShadowIntensity() != 0.0 && 
+               vLightStates[i]                              != 0     )
             {
                 allLightsZero = false;
             }
         }
     }
-    if(_lights.size() == 0 || allLightsZero)
+
+    if(vLights.size() == 0 || allLightsZero)
     {
         pData->setRunning(false);
 
@@ -450,13 +442,14 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
         ract->disableDefaultPartition();
 
         //find transparent nodes
-        _transparent.clear();
+        vTransparents.clear();
 
         if(getAutoExcludeTransparentNodes())
         {
-            traverse(getSceneRoot(), 
+            traverse(action->getActNode(), 
                      boost::bind(&ShadowStage::findTransparent,
-                                 this, 
+                                  this, 
+                                  pData,
                                  _1) );
         }
 
@@ -465,12 +458,14 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
         {
             Node *exnode = getExcludeNodes(i);
 
-            _excludeNodeActive[i] = exnode->getTravMask() != 0;
+            vExclActive[i] = exnode->getTravMask() != 0;
         }
 
         //check if all sides of a pointlight are needed
         //TODO: Not implemented yet ...
+#if 0
         _renderSide.clear();
+#endif
 
         ract->beginPartitionGroup();
         {
@@ -520,24 +515,29 @@ void ShadowStage::triggerMapUpdate(void)
 
 
 
-Action::ResultE ShadowStage::findLight(Node * const node)
+Action::ResultE ShadowStage::findLight(ShadowStageData *       pData,
+                                       Node            * const node)
 {
     if(node->getCore()->getType().isDerivedFrom(Light::getClassType()))
     {
-        _lights.push_back(
-            std::make_pair(
-                node, 
-                dynamic_cast<Light *>(node->getCore())));
+        ShadowStageData::LightStore  &vLights = pData->getLights();
+
+        vLights.push_back(
+            std::make_pair(node, 
+                           dynamic_cast<Light *>(node->getCore())));
     }
 
     return Action::Continue;
 }
 
-Action::ResultE ShadowStage::findTransparent(Node * const node)
+Action::ResultE ShadowStage::findTransparent(ShadowStageData *       pData,
+                                             Node            * const node)
 {
     if(node->getCore() != NULL)
     {
-        if(node->getCore()->getType() == Geometry::getClassType() ||
+        ShadowStageData::NodeStore &vTransparents = pData->getTransparents();
+
+       if(node->getCore()->getType() == Geometry::getClassType() ||
            node->getCore()->getType() == MaterialGroup::getClassType())
         {
             Material               *mat = NULL;
@@ -557,7 +557,9 @@ Action::ResultE ShadowStage::findTransparent(Node * const node)
                    if one Material is not transparent. Here we need
                    to know if one Material is transparent so we can't
                    use isTransparent for MultiPassMaterials. */
+
                 multiMat = dynamic_cast<MultiPassMaterial *>(mat);
+
                 if(multiMat != NULL)
                 {
                     MultiPassMaterial::MFMaterialsType::const_iterator it = 
@@ -570,9 +572,10 @@ Action::ResultE ShadowStage::findTransparent(Node * const node)
                     {
                         if((*it) == NULL)
                             continue;
+
                         if((*it)->isTransparent() && node->getTravMask() != 0)
                         {
-                            _transparent.push_back(node);
+                            vTransparents.push_back(node);
                             break;
                         }
                     }
@@ -580,7 +583,7 @@ Action::ResultE ShadowStage::findTransparent(Node * const node)
                 else
                 {
                     if(mat->isTransparent() && node->getTravMask() != 0)
-                        _transparent.push_back(node);
+                        vTransparents.push_back(node);
                 }
             }
 
@@ -593,7 +596,9 @@ Action::ResultE ShadowStage::findTransparent(Node * const node)
             if(geo->getMaterial() != NULL &&
                geo->getMaterial()->isTransparent() &&
                node->getTravMask() != 0)
-                _transparent.push_back(node);
+            {
+                vTransparents.push_back(node);
+            }
         }
         else if(node->getCore()->getType() == MaterialGroup::getClassType())
         {
@@ -603,7 +608,9 @@ Action::ResultE ShadowStage::findTransparent(Node * const node)
             if(matGroup->getMaterial() != NULL &&
                matGroup->getMaterial()->isTransparent() &&
                node->getTravMask()  != 0)
-                _transparent.push_back(node);
+            {
+                vTransparents.push_back(node);
+            }
         }
     }
     return Action::Continue;
@@ -611,42 +618,69 @@ Action::ResultE ShadowStage::findTransparent(Node * const node)
 
 
 
-void ShadowStage::checkLights(RenderActionBase *action)
+void ShadowStage::checkLights(RenderActionBase *action,
+                              ShadowStageData  *pData )
 {
+          ShadowStageData::LightStore  &vLights      = pData->getLights();
+    const ShadowStageData::LightStore  &vOldLights   = pData->getOldLights();
+          ShadowStageData::LStateStore &vLightStates = pData->getLightStates();
+
     if(getAutoSearchForLights())
     {
         //Finding lights by going through whole Scenegraph
-        _lights.clear();
+        vLights.clear();
 
-        traverse(getSceneRoot(), 
+        traverse(action->getActNode(), 
                  boost::bind(&ShadowStage::findLight,
                              this, 
+                             pData,
                              _1));
     }
+    else
+    {
+        if(vLights.size() != _mfLightNodes.size())
+        {
+            vLights.resize(_mfLightNodes.size());
+        }
 
-    _lightStates.clear();
+        MFLightNodesType           ::const_iterator lIt =_mfLightNodes.begin();
+        MFLightNodesType           ::const_iterator lEnd=_mfLightNodes.end  ();
+        ShadowStageData::LightStore::      iterator lsIt= vLights     .begin();
+
+        for(; lIt != lEnd; ++lIt, ++lsIt)
+        {
+            if((*lsIt).first != *lIt)
+            {
+                (*lsIt).first  = *lIt;
+                (*lsIt).second = dynamic_cast<Light *>((*lIt)->getCore());
+            }
+        }
+    }
+
+    vLightStates.clear();
 
     bool changed = false;
 
-    if(_lights.size() > 0 && _lights.size() == _oldLights.size())
+    if(vLights.size() > 0 && vLights.size() == vOldLights.size())
     {
-        for(UInt32 i = 0;i < _lights.size();++i)
+        for(UInt32 i = 0;i < vLights.size();++i)
         {
-            bool light_state = _lights[i].second->getOn();
+            
+            bool light_state = vLights[i].second->getOn();
 
-            if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_ON)
+            if(vLights[i].second->getShadowMode() == Light::CAST_SHADOW_ON)
             {
                 light_state = true;
             }
-            else if(_lights[i].second->getShadowMode() == 
+            else if(vLights[i].second->getShadowMode() == 
                                                         Light::CAST_SHADOW_OFF)
             {
                 light_state = false;
             }
 
-            _lightStates.push_back(light_state ? 1 : 0);
+            vLightStates.push_back(light_state ? 1 : 0);
 
-            if(_lights[i] != _oldLights[i])
+            if(vLights[i] != vOldLights[i])
                 changed = true;
         }
     }
@@ -657,22 +691,15 @@ void ShadowStage::checkLights(RenderActionBase *action)
 
     if(!changed)
     {
-        if(_mapSizeChanged)
-            changed = true;
-    }
-
-    if(!changed)
-    {
-        updateLights(action);
+        updateLights(action, pData);
         return;
     }
 
-    _mapSizeChanged = false;
-
-    initializeLights(action);
+    initializeLights(action, pData);
 }
 
-void ShadowStage::updateLights(RenderActionBase *action)
+void ShadowStage::updateLights(RenderActionBase *action,
+                               ShadowStageData  *pData )
 {
     SpotLight        *tmpSpot;
     DirectionalLight *tmpDir;
@@ -683,9 +710,24 @@ void ShadowStage::updateLights(RenderActionBase *action)
     Real32            sceneHeight = 0.0;
     Real32            PLangle = 0.0;
 
-    for(UInt32 i = 0;i < _lights.size();++i)
+    const ShadowStageData::LightStore  &vLights      = 
+        pData->getLights();
+
+    const ShadowStageData::TransStore  &vLCamTrans   =
+        pData->getLightCamTrans();
+
+    const ShadowStageData::CamStore    &vLCams       =
+        pData->getLightCameras();
+
+    const ShadowStageData::NodeStore   &vLCamBeacons = 
+        pData->getLightCamBeacons();
+
+          ShadowStageData::StatusStore &vRealPLight  = 
+        pData->getRealPointLight();
+
+    for(UInt32 i = 0;i < vLights.size();++i)
     {
-        getLightRoot(i)->updateVolume();
+        pData->getLightRoot(i)->updateVolume();
         //Giving new Camera Rotation and Position of the light it belongs to
         {
             Quaternion  q;
@@ -693,10 +735,10 @@ void ShadowStage::updateLights(RenderActionBase *action)
             tmpMatrix.setIdentity();
 
             //Is the Lightsource a Spotlight?
-            if(_lights[i].second->getType() == SpotLight::getClassType())
+            if(vLights[i].second->getType() == SpotLight::getClassType())
             {
                 //Casting to Spotlight
-                tmpSpot = dynamic_cast<SpotLight *>(_lights[i].second.get());
+                tmpSpot = dynamic_cast<SpotLight *>(vLights[i].second.get());
                 FDEBUG(("Found Spotlight!\n"));
                 isSpot = true;
                 isDirect = false;
@@ -714,31 +756,33 @@ void ShadowStage::updateLights(RenderActionBase *action)
                 //<-- ???
                 q.setValue(Vec3f(0, 0, -1), lightdir);
                 tmpMatrix.setTransform(Vec3f(lightpos), q);
-                _realPointLight.push_back(false);
+
+                vRealPLight.push_back(false);
             }
-            else if(_lights[i].second->getType() == 
+            else if(vLights[i].second->getType() == 
                                              DirectionalLight::getClassType())
             {
                 Vec3f   diff;
                 Pnt3f   center;
 
                 tmpDir = 
-                    dynamic_cast<DirectionalLight *>(_lights[i].second.get());
+                    dynamic_cast<DirectionalLight *>(vLights[i].second.get());
 
                 FDEBUG(("Found Directionallight!\n"));
                 isSpot = false;
                 isDirect = true;
 
-                diff = (getLightRoot(i)->getVolume().getMax() -
-                        getLightRoot(i)->getVolume().getMin());
+                diff = (pData->getLightRoot(i)->getVolume().getMax() -
+                        pData->getLightRoot(i)->getVolume().getMin());
 
                 sceneWidth = diff.length() * 0.5;
                 // Not final values. May get tweaked in the future
                 sceneHeight = diff.length() * 0.5;
 
-                getLightRoot(i)->getVolume().getCenter(center);
+                pData->getLightRoot(i)->getVolume().getCenter(center);
 
                 Vec3f   lightdir = tmpDir->getDirection();
+
                 if(tmpDir->getBeacon() != NULL)
                 {
                     Matrix  m = tmpDir->getBeacon()->getToWorld();
@@ -748,7 +792,7 @@ void ShadowStage::updateLights(RenderActionBase *action)
                 MatrixLookAt(tmpMatrix, center + lightdir,
                              center, Vec3f(0, 1, 0));
                 tmpMatrix.invert();
-                _realPointLight.push_back(false);
+                vRealPLight.push_back(false);
             }
             else
                 // Preparation for PointLight -- In this version just a hack
@@ -756,7 +800,7 @@ void ShadowStage::updateLights(RenderActionBase *action)
                 Vec3f   dir;
                 Pnt3f   center;
 
-                tmpPoint = dynamic_cast<PointLight *>(_lights[i].second.get());
+                tmpPoint = dynamic_cast<PointLight *>(vLights[i].second.get());
                 FDEBUG(("Found PointLight!\n"));
                 isSpot = false;
                 isDirect = false;
@@ -783,8 +827,11 @@ void ShadowStage::updateLights(RenderActionBase *action)
                     getShadowMode() == PCF_SHADOW_MAP))
                 {
                     //Lightpos inside Scene BB?
-                    Pnt3f   sceneMin = getLightRoot(i)->getVolume().getMin();
-                    Pnt3f   sceneMax = getLightRoot(i)->getVolume().getMax();
+                    Pnt3f   sceneMin = 
+                        pData->getLightRoot(i)->getVolume().getMin();
+
+                    Pnt3f   sceneMax = 
+                        pData->getLightRoot(i)->getVolume().getMax();
 
                     if((lightpos[0] < sceneMin[0] ||
                         lightpos[1] < sceneMin[1] ||
@@ -797,7 +844,7 @@ void ShadowStage::updateLights(RenderActionBase *action)
                         Vec3f   dist, diff;
                         Pnt3f   center;
 
-                        getLightRoot(i)->getVolume().getCenter(center);
+                        pData->getLightRoot(i)->getVolume().getCenter(center);
 
                         //Scene Bounding Box Points
 
@@ -844,13 +891,15 @@ void ShadowStage::updateLights(RenderActionBase *action)
 	
                         if(osgRad2Degree(PLangle) < 120) //Use one Side only
                         {
-                            getLightRoot(i)->getVolume().getCenter(center);
+                            pData->getLightRoot(i)->getVolume().getCenter(
+                                center);
                             dir = lightpos - center;
                             dir.normalize();
                             dir.negate();
                             q.setValue(Vec3f(0, 0, -1), dir);
                             tmpMatrix.setTransform(Vec3f(lightpos), q);
-                            _realPointLight.push_back(false);
+
+                            vRealPLight.push_back(false);
                         }
                         else
                             //use 6 side Pointlight
@@ -859,7 +908,7 @@ void ShadowStage::updateLights(RenderActionBase *action)
                             dir.negate();
                             q.setValue(Vec3f(0, 0, -1), dir);
                             tmpMatrix.setTransform(Vec3f(lightpos), q);
-                            _realPointLight.push_back(true);
+                            vRealPLight.push_back(true);
                         }
                     }
                     else
@@ -868,7 +917,7 @@ void ShadowStage::updateLights(RenderActionBase *action)
                         dir.negate();
                         q.setValue(Vec3f(0, 0, -1), dir);
                         tmpMatrix.setTransform(Vec3f(lightpos), q);
-                        _realPointLight.push_back(true);
+                        vRealPLight.push_back(true);
                     }
                 }
                 else
@@ -876,10 +925,13 @@ void ShadowStage::updateLights(RenderActionBase *action)
 
                     Vec3f   dist, diff;
                     Pnt3f   center;
-                    Pnt3f   sceneMin = getLightRoot(i)->getVolume().getMin();
-                    Pnt3f   sceneMax = getLightRoot(i)->getVolume().getMax();
+                    Pnt3f   sceneMin = 
+                        pData->getLightRoot(i)->getVolume().getMin();
 
-                    getLightRoot(i)->getVolume().getCenter(center);
+                    Pnt3f   sceneMax = 
+                        pData->getLightRoot(i)->getVolume().getMax();
+
+                    pData->getLightRoot(i)->getVolume().getCenter(center);
 
                     Pnt3f   bb[8];
                     bb[0] = Pnt3f(sceneMin[0], sceneMin[1], sceneMin[2]);
@@ -934,11 +986,11 @@ void ShadowStage::updateLights(RenderActionBase *action)
                     q.setValue(Vec3f(0, 0, -1), dir);
 
                     tmpMatrix.setTransform(Vec3f(lightpos), q);
-                    _realPointLight.push_back(false);
+                    vRealPLight.push_back(false);
                 }
             }
 
-            _lightCamTrans[i]->setMatrix(tmpMatrix);
+            vLCamTrans[i]->setMatrix(tmpMatrix);
         }
 
         //Feeding new Camera with paramters of original camera
@@ -946,7 +998,7 @@ void ShadowStage::updateLights(RenderActionBase *action)
             // Is the Lightsource a Spotlight?
             if(isSpot)
             {
-                tmpSpot = dynamic_cast<SpotLight *>(_lights[i].second.get());
+                tmpSpot = dynamic_cast<SpotLight *>(vLights[i].second.get());
 
                 Pnt3f   lightpos = tmpSpot->getPosition();
 
@@ -957,13 +1009,13 @@ void ShadowStage::updateLights(RenderActionBase *action)
                 }
 
                 Pnt3f   center;
-                getLightRoot(i)->getVolume().getCenter(center);
+                pData->getLightRoot(i)->getVolume().getCenter(center);
                 
                 Vec3f   dir = lightpos - center;
                 Real64  dirLength = dir.length();
 
-                Vec3f   diff = (getLightRoot(i)->getVolume().getMax() -
-                                getLightRoot(i)->getVolume().getMin());
+                Vec3f   diff = (pData->getLightRoot(i)->getVolume().getMax() -
+                                pData->getLightRoot(i)->getVolume().getMin());
                 Real64  diffLength = diff.length() / 2;
                 
                 Real64  zNearLimit, zCalcNear = 0;
@@ -983,11 +1035,11 @@ void ShadowStage::updateLights(RenderActionBase *action)
                     zNear = osgMax( zNear, zNearLimit );
                 }
                 
-                _lightCameras[i]->setNear( zNear );
-                _lightCameras[i]->setFar( zFar );
+                vLCams[i]->setNear( zNear );
+                vLCams[i]->setFar( zFar );
                 
                 //Using Spot-angle of Spotlight as FOV for LightCamera
-                dynamic_cast<PerspectiveCamera *>(_lightCameras[i].get())->
+                dynamic_cast<PerspectiveCamera *>(vLCams[i].get())->
                     setFov(tmpSpot->getSpotCutOffDeg() * 2);
             }
             // Is the Lightsource a Directional-Light? 
@@ -1004,12 +1056,12 @@ void ShadowStage::updateLights(RenderActionBase *action)
                                  sceneHeight, -sceneWidth, sceneWidth);
 
                 // Grabbing ModelView-Matrix from Light-Transformation
-                modMatrix = _lightCamTrans[i]->getMatrix();
+                modMatrix = vLCamTrans[i]->getMatrix();
 
                 dynamic_cast<MatrixCamera *>(
-                    _lightCameras[i].get())->setProjectionMatrix(proMatrix);
+                    vLCams[i].get())->setProjectionMatrix(proMatrix);
                 dynamic_cast<MatrixCamera *>(
-                    _lightCameras[i].get())->setModelviewMatrix(modMatrix);
+                    vLCams[i].get())->setModelviewMatrix(modMatrix);
             }
             else
                 // If none of above the Lightsource must be a PointLight
@@ -1017,13 +1069,13 @@ void ShadowStage::updateLights(RenderActionBase *action)
                 if((getShadowMode() == STD_SHADOW_MAP ||
                     getShadowMode() == PERSPECTIVE_SHADOW_MAP ||
                     getShadowMode() == DITHER_SHADOW_MAP ||
-                    getShadowMode() == PCF_SHADOW_MAP) && _realPointLight[i] )
+                    getShadowMode() == PCF_SHADOW_MAP) && vRealPLight[i] )
                 {
                     Vec3f   dist, diff;
                     Pnt3f   center;
                     Real32  angle;
 
-                    getLightRoot(i)->getVolume().getCenter(center);
+                    pData->getLightRoot(i)->getVolume().getCenter(center);
 
                     Pnt3f   lightpos = tmpPoint->getPosition();
 
@@ -1034,23 +1086,23 @@ void ShadowStage::updateLights(RenderActionBase *action)
                     }
 
                     dist = (lightpos - center);
-                    diff = (getLightRoot(i)->getVolume().getMax() -
-                            getLightRoot(i)->getVolume().getMin());
+                    diff = (pData->getLightRoot(i)->getVolume().getMax() -
+                            pData->getLightRoot(i)->getVolume().getMin());
 
                     Real32  distLength = dist.length();
                     Real32  diffLength = diff.length();
 
-                    _lightCameras[i]->setNear(0.01f);
-                    _lightCameras[i]->setFar(distLength + diffLength);
+                    vLCams[i]->setNear(0.01f);
+                    vLCams[i]->setFar(distLength + diffLength);
 
-                    dynamic_cast<PerspectiveCamera *>(_lightCameras[i].get())->setFov(
-                        osgDegree2Rad(91));
+                    dynamic_cast<PerspectiveCamera *>(
+                        vLCams[i].get())->setFov(osgDegree2Rad(91));
                 }
                 else
                 {
                     Vec3f   dist, diff;
                     Pnt3f   center;
-                    getLightRoot(i)->getVolume().getCenter(center);
+                    pData->getLightRoot(i)->getVolume().getCenter(center);
 
                     Pnt3f   lightpos = tmpPoint->getPosition();
 
@@ -1061,11 +1113,13 @@ void ShadowStage::updateLights(RenderActionBase *action)
                     }
 
                     dist = (lightpos - center);
-                    diff = (getLightRoot(i)->getVolume().getMax() -
-                            getLightRoot(i)->getVolume().getMin());
+                    diff = (pData->getLightRoot(i)->getVolume().getMax() -
+                            pData->getLightRoot(i)->getVolume().getMin());
 
-                    Pnt3f   sceneMin = getLightRoot(i)->getVolume().getMin();
-                    Pnt3f   sceneMax = getLightRoot(i)->getVolume().getMax();
+                    Pnt3f   sceneMin = 
+                        pData->getLightRoot(i)->getVolume().getMin();
+                    Pnt3f   sceneMax = 
+                        pData->getLightRoot(i)->getVolume().getMax();
 
                     Real64  distLength = dist.length();
                     Real64  diffLength = diff.length() / 2;
@@ -1086,65 +1140,88 @@ void ShadowStage::updateLights(RenderActionBase *action)
                         zNear = osgMax( zNear, zNearLimit );
                     }
                     
-                    _lightCameras[i]->setNear( zNear );
-                    _lightCameras[i]->setFar( zFar );
+                    vLCams[i]->setNear( zNear );
+                    vLCams[i]->setFar( zFar );
 
                     dynamic_cast<PerspectiveCamera *>(
-                        _lightCameras[i].get())->setFov(PLangle);
+                        vLCams[i].get())->setFov(PLangle);
                 }
             }
 
-            _lightCameras[i]->setBeacon(_lightCamBeacons[i]);
+            vLCams[i]->setBeacon(vLCamBeacons[i]);
         }
     }
 }
 
-void ShadowStage::initializeLights(RenderActionBase *action)
+void ShadowStage::initializeLights(RenderActionBase *action,
+                                   ShadowStageData  *pData )
 {
-    clearLights(_oldLights.size());
+    const ShadowStageData::LightStore  &vLights      = 
+        pData->getLights();      
+
+          ShadowStageData::LightStore  &vOldLights   = 
+        pData->getOldLights();
+
+          ShadowStageData::LStateStore &vLightStates = 
+        pData->getLightStates();
+
+          ShadowStageData::TransStore  &vLCamTrans   = 
+        pData->getLightCamTrans();
+
+          ShadowStageData::NodeStore   &vLCamBeacons = 
+        pData->getLightCamBeacons();
+
+          ShadowStageData::CamStore    &vLCams       =
+        pData->getLightCameras();
+
+    pData->clearLightData();
 
     FDEBUG(("Initialising lights.\n"));
 
-    _oldLights = _lights;
+    vOldLights = vLights;
 
     //Setting up Light-Cameras, ShadowMaps and TextureChunks
-    for(UInt32 i = 0;i < _lights.size();++i)
+    for(UInt32 i = 0;i < vLights.size();++i)
     {
-        bool light_state = _lights[i].second->getOn();
+        bool light_state = vLights[i].second->getOn();
 
-        if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_ON)
+        if(vLights[i].second->getShadowMode() == Light::CAST_SHADOW_ON)
+        {
             light_state = true;
-        else if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_OFF)
+        }
+        else if(vLights[i].second->getShadowMode() == Light::CAST_SHADOW_OFF)
+        {
             light_state = false;
+        }
 
         // Remembering initial state of Lights
-        _lightStates.push_back(light_state ? 1 : 0);
+        vLightStates.push_back(light_state ? 1 : 0);
         //Fill Transformation-List, so it can be used later on
-        _lightCamTrans.push_back(NULL);
+        vLCamTrans.push_back(NULL);
         //Creation of Lightcam-Beacon
-        _lightCamBeacons.push_back(makeCoredNode<Transform>
-                                   (&_lightCamTrans[i]));
+        vLCamBeacons.push_back(makeCoredNode<Transform>(&vLCamTrans[i]));
 
         //Giving new Camera Rotation and Position of the light it belongs to
         {
             //Is the Lightsource a Spotlight?
-            if(_lights[i].second->getType() == SpotLight::getClassType())
+            if(vLights[i].second->getType() == SpotLight::getClassType())
             {
                 //Creation of new Perspective-LightCam
-                _lightCameras.push_back(PerspectiveCamera::create());
+                vLCams.push_back(PerspectiveCamera::create());
             }
-            else if(_lights[i].second->getType() == 
+            else if(vLights[i].second->getType() == 
                                              DirectionalLight::getClassType())
             {
-                _lightCameras.push_back(MatrixCamera::create());
+                vLCams.push_back(MatrixCamera::create());
             }
             else
                 // Preparation for PointLight -- In this version just a hack
             {
-                _lightCameras.push_back(PerspectiveCamera::create());
+                vLCams.push_back(PerspectiveCamera::create());
             }
         }
 
+#ifdef MAPS_IN_STAGE
         if(getSceneRoot() == NULL)
         {
             SFATAL << "RootNode not found!" << endLog;
@@ -1155,7 +1232,6 @@ void ShadowStage::initializeLights(RenderActionBase *action)
         }
 
         //----------Shadowtexture-Images and Texture-Chunks-----------
-#ifdef MAPS_IN_STAGE
         if(_lights[i].second->getType() != PointLight::getClassType())
         {
             _shadowImages.push_back(Image::create());
@@ -1254,49 +1330,14 @@ void ShadowStage::initializeLights(RenderActionBase *action)
 #endif
     }
 
-    updateLights(action);
+    updateLights(action, pData);
 }
 
-void ShadowStage::clearLights(UInt32 size)
-{
-    if(size > 0)
-    {
-        FDEBUG(("Clearing Lightcamera-Garbage!\n"));
-
-        for(UInt32 i = 0;i < size;++i)
-        {
-#if 0
-            if(i < _lightCamBeacons.size())
-                getSceneRoot()->subChild(_lightCamBeacons[i]);
-#endif
-
-            if(i < _lightCameras.size())
-                _lightCameras[i] = NULL;
-
-#ifdef MAPS_IN_STAGE
-            if(i < _vTexChunks.size())
-            {
-                _vTexChunks[i].pTexO  = NULL;
-                _vTexChunks[i].pTexE  = NULL;
-                _vTexChunks[i].pFBO   = NULL;
-                _vTexChunks[i].pImage = NULL;
-            }
-#endif
-        }
-
-        _lightCameras.clear();
-        _lightCamTrans.clear();
-        _lightCamBeacons.clear();
-        _lightStates.clear();
-#ifdef MAPS_IN_STAGE
-        _vTexChunks.clear();
-#endif
-    }
-}
 
 
 void ShadowStage::checkLightsOcclusion(RenderActionBase *action)
 {
+#if 0
     if ( !getDisableOccludedLights() )
     {
         return;
@@ -1379,6 +1420,7 @@ void ShadowStage::checkLightsOcclusion(RenderActionBase *action)
     }
 
     //updateLights();
+#endif
 }
 
 

@@ -67,7 +67,6 @@
 
 #include "OSGReal32Fields.h" // OffBias type
 #include "OSGReal32Fields.h" // OffFactor type
-#include "OSGNodeFields.h" // SceneRoot type
 #include "OSGUInt32Fields.h" // MapSize type
 #include "OSGNodeFields.h" // LightNodes type
 #include "OSGNodeFields.h" // ExcludeNodes type
@@ -113,8 +112,7 @@ class OSG_WINDOW_DLLMAPPING ShadowStageBase : public Stage
     {
         OffBiasFieldId = Inherited::NextFieldId,
         OffFactorFieldId = OffBiasFieldId + 1,
-        SceneRootFieldId = OffFactorFieldId + 1,
-        MapSizeFieldId = SceneRootFieldId + 1,
+        MapSizeFieldId = OffFactorFieldId + 1,
         LightNodesFieldId = MapSizeFieldId + 1,
         ExcludeNodesFieldId = LightNodesFieldId + 1,
         MapAutoUpdateFieldId = ExcludeNodesFieldId + 1,
@@ -137,8 +135,6 @@ class OSG_WINDOW_DLLMAPPING ShadowStageBase : public Stage
         (TypeTraits<BitVector>::One << OffBiasFieldId);
     static const OSG::BitVector OffFactorFieldMask =
         (TypeTraits<BitVector>::One << OffFactorFieldId);
-    static const OSG::BitVector SceneRootFieldMask =
-        (TypeTraits<BitVector>::One << SceneRootFieldId);
     static const OSG::BitVector MapSizeFieldMask =
         (TypeTraits<BitVector>::One << MapSizeFieldId);
     static const OSG::BitVector LightNodesFieldMask =
@@ -176,7 +172,6 @@ class OSG_WINDOW_DLLMAPPING ShadowStageBase : public Stage
         
     typedef SFReal32          SFOffBiasType;
     typedef SFReal32          SFOffFactorType;
-    typedef SFUnrecNodePtr    SFSceneRootType;
     typedef SFUInt32          SFMapSizeType;
     typedef MFUnrecNodePtr    MFLightNodesType;
     typedef MFUnrecNodePtr    MFExcludeNodesType;
@@ -223,8 +218,6 @@ class OSG_WINDOW_DLLMAPPING ShadowStageBase : public Stage
 
                   SFReal32            *editSFOffFactor      (void);
             const SFReal32            *getSFOffFactor       (void) const;
-            const SFUnrecNodePtr      *getSFSceneRoot      (void) const;
-                  SFUnrecNodePtr      *editSFSceneRoot      (void);
 
                   SFUInt32            *editSFMapSize        (void);
             const SFUInt32            *getSFMapSize         (void) const;
@@ -279,8 +272,6 @@ class OSG_WINDOW_DLLMAPPING ShadowStageBase : public Stage
                   Real32              &editOffFactor      (void);
                   Real32               getOffFactor       (void) const;
 
-                  Node * getSceneRoot      (void) const;
-
                   UInt32              &editMapSize        (void);
                   UInt32               getMapSize         (void) const;
 
@@ -334,7 +325,6 @@ class OSG_WINDOW_DLLMAPPING ShadowStageBase : public Stage
 
             void setOffBias        (const Real32 value);
             void setOffFactor      (const Real32 value);
-            void setSceneRoot      (Node * const value);
             void setMapSize        (const UInt32 value);
             void setMapAutoUpdate  (const bool value);
             void setShadowMode     (const UInt32 value);
@@ -423,7 +413,6 @@ class OSG_WINDOW_DLLMAPPING ShadowStageBase : public Stage
 
     SFReal32          _sfOffBias;
     SFReal32          _sfOffFactor;
-    SFUnrecNodePtr    _sfSceneRoot;
     SFUInt32          _sfMapSize;
     MFUnrecNodePtr    _mfLightNodes;
     MFUnrecNodePtr    _mfExcludeNodes;
@@ -472,8 +461,6 @@ class OSG_WINDOW_DLLMAPPING ShadowStageBase : public Stage
     EditFieldHandlePtr editHandleOffBias        (void);
     GetFieldHandlePtr  getHandleOffFactor       (void) const;
     EditFieldHandlePtr editHandleOffFactor      (void);
-    GetFieldHandlePtr  getHandleSceneRoot       (void) const;
-    EditFieldHandlePtr editHandleSceneRoot      (void);
     GetFieldHandlePtr  getHandleMapSize         (void) const;
     EditFieldHandlePtr editHandleMapSize        (void);
     GetFieldHandlePtr  getHandleLightNodes      (void) const;

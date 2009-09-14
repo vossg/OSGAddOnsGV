@@ -47,11 +47,9 @@
 
 #include "OSGShadowStageBase.h"
 
-#include "OSGLight.h"
-#include "OSGTransform.h"
-#include "OSGCamera.h"
-
 OSG_BEGIN_NAMESPACE
+
+class ShadowStageData;
 
 class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
 {
@@ -100,8 +98,6 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
-
-    Node *getLightRoot(UInt32 index);
 
     void checkLightsOcclusion(RenderActionBase *action);
     void drawOcclusionBB(const Pnt3f &bbmin, const Pnt3f &bbmax);
@@ -160,41 +156,28 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
     /*---------------------------------------------------------------------*/
     /*! \{                                                                 */
 
-    bool                                                  _mapSizeChanged;
-
-    std::vector<NodeUnrecPtr>                             _transparent;
-    std::vector<std::pair<NodeUnrecPtr, LightUnrecPtr> >  _lights;
-    std::vector<std::pair<NodeUnrecPtr, LightUnrecPtr> >  _oldLights;
-    std::vector<CameraUnrecPtr>                           _lightCameras;
-    std::vector<TransformUnrecPtr>                        _lightCamTrans;
-    std::vector<NodeUnrecPtr>                             _lightCamBeacons;
-    std::vector<UInt32>                                   _lightStates;
-
-    std::vector<bool>                                     _excludeNodeActive;
-    std::vector<bool>                                     _realPointLight;
-    std::vector<bool*>                                    _renderSide;
-
-    bool                                                  _trigger_update;
-
-    GLuint                                                _occlusionQuery;
+    bool   _trigger_update;
+    GLuint _occlusionQuery;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Init                                    */
     /*! \{                                                                 */
 
-    void checkLights     (RenderActionBase* action);
-    void updateLights    (RenderActionBase *action);
-    void initializeLights(RenderActionBase *action);
-    void clearLights     (UInt32            size  );
+    void checkLights     (RenderActionBase *action,
+                          ShadowStageData  *pData );
+    void updateLights    (RenderActionBase *action,
+                          ShadowStageData  *pData );
+    void initializeLights(RenderActionBase *action,
+                          ShadowStageData  *pData );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Init                                    */
     /*! \{                                                                 */
 
-    Action::ResultE findLight      (Node * node);
-    Action::ResultE findTransparent(Node * node);
+    Action::ResultE findLight      (ShadowStageData *pData, Node * const node);
+    Action::ResultE findTransparent(ShadowStageData *pData, Node * const node);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

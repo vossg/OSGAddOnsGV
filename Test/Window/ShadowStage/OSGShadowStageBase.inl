@@ -123,22 +123,6 @@ void ShadowStageBase::setOffFactor(const Real32 value)
 
     _sfOffFactor.setValue(value);
 }
-
-//! Get the value of the ShadowStage::_sfSceneRoot field.
-inline
-Node * ShadowStageBase::getSceneRoot(void) const
-{
-    return _sfSceneRoot.getValue();
-}
-
-//! Set the value of the ShadowStage::_sfSceneRoot field.
-inline
-void ShadowStageBase::setSceneRoot(Node * const value)
-{
-    editSField(SceneRootFieldMask);
-
-    _sfSceneRoot.setValue(value);
-}
 //! Get the value of the ShadowStage::_sfMapSize field.
 
 inline
@@ -520,9 +504,6 @@ void ShadowStageBase::execSync (      ShadowStageBase *pFrom,
 
     if(FieldBits::NoField != (OffFactorFieldMask & whichField))
         _sfOffFactor.syncWith(pFrom->_sfOffFactor);
-
-    if(FieldBits::NoField != (SceneRootFieldMask & whichField))
-        _sfSceneRoot.syncWith(pFrom->_sfSceneRoot);
 
     if(FieldBits::NoField != (MapSizeFieldMask & whichField))
         _sfMapSize.syncWith(pFrom->_sfMapSize);

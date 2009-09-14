@@ -122,7 +122,7 @@ class OSG_WINDOW_DLLMAPPING TreeHandler : public MemoryObject
     UInt32                     _maxTexSize;
 
 
-    ShadowStage               *_shadowVP;
+    ShadowStage               *_pStage;
     ShadowStageData           *_pStageData;
 
     TextureObjChunkUnrecPtr    _colorMapO;

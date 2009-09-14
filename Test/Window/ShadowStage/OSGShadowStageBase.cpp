@@ -62,7 +62,6 @@
 #include <OSGGL.h>                        // Green default header
 #include <OSGGL.h>                        // Alpha default header
 
-#include <OSGNode.h> // SceneRoot Class
 #include <OSGNode.h> // LightNodes Class
 #include <OSGNode.h> // ExcludeNodes Class
 
@@ -95,10 +94,6 @@ OSG_BEGIN_NAMESPACE
 
 /*! \var Real32          ShadowStageBase::_sfOffFactor
     Offset-Factor for Polygon-Offset. Needs to be used with Polygon-Chunk
-*/
-
-/*! \var Node *          ShadowStageBase::_sfSceneRoot
-    Scene root node.
 */
 
 /*! \var UInt32          ShadowStageBase::_sfMapSize
@@ -192,18 +187,6 @@ void ShadowStageBase::classDescInserter(TypeObject &oType)
         (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&ShadowStage::editHandleOffFactor),
         static_cast<FieldGetMethodSig >(&ShadowStage::getHandleOffFactor));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFUnrecNodePtr::Description(
-        SFUnrecNodePtr::getClassType(),
-        "sceneRoot",
-        "Scene root node.\n",
-        SceneRootFieldId, SceneRootFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&ShadowStage::editHandleSceneRoot),
-        static_cast<FieldGetMethodSig >(&ShadowStage::getHandleSceneRoot));
 
     oType.addInitialDesc(pDesc);
 
@@ -447,15 +430,6 @@ ShadowStageBase::TypeObject ShadowStageBase::_type(
     "\tOffset-Factor for Polygon-Offset. Needs to be used with Polygon-Chunk\n"
     "\t</Field>\n"
     "\t<Field\n"
-    "\t\tname=\"sceneRoot\"\n"
-    "\t\ttype=\"NodePtr\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "\t>\n"
-    "\tScene root node.\n"
-    "\t</Field>\n"
-    "\t<Field\n"
     "\t\tname=\"mapSize\"\n"
     "\t\ttype=\"UInt32\"\n"
     "\t\tcardinality=\"single\"\n"
@@ -659,19 +633,6 @@ const SFReal32 *ShadowStageBase::getSFOffFactor(void) const
     return &_sfOffFactor;
 }
 
-
-//! Get the ShadowStage::_sfSceneRoot field.
-const SFUnrecNodePtr *ShadowStageBase::getSFSceneRoot(void) const
-{
-    return &_sfSceneRoot;
-}
-
-SFUnrecNodePtr      *ShadowStageBase::editSFSceneRoot      (void)
-{
-    editSField(SceneRootFieldMask);
-
-    return &_sfSceneRoot;
-}
 
 SFUInt32 *ShadowStageBase::editSFMapSize(void)
 {
@@ -1005,10 +966,6 @@ UInt32 ShadowStageBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfOffFactor.getBinSize();
     }
-    if(FieldBits::NoField != (SceneRootFieldMask & whichField))
-    {
-        returnValue += _sfSceneRoot.getBinSize();
-    }
     if(FieldBits::NoField != (MapSizeFieldMask & whichField))
     {
         returnValue += _sfMapSize.getBinSize();
@@ -1090,10 +1047,6 @@ void ShadowStageBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfOffFactor.copyToBin(pMem);
     }
-    if(FieldBits::NoField != (SceneRootFieldMask & whichField))
-    {
-        _sfSceneRoot.copyToBin(pMem);
-    }
     if(FieldBits::NoField != (MapSizeFieldMask & whichField))
     {
         _sfMapSize.copyToBin(pMem);
@@ -1172,10 +1125,6 @@ void ShadowStageBase::copyFromBin(BinaryDataHandler &pMem,
     if(FieldBits::NoField != (OffFactorFieldMask & whichField))
     {
         _sfOffFactor.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (SceneRootFieldMask & whichField))
-    {
-        _sfSceneRoot.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (MapSizeFieldMask & whichField))
     {
@@ -1338,7 +1287,6 @@ ShadowStageBase::ShadowStageBase(void) :
     Inherited(),
     _sfOffBias                (Real32(6)),
     _sfOffFactor              (Real32(4)),
-    _sfSceneRoot              (NULL),
     _sfMapSize                (UInt32(512)),
     _mfLightNodes             (),
     _mfExcludeNodes           (),
@@ -1362,7 +1310,6 @@ ShadowStageBase::ShadowStageBase(const ShadowStageBase &source) :
     Inherited(source),
     _sfOffBias                (source._sfOffBias                ),
     _sfOffFactor              (source._sfOffFactor              ),
-    _sfSceneRoot              (NULL),
     _sfMapSize                (source._sfMapSize                ),
     _mfLightNodes             (),
     _mfExcludeNodes           (),
@@ -1396,8 +1343,6 @@ void ShadowStageBase::onCreate(const ShadowStage *source)
     if(source != NULL)
     {
         ShadowStage *pThis = static_cast<ShadowStage *>(this);
-
-        pThis->setSceneRoot(source->getSceneRoot());
 
         MFUnrecNodePtr::const_iterator LightNodesIt  =
             source->_mfLightNodes.begin();
@@ -1467,32 +1412,6 @@ EditFieldHandlePtr ShadowStageBase::editHandleOffFactor      (void)
 
 
     editSField(OffFactorFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr ShadowStageBase::getHandleSceneRoot       (void) const
-{
-    SFUnrecNodePtr::GetHandlePtr returnValue(
-        new  SFUnrecNodePtr::GetHandle(
-             &_sfSceneRoot,
-             this->getType().getFieldDesc(SceneRootFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr ShadowStageBase::editHandleSceneRoot      (void)
-{
-    SFUnrecNodePtr::EditHandlePtr returnValue(
-        new  SFUnrecNodePtr::EditHandle(
-             &_sfSceneRoot,
-             this->getType().getFieldDesc(SceneRootFieldId)));
-
-    returnValue->setSetMethod(
-        boost::bind(&ShadowStage::setSceneRoot,
-                    static_cast<ShadowStage *>(this), _1));
-
-    editSField(SceneRootFieldMask);
 
     return returnValue;
 }
@@ -1925,8 +1844,6 @@ FieldContainer *ShadowStageBase::createAspectCopy(
 void ShadowStageBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
-
-    static_cast<ShadowStage *>(this)->setSceneRoot(NULL);
 
     static_cast<ShadowStage *>(this)->clearLightNodes();
 

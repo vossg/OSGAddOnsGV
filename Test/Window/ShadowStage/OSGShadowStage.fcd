@@ -33,15 +33,6 @@ First Release of ShadowMap-Viewport. Viewport is capable to handle multiple Ligh
 	Offset-Factor for Polygon-Offset. Needs to be used with Polygon-Chunk
 	</Field>
 	<Field
-		name="sceneRoot"
-		type="NodePtr"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-	Scene root node.
-	</Field>
-	<Field
 		name="mapSize"
 		type="UInt32"
 		cardinality="single"
