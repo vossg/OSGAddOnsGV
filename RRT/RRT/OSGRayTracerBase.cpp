@@ -615,11 +615,13 @@ void RayTracerBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *RayTracerBase::createAspectCopy(void) const
+FieldContainer *RayTracerBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     RayTracer *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const RayTracer *>(pRefAspect),
                   dynamic_cast<const RayTracer *>(this));
 
     return returnValue;

@@ -542,11 +542,13 @@ void RTCacheGeometryStoreBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *RTCacheGeometryStoreBase::createAspectCopy(void) const
+FieldContainer *RTCacheGeometryStoreBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     RTCacheGeometryStore *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const RTCacheGeometryStore *>(pRefAspect),
                   dynamic_cast<const RTCacheGeometryStore *>(this));
 
     return returnValue;

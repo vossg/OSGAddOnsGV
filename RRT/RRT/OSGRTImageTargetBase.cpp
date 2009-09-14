@@ -386,11 +386,13 @@ void RTImageTargetBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *RTImageTargetBase::createAspectCopy(void) const
+FieldContainer *RTImageTargetBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     RTImageTarget *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const RTImageTarget *>(pRefAspect),
                   dynamic_cast<const RTImageTarget *>(this));
 
     return returnValue;

@@ -848,11 +848,13 @@ void RRTStageBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *RRTStageBase::createAspectCopy(void) const
+FieldContainer *RRTStageBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     RRTStage *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const RRTStage *>(pRefAspect),
                   dynamic_cast<const RRTStage *>(this));
 
     return returnValue;

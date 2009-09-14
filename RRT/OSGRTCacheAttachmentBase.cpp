@@ -284,11 +284,13 @@ void RTCacheAttachmentBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *RTCacheAttachmentBase::createAspectCopy(void) const
+FieldContainer *RTCacheAttachmentBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     RTCacheAttachment *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const RTCacheAttachment *>(pRefAspect),
                   dynamic_cast<const RTCacheAttachment *>(this));
 
     return returnValue;

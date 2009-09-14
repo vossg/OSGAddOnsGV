@@ -386,11 +386,13 @@ void RTTextureTargetBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *RTTextureTargetBase::createAspectCopy(void) const
+FieldContainer *RTTextureTargetBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     RTTextureTarget *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const RTTextureTarget *>(pRefAspect),
                   dynamic_cast<const RTTextureTarget *>(this));
 
     return returnValue;

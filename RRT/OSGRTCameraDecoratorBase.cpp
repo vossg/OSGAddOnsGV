@@ -282,11 +282,13 @@ void RTCameraDecoratorBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *RTCameraDecoratorBase::createAspectCopy(void) const
+FieldContainer *RTCameraDecoratorBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     RTCameraDecorator *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const RTCameraDecorator *>(pRefAspect),
                   dynamic_cast<const RTCameraDecorator *>(this));
 
     return returnValue;
