@@ -530,11 +530,13 @@ void RTCacheGeometryStoreBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    this->execSync(static_cast<RTCacheGeometryStoreBase *>(&oFrom),
-                   whichField,
-                   oOffsets,
-                   syncMode,
-                   uiSyncInfo);
+    RTCacheGeometryStore *pThis = static_cast<RTCacheGeometryStore *>(this);
+
+    pThis->execSync(static_cast<RTCacheGeometryStore *>(&oFrom),
+                    whichField,
+                    oOffsets,
+                    syncMode,
+                    uiSyncInfo);
 }
 #endif
 

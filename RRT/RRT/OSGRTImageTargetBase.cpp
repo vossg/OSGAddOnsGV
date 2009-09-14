@@ -374,11 +374,13 @@ void RTImageTargetBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    this->execSync(static_cast<RTImageTargetBase *>(&oFrom),
-                   whichField,
-                   oOffsets,
-                   syncMode,
-                   uiSyncInfo);
+    RTImageTarget *pThis = static_cast<RTImageTarget *>(this);
+
+    pThis->execSync(static_cast<RTImageTarget *>(&oFrom),
+                    whichField,
+                    oOffsets,
+                    syncMode,
+                    uiSyncInfo);
 }
 #endif
 

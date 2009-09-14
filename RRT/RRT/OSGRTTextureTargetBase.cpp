@@ -374,11 +374,13 @@ void RTTextureTargetBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    this->execSync(static_cast<RTTextureTargetBase *>(&oFrom),
-                   whichField,
-                   oOffsets,
-                   syncMode,
-                   uiSyncInfo);
+    RTTextureTarget *pThis = static_cast<RTTextureTarget *>(this);
+
+    pThis->execSync(static_cast<RTTextureTarget *>(&oFrom),
+                    whichField,
+                    oOffsets,
+                    syncMode,
+                    uiSyncInfo);
 }
 #endif
 
