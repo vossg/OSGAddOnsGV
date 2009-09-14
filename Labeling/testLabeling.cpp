@@ -23,22 +23,19 @@
 
 // New Headers
 
-// Activate the OpenSG namespace
-OSG_USING_NAMESPACE
-
 // The SimpleSceneManager to manage simple applications
-SimpleSceneManager*   g_mgr             = NULL;
-GLUTWindowRefPtr      g_win             = NULL;
-NodeRefPtr            g_scene           = NULL;
-LabelForegroundRefPtr g_labelForeground = NULL;
+OSG::SimpleSceneManager*   g_mgr             = NULL;
+OSG::GLUTWindowRefPtr      g_win             = NULL;
+OSG::NodeRefPtr            g_scene           = NULL;
+OSG::LabelForegroundRefPtr g_labelForeground = NULL;
 
 // forward declaration so we can have the interesting stuff upfront
 int  setupGLUT( int *argc, char *argv[] );
 void onExit   ( void );
 
-LabelTransitPtr createTextLabel(int idx)
+OSG::LabelTransitPtr createTextLabel(int idx)
 {
-    TextLabelRefPtr textLabel = TextLabel::create();
+    OSG::TextLabelRefPtr textLabel = OSG::TextLabel::create();
     std::string txt;
 
     switch (idx) {
@@ -51,17 +48,17 @@ LabelTransitPtr createTextLabel(int idx)
 
     textLabel->setText(txt);
 
-    return LabelTransitPtr(textLabel);
+    return OSG::LabelTransitPtr(textLabel);
 }
 
-LabelTransitPtr createIconLabel(void)
+OSG::LabelTransitPtr createIconLabel(void)
 {
-    IconLabelRefPtr iconLabel = IconLabel::create();
+    OSG::IconLabelRefPtr iconLabel = OSG::IconLabel::create();
 
 #if 0
-    iconLabel->setSize(Vec2f(64,64));
+    iconLabel->setSize(OSG::Vec2f(64,64));
 #else
-    iconLabel->setSize(Vec2f(0.2,0.2));
+    iconLabel->setSize(OSG::Vec2f(0.2,0.2));
 #endif
 
 #if 0
@@ -69,42 +66,47 @@ LabelTransitPtr createIconLabel(void)
     iconLabel->setFilename("/home/spindler/Projects/Tonky/Data/paul.jpg");
 #else
     std::cerr << "specify IcoenLabel.image" << std::endl;
-    ImageRefPtr img = Image::create();
+    OSG::ImageRefPtr img = OSG::Image::create();
     img->read("/home/spindler/Projects/Tonky/Data/paul.jpg");
     iconLabel->setImage(img);
 #endif
-    return LabelTransitPtr(iconLabel);
+    return OSG::LabelTransitPtr(iconLabel);
 }
 
-void updateLabelParams(Label* label, int idx)
+void updateLabelParams(OSG::Label* label, int idx)
 {
-    Real32  orient    = 0;
-    Vec2f   pixOffset = Vec2f(0,0);
-    Color4f bgColor   = Color4f(osgRand(), osgRand(), osgRand(), osgRand());
+    OSG::Real32  orient    = 0;
+    OSG::Vec2f   pixOffset = OSG::Vec2f(0,0);
+    OSG::Color4f bgColor   = OSG::Color4f(OSG::osgRand(), 
+                                          OSG::osgRand(), 
+                                          OSG::osgRand(), 
+                                          OSG::osgRand());
 
-    Vec2f  marg(0,0);
+    OSG::Vec2f  marg(0,0);
 
     switch (idx) {
-        case 0: orient    = 45.0;  bgColor = Color4f(0,0,0,0); break;
-        case 1: orient    = 15.0;  marg = Vec2f(2,2); break;
-        case 2: orient    = 45.0;  marg = Vec2f(4,4); break;
-        case 3: orient    = 85.0;  marg = Vec2f(20,20);  break;
+        case 0: orient    = 45.0;  bgColor = OSG::Color4f(0,0,0,0); break;
+        case 1: orient    = 15.0;  marg = OSG::Vec2f(2,2); break;
+        case 2: orient    = 45.0;  marg = OSG::Vec2f(4,4); break;
+        case 3: orient    = 85.0;  marg = OSG::Vec2f(20,20);  break;
         default: ;
     }
     label->setOrientation(orient);
     label->setPixelOffset(pixOffset);
-    label->setBorderColor(Color4f(osgRand(), osgRand(), osgRand(), 1.0));
+    label->setBorderColor(OSG::Color4f(OSG::osgRand(), 
+                                       OSG::osgRand(), 
+                                       OSG::osgRand(), 1.0));
     label->setBgColor(bgColor);
-    label->setBorderOffset(Vec2f(0,0));
-    label->setShadowOffset(Vec2f(4,4));
+    label->setBorderOffset(OSG::Vec2f(0,0));
+    label->setShadowOffset(OSG::Vec2f(4,4));
     label->setMargin(marg);
 }
 
-NodeTransitPtr createLabeledTorus(Vec3f trans, int idx)
+OSG::NodeTransitPtr createLabeledTorus(OSG::Vec3f trans, int idx)
 {
-    NodeTransitPtr  node  = Node::create();
-    TransformRefPtr xform = Transform::create();
-    Matrix          mat;
+    OSG::NodeTransitPtr  node  = OSG::Node::create();
+    OSG::TransformRefPtr xform = OSG::Transform::create();
+    OSG::Matrix          mat;
 
     // --- setup transform ------------------
     mat.setIdentity();
@@ -114,47 +116,48 @@ NodeTransitPtr createLabeledTorus(Vec3f trans, int idx)
 
 
     // --- setup label ----------------------
-    NodeRefPtr  labelNode = Node::create();
-    LabelRefPtr label     = (idx) ? createTextLabel(idx) : createIconLabel();
+    OSG::NodeRefPtr  labelNode = OSG::Node::create();
+    OSG::LabelRefPtr label     = 
+        (idx) ? createTextLabel(idx) : createIconLabel();
 
     updateLabelParams(label, idx);
     labelNode->setCore(label);
 
     // --- add torus ------------------------
-    labelNode->addChild(makeTorus(.5, 2, 16, 16));
+    labelNode->addChild(OSG::makeTorus(.5, 2, 16, 16));
 
     node->addChild(labelNode);
     return node;
 }
 
-NodeTransitPtr createLabeledScene(void)
+OSG::NodeTransitPtr createLabeledScene(void)
 {
-    NodeTransitPtr scene = Node::create();
-    scene->setCore(Group::create());
+    OSG::NodeTransitPtr scene = OSG::Node::create();
+    scene->setCore(OSG::Group::create());
 
 #if 0
-    scene->addChild(createLabeledTorus(Vec3f( 1, 3, 0), 0));
-    scene->addChild(createLabeledTorus(Vec3f( 2, 3, 0), 0));
-    scene->addChild(createLabeledTorus(Vec3f( 4, 3, 0), 0));
+    scene->addChild(createLabeledTorus(OSG::Vec3f( 1, 3, 0), 0));
+    scene->addChild(createLabeledTorus(OSG::Vec3f( 2, 3, 0), 0));
+    scene->addChild(createLabeledTorus(OSG::Vec3f( 4, 3, 0), 0));
 #endif
-    scene->addChild(createLabeledTorus(Vec3f( 3, 3, 0), 0));
-    scene->addChild(createLabeledTorus(Vec3f( 3,-3, 0), 1));
-    scene->addChild(createLabeledTorus(Vec3f(-3, 3, 0), 2));
-    scene->addChild(createLabeledTorus(Vec3f(-3,-3, 0), 3));
+    scene->addChild(createLabeledTorus(OSG::Vec3f( 3, 3, 0), 0));
+    scene->addChild(createLabeledTorus(OSG::Vec3f( 3,-3, 0), 1));
+    scene->addChild(createLabeledTorus(OSG::Vec3f(-3, 3, 0), 2));
+    scene->addChild(createLabeledTorus(OSG::Vec3f(-3,-3, 0), 3));
 
     return scene;
 }
 
-NodeTransitPtr createScene(void)
+OSG::NodeTransitPtr createScene(void)
 {
     // create the scene:
-    TransformTransitPtr xform = Transform::create();
+    OSG::TransformTransitPtr xform = OSG::Transform::create();
 
-    Matrix mat;
-    mat.setTranslate(Vec3f(2,0,0));
+    OSG::Matrix mat;
+    mat.setTranslate(OSG::Vec3f(2,0,0));
     xform->setMatrix(mat);
 
-    NodeTransitPtr scene = Node::create();
+    OSG::NodeTransitPtr scene = OSG::Node::create();
     scene->addChild(createLabeledScene());
     scene->setCore(xform);
 
@@ -168,20 +171,20 @@ NodeTransitPtr createScene(void)
 int main(int argc, char **argv)
 {
     // OSG init
-    osgInit(argc,argv);
+    OSG::osgInit(argc,argv);
 
     // GLUT init
     int winid = setupGLUT(&argc, argv);
 
     // the connection between GLUT and OpenSG
-    g_win= GLUTWindow::create();
+    g_win= OSG::GLUTWindow::create();
     g_win->setGlutId(winid);
     g_win->init();
 
     g_scene = createScene();
 
     // create the SimpleSceneManager helper
-    g_mgr = new SimpleSceneManager;
+    g_mgr = new OSG::SimpleSceneManager;
     g_mgr->setUseTraversalAction(true);
 
     // tell the manager what to manage
@@ -189,7 +192,7 @@ int main(int argc, char **argv)
     g_mgr->setRoot  (g_scene);
 
     // add LabelForeground!!!
-    g_labelForeground = LabelForeground::create();
+    g_labelForeground = OSG::LabelForeground::create();
     g_mgr->addForeground(g_labelForeground);
 
     // show the whole scene
@@ -210,7 +213,7 @@ void display(void)
 {
     g_mgr->idle();
     g_mgr->redraw();
-    Thread::getCurrentChangeList()->clear();
+    OSG::Thread::getCurrentChangeList()->clear();
 }
 
 // react to size changes
@@ -251,10 +254,10 @@ void keyboard(unsigned char k, int , int )
             exit(0);
         break;
         case 'f':
-            g_mgr->setNavigationMode(Navigator::FLY);
+            g_mgr->setNavigationMode(OSG::Navigator::FLY);
         break;
         case 't':
-            g_mgr->setNavigationMode(Navigator::TRACKBALL);
+            g_mgr->setNavigationMode(OSG::Navigator::TRACKBALL);
         break;
         case 'q':
             g_mgr->setStatistics(true);
