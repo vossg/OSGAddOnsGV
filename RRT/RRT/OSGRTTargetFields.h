@@ -66,20 +66,11 @@ OSG_BEGIN_NAMESPACE
 
 class RTTarget;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! RTTargetPtr
-
 OSG_GEN_CONTAINERPTR(RTTarget);
 
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 /*! \ingroup GrpContribRRTFieldTraits
+    \ingroup GrpLibOSGContribRRT
  */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
 template <>
 struct FieldTraits<RTTarget *> :
     public FieldTraitsFCPtrBase<RTTarget *>
@@ -127,28 +118,46 @@ const Char8 *FieldTraits<RTTarget *, 0>::getSName<NoRefCountPolicy>(void)
 }
 
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<RTTargetPtr, 0>
-    \hideinhierarchy
- */
-#endif
 
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribRRTFieldSingle */
-
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTarget *,
                       RecordedRefCountPolicy  > SFRecRTTargetPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTarget *,
                       UnrecordedRefCountPolicy> SFUnrecRTTargetPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTarget *,
                       WeakRefCountPolicy      > SFWeakRTTargetPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTarget *,
                       NoRefCountPolicy        > SFUncountedRTTargetPtr;
-#endif
 
+
+
+
+#else // these are the doxygen hacks
+
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFRecRTTargetPtr : 
+    public PointerSField<RTTarget *,
+                         RecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFUnrecRTTargetPtr : 
+    public PointerSField<RTTarget *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFWeakRTTargetPtr :
+    public PointerSField<RTTarget *,
+                         WeakRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFUncountedRTTargetPtr :
+    public PointerSField<RTTarget *,
+                         NoRefCountPolicy> {};
+
+
+
+#endif // these are the doxygen hacks
 
 OSG_END_NAMESPACE
 

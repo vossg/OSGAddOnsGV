@@ -66,20 +66,11 @@ OSG_BEGIN_NAMESPACE
 
 class RTCacheAttachment;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! RTCacheAttachmentPtr
-
 OSG_GEN_CONTAINERPTR(RTCacheAttachment);
 
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 /*! \ingroup GrpContribRRTFieldTraits
+    \ingroup GrpLibOSGContribRRT
  */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
 template <>
 struct FieldTraits<RTCacheAttachment *> :
     public FieldTraitsFCPtrBase<RTCacheAttachment *>
@@ -154,42 +145,78 @@ const Char8 *FieldTraits<RTCacheAttachment *, 0>::getMName<NoRefCountPolicy>(voi
     return "MFUnrefdRTCacheAttachmentPtr"; 
 }
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<RTCacheAttachmentPtr, 0>
-    \hideinhierarchy
- */
-#endif
 
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribRRTFieldSingle */
-
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheAttachment *,
                       RecordedRefCountPolicy  > SFRecRTCacheAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheAttachment *,
                       UnrecordedRefCountPolicy> SFUnrecRTCacheAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheAttachment *,
                       WeakRefCountPolicy      > SFWeakRTCacheAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheAttachment *,
                       NoRefCountPolicy        > SFUncountedRTCacheAttachmentPtr;
-#endif
 
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribRRTFieldMulti */
-
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheAttachment *,
                       RecordedRefCountPolicy  > MFRecRTCacheAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheAttachment *,
                       UnrecordedRefCountPolicy> MFUnrecRTCacheAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheAttachment *,
                       WeakRefCountPolicy      > MFWeakRTCacheAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheAttachment *,
                       NoRefCountPolicy        > MFUncountedRTCacheAttachmentPtr;
-#endif
 
+
+
+
+#else // these are the doxygen hacks
+
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFRecRTCacheAttachmentPtr : 
+    public PointerSField<RTCacheAttachment *,
+                         RecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFUnrecRTCacheAttachmentPtr : 
+    public PointerSField<RTCacheAttachment *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFWeakRTCacheAttachmentPtr :
+    public PointerSField<RTCacheAttachment *,
+                         WeakRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFUncountedRTCacheAttachmentPtr :
+    public PointerSField<RTCacheAttachment *,
+                         NoRefCountPolicy> {};
+
+
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFRecRTCacheAttachmentPtr :
+    public PointerMField<RTCacheAttachment *,
+                         RecordedRefCountPolicy  > {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFUnrecRTCacheAttachmentPtr :
+    public PointerMField<RTCacheAttachment *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFWeakRTCacheAttachmentPtr :
+    public PointerMField<RTCacheAttachment *,
+                         WeakRefCountPolicy      > {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFUncountedRTCacheAttachmentPtr :
+    public PointerMField<RTCacheAttachment *,
+                         NoRefCountPolicy        > {};
+
+
+
+#endif // these are the doxygen hacks
 
 OSG_END_NAMESPACE
 

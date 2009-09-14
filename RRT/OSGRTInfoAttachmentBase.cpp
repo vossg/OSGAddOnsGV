@@ -78,6 +78,15 @@ OSG_BEGIN_NAMESPACE
     The base class for statistics attachments.
  */
 
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
+
+
+void RTInfoAttachmentBase::classDescInserter(TypeObject &oType)
+{
+}
+
 
 RTInfoAttachmentBase::TypeObject RTInfoAttachmentBase::_type(
     RTInfoAttachmentBase::getClassname(),
@@ -87,7 +96,7 @@ RTInfoAttachmentBase::TypeObject RTInfoAttachmentBase::_type(
     reinterpret_cast<PrototypeCreateF>(&RTInfoAttachmentBase::createEmptyLocal),
     RTInfoAttachment::initMethod,
     RTInfoAttachment::exitMethod,
-    NULL,
+    reinterpret_cast<InitalInsertDescFunc>(&RTInfoAttachment::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

@@ -78,6 +78,15 @@ OSG_BEGIN_NAMESPACE
     
  */
 
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
+
+
+void RTCameraDecoratorBase::classDescInserter(TypeObject &oType)
+{
+}
+
 
 RTCameraDecoratorBase::TypeObject RTCameraDecoratorBase::_type(
     RTCameraDecoratorBase::getClassname(),
@@ -87,7 +96,7 @@ RTCameraDecoratorBase::TypeObject RTCameraDecoratorBase::_type(
     reinterpret_cast<PrototypeCreateF>(&RTCameraDecoratorBase::createEmptyLocal),
     RTCameraDecorator::initMethod,
     RTCameraDecorator::exitMethod,
-    NULL,
+    reinterpret_cast<InitalInsertDescFunc>(&RTCameraDecorator::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

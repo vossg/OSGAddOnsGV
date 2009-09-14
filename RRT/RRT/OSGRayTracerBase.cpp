@@ -164,7 +164,7 @@ RayTracerBase::TypeObject RayTracerBase::_type(
     reinterpret_cast<PrototypeCreateF>(&RayTracerBase::createEmptyLocal),
     RayTracer::initMethod,
     RayTracer::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&RayTracerBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&RayTracer::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
@@ -532,7 +532,8 @@ GetFieldHandlePtr RayTracerBase::getHandleRayTracingRoot  (void) const
     SFWeakNodePtr::GetHandlePtr returnValue(
         new  SFWeakNodePtr::GetHandle(
              &_sfRayTracingRoot,
-             this->getType().getFieldDesc(RayTracingRootFieldId)));
+             this->getType().getFieldDesc(RayTracingRootFieldId),
+             const_cast<RayTracerBase *>(this)));
 
     return returnValue;
 }
@@ -542,7 +543,8 @@ EditFieldHandlePtr RayTracerBase::editHandleRayTracingRoot (void)
     SFWeakNodePtr::EditHandlePtr returnValue(
         new  SFWeakNodePtr::EditHandle(
              &_sfRayTracingRoot,
-             this->getType().getFieldDesc(RayTracingRootFieldId)));
+             this->getType().getFieldDesc(RayTracingRootFieldId),
+             this));
 
     returnValue->setSetMethod(
         boost::bind(&RayTracer::setRayTracingRoot,
@@ -558,7 +560,8 @@ GetFieldHandlePtr RayTracerBase::getHandleBackgroundRoot  (void) const
     SFUnrecNodePtr::GetHandlePtr returnValue(
         new  SFUnrecNodePtr::GetHandle(
              &_sfBackgroundRoot,
-             this->getType().getFieldDesc(BackgroundRootFieldId)));
+             this->getType().getFieldDesc(BackgroundRootFieldId),
+             const_cast<RayTracerBase *>(this)));
 
     return returnValue;
 }
@@ -568,7 +571,8 @@ EditFieldHandlePtr RayTracerBase::editHandleBackgroundRoot (void)
     SFUnrecNodePtr::EditHandlePtr returnValue(
         new  SFUnrecNodePtr::EditHandle(
              &_sfBackgroundRoot,
-             this->getType().getFieldDesc(BackgroundRootFieldId)));
+             this->getType().getFieldDesc(BackgroundRootFieldId),
+             this));
 
     returnValue->setSetMethod(
         boost::bind(&RayTracer::setBackgroundRoot,
@@ -584,7 +588,8 @@ GetFieldHandlePtr RayTracerBase::getHandleWidth           (void) const
     SFUInt32::GetHandlePtr returnValue(
         new  SFUInt32::GetHandle(
              &_sfWidth,
-             this->getType().getFieldDesc(WidthFieldId)));
+             this->getType().getFieldDesc(WidthFieldId),
+             const_cast<RayTracerBase *>(this)));
 
     return returnValue;
 }
@@ -594,7 +599,8 @@ EditFieldHandlePtr RayTracerBase::editHandleWidth          (void)
     SFUInt32::EditHandlePtr returnValue(
         new  SFUInt32::EditHandle(
              &_sfWidth,
-             this->getType().getFieldDesc(WidthFieldId)));
+             this->getType().getFieldDesc(WidthFieldId),
+             this));
 
 
     editSField(WidthFieldMask);
@@ -607,7 +613,8 @@ GetFieldHandlePtr RayTracerBase::getHandleHeight          (void) const
     SFUInt32::GetHandlePtr returnValue(
         new  SFUInt32::GetHandle(
              &_sfHeight,
-             this->getType().getFieldDesc(HeightFieldId)));
+             this->getType().getFieldDesc(HeightFieldId),
+             const_cast<RayTracerBase *>(this)));
 
     return returnValue;
 }
@@ -617,7 +624,8 @@ EditFieldHandlePtr RayTracerBase::editHandleHeight         (void)
     SFUInt32::EditHandlePtr returnValue(
         new  SFUInt32::EditHandle(
              &_sfHeight,
-             this->getType().getFieldDesc(HeightFieldId)));
+             this->getType().getFieldDesc(HeightFieldId),
+             this));
 
 
     editSField(HeightFieldMask);
@@ -674,5 +682,6 @@ void RayTracerBase::resolveLinks(void)
 DataType FieldTraits<RayTracer *>::_type("RayTracerPtr", "FieldContainerPtr");
 #endif
 
+OSG_FIELDTRAITS_GETTYPE(RayTracer *)
 
 OSG_END_NAMESPACE

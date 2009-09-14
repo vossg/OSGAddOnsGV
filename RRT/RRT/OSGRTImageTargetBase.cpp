@@ -115,7 +115,7 @@ RTImageTargetBase::TypeObject RTImageTargetBase::_type(
     reinterpret_cast<PrototypeCreateF>(&RTImageTargetBase::createEmptyLocal),
     RTImageTarget::initMethod,
     RTImageTarget::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&RTImageTargetBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&RTImageTarget::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
@@ -375,7 +375,8 @@ GetFieldHandlePtr RTImageTargetBase::getHandleImage           (void) const
     SFUnrecImagePtr::GetHandlePtr returnValue(
         new  SFUnrecImagePtr::GetHandle(
              &_sfImage,
-             this->getType().getFieldDesc(ImageFieldId)));
+             this->getType().getFieldDesc(ImageFieldId),
+             const_cast<RTImageTargetBase *>(this)));
 
     return returnValue;
 }
@@ -385,7 +386,8 @@ EditFieldHandlePtr RTImageTargetBase::editHandleImage          (void)
     SFUnrecImagePtr::EditHandlePtr returnValue(
         new  SFUnrecImagePtr::EditHandle(
              &_sfImage,
-             this->getType().getFieldDesc(ImageFieldId)));
+             this->getType().getFieldDesc(ImageFieldId),
+             this));
 
     returnValue->setSetMethod(
         boost::bind(&RTImageTarget::setImage,

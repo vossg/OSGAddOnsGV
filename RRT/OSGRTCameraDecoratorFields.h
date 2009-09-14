@@ -66,20 +66,11 @@ OSG_BEGIN_NAMESPACE
 
 class RTCameraDecorator;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! RTCameraDecoratorPtr
-
 OSG_GEN_CONTAINERPTR(RTCameraDecorator);
 
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 /*! \ingroup GrpContribRRTFieldTraits
+    \ingroup GrpLibOSGContribRRT
  */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
 template <>
 struct FieldTraits<RTCameraDecorator *> :
     public FieldTraitsFCPtrBase<RTCameraDecorator *>
@@ -154,42 +145,78 @@ const Char8 *FieldTraits<RTCameraDecorator *, 0>::getMName<NoRefCountPolicy>(voi
     return "MFUnrefdRTCameraDecoratorPtr"; 
 }
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<RTCameraDecoratorPtr, 0>
-    \hideinhierarchy
- */
-#endif
 
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribRRTFieldSingle */
-
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCameraDecorator *,
                       RecordedRefCountPolicy  > SFRecRTCameraDecoratorPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCameraDecorator *,
                       UnrecordedRefCountPolicy> SFUnrecRTCameraDecoratorPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCameraDecorator *,
                       WeakRefCountPolicy      > SFWeakRTCameraDecoratorPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCameraDecorator *,
                       NoRefCountPolicy        > SFUncountedRTCameraDecoratorPtr;
-#endif
 
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribRRTFieldMulti */
-
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCameraDecorator *,
                       RecordedRefCountPolicy  > MFRecRTCameraDecoratorPtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCameraDecorator *,
                       UnrecordedRefCountPolicy> MFUnrecRTCameraDecoratorPtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCameraDecorator *,
                       WeakRefCountPolicy      > MFWeakRTCameraDecoratorPtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCameraDecorator *,
                       NoRefCountPolicy        > MFUncountedRTCameraDecoratorPtr;
-#endif
 
+
+
+
+#else // these are the doxygen hacks
+
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFRecRTCameraDecoratorPtr : 
+    public PointerSField<RTCameraDecorator *,
+                         RecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFUnrecRTCameraDecoratorPtr : 
+    public PointerSField<RTCameraDecorator *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFWeakRTCameraDecoratorPtr :
+    public PointerSField<RTCameraDecorator *,
+                         WeakRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFUncountedRTCameraDecoratorPtr :
+    public PointerSField<RTCameraDecorator *,
+                         NoRefCountPolicy> {};
+
+
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFRecRTCameraDecoratorPtr :
+    public PointerMField<RTCameraDecorator *,
+                         RecordedRefCountPolicy  > {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFUnrecRTCameraDecoratorPtr :
+    public PointerMField<RTCameraDecorator *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFWeakRTCameraDecoratorPtr :
+    public PointerMField<RTCameraDecorator *,
+                         WeakRefCountPolicy      > {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFUncountedRTCameraDecoratorPtr :
+    public PointerMField<RTCameraDecorator *,
+                         NoRefCountPolicy        > {};
+
+
+
+#endif // these are the doxygen hacks
 
 OSG_END_NAMESPACE
 

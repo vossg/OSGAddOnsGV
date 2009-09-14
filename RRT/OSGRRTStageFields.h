@@ -66,20 +66,11 @@ OSG_BEGIN_NAMESPACE
 
 class RRTStage;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! RRTStagePtr
-
 OSG_GEN_CONTAINERPTR(RRTStage);
 
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 /*! \ingroup GrpContribRRTFieldTraits
+    \ingroup GrpLibOSGContribRRT
  */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
 template <>
 struct FieldTraits<RRTStage *> :
     public FieldTraitsFCPtrBase<RRTStage *>
@@ -93,19 +84,23 @@ struct FieldTraits<RRTStage *> :
     typedef FieldTraits<RRTStage *>  Self;
 
     enum                        { Convertible = NotConvertible };
+
+    static OSG_CONTRIBRRT_DLLMAPPING DataType &getType(void);
+
 };
 
 
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<RRTStagePtr, 0>
-    \hideinhierarchy
- */
-#endif
 
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 
+
+#else // these are the doxygen hacks
+
+
+
+#endif // these are the doxygen hacks
 
 OSG_END_NAMESPACE
 

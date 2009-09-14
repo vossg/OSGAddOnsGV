@@ -148,7 +148,7 @@ RTCacheGeometryStoreBase::TypeObject RTCacheGeometryStoreBase::_type(
     reinterpret_cast<PrototypeCreateF>(&RTCacheGeometryStoreBase::createEmptyLocal),
     RTCacheGeometryStore::initMethod,
     RTCacheGeometryStore::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&RTCacheGeometryStoreBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&RTCacheGeometryStore::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
@@ -482,7 +482,8 @@ GetFieldHandlePtr RTCacheGeometryStoreBase::getHandleGeo             (void) cons
     SFUnrecGeometryPtr::GetHandlePtr returnValue(
         new  SFUnrecGeometryPtr::GetHandle(
              &_sfGeo,
-             this->getType().getFieldDesc(GeoFieldId)));
+             this->getType().getFieldDesc(GeoFieldId),
+             const_cast<RTCacheGeometryStoreBase *>(this)));
 
     return returnValue;
 }
@@ -492,7 +493,8 @@ EditFieldHandlePtr RTCacheGeometryStoreBase::editHandleGeo            (void)
     SFUnrecGeometryPtr::EditHandlePtr returnValue(
         new  SFUnrecGeometryPtr::EditHandle(
              &_sfGeo,
-             this->getType().getFieldDesc(GeoFieldId)));
+             this->getType().getFieldDesc(GeoFieldId),
+             this));
 
     returnValue->setSetMethod(
         boost::bind(&RTCacheGeometryStore::setGeo,
@@ -508,7 +510,8 @@ GetFieldHandlePtr RTCacheGeometryStoreBase::getHandleMatrix          (void) cons
     SFMatrix::GetHandlePtr returnValue(
         new  SFMatrix::GetHandle(
              &_sfMatrix,
-             this->getType().getFieldDesc(MatrixFieldId)));
+             this->getType().getFieldDesc(MatrixFieldId),
+             const_cast<RTCacheGeometryStoreBase *>(this)));
 
     return returnValue;
 }
@@ -518,7 +521,8 @@ EditFieldHandlePtr RTCacheGeometryStoreBase::editHandleMatrix         (void)
     SFMatrix::EditHandlePtr returnValue(
         new  SFMatrix::EditHandle(
              &_sfMatrix,
-             this->getType().getFieldDesc(MatrixFieldId)));
+             this->getType().getFieldDesc(MatrixFieldId),
+             this));
 
 
     editSField(MatrixFieldMask);
@@ -531,7 +535,8 @@ GetFieldHandlePtr RTCacheGeometryStoreBase::getHandleState           (void) cons
     SFUnrecStatePtr::GetHandlePtr returnValue(
         new  SFUnrecStatePtr::GetHandle(
              &_sfState,
-             this->getType().getFieldDesc(StateFieldId)));
+             this->getType().getFieldDesc(StateFieldId),
+             const_cast<RTCacheGeometryStoreBase *>(this)));
 
     return returnValue;
 }
@@ -541,7 +546,8 @@ EditFieldHandlePtr RTCacheGeometryStoreBase::editHandleState          (void)
     SFUnrecStatePtr::EditHandlePtr returnValue(
         new  SFUnrecStatePtr::EditHandle(
              &_sfState,
-             this->getType().getFieldDesc(StateFieldId)));
+             this->getType().getFieldDesc(StateFieldId),
+             this));
 
     returnValue->setSetMethod(
         boost::bind(&RTCacheGeometryStore::setState,

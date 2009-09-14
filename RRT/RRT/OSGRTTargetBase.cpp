@@ -130,7 +130,7 @@ RTTargetBase::TypeObject RTTargetBase::_type(
     reinterpret_cast<PrototypeCreateF>(&RTTargetBase::createEmptyLocal),
     RTTarget::initMethod,
     RTTarget::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&RTTargetBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&RTTarget::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
@@ -414,7 +414,8 @@ GetFieldHandlePtr RTTargetBase::getHandleWidth           (void) const
     SFUInt32::GetHandlePtr returnValue(
         new  SFUInt32::GetHandle(
              &_sfWidth,
-             this->getType().getFieldDesc(WidthFieldId)));
+             this->getType().getFieldDesc(WidthFieldId),
+             const_cast<RTTargetBase *>(this)));
 
     return returnValue;
 }
@@ -424,7 +425,8 @@ EditFieldHandlePtr RTTargetBase::editHandleWidth          (void)
     SFUInt32::EditHandlePtr returnValue(
         new  SFUInt32::EditHandle(
              &_sfWidth,
-             this->getType().getFieldDesc(WidthFieldId)));
+             this->getType().getFieldDesc(WidthFieldId),
+             this));
 
 
     editSField(WidthFieldMask);
@@ -437,7 +439,8 @@ GetFieldHandlePtr RTTargetBase::getHandleHeight          (void) const
     SFUInt32::GetHandlePtr returnValue(
         new  SFUInt32::GetHandle(
              &_sfHeight,
-             this->getType().getFieldDesc(HeightFieldId)));
+             this->getType().getFieldDesc(HeightFieldId),
+             const_cast<RTTargetBase *>(this)));
 
     return returnValue;
 }
@@ -447,7 +450,8 @@ EditFieldHandlePtr RTTargetBase::editHandleHeight         (void)
     SFUInt32::EditHandlePtr returnValue(
         new  SFUInt32::EditHandle(
              &_sfHeight,
-             this->getType().getFieldDesc(HeightFieldId)));
+             this->getType().getFieldDesc(HeightFieldId),
+             this));
 
 
     editSField(HeightFieldMask);

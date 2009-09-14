@@ -66,20 +66,11 @@ OSG_BEGIN_NAMESPACE
 
 class RTInfoAttachment;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! RTInfoAttachmentPtr
-
 OSG_GEN_CONTAINERPTR(RTInfoAttachment);
 
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 /*! \ingroup GrpContribRRTFieldTraits
+    \ingroup GrpLibOSGContribRRT
  */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
 template <>
 struct FieldTraits<RTInfoAttachment *> :
     public FieldTraitsFCPtrBase<RTInfoAttachment *>
@@ -154,42 +145,78 @@ const Char8 *FieldTraits<RTInfoAttachment *, 0>::getMName<NoRefCountPolicy>(void
     return "MFUnrefdRTInfoAttachmentPtr"; 
 }
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<RTInfoAttachmentPtr, 0>
-    \hideinhierarchy
- */
-#endif
 
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribRRTFieldSingle */
-
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTInfoAttachment *,
                       RecordedRefCountPolicy  > SFRecRTInfoAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTInfoAttachment *,
                       UnrecordedRefCountPolicy> SFUnrecRTInfoAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTInfoAttachment *,
                       WeakRefCountPolicy      > SFWeakRTInfoAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTInfoAttachment *,
                       NoRefCountPolicy        > SFUncountedRTInfoAttachmentPtr;
-#endif
 
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribRRTFieldMulti */
-
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTInfoAttachment *,
                       RecordedRefCountPolicy  > MFRecRTInfoAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTInfoAttachment *,
                       UnrecordedRefCountPolicy> MFUnrecRTInfoAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTInfoAttachment *,
                       WeakRefCountPolicy      > MFWeakRTInfoAttachmentPtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTInfoAttachment *,
                       NoRefCountPolicy        > MFUncountedRTInfoAttachmentPtr;
-#endif
 
+
+
+
+#else // these are the doxygen hacks
+
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFRecRTInfoAttachmentPtr : 
+    public PointerSField<RTInfoAttachment *,
+                         RecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFUnrecRTInfoAttachmentPtr : 
+    public PointerSField<RTInfoAttachment *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFWeakRTInfoAttachmentPtr :
+    public PointerSField<RTInfoAttachment *,
+                         WeakRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFUncountedRTInfoAttachmentPtr :
+    public PointerSField<RTInfoAttachment *,
+                         NoRefCountPolicy> {};
+
+
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFRecRTInfoAttachmentPtr :
+    public PointerMField<RTInfoAttachment *,
+                         RecordedRefCountPolicy  > {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFUnrecRTInfoAttachmentPtr :
+    public PointerMField<RTInfoAttachment *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFWeakRTInfoAttachmentPtr :
+    public PointerMField<RTInfoAttachment *,
+                         WeakRefCountPolicy      > {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFUncountedRTInfoAttachmentPtr :
+    public PointerMField<RTInfoAttachment *,
+                         NoRefCountPolicy        > {};
+
+
+
+#endif // these are the doxygen hacks
 
 OSG_END_NAMESPACE
 

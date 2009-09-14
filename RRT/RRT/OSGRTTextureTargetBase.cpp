@@ -115,7 +115,7 @@ RTTextureTargetBase::TypeObject RTTextureTargetBase::_type(
     reinterpret_cast<PrototypeCreateF>(&RTTextureTargetBase::createEmptyLocal),
     RTTextureTarget::initMethod,
     RTTextureTarget::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&RTTextureTargetBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&RTTextureTarget::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
@@ -375,7 +375,8 @@ GetFieldHandlePtr RTTextureTargetBase::getHandleTexObjChunk     (void) const
     SFUnrecTextureObjChunkPtr::GetHandlePtr returnValue(
         new  SFUnrecTextureObjChunkPtr::GetHandle(
              &_sfTexObjChunk,
-             this->getType().getFieldDesc(TexObjChunkFieldId)));
+             this->getType().getFieldDesc(TexObjChunkFieldId),
+             const_cast<RTTextureTargetBase *>(this)));
 
     return returnValue;
 }
@@ -385,7 +386,8 @@ EditFieldHandlePtr RTTextureTargetBase::editHandleTexObjChunk    (void)
     SFUnrecTextureObjChunkPtr::EditHandlePtr returnValue(
         new  SFUnrecTextureObjChunkPtr::EditHandle(
              &_sfTexObjChunk,
-             this->getType().getFieldDesc(TexObjChunkFieldId)));
+             this->getType().getFieldDesc(TexObjChunkFieldId),
+             this));
 
     returnValue->setSetMethod(
         boost::bind(&RTTextureTarget::setTexObjChunk,

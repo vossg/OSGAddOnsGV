@@ -66,20 +66,11 @@ OSG_BEGIN_NAMESPACE
 
 class RTCacheGeometryStore;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! RTCacheGeometryStorePtr
-
 OSG_GEN_CONTAINERPTR(RTCacheGeometryStore);
 
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 /*! \ingroup GrpContribRRTFieldTraits
+    \ingroup GrpLibOSGContribRRT
  */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
 template <>
 struct FieldTraits<RTCacheGeometryStore *> :
     public FieldTraitsFCPtrBase<RTCacheGeometryStore *>
@@ -154,42 +145,78 @@ const Char8 *FieldTraits<RTCacheGeometryStore *, 0>::getMName<NoRefCountPolicy>(
     return "MFUnrefdRTCacheGeometryStorePtr"; 
 }
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<RTCacheGeometryStorePtr, 0>
-    \hideinhierarchy
- */
-#endif
 
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribRRTFieldSingle */
-
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheGeometryStore *,
                       RecordedRefCountPolicy  > SFRecRTCacheGeometryStorePtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheGeometryStore *,
                       UnrecordedRefCountPolicy> SFUnrecRTCacheGeometryStorePtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheGeometryStore *,
                       WeakRefCountPolicy      > SFWeakRTCacheGeometryStorePtr;
+/*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheGeometryStore *,
                       NoRefCountPolicy        > SFUncountedRTCacheGeometryStorePtr;
-#endif
 
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribRRTFieldMulti */
-
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheGeometryStore *,
                       RecordedRefCountPolicy  > MFRecRTCacheGeometryStorePtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheGeometryStore *,
                       UnrecordedRefCountPolicy> MFUnrecRTCacheGeometryStorePtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheGeometryStore *,
                       WeakRefCountPolicy      > MFWeakRTCacheGeometryStorePtr;
+/*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheGeometryStore *,
                       NoRefCountPolicy        > MFUncountedRTCacheGeometryStorePtr;
-#endif
 
+
+
+
+#else // these are the doxygen hacks
+
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFRecRTCacheGeometryStorePtr : 
+    public PointerSField<RTCacheGeometryStore *,
+                         RecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFUnrecRTCacheGeometryStorePtr : 
+    public PointerSField<RTCacheGeometryStore *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFWeakRTCacheGeometryStorePtr :
+    public PointerSField<RTCacheGeometryStore *,
+                         WeakRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldSFields \ingroup GrpLibOSGContribRRT */
+struct SFUncountedRTCacheGeometryStorePtr :
+    public PointerSField<RTCacheGeometryStore *,
+                         NoRefCountPolicy> {};
+
+
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFRecRTCacheGeometryStorePtr :
+    public PointerMField<RTCacheGeometryStore *,
+                         RecordedRefCountPolicy  > {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFUnrecRTCacheGeometryStorePtr :
+    public PointerMField<RTCacheGeometryStore *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFWeakRTCacheGeometryStorePtr :
+    public PointerMField<RTCacheGeometryStore *,
+                         WeakRefCountPolicy      > {};
+/*! \ingroup GrpContribRRTFieldMFields \ingroup GrpLibOSGContribRRT */
+struct MFUncountedRTCacheGeometryStorePtr :
+    public PointerMField<RTCacheGeometryStore *,
+                         NoRefCountPolicy        > {};
+
+
+
+#endif // these are the doxygen hacks
 
 OSG_END_NAMESPACE
 

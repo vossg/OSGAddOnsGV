@@ -78,6 +78,15 @@ OSG_BEGIN_NAMESPACE
     rt cache attachment
  */
 
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
+
+
+void RTCacheAttachmentBase::classDescInserter(TypeObject &oType)
+{
+}
+
 
 RTCacheAttachmentBase::TypeObject RTCacheAttachmentBase::_type(
     RTCacheAttachmentBase::getClassname(),
@@ -87,7 +96,7 @@ RTCacheAttachmentBase::TypeObject RTCacheAttachmentBase::_type(
     reinterpret_cast<PrototypeCreateF>(&RTCacheAttachmentBase::createEmptyLocal),
     RTCacheAttachment::initMethod,
     RTCacheAttachment::exitMethod,
-    NULL,
+    reinterpret_cast<InitalInsertDescFunc>(&RTCacheAttachment::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
