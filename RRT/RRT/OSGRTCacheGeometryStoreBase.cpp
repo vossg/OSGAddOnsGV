@@ -50,9 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-
-#define OSG_COMPILERTCACHEGEOMETRYSTOREINST
-
 #include <cstdlib>
 #include <cstdio>
 #include <boost/assign/list_of.hpp>
@@ -68,6 +65,10 @@
 #include "OSGRTCacheGeometryStore.h"
 
 #include "boost/bind.hpp"
+
+#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable:4355)
+#endif
 
 OSG_BEGIN_NAMESPACE
 

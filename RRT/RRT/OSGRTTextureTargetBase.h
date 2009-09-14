@@ -101,6 +101,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTextureTargetBase : public RTTarget
         (TypeTraits<BitVector>::One << TexObjChunkFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFUnrecTextureObjChunkPtr SFTexObjChunkType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */

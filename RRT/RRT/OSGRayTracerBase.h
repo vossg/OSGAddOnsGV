@@ -113,6 +113,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RayTracerBase : public FieldContainer
         (TypeTraits<BitVector>::One << HeightFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFWeakNodePtr     SFRayTracingRootType;
+    typedef SFUnrecNodePtr    SFBackgroundRootType;
+    typedef SFUInt32          SFWidthType;
+    typedef SFUInt32          SFHeightType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */

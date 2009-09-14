@@ -101,6 +101,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTImageTargetBase : public RTTarget
         (TypeTraits<BitVector>::One << ImageFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFUnrecImagePtr   SFImageType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */

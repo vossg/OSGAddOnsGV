@@ -105,6 +105,9 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldContainer
         (TypeTraits<BitVector>::One << HeightFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFUInt32          SFWidthType;
+    typedef SFUInt32          SFHeightType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */

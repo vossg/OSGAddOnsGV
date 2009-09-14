@@ -125,6 +125,14 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
         (TypeTraits<BitVector>::One << RTCameraFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFUnrecNodePtr    SFBackgroundRootType;
+    typedef SFUnrecTextureObjChunkPtr SFTextureTargetType;
+    typedef SFUInt32          SFWidthType;
+    typedef SFUInt32          SFHeightType;
+    typedef SFBool            SFSplitThreadsType;
+    typedef SFBool            SFTiledType;
+    typedef SFUnrecRTCameraDecoratorPtr SFRTCameraType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */

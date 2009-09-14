@@ -109,6 +109,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
         (TypeTraits<BitVector>::One << StateFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFUnrecGeometryPtr SFGeoType;
+    typedef SFMatrix          SFMatrixType;
+    typedef SFUnrecStatePtr   SFStateType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
