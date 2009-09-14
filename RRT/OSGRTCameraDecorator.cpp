@@ -542,7 +542,7 @@ UInt32 RTCameraDecorator::fillRayStores(
     Vec3f vUp   (mCam[1][0], mCam[1][1], mCam[1][2]);
     Vec3f vDir  (0.f, 0.f, -1.f);
 
-    mCam.mult(vDir);
+    mCam.mult(vDir, vDir);
 
     vRight *= rVOff;
     vUp    *= rHOff;
@@ -605,7 +605,7 @@ UInt32 RTCameraDecorator::fillRayStores(
     Pnt3f vOrigin(mCam[3][0], mCam[3][1], mCam[3][2]);
     Vec3f vDir   (       0.f,        0.f,       -1.f);
 
-    mCam.mult(vDir);
+    mCam.mult(vDir, vDir);
     vDir.normalize();
 
     vRight *= rVSize;
