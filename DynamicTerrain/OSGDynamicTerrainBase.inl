@@ -85,7 +85,7 @@ Int32 &DynamicTerrainBase::editLevelSize(void)
 
 //! Get the value of the DynamicTerrain::_sfLevelSize field.
 inline
-const Int32 &DynamicTerrainBase::getLevelSize(void) const
+const Int32 DynamicTerrainBase::getLevelSize(void) const
 {
     return _sfLevelSize.getValue();
 }
@@ -109,19 +109,18 @@ void DynamicTerrainBase::setLevelSize(const Int32 &value)
 
 //! Get the value of the DynamicTerrain::_sfHeightData field.
 inline
-ImagePtr DynamicTerrainBase::getHeightData(void) const
+Image * DynamicTerrainBase::getHeightData(void) const
 {
     return _sfHeightData.getValue();
 }
 
 //! Set the value of the DynamicTerrain::_sfHeightData field.
 inline
-void DynamicTerrainBase::setHeightData(const ImagePtr value)
+void DynamicTerrainBase::setHeightData(Image * const value)
 {
     editSField(HeightDataFieldMask);
 
     _sfHeightData.setValue(value);
-
 }
 //! Get the value of the DynamicTerrain::_sfHeightDataScale field.
 
@@ -135,7 +134,7 @@ Real32 &DynamicTerrainBase::editHeightDataScale(void)
 
 //! Get the value of the DynamicTerrain::_sfHeightDataScale field.
 inline
-const Real32 &DynamicTerrainBase::getHeightDataScale(void) const
+const Real32 DynamicTerrainBase::getHeightDataScale(void) const
 {
     return _sfHeightDataScale.getValue();
 }
@@ -168,7 +167,7 @@ Real32 &DynamicTerrainBase::editHeightDataOffset(void)
 
 //! Get the value of the DynamicTerrain::_sfHeightDataOffset field.
 inline
-const Real32 &DynamicTerrainBase::getHeightDataOffset(void) const
+const Real32 DynamicTerrainBase::getHeightDataOffset(void) const
 {
     return _sfHeightDataOffset.getValue();
 }
@@ -201,7 +200,7 @@ Real32 &DynamicTerrainBase::editSampleDistance(void)
 
 //! Get the value of the DynamicTerrain::_sfSampleDistance field.
 inline
-const Real32 &DynamicTerrainBase::getSampleDistance(void) const
+const Real32 DynamicTerrainBase::getSampleDistance(void) const
 {
     return _sfSampleDistance.getValue();
 }
@@ -225,36 +224,34 @@ void DynamicTerrainBase::setSampleDistance(const Real32 &value)
 
 //! Get the value of the DynamicTerrain::_sfTextureData field.
 inline
-ImagePtr DynamicTerrainBase::getTextureData(void) const
+Image * DynamicTerrainBase::getTextureData(void) const
 {
     return _sfTextureData.getValue();
 }
 
 //! Set the value of the DynamicTerrain::_sfTextureData field.
 inline
-void DynamicTerrainBase::setTextureData(const ImagePtr value)
+void DynamicTerrainBase::setTextureData(Image * const value)
 {
     editSField(TextureDataFieldMask);
 
     _sfTextureData.setValue(value);
-
 }
 
 //! Get the value of the DynamicTerrain::_sfHeightColorTexture field.
 inline
-TextureObjChunkPtr DynamicTerrainBase::getHeightColorTexture(void) const
+TextureObjChunk * DynamicTerrainBase::getHeightColorTexture(void) const
 {
     return _sfHeightColorTexture.getValue();
 }
 
 //! Set the value of the DynamicTerrain::_sfHeightColorTexture field.
 inline
-void DynamicTerrainBase::setHeightColorTexture(const TextureObjChunkPtr value)
+void DynamicTerrainBase::setHeightColorTexture(TextureObjChunk * const value)
 {
     editSField(HeightColorTextureFieldMask);
 
     _sfHeightColorTexture.setValue(value);
-
 }
 //! Get the value of the DynamicTerrain::_sfSampleUpdateBudget field.
 
@@ -268,7 +265,7 @@ Int32 &DynamicTerrainBase::editSampleUpdateBudget(void)
 
 //! Get the value of the DynamicTerrain::_sfSampleUpdateBudget field.
 inline
-const Int32 &DynamicTerrainBase::getSampleUpdateBudget(void) const
+const Int32 DynamicTerrainBase::getSampleUpdateBudget(void) const
 {
     return _sfSampleUpdateBudget.getValue();
 }
@@ -301,7 +298,7 @@ bool &DynamicTerrainBase::editEnableFrustumCulling(void)
 
 //! Get the value of the DynamicTerrain::_sfEnableFrustumCulling field.
 inline
-const bool &DynamicTerrainBase::getEnableFrustumCulling(void) const
+const bool DynamicTerrainBase::getEnableFrustumCulling(void) const
 {
     return _sfEnableFrustumCulling.getValue();
 }
@@ -334,7 +331,7 @@ bool &DynamicTerrainBase::editUseGpuRenderer(void)
 
 //! Get the value of the DynamicTerrain::_sfUseGpuRenderer field.
 inline
-const bool &DynamicTerrainBase::getUseGpuRenderer(void) const
+const bool DynamicTerrainBase::getUseGpuRenderer(void) const
 {
     return _sfUseGpuRenderer.getValue();
 }
@@ -367,7 +364,7 @@ bool &DynamicTerrainBase::editUseVboExtension(void)
 
 //! Get the value of the DynamicTerrain::_sfUseVboExtension field.
 inline
-const bool &DynamicTerrainBase::getUseVboExtension(void) const
+const bool DynamicTerrainBase::getUseVboExtension(void) const
 {
     return _sfUseVboExtension.getValue();
 }
@@ -400,7 +397,7 @@ bool &DynamicTerrainBase::editEnableSmoothTransition(void)
 
 //! Get the value of the DynamicTerrain::_sfEnableSmoothTransition field.
 inline
-const bool &DynamicTerrainBase::getEnableSmoothTransition(void) const
+const bool DynamicTerrainBase::getEnableSmoothTransition(void) const
 {
     return _sfEnableSmoothTransition.getValue();
 }
@@ -433,7 +430,7 @@ bool &DynamicTerrainBase::editShowBoundingBoxes(void)
 
 //! Get the value of the DynamicTerrain::_sfShowBoundingBoxes field.
 inline
-const bool &DynamicTerrainBase::getShowBoundingBoxes(void) const
+const bool DynamicTerrainBase::getShowBoundingBoxes(void) const
 {
     return _sfShowBoundingBoxes.getValue();
 }
@@ -466,7 +463,7 @@ bool &DynamicTerrainBase::editShowTransitionRegions(void)
 
 //! Get the value of the DynamicTerrain::_sfShowTransitionRegions field.
 inline
-const bool &DynamicTerrainBase::getShowTransitionRegions(void) const
+const bool DynamicTerrainBase::getShowTransitionRegions(void) const
 {
     return _sfShowTransitionRegions.getValue();
 }
@@ -499,7 +496,7 @@ bool &DynamicTerrainBase::editDisableUpdate(void)
 
 //! Get the value of the DynamicTerrain::_sfDisableUpdate field.
 inline
-const bool &DynamicTerrainBase::getDisableUpdate(void) const
+const bool DynamicTerrainBase::getDisableUpdate(void) const
 {
     return _sfDisableUpdate.getValue();
 }
@@ -532,7 +529,7 @@ std::string &DynamicTerrainBase::editCpuVertexProgram(void)
 
 //! Get the value of the DynamicTerrain::_sfCpuVertexProgram field.
 inline
-const std::string &DynamicTerrainBase::getCpuVertexProgram(void) const
+const std::string DynamicTerrainBase::getCpuVertexProgram(void) const
 {
     return _sfCpuVertexProgram.getValue();
 }
@@ -565,7 +562,7 @@ std::string &DynamicTerrainBase::editCpuFragmentProgram(void)
 
 //! Get the value of the DynamicTerrain::_sfCpuFragmentProgram field.
 inline
-const std::string &DynamicTerrainBase::getCpuFragmentProgram(void) const
+const std::string DynamicTerrainBase::getCpuFragmentProgram(void) const
 {
     return _sfCpuFragmentProgram.getValue();
 }

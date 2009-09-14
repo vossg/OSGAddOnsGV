@@ -195,7 +195,8 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
 #endif
                   SFInt32             *editSFLevelSize      (void);
             const SFInt32             *getSFLevelSize       (void) const;
-            const SFUnrecImagePtr     *getSFHeightData      (void) const;
+            const SFUnrecImagePtr     *getSFHeightData     (void) const;
+                  SFUnrecImagePtr     *editSFHeightData     (void);
 
 #ifdef OSG_1_GET_COMPAT
                   SFReal32            *getSFHeightDataScale (void);
@@ -214,8 +215,10 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
 #endif
                   SFReal32            *editSFSampleDistance (void);
             const SFReal32            *getSFSampleDistance  (void) const;
-            const SFUnrecImagePtr     *getSFTextureData     (void) const;
-            const SFUnrecTextureObjChunkPtr *getSFHeightColorTexture (void) const;
+            const SFUnrecImagePtr     *getSFTextureData    (void) const;
+                  SFUnrecImagePtr     *editSFTextureData    (void);
+            const SFUnrecTextureObjChunkPtr *getSFHeightColorTexture(void) const;
+                  SFUnrecTextureObjChunkPtr *editSFHeightColorTexture(void);
 
 #ifdef OSG_1_GET_COMPAT
                   SFInt32             *getSFSampleUpdateBudget (void);
@@ -282,91 +285,91 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
                   Int32               &getLevelSize       (void);
 #endif
                   Int32               &editLevelSize      (void);
-            const Int32               &getLevelSize       (void) const;
+            const Int32                getLevelSize       (void) const;
 
-                  ImagePtr getHeightData     (void) const;
+                  Image * getHeightData     (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   Real32              &getHeightDataScale (void);
 #endif
                   Real32              &editHeightDataScale(void);
-            const Real32              &getHeightDataScale (void) const;
+            const Real32               getHeightDataScale (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   Real32              &getHeightDataOffset (void);
 #endif
                   Real32              &editHeightDataOffset(void);
-            const Real32              &getHeightDataOffset (void) const;
+            const Real32               getHeightDataOffset (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   Real32              &getSampleDistance  (void);
 #endif
                   Real32              &editSampleDistance (void);
-            const Real32              &getSampleDistance  (void) const;
+            const Real32               getSampleDistance  (void) const;
 
-                  ImagePtr getTextureData    (void) const;
+                  Image * getTextureData    (void) const;
 
-                  TextureObjChunkPtr getHeightColorTexture(void) const;
+                  TextureObjChunk * getHeightColorTexture(void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   Int32               &getSampleUpdateBudget (void);
 #endif
                   Int32               &editSampleUpdateBudget(void);
-            const Int32               &getSampleUpdateBudget (void) const;
+            const Int32                getSampleUpdateBudget (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   bool                &getEnableFrustumCulling (void);
 #endif
                   bool                &editEnableFrustumCulling(void);
-            const bool                &getEnableFrustumCulling (void) const;
+            const bool                 getEnableFrustumCulling (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   bool                &getUseGpuRenderer  (void);
 #endif
                   bool                &editUseGpuRenderer (void);
-            const bool                &getUseGpuRenderer  (void) const;
+            const bool                 getUseGpuRenderer  (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   bool                &getUseVboExtension (void);
 #endif
                   bool                &editUseVboExtension(void);
-            const bool                &getUseVboExtension (void) const;
+            const bool                 getUseVboExtension (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   bool                &getEnableSmoothTransition (void);
 #endif
                   bool                &editEnableSmoothTransition(void);
-            const bool                &getEnableSmoothTransition (void) const;
+            const bool                 getEnableSmoothTransition (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   bool                &getShowBoundingBoxes (void);
 #endif
                   bool                &editShowBoundingBoxes(void);
-            const bool                &getShowBoundingBoxes (void) const;
+            const bool                 getShowBoundingBoxes (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   bool                &getShowTransitionRegions (void);
 #endif
                   bool                &editShowTransitionRegions(void);
-            const bool                &getShowTransitionRegions (void) const;
+            const bool                 getShowTransitionRegions (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   bool                &getDisableUpdate   (void);
 #endif
                   bool                &editDisableUpdate  (void);
-            const bool                &getDisableUpdate   (void) const;
+            const bool                 getDisableUpdate   (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   std::string         &getCpuVertexProgram (void);
 #endif
                   std::string         &editCpuVertexProgram(void);
-            const std::string         &getCpuVertexProgram (void) const;
+            const std::string          getCpuVertexProgram (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   std::string         &getCpuFragmentProgram (void);
 #endif
                   std::string         &editCpuFragmentProgram(void);
-            const std::string         &getCpuFragmentProgram (void) const;
+            const std::string          getCpuFragmentProgram (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -374,12 +377,12 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*! \{                                                                 */
 
             void setLevelSize      (const Int32 &value);
-            void setHeightData     (const ImagePtr value);
+            void setHeightData     (Image * const value);
             void setHeightDataScale(const Real32 &value);
             void setHeightDataOffset(const Real32 &value);
             void setSampleDistance (const Real32 &value);
-            void setTextureData    (const ImagePtr value);
-            void setHeightColorTexture(const TextureObjChunkPtr value);
+            void setTextureData    (Image * const value);
+            void setHeightColorTexture(TextureObjChunk * const value);
             void setSampleUpdateBudget(const Int32 &value);
             void setEnableFrustumCulling(const bool &value);
             void setUseGpuRenderer (const bool &value);
@@ -400,6 +403,7 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -417,13 +421,13 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  DynamicTerrainTransitPtr create          (void);
-    static  DynamicTerrainPtr        createEmpty     (void);
+    static  DynamicTerrainTransitPtr  create          (void);
+    static  DynamicTerrain           *createEmpty     (void);
 
-    static  DynamicTerrainTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  DynamicTerrainTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  DynamicTerrainPtr        createEmptyLocal(
+    static  DynamicTerrain            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -559,7 +563,7 @@ class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

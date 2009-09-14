@@ -81,8 +81,8 @@ OSG_GEN_CONTAINERPTR(DynamicTerrain);
 #endif
 
 template <>
-struct FieldTraits<DynamicTerrainPtr> :
-    public FieldTraitsFCPtrBase<DynamicTerrainPtr>
+struct FieldTraits<DynamicTerrain *> :
+    public FieldTraitsFCPtrBase<DynamicTerrain *>
 {
   private:
 
@@ -90,7 +90,7 @@ struct FieldTraits<DynamicTerrainPtr> :
 
   public:
 
-    typedef FieldTraits<DynamicTerrainPtr>  Self;
+    typedef FieldTraits<DynamicTerrain *>  Self;
 
     enum                        { Convertible = NotConvertible };
 };
