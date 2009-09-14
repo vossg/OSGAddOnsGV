@@ -293,7 +293,7 @@ void key(unsigned char key, int x, int y)
             {
                 fMorph = 0.f;
             }
-            pSHL->setUniformParameter("fMorph", fMorph);
+            pSHL->updateUniformVariable("fMorph", fMorph);
         }
         break;
 
@@ -307,7 +307,7 @@ void key(unsigned char key, int x, int y)
             {
                 fMorph = 1.f;
             }
-            pSHL->setUniformParameter("fMorph", fMorph);
+            pSHL->updateUniformVariable("fMorph", fMorph);
         }
         break;
 
@@ -534,7 +534,7 @@ int main (int argc, char **argv)
     if(!pSHL->readVertexProgram("m.vp"))
         fprintf(stderr, "Couldn't read vertex program 'm.vp'\n");
 
-    pSHL->setUniformParameter("fMorph", 0.5f);
+    pSHL->addUniformVariable("fMorph", 0.5f);
 
     pChunkMat->addChunk(pSHL);
 
