@@ -263,7 +263,7 @@ void key(unsigned char key, int x, int y)
         case 'd':
         {
 #if 1
-            char *outFileName = "/tmp/foo.osg";
+            const char *outFileName = "/tmp/foo.osg";
             
             OSG::IndentFileOutStream outFileStream( outFileName );
             
