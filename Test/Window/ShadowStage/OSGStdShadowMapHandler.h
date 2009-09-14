@@ -70,7 +70,7 @@ class OSG_WINDOW_DLLMAPPING StdShadowMapHandler : public TreeHandler
     void createColorMap(DrawEnv *pEnv, RenderAction *pTmpAction);
 
 //    GLuint _fb;
-    GLuint _fb2;
+//    GLuint _fb2;
 //    GLuint _rb_depth;
     Matrix _transforms[6];
     

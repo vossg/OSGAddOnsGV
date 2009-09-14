@@ -285,7 +285,7 @@ PCSSShadowMapHandler::PCSSShadowMapHandler(ShadowStage *source) :
     _shadowSHL(NULL),
     _firstRun(1),
 //    _fb(0),
-    _fb2(0),
+//    _fb2(0),
 //    _rb_depth(0),
     _initTexturesDone(false)
 {
@@ -384,6 +384,14 @@ PCSSShadowMapHandler::PCSSShadowMapHandler(ShadowStage *source) :
     _combineCmat->addChunk(_colorMapO);
     _combineCmat->addChunk(_shadowFactorMapO);
     _combineCmat->addChunk(_combineDepth);
+
+    PolygonChunkUnrecPtr pPoly = PolygonChunk::create();
+
+    pPoly->setOffsetFill  (true                     );
+    pPoly->setOffsetFactor(_shadowVP->getOffFactor());
+    pPoly->setOffsetBias  (_shadowVP->getOffBias  ());
+
+    _unlitMat->addChunk(pPoly);
 }
 
 PCSSShadowMapHandler::~PCSSShadowMapHandler(void)
@@ -406,8 +414,10 @@ PCSSShadowMapHandler::~PCSSShadowMapHandler(void)
         glDeleteRenderbuffersEXT(1, &_rb_depth);
 #endif
 #endif
+#if 0
     if(_fb2 != 0)
         glDeleteFramebuffersEXT(1, &_fb2);
+#endif
 }
 
 /// Checks if FBO status is ok
@@ -475,7 +485,7 @@ bool PCSSShadowMapHandler::initFBO(DrawEnv *pEnv)
         if(width <= 0 || height <= 0)
             return false;
 
-        if(_fb2 != 0)
+        if(_pFB != NULL)
             return true;
 
         Window *win = pEnv->getWindow();
@@ -577,6 +587,7 @@ bool PCSSShadowMapHandler::initFBO(DrawEnv *pEnv)
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 #endif
 
+#if 0
         glGenFramebuffersEXT(1, &_fb2);
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb2);
 
@@ -585,7 +596,7 @@ bool PCSSShadowMapHandler::initFBO(DrawEnv *pEnv)
 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
-
+#endif
     }
 
     return true;
@@ -664,6 +675,7 @@ void PCSSShadowMapHandler::initTextures(DrawEnv *pEnv)
 void PCSSShadowMapHandler::createShadowMaps(DrawEnv *pEnv,
                                            RenderAction *pTmpAction)
 {
+#if 0
     if(_tiledeco == NULL)
     {
         _tiledeco = TileCameraDecorator::create();
@@ -730,6 +742,7 @@ void PCSSShadowMapHandler::createShadowMaps(DrawEnv *pEnv,
 
     Viewport *pVP = pTmpAction->getViewport();
 
+    RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
 
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
@@ -851,6 +864,7 @@ void PCSSShadowMapHandler::createShadowMaps(DrawEnv *pEnv,
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LIGHTING);
+#endif
 }
 
 void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv, 
@@ -870,6 +884,8 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv,
 #endif
 
     Viewport *pVP = pTmpAction->getViewport();
+
+    RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
 
 #if 0
     _shadowVP->setVPSize(0, 0, _shadowVP->getMapSize() - 1,
@@ -908,21 +924,25 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv,
             if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
                _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
             {
-
+#if 0
+#if 0
                 pEnv->getWindow()->validateGLObject(
-                    _shadowVP->_texChunks[i]->getGLId(),
+                    _shadowVP->_vTexChunks[i].pTexO->getGLId(),
                     pEnv);
 
                 glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb2);
 
-                glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT
-                                          , GL_TEXTURE_2D,
-                                          pEnv->getWindow()->getGLObjectId(
-                                          _shadowVP->_texChunks[i]->getGLId()),
-                                          0);
+                glFramebufferTexture2DEXT(
+                    GL_FRAMEBUFFER_EXT, 
+                    GL_DEPTH_ATTACHMENT_EXT, 
+                    GL_TEXTURE_2D,
+                    pEnv->getWindow()->getGLObjectId(
+                        _shadowVP->_vTexChunks[i].pTexO->getGLId()), 0);
 
                 glDrawBuffer(GL_NONE);
                 glReadBuffer(GL_NONE);
+#endif
+                _shadowVP->_vTexChunks[i].pFBO->activate(pEnv);
 
                 glPolygonOffset(_shadowVP->getOffFactor(),
                                 _shadowVP->getOffBias());
@@ -943,7 +963,8 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv,
 
                 glDisable(GL_POLYGON_OFFSET_FILL);
 
-                glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+                //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+                _shadowVP->_vTexChunks[i].pFBO->deactivate(pEnv);
 
                 glClearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -951,6 +972,76 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv,
                 pEnv->getAction()->setCamera(_shadowVP->getCamera());
 #endif
                 pTmpAction->setCamera(pEnv->getAction()->getCamera());
+#endif
+
+                a->pushPartition();
+                {
+                    RenderPartition   *pPart    = a->getActivePartition();
+                    
+                    pPart->setRenderTarget(_shadowVP->_vTexChunks[i].pFBO);
+                    
+                    pPart->setWindow  (a->getWindow());
+                    
+                    pPart->calcViewportDimension(0.f,
+                                                 0.f,
+                                                 _shadowVP->getMapSize(),
+                                                 _shadowVP->getMapSize(),
+                                                 
+                                                 _shadowVP->getMapSize(),
+                                                 _shadowVP->getMapSize() );
+                    
+                    
+                    Matrix m, t;
+                    
+                    // set the projection
+                    _shadowVP->_lightCameras[i]->getProjection          (
+                        m, 
+                        pPart->getViewportWidth (), 
+                        pPart->getViewportHeight());
+                    
+                    _shadowVP->_lightCameras[i]->getProjectionTranslation(
+                        t, 
+                        pPart->getViewportWidth (), 
+                        pPart->getViewportHeight());
+                    
+                    pPart->setupProjection(m, t);
+                    
+                    _shadowVP->_lightCameras[i]->getViewing(
+                        m, 
+                        pPart->getViewportWidth (),
+                        pPart->getViewportHeight());
+                    
+                    
+                    pPart->setupViewing(m);
+                    
+                    pPart->setNear     (
+                        _shadowVP->_lightCameras[i]->getNear());
+                    pPart->setFar      (
+                        _shadowVP->_lightCameras[i]->getFar ());
+                    
+                    pPart->calcFrustum();
+                    
+                    pPart->setBackground(_pClearBackground);
+                    
+                    Node *light  = _shadowVP->_lights[i].first;
+                    Node *parent =  light->getParent();
+                    
+                    if(parent != NULL)
+                    {
+                        a->pushMatrix(parent->getToWorld());
+                    }
+                    
+                    
+                    a->overrideMaterial(_unlitMat, a->getActNode());
+                    a->recurse(light);
+                    a->overrideMaterial( NULL,       a->getActNode());
+                    
+                    if(parent != NULL)
+                    {
+                        a->popMatrix();
+                    }
+                }
+                a->popPartition();
             }
         }
     }
@@ -1242,7 +1333,10 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
             _vShadowSHLVar[uiActiveLightCount]);
 
         _vShadowCmat[uiActiveLightCount]->addChunk(
-            _shadowVP->_texChunks[num]);
+            _shadowVP->_vTexChunks[num].pTexO);
+
+        _vShadowCmat[uiActiveLightCount]->addChunk(
+            _shadowVP->_vTexChunks[num].pTexE);
 
         _vShadowCmat[uiActiveLightCount]->addChunk(
             _shadowFactorMapO);
@@ -1494,8 +1588,8 @@ void PCSSShadowMapHandler::render(DrawEnv *pEnv,
         for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
         {
             {
-                _shadowVP->_texChunks[i]->setMinFilter(GL_NEAREST);
-                _shadowVP->_texChunks[i]->setMagFilter(GL_NEAREST);
+                _shadowVP->_vTexChunks[i].pTexO->setMinFilter(GL_NEAREST);
+                _shadowVP->_vTexChunks[i].pTexO->setMagFilter(GL_NEAREST);
             }
         }
 

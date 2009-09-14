@@ -88,6 +88,7 @@
 
 #include "OSGRenderAction.h"
 #include <boost/bind.hpp>
+#include "OSGTextureBuffer.h"
 
 //--------------------------------------------------------------------
 #ifndef GL_CLAMP_TO_EDGE
@@ -190,7 +191,7 @@ ShadowStage::ShadowStage(void) :
     _lightCamBeacons(),
     _lightStates(),
     _shadowImages(),
-    _texChunks(),
+    _vTexChunks(),
     _excludeNodeActive(),
     _realPointLight(),
     _renderSide(),
@@ -254,7 +255,7 @@ ShadowStage::ShadowStage(const ShadowStage &source) :
     _lightCamBeacons(source._lightCamBeacons),
     _lightStates(source._lightStates),
     _shadowImages(source._shadowImages),
-    _texChunks(source._texChunks),
+    _vTexChunks(source._vTexChunks),
     _excludeNodeActive(source._excludeNodeActive),
     _realPointLight(source._realPointLight),
     _renderSide(source._renderSide),
@@ -1355,6 +1356,7 @@ void ShadowStage::initializeLights(RenderActionBase *action)
     for(UInt32 i = 0;i < _lights.size();++i)
     {
         bool light_state = _lights[i].second->getOn();
+
         if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_ON)
             light_state = true;
         else if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_OFF)
@@ -1407,19 +1409,31 @@ void ShadowStage::initializeLights(RenderActionBase *action)
                                   1, 1, 1, 0, NULL,
                                   Image::OSG_UINT8_IMAGEDATA, false);
 
-            _texChunks.push_back(TextureChunk::create());
+            ShadowMapStore tmpStore;
+
+            tmpStore.pTexO = TextureObjChunk::create();
+            tmpStore.pTexE = TextureEnvChunk::create();
+            tmpStore.pFBO  = FrameBufferObject::create();
+
+            _vTexChunks.push_back(tmpStore);
+
+            TextureBufferUnrecPtr pDepthTex = TextureBuffer::create();
+
+            pDepthTex->setTexture(tmpStore.pTexO);
+
+            tmpStore.pFBO->setDepthAttachment(pDepthTex);
 
             // Preparation of Texture be a Depth-Texture
             {
-                _texChunks[i]->setImage(_shadowImages[i]);
-                _texChunks[i]->setInternalFormat(GL_DEPTH_COMPONENT_ARB);
-                _texChunks[i]->setExternalFormat(GL_DEPTH_COMPONENT_ARB);
-                _texChunks[i]->setMinFilter(GL_LINEAR);
-                _texChunks[i]->setMagFilter(GL_LINEAR);
-                _texChunks[i]->setWrapS(GL_CLAMP_TO_EDGE);
-                _texChunks[i]->setWrapT(GL_CLAMP_TO_EDGE);
-                _texChunks[i]->setEnvMode(GL_MODULATE);
-                _texChunks[i]->setTarget(GL_TEXTURE_2D);
+                _vTexChunks[i].pTexO->setImage(_shadowImages[i]);
+                _vTexChunks[i].pTexO->setInternalFormat(GL_DEPTH_COMPONENT_ARB);
+                _vTexChunks[i].pTexO->setExternalFormat(GL_DEPTH_COMPONENT_ARB);
+                _vTexChunks[i].pTexO->setMinFilter(GL_LINEAR);
+                _vTexChunks[i].pTexO->setMagFilter(GL_LINEAR);
+                _vTexChunks[i].pTexO->setWrapS(GL_CLAMP_TO_EDGE);
+                _vTexChunks[i].pTexO->setWrapT(GL_CLAMP_TO_EDGE);
+                _vTexChunks[i].pTexE->setEnvMode(GL_MODULATE);
+                _vTexChunks[i].pTexO->setTarget(GL_TEXTURE_2D);
             }
         }
         else
@@ -1450,20 +1464,33 @@ void ShadowStage::initializeLights(RenderActionBase *action)
                                       Image::OSG_UINT8_IMAGEDATA, false);
             }
 
-            _texChunks.push_back(TextureChunk::create());
+            ShadowMapStore tmpStore;
+
+            tmpStore.pTexO = TextureObjChunk::create();
+            tmpStore.pTexE = TextureEnvChunk::create();
+            tmpStore.pFBO  = FrameBufferObject::create();
+            
+            _vTexChunks.push_back(tmpStore);
+
+            TextureBufferUnrecPtr pDepthTex = TextureBuffer::create();
+
+            pDepthTex->setTexture(tmpStore.pTexO);
+
+            tmpStore.pFBO->setDepthAttachment(pDepthTex);
 
             // Preparation of Texture be a Depth-Texture
             {
-                _texChunks[i]->setImage(_shadowImages[i]);
-                _texChunks[i]->setInternalFormat(GL_DEPTH_COMPONENT_ARB);
-                _texChunks[i]->setExternalFormat(GL_DEPTH_COMPONENT_ARB);
-                _texChunks[i]->setMinFilter(GL_LINEAR);
-                _texChunks[i]->setMagFilter(GL_LINEAR);
-                _texChunks[i]->setWrapS(GL_CLAMP_TO_BORDER_ARB);
-                _texChunks[i]->setWrapT(GL_CLAMP_TO_BORDER_ARB);
-                _texChunks[i]->setEnvMode(GL_MODULATE);
-                _texChunks[i]->setTarget(GL_TEXTURE_2D);
+                _vTexChunks[i].pTexO->setImage(_shadowImages[i]);
+                _vTexChunks[i].pTexO->setInternalFormat(GL_DEPTH_COMPONENT_ARB);
+                _vTexChunks[i].pTexO->setExternalFormat(GL_DEPTH_COMPONENT_ARB);
+                _vTexChunks[i].pTexO->setMinFilter(GL_LINEAR);
+                _vTexChunks[i].pTexO->setMagFilter(GL_LINEAR);
+                _vTexChunks[i].pTexO->setWrapS(GL_CLAMP_TO_BORDER_ARB);
+                _vTexChunks[i].pTexO->setWrapT(GL_CLAMP_TO_BORDER_ARB);
+                _vTexChunks[i].pTexE->setEnvMode(GL_MODULATE);
+                _vTexChunks[i].pTexO->setTarget(GL_TEXTURE_2D);
             }
+
         }
 
     }
@@ -1485,15 +1512,18 @@ void ShadowStage::clearLights(UInt32 size)
             if(i < _lightCameras.size())
                 _lightCameras[i] = NULL;
 
-            if(i < _texChunks.size())
-                _texChunks[i] = NULL;
+            if(i < _vTexChunks.size())
+            {
+                _vTexChunks[i].pTexO = NULL;
+                _vTexChunks[i].pTexE = NULL;
+            }
         }
 
         _lightCameras.clear();
         _lightCamTrans.clear();
         _lightCamBeacons.clear();
         _lightStates.clear();
-        _texChunks.clear();
+        _vTexChunks.clear();
         _shadowImages.clear();
     }
 }

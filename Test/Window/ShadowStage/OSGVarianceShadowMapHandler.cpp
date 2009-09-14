@@ -281,13 +281,12 @@ VarianceShadowMapHandler::VarianceShadowMapHandler(ShadowStage *source) :
     _colorMapImage(NULL),
     _shadowFactorMapImage(NULL),
     _shadowSHL(NULL),
-    _depthCmat(NULL),
     _depthSHL(NULL),
     _firstRun(1),
 //    _fb(0),
-    _fb2(0),
+//    _fb2(0),
 //    _rb_depth(0),
-    _rb_depth2(0),
+//    _rb_depth2(0),
     _texChanged(false),
     _initTexturesDone(false)
 {
@@ -392,8 +391,9 @@ VarianceShadowMapHandler::VarianceShadowMapHandler(ShadowStage *source) :
     _depthSHL->setVertexProgram(_depth_vp);
     _depthSHL->setFragmentProgram(_depth_fp);
 
-    _depthCmat = ChunkMaterial::create();
-
+    _pClearSMapBack = SolidBackground::create();
+    
+    _pClearSMapBack->setColor(Color3f(1.f, 1.f, 1.f));
 }
 
 VarianceShadowMapHandler::~VarianceShadowMapHandler(void)
@@ -405,10 +405,15 @@ VarianceShadowMapHandler::~VarianceShadowMapHandler(void)
     _combineSHL      = NULL;
     _combineDepth    = NULL;
     _combineCmat     = NULL;
-    _depthCmat       = NULL;
+    
 
     _vShadowCmat  .clear();
     _vShadowSHLVar.clear();
+
+    _vDepthSHLVar .clear();
+    _vDepthCmat   .clear();
+
+    _pClearSMapBack  = NULL;
 
 #ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
 #if 0
@@ -418,10 +423,12 @@ VarianceShadowMapHandler::~VarianceShadowMapHandler(void)
         glDeleteRenderbuffersEXT(1, &_rb_depth);
 #endif
 #endif
+#if 0
     if(_fb2 != 0)
         glDeleteFramebuffersEXT(1, &_fb2);
     if(_rb_depth2 != 0)
         glDeleteRenderbuffersEXT(1, &_rb_depth2);
+#endif
 }
 
 /// Checks if FBO status is ok
@@ -486,24 +493,45 @@ bool VarianceShadowMapHandler::initFBO(DrawEnv *pEnv)
 
         for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
         {
-            _shadowVP->_texChunks[i]->setImage(_shadowVP->_shadowImages[i]);
-            _shadowVP->_texChunks[i]->setInternalFormat(GL_RGBA16F_ARB);
-            _shadowVP->_texChunks[i]->setExternalFormat(GL_RGBA);
-            _shadowVP->_texChunks[i]->setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
+            _shadowVP->_vTexChunks[i].pTexO->setImage(
+                _shadowVP->_shadowImages[i]);
+
+            _shadowVP->_vTexChunks[i].pTexO->setInternalFormat(GL_RGBA16F_ARB);
+            _shadowVP->_vTexChunks[i].pTexO->setExternalFormat(GL_RGBA);
+
+            _shadowVP->_vTexChunks[i].pTexO->setMinFilter(
+                GL_LINEAR_MIPMAP_LINEAR);
+
             //_shadowVP->_texChunks[i]->setMinFilter(GL_LINEAR);
-            _shadowVP->_texChunks[i]->setMagFilter(GL_LINEAR);
-            _shadowVP->_texChunks[i]->setAnisotropy(maximumAnistropy);
-            _shadowVP->_texChunks[i]->setWrapS(GL_REPEAT);
-            _shadowVP->_texChunks[i]->setWrapT(GL_REPEAT);
-            _shadowVP->_texChunks[i]->setTarget(GL_TEXTURE_2D);
+            _shadowVP->_vTexChunks[i].pTexO->setMagFilter(GL_LINEAR);
+            _shadowVP->_vTexChunks[i].pTexO->setAnisotropy(maximumAnistropy);
+            _shadowVP->_vTexChunks[i].pTexO->setWrapS(GL_REPEAT);
+            _shadowVP->_vTexChunks[i].pTexO->setWrapT(GL_REPEAT);
+            _shadowVP->_vTexChunks[i].pTexO->setTarget(GL_TEXTURE_2D);
 
             UInt32  mSize = _shadowVP->getMapSize();
+
             if(mSize > 2048)
                 mSize = 2048;
+
             _shadowVP->_shadowImages[i]->set(Image::OSG_RGBA_PF, mSize, mSize,
                                              1, 1, 1, 0, 0,
                                              Image::OSG_FLOAT16_IMAGEDATA,
                                              false);
+
+            _shadowVP->_vTexChunks[i].pFBO->setColorAttachment(
+                _shadowVP->_vTexChunks[i].pFBO->getDepthAttachment(), 0);
+
+//            _shadowVP->_vTexChunks[i].pFBO->setPostProcessOnDeactivate(true);
+            
+            RenderBufferUnrecPtr pDepthRB = RenderBuffer::create();
+            
+            pDepthRB->setInternalFormat(GL_DEPTH_COMPONENT24);
+
+            _shadowVP->_vTexChunks[i].pFBO->setDepthAttachment(pDepthRB);
+
+            _shadowVP->_vTexChunks[i].pFBO->setSize(_shadowVP->getMapSize(),
+                                                    _shadowVP->getMapSize());
         }
         _texChanged = true;
     }
@@ -520,7 +548,7 @@ bool VarianceShadowMapHandler::initFBO(DrawEnv *pEnv)
         if(width <= 0 || height <= 0)
             return false;
 
-        if(_fb2 != 0)
+        if(_pFB != NULL)
             return true;
 
         Window *win = pEnv->getWindow();
@@ -630,6 +658,7 @@ bool VarianceShadowMapHandler::initFBO(DrawEnv *pEnv)
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 #endif
 
+#if 0
         //Variance Shadow Map Grabbing
         glGenFramebuffersEXT(1, &_fb2);
         glGenRenderbuffersEXT(1, &_rb_depth2);
@@ -650,7 +679,7 @@ bool VarianceShadowMapHandler::initFBO(DrawEnv *pEnv)
 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
-
+#endif
     }
 
     return true;
@@ -726,8 +755,8 @@ void VarianceShadowMapHandler::initTextures(DrawEnv *pEnv)
     }
 }
 
-void VarianceShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv, 
-                                              RenderAction *pTmpAction)
+void VarianceShadowMapHandler::createShadowMapsFBO(DrawEnv      *pEnv, 
+                                                   RenderAction *pTmpAction)
 {
     UInt32  oldWidth, oldHeight;
 #if 0
@@ -771,6 +800,10 @@ void VarianceShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv,
                 exnode->setTravMask(0);
     }
 
+    RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
+
+    UInt32 uiActiveLightCount = 0;
+
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i] != 0)
@@ -784,32 +817,41 @@ void VarianceShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv,
                 buffers = new GLenum[1];
                 buffers[0] = GL_COLOR_ATTACHMENT0_EXT;
 
+#if 0
                 pEnv->getWindow()->validateGLObject(
-                    _shadowVP->_texChunks[i]->getGLId(), pEnv);
+                    _shadowVP->_vTexChunks[i].pTexO->getGLId(), pEnv);
+
                 glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb2);
-                glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT
-                                          , GL_TEXTURE_2D,
-                                          pEnv->getWindow()->getGLObjectId(
-                                          _shadowVP->_texChunks[i]->getGLId()),
-                                          0);
+                glFramebufferTexture2DEXT(
+                    GL_FRAMEBUFFER_EXT, 
+                    GL_COLOR_ATTACHMENT0_EXT,
+                    GL_TEXTURE_2D,
+                    pEnv->getWindow()->getGLObjectId(
+                        _shadowVP->_vTexChunks[i].pTexO->getGLId()),0);
 
                 //_shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(_shadowVP->_texChunks[i]->getGLId()));
                 glBindTexture(GL_TEXTURE_2D,
                               pEnv->getWindow()->getGLObjectId(
-                              _shadowVP->_texChunks[i]->getGLId()));
+                              _shadowVP->_vTexChunks[i].pTexO->getGLId()));
                 glGenerateMipmapEXT(GL_TEXTURE_2D);
                 glBindTexture(GL_TEXTURE_2D, 0);
                 //_shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(_shadowVP->_texChunks[i]->getGLId()));
+#endif
+
+#if 0
+                _shadowVP->_vTexChunks[i].pFBO->activate(pEnv);
 
                 glDrawBuffer(*buffers);
 
                 glClearColor(1.0, 1.0, 1.0, 1.0);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+#endif
 #if 0
                 pEnv->getAction()->setCamera(_shadowVP->_lightCameras[i]);
 #endif
+#if 0
                 pTmpAction->setCamera(_shadowVP->_lightCameras[i]);
+#endif
 
                 Pnt3f   lPos;
                 bool    isDirLight;
@@ -876,28 +918,132 @@ void VarianceShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv,
                     sceneDiagLength = 1.0;
                 }
 
-                _depthSHL->addUniformVariable("sceneDiagLength",
-                                               Real32(sceneDiagLength));
-                _depthSHL->addUniformVariable("isDirLight", bool(isDirLight));
+                if(_vDepthCmat.size() == uiActiveLightCount)
+                {
+                    _vDepthCmat.push_back(ChunkMaterial::create());
+                }
+        
+                OSG_ASSERT(uiActiveLightCount < _vDepthCmat.size());
 
-                _depthCmat->clearChunks();
-                _depthCmat->addChunk(_depthSHL);
+                if(_vDepthSHLVar.size() == uiActiveLightCount)
+                {
+                    _vDepthSHLVar.push_back(SHLVariableChunk::create());
+                    
+                    _vDepthSHLVar[uiActiveLightCount]->setSHLChunk(_depthSHL);
+                }
 
+                OSG_ASSERT(uiActiveLightCount < _vDepthSHLVar.size());
+
+                _vDepthSHLVar[uiActiveLightCount]->addUniformVariable(
+                    "sceneDiagLength",
+                    Real32(sceneDiagLength));
+
+                _vDepthSHLVar[uiActiveLightCount]->addUniformVariable(
+                    "isDirLight", bool(isDirLight));
+
+                
+                _vDepthCmat[uiActiveLightCount]->clearChunks();
+                _vDepthCmat[uiActiveLightCount]->addChunk(_depthSHL);
+                _vDepthCmat[uiActiveLightCount]->addChunk(
+                    _vDepthSHLVar[uiActiveLightCount]);
+
+                commitChanges();
 #if 0
                 _shadowVP->renderLight(pEnv->getAction(), _depthCmat, i);
 #endif
+#if 0
                 _shadowVP->renderLight(pTmpAction, _depthCmat, i);
+#endif
 
-                glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+                a->pushPartition();
+                {
+                    RenderPartition   *pPart    = a->getActivePartition();
+                    
+                    pPart->setRenderTarget(_shadowVP->_vTexChunks[i].pFBO);
+                    pPart->setDrawBuffer  (*buffers                      );
+
+                    pPart->setWindow  (a->getWindow());
+
+                    pPart->calcViewportDimension(0.f,
+                                                 0.f,
+                                                 mSize,
+                                                 mSize,
+                                                 
+                                                 mSize,
+                                                 mSize);
+
+
+                    Matrix m, t;
+                    
+                    // set the projection
+                    _shadowVP->_lightCameras[i]->getProjection          (
+                        m, 
+                        pPart->getViewportWidth (), 
+                        pPart->getViewportHeight());
+                    
+                    _shadowVP->_lightCameras[i]->getProjectionTranslation(
+                        t, 
+                        pPart->getViewportWidth (), 
+                        pPart->getViewportHeight());
+                    
+                    pPart->setupProjection(m, t);
+                    
+                    _shadowVP->_lightCameras[i]->getViewing(
+                        m, 
+                        pPart->getViewportWidth (),
+                        pPart->getViewportHeight());
+                    
+                    
+                    pPart->setupViewing(m);
+                    
+                    pPart->setNear     (
+                        _shadowVP->_lightCameras[i]->getNear());
+                    pPart->setFar      (
+                        _shadowVP->_lightCameras[i]->getFar ());
+                    
+                    pPart->calcFrustum();
+                    
+                    pPart->setBackground(_pClearSMapBack);
+                    
+                    Node *light  = _shadowVP->_lights[i].first;
+                    Node *parent =  light->getParent();
+                    
+                    if(parent != NULL)
+                    {
+                        a->pushMatrix(parent->getToWorld());
+                    }
+                    
+                    
+                    a->overrideMaterial(_vDepthCmat[uiActiveLightCount], 
+                                         a->getActNode());
+                    a->recurse(light);
+                    a->overrideMaterial( NULL,       
+                                         a->getActNode());
+                    
+                    if(parent != NULL)
+                    {
+                        a->popMatrix();
+                    }
+                }
+                a->popPartition();
+
+
+#if 0
+                //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+                _shadowVP->_vTexChunks[i].pFBO->deactivate(pEnv);
 
                 delete[] buffers;
 
                 glClearColor(0.0, 0.0, 0.0, 1.0);
-
+#endif
 #if 0
                 pEnv->getAction()->setCamera(_shadowVP->getCamera());
 #endif
+#if 0
                 pTmpAction->setCamera(pEnv->getAction()->getCamera());
+#endif
+
+                ++uiActiveLightCount;
             }
         }
     }
@@ -1472,7 +1618,10 @@ void VarianceShadowMapHandler::createShadowFactorMapFBO(
             _vShadowSHLVar[uiActiveLightCount]);
 
         _vShadowCmat[uiActiveLightCount]->addChunk(
-            _shadowVP->_texChunks[num]);
+            _shadowVP->_vTexChunks[num].pTexO);
+
+        _vShadowCmat[uiActiveLightCount]->addChunk(
+            _shadowVP->_vTexChunks[num].pTexE);
 
         _vShadowCmat[uiActiveLightCount]->addChunk(
             _shadowFactorMapO);

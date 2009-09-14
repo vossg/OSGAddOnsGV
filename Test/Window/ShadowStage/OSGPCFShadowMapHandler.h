@@ -87,7 +87,7 @@ class OSG_WINDOW_DLLMAPPING PCFShadowMapHandler : public TreeHandler
     Matrix                       _transforms[6];
 
 //    GLuint  _fb;
-    GLuint  _fb2;
+//    GLuint  _fb2;
 //    GLuint  _rb_depth;
     Real32  _oldRange;
     

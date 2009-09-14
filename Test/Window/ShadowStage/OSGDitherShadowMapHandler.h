@@ -70,7 +70,7 @@ public:
     void initTextures(DrawEnv *pEnv);
 
 //    GLuint                       _fb;
-    GLuint                       _fb2;
+//    GLuint                       _fb2;
 //    GLuint                       _rb_depth;
     Matrix                       _transforms[6];
     TileCameraDecoratorUnrecPtr  _tiledeco;

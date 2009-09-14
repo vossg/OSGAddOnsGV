@@ -189,6 +189,13 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
     UInt32                    _windowW;
     UInt32                    _windowH;
 
+    struct ShadowMapStore
+    {
+        TextureObjChunkUnrecPtr   pTexO;
+        TextureEnvChunkUnrecPtr   pTexE;
+        FrameBufferObjectUnrecPtr pFBO;
+    };
+
     std::vector<NodeUnrecPtr>                             _transparent;
     std::vector<std::pair<NodeUnrecPtr, LightUnrecPtr> >  _lights;
     std::vector<std::pair<NodeUnrecPtr, LightUnrecPtr> >  _oldLights;
@@ -196,8 +203,10 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
     std::vector<TransformUnrecPtr>                        _lightCamTrans;
     std::vector<NodeUnrecPtr>                             _lightCamBeacons;
     std::vector<UInt32>                                   _lightStates;
+
     std::vector<ImageUnrecPtr>                            _shadowImages;
-    std::vector<TextureChunkUnrecPtr>                     _texChunks;
+    std::vector<ShadowMapStore>                           _vTexChunks;
+
     std::vector<bool>                                     _excludeNodeActive;
     std::vector<bool>                                     _realPointLight;
     std::vector<bool*>                                    _renderSide;

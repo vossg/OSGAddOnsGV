@@ -81,18 +81,21 @@ private:
     std::vector<ChunkMaterialUnrecPtr>    _vShadowCmat;
 
     SHLChunkUnrecPtr             _shadowSHL;
-    ChunkMaterialUnrecPtr        _depthCmat;
+    std::vector<ChunkMaterialUnrecPtr>        _vDepthCmat;
     SHLChunkUnrecPtr             _depthSHL;
     Int32                        _firstRun;
 
 //    GLuint                       _fb;
-    GLuint                       _fb2;
+//    GLuint                       _fb2;
 //    GLuint                       _rb_depth;
-    GLuint                       _rb_depth2;
+//    GLuint                       _rb_depth2;
     bool                         _texChanged;
     bool                         _initTexturesDone;
  
     std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar;
+    std::vector<SHLVariableChunkUnrecPtr> _vDepthSHLVar;
+
+    SolidBackgroundUnrecPtr _pClearSMapBack;
  };
 
 OSG_END_NAMESPACE
