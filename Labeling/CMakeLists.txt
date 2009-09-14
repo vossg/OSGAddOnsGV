@@ -1,31 +1,5 @@
 
-IF(NOT OSGBUILD_LABELLING)
-    RETURN()
-ENDIF(NOT OSGBUILD_LABELLING)
+# CMake's ADD_SUBDIRECTORY only looks for CMakeLists.txt, so we include
+# the real file here
 
-IF(OSG_VERBOSE_SCAN)
-    MESSAGE( STATUS "Looking at : ${CMAKE_CURRENT_SOURCE_DIR}")
-ENDIF(OSG_VERBOSE_SCAN)
-
-####################
-# OSGContribLabeling
-####################
-
-CLEAR_PROJECT(OSGContribLabeling)
-
-SET(OSGContribLabeling_OSG_Dependencies OSGBase
-                                        OSGSystem
-                                        OSGState
-                                        OSGText
-                                        OSGDrawable
-                                        OSGGroup
-                                        OSGUtil)
-
-SET(OSGContribLabeling_Test_OSG_Dependencies OSGWindow OSGWindowGLUT)
-
-IF(WIN32 AND GLUT_FOUND)
-    SET(OSGContribLabeling_Ext_Inc_Dependencies GLUT_INCLUDE_DIR)
-ENDIF(WIN32 AND GLUT_FOUND)
-
-SETUP_PROJECT(OSGContribLabeling OSG_COMPILECONTRIBLABELINGLIB)
-
+INCLUDE("CMakeLists.Lib.OSGContribLabeling.txt")
