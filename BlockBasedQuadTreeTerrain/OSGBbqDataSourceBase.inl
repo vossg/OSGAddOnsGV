@@ -117,7 +117,7 @@ void BbqDataSourceBase::execSync (      BbqDataSourceBase *pFrom,
 
 
 inline
-Char8 *BbqDataSourceBase::getClassname(void)
+const Char8 *BbqDataSourceBase::getClassname(void)
 {
     return "BbqDataSource";
 }

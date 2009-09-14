@@ -201,7 +201,7 @@ void BbqOutOfCoreDataSourceBase::execSync (      BbqOutOfCoreDataSourceBase *pFr
 
 
 inline
-Char8 *BbqOutOfCoreDataSourceBase::getClassname(void)
+const Char8 *BbqOutOfCoreDataSourceBase::getClassname(void)
 {
     return "BbqOutOfCoreDataSource";
 }

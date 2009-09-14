@@ -239,7 +239,7 @@ void BbqTerrainBase::execSync (      BbqTerrainBase *pFrom,
 
 
 inline
-Char8 *BbqTerrainBase::getClassname(void)
+const Char8 *BbqTerrainBase::getClassname(void)
 {
     return "BbqTerrain";
 }
