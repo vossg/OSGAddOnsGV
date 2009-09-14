@@ -162,7 +162,8 @@ EditFieldHandlePtr RTCacheKDBase<DescT>::editHandlePrimIdxStore(void)
     MFRTCachePrimIdxStore::EditHandlePtr returnValue(
         new  MFRTCachePrimIdxStore::EditHandle(
              &_mfPrimitives, 
-             this->getType().getFieldDesc(PrimIdxStoreFieldId)));
+             this->getType().getFieldDesc(PrimIdxStoreFieldId),
+             this));
 
     Inherited::editMField(PrimIdxStoreFieldMask, _mfPrimitives);
 
@@ -175,7 +176,8 @@ GetFieldHandlePtr RTCacheKDBase<DescT>::getHandlePrimIdxStore(void) const
     MFRTCachePrimIdxStore::GetHandlePtr returnValue(
         new  MFRTCachePrimIdxStore::GetHandle(
              &_mfPrimitives, 
-             this->getType().getFieldDesc(PrimIdxStoreFieldId)));
+             this->getType().getFieldDesc(PrimIdxStoreFieldId),
+             const_cast<Self *>(this)));
 
     return returnValue;
 }

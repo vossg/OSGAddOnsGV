@@ -544,6 +544,8 @@ void RTInitAction<DescT>::dropGeometry(Geometry *pGeo)
         if(pMat == NULL)
             return;
 
+        PrimeMaterial *pPrimeMat = pMat->finalize(0x0000);
+
         if(isTriangulated(pGeo) == false)
         {
             fprintf(stderr, "found untriangulated geometry\n");
@@ -554,9 +556,10 @@ void RTInitAction<DescT>::dropGeometry(Geometry *pGeo)
 
                 triangulateSimple(pGeo);
 
+
                 _pCurrentCache->addGeometry(pGeo, 
                                             _currMatrix.second,
-                                             pMat->getState(0),
+                                             pPrimeMat->getState(0),
                                              pOverride);
             }
         }
@@ -564,7 +567,7 @@ void RTInitAction<DescT>::dropGeometry(Geometry *pGeo)
         {
             _pCurrentCache->addGeometry( pGeo, 
                                         _currMatrix.second,
-                                         pMat->getState(0), 
+                                         pPrimeMat->getState(0), 
                                          pOverride);
         }
     }

@@ -99,7 +99,8 @@ EditFieldHandlePtr RTCacheKD<DescT>::editHandleKDTree(void)
     typename MFRTCacheKDNode::EditHandlePtr returnValue(
         new typename MFRTCacheKDNode::EditHandle(
              &_mfKDTree, 
-             this->getType().getFieldDesc(KDTreeFieldId)));
+             this->getType().getFieldDesc(KDTreeFieldId),
+             this));
 
     this->editMField(KDTreeFieldMask, _mfKDTree);
 
@@ -112,7 +113,8 @@ GetFieldHandlePtr RTCacheKD<DescT>::getHandleKDTree (void) const
     typename MFRTCacheKDNode::GetHandlePtr returnValue(
         new typename MFRTCacheKDNode::GetHandle(
              &_mfKDTree, 
-             this->getType().getFieldDesc(KDTreeFieldId)));
+             this->getType().getFieldDesc(KDTreeFieldId),
+             const_cast<Self *>(this)));
 
     return returnValue;
 }

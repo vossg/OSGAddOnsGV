@@ -175,7 +175,8 @@ EditFieldHandlePtr RTCacheBase<DescT>::editHandleGeoStore(void)
     MFUnrecRTCacheGeometryStorePtr::EditHandlePtr returnValue(
         new  MFUnrecRTCacheGeometryStorePtr::EditHandle(
              &_mfGeos, 
-             this->getType().getFieldDesc(GeoStoreFieldId)));
+             this->getType().getFieldDesc(GeoStoreFieldId),
+             this));
 
     returnValue->setAddMethod(boost::bind(&RTCacheBase::addGeoStore, 
                                           this, 
@@ -189,7 +190,8 @@ GetFieldHandlePtr RTCacheBase<DescT>::getHandleGeoStore(void) const
     MFUnrecRTCacheGeometryStorePtr::GetHandlePtr returnValue(
         new  MFUnrecRTCacheGeometryStorePtr::GetHandle(
              &_mfGeos, 
-             this->getType().getFieldDesc(GeoStoreFieldId)));
+             this->getType().getFieldDesc(GeoStoreFieldId),
+             const_cast<Self *>(this)));
 
     return returnValue;
 }
@@ -200,7 +202,8 @@ EditFieldHandlePtr RTCacheBase<DescT>::editHandleTriangleAccel(void)
     typename MFTriangleAccel::EditHandlePtr returnValue(
         new typename MFTriangleAccel::EditHandle(
              &_mfTriangleAcc, 
-             this->getType().getFieldDesc(TriangleAccelFieldId)));
+             this->getType().getFieldDesc(TriangleAccelFieldId),
+             this));
 
     editMField(TriangleAccelFieldMask, _mfTriangleAcc);
 
@@ -213,7 +216,8 @@ GetFieldHandlePtr RTCacheBase<DescT>::getHandleTriangleAccel(void) const
     typename MFTriangleAccel::GetHandlePtr returnValue(
         new typename MFTriangleAccel::GetHandle(
              &_mfTriangleAcc, 
-             this->getType().getFieldDesc(TriangleAccelFieldId)));
+             this->getType().getFieldDesc(TriangleAccelFieldId),
+             const_cast<Self *>(this)));
 
     return returnValue;
 }
@@ -224,7 +228,8 @@ EditFieldHandlePtr RTCacheBase<DescT>::editHandleBoundingVolume(void)
     SFBoxVolume::EditHandlePtr returnValue(
         new  SFBoxVolume::EditHandle(
              &_sfBoundingVolume, 
-             this->getType().getFieldDesc(BoundingVolumeFieldId)));
+             this->getType().getFieldDesc(BoundingVolumeFieldId),
+             this));
 
     editSField(BoundingVolumeFieldMask);
 
@@ -238,7 +243,8 @@ GetFieldHandlePtr  RTCacheBase<DescT>::getHandleBoundingVolume(void) const
     SFBoxVolume::GetHandlePtr returnValue(
         new  SFBoxVolume::GetHandle(
              &_sfBoundingVolume, 
-             this->getType().getFieldDesc(BoundingVolumeFieldId)));
+             this->getType().getFieldDesc(BoundingVolumeFieldId),
+             const_cast<Self *>(this)));
 
     return returnValue;
 }

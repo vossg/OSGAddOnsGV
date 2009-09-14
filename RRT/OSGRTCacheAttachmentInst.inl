@@ -133,7 +133,8 @@ EditFieldHandlePtr RTCacheAttachmentInst<DescT>::editHandleCache(void)
     typename RTCacheField::EditHandlePtr returnValue(
         new  typename RTCacheField::EditHandle(
              &_sfCache, 
-             this->getType().getFieldDesc(CacheFieldId)));
+             this->getType().getFieldDesc(CacheFieldId),
+             this));
 
     returnValue->setSetMethod(boost::bind(&RTCacheAttachmentInst::setCache, 
                                           this, 
@@ -148,7 +149,8 @@ GetFieldHandlePtr RTCacheAttachmentInst<DescT>::getHandleCache (void) const
     typename RTCacheField::GetHandlePtr returnValue(
         new typename RTCacheField::GetHandle(
              &_sfCache, 
-             this->getType().getFieldDesc(CacheFieldId)));
+             this->getType().getFieldDesc(CacheFieldId),
+             const_cast<Self *>(this)));
 
     return returnValue;
 }

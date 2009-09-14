@@ -61,6 +61,7 @@
 #include "OSGDirectionalLight.h"
 #include "OSGSpotLight.h"
 #include "OSGVisitSubTree.h"
+#include "OSGPrimeMaterial.h"
 
 #include <stack>
 
