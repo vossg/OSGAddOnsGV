@@ -42,7 +42,7 @@
 #include "OSGMaterialGroup.h"
 #include "OSGChunkMaterial.h"
 #include "OSGMaterialChunk.h"
-#include "OSGSHLChunk.h"
+#include "OSGSimpleSHLChunk.h"
 
 #include "OSGTrackball.h"
 
@@ -64,7 +64,7 @@ TransformUnrecPtr scene_trans;
 PolygonChunkUnrecPtr pPoly;
 bool                 bPolyActive = false;
 ChunkOverrideGroupUnrecPtr pCOver;
-SHLChunkUnrecPtr pSHL = NULL;
+SimpleSHLChunkUnrecPtr pSHL = NULL;
 
 Trackball tball;
 
@@ -529,7 +529,7 @@ int main (int argc, char **argv)
     
     pChunkMat->addChunk(pMatChunk);
 
-    pSHL = SHLChunk::create();
+    pSHL = SimpleSHLChunk::create();
     
     if(!pSHL->readVertexProgram("m.vp"))
         fprintf(stderr, "Couldn't read vertex program 'm.vp'\n");
