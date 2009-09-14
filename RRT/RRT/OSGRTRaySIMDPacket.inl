@@ -125,10 +125,13 @@ void RTRaySIMDPacketInfo::operator =(const RTRaySIMDPacketInfo &source)
 
 inline
 RTRaySIMDPacket::RTRaySIMDPacket(void) :
-     Inherited(        ),
-    _fSingle  (        ),
-    _fQuad    (        )
+     Inherited(        )
 {
+    _fSingle  = SIMDZero;
+
+    _fQuad[0] = SIMDZero;
+    _fQuad[1] = SIMDZero;
+    _fQuad[2] = SIMDZero;
 }
 
 inline

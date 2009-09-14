@@ -86,8 +86,11 @@ typename AlignedAllocator<_Tp>::pointer
     
     void *returnValue;
     
+#ifdef __APPLE__ // Already aligned
+    returnValue = malloc(__n * sizeof(_Tp));
+#else
     posix_memalign(&returnValue, 16, __n * sizeof(_Tp));
-    
+#endif
     return static_cast<_Tp *>(returnValue);
 }
 
