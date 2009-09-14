@@ -81,8 +81,8 @@ OSG_GEN_CONTAINERPTR(BbqOutOfCoreDataSource);
 #endif
 
 template <>
-struct FieldTraits<BbqOutOfCoreDataSourcePtr> :
-    public FieldTraitsFCPtrBase<BbqOutOfCoreDataSourcePtr>
+struct FieldTraits<BbqOutOfCoreDataSource *> :
+    public FieldTraitsFCPtrBase<BbqOutOfCoreDataSource *>
 {
   private:
 
@@ -90,7 +90,7 @@ struct FieldTraits<BbqOutOfCoreDataSourcePtr> :
 
   public:
 
-    typedef FieldTraits<BbqOutOfCoreDataSourcePtr>  Self;
+    typedef FieldTraits<BbqOutOfCoreDataSource *>  Self;
 
     enum                        { Convertible = NotConvertible };
 };

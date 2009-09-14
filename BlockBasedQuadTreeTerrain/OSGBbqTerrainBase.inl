@@ -76,36 +76,34 @@ OSG::UInt16 BbqTerrainBase::getClassGroupId(void)
 
 //! Get the value of the BbqTerrain::_sfBeacon field.
 inline
-NodePtr BbqTerrainBase::getBeacon(void) const
+Node * BbqTerrainBase::getBeacon(void) const
 {
     return _sfBeacon.getValue();
 }
 
 //! Set the value of the BbqTerrain::_sfBeacon field.
 inline
-void BbqTerrainBase::setBeacon(const NodePtr value)
+void BbqTerrainBase::setBeacon(Node * const value)
 {
     editSField(BeaconFieldMask);
 
     _sfBeacon.setValue(value);
-
 }
 
 //! Get the value of the BbqTerrain::_sfDataSource field.
 inline
-BbqDataSourcePtr BbqTerrainBase::getDataSource(void) const
+BbqDataSource * BbqTerrainBase::getDataSource(void) const
 {
     return _sfDataSource.getValue();
 }
 
 //! Set the value of the BbqTerrain::_sfDataSource field.
 inline
-void BbqTerrainBase::setDataSource(const BbqDataSourcePtr value)
+void BbqTerrainBase::setDataSource(BbqDataSource * const value)
 {
     editSField(DataSourceFieldMask);
 
     _sfDataSource.setValue(value);
-
 }
 //! Get the value of the BbqTerrain::_sfMaxNumResidentNodes field.
 
@@ -119,7 +117,7 @@ UInt32 &BbqTerrainBase::editMaxNumResidentNodes(void)
 
 //! Get the value of the BbqTerrain::_sfMaxNumResidentNodes field.
 inline
-const UInt32 &BbqTerrainBase::getMaxNumResidentNodes(void) const
+const UInt32 BbqTerrainBase::getMaxNumResidentNodes(void) const
 {
     return _sfMaxNumResidentNodes.getValue();
 }
@@ -152,7 +150,7 @@ Real32 &BbqTerrainBase::editScreenSpaceError(void)
 
 //! Get the value of the BbqTerrain::_sfScreenSpaceError field.
 inline
-const Real32 &BbqTerrainBase::getScreenSpaceError(void) const
+const Real32 BbqTerrainBase::getScreenSpaceError(void) const
 {
     return _sfScreenSpaceError.getValue();
 }
@@ -185,7 +183,7 @@ bool &BbqTerrainBase::editEnableSkirts(void)
 
 //! Get the value of the BbqTerrain::_sfEnableSkirts field.
 inline
-const bool &BbqTerrainBase::getEnableSkirts(void) const
+const bool BbqTerrainBase::getEnableSkirts(void) const
 {
     return _sfEnableSkirts.getValue();
 }
@@ -218,7 +216,7 @@ bool &BbqTerrainBase::editShowSwitchDistance(void)
 
 //! Get the value of the BbqTerrain::_sfShowSwitchDistance field.
 inline
-const bool &BbqTerrainBase::getShowSwitchDistance(void) const
+const bool BbqTerrainBase::getShowSwitchDistance(void) const
 {
     return _sfShowSwitchDistance.getValue();
 }

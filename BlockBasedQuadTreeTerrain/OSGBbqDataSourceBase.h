@@ -137,7 +137,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSourceBase : public FieldContainer
                   bool                &getIgnoreGeoRef    (void);
 #endif
                   bool                &editIgnoreGeoRef   (void);
-            const bool                &getIgnoreGeoRef    (void) const;
+            const bool                 getIgnoreGeoRef    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -150,6 +150,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSourceBase : public FieldContainer
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */

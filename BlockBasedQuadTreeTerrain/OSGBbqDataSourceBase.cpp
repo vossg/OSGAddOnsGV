@@ -295,17 +295,17 @@ void BbqDataSourceBase::resolveLinks(void)
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BbqDataSourcePtr>::_type("BbqDataSourcePtr", "FieldContainerPtr");
+DataType FieldTraits<BbqDataSource *>::_type("BbqDataSourcePtr", "FieldContainerPtr");
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(BbqDataSourcePtr)
+OSG_FIELDTRAITS_GETTYPE(BbqDataSource *)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           BbqDataSourcePtr, 
+                           BbqDataSource *, 
                            0);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
-                           BbqDataSourcePtr, 
+                           BbqDataSource *, 
                            0);
 
 OSG_END_NAMESPACE

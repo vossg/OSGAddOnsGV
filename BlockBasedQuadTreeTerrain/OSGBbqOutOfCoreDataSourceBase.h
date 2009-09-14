@@ -167,25 +167,25 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
                   std::string         &getFilename        (void);
 #endif
                   std::string         &editFilename       (void);
-            const std::string         &getFilename        (void) const;
+            const std::string          getFilename        (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   Real32              &getHeightScale     (void);
 #endif
                   Real32              &editHeightScale    (void);
-            const Real32              &getHeightScale     (void) const;
+            const Real32               getHeightScale     (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   Real32              &getHeightOffset    (void);
 #endif
                   Real32              &editHeightOffset   (void);
-            const Real32              &getHeightOffset    (void) const;
+            const Real32               getHeightOffset    (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   Real32              &getSampleSpacing   (void);
 #endif
                   Real32              &editSampleSpacing  (void);
-            const Real32              &getSampleSpacing   (void) const;
+            const Real32               getSampleSpacing   (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -201,6 +201,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -218,13 +219,13 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  BbqOutOfCoreDataSourceTransitPtr create          (void);
-    static  BbqOutOfCoreDataSourcePtr        createEmpty     (void);
+    static  BbqOutOfCoreDataSourceTransitPtr  create          (void);
+    static  BbqOutOfCoreDataSource           *createEmpty     (void);
 
-    static  BbqOutOfCoreDataSourceTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  BbqOutOfCoreDataSourceTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  BbqOutOfCoreDataSourcePtr        createEmptyLocal(
+    static  BbqOutOfCoreDataSource            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -320,7 +321,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

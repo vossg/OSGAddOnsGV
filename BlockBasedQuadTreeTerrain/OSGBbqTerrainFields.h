@@ -81,8 +81,8 @@ OSG_GEN_CONTAINERPTR(BbqTerrain);
 #endif
 
 template <>
-struct FieldTraits<BbqTerrainPtr> :
-    public FieldTraitsFCPtrBase<BbqTerrainPtr>
+struct FieldTraits<BbqTerrain *> :
+    public FieldTraitsFCPtrBase<BbqTerrain *>
 {
   private:
 
@@ -90,7 +90,7 @@ struct FieldTraits<BbqTerrainPtr> :
 
   public:
 
-    typedef FieldTraits<BbqTerrainPtr>  Self;
+    typedef FieldTraits<BbqTerrain *>  Self;
 
     enum                        { Convertible = NotConvertible };
 };

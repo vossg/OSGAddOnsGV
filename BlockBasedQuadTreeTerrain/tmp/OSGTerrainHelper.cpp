@@ -15,28 +15,28 @@ OSG_BEGIN_NAMESPACE
 
 
 ImageBlockAccessorX::ImageBlockAccessorX(void) :
-    _pImage(NullFC)
+    _pImage(NULL)
 {
 }
 
 ImageBlockAccessorX::~ImageBlockAccessorX(void)
 {
-    _pImage = NullFC;
+    _pImage = NULL;
 }
 
 bool ImageBlockAccessorX::open(const std::string filename)
 {
     _pImage = ImageFileHandler::the()->read(filename.c_str());
 
-    if(_pImage != NullFC)
+    if(_pImage != NULL)
         _pImage->dump();
 
-    return _pImage != NullFC;
+    return _pImage != NULL;
 }
 
 bool ImageBlockAccessorX::isOpen(void)
 {
-    return _pImage != NullFC;
+    return _pImage != NULL;
 }
 
 Vec2i ImageBlockAccessorX::getSize(void)
@@ -189,16 +189,16 @@ bool ImageBlockAccessorX::readBlockA16(Vec2i   vSampleOrigin,
     return true;
 }
 
-GeoReferenceAttachmentPtr ImageBlockAccessorX::getGeoRef(void)
+GeoReferenceAttachment *ImageBlockAccessorX::getGeoRef(void)
 {
     if(_pImage != NULL)
     {
-        return dynamic_cast<GeoReferenceAttachmentPtr>(
+        return dynamic_cast<GeoReferenceAttachment *>(
             _pImage->findAttachment(
                 GeoReferenceAttachment::getClassType().getGroupId()));
     }
 
-    return NullFC;
+    return NULL;
 }
 
 
@@ -301,13 +301,13 @@ void OpenGLGpuBuffer::destroy(void)
 
 
 OpenGLShader::OpenGLShader(void) :
-    _pShader(NullFC)
+    _pShader(NULL)
 {
 }
 
 bool OpenGLShader::loadVtxFromFile(Char8 *szFilename)
 {
-    if(_pShader == NullFC)
+    if(_pShader == NULL)
     {
         _pShader = SHLChunk::create();
     }
@@ -317,7 +317,7 @@ bool OpenGLShader::loadVtxFromFile(Char8 *szFilename)
 
 bool OpenGLShader::loadFrgFromFile(Char8 *szFilename)
 {
-    if(_pShader == NullFC)
+    if(_pShader == NULL)
     {
         _pShader = SHLChunk::create();
     }
@@ -338,7 +338,7 @@ void OpenGLShader::deactivate(DrawEnv *pEnv)
 void OpenGLShader::update(DrawEnv *pEnv)
 {
     _pShader->updateParameters(pEnv->getWindow(),
-                               _pShader->getParameters(),
+                               *_pShader->getMFParameters(),
                                false, true, true);
 }
 
@@ -359,7 +359,7 @@ void OpenGLShader::setUniform(Char8 *szName, Vec2f  vVal)
 
 
 OpenGLTexture::OpenGLTexture(void) :
-    _pTexture(NullFC),
+    _pTexture(NULL),
     _bCompressed(false)
 {
 }
@@ -374,7 +374,7 @@ bool OpenGLTexture::create2D(Image::PixelFormat pf,
                              int iHeight, 
                              int unknown)
 {
-    if(_pTexture == NullFC)
+    if(_pTexture == NULL)
     {
         ImageUnrecPtr pImg = Image          ::create();
 
@@ -419,13 +419,13 @@ bool OpenGLTexture::upload2DRect( int iX,
 
 void OpenGLTexture::disable(GLenum eTexUnit, DrawEnv *pEnv)
 {
-    if(_pTexture != NullFC)
+    if(_pTexture != NULL)
         _pTexture->deactivate(pEnv, eTexUnit - GL_TEXTURE0);
 }
 
 void OpenGLTexture::enable(GLenum eTexUnit, DrawEnv *pEnv)
 {
-    if(_pTexture != NullFC)
+    if(_pTexture != NULL)
         _pTexture->activate(pEnv, eTexUnit - GL_TEXTURE0);
 }
 

@@ -83,11 +83,11 @@ OSG_BEGIN_NAMESPACE
  *                         Field Description                               *
 \***************************************************************************/
 
-/*! \var NodePtr         BbqTerrainBase::_sfBeacon
+/*! \var Node *          BbqTerrainBase::_sfBeacon
     
 */
 
-/*! \var BbqDataSourcePtr BbqTerrainBase::_sfDataSource
+/*! \var BbqDataSource * BbqTerrainBase::_sfDataSource
     
 */
 
@@ -216,7 +216,7 @@ BbqTerrainBase::TypeObject BbqTerrainBase::_type(
     "\t\ttype=\"NodePtr\"\n"
     "\t\tcardinality=\"single\"\n"
     "\t\tvisibility=\"external\"\n"
-    "\t\tdefaultValue=\"NullFC\"\n"
+    "\t\tdefaultValue=\"NULL\"\n"
     "\t\taccess=\"public\"\n"
     "\t>\n"
     "\t</Field>\n"
@@ -225,7 +225,7 @@ BbqTerrainBase::TypeObject BbqTerrainBase::_type(
     "\t\ttype=\"BbqDataSourcePtr\"\n"
     "\t\tcardinality=\"single\"\n"
     "\t\tvisibility=\"external\"\n"
-    "\t\tdefaultValue=\"NullFC\"\n"
+    "\t\tdefaultValue=\"NULL\"\n"
     "\t\taccess=\"public\"\n"
     "\t>\n"
     "\t</Field>\n"
@@ -295,9 +295,23 @@ const SFUnrecNodePtr *BbqTerrainBase::getSFBeacon(void) const
     return &_sfBeacon;
 }
 
+SFUnrecNodePtr      *BbqTerrainBase::editSFBeacon         (void)
+{
+    editSField(BeaconFieldMask);
+
+    return &_sfBeacon;
+}
+
 //! Get the BbqTerrain::_sfDataSource field.
 const SFUnrecBbqDataSourcePtr *BbqTerrainBase::getSFDataSource(void) const
 {
+    return &_sfDataSource;
+}
+
+SFUnrecBbqDataSourcePtr *BbqTerrainBase::editSFDataSource     (void)
+{
+    editSField(DataSourceFieldMask);
+
     return &_sfDataSource;
 }
 
@@ -482,7 +496,7 @@ BbqTerrainTransitPtr BbqTerrainBase::create(void)
 {
     BbqTerrainTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopy();
@@ -498,7 +512,7 @@ BbqTerrainTransitPtr BbqTerrainBase::createLocal(BitVector bFlags)
 {
     BbqTerrainTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyLocal(bFlags);
@@ -510,9 +524,9 @@ BbqTerrainTransitPtr BbqTerrainBase::createLocal(BitVector bFlags)
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-BbqTerrainPtr BbqTerrainBase::createEmpty(void)
+BbqTerrain *BbqTerrainBase::createEmpty(void)
 {
-    BbqTerrainPtr returnValue;
+    BbqTerrain *returnValue;
 
     newPtr<BbqTerrain>(returnValue, Thread::getCurrentLocalFlags());
 
@@ -522,9 +536,9 @@ BbqTerrainPtr BbqTerrainBase::createEmpty(void)
     return returnValue;
 }
 
-BbqTerrainPtr BbqTerrainBase::createEmptyLocal(BitVector bFlags)
+BbqTerrain *BbqTerrainBase::createEmptyLocal(BitVector bFlags)
 {
-    BbqTerrainPtr returnValue;
+    BbqTerrain *returnValue;
 
     newPtr<BbqTerrain>(returnValue, bFlags);
 
@@ -535,7 +549,7 @@ BbqTerrainPtr BbqTerrainBase::createEmptyLocal(BitVector bFlags)
 
 FieldContainerTransitPtr BbqTerrainBase::shallowCopy(void) const
 {
-    BbqTerrainPtr tmpPtr;
+    BbqTerrain *tmpPtr;
 
     newPtr(tmpPtr, 
            dynamic_cast<const BbqTerrain *>(this), 
@@ -551,7 +565,7 @@ FieldContainerTransitPtr BbqTerrainBase::shallowCopy(void) const
 FieldContainerTransitPtr BbqTerrainBase::shallowCopyLocal(
     BitVector bFlags) const
 {
-    BbqTerrainPtr tmpPtr;
+    BbqTerrain *tmpPtr;
 
     newPtr(tmpPtr, dynamic_cast<const BbqTerrain *>(this), bFlags);
 
@@ -568,8 +582,8 @@ FieldContainerTransitPtr BbqTerrainBase::shallowCopyLocal(
 
 BbqTerrainBase::BbqTerrainBase(void) :
     Inherited(),
-    _sfBeacon                 (NodePtr(NullFC)),
-    _sfDataSource             (BbqDataSourcePtr(NullFC)),
+    _sfBeacon                 (NULL),
+    _sfDataSource             (NULL),
     _sfMaxNumResidentNodes    (UInt32(5000)),
     _sfScreenSpaceError       (Real32(5.f)),
     _sfEnableSkirts           (bool(true)),
@@ -579,8 +593,8 @@ BbqTerrainBase::BbqTerrainBase(void) :
 
 BbqTerrainBase::BbqTerrainBase(const BbqTerrainBase &source) :
     Inherited(source),
-    _sfBeacon                 (NullFC),
-    _sfDataSource             (NullFC),
+    _sfBeacon                 (NULL),
+    _sfDataSource             (NULL),
     _sfMaxNumResidentNodes    (source._sfMaxNumResidentNodes    ),
     _sfScreenSpaceError       (source._sfScreenSpaceError       ),
     _sfEnableSkirts           (source._sfEnableSkirts           ),
@@ -601,10 +615,11 @@ void BbqTerrainBase::onCreate(const BbqTerrain *source)
 
     if(source != NULL)
     {
+        BbqTerrain *pThis = static_cast<BbqTerrain *>(this);
 
-        this->setBeacon(source->getBeacon());
+        pThis->setBeacon(source->getBeacon());
 
-        this->setDataSource(source->getDataSource());
+        pThis->setDataSource(source->getDataSource());
     }
 }
 
@@ -764,9 +779,9 @@ void BbqTerrainBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainerPtr BbqTerrainBase::createAspectCopy(void) const
+FieldContainer *BbqTerrainBase::createAspectCopy(void) const
 {
-    BbqTerrainPtr returnValue;
+    BbqTerrain *returnValue;
 
     newAspectCopy(returnValue,
                   dynamic_cast<const BbqTerrain *>(this));
@@ -779,16 +794,16 @@ void BbqTerrainBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
 
-    static_cast<BbqTerrain *>(this)->setBeacon(NullFC);
+    static_cast<BbqTerrain *>(this)->setBeacon(NULL);
 
-    static_cast<BbqTerrain *>(this)->setDataSource(NullFC);
+    static_cast<BbqTerrain *>(this)->setDataSource(NULL);
 
 
 }
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BbqTerrainPtr>::_type("BbqTerrainPtr", "StageDrawablePtr");
+DataType FieldTraits<BbqTerrain *>::_type("BbqTerrainPtr", "StageDrawablePtr");
 #endif
 
 

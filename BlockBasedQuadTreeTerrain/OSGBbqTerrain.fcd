@@ -16,7 +16,7 @@
 		type="NodePtr"
 		cardinality="single"
 		visibility="external"
-		defaultValue="NullFC"
+		defaultValue="NULL"
 		access="public"
 	>
 	</Field>
@@ -25,7 +25,7 @@
 		type="BbqDataSourcePtr"
 		cardinality="single"
 		visibility="external"
-		defaultValue="NullFC"
+		defaultValue="NULL"
 		access="public"
 	>
 	</Field>

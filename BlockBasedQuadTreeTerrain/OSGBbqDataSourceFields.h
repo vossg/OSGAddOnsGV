@@ -81,8 +81,8 @@ OSG_GEN_CONTAINERPTR(BbqDataSource);
 #endif
 
 template <>
-struct FieldTraits<BbqDataSourcePtr> :
-    public FieldTraitsFCPtrBase<BbqDataSourcePtr>
+struct FieldTraits<BbqDataSource *> :
+    public FieldTraitsFCPtrBase<BbqDataSource *>
 {
   private:
 
@@ -90,7 +90,7 @@ struct FieldTraits<BbqDataSourcePtr> :
 
   public:
 
-    typedef FieldTraits<BbqDataSourcePtr>  Self;
+    typedef FieldTraits<BbqDataSource *>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -107,49 +107,49 @@ struct FieldTraits<BbqDataSourcePtr> :
 };
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, 0>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, 0>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, 0>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, 0>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, 0>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, 0>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, 0>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, 0>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdBbqDataSourcePtr"; 
 }
@@ -166,13 +166,13 @@ const Char8 *FieldTraits<BbqDataSourcePtr, 0>::getMName<NoRefCountPolicy>(void)
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpDrawableFieldSingle */
 
-typedef PointerSField<BbqDataSourcePtr,
+typedef PointerSField<BbqDataSource *,
                       RecordedRefCountPolicy  > SFRecBbqDataSourcePtr;
-typedef PointerSField<BbqDataSourcePtr,
+typedef PointerSField<BbqDataSource *,
                       UnrecordedRefCountPolicy> SFUnrecBbqDataSourcePtr;
-typedef PointerSField<BbqDataSourcePtr,
+typedef PointerSField<BbqDataSource *,
                       WeakRefCountPolicy      > SFWeakBbqDataSourcePtr;
-typedef PointerSField<BbqDataSourcePtr,
+typedef PointerSField<BbqDataSource *,
                       NoRefCountPolicy        > SFUncountedBbqDataSourcePtr;
 #endif
 
@@ -180,13 +180,13 @@ typedef PointerSField<BbqDataSourcePtr,
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 /*! \ingroup GrpDrawableFieldMulti */
 
-typedef PointerMField<BbqDataSourcePtr,
+typedef PointerMField<BbqDataSource *,
                       RecordedRefCountPolicy  > MFRecBbqDataSourcePtr;
-typedef PointerMField<BbqDataSourcePtr,
+typedef PointerMField<BbqDataSource *,
                       UnrecordedRefCountPolicy> MFUnrecBbqDataSourcePtr;
-typedef PointerMField<BbqDataSourcePtr,
+typedef PointerMField<BbqDataSource *,
                       WeakRefCountPolicy      > MFWeakBbqDataSourcePtr;
-typedef PointerMField<BbqDataSourcePtr,
+typedef PointerMField<BbqDataSource *,
                       NoRefCountPolicy        > MFUncountedBbqDataSourcePtr;
 #endif
 

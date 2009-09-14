@@ -33,18 +33,18 @@
 
 using namespace OSG;
 
-RenderAction *rentravact = NullFC;
+RenderAction *rentravact = NULL;
 
-NodeUnrecPtr  root = NullFC;
-NodeUnrecPtr  file = NullFC;
+NodeUnrecPtr  root = NULL;
+NodeUnrecPtr  file = NULL;
 
-PerspectiveCameraUnrecPtr cam = NullFC;
-ViewportUnrecPtr          vp  = NullFC;
-WindowUnrecPtr            win = NullFC;
+PerspectiveCameraUnrecPtr cam = NULL;
+ViewportUnrecPtr          vp  = NULL;
+WindowUnrecPtr            win = NULL;
 
-TransformUnrecPtr cam_trans   = NullFC;
-TransformUnrecPtr scene_trans = NullFC;
-TransformUnrecPtr ref_trans   = NullFC;
+TransformUnrecPtr cam_trans   = NULL;
+TransformUnrecPtr scene_trans = NULL;
+TransformUnrecPtr ref_trans   = NULL;
 
 #ifdef OLD_BBQ
 BbqTerrainEngine       *terrain_              = NULL;
@@ -52,8 +52,8 @@ BbqOutOfCoreDataSource *outOfCoreDataSource_  = NULL;
 BbqRenderOptions        terrainRenderOptions_;
 #endif
 
-BbqTerrainUnrecPtr             pTerrain = NullFC;
-BbqOutOfCoreDataSourceUnrecPtr pSource  = NullFC;
+BbqTerrainUnrecPtr             pTerrain = NULL;
+BbqOutOfCoreDataSourceUnrecPtr pSource  = NULL;
 
 Trackball tball;
 Trackball tcamball;
@@ -382,16 +382,16 @@ void key(unsigned char key, int x, int y)
             delete outOfCoreDataSource_;
 #endif
 
-            root = NullFC;
-            file = NullFC;
-            cam = NullFC;
-            vp  = NullFC;
-            win = NullFC;
-            cam_trans   = NullFC;
-            scene_trans = NullFC;
-            ref_trans   = NullFC;
-            pTerrain = NullFC;
-            pSource  = NullFC;
+            root = NULL;
+            file = NULL;
+            cam = NULL;
+            vp  = NULL;
+            win = NULL;
+            cam_trans   = NULL;
+            scene_trans = NULL;
+            ref_trans   = NULL;
+            pTerrain = NULL;
+            pSource  = NULL;
 
 
             osgExit(); 
@@ -586,14 +586,14 @@ int main (int argc, char **argv)
 
     // Load the file
 
-    NodeUnrecPtr file = NullFC;
+    NodeUnrecPtr file = NULL;
     
     if(argc > 1)
     {
         file = SceneFileHandler::the()->read(argv[1], NULL);
     }
 
-    if(file == NullFC)
+    if(file == NULL)
     {
         std::cerr << "Couldn't load file, ignoring" << std::endl;
 

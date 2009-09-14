@@ -85,10 +85,10 @@ bool BbqCreateEngine<HeightType, TextureType>::start(
     // build quadtree:
     initializeNodesRec(0, 0, 0, iVirtualSize, iVirtualSize, 0);
     
-    GeoReferenceAttachmentPtr pGeoRef = 
+    GeoReferenceAttachment *pGeoRef = 
         pHeightFieldImage->getGeoRef();
 
-    if(pGeoRef != NullFC)
+    if(pGeoRef != NULL)
     {
         fprintf(stderr, "Got GeoRef\n");
 

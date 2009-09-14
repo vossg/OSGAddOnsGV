@@ -218,7 +218,7 @@ class ImageBlockAccessorX
                       Int16  *pTarget,
                       int     iTargetSizeBytes);
   
-    GeoReferenceAttachmentPtr getGeoRef(void);
+    GeoReferenceAttachment *getGeoRef(void);
 };
 
 #if 0
@@ -256,7 +256,7 @@ class TiledImageBlockAccessor
                       Int16  *pTarget,
                       int     iTargetSizeBytes);
   
-    GeoReferenceAttachmentPtr getGeoRef(void);
+    GeoReferenceAttachment *getGeoRef(void);
 };
 #endif
 

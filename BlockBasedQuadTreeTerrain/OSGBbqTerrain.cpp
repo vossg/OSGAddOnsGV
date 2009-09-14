@@ -444,7 +444,7 @@ void BbqTerrain::execute(DrawEnv *pDrawEnv)
 {
     Matrix m1c;
 
-    if(getBeacon() != NullFC)
+    if(getBeacon() != NULL)
     {
         m1c = getBeacon()->getToWorld();
     }

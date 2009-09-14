@@ -145,8 +145,10 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-            const SFUnrecNodePtr      *getSFBeacon          (void) const;
-            const SFUnrecBbqDataSourcePtr *getSFDataSource      (void) const;
+            const SFUnrecNodePtr      *getSFBeacon         (void) const;
+                  SFUnrecNodePtr      *editSFBeacon         (void);
+            const SFUnrecBbqDataSourcePtr *getSFDataSource     (void) const;
+                  SFUnrecBbqDataSourcePtr *editSFDataSource     (void);
 
 #ifdef OSG_1_GET_COMPAT
                   SFUInt32            *getSFMaxNumResidentNodes (void);
@@ -173,41 +175,41 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
             const SFBool              *getSFShowSwitchDistance (void) const;
 
 
-                  NodePtr getBeacon         (void) const;
+                  Node * getBeacon         (void) const;
 
-                  BbqDataSourcePtr getDataSource     (void) const;
+                  BbqDataSource * getDataSource     (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   UInt32              &getMaxNumResidentNodes (void);
 #endif
                   UInt32              &editMaxNumResidentNodes(void);
-            const UInt32              &getMaxNumResidentNodes (void) const;
+            const UInt32               getMaxNumResidentNodes (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   Real32              &getScreenSpaceError (void);
 #endif
                   Real32              &editScreenSpaceError(void);
-            const Real32              &getScreenSpaceError (void) const;
+            const Real32               getScreenSpaceError (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   bool                &getEnableSkirts    (void);
 #endif
                   bool                &editEnableSkirts   (void);
-            const bool                &getEnableSkirts    (void) const;
+            const bool                 getEnableSkirts    (void) const;
 
 #ifdef OSG_1_GET_COMPAT
                   bool                &getShowSwitchDistance (void);
 #endif
                   bool                &editShowSwitchDistance(void);
-            const bool                &getShowSwitchDistance (void) const;
+            const bool                 getShowSwitchDistance (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setBeacon         (const NodePtr value);
-            void setDataSource     (const BbqDataSourcePtr value);
+            void setBeacon         (Node * const value);
+            void setDataSource     (BbqDataSource * const value);
             void setMaxNumResidentNodes(const UInt32 &value);
             void setScreenSpaceError(const Real32 &value);
             void setEnableSkirts   (const bool &value);
@@ -222,6 +224,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*---------------------------------------------------------------------*/
     /*! \name                Ptr MField Set                                */
     /*! \{                                                                 */
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -239,13 +242,13 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  BbqTerrainTransitPtr create          (void);
-    static  BbqTerrainPtr        createEmpty     (void);
+    static  BbqTerrainTransitPtr  create          (void);
+    static  BbqTerrain           *createEmpty     (void);
 
-    static  BbqTerrainTransitPtr createLocal     (
-                                              BitVector bFlags = FCLocal::All);
+    static  BbqTerrainTransitPtr  createLocal     (
+                                               BitVector bFlags = FCLocal::All);
 
-    static  BbqTerrainPtr        createEmptyLocal(
+    static  BbqTerrain            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
     /*! \}                                                                 */
@@ -348,7 +351,7 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainerPtr createAspectCopy(void) const;
+    virtual FieldContainer *createAspectCopy(void) const;
 #endif
 
     /*! \}                                                                 */

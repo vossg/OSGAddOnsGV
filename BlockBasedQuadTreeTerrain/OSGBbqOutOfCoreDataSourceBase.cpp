@@ -397,7 +397,7 @@ BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::create(void)
 {
     BbqOutOfCoreDataSourceTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopy();
@@ -413,7 +413,7 @@ BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::createLocal(BitVect
 {
     BbqOutOfCoreDataSourceTransitPtr fc;
 
-    if(getClassType().getPrototype() != NullFC)
+    if(getClassType().getPrototype() != NULL)
     {
         FieldContainerTransitPtr tmpPtr =
             getClassType().getPrototype()-> shallowCopyLocal(bFlags);
@@ -425,9 +425,9 @@ BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::createLocal(BitVect
 }
 
 //! create an empty new instance of the class, do not copy the prototype
-BbqOutOfCoreDataSourcePtr BbqOutOfCoreDataSourceBase::createEmpty(void)
+BbqOutOfCoreDataSource *BbqOutOfCoreDataSourceBase::createEmpty(void)
 {
-    BbqOutOfCoreDataSourcePtr returnValue;
+    BbqOutOfCoreDataSource *returnValue;
 
     newPtr<BbqOutOfCoreDataSource>(returnValue, Thread::getCurrentLocalFlags());
 
@@ -437,9 +437,9 @@ BbqOutOfCoreDataSourcePtr BbqOutOfCoreDataSourceBase::createEmpty(void)
     return returnValue;
 }
 
-BbqOutOfCoreDataSourcePtr BbqOutOfCoreDataSourceBase::createEmptyLocal(BitVector bFlags)
+BbqOutOfCoreDataSource *BbqOutOfCoreDataSourceBase::createEmptyLocal(BitVector bFlags)
 {
-    BbqOutOfCoreDataSourcePtr returnValue;
+    BbqOutOfCoreDataSource *returnValue;
 
     newPtr<BbqOutOfCoreDataSource>(returnValue, bFlags);
 
@@ -450,7 +450,7 @@ BbqOutOfCoreDataSourcePtr BbqOutOfCoreDataSourceBase::createEmptyLocal(BitVector
 
 FieldContainerTransitPtr BbqOutOfCoreDataSourceBase::shallowCopy(void) const
 {
-    BbqOutOfCoreDataSourcePtr tmpPtr;
+    BbqOutOfCoreDataSource *tmpPtr;
 
     newPtr(tmpPtr, 
            dynamic_cast<const BbqOutOfCoreDataSource *>(this), 
@@ -466,7 +466,7 @@ FieldContainerTransitPtr BbqOutOfCoreDataSourceBase::shallowCopy(void) const
 FieldContainerTransitPtr BbqOutOfCoreDataSourceBase::shallowCopyLocal(
     BitVector bFlags) const
 {
-    BbqOutOfCoreDataSourcePtr tmpPtr;
+    BbqOutOfCoreDataSource *tmpPtr;
 
     newPtr(tmpPtr, dynamic_cast<const BbqOutOfCoreDataSource *>(this), bFlags);
 
@@ -613,9 +613,9 @@ void BbqOutOfCoreDataSourceBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainerPtr BbqOutOfCoreDataSourceBase::createAspectCopy(void) const
+FieldContainer *BbqOutOfCoreDataSourceBase::createAspectCopy(void) const
 {
-    BbqOutOfCoreDataSourcePtr returnValue;
+    BbqOutOfCoreDataSource *returnValue;
 
     newAspectCopy(returnValue,
                   dynamic_cast<const BbqOutOfCoreDataSource *>(this));
@@ -633,7 +633,7 @@ void BbqOutOfCoreDataSourceBase::resolveLinks(void)
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BbqOutOfCoreDataSourcePtr>::_type("BbqOutOfCoreDataSourcePtr", "BbqDataSourcePtr");
+DataType FieldTraits<BbqOutOfCoreDataSource *>::_type("BbqOutOfCoreDataSourcePtr", "BbqDataSourcePtr");
 #endif
 
 
