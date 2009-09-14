@@ -98,8 +98,8 @@ void BbqDataSourceBase::classDescInserter(TypeObject &oType)
         IgnoreGeoRefFieldId, IgnoreGeoRefFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&BbqDataSourceBase::editHandleIgnoreGeoRef),
-        static_cast<FieldGetMethodSig >(&BbqDataSourceBase::getHandleIgnoreGeoRef));
+        static_cast<FieldEditMethodSig>(&BbqDataSource::editHandleIgnoreGeoRef),
+        static_cast<FieldGetMethodSig >(&BbqDataSource::getHandleIgnoreGeoRef));
 
     oType.addInitialDesc(pDesc);
 }
@@ -113,7 +113,7 @@ BbqDataSourceBase::TypeObject BbqDataSourceBase::_type(
     NULL,
     BbqDataSource::initMethod,
     BbqDataSource::exitMethod,
-    (InitalInsertDescFunc) &BbqDataSourceBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&BbqDataSourceBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

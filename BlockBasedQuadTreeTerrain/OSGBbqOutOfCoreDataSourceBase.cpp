@@ -110,8 +110,8 @@ void BbqOutOfCoreDataSourceBase::classDescInserter(TypeObject &oType)
         FilenameFieldId, FilenameFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSourceBase::editHandleFilename),
-        static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSourceBase::getHandleFilename));
+        static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSource::editHandleFilename),
+        static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSource::getHandleFilename));
 
     oType.addInitialDesc(pDesc);
 
@@ -122,8 +122,8 @@ void BbqOutOfCoreDataSourceBase::classDescInserter(TypeObject &oType)
         HeightScaleFieldId, HeightScaleFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSourceBase::editHandleHeightScale),
-        static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSourceBase::getHandleHeightScale));
+        static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSource::editHandleHeightScale),
+        static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSource::getHandleHeightScale));
 
     oType.addInitialDesc(pDesc);
 
@@ -134,8 +134,8 @@ void BbqOutOfCoreDataSourceBase::classDescInserter(TypeObject &oType)
         HeightOffsetFieldId, HeightOffsetFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSourceBase::editHandleHeightOffset),
-        static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSourceBase::getHandleHeightOffset));
+        static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSource::editHandleHeightOffset),
+        static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSource::getHandleHeightOffset));
 
     oType.addInitialDesc(pDesc);
 
@@ -146,8 +146,8 @@ void BbqOutOfCoreDataSourceBase::classDescInserter(TypeObject &oType)
         SampleSpacingFieldId, SampleSpacingFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSourceBase::editHandleSampleSpacing),
-        static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSourceBase::getHandleSampleSpacing));
+        static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSource::editHandleSampleSpacing),
+        static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSource::getHandleSampleSpacing));
 
     oType.addInitialDesc(pDesc);
 }
@@ -158,10 +158,10 @@ BbqOutOfCoreDataSourceBase::TypeObject BbqOutOfCoreDataSourceBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &BbqOutOfCoreDataSourceBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&BbqOutOfCoreDataSourceBase::createEmptyLocal),
     BbqOutOfCoreDataSource::initMethod,
     BbqOutOfCoreDataSource::exitMethod,
-    (InitalInsertDescFunc) &BbqOutOfCoreDataSourceBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&BbqOutOfCoreDataSourceBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

@@ -120,8 +120,8 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         BeaconFieldId, BeaconFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleBeacon),
-        static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleBeacon));
+        static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleBeacon),
+        static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleBeacon));
 
     oType.addInitialDesc(pDesc);
 
@@ -132,8 +132,8 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         DataSourceFieldId, DataSourceFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleDataSource),
-        static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleDataSource));
+        static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleDataSource),
+        static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleDataSource));
 
     oType.addInitialDesc(pDesc);
 
@@ -144,8 +144,8 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         MaxNumResidentNodesFieldId, MaxNumResidentNodesFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleMaxNumResidentNodes),
-        static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleMaxNumResidentNodes));
+        static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleMaxNumResidentNodes),
+        static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleMaxNumResidentNodes));
 
     oType.addInitialDesc(pDesc);
 
@@ -156,8 +156,8 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         ScreenSpaceErrorFieldId, ScreenSpaceErrorFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleScreenSpaceError),
-        static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleScreenSpaceError));
+        static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleScreenSpaceError),
+        static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleScreenSpaceError));
 
     oType.addInitialDesc(pDesc);
 
@@ -168,8 +168,8 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         EnableSkirtsFieldId, EnableSkirtsFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleEnableSkirts),
-        static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleEnableSkirts));
+        static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleEnableSkirts),
+        static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleEnableSkirts));
 
     oType.addInitialDesc(pDesc);
 
@@ -180,8 +180,8 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         ShowSwitchDistanceFieldId, ShowSwitchDistanceFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&BbqTerrainBase::editHandleShowSwitchDistance),
-        static_cast<FieldGetMethodSig >(&BbqTerrainBase::getHandleShowSwitchDistance));
+        static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleShowSwitchDistance),
+        static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleShowSwitchDistance));
 
     oType.addInitialDesc(pDesc);
 }
@@ -192,10 +192,10 @@ BbqTerrainBase::TypeObject BbqTerrainBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &BbqTerrainBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&BbqTerrainBase::createEmptyLocal),
     BbqTerrain::initMethod,
     BbqTerrain::exitMethod,
-    (InitalInsertDescFunc) &BbqTerrainBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&BbqTerrainBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
