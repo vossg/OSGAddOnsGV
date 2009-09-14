@@ -333,7 +333,7 @@ LabelBase::TypeObject LabelBase::_type(
     NULL,
     Label::initMethod,
     Label::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&LabelBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&Label::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"
@@ -969,7 +969,8 @@ GetFieldHandlePtr LabelBase::getHandlePosition        (void) const
     SFPnt3f::GetHandlePtr returnValue(
         new  SFPnt3f::GetHandle(
              &_sfPosition,
-             this->getType().getFieldDesc(PositionFieldId)));
+             this->getType().getFieldDesc(PositionFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -979,7 +980,8 @@ EditFieldHandlePtr LabelBase::editHandlePosition       (void)
     SFPnt3f::EditHandlePtr returnValue(
         new  SFPnt3f::EditHandle(
              &_sfPosition,
-             this->getType().getFieldDesc(PositionFieldId)));
+             this->getType().getFieldDesc(PositionFieldId),
+             this));
 
 
     editSField(PositionFieldMask);
@@ -992,7 +994,8 @@ GetFieldHandlePtr LabelBase::getHandlePixelOffset     (void) const
     SFVec2f::GetHandlePtr returnValue(
         new  SFVec2f::GetHandle(
              &_sfPixelOffset,
-             this->getType().getFieldDesc(PixelOffsetFieldId)));
+             this->getType().getFieldDesc(PixelOffsetFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1002,7 +1005,8 @@ EditFieldHandlePtr LabelBase::editHandlePixelOffset    (void)
     SFVec2f::EditHandlePtr returnValue(
         new  SFVec2f::EditHandle(
              &_sfPixelOffset,
-             this->getType().getFieldDesc(PixelOffsetFieldId)));
+             this->getType().getFieldDesc(PixelOffsetFieldId),
+             this));
 
 
     editSField(PixelOffsetFieldMask);
@@ -1015,7 +1019,8 @@ GetFieldHandlePtr LabelBase::getHandleOrientation     (void) const
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
              &_sfOrientation,
-             this->getType().getFieldDesc(OrientationFieldId)));
+             this->getType().getFieldDesc(OrientationFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1025,7 +1030,8 @@ EditFieldHandlePtr LabelBase::editHandleOrientation    (void)
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
              &_sfOrientation,
-             this->getType().getFieldDesc(OrientationFieldId)));
+             this->getType().getFieldDesc(OrientationFieldId),
+             this));
 
 
     editSField(OrientationFieldMask);
@@ -1038,7 +1044,8 @@ GetFieldHandlePtr LabelBase::getHandleHorizontalAlign (void) const
     SFUInt8::GetHandlePtr returnValue(
         new  SFUInt8::GetHandle(
              &_sfHorizontalAlign,
-             this->getType().getFieldDesc(HorizontalAlignFieldId)));
+             this->getType().getFieldDesc(HorizontalAlignFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1048,7 +1055,8 @@ EditFieldHandlePtr LabelBase::editHandleHorizontalAlign(void)
     SFUInt8::EditHandlePtr returnValue(
         new  SFUInt8::EditHandle(
              &_sfHorizontalAlign,
-             this->getType().getFieldDesc(HorizontalAlignFieldId)));
+             this->getType().getFieldDesc(HorizontalAlignFieldId),
+             this));
 
 
     editSField(HorizontalAlignFieldMask);
@@ -1061,7 +1069,8 @@ GetFieldHandlePtr LabelBase::getHandleVerticalAlign   (void) const
     SFUInt8::GetHandlePtr returnValue(
         new  SFUInt8::GetHandle(
              &_sfVerticalAlign,
-             this->getType().getFieldDesc(VerticalAlignFieldId)));
+             this->getType().getFieldDesc(VerticalAlignFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1071,7 +1080,8 @@ EditFieldHandlePtr LabelBase::editHandleVerticalAlign  (void)
     SFUInt8::EditHandlePtr returnValue(
         new  SFUInt8::EditHandle(
              &_sfVerticalAlign,
-             this->getType().getFieldDesc(VerticalAlignFieldId)));
+             this->getType().getFieldDesc(VerticalAlignFieldId),
+             this));
 
 
     editSField(VerticalAlignFieldMask);
@@ -1084,7 +1094,8 @@ GetFieldHandlePtr LabelBase::getHandleMargin          (void) const
     SFVec2f::GetHandlePtr returnValue(
         new  SFVec2f::GetHandle(
              &_sfMargin,
-             this->getType().getFieldDesc(MarginFieldId)));
+             this->getType().getFieldDesc(MarginFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1094,7 +1105,8 @@ EditFieldHandlePtr LabelBase::editHandleMargin         (void)
     SFVec2f::EditHandlePtr returnValue(
         new  SFVec2f::EditHandle(
              &_sfMargin,
-             this->getType().getFieldDesc(MarginFieldId)));
+             this->getType().getFieldDesc(MarginFieldId),
+             this));
 
 
     editSField(MarginFieldMask);
@@ -1107,7 +1119,8 @@ GetFieldHandlePtr LabelBase::getHandleColor           (void) const
     SFColor4f::GetHandlePtr returnValue(
         new  SFColor4f::GetHandle(
              &_sfColor,
-             this->getType().getFieldDesc(ColorFieldId)));
+             this->getType().getFieldDesc(ColorFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1117,7 +1130,8 @@ EditFieldHandlePtr LabelBase::editHandleColor          (void)
     SFColor4f::EditHandlePtr returnValue(
         new  SFColor4f::EditHandle(
              &_sfColor,
-             this->getType().getFieldDesc(ColorFieldId)));
+             this->getType().getFieldDesc(ColorFieldId),
+             this));
 
 
     editSField(ColorFieldMask);
@@ -1130,7 +1144,8 @@ GetFieldHandlePtr LabelBase::getHandleBgColor         (void) const
     SFColor4f::GetHandlePtr returnValue(
         new  SFColor4f::GetHandle(
              &_sfBgColor,
-             this->getType().getFieldDesc(BgColorFieldId)));
+             this->getType().getFieldDesc(BgColorFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1140,7 +1155,8 @@ EditFieldHandlePtr LabelBase::editHandleBgColor        (void)
     SFColor4f::EditHandlePtr returnValue(
         new  SFColor4f::EditHandle(
              &_sfBgColor,
-             this->getType().getFieldDesc(BgColorFieldId)));
+             this->getType().getFieldDesc(BgColorFieldId),
+             this));
 
 
     editSField(BgColorFieldMask);
@@ -1153,7 +1169,8 @@ GetFieldHandlePtr LabelBase::getHandleShadowColor     (void) const
     SFColor4f::GetHandlePtr returnValue(
         new  SFColor4f::GetHandle(
              &_sfShadowColor,
-             this->getType().getFieldDesc(ShadowColorFieldId)));
+             this->getType().getFieldDesc(ShadowColorFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1163,7 +1180,8 @@ EditFieldHandlePtr LabelBase::editHandleShadowColor    (void)
     SFColor4f::EditHandlePtr returnValue(
         new  SFColor4f::EditHandle(
              &_sfShadowColor,
-             this->getType().getFieldDesc(ShadowColorFieldId)));
+             this->getType().getFieldDesc(ShadowColorFieldId),
+             this));
 
 
     editSField(ShadowColorFieldMask);
@@ -1176,7 +1194,8 @@ GetFieldHandlePtr LabelBase::getHandleShadowOffset    (void) const
     SFVec2f::GetHandlePtr returnValue(
         new  SFVec2f::GetHandle(
              &_sfShadowOffset,
-             this->getType().getFieldDesc(ShadowOffsetFieldId)));
+             this->getType().getFieldDesc(ShadowOffsetFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1186,7 +1205,8 @@ EditFieldHandlePtr LabelBase::editHandleShadowOffset   (void)
     SFVec2f::EditHandlePtr returnValue(
         new  SFVec2f::EditHandle(
              &_sfShadowOffset,
-             this->getType().getFieldDesc(ShadowOffsetFieldId)));
+             this->getType().getFieldDesc(ShadowOffsetFieldId),
+             this));
 
 
     editSField(ShadowOffsetFieldMask);
@@ -1199,7 +1219,8 @@ GetFieldHandlePtr LabelBase::getHandleBorderColor     (void) const
     SFColor4f::GetHandlePtr returnValue(
         new  SFColor4f::GetHandle(
              &_sfBorderColor,
-             this->getType().getFieldDesc(BorderColorFieldId)));
+             this->getType().getFieldDesc(BorderColorFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1209,7 +1230,8 @@ EditFieldHandlePtr LabelBase::editHandleBorderColor    (void)
     SFColor4f::EditHandlePtr returnValue(
         new  SFColor4f::EditHandle(
              &_sfBorderColor,
-             this->getType().getFieldDesc(BorderColorFieldId)));
+             this->getType().getFieldDesc(BorderColorFieldId),
+             this));
 
 
     editSField(BorderColorFieldMask);
@@ -1222,7 +1244,8 @@ GetFieldHandlePtr LabelBase::getHandleBorderOffset    (void) const
     SFVec2f::GetHandlePtr returnValue(
         new  SFVec2f::GetHandle(
              &_sfBorderOffset,
-             this->getType().getFieldDesc(BorderOffsetFieldId)));
+             this->getType().getFieldDesc(BorderOffsetFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1232,7 +1255,8 @@ EditFieldHandlePtr LabelBase::editHandleBorderOffset   (void)
     SFVec2f::EditHandlePtr returnValue(
         new  SFVec2f::EditHandle(
              &_sfBorderOffset,
-             this->getType().getFieldDesc(BorderOffsetFieldId)));
+             this->getType().getFieldDesc(BorderOffsetFieldId),
+             this));
 
 
     editSField(BorderOffsetFieldMask);
@@ -1245,7 +1269,8 @@ GetFieldHandlePtr LabelBase::getHandleImportance      (void) const
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
              &_sfImportance,
-             this->getType().getFieldDesc(ImportanceFieldId)));
+             this->getType().getFieldDesc(ImportanceFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1255,7 +1280,8 @@ EditFieldHandlePtr LabelBase::editHandleImportance     (void)
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
              &_sfImportance,
-             this->getType().getFieldDesc(ImportanceFieldId)));
+             this->getType().getFieldDesc(ImportanceFieldId),
+             this));
 
 
     editSField(ImportanceFieldMask);
@@ -1268,7 +1294,8 @@ GetFieldHandlePtr LabelBase::getHandleTextureObject   (void) const
     SFUnrecTextureObjChunkPtr::GetHandlePtr returnValue(
         new  SFUnrecTextureObjChunkPtr::GetHandle(
              &_sfTextureObject,
-             this->getType().getFieldDesc(TextureObjectFieldId)));
+             this->getType().getFieldDesc(TextureObjectFieldId),
+             const_cast<LabelBase *>(this)));
 
     return returnValue;
 }
@@ -1278,7 +1305,8 @@ EditFieldHandlePtr LabelBase::editHandleTextureObject  (void)
     SFUnrecTextureObjChunkPtr::EditHandlePtr returnValue(
         new  SFUnrecTextureObjChunkPtr::EditHandle(
              &_sfTextureObject,
-             this->getType().getFieldDesc(TextureObjectFieldId)));
+             this->getType().getFieldDesc(TextureObjectFieldId),
+             this));
 
     returnValue->setSetMethod(
         boost::bind(&Label::setTextureObject,

@@ -146,7 +146,7 @@ TextLabelBase::TypeObject TextLabelBase::_type(
     reinterpret_cast<PrototypeCreateF>(&TextLabelBase::createEmptyLocal),
     TextLabel::initMethod,
     TextLabel::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&TextLabelBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&TextLabel::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"
@@ -471,7 +471,8 @@ GetFieldHandlePtr TextLabelBase::getHandleText            (void) const
     SFString::GetHandlePtr returnValue(
         new  SFString::GetHandle(
              &_sfText,
-             this->getType().getFieldDesc(TextFieldId)));
+             this->getType().getFieldDesc(TextFieldId),
+             const_cast<TextLabelBase *>(this)));
 
     return returnValue;
 }
@@ -481,7 +482,8 @@ EditFieldHandlePtr TextLabelBase::editHandleText           (void)
     SFString::EditHandlePtr returnValue(
         new  SFString::EditHandle(
              &_sfText,
-             this->getType().getFieldDesc(TextFieldId)));
+             this->getType().getFieldDesc(TextFieldId),
+             this));
 
 
     editSField(TextFieldMask);
@@ -494,7 +496,8 @@ GetFieldHandlePtr TextLabelBase::getHandleSize            (void) const
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
              &_sfSize,
-             this->getType().getFieldDesc(SizeFieldId)));
+             this->getType().getFieldDesc(SizeFieldId),
+             const_cast<TextLabelBase *>(this)));
 
     return returnValue;
 }
@@ -504,7 +507,8 @@ EditFieldHandlePtr TextLabelBase::editHandleSize           (void)
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
              &_sfSize,
-             this->getType().getFieldDesc(SizeFieldId)));
+             this->getType().getFieldDesc(SizeFieldId),
+             this));
 
 
     editSField(SizeFieldMask);
@@ -517,7 +521,8 @@ GetFieldHandlePtr TextLabelBase::getHandleFamily          (void) const
     SFString::GetHandlePtr returnValue(
         new  SFString::GetHandle(
              &_sfFamily,
-             this->getType().getFieldDesc(FamilyFieldId)));
+             this->getType().getFieldDesc(FamilyFieldId),
+             const_cast<TextLabelBase *>(this)));
 
     return returnValue;
 }
@@ -527,7 +532,8 @@ EditFieldHandlePtr TextLabelBase::editHandleFamily         (void)
     SFString::EditHandlePtr returnValue(
         new  SFString::EditHandle(
              &_sfFamily,
-             this->getType().getFieldDesc(FamilyFieldId)));
+             this->getType().getFieldDesc(FamilyFieldId),
+             this));
 
 
     editSField(FamilyFieldMask);

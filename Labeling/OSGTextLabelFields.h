@@ -66,20 +66,11 @@ OSG_BEGIN_NAMESPACE
 
 class TextLabel;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! TextLabelPtr
-
 OSG_GEN_CONTAINERPTR(TextLabel);
 
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 /*! \ingroup GrpContribLabelingFieldTraits
+    \ingroup GrpLibOSGContribLabeling
  */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
 template <>
 struct FieldTraits<TextLabel *> :
     public FieldTraitsFCPtrBase<TextLabel *>
@@ -154,42 +145,78 @@ const Char8 *FieldTraits<TextLabel *, 0>::getMName<NoRefCountPolicy>(void)
     return "MFUnrefdTextLabelPtr"; 
 }
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<TextLabelPtr, 0>
-    \hideinhierarchy
- */
-#endif
 
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribLabelingFieldSingle */
-
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<TextLabel *,
                       RecordedRefCountPolicy  > SFRecTextLabelPtr;
+/*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<TextLabel *,
                       UnrecordedRefCountPolicy> SFUnrecTextLabelPtr;
+/*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<TextLabel *,
                       WeakRefCountPolicy      > SFWeakTextLabelPtr;
+/*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<TextLabel *,
                       NoRefCountPolicy        > SFUncountedTextLabelPtr;
-#endif
 
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribLabelingFieldMulti */
-
+/*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<TextLabel *,
                       RecordedRefCountPolicy  > MFRecTextLabelPtr;
+/*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<TextLabel *,
                       UnrecordedRefCountPolicy> MFUnrecTextLabelPtr;
+/*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<TextLabel *,
                       WeakRefCountPolicy      > MFWeakTextLabelPtr;
+/*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<TextLabel *,
                       NoRefCountPolicy        > MFUncountedTextLabelPtr;
-#endif
 
+
+
+
+#else // these are the doxygen hacks
+
+/*! \ingroup GrpContribLabelingFieldSFields \ingroup GrpLibOSGContribLabeling */
+struct SFRecTextLabelPtr : 
+    public PointerSField<TextLabel *,
+                         RecordedRefCountPolicy> {};
+/*! \ingroup GrpContribLabelingFieldSFields \ingroup GrpLibOSGContribLabeling */
+struct SFUnrecTextLabelPtr : 
+    public PointerSField<TextLabel *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribLabelingFieldSFields \ingroup GrpLibOSGContribLabeling */
+struct SFWeakTextLabelPtr :
+    public PointerSField<TextLabel *,
+                         WeakRefCountPolicy> {};
+/*! \ingroup GrpContribLabelingFieldSFields \ingroup GrpLibOSGContribLabeling */
+struct SFUncountedTextLabelPtr :
+    public PointerSField<TextLabel *,
+                         NoRefCountPolicy> {};
+
+
+/*! \ingroup GrpContribLabelingFieldMFields \ingroup GrpLibOSGContribLabeling */
+struct MFRecTextLabelPtr :
+    public PointerMField<TextLabel *,
+                         RecordedRefCountPolicy  > {};
+/*! \ingroup GrpContribLabelingFieldMFields \ingroup GrpLibOSGContribLabeling */
+struct MFUnrecTextLabelPtr :
+    public PointerMField<TextLabel *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribLabelingFieldMFields \ingroup GrpLibOSGContribLabeling */
+struct MFWeakTextLabelPtr :
+    public PointerMField<TextLabel *,
+                         WeakRefCountPolicy      > {};
+/*! \ingroup GrpContribLabelingFieldMFields \ingroup GrpLibOSGContribLabeling */
+struct MFUncountedTextLabelPtr :
+    public PointerMField<TextLabel *,
+                         NoRefCountPolicy        > {};
+
+
+
+#endif // these are the doxygen hacks
 
 OSG_END_NAMESPACE
 

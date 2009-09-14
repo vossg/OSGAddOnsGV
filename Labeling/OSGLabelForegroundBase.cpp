@@ -141,7 +141,7 @@ LabelForegroundBase::TypeObject LabelForegroundBase::_type(
     reinterpret_cast<PrototypeCreateF>(&LabelForegroundBase::createEmptyLocal),
     LabelForeground::initMethod,
     LabelForeground::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&LabelForegroundBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&LabelForeground::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
@@ -452,7 +452,8 @@ GetFieldHandlePtr LabelForegroundBase::getHandleImportanceThreshold (void) const
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
              &_sfImportanceThreshold,
-             this->getType().getFieldDesc(ImportanceThresholdFieldId)));
+             this->getType().getFieldDesc(ImportanceThresholdFieldId),
+             const_cast<LabelForegroundBase *>(this)));
 
     return returnValue;
 }
@@ -462,7 +463,8 @@ EditFieldHandlePtr LabelForegroundBase::editHandleImportanceThreshold(void)
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
              &_sfImportanceThreshold,
-             this->getType().getFieldDesc(ImportanceThresholdFieldId)));
+             this->getType().getFieldDesc(ImportanceThresholdFieldId),
+             this));
 
 
     editSField(ImportanceThresholdFieldMask);
@@ -475,7 +477,8 @@ GetFieldHandlePtr LabelForegroundBase::getHandleTextureEnvironment (void) const
     SFUnrecTextureEnvChunkPtr::GetHandlePtr returnValue(
         new  SFUnrecTextureEnvChunkPtr::GetHandle(
              &_sfTextureEnvironment,
-             this->getType().getFieldDesc(TextureEnvironmentFieldId)));
+             this->getType().getFieldDesc(TextureEnvironmentFieldId),
+             const_cast<LabelForegroundBase *>(this)));
 
     return returnValue;
 }
@@ -485,7 +488,8 @@ EditFieldHandlePtr LabelForegroundBase::editHandleTextureEnvironment(void)
     SFUnrecTextureEnvChunkPtr::EditHandlePtr returnValue(
         new  SFUnrecTextureEnvChunkPtr::EditHandle(
              &_sfTextureEnvironment,
-             this->getType().getFieldDesc(TextureEnvironmentFieldId)));
+             this->getType().getFieldDesc(TextureEnvironmentFieldId),
+             this));
 
     returnValue->setSetMethod(
         boost::bind(&LabelForeground::setTextureEnvironment,

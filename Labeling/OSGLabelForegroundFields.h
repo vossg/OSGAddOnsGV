@@ -66,20 +66,11 @@ OSG_BEGIN_NAMESPACE
 
 class LabelForeground;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! LabelForegroundPtr
-
 OSG_GEN_CONTAINERPTR(LabelForeground);
 
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 /*! \ingroup GrpContribLabelingFieldTraits
+    \ingroup GrpLibOSGContribLabeling
  */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
 template <>
 struct FieldTraits<LabelForeground *> :
     public FieldTraitsFCPtrBase<LabelForeground *>
@@ -154,42 +145,78 @@ const Char8 *FieldTraits<LabelForeground *, 0>::getMName<NoRefCountPolicy>(void)
     return "MFUnrefdLabelForegroundPtr"; 
 }
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<LabelForegroundPtr, 0>
-    \hideinhierarchy
- */
-#endif
 
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribLabelingFieldSingle */
-
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<LabelForeground *,
                       RecordedRefCountPolicy  > SFRecLabelForegroundPtr;
+/*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<LabelForeground *,
                       UnrecordedRefCountPolicy> SFUnrecLabelForegroundPtr;
+/*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<LabelForeground *,
                       WeakRefCountPolicy      > SFWeakLabelForegroundPtr;
+/*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<LabelForeground *,
                       NoRefCountPolicy        > SFUncountedLabelForegroundPtr;
-#endif
 
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpContribLabelingFieldMulti */
-
+/*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<LabelForeground *,
                       RecordedRefCountPolicy  > MFRecLabelForegroundPtr;
+/*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<LabelForeground *,
                       UnrecordedRefCountPolicy> MFUnrecLabelForegroundPtr;
+/*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<LabelForeground *,
                       WeakRefCountPolicy      > MFWeakLabelForegroundPtr;
+/*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<LabelForeground *,
                       NoRefCountPolicy        > MFUncountedLabelForegroundPtr;
-#endif
 
+
+
+
+#else // these are the doxygen hacks
+
+/*! \ingroup GrpContribLabelingFieldSFields \ingroup GrpLibOSGContribLabeling */
+struct SFRecLabelForegroundPtr : 
+    public PointerSField<LabelForeground *,
+                         RecordedRefCountPolicy> {};
+/*! \ingroup GrpContribLabelingFieldSFields \ingroup GrpLibOSGContribLabeling */
+struct SFUnrecLabelForegroundPtr : 
+    public PointerSField<LabelForeground *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribLabelingFieldSFields \ingroup GrpLibOSGContribLabeling */
+struct SFWeakLabelForegroundPtr :
+    public PointerSField<LabelForeground *,
+                         WeakRefCountPolicy> {};
+/*! \ingroup GrpContribLabelingFieldSFields \ingroup GrpLibOSGContribLabeling */
+struct SFUncountedLabelForegroundPtr :
+    public PointerSField<LabelForeground *,
+                         NoRefCountPolicy> {};
+
+
+/*! \ingroup GrpContribLabelingFieldMFields \ingroup GrpLibOSGContribLabeling */
+struct MFRecLabelForegroundPtr :
+    public PointerMField<LabelForeground *,
+                         RecordedRefCountPolicy  > {};
+/*! \ingroup GrpContribLabelingFieldMFields \ingroup GrpLibOSGContribLabeling */
+struct MFUnrecLabelForegroundPtr :
+    public PointerMField<LabelForeground *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribLabelingFieldMFields \ingroup GrpLibOSGContribLabeling */
+struct MFWeakLabelForegroundPtr :
+    public PointerMField<LabelForeground *,
+                         WeakRefCountPolicy      > {};
+/*! \ingroup GrpContribLabelingFieldMFields \ingroup GrpLibOSGContribLabeling */
+struct MFUncountedLabelForegroundPtr :
+    public PointerMField<LabelForeground *,
+                         NoRefCountPolicy        > {};
+
+
+
+#endif // these are the doxygen hacks
 
 OSG_END_NAMESPACE
 

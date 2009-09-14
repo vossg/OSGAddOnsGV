@@ -147,7 +147,7 @@ IconLabelBase::TypeObject IconLabelBase::_type(
     reinterpret_cast<PrototypeCreateF>(&IconLabelBase::createEmptyLocal),
     IconLabel::initMethod,
     IconLabel::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&IconLabelBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&IconLabel::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"
@@ -485,7 +485,8 @@ GetFieldHandlePtr IconLabelBase::getHandleFilename        (void) const
     SFString::GetHandlePtr returnValue(
         new  SFString::GetHandle(
              &_sfFilename,
-             this->getType().getFieldDesc(FilenameFieldId)));
+             this->getType().getFieldDesc(FilenameFieldId),
+             const_cast<IconLabelBase *>(this)));
 
     return returnValue;
 }
@@ -495,7 +496,8 @@ EditFieldHandlePtr IconLabelBase::editHandleFilename       (void)
     SFString::EditHandlePtr returnValue(
         new  SFString::EditHandle(
              &_sfFilename,
-             this->getType().getFieldDesc(FilenameFieldId)));
+             this->getType().getFieldDesc(FilenameFieldId),
+             this));
 
 
     editSField(FilenameFieldMask);
@@ -508,7 +510,8 @@ GetFieldHandlePtr IconLabelBase::getHandleImage           (void) const
     SFUnrecImagePtr::GetHandlePtr returnValue(
         new  SFUnrecImagePtr::GetHandle(
              &_sfImage,
-             this->getType().getFieldDesc(ImageFieldId)));
+             this->getType().getFieldDesc(ImageFieldId),
+             const_cast<IconLabelBase *>(this)));
 
     return returnValue;
 }
@@ -518,7 +521,8 @@ EditFieldHandlePtr IconLabelBase::editHandleImage          (void)
     SFUnrecImagePtr::EditHandlePtr returnValue(
         new  SFUnrecImagePtr::EditHandle(
              &_sfImage,
-             this->getType().getFieldDesc(ImageFieldId)));
+             this->getType().getFieldDesc(ImageFieldId),
+             this));
 
     returnValue->setSetMethod(
         boost::bind(&IconLabel::setImage,
@@ -534,7 +538,8 @@ GetFieldHandlePtr IconLabelBase::getHandleSize            (void) const
     SFVec2f::GetHandlePtr returnValue(
         new  SFVec2f::GetHandle(
              &_sfSize,
-             this->getType().getFieldDesc(SizeFieldId)));
+             this->getType().getFieldDesc(SizeFieldId),
+             const_cast<IconLabelBase *>(this)));
 
     return returnValue;
 }
@@ -544,7 +549,8 @@ EditFieldHandlePtr IconLabelBase::editHandleSize           (void)
     SFVec2f::EditHandlePtr returnValue(
         new  SFVec2f::EditHandle(
              &_sfSize,
-             this->getType().getFieldDesc(SizeFieldId)));
+             this->getType().getFieldDesc(SizeFieldId),
+             this));
 
 
     editSField(SizeFieldMask);
