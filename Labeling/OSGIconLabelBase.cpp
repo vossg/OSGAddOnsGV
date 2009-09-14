@@ -50,9 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-
-#define OSG_COMPILEICONLABELINST
-
 #include <cstdlib>
 #include <cstdio>
 #include <boost/assign/list_of.hpp>
@@ -67,6 +64,10 @@
 #include "OSGIconLabel.h"
 
 #include "boost/bind.hpp"
+
+#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable:4355)
+#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -232,12 +233,6 @@ const SFString *IconLabelBase::getSFFilename(void) const
     return &_sfFilename;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFString            *IconLabelBase::getSFFilename       (void)
-{
-    return this->editSFFilename       ();
-}
-#endif
 
 //! Get the IconLabel::_sfImage field.
 const SFUnrecImagePtr *IconLabelBase::getSFImage(void) const
@@ -264,12 +259,6 @@ const SFVec2f *IconLabelBase::getSFSize(void) const
     return &_sfSize;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFVec2f             *IconLabelBase::getSFSize           (void)
-{
-    return this->editSFSize           ();
-}
-#endif
 
 
 

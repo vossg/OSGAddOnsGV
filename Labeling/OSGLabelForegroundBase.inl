@@ -85,22 +85,14 @@ Real32 &LabelForegroundBase::editImportanceThreshold(void)
 
 //! Get the value of the LabelForeground::_sfImportanceThreshold field.
 inline
-const Real32 LabelForegroundBase::getImportanceThreshold(void) const
+      Real32  LabelForegroundBase::getImportanceThreshold(void) const
 {
     return _sfImportanceThreshold.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Real32              &LabelForegroundBase::getImportanceThreshold(void)
-{
-    return this->editImportanceThreshold();
-}
-#endif
-
 //! Set the value of the LabelForeground::_sfImportanceThreshold field.
 inline
-void LabelForegroundBase::setImportanceThreshold(const Real32 &value)
+void LabelForegroundBase::setImportanceThreshold(const Real32 value)
 {
     editSField(ImportanceThresholdFieldMask);
 
@@ -144,7 +136,7 @@ void LabelForegroundBase::execSync (      LabelForegroundBase *pFrom,
 
 
 inline
-Char8 *LabelForegroundBase::getClassname(void)
+const Char8 *LabelForegroundBase::getClassname(void)
 {
     return "LabelForeground";
 }

@@ -50,9 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-
-#define OSG_COMPILELABELFOREGROUNDINST
-
 #include <cstdlib>
 #include <cstdio>
 #include <boost/assign/list_of.hpp>
@@ -67,6 +64,10 @@
 #include "OSGLabelForeground.h"
 
 #include "boost/bind.hpp"
+
+#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable:4355)
+#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -226,12 +227,6 @@ const SFReal32 *LabelForegroundBase::getSFImportanceThreshold(void) const
     return &_sfImportanceThreshold;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFReal32            *LabelForegroundBase::getSFImportanceThreshold(void)
-{
-    return this->editSFImportanceThreshold();
-}
-#endif
 
 //! Get the LabelForeground::_sfTextureEnvironment field.
 const SFUnrecTextureEnvChunkPtr *LabelForegroundBase::getSFTextureEnvironment(void) const

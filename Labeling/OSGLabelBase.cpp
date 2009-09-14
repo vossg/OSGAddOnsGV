@@ -50,9 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-
-#define OSG_COMPILELABELINST
-
 #include <cstdlib>
 #include <cstdio>
 #include <boost/assign/list_of.hpp>
@@ -67,6 +64,10 @@
 #include "OSGLabel.h"
 
 #include "boost/bind.hpp"
+
+#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable:4355)
+#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -535,12 +536,6 @@ const SFPnt3f *LabelBase::getSFPosition(void) const
     return &_sfPosition;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFPnt3f             *LabelBase::getSFPosition       (void)
-{
-    return this->editSFPosition       ();
-}
-#endif
 
 SFVec2f *LabelBase::editSFPixelOffset(void)
 {
@@ -554,12 +549,6 @@ const SFVec2f *LabelBase::getSFPixelOffset(void) const
     return &_sfPixelOffset;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFVec2f             *LabelBase::getSFPixelOffset    (void)
-{
-    return this->editSFPixelOffset    ();
-}
-#endif
 
 SFReal32 *LabelBase::editSFOrientation(void)
 {
@@ -573,12 +562,6 @@ const SFReal32 *LabelBase::getSFOrientation(void) const
     return &_sfOrientation;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFReal32            *LabelBase::getSFOrientation    (void)
-{
-    return this->editSFOrientation    ();
-}
-#endif
 
 SFUInt8 *LabelBase::editSFHorizontalAlign(void)
 {
@@ -592,12 +575,6 @@ const SFUInt8 *LabelBase::getSFHorizontalAlign(void) const
     return &_sfHorizontalAlign;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFUInt8             *LabelBase::getSFHorizontalAlign(void)
-{
-    return this->editSFHorizontalAlign();
-}
-#endif
 
 SFUInt8 *LabelBase::editSFVerticalAlign(void)
 {
@@ -611,12 +588,6 @@ const SFUInt8 *LabelBase::getSFVerticalAlign(void) const
     return &_sfVerticalAlign;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFUInt8             *LabelBase::getSFVerticalAlign  (void)
-{
-    return this->editSFVerticalAlign  ();
-}
-#endif
 
 SFVec2f *LabelBase::editSFMargin(void)
 {
@@ -630,12 +601,6 @@ const SFVec2f *LabelBase::getSFMargin(void) const
     return &_sfMargin;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFVec2f             *LabelBase::getSFMargin         (void)
-{
-    return this->editSFMargin         ();
-}
-#endif
 
 SFColor4f *LabelBase::editSFColor(void)
 {
@@ -649,12 +614,6 @@ const SFColor4f *LabelBase::getSFColor(void) const
     return &_sfColor;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFColor4f           *LabelBase::getSFColor          (void)
-{
-    return this->editSFColor          ();
-}
-#endif
 
 SFColor4f *LabelBase::editSFBgColor(void)
 {
@@ -668,12 +627,6 @@ const SFColor4f *LabelBase::getSFBgColor(void) const
     return &_sfBgColor;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFColor4f           *LabelBase::getSFBgColor        (void)
-{
-    return this->editSFBgColor        ();
-}
-#endif
 
 SFColor4f *LabelBase::editSFShadowColor(void)
 {
@@ -687,12 +640,6 @@ const SFColor4f *LabelBase::getSFShadowColor(void) const
     return &_sfShadowColor;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFColor4f           *LabelBase::getSFShadowColor    (void)
-{
-    return this->editSFShadowColor    ();
-}
-#endif
 
 SFVec2f *LabelBase::editSFShadowOffset(void)
 {
@@ -706,12 +653,6 @@ const SFVec2f *LabelBase::getSFShadowOffset(void) const
     return &_sfShadowOffset;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFVec2f             *LabelBase::getSFShadowOffset   (void)
-{
-    return this->editSFShadowOffset   ();
-}
-#endif
 
 SFColor4f *LabelBase::editSFBorderColor(void)
 {
@@ -725,12 +666,6 @@ const SFColor4f *LabelBase::getSFBorderColor(void) const
     return &_sfBorderColor;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFColor4f           *LabelBase::getSFBorderColor    (void)
-{
-    return this->editSFBorderColor    ();
-}
-#endif
 
 SFVec2f *LabelBase::editSFBorderOffset(void)
 {
@@ -744,12 +679,6 @@ const SFVec2f *LabelBase::getSFBorderOffset(void) const
     return &_sfBorderOffset;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFVec2f             *LabelBase::getSFBorderOffset   (void)
-{
-    return this->editSFBorderOffset   ();
-}
-#endif
 
 SFReal32 *LabelBase::editSFImportance(void)
 {
@@ -763,12 +692,6 @@ const SFReal32 *LabelBase::getSFImportance(void) const
     return &_sfImportance;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFReal32            *LabelBase::getSFImportance     (void)
-{
-    return this->editSFImportance     ();
-}
-#endif
 
 //! Get the Label::_sfTextureObject field.
 const SFUnrecTextureObjChunkPtr *LabelBase::getSFTextureObject(void) const

@@ -85,18 +85,10 @@ std::string &IconLabelBase::editFilename(void)
 
 //! Get the value of the IconLabel::_sfFilename field.
 inline
-const std::string IconLabelBase::getFilename(void) const
+const std::string &IconLabelBase::getFilename(void) const
 {
     return _sfFilename.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-std::string         &IconLabelBase::getFilename       (void)
-{
-    return this->editFilename       ();
-}
-#endif
 
 //! Set the value of the IconLabel::_sfFilename field.
 inline
@@ -134,18 +126,10 @@ Vec2f &IconLabelBase::editSize(void)
 
 //! Get the value of the IconLabel::_sfSize field.
 inline
-const Vec2f IconLabelBase::getSize(void) const
+const Vec2f &IconLabelBase::getSize(void) const
 {
     return _sfSize.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-Vec2f               &IconLabelBase::getSize           (void)
-{
-    return this->editSize           ();
-}
-#endif
 
 //! Set the value of the IconLabel::_sfSize field.
 inline
@@ -180,7 +164,7 @@ void IconLabelBase::execSync (      IconLabelBase *pFrom,
 
 
 inline
-Char8 *IconLabelBase::getClassname(void)
+const Char8 *IconLabelBase::getClassname(void)
 {
     return "IconLabel";
 }

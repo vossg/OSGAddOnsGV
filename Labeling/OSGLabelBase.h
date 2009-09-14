@@ -153,6 +153,21 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelBase : public Group
         (TypeTraits<BitVector>::One << TextureObjectFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFPnt3f           SFPositionType;
+    typedef SFVec2f           SFPixelOffsetType;
+    typedef SFReal32          SFOrientationType;
+    typedef SFUInt8           SFHorizontalAlignType;
+    typedef SFUInt8           SFVerticalAlignType;
+    typedef SFVec2f           SFMarginType;
+    typedef SFColor4f         SFColorType;
+    typedef SFColor4f         SFBgColorType;
+    typedef SFColor4f         SFShadowColorType;
+    typedef SFVec2f           SFShadowOffsetType;
+    typedef SFColor4f         SFBorderColorType;
+    typedef SFVec2f           SFBorderOffsetType;
+    typedef SFReal32          SFImportanceType;
+    typedef SFUnrecTextureObjChunkPtr SFTextureObjectType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -178,162 +193,84 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelBase : public Group
     /*! \{                                                                 */
 
 
-#ifdef OSG_1_GET_COMPAT
-                  SFPnt3f             *getSFPosition        (void);
-#endif
                   SFPnt3f             *editSFPosition       (void);
             const SFPnt3f             *getSFPosition        (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFVec2f             *getSFPixelOffset     (void);
-#endif
                   SFVec2f             *editSFPixelOffset    (void);
             const SFVec2f             *getSFPixelOffset     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFReal32            *getSFOrientation     (void);
-#endif
                   SFReal32            *editSFOrientation    (void);
             const SFReal32            *getSFOrientation     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFUInt8             *getSFHorizontalAlign (void);
-#endif
                   SFUInt8             *editSFHorizontalAlign(void);
             const SFUInt8             *getSFHorizontalAlign (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFUInt8             *getSFVerticalAlign   (void);
-#endif
                   SFUInt8             *editSFVerticalAlign  (void);
             const SFUInt8             *getSFVerticalAlign   (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFVec2f             *getSFMargin          (void);
-#endif
                   SFVec2f             *editSFMargin         (void);
             const SFVec2f             *getSFMargin          (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFColor4f           *getSFColor           (void);
-#endif
                   SFColor4f           *editSFColor          (void);
             const SFColor4f           *getSFColor           (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFColor4f           *getSFBgColor         (void);
-#endif
                   SFColor4f           *editSFBgColor        (void);
             const SFColor4f           *getSFBgColor         (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFColor4f           *getSFShadowColor     (void);
-#endif
                   SFColor4f           *editSFShadowColor    (void);
             const SFColor4f           *getSFShadowColor     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFVec2f             *getSFShadowOffset    (void);
-#endif
                   SFVec2f             *editSFShadowOffset   (void);
             const SFVec2f             *getSFShadowOffset    (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFColor4f           *getSFBorderColor     (void);
-#endif
                   SFColor4f           *editSFBorderColor    (void);
             const SFColor4f           *getSFBorderColor     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFVec2f             *getSFBorderOffset    (void);
-#endif
                   SFVec2f             *editSFBorderOffset   (void);
             const SFVec2f             *getSFBorderOffset    (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFReal32            *getSFImportance      (void);
-#endif
                   SFReal32            *editSFImportance     (void);
             const SFReal32            *getSFImportance      (void) const;
 
 
-#ifdef OSG_1_GET_COMPAT
-                  Pnt3f               &getPosition        (void);
-#endif
                   Pnt3f               &editPosition       (void);
-            const Pnt3f                getPosition        (void) const;
+            const Pnt3f               &getPosition        (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Vec2f               &getPixelOffset     (void);
-#endif
                   Vec2f               &editPixelOffset    (void);
-            const Vec2f                getPixelOffset     (void) const;
+            const Vec2f               &getPixelOffset     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Real32              &getOrientation     (void);
-#endif
                   Real32              &editOrientation    (void);
-            const Real32               getOrientation     (void) const;
+                  Real32               getOrientation     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  UInt8               &getHorizontalAlign (void);
-#endif
                   UInt8               &editHorizontalAlign(void);
-            const UInt8                getHorizontalAlign (void) const;
+                  UInt8                getHorizontalAlign (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  UInt8               &getVerticalAlign   (void);
-#endif
                   UInt8               &editVerticalAlign  (void);
-            const UInt8                getVerticalAlign   (void) const;
+                  UInt8                getVerticalAlign   (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Vec2f               &getMargin          (void);
-#endif
                   Vec2f               &editMargin         (void);
-            const Vec2f                getMargin          (void) const;
+            const Vec2f               &getMargin          (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Color4f             &getColor           (void);
-#endif
                   Color4f             &editColor          (void);
-            const Color4f              getColor           (void) const;
+            const Color4f             &getColor           (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Color4f             &getBgColor         (void);
-#endif
                   Color4f             &editBgColor        (void);
-            const Color4f              getBgColor         (void) const;
+            const Color4f             &getBgColor         (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Color4f             &getShadowColor     (void);
-#endif
                   Color4f             &editShadowColor    (void);
-            const Color4f              getShadowColor     (void) const;
+            const Color4f             &getShadowColor     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Vec2f               &getShadowOffset    (void);
-#endif
                   Vec2f               &editShadowOffset   (void);
-            const Vec2f                getShadowOffset    (void) const;
+            const Vec2f               &getShadowOffset    (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Color4f             &getBorderColor     (void);
-#endif
                   Color4f             &editBorderColor    (void);
-            const Color4f              getBorderColor     (void) const;
+            const Color4f             &getBorderColor     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Vec2f               &getBorderOffset    (void);
-#endif
                   Vec2f               &editBorderOffset   (void);
-            const Vec2f                getBorderOffset    (void) const;
+            const Vec2f               &getBorderOffset    (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Real32              &getImportance      (void);
-#endif
                   Real32              &editImportance     (void);
-            const Real32               getImportance      (void) const;
+                  Real32               getImportance      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -342,9 +279,9 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelBase : public Group
 
             void setPosition       (const Pnt3f &value);
             void setPixelOffset    (const Vec2f &value);
-            void setOrientation    (const Real32 &value);
-            void setHorizontalAlign(const UInt8 &value);
-            void setVerticalAlign  (const UInt8 &value);
+            void setOrientation    (const Real32 value);
+            void setHorizontalAlign(const UInt8 value);
+            void setVerticalAlign  (const UInt8 value);
             void setMargin         (const Vec2f &value);
             void setColor          (const Color4f &value);
             void setBgColor        (const Color4f &value);
@@ -352,7 +289,7 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelBase : public Group
             void setShadowOffset   (const Vec2f &value);
             void setBorderColor    (const Color4f &value);
             void setBorderOffset   (const Vec2f &value);
-            void setImportance     (const Real32 &value);
+            void setImportance     (const Real32 value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -383,8 +320,8 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelBase : public Group
 
     static TypeObject _type;
 
-    static void   classDescInserter(TypeObject &oType);
-    static Char8 *getClassname     (void             );
+    static       void   classDescInserter(TypeObject &oType);
+    static const Char8 *getClassname     (void             );
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Fields                                  */

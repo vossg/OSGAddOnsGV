@@ -109,6 +109,10 @@ class OSG_CONTRIBLABELING_DLLMAPPING TextLabelBase : public Label
         (TypeTraits<BitVector>::One << FamilyFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFString          SFTextType;
+    typedef SFReal32          SFSizeType;
+    typedef SFString          SFFamilyType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -134,42 +138,24 @@ class OSG_CONTRIBLABELING_DLLMAPPING TextLabelBase : public Label
     /*! \{                                                                 */
 
 
-#ifdef OSG_1_GET_COMPAT
-                  SFString            *getSFText            (void);
-#endif
                   SFString            *editSFText           (void);
             const SFString            *getSFText            (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFReal32            *getSFSize            (void);
-#endif
                   SFReal32            *editSFSize           (void);
             const SFReal32            *getSFSize            (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFString            *getSFFamily          (void);
-#endif
                   SFString            *editSFFamily         (void);
             const SFString            *getSFFamily          (void) const;
 
 
-#ifdef OSG_1_GET_COMPAT
-                  std::string         &getText            (void);
-#endif
                   std::string         &editText           (void);
-            const std::string          getText            (void) const;
+            const std::string         &getText            (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Real32              &getSize            (void);
-#endif
                   Real32              &editSize           (void);
-            const Real32               getSize            (void) const;
+                  Real32               getSize            (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  std::string         &getFamily          (void);
-#endif
                   std::string         &editFamily         (void);
-            const std::string          getFamily          (void) const;
+            const std::string         &getFamily          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -177,7 +163,7 @@ class OSG_CONTRIBLABELING_DLLMAPPING TextLabelBase : public Label
     /*! \{                                                                 */
 
             void setText           (const std::string &value);
-            void setSize           (const Real32 &value);
+            void setSize           (const Real32 value);
             void setFamily         (const std::string &value);
 
     /*! \}                                                                 */
@@ -227,8 +213,8 @@ class OSG_CONTRIBLABELING_DLLMAPPING TextLabelBase : public Label
 
     static TypeObject _type;
 
-    static void   classDescInserter(TypeObject &oType);
-    static Char8 *getClassname     (void             );
+    static       void   classDescInserter(TypeObject &oType);
+    static const Char8 *getClassname     (void             );
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Fields                                  */

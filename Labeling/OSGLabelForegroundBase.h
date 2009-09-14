@@ -105,6 +105,9 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForegroundBase : public Foreground
         (TypeTraits<BitVector>::One << TextureEnvironmentFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFReal32          SFImportanceThresholdType;
+    typedef SFUnrecTextureEnvChunkPtr SFTextureEnvironmentType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -130,25 +133,19 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForegroundBase : public Foreground
     /*! \{                                                                 */
 
 
-#ifdef OSG_1_GET_COMPAT
-                  SFReal32            *getSFImportanceThreshold (void);
-#endif
                   SFReal32            *editSFImportanceThreshold(void);
             const SFReal32            *getSFImportanceThreshold (void) const;
 
 
-#ifdef OSG_1_GET_COMPAT
-                  Real32              &getImportanceThreshold (void);
-#endif
                   Real32              &editImportanceThreshold(void);
-            const Real32               getImportanceThreshold (void) const;
+                  Real32               getImportanceThreshold (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setImportanceThreshold(const Real32 &value);
+            void setImportanceThreshold(const Real32 value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -202,8 +199,8 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForegroundBase : public Foreground
 
     static TypeObject _type;
 
-    static void   classDescInserter(TypeObject &oType);
-    static Char8 *getClassname     (void             );
+    static       void   classDescInserter(TypeObject &oType);
+    static const Char8 *getClassname     (void             );
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Fields                                  */

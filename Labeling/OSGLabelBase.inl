@@ -85,18 +85,10 @@ Pnt3f &LabelBase::editPosition(void)
 
 //! Get the value of the Label::_sfPosition field.
 inline
-const Pnt3f LabelBase::getPosition(void) const
+const Pnt3f &LabelBase::getPosition(void) const
 {
     return _sfPosition.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-Pnt3f               &LabelBase::getPosition       (void)
-{
-    return this->editPosition       ();
-}
-#endif
 
 //! Set the value of the Label::_sfPosition field.
 inline
@@ -118,18 +110,10 @@ Vec2f &LabelBase::editPixelOffset(void)
 
 //! Get the value of the Label::_sfPixelOffset field.
 inline
-const Vec2f LabelBase::getPixelOffset(void) const
+const Vec2f &LabelBase::getPixelOffset(void) const
 {
     return _sfPixelOffset.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-Vec2f               &LabelBase::getPixelOffset    (void)
-{
-    return this->editPixelOffset    ();
-}
-#endif
 
 //! Set the value of the Label::_sfPixelOffset field.
 inline
@@ -151,22 +135,14 @@ Real32 &LabelBase::editOrientation(void)
 
 //! Get the value of the Label::_sfOrientation field.
 inline
-const Real32 LabelBase::getOrientation(void) const
+      Real32  LabelBase::getOrientation(void) const
 {
     return _sfOrientation.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Real32              &LabelBase::getOrientation    (void)
-{
-    return this->editOrientation    ();
-}
-#endif
-
 //! Set the value of the Label::_sfOrientation field.
 inline
-void LabelBase::setOrientation(const Real32 &value)
+void LabelBase::setOrientation(const Real32 value)
 {
     editSField(OrientationFieldMask);
 
@@ -184,22 +160,14 @@ UInt8 &LabelBase::editHorizontalAlign(void)
 
 //! Get the value of the Label::_sfHorizontalAlign field.
 inline
-const UInt8 LabelBase::getHorizontalAlign(void) const
+      UInt8  LabelBase::getHorizontalAlign(void) const
 {
     return _sfHorizontalAlign.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-UInt8               &LabelBase::getHorizontalAlign(void)
-{
-    return this->editHorizontalAlign();
-}
-#endif
-
 //! Set the value of the Label::_sfHorizontalAlign field.
 inline
-void LabelBase::setHorizontalAlign(const UInt8 &value)
+void LabelBase::setHorizontalAlign(const UInt8 value)
 {
     editSField(HorizontalAlignFieldMask);
 
@@ -217,22 +185,14 @@ UInt8 &LabelBase::editVerticalAlign(void)
 
 //! Get the value of the Label::_sfVerticalAlign field.
 inline
-const UInt8 LabelBase::getVerticalAlign(void) const
+      UInt8  LabelBase::getVerticalAlign(void) const
 {
     return _sfVerticalAlign.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-UInt8               &LabelBase::getVerticalAlign  (void)
-{
-    return this->editVerticalAlign  ();
-}
-#endif
-
 //! Set the value of the Label::_sfVerticalAlign field.
 inline
-void LabelBase::setVerticalAlign(const UInt8 &value)
+void LabelBase::setVerticalAlign(const UInt8 value)
 {
     editSField(VerticalAlignFieldMask);
 
@@ -250,18 +210,10 @@ Vec2f &LabelBase::editMargin(void)
 
 //! Get the value of the Label::_sfMargin field.
 inline
-const Vec2f LabelBase::getMargin(void) const
+const Vec2f &LabelBase::getMargin(void) const
 {
     return _sfMargin.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-Vec2f               &LabelBase::getMargin         (void)
-{
-    return this->editMargin         ();
-}
-#endif
 
 //! Set the value of the Label::_sfMargin field.
 inline
@@ -283,18 +235,10 @@ Color4f &LabelBase::editColor(void)
 
 //! Get the value of the Label::_sfColor field.
 inline
-const Color4f LabelBase::getColor(void) const
+const Color4f &LabelBase::getColor(void) const
 {
     return _sfColor.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-Color4f             &LabelBase::getColor          (void)
-{
-    return this->editColor          ();
-}
-#endif
 
 //! Set the value of the Label::_sfColor field.
 inline
@@ -316,18 +260,10 @@ Color4f &LabelBase::editBgColor(void)
 
 //! Get the value of the Label::_sfBgColor field.
 inline
-const Color4f LabelBase::getBgColor(void) const
+const Color4f &LabelBase::getBgColor(void) const
 {
     return _sfBgColor.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-Color4f             &LabelBase::getBgColor        (void)
-{
-    return this->editBgColor        ();
-}
-#endif
 
 //! Set the value of the Label::_sfBgColor field.
 inline
@@ -349,18 +285,10 @@ Color4f &LabelBase::editShadowColor(void)
 
 //! Get the value of the Label::_sfShadowColor field.
 inline
-const Color4f LabelBase::getShadowColor(void) const
+const Color4f &LabelBase::getShadowColor(void) const
 {
     return _sfShadowColor.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-Color4f             &LabelBase::getShadowColor    (void)
-{
-    return this->editShadowColor    ();
-}
-#endif
 
 //! Set the value of the Label::_sfShadowColor field.
 inline
@@ -382,18 +310,10 @@ Vec2f &LabelBase::editShadowOffset(void)
 
 //! Get the value of the Label::_sfShadowOffset field.
 inline
-const Vec2f LabelBase::getShadowOffset(void) const
+const Vec2f &LabelBase::getShadowOffset(void) const
 {
     return _sfShadowOffset.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-Vec2f               &LabelBase::getShadowOffset   (void)
-{
-    return this->editShadowOffset   ();
-}
-#endif
 
 //! Set the value of the Label::_sfShadowOffset field.
 inline
@@ -415,18 +335,10 @@ Color4f &LabelBase::editBorderColor(void)
 
 //! Get the value of the Label::_sfBorderColor field.
 inline
-const Color4f LabelBase::getBorderColor(void) const
+const Color4f &LabelBase::getBorderColor(void) const
 {
     return _sfBorderColor.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-Color4f             &LabelBase::getBorderColor    (void)
-{
-    return this->editBorderColor    ();
-}
-#endif
 
 //! Set the value of the Label::_sfBorderColor field.
 inline
@@ -448,18 +360,10 @@ Vec2f &LabelBase::editBorderOffset(void)
 
 //! Get the value of the Label::_sfBorderOffset field.
 inline
-const Vec2f LabelBase::getBorderOffset(void) const
+const Vec2f &LabelBase::getBorderOffset(void) const
 {
     return _sfBorderOffset.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-Vec2f               &LabelBase::getBorderOffset   (void)
-{
-    return this->editBorderOffset   ();
-}
-#endif
 
 //! Set the value of the Label::_sfBorderOffset field.
 inline
@@ -481,22 +385,14 @@ Real32 &LabelBase::editImportance(void)
 
 //! Get the value of the Label::_sfImportance field.
 inline
-const Real32 LabelBase::getImportance(void) const
+      Real32  LabelBase::getImportance(void) const
 {
     return _sfImportance.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Real32              &LabelBase::getImportance     (void)
-{
-    return this->editImportance     ();
-}
-#endif
-
 //! Set the value of the Label::_sfImportance field.
 inline
-void LabelBase::setImportance(const Real32 &value)
+void LabelBase::setImportance(const Real32 value)
 {
     editSField(ImportanceFieldMask);
 
@@ -576,7 +472,7 @@ void LabelBase::execSync (      LabelBase *pFrom,
 
 
 inline
-Char8 *LabelBase::getClassname(void)
+const Char8 *LabelBase::getClassname(void)
 {
     return "Label";
 }

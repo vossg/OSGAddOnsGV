@@ -85,18 +85,10 @@ std::string &TextLabelBase::editText(void)
 
 //! Get the value of the TextLabel::_sfText field.
 inline
-const std::string TextLabelBase::getText(void) const
+const std::string &TextLabelBase::getText(void) const
 {
     return _sfText.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-std::string         &TextLabelBase::getText           (void)
-{
-    return this->editText           ();
-}
-#endif
 
 //! Set the value of the TextLabel::_sfText field.
 inline
@@ -118,22 +110,14 @@ Real32 &TextLabelBase::editSize(void)
 
 //! Get the value of the TextLabel::_sfSize field.
 inline
-const Real32 TextLabelBase::getSize(void) const
+      Real32  TextLabelBase::getSize(void) const
 {
     return _sfSize.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Real32              &TextLabelBase::getSize           (void)
-{
-    return this->editSize           ();
-}
-#endif
-
 //! Set the value of the TextLabel::_sfSize field.
 inline
-void TextLabelBase::setSize(const Real32 &value)
+void TextLabelBase::setSize(const Real32 value)
 {
     editSField(SizeFieldMask);
 
@@ -151,18 +135,10 @@ std::string &TextLabelBase::editFamily(void)
 
 //! Get the value of the TextLabel::_sfFamily field.
 inline
-const std::string TextLabelBase::getFamily(void) const
+const std::string &TextLabelBase::getFamily(void) const
 {
     return _sfFamily.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-std::string         &TextLabelBase::getFamily         (void)
-{
-    return this->editFamily         ();
-}
-#endif
 
 //! Set the value of the TextLabel::_sfFamily field.
 inline
@@ -197,7 +173,7 @@ void TextLabelBase::execSync (      TextLabelBase *pFrom,
 
 
 inline
-Char8 *TextLabelBase::getClassname(void)
+const Char8 *TextLabelBase::getClassname(void)
 {
     return "TextLabel";
 }

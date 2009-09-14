@@ -50,9 +50,6 @@
  *****************************************************************************
 \*****************************************************************************/
 
-
-#define OSG_COMPILETEXTLABELINST
-
 #include <cstdlib>
 #include <cstdio>
 #include <boost/assign/list_of.hpp>
@@ -66,6 +63,10 @@
 #include "OSGTextLabel.h"
 
 #include "boost/bind.hpp"
+
+#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable:4355)
+#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -229,12 +230,6 @@ const SFString *TextLabelBase::getSFText(void) const
     return &_sfText;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFString            *TextLabelBase::getSFText           (void)
-{
-    return this->editSFText           ();
-}
-#endif
 
 SFReal32 *TextLabelBase::editSFSize(void)
 {
@@ -248,12 +243,6 @@ const SFReal32 *TextLabelBase::getSFSize(void) const
     return &_sfSize;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFReal32            *TextLabelBase::getSFSize           (void)
-{
-    return this->editSFSize           ();
-}
-#endif
 
 SFString *TextLabelBase::editSFFamily(void)
 {
@@ -267,12 +256,6 @@ const SFString *TextLabelBase::getSFFamily(void) const
     return &_sfFamily;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFString            *TextLabelBase::getSFFamily         (void)
-{
-    return this->editSFFamily         ();
-}
-#endif
 
 
 

@@ -109,6 +109,10 @@ class OSG_CONTRIBLABELING_DLLMAPPING IconLabelBase : public Label
         (TypeTraits<BitVector>::One << SizeFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFString          SFFilenameType;
+    typedef SFUnrecImagePtr   SFImageType;
+    typedef SFVec2f           SFSizeType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -134,34 +138,22 @@ class OSG_CONTRIBLABELING_DLLMAPPING IconLabelBase : public Label
     /*! \{                                                                 */
 
 
-#ifdef OSG_1_GET_COMPAT
-                  SFString            *getSFFilename        (void);
-#endif
                   SFString            *editSFFilename       (void);
             const SFString            *getSFFilename        (void) const;
             const SFUnrecImagePtr     *getSFImage          (void) const;
                   SFUnrecImagePtr     *editSFImage          (void);
 
-#ifdef OSG_1_GET_COMPAT
-                  SFVec2f             *getSFSize            (void);
-#endif
                   SFVec2f             *editSFSize           (void);
             const SFVec2f             *getSFSize            (void) const;
 
 
-#ifdef OSG_1_GET_COMPAT
-                  std::string         &getFilename        (void);
-#endif
                   std::string         &editFilename       (void);
-            const std::string          getFilename        (void) const;
+            const std::string         &getFilename        (void) const;
 
                   Image * getImage          (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Vec2f               &getSize            (void);
-#endif
                   Vec2f               &editSize           (void);
-            const Vec2f                getSize            (void) const;
+            const Vec2f               &getSize            (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,8 +216,8 @@ class OSG_CONTRIBLABELING_DLLMAPPING IconLabelBase : public Label
 
     static TypeObject _type;
 
-    static void   classDescInserter(TypeObject &oType);
-    static Char8 *getClassname     (void             );
+    static       void   classDescInserter(TypeObject &oType);
+    static const Char8 *getClassname     (void             );
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Fields                                  */
