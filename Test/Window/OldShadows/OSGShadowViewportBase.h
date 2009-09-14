@@ -398,6 +398,8 @@ class OSG_WINDOW_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
     static  ShadowViewport            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
+    static  ShadowViewportTransitPtr  createDependent  (BitVector bFlags);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
@@ -406,6 +408,8 @@ class OSG_WINDOW_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
     virtual FieldContainerTransitPtr shallowCopy     (void) const;
     virtual FieldContainerTransitPtr shallowCopyLocal(
                                        BitVector bFlags = FCLocal::All) const;
+    virtual FieldContainerTransitPtr shallowCopyDependent(
+                                                      BitVector bFlags) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
