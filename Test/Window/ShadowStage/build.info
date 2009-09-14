@@ -1,5 +1,5 @@
 
 library = "OSGWindow"
 
-stop_traversal=False
+stop_traversal=True
 
