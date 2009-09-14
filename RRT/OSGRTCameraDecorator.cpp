@@ -156,70 +156,15 @@ UInt32 RTCameraDecorator::fillRayStores(
     RRT::SinglePacketDesc::RayInfoStore &vRayInfos,
                            RTTarget     &pTarget  )
 {
-    typedef RRT::SinglePacketDesc::SingleRayPacket     SingleRayPacket;
-    typedef RRT::SinglePacketDesc::SingleRayPacketInfo SingleRayPacketInfo;
+    Camera             *pCam  = this->getDecoratee();
+    PerspectiveCamera  *pPCam = dynamic_cast<PerspectiveCamera  *>(pCam);
+    OrthographicCamera *pOCam = dynamic_cast<OrthographicCamera *>(pCam);
 
-    UInt32 uiWidth  = pTarget.getWidth ();
-    UInt32 uiHeight = pTarget.getHeight();
+    if (pPCam) return fillRayStores(pPCam, vRays, vRayInfos, pTarget);
+    if (pOCam) return fillRayStores(pOCam, vRays, vRayInfos, pTarget);
 
-    PerspectiveCamera *pPCam = 
-        dynamic_cast<PerspectiveCamera *>(this->getDecoratee());
-
-    if(pPCam == NULL)
-    {
-        fprintf(stderr, "RTCamDeco::Unknow Camera\n");
-        return 0;
-    }
-
-    Matrix mCam;
-
-    pPCam->getBeacon()->getToWorld(mCam);
-
-    Real32 rVOff = atan(pPCam->getFov() / 2.f);
-    Real32 rHOff = (rVOff * uiHeight) / uiWidth;
-
-    Vec3f vRight(mCam[0][0], mCam[0][1], mCam[0][2]);
-    Vec3f vUp   (mCam[1][0], mCam[1][1], mCam[1][2]);
-    Vec3f vDir  (0.f, 0.f, -1.f);
-
-    vDir = mCam * vDir;
-
-    vRight *= rVOff;
-    vUp    *= rHOff;
-
-    Vec3f vTopLeft = vDir - vRight - vUp;
-
-    vRight *= 2.f / (uiWidth  - 1);
-    vUp    *= 2.f / (uiHeight - 1);
-
-    Vec3f vCurrH = vTopLeft;
-    Vec3f vCurrV = vTopLeft;
-
-    for(UInt32 i = 0; i < uiHeight; ++i)
-    {
-        vCurrV = vCurrH;
-
-        for(UInt32 j = 0; j < uiWidth; ++j)
-        {
-            SingleRayPacket     &rayPacket = 
-                vRays    [i * uiWidth + j];
-
-            SingleRayPacketInfo &rayInfo   = 
-                vRayInfos[i * uiWidth + j];
-
-            rayPacket.setOrigin(mCam[3][0], mCam[3][1], mCam[3][2]);
-            rayPacket.setDirection(vCurrV);
-            rayPacket.normalizeDirection();
-
-            rayInfo.setXY(j, i);
-
-            vCurrV += vRight;
-        }
-        
-        vCurrH += vUp;
-    }
-
-    return pTarget.getWidth() * pTarget.getHeight();
+    fprintf(stderr, "RTCamDeco::Unknow Camera\n");
+    return 0;
 }
 
 UInt32 RTCameraDecorator::fillRayStores(
@@ -265,6 +210,9 @@ UInt32 RTCameraDecorator::fillRayStores(
     return 0;
 }
 
+/* ************************************************************************* *
+ * ***                    SIMD ray packet implementations                *** *
+ * ************************************************************************* */
 
 void RTCameraDecorator::fillTile(
                          UInt32               uiWidth,
@@ -310,7 +258,7 @@ void RTCameraDecorator::fillTile(
     }
 }
 
-
+// --- perspective camera (SIMD) ---
 UInt32 RTCameraDecorator::fillRayStores(
     RRT::SIMDPacketDesc  ::SIMDRayStore      &vRays,
     RRT::SIMDPacketDesc  ::RayInfoStore      &vRayInfos,
@@ -439,6 +387,7 @@ UInt32 RTCameraDecorator::fillRayStores(
 }
 
 
+// --- orthographic camera (SIMD) ---
 UInt32 RTCameraDecorator::fillRayStores(
     RRT::SIMDPacketDesc  ::SIMDRayStore       &vRays,
     RRT::SIMDPacketDesc  ::RayInfoStore       &vRayInfos,
@@ -565,5 +514,129 @@ UInt32 RTCameraDecorator::fillRayStores(
     return (uiVTiles * uiHTiles);
 }
 
+/* ************************************************************************* *
+ * ***                   SINGLE ray packet implementations               *** *
+ * ************************************************************************* */
+
+// --- perspective camera  (SINGLE) ---
+UInt32 RTCameraDecorator::fillRayStores(
+                           PerspectiveCamera *pPCam,
+    RRT::SinglePacketDesc::RayStore          &vRays,
+    RRT::SinglePacketDesc::RayInfoStore      &vRayInfos,
+                           RTTarget          &pTarget)
+{
+    typedef RRT::SinglePacketDesc::SingleRayPacket     SingleRayPacket;
+    typedef RRT::SinglePacketDesc::SingleRayPacketInfo SingleRayPacketInfo;
+
+    UInt32 uiWidth  = pTarget.getWidth ();
+    UInt32 uiHeight = pTarget.getHeight();
+
+    Matrix mCam;
+
+    pPCam->getBeacon()->getToWorld(mCam);
+
+    Real32 rVOff = atan(pPCam->getFov() / 2.f);
+    Real32 rHOff = (rVOff * uiHeight) / uiWidth;
+
+    Vec3f vRight(mCam[0][0], mCam[0][1], mCam[0][2]);
+    Vec3f vUp   (mCam[1][0], mCam[1][1], mCam[1][2]);
+    Vec3f vDir  (0.f, 0.f, -1.f);
+
+    mCam.mult(vDir);
+
+    vRight *= rVOff;
+    vUp    *= rHOff;
+
+    Vec3f vTopLeft = vDir - vRight - vUp;
+
+    vRight *= 2.f / (uiWidth  - 1);
+    vUp    *= 2.f / (uiHeight - 1);
+
+    Vec3f vCurrH = vTopLeft;
+    Vec3f vCurrV = vTopLeft;
+
+    for(UInt32 i = 0; i < uiHeight; ++i)
+    {
+        vCurrV = vCurrH;
+
+        for(UInt32 j = 0; j < uiWidth; ++j)
+        {
+            SingleRayPacket     &rayPacket = vRays    [i * uiWidth + j];
+            SingleRayPacketInfo &rayInfo   = vRayInfos[i * uiWidth + j];
+
+            rayPacket.setOrigin(mCam[3][0], mCam[3][1], mCam[3][2]);
+            rayPacket.setDirection(vCurrV);
+            rayPacket.normalizeDirection();
+
+            rayInfo.setXY(j, i);
+
+            vCurrV += vRight;
+        }
+        
+        vCurrH += vUp;
+    }
+
+    return uiWidth * uiHeight;
+}
+
+
+// --- orthographic camera (SINGLE) ---
+UInt32 RTCameraDecorator::fillRayStores(
+                           OrthographicCamera *pOCam,
+    RRT::SinglePacketDesc::RayStore           &vRays,
+    RRT::SinglePacketDesc::RayInfoStore       &vRayInfos,
+                           RTTarget           &pTarget)
+{
+    typedef RRT::SinglePacketDesc::SingleRayPacket     SingleRayPacket;
+    typedef RRT::SinglePacketDesc::SingleRayPacketInfo SingleRayPacketInfo;
+
+    UInt32 uiWidth  = pTarget.getWidth ();
+    UInt32 uiHeight = pTarget.getHeight();
+
+    Matrix mCam; 
+
+    pOCam->getBeacon()->getToWorld(mCam);
+
+    Real32 rVSize = pOCam->getVerticalSize() / 2.0f;
+    Real32 rHSize = (rVSize * uiHeight) / uiWidth;
+
+    Vec3f vRight (mCam[0][0], mCam[0][1], mCam[0][2]);
+    Vec3f vUp    (mCam[1][0], mCam[1][1], mCam[1][2]);
+    Pnt3f vOrigin(mCam[3][0], mCam[3][1], mCam[3][2]);
+    Vec3f vDir   (       0.f,        0.f,       -1.f);
+
+    mCam.mult(vDir);
+    vDir.normalize();
+
+    vRight *= rVSize;
+    vUp    *= rHSize;
+
+    Pnt3f vTopLeft = vOrigin - vRight - vUp;
+
+    vRight *= 2.f / (uiWidth  - 1);
+    vUp    *= 2.f / (uiHeight - 1);
+
+    Pnt3f vCurrH = vTopLeft;
+    Pnt3f vCurrV = vTopLeft;
+
+    for(UInt32 i = 0; i < uiHeight; ++i) {
+        vCurrV = vCurrH;
+
+        for(UInt32 j = 0; j < uiWidth; ++j) {
+            SingleRayPacket&     rayPacket =  vRays    [i * uiWidth + j];
+            SingleRayPacketInfo& rayInfo   =  vRayInfos[i * uiWidth + j];
+
+            rayPacket.setOrigin   (vCurrV);
+            rayPacket.setDirection(vDir);
+            rayPacket.normalizeDirection();
+
+            rayInfo.setXY(j, i);
+
+            vCurrV += vRight;
+        }
+        vCurrH += vUp;
+    }
+    return uiWidth * uiHeight;
+}
 
 OSG_END_NAMESPACE

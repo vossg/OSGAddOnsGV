@@ -152,6 +152,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
+    // --- SIMD ray packets:
     void   fillTile     (                     UInt32               uiWidth,
                                               UInt32               uiHeight,
                                               UInt32               uiX,
@@ -171,6 +172,18 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
                                               OrthographicCamera  *pOCam,
                                               UInt32               uiVTiles,
                                               UInt32               uiHTiles);
+
+
+    // --- SINGLE ray packets:
+    UInt32 fillRayStores(                       PerspectiveCamera *pPCam,
+                         RRT::SinglePacketDesc::RayStore          &vRays,
+                         RRT::SinglePacketDesc::RayInfoStore      &vRayInfos,
+                                                RTTarget          &pTarget);
+
+    UInt32 fillRayStores(                       OrthographicCamera *pOCam,
+                         RRT::SinglePacketDesc::RayStore           &vRays,
+                         RRT::SinglePacketDesc::RayInfoStore       &vRayInfos,
+                                                RTTarget           &pTarget);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
