@@ -202,21 +202,21 @@ RayTracerInst< DESC >::TypeObject                                             \
         true,                                                                 \
         0);                                                                   \
                                                                               \
-template<>                                                                    \
+template<> OSG_DLL_EXPORT                                                     \
 RayTracerInst< DESC >::TypeObject &                                           \
     RayTracerInst< DESC >::getClassType(void)                                 \
 {                                                                             \
     return Self::_type;                                                       \
 }                                                                             \
                                                                               \
-template<>                                                                    \
+template<> OSG_DLL_EXPORT                                                     \
 RayTracerInst< DESC >::TypeObject &                                           \
     RayTracerInst< DESC >::getType(void)                                      \
 {                                                                             \
     return Self::_type;                                                       \
 }                                                                             \
                                                                               \
-template<>                                                                    \
+template<> OSG_DLL_EXPORT                                                     \
 const RayTracerInst< DESC >::TypeObject &                                     \
     RayTracerInst< DESC >::getType(void) const                                \
 {                                                                             \

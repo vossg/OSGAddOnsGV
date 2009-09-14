@@ -254,7 +254,7 @@ OSG::MPThreadType RTCombinedThread< DESC >::_type(                          \
     static_cast<OSG::CreateThreadF>(RTCombinedThread::create),              \
     NULL);                                                                  \
                                                                             \
-template<>                                                                  \
+template<> OSG_DLL_EXPORT                                                   \
 RTCombinedThread< DESC > *RTCombinedThread< DESC >::get(OSG::Char8 *szName) \
 {                                                                           \
     OSG::BaseThread *pThread =                                              \

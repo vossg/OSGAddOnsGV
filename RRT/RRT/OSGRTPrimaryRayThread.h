@@ -186,7 +186,7 @@ OSG::MPThreadType RTPrimaryRayThread< DESC >::_type(                   \
     static_cast<OSG::CreateThreadF>(RTPrimaryRayThread::create),       \
     NULL);                                                             \
                                                                        \
-template<>                                                             \
+template<> OSG_DLL_EXPORT                                              \
 RTPrimaryRayThread< DESC > *                                           \
     RTPrimaryRayThread< DESC >::get(OSG::Char8 *szName)                \
 {                                                                      \

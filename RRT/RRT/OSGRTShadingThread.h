@@ -186,7 +186,7 @@ OSG::MPThreadType RTShadingThread< DESC >::_type(                          \
     static_cast<OSG::CreateThreadF>(RTShadingThread::create),              \
     NULL);                                                                 \
                                                                            \
-template<>                                                                 \
+template<> OSG_DLL_EXPORT                                                  \
 RTShadingThread< DESC > *RTShadingThread< DESC >::get(OSG::Char8 *szName)  \
 {                                                                          \
     OSG::BaseThread *pThread =                                             \

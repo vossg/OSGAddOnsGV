@@ -209,21 +209,21 @@ RTCacheAttachmentInst< DESC >::TypeObject                                     \
         true,                                                                 \
         0);                                                                   \
                                                                               \
-template<>                                                                    \
+template<> OSG_DLL_EXPORT                                                     \
 RTCacheAttachmentInst< DESC >::TypeObject &                                   \
     RTCacheAttachmentInst< DESC >::getClassType(void)                         \
 {                                                                             \
     return Self::_type;                                                       \
 }                                                                             \
                                                                               \
-template<>                                                                    \
+template<> OSG_DLL_EXPORT                                                     \
 RTCacheAttachmentInst< DESC >::TypeObject &                                   \
     RTCacheAttachmentInst< DESC >::getType(void)                              \
 {                                                                             \
     return Self::_type;                                                       \
 }                                                                             \
                                                                               \
-template<>                                                                    \
+template<> OSG_DLL_EXPORT                                                     \
 const RTCacheAttachmentInst< DESC >::TypeObject &                             \
     RTCacheAttachmentInst< DESC >::getType(void) const                        \
 {                                                                             \
