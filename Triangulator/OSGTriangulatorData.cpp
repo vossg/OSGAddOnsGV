@@ -1,6 +1,6 @@
 /* ************************************************************************* *
  *                                                                           *
- *   This file (OSGTriangulator.cpp) is a wrapper for                        *
+ *   This file (OSGTriangulatorData.cpp) is a wrapper for                    *
  *                                                                           *
  *       'Triangle': A Two-Dimensional Quality Mesh Generator and            *
  *                   Delaunay Triangulator.                                  *
@@ -12,7 +12,7 @@
  *   of 'Triangle' to work as a library (i.e. without a 'main()' function)   *
  *   as well as some specific code for OpenSG.                               *
  *                                                                           *
- *   Triangulator and was written by Martin Spindler (2007-08-08) and        *
+ *   Triangulator(Data) was written by Martin Spindler (2007-08-08) and      *
  *   does not belong to the 'Triangle' - package by J.R. Shewchuk.           *
  *                                                                           *
  * ************************************************************************* */
@@ -51,17 +51,17 @@
  * ***                         ToNKy lib stuff                           *** *
  * ************************************************************************* */
 
-#include <OpenSG/OSGTriangulatorIO.h>
+#include <OpenSG/OSGTriangulatorData.h>
 
 #include "triangle.c" // also includes "triangle.h"
 
 OSG_USING_NAMESPACE
 
 /* ------------------------------------------------------------------------- *
- * ---                       TriangulatorIO                            --- *
+ * ---                       TriangulatorData                            --- *
  * ------------------------------------------------------------------------- */
 
-TriangulatorIO::TriangulatorIO(bool isInput) :
+TriangulatorData::TriangulatorData(bool isInput) :
     data(new triangulateio),
     isInputFlag(isInput),
     point2index()
@@ -69,21 +69,21 @@ TriangulatorIO::TriangulatorIO(bool isInput) :
     initialize();
 }
 
-TriangulatorIO::~TriangulatorIO(void)
+TriangulatorData::~TriangulatorData(void)
 {
     reset();
     delete this->data;
 }
 
 // --- points --------------------------------------------------
-void TriangulatorIO::setPointNumber(unsigned int num)
+void TriangulatorData::setPointNumber(unsigned int num)
 {
     assert(this->data->numberofpoints == 0);
     this->data->numberofpoints = num;
     this->data->pointlist      = (REAL *)malloc(num * 2 * sizeof(REAL));
 }
 
-void TriangulatorIO::setPoint(const Pnt2f& pnt, unsigned int idx)
+void TriangulatorData::setPoint(const Pnt2f& pnt, unsigned int idx)
 {
     assert(idx < this->data->numberofpoints);
     idx += idx; // mimic: idx = 2*idx
@@ -91,12 +91,12 @@ void TriangulatorIO::setPoint(const Pnt2f& pnt, unsigned int idx)
     this->data->pointlist[idx+1] = REAL(pnt.y());
 }
 
-unsigned int TriangulatorIO::getPointNumber(void) const
+unsigned int TriangulatorData::getPointNumber(void) const
 {
     return this->data->numberofpoints;
 }
 
-Pnt2f TriangulatorIO::getPoint(unsigned int idx) const
+Pnt2f TriangulatorData::getPoint(unsigned int idx) const
 {
     assert(idx < this->data->numberofpoints);
     idx += idx; // mimic: idx = 2*idx
@@ -105,7 +105,7 @@ Pnt2f TriangulatorIO::getPoint(unsigned int idx) const
 
 // --- pointmarkers --------------------------------------------
 
-void TriangulatorIO::setPointMarker(int marker, unsigned int idx)
+void TriangulatorData::setPointMarker(int marker, unsigned int idx)
 {
     unsigned int num = this->data->numberofpoints;
     assert(num > 0 && 
@@ -121,14 +121,14 @@ void TriangulatorIO::setPointMarker(int marker, unsigned int idx)
 
 
 // --- segments ------------------------------------------------
-void TriangulatorIO::setSegmentNumber(unsigned int num)
+void TriangulatorData::setSegmentNumber(unsigned int num)
 {
     assert(this->data->numberofsegments == 0);
     this->data->numberofsegments = num;
     this->data->segmentlist      = (int *)malloc(num * 2 * sizeof(int));
 }
 
-void TriangulatorIO::setSegment(int startIdx, int endIdx, unsigned int idx)
+void TriangulatorData::setSegment(int startIdx, int endIdx, unsigned int idx)
 {
     assert(idx < this->data->numberofsegments);
     idx += idx; // mimic: idx = 2*idx
@@ -136,7 +136,7 @@ void TriangulatorIO::setSegment(int startIdx, int endIdx, unsigned int idx)
     this->data->segmentlist[idx+1] = endIdx;
 }
 
-int TriangulatorIO::getSegment(int startIdx, int endIdx) const
+int TriangulatorData::getSegment(int startIdx, int endIdx) const
 {
     if (this->data->numberofsegments == 0) return -1; // segment not found
 
@@ -154,7 +154,7 @@ int TriangulatorIO::getSegment(int startIdx, int endIdx) const
 
 // --- segmentmarkers --------------------------------------------
 
-void TriangulatorIO::setSegmentMarker(int marker, unsigned int idx)
+void TriangulatorData::setSegmentMarker(int marker, unsigned int idx)
 {
     unsigned int num = this->data->numberofsegments;
     assert(num > 0 && 
@@ -169,13 +169,13 @@ void TriangulatorIO::setSegmentMarker(int marker, unsigned int idx)
     this->data->segmentmarkerlist[idx] = marker;
 }
 
-int TriangulatorIO::getSegmentMarker(unsigned int idx) const
+int TriangulatorData::getSegmentMarker(unsigned int idx) const
 {
     assert(idx < this->data->numberofsegments);
     return this->data->segmentmarkerlist[idx];
 }
 
-int TriangulatorIO::getSegmentMarker(int startIdx, int endIdx) const
+int TriangulatorData::getSegmentMarker(int startIdx, int endIdx) const
 {
     int idx = getSegment(startIdx, endIdx);
 
@@ -184,14 +184,14 @@ int TriangulatorIO::getSegmentMarker(int startIdx, int endIdx) const
 }
 
 // --- holes ---------------------------------------------------
-void TriangulatorIO::setHoleNumber(unsigned int num)
+void TriangulatorData::setHoleNumber(unsigned int num)
 {
     assert(this->data->numberofholes == 0);
     this->data->numberofholes = num;
     this->data->holelist      = (REAL *)malloc(num * 2 * sizeof(REAL));
 }
 
-void TriangulatorIO::setHole(const Pnt2f& hole, unsigned int idx)
+void TriangulatorData::setHole(const Pnt2f& hole, unsigned int idx)
 {
     assert(idx < this->data->numberofholes);
     idx += idx; // mimic: idx = 2*idx
@@ -200,18 +200,18 @@ void TriangulatorIO::setHole(const Pnt2f& hole, unsigned int idx)
 }
 
 // --- triangles -----------------------------------------------
-unsigned int TriangulatorIO::getTriangleNumber(void) const
+unsigned int TriangulatorData::getTriangleNumber(void) const
 {
     return this->data->numberoftriangles;
 }
 
-unsigned int TriangulatorIO::getCornerNumber(void) const
+unsigned int TriangulatorData::getCornerNumber(void) const
 {
     return this->data->numberofcorners;
 }
 
-int TriangulatorIO::getTrianglePointIndex(unsigned int triIdx, 
-                                          unsigned int cornIdx) const
+int TriangulatorData::getTrianglePointIndex(unsigned int triIdx, 
+                                            unsigned int cornIdx) const
 {
     assert(triIdx  < this->data->numberoftriangles);
     assert(cornIdx < this->data->numberofcorners);
@@ -225,21 +225,21 @@ int TriangulatorIO::getTrianglePointIndex(unsigned int triIdx,
     return idx;
 }
 
-Pnt2f TriangulatorIO::getTrianglePoint(unsigned int triIdx, 
-                                       unsigned int cornIdx) const
+Pnt2f TriangulatorData::getTrianglePoint(unsigned int triIdx, 
+                                         unsigned int cornIdx) const
 {
     return getPoint(getTrianglePointIndex(triIdx, cornIdx));
 }
 
 // --- neighbours ----------------------------------------------
 
-bool TriangulatorIO::hasNeighbours(void) const
+bool TriangulatorData::hasNeighbours(void) const
 {
     return (this->data->neighborlist != NULL);
 }
 
-int TriangulatorIO::getNeighbourIndex(unsigned int triIdx, 
-                                      unsigned int sideIdx) const
+int TriangulatorData::getNeighbourIndex(unsigned int triIdx, 
+                                        unsigned int sideIdx) const
 {
     assert(this->data->neighborlist != NULL);
     assert(triIdx  < this->data->numberoftriangles);
@@ -254,12 +254,12 @@ int TriangulatorIO::getNeighbourIndex(unsigned int triIdx,
 
 // -------------------------------------------------------------
 
-struct triangulateio* TriangulatorIO::getPtr()
+struct triangulateio* TriangulatorData::getPtr()
 {
     return this->data;
 }
 
-void TriangulatorIO::initialize()
+void TriangulatorData::initialize()
 {
     this->data->pointlist             = NULL;
     this->data->pointattributelist    = NULL;
@@ -289,7 +289,7 @@ void TriangulatorIO::initialize()
     this->point2index.clear();
 }
 
-void TriangulatorIO::reset(void)
+void TriangulatorData::reset(void)
 {
     free(this->data->pointlist);
     free(this->data->pointattributelist);
@@ -314,7 +314,7 @@ void TriangulatorIO::reset(void)
 // --- No point duplicates ---------------------------------------------------
 
 // returns false, if pnt could not be added and pnt not already present
-bool TriangulatorIO::addUniquePoint(const Pnt2f& pnt)
+bool TriangulatorData::addUniquePoint(const Pnt2f& pnt)
 {
     if (this->point2index.count(pnt) > 0) return true; // pnt was already added
 
@@ -330,12 +330,12 @@ bool TriangulatorIO::addUniquePoint(const Pnt2f& pnt)
     return true;
 }
 
-unsigned int TriangulatorIO::getUniquePointNumber(void) const
+unsigned int TriangulatorData::getUniquePointNumber(void) const
 {
     return this->point2index.size();
 }
 
-void TriangulatorIO::shrinkToUniquePointNumber(void)
+void TriangulatorData::shrinkToUniquePointNumber(void)
 {
     unsigned int oldPointNum = getPointNumber();
     unsigned int newPointNum = this->point2index.size();
@@ -346,7 +346,7 @@ void TriangulatorIO::shrinkToUniquePointNumber(void)
     this->data->numberofpoints = newPointNum;
 }
 
-bool TriangulatorIO::isInitializedWithUniquePoints(void) const
+bool TriangulatorData::isInitializedWithUniquePoints(void) const
 {
     if (this->data->numberofpoints == 0) return true;
 
@@ -355,7 +355,7 @@ bool TriangulatorIO::isInitializedWithUniquePoints(void) const
     return (this->point2index.size() == this->data->numberofpoints);
 }
 
-void TriangulatorIO::initializeWithUniquePoints(void) const
+void TriangulatorData::initializeWithUniquePoints(void) const
 {
     this->point2index.clear();
 
@@ -366,14 +366,14 @@ void TriangulatorIO::initializeWithUniquePoints(void) const
     }
 }
 
-void TriangulatorIO::setPointMarker(int marker, const Pnt2f& pnt)
+void TriangulatorData::setPointMarker(int marker, const Pnt2f& pnt)
 {
     assert(this->point2index.count(pnt) == 1);
     setPointMarker(marker, this->point2index[pnt]);
 }
 
-void TriangulatorIO::setSegment(const Pnt2f& start, const Pnt2f& end,
-                                unsigned int idx)
+void TriangulatorData::setSegment(const Pnt2f& start, const Pnt2f& end,
+                                  unsigned int idx)
 {
     assert(idx < this->data->numberofsegments);
     idx += idx; // mimic: idx = 2*idx
@@ -385,8 +385,8 @@ void TriangulatorIO::setSegment(const Pnt2f& start, const Pnt2f& end,
     this->data->segmentlist[idx+1] = this->point2index[end];
 }
 
-int TriangulatorIO::getSegmentByPoints(const Pnt2f& start,
-                                       const Pnt2f& end) const
+int TriangulatorData::getSegmentByPoints(const Pnt2f& start,
+                                         const Pnt2f& end) const
 {
     int startCnt = this->point2index.count(start);
     int endCnt   = this->point2index.count(end);
@@ -400,8 +400,8 @@ int TriangulatorIO::getSegmentByPoints(const Pnt2f& start,
     return getSegment(this->point2index[start], this->point2index[end]);
 }
 
-int TriangulatorIO::getSegmentMarkerByPoints(const Pnt2f& start,
-                                             const Pnt2f& end) const
+int TriangulatorData::getSegmentMarkerByPoints(const Pnt2f& start,
+                                               const Pnt2f& end) const
 {
     int idx = getSegmentByPoints(start, end);
 
@@ -411,10 +411,10 @@ int TriangulatorIO::getSegmentMarkerByPoints(const Pnt2f& start,
 
 /* --- just for testing -------------------------------------------------- */
 
-void TriangulatorIO::report(bool showTriangles,
-                            bool showSegments,
-                            bool showEdges,
-                            bool showHoles) const
+void TriangulatorData::report(bool showTriangles,
+                              bool showSegments,
+                              bool showEdges,
+                              bool showHoles) const
 {
     int numPointAttr = this->data->numberofpointattributes;
     int numCorners   = this->data->numberofcorners;
@@ -510,8 +510,8 @@ void TriangulatorIO::report(bool showTriangles,
     std::cerr << "---------- end report ------------------------" << std::endl;
 }
 
-bool 
-TriangulatorIO::isWithinBound(Real32 ll, Real32 bb, Real32 rr, Real32 tt) const
+bool TriangulatorData::
+isWithinBound(Real32 ll, Real32 bb, Real32 rr, Real32 tt) const
 {
     bool isOK = true;
     for (int i=0; i<this->data->numberofpoints; i++) {
@@ -519,7 +519,7 @@ TriangulatorIO::isWithinBound(Real32 ll, Real32 bb, Real32 rr, Real32 tt) const
         Real32 yy = this->data->pointlist[i*2+1];
         if ( xx < ll || xx > rr || yy < bb || yy > tt) {
             if (isOK) {
-                std::cerr << "TriangulatorIO: not within bound ("
+                std::cerr << "TriangulatorData: not within bound ("
                           << ll << "," << bb << ") - ("
                           << rr << "," << tt << "):" 
                           << std::endl;
@@ -534,10 +534,10 @@ TriangulatorIO::isWithinBound(Real32 ll, Real32 bb, Real32 rr, Real32 tt) const
 
 
 
-void TriangulatorIO::tesselate(const std::string& options,
-                               TriangulatorIO& input,
-                               TriangulatorIO& output, 
-                               TriangulatorIO& vorOutput)
+void TriangulatorData::tesselate(const std::string& options,
+                                 TriangulatorData& input,
+                                 TriangulatorData& output, 
+                                 TriangulatorData& vorOutput)
 {
     triangulate((char*)options.c_str(),
                 (struct triangulateio*)input.getPtr(),

@@ -4,7 +4,7 @@
 #include <OpenSG/OSGContribTriangulator.h>
 #include <OpenSG/OSGMemoryObject.h>
 #include <OpenSG/OSGVector.h>
-#include <OpenSG/OSGTriangulatorIO.h>
+#include <OpenSG/OSGTriangulatorData.h>
 #include <string>
 
 /* ************************************************************************* *
@@ -19,9 +19,9 @@
  *                                                                           *
  *          Triangulator tri;                                                *
  *                                                                           *
- *          TriangulatorIO& input = tri.reset(...);                          *
+ *          TriangulatorData& input = tri.reset(...);                        *
  *          ... // add points to input here                                  *
- *          TriangultorIO& output = tri.triangulate()                        *
+ *          TriangulatorData& output = tri.triangulate()                     *
  *          ... // use output to whatever purpose you like to do             *
  *                                                                           *
  *   The most general reset() function is reset(void), which simply sets     *
@@ -42,7 +42,7 @@
  *   ensuring the 'no point duplicates' - constraint. Namely, these          *
  *   functions are:                                                          *
  *                                                                           *
- *         TriangulatorIO::addUniquePoint(const Pnt2f& pnt);                 *
+ *         TriangulatorData::addUniquePoint(const Pnt2f& pnt);               *
  *                                                                           *
  * ************************************************************************* */
 
@@ -65,23 +65,23 @@ class OSG_CONTRIBTRIANGULATOR_DLLMAPPING Triangulator : public MemoryObject
 
     const std::string& getOptionString(void) const;
 
-    TriangulatorIO& triangulate(void);
+    TriangulatorData& triangulate(void);
 
     // --- general reset, sets all internal fields to NULL/0 --------
-    TriangulatorIO& reset(void); // returns the input
+    TriangulatorData& reset(void); // returns the input
 
     // --- example setups -------------------------------------------
-    TriangulatorIO& resetWithDuplicates(void);    // might create a segfault!
-    TriangulatorIO& resetWithoutDuplicates(void); // stable (no segfault)
+    TriangulatorData& resetWithDuplicates(void);    // might create a segfault!
+    TriangulatorData& resetWithoutDuplicates(void); // stable (no segfault)
 
  protected:
     void setOption(bool flag, const std::string& str);
     bool getOption(const std::string& str) const;
 
  protected:
-    TriangulatorIO input;
-    TriangulatorIO output;
-    TriangulatorIO voronoiOutput; // not really used yet
+    TriangulatorData input;
+    TriangulatorData output;
+    TriangulatorData voronoiOutput; // not really used yet
 
  private:
     bool           isDoneFlag;

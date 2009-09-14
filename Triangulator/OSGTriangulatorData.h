@@ -10,13 +10,13 @@ struct triangulateio;
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_CONTRIBTRIANGULATOR_DLLMAPPING TriangulatorIO : public MemoryObject
+class OSG_CONTRIBTRIANGULATOR_DLLMAPPING TriangulatorData : public MemoryObject
 {
     typedef std::map<Pnt2f, int> PointIndexMap;
 
  public:
-    TriangulatorIO(bool isInput=true);
-    ~TriangulatorIO(void);
+    TriangulatorData(bool isInput=true);
+    ~TriangulatorData(void);
 
     virtual void reset(void);
 
@@ -94,14 +94,14 @@ class OSG_CONTRIBTRIANGULATOR_DLLMAPPING TriangulatorIO : public MemoryObject
 
  public:
     static void tesselate(const std::string& options,
-                          TriangulatorIO& input,
-                          TriangulatorIO& output, 
-                          TriangulatorIO& voronoiOutput); 
+                          TriangulatorData& input,
+                          TriangulatorData& output, 
+                          TriangulatorData& voronoiOutput); 
 
  private:
     /* --- not implemented ----------------------------------------------- */
-    TriangulatorIO(const TriangulatorIO& other);
-    const TriangulatorIO& operator=(const TriangulatorIO& other);
+    TriangulatorData(const TriangulatorData& other);
+    const TriangulatorData& operator=(const TriangulatorData& other);
 };
 
 

@@ -12,7 +12,7 @@
  *   of 'Triangle' to work as a library (i.e. without a 'main()' function)   *
  *   as well as some specific code for OpenSG.                               *
  *                                                                           *
- *   The Triangulator and TriangulatorIO classes were written by             *
+ *   The Triangulator and TriangulatorData classes were written by           *
  *   Martin Spindler (2007-08-08) and do not belong to the                   *
  *   'Triangle' - package by J.R. Shewchuk.                                  *
  *                                                                           *
@@ -38,7 +38,7 @@ Triangulator::~Triangulator(void)
 {
 }
 
-TriangulatorIO& Triangulator::reset(void)
+TriangulatorData& Triangulator::reset(void)
 {
     this->input.reset();
     this->output.reset();
@@ -47,14 +47,14 @@ TriangulatorIO& Triangulator::reset(void)
     return this->input;
 }
 
-TriangulatorIO& Triangulator::triangulate(void)
+TriangulatorData& Triangulator::triangulate(void)
 {
     if (this->isDoneFlag) return this->output;
 
-    TriangulatorIO::tesselate(this->optionString,
-                              this->input, 
-                              this->output,
-                              this->voronoiOutput);
+    TriangulatorData::tesselate(this->optionString,
+                                this->input, 
+                                this->output,
+                                this->voronoiOutput);
 
     this->isDoneFlag = true;
     return this->output;
@@ -123,7 +123,7 @@ bool Triangulator::getOption(const std::string& str) const
  * ************************************************************************* */
 
 // point duplicates might introduce a segmentation fault!!!
-TriangulatorIO& Triangulator::resetWithDuplicates(void)
+TriangulatorData& Triangulator::resetWithDuplicates(void)
 {
     reset();
 
@@ -153,7 +153,7 @@ TriangulatorIO& Triangulator::resetWithDuplicates(void)
 
 
 // no point duplicates, i.e. no segmentation fault
-TriangulatorIO& Triangulator::resetWithoutDuplicates(void)
+TriangulatorData& Triangulator::resetWithoutDuplicates(void)
 {
     reset();
 
