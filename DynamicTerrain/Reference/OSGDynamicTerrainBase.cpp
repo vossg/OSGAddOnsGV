@@ -1589,11 +1589,13 @@ void DynamicTerrainBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *DynamicTerrainBase::createAspectCopy(void) const
+FieldContainer *DynamicTerrainBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     DynamicTerrain *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const DynamicTerrain *>(pRefAspect),
                   dynamic_cast<const DynamicTerrain *>(this));
 
     return returnValue;
