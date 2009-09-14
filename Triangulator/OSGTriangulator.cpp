@@ -18,7 +18,7 @@
  *                                                                           *
  * ************************************************************************* */
 
-#include <OpenSG/OSGTriangulator.h>
+#include <OSGTriangulator.h>
 
 OSG_USING_NAMESPACE
 

@@ -51,7 +51,7 @@
  * ***                         ToNKy lib stuff                           *** *
  * ************************************************************************* */
 
-#include <OpenSG/OSGTriangulatorData.h>
+#include <OSGTriangulatorData.h>
 
 #include "triangle.c" // also includes "triangle.h"
 
