@@ -1,7 +1,7 @@
 
-PROJECT("OSGContribLabeling")
+#PROJECT()
 
-OSG_ADD_PROJECT()
+OSG_ADD_PROJECT("OSGContribLabeling")
 OSG_SELECT_PROJECT()
 
 ##############################################################################
