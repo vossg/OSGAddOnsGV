@@ -300,10 +300,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayFullSIMDPacket : public RTSIMDPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    void setOrigin         (Float4 fX,
-                            Float4 fY,
-                            Float4 fZ);
+    void setQuad         (Float4 fX,
+                          Float4 fY,
+                          Float4 fZ);
 
+#if 0
     void setOrigin         (Pnt3f  vOrigin);
 
     void setOrigin         (Real32 oX,
@@ -313,18 +314,28 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayFullSIMDPacket : public RTSIMDPacket
 
     void setOrigin         (Pnt3f  vOrigin,
                             UInt32 uiIdx  );
+#endif
 
 
+#if 0
     void setDirection      (Vec3f  vDir,
                             UInt32 uiIdx  );
+#endif
 
-    void setDirection      (Vec3f  vDir);
+    void setSingle      (Vec3f  vDir);
 
+#if 0
     void setDirX           (Float4 fDir   );
     void setDirY           (Float4 fDir   );
     void setDirZ           (Float4 fDir   );
+#endif
+//    void normalizeDirection(void          );
 
-    void normalizeDirection(void          );
+    Real32 getSingleComp(UInt32 uiIdx)
+    {
+//        return _vDirA[uiIdx][0];
+        return _vDirA[uiIdx];
+    };
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -336,15 +347,15 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayFullSIMDPacket : public RTSIMDPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    Float4 getOrigin(const UInt32 uiCoord);
-    Float4 getDir   (const UInt32 uiCoord);
+    Float4 getQuad(const UInt32 uiCoord);
+//    Float4 getDir   (const UInt32 uiCoord);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    Real32 getOriginComp(const UInt32 uiIndex);
+//    Real32 getOriginComp(const UInt32 uiIndex);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -370,9 +381,17 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayFullSIMDPacket : public RTSIMDPacket
 
     union
     {
+        Float4  _fDir;
+        Real32  _vDirA[4];
+    };
+
+#if 0
+    union
+    {
         Float4    _fDir [3];
         Real32_4  _vDirA[3];
     };
+#endif
 
   private:
 };

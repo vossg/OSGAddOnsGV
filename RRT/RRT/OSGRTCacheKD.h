@@ -158,6 +158,12 @@ class RTCacheKD : public RTCacheKDBase<DescT>
                                UInt32              uiCacheId   ,
                                UInt16             *uiActive    );
 
+    void intersectSDQO        (SIMDRayPacket      &oRay, 
+                               RTHitSIMDPacket    &oHit,
+                               KDElemStack        &sKDToDoStack,
+                               UInt32              uiCacheId   ,
+                               UInt16             *uiActive    );
+
     void intersectSingle      (SIMDRayPacket      &oRay, 
                                RTHitSIMDPacket    &oHit,
                                KDElemStack        &sKDToDoStack,
@@ -170,11 +176,13 @@ class RTCacheKD : public RTCacheKDBase<DescT>
                                UInt32              uiCacheId   ,
                                UInt16             *uiActive    );
 
+#if 0
     void intersectSingle      (FullSIMDRayPacket  &oRay, 
                                RTHitSIMDPacket    &oHit,
                                KDElemStack        &sKDToDoStack,
                                UInt32              uiCacheId   ,
                                UInt16             *uiActive    );
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

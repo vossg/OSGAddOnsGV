@@ -163,7 +163,7 @@ void RTScene<DescT>::tracePrimaryRaysSDQO(BasicSIMDRayPacket &oRay,
 #ifdef OSG_XCACHEKD
 //        _vRTCaches[k]->intersect(oRay, oHit, k, uiActive);
 #else
-//        _vRTCaches[k]->intersect(oRay, oHit, sKDToDoStack, k, uiActive);
+        _vRTCaches[k]->intersectSDQO(oRay, oHit, sKDToDoStack, k, uiActive);
 #endif
     }
 }
@@ -402,25 +402,9 @@ void RTScene<DescT>::shadeSDQO(RTHitSIMDPacket    &oHit,
                                BasicSIMDRayPacket &oRay,
                                RTColorSIMDPacket  &oResult)
 {
-    return;
-
-    Vec3f vRayDirs[4];
-
-    union
-    {
-        Float4 dir;
-        Real32 dirConv[4];
-    };
-
-    for(UInt32 i = 0; i < 3; ++i)
-    {
-        dir = oRay.getQuad(i);
-
-        vRayDirs[0][i] = dirConv[0];
-        vRayDirs[1][i] = dirConv[1];
-        vRayDirs[2][i] = dirConv[2];
-        vRayDirs[3][i] = dirConv[3];
-    }
+    Vec3f vRayDir(oRay.getSingleComp(0),
+                  oRay.getSingleComp(1),
+                  oRay.getSingleComp(2));
 
     for(UInt32 i = 0; i < RTHitSIMDPacket::NumHits; ++i)
     {
@@ -484,7 +468,7 @@ void RTScene<DescT>::shadeSDQO(RTHitSIMDPacket    &oHit,
                         
                         n1.normalize();
                         
-                        n2 = vRayDirs[i];
+                        n2 = vRayDir;
                         n2 *= -1.f;
                         
                         gamma = n1.dot(n2);

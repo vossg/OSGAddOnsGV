@@ -212,7 +212,7 @@ typename RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::RayMode
 
     pThis->_uiCurrentRay = 0;
 
-    RayMode returnValue;
+    RayMode returnValue = RTRaySIMDPacketInfo::SingleOriginQuadDir;
 
     pThis->_uiNumRays = pCam.fillRayStores(pThis->_vRays, 
                                            pThis->_vRayInfos, 

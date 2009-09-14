@@ -116,7 +116,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
         RRT::SIMDPacketDesc  ::RayInfoStore     &vRayInfos,
                                RTTarget         &pTarget,
                                UInt32            uiVTiles,
-                               UInt32            uiHTiles );
+                               UInt32            uiHTiles,
+                               RayMode          &eRayMode );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

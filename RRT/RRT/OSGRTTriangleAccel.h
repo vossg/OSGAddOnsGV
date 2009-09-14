@@ -94,6 +94,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTriAccelBarycentric
                          UInt32               uiCacheId,
                          UInt32               uiActive  );
 
+    void intersectSDQO  (RTRaySIMDPacket     &oRay, 
+                         RTHitSIMDPacket     &oHit,
+                         UInt32               uiCacheId,
+                         UInt32               uiActive  );
+
     void intersect      (RTRayFullSIMDPacket &oRay, 
                          RTHitSIMDPacket     &oHit,
                          UInt32               uiCacheId,
