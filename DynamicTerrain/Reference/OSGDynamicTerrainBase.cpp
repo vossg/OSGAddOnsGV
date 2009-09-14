@@ -1577,11 +1577,13 @@ void DynamicTerrainBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    this->execSync(static_cast<DynamicTerrainBase *>(&oFrom),
-                   whichField,
-                   oOffsets,
-                   syncMode,
-                   uiSyncInfo);
+    DynamicTerrain *pThis = static_cast<DynamicTerrain *>(this);
+
+    pThis->execSync(static_cast<DynamicTerrain *>(&oFrom),
+                    whichField,
+                    oOffsets,
+                    syncMode,
+                    uiSyncInfo);
 }
 #endif
 
