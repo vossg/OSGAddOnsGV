@@ -176,6 +176,8 @@ Float4 osgSIMDSet(const Real32 rVal0,
 
 Float4 osgSIMDUpdate(const Float4 mask, const Float4 v1, const Float4 v2);
 
+void osgSIMDDump(const Float4 v1);
+
 typedef std::numeric_limits<Real32> Real32Limits;
 
 static const Float4 SIMDZero     = osgSIMDSet(0.0f);

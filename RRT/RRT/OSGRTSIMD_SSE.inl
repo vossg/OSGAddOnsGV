@@ -148,4 +148,23 @@ Float4 osgSIMDUpdate(const Float4 mask, const Float4 v1, const Float4 v2)
                      _mm_andnot_ps(mask, v2  ));
 }
 
+inline 
+void osgSIMDDump(const Float4 v1)
+{
+    union 
+    {
+        Real32 rVal[4];
+        Float4 vVal;
+    };
+
+    vVal = v1;
+
+    fprintf(stderr, "%f %f %f %f\n",
+            rVal[0],
+            rVal[1],
+            rVal[2],
+            rVal[3]);
+
+}
+
 OSG_END_NAMESPACE

@@ -598,17 +598,26 @@ void RTTriAccelBarycentric::intersect(RTRayFullSIMDPacket &oRay,
          _nV * oRay.getDir(i)[KV     ]);
 #endif
 
-    const Real32 f  = (_nD - 
+#if 0
+    const Real32 fR = (_nD - 
                              oRay.getOriginComp(_uiProj) - 
                        _nU * oRay.getOriginComp(KU     ) -
                        _nV * oRay.getOriginComp(KV     ));  // * nd;
+#endif
 
-    
+    Float4 f = osgSIMDAdd(
+        osgSIMDMul(osgSIMDSet(_nU), oRay.getOrigin(KU)),
+        osgSIMDMul(osgSIMDSet(_nV), oRay.getOrigin(KV)));
+
+    f = osgSIMDAdd(oRay.getOrigin(_uiProj), f);
+
+    f = osgSIMDSub(osgSIMDSet(_nD), f);
+
     nd = osgSIMDAdd(nd, oRay.getDir(_uiProj));
     
     nd = osgSIMDInvert(nd);
 
-    Float4 f4 = osgSIMDMul(nd, osgSIMDSet(f));
+    Float4 f4 = osgSIMDMul(nd, f);
 
     Float4 fDist4 = osgSIMDSet(oHit.getDist(3), 
                                oHit.getDist(2),
@@ -631,10 +640,10 @@ void RTTriAccelBarycentric::intersect(RTRayFullSIMDPacket &oRay,
     const float hv = (oRay.getOrigin()[KV] + f * oRay.getDir(i)[KV]);
 #endif
     
-    const Float4 hu = osgSIMDAdd(osgSIMDSet(oRay.getOriginComp(KU)),
+    const Float4 hu = osgSIMDAdd(oRay.getOrigin(KU),
                                  osgSIMDMul(f4, oRay.getDir(KU)));
 
-    const Float4 hv = osgSIMDAdd(osgSIMDSet(oRay.getOriginComp(KV)),
+    const Float4 hv = osgSIMDAdd(oRay.getOrigin(KV),
                                  osgSIMDMul(f4, oRay.getDir(KV)));
 
 
