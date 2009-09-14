@@ -766,11 +766,13 @@ void BbqTerrainBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *BbqTerrainBase::createAspectCopy(void) const
+FieldContainer *BbqTerrainBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     BbqTerrain *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const BbqTerrain *>(pRefAspect),
                   dynamic_cast<const BbqTerrain *>(this));
 
     return returnValue;

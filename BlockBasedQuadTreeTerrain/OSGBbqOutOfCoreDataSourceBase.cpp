@@ -598,11 +598,13 @@ void BbqOutOfCoreDataSourceBase::execSyncV(      FieldContainer    &oFrom,
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *BbqOutOfCoreDataSourceBase::createAspectCopy(void) const
+FieldContainer *BbqOutOfCoreDataSourceBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     BbqOutOfCoreDataSource *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const BbqOutOfCoreDataSource *>(pRefAspect),
                   dynamic_cast<const BbqOutOfCoreDataSource *>(this));
 
     return returnValue;
