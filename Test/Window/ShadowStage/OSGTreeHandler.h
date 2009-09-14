@@ -142,11 +142,6 @@ class OSG_WINDOW_DLLMAPPING TreeHandler
     // reference to parent
     ShadowStage *_shadowVP;
 
-    bool _useFBO;
-    bool _useNPOTTextures;
-    bool _useGLSL;
-    bool _useShadowExt;
-    bool _useShaderModel3;
     UInt32 _maxPLMapSize;
     UInt32 _PLMapSize;
     UInt32 _maxTexSize;

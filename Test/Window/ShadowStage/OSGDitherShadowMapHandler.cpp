@@ -209,65 +209,63 @@ DitherShadowMapHandler::~DitherShadowMapHandler(void)
 
 bool DitherShadowMapHandler::initFBO(DrawEnv *pEnv)
 {
-    if(_useFBO)
-    {
-        Int32   width  = pEnv->getPixelWidth();
-        Int32   height = pEnv->getPixelHeight();
+    Int32   width  = pEnv->getPixelWidth();
+    Int32   height = pEnv->getPixelHeight();
 
-        if(width <= 0 || height <= 0)
-            return false;
-
-        if(_pFB != 0)
-            return true;
-
-        Window *win = pEnv->getWindow();
-
-        _width  = pEnv->getPixelWidth();
-        _height = pEnv->getPixelHeight();
-
-        _colorMapImage->set(GL_RGB, _width, _height);
-
-        _shadowFactorMapImage->set(GL_RGB, _width, _height);
-
-        _shadowFactorMapImage2->set(GL_RGB, _width, _height);
-
-        commitChanges();
+    if(width <= 0 || height <= 0)
+        return false;
+    
+    if(_pFB != 0)
+        return true;
+    
+    Window *win = pEnv->getWindow();
+    
+    _width  = pEnv->getPixelWidth();
+    _height = pEnv->getPixelHeight();
+    
+    _colorMapImage->set(GL_RGB, _width, _height);
+    
+    _shadowFactorMapImage->set(GL_RGB, _width, _height);
+    
+    _shadowFactorMapImage2->set(GL_RGB, _width, _height);
+    
+    commitChanges();
 
 
-        _pFB = FrameBufferObject::create();
-        
-        _pFB->setSize(_width, _height);
+    _pFB = FrameBufferObject::create();
+    
+    _pFB->setSize(_width, _height);
+    
+    RenderBufferUnrecPtr pDepthRB = RenderBuffer::create();
+    
+    pDepthRB->setInternalFormat(GL_DEPTH_COMPONENT24);
+    
+    
+    TextureBufferUnrecPtr pTexBuffer = TextureBuffer::create();
+    
+    pTexBuffer->setTexture(_colorMapO);
+    
+    _pFB->setColorAttachment(pTexBuffer, 0);
+    
+    
+    pTexBuffer = TextureBuffer::create();
+    
+    pTexBuffer->setTexture(_shadowFactorMapO);
+    
+    _pFB->setColorAttachment(pTexBuffer, 1);
+    
+    
+    pTexBuffer = TextureBuffer::create();
+    
+    pTexBuffer->setTexture(_shadowFactorMap2O);
+    
+    _pFB->setColorAttachment(pTexBuffer, 2);
+    
+    
+    _pFB->setDepthAttachment(pDepthRB);
+    
+    commitChanges();
 
-        RenderBufferUnrecPtr pDepthRB = RenderBuffer::create();
-        
-        pDepthRB->setInternalFormat(GL_DEPTH_COMPONENT24);
-
-
-        TextureBufferUnrecPtr pTexBuffer = TextureBuffer::create();
-
-        pTexBuffer->setTexture(_colorMapO);
-
-        _pFB->setColorAttachment(pTexBuffer, 0);
-
-
-        pTexBuffer = TextureBuffer::create();
-
-        pTexBuffer->setTexture(_shadowFactorMapO);
-
-        _pFB->setColorAttachment(pTexBuffer, 1);
-
-
-        pTexBuffer = TextureBuffer::create();
-
-        pTexBuffer->setTexture(_shadowFactorMap2O);
-
-        _pFB->setColorAttachment(pTexBuffer, 2);
-
-
-        _pFB->setDepthAttachment(pDepthRB);
-
-        commitChanges();
-    }
     return true;
 }
 
@@ -278,24 +276,6 @@ void DitherShadowMapHandler::reInit(DrawEnv *pEnv)
 void DitherShadowMapHandler::initTextures(DrawEnv *pEnv)
 {
     _initTexturesDone = true;
-
-    Int32   width  = pEnv->getPixelWidth();
-    Int32   height = pEnv->getPixelHeight();
-
-    //if no NPOTTextures supported, resize images
-    if(!_useNPOTTextures)
-    {
-        if(width > height)
-            _widthHeightPOT = osgNextPower2(width - 1);
-        else
-            _widthHeightPOT = osgNextPower2(height - 1);
-
-        _colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
-
-        _shadowFactorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
-
-        _shadowFactorMapImage2->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
-    }
 }
 
 
@@ -690,12 +670,6 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                 Real32  xFactor = 1.0;
                 Real32  yFactor = 1.0;
 
-                if(!_useNPOTTextures)
-                {
-                    xFactor = Real32(_width) / Real32(_widthHeightPOT);
-                    yFactor = Real32(_height) / Real32(_widthHeightPOT);
-                }
-
 #if 0
                 Matrix  m = 
                     pEnv->getAction()->getCamera()->getBeacon()->getToWorld();
@@ -864,12 +838,6 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 
     Real32              xFactor = 1.0;
     Real32              yFactor = 1.0;
-
-    if(!_useNPOTTextures)
-    {
-        xFactor = Real32(_width) / Real32(_widthHeightPOT);
-        yFactor = Real32(_height) / Real32(_widthHeightPOT);
-    }
 
     //Jetzt alle normalen Lichtquellen
     for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
@@ -1297,136 +1265,102 @@ void DitherShadowMapHandler::render(DrawEnv *pEnv,
     Window  *win = pEnv->getWindow();
     initialize(win);
 
-    if(_useGLSL && _useShadowExt)
+    glPushAttrib(GL_ENABLE_BIT);
+
+    if(!_initTexturesDone)
+        initTextures(pEnv);
+
+    if(_shadowVP->getMapSize() / 4 > _maxPLMapSize)
+        _PLMapSize = _maxPLMapSize;
+    else
+        _PLMapSize = _shadowVP->getMapSize() / 4;
+
+    for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
     {
-
-        glPushAttrib(GL_ENABLE_BIT);
-
-        if(!_initTexturesDone)
-            initTextures(pEnv);
-
-        if(_shadowVP->getMapSize() / 4 > _maxPLMapSize)
-            _PLMapSize = _maxPLMapSize;
-        else
-            _PLMapSize = _shadowVP->getMapSize() / 4;
-
-        for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
-        {
-            glBindTexture(GL_TEXTURE_2D,
-                          pEnv->getWindow()->getGLObjectId(
+        glBindTexture(GL_TEXTURE_2D,
+                      pEnv->getWindow()->getGLObjectId(
                           _shadowVP->_vTexChunks[i].pTexO->getGLId()));
 
-            glTexParameteri(GL_TEXTURE_2D, 
-                            GL_TEXTURE_COMPARE_MODE_ARB,
-                            GL_COMPARE_R_TO_TEXTURE_ARB);
-            glTexParameteri(GL_TEXTURE_2D, 
-                            GL_TEXTURE_COMPARE_FUNC_ARB,
-                            GL_LEQUAL);
-            glTexParameteri(GL_TEXTURE_2D, 
-                            GL_DEPTH_TEXTURE_MODE_ARB,
-                            GL_LUMINANCE);
-            glBindTexture(GL_TEXTURE_2D, 0);
-        }
-
-        if(_useFBO)
-        {
-            if(!initFBO(pEnv))
-                printf("ERROR with FBOBJECT\n");
-        }
-
-        GLfloat globalAmbient[] =
-        {
-            0.0, 0.0, 0.0, 1.0
-        };
-        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
-        //Used for ShadowFactorMap
-        _firstRun = 1;
-
-#if 0
-        if(_shadowVP->getPixelWidth() != _width ||
-           _shadowVP->getPixelHeight() != _height)
-#endif
-        if(pEnv->getPixelWidth() != _width ||
-           pEnv->getPixelHeight() != _height)
-        {
-#if 0
-            _width = _shadowVP->getPixelWidth();
-            _height = _shadowVP->getPixelHeight();
-#endif
-            _width  = pEnv->getPixelWidth();
-            _height = pEnv->getPixelHeight();
-
-            if(_useNPOTTextures)
-            {
-                _colorMapImage->set(GL_RGB, _width, _height);
-
-                _shadowFactorMapImage->set(GL_RGB, _width, _height);
-
-                _shadowFactorMapImage2->set(GL_RGB, _width, _height);
-
-                reInit(pEnv);
-            }
-            else
-            {
-                if(_width > _height)
-                    _widthHeightPOT = osgNextPower2(_width - 1);
-                else
-                    _widthHeightPOT = osgNextPower2(_height - 1);
-
-                _colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
-
-                _shadowFactorMapImage->set(GL_RGB, _widthHeightPOT,
-                                           _widthHeightPOT);
-
-                _shadowFactorMapImage2->set(GL_RGB, _widthHeightPOT,
-                                            _widthHeightPOT);
-            }
-        }
-
-        if(_shadowVP->getMapAutoUpdate() == true ||
-           _shadowVP->_trigger_update    == true  )
-        {
-            if(_useFBO && _useNPOTTextures)
-            {
-                createColorMapFBO(pEnv, pTmpAction);
-            }
-
-
-            //deactivate transparent Nodes
-            for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
-            {
-                _shadowVP->_transparent[t]->setTravMask(0);
-            }
-
-
-            if(_useFBO)
-            {
-                createShadowMapsFBO(pEnv, pTmpAction);
-            }
-
-
-            // switch on all transparent geos
-            for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
-            {
-                _shadowVP->_transparent[t]->setTravMask(
-                    TypeTraits<UInt32>::BitsSet);
-            }
-
-
-            if(_useFBO && _useNPOTTextures)
-            {
-                createShadowFactorMapFBO(pEnv, pTmpAction);
-            }
-
-            _shadowVP->_trigger_update = false;
-        }
-
-        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
-
-        setupDrawCombineMap2(pEnv->getAction());
-
-        glPopAttrib();
+        glTexParameteri(GL_TEXTURE_2D, 
+                        GL_TEXTURE_COMPARE_MODE_ARB,
+                        GL_COMPARE_R_TO_TEXTURE_ARB);
+        glTexParameteri(GL_TEXTURE_2D, 
+                        GL_TEXTURE_COMPARE_FUNC_ARB,
+                        GL_LEQUAL);
+        glTexParameteri(GL_TEXTURE_2D, 
+                        GL_DEPTH_TEXTURE_MODE_ARB,
+                        GL_LUMINANCE);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
+
+    if(!initFBO(pEnv))
+        printf("ERROR with FBOBJECT\n");
+
+    GLfloat globalAmbient[] =
+    {
+        0.0, 0.0, 0.0, 1.0
+    };
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
+    //Used for ShadowFactorMap
+    _firstRun = 1;
+    
+#if 0
+    if(_shadowVP->getPixelWidth() != _width ||
+       _shadowVP->getPixelHeight() != _height)
+#endif
+    if(pEnv->getPixelWidth() != _width ||
+       pEnv->getPixelHeight() != _height)
+    {
+#if 0
+        _width = _shadowVP->getPixelWidth();
+        _height = _shadowVP->getPixelHeight();
+#endif
+        _width  = pEnv->getPixelWidth();
+        _height = pEnv->getPixelHeight();
+
+        _colorMapImage->set(GL_RGB, _width, _height);
+            
+        _shadowFactorMapImage->set(GL_RGB, _width, _height);
+            
+        _shadowFactorMapImage2->set(GL_RGB, _width, _height);
+            
+        reInit(pEnv);
+    }
+
+    if(_shadowVP->getMapAutoUpdate() == true ||
+       _shadowVP->_trigger_update    == true  )
+    {
+        createColorMapFBO(pEnv, pTmpAction);
+
+
+        //deactivate transparent Nodes
+        for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+        {
+            _shadowVP->_transparent[t]->setTravMask(0);
+        }
+
+
+        createShadowMapsFBO(pEnv, pTmpAction);
+
+
+        // switch on all transparent geos
+        for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+        {
+            _shadowVP->_transparent[t]->setTravMask(
+                TypeTraits<UInt32>::BitsSet);
+        }
+
+
+        createShadowFactorMapFBO(pEnv, pTmpAction);
+
+        _shadowVP->_trigger_update = false;
+    }
+
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
+    
+    setupDrawCombineMap2(pEnv->getAction());
+    
+    glPopAttrib();
 }
 
 OSG_END_NAMESPACE

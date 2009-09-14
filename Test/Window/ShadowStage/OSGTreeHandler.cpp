@@ -120,11 +120,6 @@ std::string TreeHandler::_shadow_combine_fp =
 TreeHandler::TreeHandler(ShadowStage *source) :
     _initDone(false),
     _shadowVP(source),
-    _useFBO(source->getFboOn()),
-    _useNPOTTextures(true),
-    _useGLSL(true),
-    _useShadowExt(true),
-    _useShaderModel3(false),
     _maxPLMapSize(0),
     _PLMapSize(1),
     _maxTexSize(0),
@@ -269,245 +264,167 @@ void TreeHandler::initialize(Window *win)
         {
             SWARNING <<
                 "No ARB_depth_texture-Extension available! All shadow modes disabled." << endLog;
-            _useShadowExt = false;
         }
         else if(!win->hasExtension(_shadow_extension))
         {
             SWARNING <<
                 "No ARB_shadow-Extension available! All shadow modes disabled."
                 << endLog;
-            _useShadowExt = false;
         }
 
-        //check support for framebuffer objects
-        _useFBO = _shadowVP->getFboOn();
 
-        if(!win->hasExtension("GL_EXT_framebuffer_object"))
-            _useFBO = false;
+        GLenum  errCode;
+        bool    FBOerror = false;
 
-        if(_useFBO)
-        {
-            FNOTICE(("framebuffer objects supported.\n"));
-        }
-        else
+        glBindFramebufferEXT =
+            reinterpret_cast<OSGGLBINDFRAMEBUFFEREXTPROC>(
+                win->getFunction(_funcBindFramebuffer));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        glBindRenderbufferEXT =
+            reinterpret_cast<OSGGLBINDRENDERBUFFEREXTPROC>(
+                win->getFunction(_funcBindRenderbuffer));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+        
+        glCheckFramebufferStatusEXT =
+            reinterpret_cast<OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC>(
+                win->getFunction(_funcCheckFramebufferStatus));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        glDeleteFramebuffersEXT =
+            reinterpret_cast<OSGGLDELETEFRAMEBUFFERSEXTPROC>(
+                win->getFunction(_funcDeleteFramebuffers));
+        
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        glDeleteRenderbuffersEXT =
+            reinterpret_cast<OSGGLDELETERENDERBUFFERSEXTPROC>(
+                win->getFunction(_funcDeleteRenderbuffers));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        glFramebufferRenderbufferEXT =
+            reinterpret_cast<OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC>(
+                win->getFunction(_funcFramebufferRenderbuffer));
+        
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+        
+        glFramebufferTexture1DEXT =
+            reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE1DEXTPROC>(
+                win->getFunction(_funcFramebufferTexture1D));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        glFramebufferTexture2DEXT =
+            reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE2DEXTPROC>(
+                win->getFunction(_funcFramebufferTexture2D));
+        
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+        
+        glFramebufferTexture3DEXT =
+            reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE3DEXTPROC>(
+                win->getFunction(_funcFramebufferTexture3D));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        glGenFramebuffersEXT =
+            reinterpret_cast<OSGGLGENFRAMEBUFFERSEXTPROC>(
+                win->getFunction(_funcGenFramebuffers));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+        
+        glGenRenderbuffersEXT =
+            reinterpret_cast<OSGGLGENRENDERBUFFERSEXTPROC>(
+                win->getFunction(_funcGenRenderbuffers));
+        
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        glGenerateMipmapEXT =
+            reinterpret_cast<OSGGLGENERATEMIPMAPEXTPROC>(
+                win->getFunction(_funcGenerateMipmap));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        glGetFramebufferAttachmentParameterivEXT =
+            reinterpret_cast<
+            OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC>(
+                win->getFunction(
+                    _funcGetFramebufferAttachmentParameteriv));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        glGetRenderbufferParameterivEXT =
+            reinterpret_cast<OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC>(
+                win->getFunction(_funcGetRenderbufferParameteriv));
+        
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+        
+        glIsFramebufferEXT =
+            reinterpret_cast<OSGGLISFRAMEBUFFEREXTPROC>(
+                win->getFunction(_funcIsFramebuffer));
+        
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+        
+        glIsRenderbufferEXT =
+            reinterpret_cast<OSGGLISRENDERBUFFEREXTPROC>(
+                win->getFunction(_funcIsRenderbuffer));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        glRenderbufferStorageEXT =
+            reinterpret_cast<OSGGLRENDERBUFFERSTORAGEEXTPROC>(
+                win->getFunction(_funcRenderbufferStorage));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        glDrawBuffersARB =
+            reinterpret_cast<OSGGLDRAWBUFFERSARBPROC>(
+                win->getFunction(_funcDrawBuffers));
+
+        if((errCode = glGetError()) != GL_NO_ERROR)
+            FBOerror = true;
+
+        GLenum  status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+        
+        if(FBOerror)
         {
             FNOTICE(
                 (
-                "framebuffer objects not supported, try new video drivers. Some shadow modes will be disabled.\n"));
-        }
-
-        //check support for non-power-of-two textures
-        _useNPOTTextures = true;
-
-        if(!win->hasExtension("GL_ARB_texture_non_power_of_two"))
-            _useNPOTTextures = false;
-
-        if(_useNPOTTextures)
-        {
-            FNOTICE(("texture_non_power_of_two supported.\n"));
-        }
-        else
-        {
-            FNOTICE(("texture_non_power_of_two not supported by hardware.\n"));
-        }
-
-        //check if GLSL is available
-        _useGLSL = true;
-        if(!win->hasExtension("GL_ARB_shading_language_100") ||
-           !win->hasExtension("GL_ARB_fragment_shader") ||
-           !win->hasExtension("GL_ARB_vertex_shader") ||
-           !win->hasExtension("GL_ARB_shader_objects"))
-        {
-            _useGLSL = false;
-        }
-
-        if(!_useGLSL)
-        {
-            FNOTICE(
-                (
-                "GLSL not supported, some shadow modes and real point lights will be disabled.\n"));
-        }
-        else
-        {
-            FNOTICE(("GLSL supported.\n"));
-        }
-
-        //check for Shader Model 3.0
-        _useShaderModel3 = false;
-
-        if(win->hasExtension("GL_NV_vertex_program3") ||
-           win->hasExtension("GL_ATI_shader_texture_lod"))
-            _useShaderModel3 = true;
-
-        if(!_useShaderModel3)
-        {
-            FNOTICE(("Shader Model 3.0 NOT supported.\n"));
-        }
-        else
-        {
-            FNOTICE(("Shader Model 3.0 supported.\n"));
-        }
-
-        //No NPOTTextures supportet if FBOs are disabled
-        if(!_useFBO)
-            _useNPOTTextures = false;
-
-        if(_useFBO)
-        {
-            GLenum  errCode;
-            bool    FBOerror = false;
-
-            glBindFramebufferEXT =
-                reinterpret_cast<OSGGLBINDFRAMEBUFFEREXTPROC>(
-                    win->getFunction(_funcBindFramebuffer));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glBindRenderbufferEXT =
-                reinterpret_cast<OSGGLBINDRENDERBUFFEREXTPROC>(
-                    win->getFunction(_funcBindRenderbuffer));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glCheckFramebufferStatusEXT =
-                reinterpret_cast<OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC>(
-                    win->getFunction(_funcCheckFramebufferStatus));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glDeleteFramebuffersEXT =
-                reinterpret_cast<OSGGLDELETEFRAMEBUFFERSEXTPROC>(
-                    win->getFunction(_funcDeleteFramebuffers));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glDeleteRenderbuffersEXT =
-                reinterpret_cast<OSGGLDELETERENDERBUFFERSEXTPROC>(
-                    win->getFunction(_funcDeleteRenderbuffers));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glFramebufferRenderbufferEXT =
-                reinterpret_cast<OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC>(
-                    win->getFunction(_funcFramebufferRenderbuffer));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glFramebufferTexture1DEXT =
-                reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE1DEXTPROC>(
-                    win->getFunction(_funcFramebufferTexture1D));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glFramebufferTexture2DEXT =
-                reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE2DEXTPROC>(
-                    win->getFunction(_funcFramebufferTexture2D));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glFramebufferTexture3DEXT =
-                reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE3DEXTPROC>(
-                    win->getFunction(_funcFramebufferTexture3D));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glGenFramebuffersEXT =
-                reinterpret_cast<OSGGLGENFRAMEBUFFERSEXTPROC>(
-                    win->getFunction(_funcGenFramebuffers));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glGenRenderbuffersEXT =
-                reinterpret_cast<OSGGLGENRENDERBUFFERSEXTPROC>(
-                    win->getFunction(_funcGenRenderbuffers));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glGenerateMipmapEXT =
-                reinterpret_cast<OSGGLGENERATEMIPMAPEXTPROC>(
-                    win->getFunction(_funcGenerateMipmap));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glGetFramebufferAttachmentParameterivEXT =
-                reinterpret_cast<
-                    OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC>(
-                        win->getFunction(
-                            _funcGetFramebufferAttachmentParameteriv));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glGetRenderbufferParameterivEXT =
-                reinterpret_cast<OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC>(
-                    win->getFunction(_funcGetRenderbufferParameteriv));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glIsFramebufferEXT =
-                reinterpret_cast<OSGGLISFRAMEBUFFEREXTPROC>(
-                    win->getFunction(_funcIsFramebuffer));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glIsRenderbufferEXT =
-                reinterpret_cast<OSGGLISRENDERBUFFEREXTPROC>(
-                    win->getFunction(_funcIsRenderbuffer));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glRenderbufferStorageEXT =
-                reinterpret_cast<OSGGLRENDERBUFFERSTORAGEEXTPROC>(
-                    win->getFunction(_funcRenderbufferStorage));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            glDrawBuffersARB =
-                reinterpret_cast<OSGGLDRAWBUFFERSARBPROC>(
-                    win->getFunction(_funcDrawBuffers));
-
-            if((errCode = glGetError()) != GL_NO_ERROR)
-                FBOerror = true;
-
-            GLenum  status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-
-            if(FBOerror)
-            {
-                FNOTICE(
-                    (
                     "Needed FBO functions could not be initialized (error code %d), FBOs disabled. Try new video drivers!\n", errCode));
-                _useFBO = false;
-            }
+        }
 
-            switch(status)
-            {
-                case GL_FRAMEBUFFER_COMPLETE_EXT:
-                    FINFO(("%x: framebuffer complete!\n", status));
-                    break;
-                case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
-                    FWARNING(
-                        ("%x: framebuffer GL_FRAMEBUFFER_UNSUPPORTED_EXT\n",
-                         status));
-                    break;
-                default:
-                    break;
-            }
+        switch(status)
+        {
+            case GL_FRAMEBUFFER_COMPLETE_EXT:
+                FINFO(("%x: framebuffer complete!\n", status));
+                break;
+            case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
+                FWARNING(
+                    ("%x: framebuffer GL_FRAMEBUFFER_UNSUPPORTED_EXT\n",
+                     status));
+                break;
+            default:
+                break;
         }
         _initDone = true;
     }
@@ -578,18 +495,12 @@ void TreeHandler::doDrawCombineMap2(DrawEnv *pEnv)
     Real32  xFactor = 1.0f;
     Real32  yFactor = 1.0f;
 
-    if(!_useNPOTTextures)
-    {
-        xFactor = Real32(_width)  / Real32(_widthHeightPOT);
-        yFactor = Real32(_height) / Real32(_widthHeightPOT);
-    }
-
     _combineCmat->clearChunks();
 
     _combineCmat->addChunk(_combineSHL);
     _combineCmat->addChunk(_colorMapO);
 
-    if(_activeFactorMap == 0 && _useFBO)
+    if(_activeFactorMap == 0)
     {
         _combineCmat->addChunk(_shadowFactorMap2O);
     }
@@ -673,12 +584,6 @@ void TreeHandler::doDrawCombineMap1(DrawEnv *pEnv)
 {
     Real32  xFactor = 1.0f;
     Real32  yFactor = 1.0f;
-
-    if(!_useNPOTTextures)
-    {
-        xFactor = Real32(_width)  / Real32(_widthHeightPOT);
-        yFactor = Real32(_height) / Real32(_widthHeightPOT);
-    }
 
     _combineSHL->addUniformVariable("colorMap",        0);
     _combineSHL->addUniformVariable("shadowFactorMap", 1);
