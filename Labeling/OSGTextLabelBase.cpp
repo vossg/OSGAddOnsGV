@@ -79,7 +79,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 /***************************************************************************\
- *                         Field Description                               *
+ *                        Field Documentation                              *
 \***************************************************************************/
 
 /*! \var std::string     TextLabelBase::_sfText
@@ -94,6 +94,28 @@ OSG_BEGIN_NAMESPACE
     The font family to be used, e.g. "SANS", default if unset.
 */
 
+
+/***************************************************************************\
+ *                      FieldType/FieldTrait Instantiation                 *
+\***************************************************************************/
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<TextLabel *>::_type("TextLabelPtr", "LabelPtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(TextLabel *)
+
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           TextLabel *,
+                           0);
+
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           TextLabel *,
+                           0);
+
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
 
 void TextLabelBase::classDescInserter(TypeObject &oType)
 {
@@ -581,19 +603,5 @@ void TextLabelBase::resolveLinks(void)
 
 }
 
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<TextLabel *>::_type("TextLabelPtr", "LabelPtr");
-#endif
-
-OSG_FIELDTRAITS_GETTYPE(TextLabel *)
-
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
-                           TextLabel *,
-                           0);
-
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
-                           TextLabel *,
-                           0);
 
 OSG_END_NAMESPACE

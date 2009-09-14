@@ -61,13 +61,12 @@
 #include "OSGConfig.h"
 #include "OSGContribLabelingDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGLabel.h" // Parent
 
-#include "OSGStringFields.h" // Text type
-#include "OSGReal32Fields.h" // Size type
-#include "OSGStringFields.h" // Family type
+#include "OSGBaseFields.h" // Text type
+#include "OSGSysFields.h" // Size type
 
 #include "OSGTextLabelFields.h"
 

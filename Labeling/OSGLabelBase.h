@@ -61,23 +61,13 @@
 #include "OSGConfig.h"
 #include "OSGContribLabelingDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGGroup.h" // Parent
 
-#include "OSGPnt3fFields.h" // Position type
-#include "OSGVec2fFields.h" // PixelOffset type
-#include "OSGReal32Fields.h" // Orientation type
-#include "OSGUInt8Fields.h" // HorizontalAlign type
-#include "OSGUInt8Fields.h" // VerticalAlign type
-#include "OSGVec2fFields.h" // Margin type
-#include "OSGColor4fFields.h" // Color type
-#include "OSGColor4fFields.h" // BgColor type
-#include "OSGColor4fFields.h" // ShadowColor type
-#include "OSGVec2fFields.h" // ShadowOffset type
-#include "OSGColor4fFields.h" // BorderColor type
-#include "OSGVec2fFields.h" // BorderOffset type
-#include "OSGReal32Fields.h" // Importance type
+#include "OSGVecFields.h" // Position type
+#include "OSGSysFields.h" // Orientation type
+#include "OSGBaseFields.h" // Color type
 #include "OSGTextureObjChunkFields.h" // TextureObject type
 
 #include "OSGLabelFields.h"

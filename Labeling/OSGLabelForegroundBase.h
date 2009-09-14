@@ -61,11 +61,11 @@
 #include "OSGConfig.h"
 #include "OSGContribLabelingDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGForeground.h" // Parent
 
-#include "OSGReal32Fields.h" // ImportanceThreshold type
+#include "OSGSysFields.h" // ImportanceThreshold type
 #include "OSGTextureEnvChunkFields.h" // TextureEnvironment type
 
 #include "OSGLabelForegroundFields.h"

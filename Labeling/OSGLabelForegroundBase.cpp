@@ -84,7 +84,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 /***************************************************************************\
- *                         Field Description                               *
+ *                        Field Documentation                              *
 \***************************************************************************/
 
 /*! \var Real32          LabelForegroundBase::_sfImportanceThreshold
@@ -98,6 +98,28 @@ OSG_BEGIN_NAMESPACE
     Internal texture object representing the label.
 */
 
+
+/***************************************************************************\
+ *                      FieldType/FieldTrait Instantiation                 *
+\***************************************************************************/
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<LabelForeground *>::_type("LabelForegroundPtr", "ForegroundPtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(LabelForeground *)
+
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           LabelForeground *,
+                           0);
+
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           LabelForeground *,
+                           0);
+
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
 
 void LabelForegroundBase::classDescInserter(TypeObject &oType)
 {
@@ -542,19 +564,5 @@ void LabelForegroundBase::resolveLinks(void)
 
 }
 
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<LabelForeground *>::_type("LabelForegroundPtr", "ForegroundPtr");
-#endif
-
-OSG_FIELDTRAITS_GETTYPE(LabelForeground *)
-
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
-                           LabelForeground *,
-                           0);
-
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
-                           LabelForeground *,
-                           0);
 
 OSG_END_NAMESPACE

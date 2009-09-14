@@ -80,7 +80,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 /***************************************************************************\
- *                         Field Description                               *
+ *                        Field Documentation                              *
 \***************************************************************************/
 
 /*! \var std::string     IconLabelBase::_sfFilename
@@ -95,6 +95,28 @@ OSG_BEGIN_NAMESPACE
     Size of the icon on the screen in pixel.
 */
 
+
+/***************************************************************************\
+ *                      FieldType/FieldTrait Instantiation                 *
+\***************************************************************************/
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<IconLabel *>::_type("IconLabelPtr", "LabelPtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(IconLabel *)
+
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           IconLabel *,
+                           0);
+
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           IconLabel *,
+                           0);
+
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
 
 void IconLabelBase::classDescInserter(TypeObject &oType)
 {
@@ -600,19 +622,5 @@ void IconLabelBase::resolveLinks(void)
 
 }
 
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<IconLabel *>::_type("IconLabelPtr", "LabelPtr");
-#endif
-
-OSG_FIELDTRAITS_GETTYPE(IconLabel *)
-
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
-                           IconLabel *,
-                           0);
-
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
-                           IconLabel *,
-                           0);
 
 OSG_END_NAMESPACE
