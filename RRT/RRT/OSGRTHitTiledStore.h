@@ -57,7 +57,7 @@ class RTTarget;
  */
 
 template<class DescT>
-class OSG_CONTRIBRRT_DLLMAPPING RTHitTiledStore : public RTStore
+class RTHitTiledStore : public RTStore
 {
 
     /*==========================  PUBLIC  =================================*/

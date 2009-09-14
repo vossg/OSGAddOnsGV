@@ -21,6 +21,8 @@ SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGUtil
                                      OSGWindowGLUT
                                      ${OSG_NATIVE_WINDOW})
 
+OSG_ADD_GLUTPACKAGE(TRUE)
+
 # dependencies - External
 # SET(${PROJECT_NAME}_DEP_LIB)
 # SET(${PROJECT_NAME}_DEP_LIBDIR)
