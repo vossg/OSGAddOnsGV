@@ -52,12 +52,6 @@ public:
 
   private:
 
-    void createShadowMaps(DrawEnv *pEnv, 
-                          RenderAction *pTmpAction);
-    void createColorMap(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
-    void createShadowFactorMap(DrawEnv *pEnv,
-                             RenderAction *pTmpAction);
     void createColorMapFBO(DrawEnv *pEnv,
                            RenderAction *pTmpAction);
     void createShadowFactorMapFBO(DrawEnv *pEnv,
@@ -66,12 +60,22 @@ public:
                              RenderAction *pTmpAction);
     bool initFBO(DrawEnv *pEnv);
     void reInit(DrawEnv *pEnv);
-    bool checkFrameBufferStatus(Window *win);
     void initTextures(DrawEnv *pEnv);
+
+#if 0
+    bool checkFrameBufferStatus(Window *win);
+    void createShadowMaps(DrawEnv *pEnv, 
+                          RenderAction *pTmpAction);
+    void createColorMap(DrawEnv *pEnv,
+                        RenderAction *pTmpAction);
+    void createShadowFactorMap(DrawEnv *pEnv,
+                             RenderAction *pTmpAction);
 
 //    GLuint                       _fb;
 //    GLuint                       _fb2;
 //    GLuint                       _rb_depth;
+#endif
+
     Matrix                       _transforms[6];
     TileCameraDecoratorUnrecPtr  _tiledeco;
     BlendChunkUnrecPtr           _blender;

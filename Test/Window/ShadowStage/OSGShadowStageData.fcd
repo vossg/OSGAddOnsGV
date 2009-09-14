@@ -11,7 +11,7 @@
     decoratable="false"
     useLocalIncludes="false"
     isNodeCore="false"
-    
+    isBundle="true"
 >
 Data use for rendering by the HDR stage
 	<Field

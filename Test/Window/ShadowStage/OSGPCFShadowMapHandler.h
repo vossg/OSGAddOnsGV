@@ -55,12 +55,6 @@ class OSG_WINDOW_DLLMAPPING PCFShadowMapHandler : public TreeHandler
   private:
 
     void initTextures(DrawEnv *pEnv);
-    void createShadowMaps(DrawEnv *pEnv, 
-                          RenderAction *pTmpAction);
-    void createColorMap(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
-    void createShadowFactorMap(DrawEnv *pEnv,
-                               RenderAction *pTmpAction);
     void createColorMapFBO(DrawEnv *pEnv,
                            RenderAction *pTmpAction);
     void createShadowFactorMapFBO(DrawEnv *pEnv,
@@ -69,7 +63,6 @@ class OSG_WINDOW_DLLMAPPING PCFShadowMapHandler : public TreeHandler
                              RenderAction *pTmpAction);
     bool initFBO(DrawEnv *pEnv);
     void reInit(DrawEnv *pEnv);
-    bool checkFrameBufferStatus(Window *win);
 
     TileCameraDecoratorUnrecPtr  _tiledeco;
     ImageUnrecPtr                _colorMapImage;
@@ -86,9 +79,6 @@ class OSG_WINDOW_DLLMAPPING PCFShadowMapHandler : public TreeHandler
     Int32                        _firstRun;
     Matrix                       _transforms[6];
 
-//    GLuint  _fb;
-//    GLuint  _fb2;
-//    GLuint  _rb_depth;
     Real32  _oldRange;
     
     bool    _initTexturesDone;

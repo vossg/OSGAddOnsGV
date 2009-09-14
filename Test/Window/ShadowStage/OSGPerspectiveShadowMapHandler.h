@@ -58,24 +58,16 @@ private:
     bool initFBO(DrawEnv *pEnv);
     void reInit(DrawEnv *pEnv);
 
-    bool checkFrameBufferStatus(Window *win);
-    void createShadowMapsFBO(DrawEnv *pEnv, 
-                             RenderAction *pTmpAction);
     void initTextures(DrawEnv *pEnv);
 
-    void createShadowMaps(DrawEnv *pEnv, 
-                          RenderAction *pTmpAction);
-    void createShadowMapsNOGLSL(DrawEnv *pEnv);
-    void projectShadowMaps(DrawEnv *pEnv, 
-                           RenderAction *pTmpAction);
+
     void createColorMapFBO(DrawEnv *pEnv,
                            RenderAction *pTmpAction);
+    void createShadowMapsFBO(DrawEnv *pEnv, 
+                             RenderAction *pTmpAction);
     void createShadowFactorMapFBO(DrawEnv *pEnv,
                                   RenderAction *pTmpAction);
-    void createShadowFactorMap(DrawEnv *pEnv,
-                               RenderAction *pTmpAction);
-    void createColorMap(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
+
 
     void calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt32 num,
                                                       DrawEnv *pEnv);
@@ -90,9 +82,6 @@ private:
     void printMatrix(Matrix m);
     void printPoint(Pnt3f p);
 
-//    GLuint _fb;
-//    GLuint _fb2;
-//    GLuint _rb_depth;
     Matrix _transforms[6];
 
     std::vector<Matrix>          _perspectiveLPM;

@@ -265,7 +265,7 @@ ShadowStageDataBase::TypeObject ShadowStageDataBase::_type(
     "    decoratable=\"false\"\n"
     "    useLocalIncludes=\"false\"\n"
     "    isNodeCore=\"false\"\n"
-    "    \n"
+    "    isBundle=\"true\"\n"
     ">\n"
     "Data use for rendering by the HDR stage\n"
     "\t<Field\n"
@@ -645,17 +645,7 @@ ShadowStageDataTransitPtr ShadowStageDataBase::createLocal(BitVector bFlags)
 //! create a new instance of the class
 ShadowStageDataTransitPtr ShadowStageDataBase::create(void)
 {
-    ShadowStageDataTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<ShadowStageData>(tmpPtr);
-    }
-
-    return fc;
+    return createLocal();
 }
 
 ShadowStageData *ShadowStageDataBase::createEmptyLocal(BitVector bFlags)
@@ -672,14 +662,7 @@ ShadowStageData *ShadowStageDataBase::createEmptyLocal(BitVector bFlags)
 //! create an empty new instance of the class, do not copy the prototype
 ShadowStageData *ShadowStageDataBase::createEmpty(void)
 {
-    ShadowStageData *returnValue;
-
-    newPtr<ShadowStageData>(returnValue, Thread::getCurrentLocalFlags());
-
-    returnValue->_pFieldFlags->_bNamespaceMask &=
-        ~Thread::getCurrentLocalFlags();
-
-    return returnValue;
+    return createEmptyLocal();
 }
 
 
@@ -699,17 +682,7 @@ FieldContainerTransitPtr ShadowStageDataBase::shallowCopyLocal(
 
 FieldContainerTransitPtr ShadowStageDataBase::shallowCopy(void) const
 {
-    ShadowStageData *tmpPtr;
-
-    newPtr(tmpPtr,
-           dynamic_cast<const ShadowStageData *>(this),
-           Thread::getCurrentLocalFlags());
-
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
-
-    return returnValue;
+    return shallowCopyLocal();
 }
 
 

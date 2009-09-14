@@ -54,15 +54,10 @@ class OSG_WINDOW_DLLMAPPING VarianceShadowMapHandler : public TreeHandler
 private:
 
     void initTextures(DrawEnv *pEnv);
-    void createColorMap(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
+
     void createColorMapFBO(DrawEnv *pEnv,
                            RenderAction *pTmpAction);
 
-    void createShadowFactorMap   (DrawEnv      *pEnv,
-                                  RenderAction *pTmpAction, 
-                                  UInt32        num,
-                                  bool          bClear    );
     void createShadowFactorMapFBO(DrawEnv      *pEnv,
                                   RenderAction *pTmpAction, 
                                   UInt32        num,
@@ -70,6 +65,15 @@ private:
 
     void createShadowMapsFBO(DrawEnv *pEnv, 
                                               RenderAction *pTmpAction);
+#if 0
+    void createColorMap(DrawEnv *pEnv,
+                        RenderAction *pTmpAction);
+    void createShadowFactorMap   (DrawEnv      *pEnv,
+                                  RenderAction *pTmpAction, 
+                                  UInt32        num,
+                                  bool          bClear    );
+#endif
+
     bool initFBO(DrawEnv *pEnv);
     void reInit(DrawEnv *pEnv);
     bool checkFrameBufferStatus(Window *win);
