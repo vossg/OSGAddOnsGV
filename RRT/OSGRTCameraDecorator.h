@@ -111,14 +111,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
                                                         UInt32        uiHTiles,
                                                         RayMode      &eRayMode);
 
-    virtual UInt32 fillRayStores(
-        RRT::SIMDPacketDesc  ::FullSIMDRayStore &vRays,
-        RRT::SIMDPacketDesc  ::RayInfoStore     &vRayInfos,
-                               RTTarget         &pTarget,
-                               UInt32            uiVTiles,
-                               UInt32            uiHTiles,
-                               RayMode          &eRayMode );
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
@@ -160,32 +152,25 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void fillTile(                          UInt32               uiWidth,
-                                            UInt32               uiHeight,
-                                            UInt32               uiX,
-                                            UInt32               uiY,
-                       RRT::SIMDPacketDesc::SingleRayPacketInfo &rayInfo );
+    void   fillTile     (                     UInt32               uiWidth,
+                                              UInt32               uiHeight,
+                                              UInt32               uiX,
+                                              UInt32               uiY,
+                         RRT::SIMDPacketDesc::SingleRayPacketInfo &rayInfo );
 
-    void fillOrthoTile(                     UInt32               uiWidth,
-                                            UInt32               uiHeight,
-                                            UInt32               uiX,
-                                            UInt32               uiY,
-                       RRT::SIMDPacketDesc::SingleRayPacketInfo &rayInfo);
+    UInt32 fillRayStores(RRT::SIMDPacketDesc::SIMDRayStore        &vRays,
+                         RRT::SIMDPacketDesc::RayInfoStore        &vRayInfos,
+                                              RTTarget            &pTarget,
+                                              PerspectiveCamera   *pPCam,
+                                              UInt32               uiVTiles,
+                                              UInt32               uiHTiles);
 
-
-    UInt32 fillRayStores(RRT::SIMDPacketDesc  ::SIMDRayStore       &vRays,
-                         RRT::SIMDPacketDesc  ::RayInfoStore       &vRayInfos,
-                                                RTTarget           &pTarget,
-                                                PerspectiveCamera  *pPCam,
-                                                UInt32              uiVTiles,
-                                                UInt32              uiHTiles);
-
-    UInt32 fillRayStores(RRT::SIMDPacketDesc  ::SIMDRayStore       &vRays,
-                         RRT::SIMDPacketDesc  ::RayInfoStore       &vRayInfos,
-                                                RTTarget           &pTarget,
-                                                OrthographicCamera *pOCam,
-                                                UInt32              uiVTiles,
-                                                UInt32              uiHTiles);
+    UInt32 fillRayStores(RRT::SIMDPacketDesc::SIMDRayStore        &vRays,
+                         RRT::SIMDPacketDesc::RayInfoStore        &vRayInfos,
+                                              RTTarget            &pTarget,
+                                              OrthographicCamera  *pOCam,
+                                              UInt32               uiVTiles,
+                                              UInt32               uiHTiles);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

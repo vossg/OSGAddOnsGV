@@ -138,42 +138,61 @@ void RTShadingThread<DescT>::workProc(void)
             }
 
             UInt32 uiHitIndex = _pHitStore->getReadIndex();
-            
-            while(uiHitIndex != HitStore::Empty)
+
+            typename Scene::RayMode eMode = _pScene->getRayMode();
+
+            if((eMode == RTRaySIMDPacketInfo::SingleOriginQuadDir) ||
+               (eMode == RTRaySIMDPacketInfo::SingleOriginSingleDir))
             {
-                if(uiHitIndex == HitStore::Waiting)
+                while(uiHitIndex != HitStore::Empty)
                 {
-                    _pHitStore->wait();
-                }
-                else
-                {
-                    SingleHitPacket &oHitPacket = 
-                        _pHitStore->getPacket(uiHitIndex);
-
-                    SingleRayPacket *pRayPacket = 
-                        oHitPacket.getRayPacket();
-                   
-                    _pScene->shade(oHitPacket, *pRayPacket, oColor);
-
-                    _pTarget->setPixel(oHitPacket.getX(), 
-                                       oHitPacket.getY(),
-                                       oColor           );
-
-#if 0
-                    if(oHitPacket.getU() > -0.5)
+                    if(uiHitIndex == HitStore::Waiting)
                     {
-                        _pTarget->markPixelHit(oHitPacket.getX(), 
-                                               oHitPacket.getY());
+                        _pHitStore->wait();
                     }
                     else
                     {
-                        _pTarget->markPixelNotHit(oHitPacket.getX(), 
-                                                  oHitPacket.getY());
+                        SingleHitPacket &oHitPacket = 
+                            _pHitStore->getPacket(uiHitIndex);
+
+                        SingleRayPacket *pRayPacket = 
+                            oHitPacket.getRayPacket();
+                   
+                        _pScene->shade(oHitPacket, *pRayPacket, oColor);
+
+                        _pTarget->setPixel(oHitPacket.getX(), 
+                                           oHitPacket.getY(),
+                                           oColor           );
                     }
-#endif
-                }
                 
-                uiHitIndex = _pHitStore->getReadIndex();
+                    uiHitIndex = _pHitStore->getReadIndex();
+                }
+            }
+            else if(eMode == RTRaySIMDPacketInfo::SingleDirQuadOrigin)
+            {
+                while(uiHitIndex != HitStore::Empty)
+                {
+                    if(uiHitIndex == HitStore::Waiting)
+                    {
+                        _pHitStore->wait();
+                    }
+                    else
+                    {
+                        SingleHitPacket &oHitPacket = 
+                            _pHitStore->getPacket(uiHitIndex);
+
+                        SingleRayPacket *pRayPacket = 
+                            oHitPacket.getRayPacket();
+                   
+                        _pScene->shadeSDQO(oHitPacket, *pRayPacket, oColor);
+
+                        _pTarget->setPixel(oHitPacket.getX(), 
+                                           oHitPacket.getY(),
+                                           oColor           );
+                    }
+                
+                    uiHitIndex = _pHitStore->getReadIndex();
+                }
             }
             
             _pHitStore->broadcast();

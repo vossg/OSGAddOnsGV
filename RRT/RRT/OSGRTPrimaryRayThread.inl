@@ -146,8 +146,6 @@ void RTPrimaryRayThread<DescT>::workProc(void)
             if((eMode == RTRaySIMDPacketInfo::SingleOriginQuadDir) ||
                (eMode == RTRaySIMDPacketInfo::SingleOriginSingleDir))
             {
-                fprintf(stderr, "SOQD\n");
-
                 while(uiRayIndex != PrimaryRayStore::Empty)
                 {
                     UInt32             uiHitIndex = _pHitStore->getWriteIndex();
@@ -179,8 +177,6 @@ void RTPrimaryRayThread<DescT>::workProc(void)
             }
             else if(eMode == RTRaySIMDPacketInfo::SingleDirQuadOrigin)
             {
-                fprintf(stderr, "SDQO\n");
-
                 while(uiRayIndex != PrimaryRayStore::Empty)
                 {
                     UInt32             uiHitIndex = _pHitStore->getWriteIndex();
@@ -200,10 +196,11 @@ void RTPrimaryRayThread<DescT>::workProc(void)
                     
                     oHitPacket.setRayPacket(&oRayPacket);
 
-                    _pScene->tracePrimaryRays(oRayPacket, 
-                                              oHitPacket, 
-                                              sKDToDoStack,
-                                              oRayPacketInfo.getActiveRays());
+                    _pScene->tracePrimaryRaysSDQO(
+                        oRayPacket, 
+                        oHitPacket, 
+                        sKDToDoStack,
+                        oRayPacketInfo.getActiveRays());
                 
                     _pHitStore->pushWriteIndex(uiHitIndex);
                 

@@ -1092,8 +1092,6 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
             if((eMode == RTRaySIMDPacketInfo::SingleOriginQuadDir) ||
                (eMode == RTRaySIMDPacketInfo::SingleOriginSingleDir))
             {
-                fprintf(stderr, "SOQD\n");
-            
                 while(uiRayIndex != PrimaryRayStore::Empty) 
                 {
                     UInt32               uiHitIndex = 
@@ -1160,8 +1158,6 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
             }
             else if(eMode == RTRaySIMDPacketInfo::SingleDirQuadOrigin)
             {
-                fprintf(stderr, "SDQO\n");
-
                 while(uiRayIndex != PrimaryRayStore::Empty) 
                 {
                     UInt32               uiHitIndex = 

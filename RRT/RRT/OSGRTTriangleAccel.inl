@@ -387,20 +387,12 @@ void RTTriAccelBarycentric::intersect(RTRayPacket &oRay,
     oHit.set(f, lambda, mue, _uiObjId, _uiTriId, uiCacheId);
 }
 
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
 inline
 void RTTriAccelBarycentric::intersectSingle(Vec3f           *vRayDirs,
                                             Pnt3f           &vOrigin,
                                             RTHitSIMDPacket &oHit,
                                             UInt32           uiCacheId,
                                             UInt32           uiActive  )
-#else
-inline
-void RTTriAccelBarycentric::intersectSingle(RTRaySIMDPacket &oRay, 
-                                            RTHitSIMDPacket &oHit,
-                                            UInt32           uiCacheId,
-                                            UInt32           uiActive)
-#endif
 {
     static const UInt32 aMod[] = {0, 1, 2, 0, 1};
 
@@ -457,67 +449,6 @@ void RTTriAccelBarycentric::intersectSingle(RTRaySIMDPacket &oRay,
     }
 }
 
-inline
-void RTTriAccelBarycentric::intersectSingle(Vec3f           *vRayDirs,
-                                            Pnt3f           *vRayOrigins,
-                                            RTHitSIMDPacket &oHit,
-                                            UInt32           uiCacheId,
-                                            UInt32           uiActive  )
-{
-    static const UInt32 aMod[] = {0, 1, 2, 0, 1};
-
-//    for(UInt32 i = 0; i < 4; ++i)
-
-    UInt32 i = uiActive;
-    {
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
-        const Real32 nd = 1.f / 
-            (      vRayDirs[i][_uiProj] + 
-             _nU * vRayDirs[i][KU     ] + 
-             _nV * vRayDirs[i][KV     ]);
-
-        const Real32 f  = (_nD - 
-                                 vRayOrigins[i][_uiProj] - 
-                           _nU * vRayOrigins[i][KU     ] -
-                           _nV * vRayOrigins[i][KV     ]) * nd;
-#else
-        const Real32 nd = 1.f / 
-            (      oRay.getDirVec(i)[_uiProj] + 
-             _nU * oRay.getDirVec(i)[KU     ] + 
-             _nV * oRay.getDirVec(i)[KV     ]);
-
-        const Real32 f  = (_nD - 
-                                 oRay.getOriginPnt()[_uiProj] - 
-                           _nU * oRay.getOriginPnt()[KU     ] -
-                           _nV * oRay.getOriginPnt()[KV     ]) * nd;
-#endif
-
-        if(!(oHit.getDist(i) > f && f > 0.00001))
-            return; //continue;
-
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
-        const float hu = (vRayOrigins[i][KU] + f * vRayDirs[i][KU]);
-        const float hv = (vRayOrigins[i][KV] + f * vRayDirs[i][KV]);
-#else
-        const float hu = (oRay.getOriginPnt()[KU] + f * oRay.getDirVec(i)[KU]);
-        const float hv = (oRay.getOriginPnt()[KV] + f * oRay.getDirVec(i)[KV]);
-#endif
-        const float lambda = (hu * _bNU + hv * _bNV + _bD);
-        
-        if(lambda < 0.)
-            return; //continue;
-
-        const float mue = (hu * _cNU + hv * _cNV + _cD);
-        
-        if(mue < 0.)
-            return; //continue;
-        
-        if(lambda + mue > 1.)
-            return; //continue;
-        
-        oHit.set(i, f, lambda, mue, _uiObjId, _uiTriId, uiCacheId);
-    }
-}
 
 
 inline
@@ -769,139 +700,6 @@ void RTTriAccelBarycentric::intersectSDQO(RTRaySIMDPacket     &oRay,
              _uiTriId, 
               uiCacheId);
 }
-
-
-inline
-void RTTriAccelBarycentric::intersect(RTRayFullSIMDPacket &oRay, 
-                                      RTHitSIMDPacket     &oHit,
-                                      UInt32               uiCacheId,
-                                      UInt32               uiActive )
-{
-    static const UInt32 aMod[] = {0, 1, 2, 0, 1};
-
-
-    Float4 nd = osgSIMDAdd(
-        osgSIMDMul(osgSIMDSet(_nU), osgSIMDSet(oRay.getSingleComp(KU))),
-        osgSIMDMul(osgSIMDSet(_nV), osgSIMDSet(oRay.getSingleComp(KV))));
-
-#if 0
-    const Real32 nd = 1.f / 
-        (      oRay.getDir(i)[_uiProj] + 
-         _nU * oRay.getDir(i)[KU     ] + 
-         _nV * oRay.getDir(i)[KV     ]);
-#endif
-
-#if 0
-    const Real32 fR = (_nD - 
-                             oRay.getOriginComp(_uiProj) - 
-                       _nU * oRay.getOriginComp(KU     ) -
-                       _nV * oRay.getOriginComp(KV     ));  // * nd;
-#endif
-
-    Float4 f = osgSIMDAdd(
-        osgSIMDMul(osgSIMDSet(_nU), oRay.getQuad(KU)),
-        osgSIMDMul(osgSIMDSet(_nV), oRay.getQuad(KV)));
-
-    f = osgSIMDAdd(oRay.getQuad(_uiProj), f);
-
-    f = osgSIMDSub(osgSIMDSet(_nD), f);
-
-    nd = osgSIMDAdd(nd, osgSIMDSet(oRay.getSingleComp(_uiProj)));
-    
-    nd = osgSIMDInvert(nd);
-
-    Float4 f4 = osgSIMDMul(nd, f);
-
-    Float4 fDist4 = osgSIMDSet(oHit.getDist(3), 
-                               oHit.getDist(2),
-                               oHit.getDist(1),
-                               oHit.getDist(0));
-
-#if 0
-    if(!(oHit.getDist(i) > f && f > 0.00001))
-        continue;
-#endif
-
-    Float4 mask = osgSIMDAnd(osgSIMDCmpGT(fDist4, f4),
-                             osgSIMDCmpGT(f4, SIMDEps));
-
-    if( (osgSIMDMoveMask(mask) & uiActive) == 0) 
-        return;
-
-#if 0
-    const float hu = (oRay.getOrigin()[KU] + f * oRay.getDir(i)[KU]);
-    const float hv = (oRay.getOrigin()[KV] + f * oRay.getDir(i)[KV]);
-#endif
-    
-    const Float4 hu = 
-        osgSIMDAdd(oRay.getQuad(KU),
-                   osgSIMDMul(f4, osgSIMDSet(oRay.getSingleComp(KU))));
-
-    const Float4 hv = 
-        osgSIMDAdd(oRay.getQuad(KV),
-                   osgSIMDMul(f4, osgSIMDSet(oRay.getSingleComp(KV))));
-
-
-#if 0
-    const float lambda = (hu * _bNU + hv * _bNV + _bD);
-    
-    if(lambda < 0.)
-        continue;
-#endif
-
-    Float4 lambda = osgSIMDAdd(osgSIMDMul(hu, osgSIMDSet(_bNU)),
-                               osgSIMDMul(hv, osgSIMDSet(_bNV)));
-
-    lambda = osgSIMDAdd(lambda, osgSIMDSet(_bD));
-
-    mask = osgSIMDAnd(mask, osgSIMDCmpGE(lambda, SIMDZero));
-    
-    if( (osgSIMDMoveMask(mask) & uiActive) == 0)
-        return;
-   
-
-#if 0
-    const float mue = (hu * _cNU + hv * _cNV + _cD);
-    
-    if(mue < 0.)
-        continue;
-#endif
-
-    Float4 mue = osgSIMDAdd(osgSIMDMul(hu, osgSIMDSet(_cNU)),
-                            osgSIMDMul(hv, osgSIMDSet(_cNV)));
-
-    mue = osgSIMDAdd(mue, osgSIMDSet(_cD));
-
-    mask = osgSIMDAnd(mask, osgSIMDCmpGE(mue, SIMDZero));
-
-    if( (osgSIMDMoveMask(mask) & uiActive) == 0)
-        return;
-
-
-#if 0
-    if(lambda + mue > 1.)
-        continue;
-#endif
-
-    const Float4 finalMask = osgSIMDAnd(osgSIMDCmpLE(osgSIMDAdd(lambda, mue),
-                                                     SIMDOne),
-                                        mask);
-
-    const UInt32 intFinalMask = osgSIMDMoveMask(finalMask) & uiActive;
-
-    if(intFinalMask == 0)
-        return;
-
-    oHit.set( intFinalMask, 
-              f4, 
-              lambda, 
-              mue, 
-             _uiObjId, 
-             _uiTriId, 
-              uiCacheId);
-}
-
-
 
 
 OSG_END_NAMESPACE

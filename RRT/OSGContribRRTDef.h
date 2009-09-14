@@ -71,7 +71,6 @@ OSG_END_NAMESPACE
 
 //#define OSG_CACHE_BIH
 #define OSG_CACHE_KD
-//#define OSG_FULL_SIMDRAYS
 
 #if defined(OSG_SIMD_ALTIVEC)
 #define OSG_CELL

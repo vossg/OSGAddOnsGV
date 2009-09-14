@@ -97,7 +97,6 @@ class RTCacheKD : public RTCacheKDBase<DescT>
     typedef typename DescT::BasicRayPacket              BasicRayPacket;
 
     typedef typename DescT::SIMDRayPacket               SIMDRayPacket;
-    typedef typename DescT::FullSIMDRayPacket           FullSIMDRayPacket;
 
     OSG_GEN_INTERNALPTR(Self);
     
@@ -169,20 +168,6 @@ class RTCacheKD : public RTCacheKDBase<DescT>
                                KDElemStack        &sKDToDoStack,
                                UInt32              uiCacheId   ,
                                UInt16             *uiActive    );
-
-    void intersect            (FullSIMDRayPacket  &oRay, 
-                               RTHitSIMDPacket    &oHit,
-                               KDElemStack        &sKDToDoStack,
-                               UInt32              uiCacheId   ,
-                               UInt16             *uiActive    );
-
-#if 0
-    void intersectSingle      (FullSIMDRayPacket  &oRay, 
-                               RTHitSIMDPacket    &oHit,
-                               KDElemStack        &sKDToDoStack,
-                               UInt32              uiCacheId   ,
-                               UInt16             *uiActive    );
-#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

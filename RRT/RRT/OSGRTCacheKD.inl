@@ -497,7 +497,6 @@ void RTCacheKD<DescT>::intersectSingle(SIMDRayPacket   &oRay,
                                        UInt32           uiCacheId,
                                        UInt16          *uiActive     )
 {
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
     Vec3f vRayDirs[4];
 
     union
@@ -519,17 +518,12 @@ void RTCacheKD<DescT>::intersectSingle(SIMDRayPacket   &oRay,
     Pnt3f vOrigin(oRay.getSingleComp(0),
                   oRay.getSingleComp(1),
                   oRay.getSingleComp(2));
-#endif
 
     for(UInt32 iRay = 0; iRay < 4; ++iRay)
     {
         float tmin, tmax;
 
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
         Line lineRay(vOrigin, vRayDirs[iRay]);
-#else
-        Line lineRay(oRay.getOriginPnt(), oRay.getDirVec(iRay));
-#endif
         
 /*
     if (!bounds.IntersectP(ray, &tmin, &tmax))
@@ -545,16 +539,9 @@ void RTCacheKD<DescT>::intersectSingle(SIMDRayPacket   &oRay,
             continue;
         }
 
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
         Vec3f invDir(1.f / vRayDirs[iRay].x(), 
                      1.f / vRayDirs[iRay].y(), 
                      1.f / vRayDirs[iRay].z());
-#else
-        Vec3f invDir(1.f / oRay.getDirVec(iRay).x(), 
-                     1.f / oRay.getDirVec(iRay).y(), 
-                     1.f / oRay.getDirVec(iRay).z());
-#endif
-
         
         union
         {
@@ -570,15 +557,9 @@ void RTCacheKD<DescT>::intersectSingle(SIMDRayPacket   &oRay,
             {
                 int axis = node->getSplitAxis();
 
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
                 float tplane = 
                     (node->getSplitPos() - vOrigin[axis]) *
                     invDir[axis];
-#else
-                float tplane = 
-                    (node->getSplitPos() - oRay.getOriginPnt()[axis]) *
-                    invDir[axis];
-#endif
 
                 union
                 {
@@ -592,13 +573,9 @@ void RTCacheKD<DescT>::intersectSingle(SIMDRayPacket   &oRay,
                           UIntPointer    farAddr;
                 };
 
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
                 bool belowFirst = 
                     vOrigin[axis] <= node->getSplitPos();
-#else
-                bool belowFirst = 
-                    oRay.getOriginPnt()[axis] <= node->getSplitPos();
-#endif
+
                 if(belowFirst == true) 
                 {
                     nearAddr = addr + node->_uiAboveChild;
@@ -643,13 +620,8 @@ void RTCacheKD<DescT>::intersectSingle(SIMDRayPacket   &oRay,
 
             if(nPrimitives == 1) 
             {
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
                 this->_mfTriangleAcc[node->_uiSinglePrimitive].intersectSingle(
                     vRayDirs, vOrigin, oHit, uiCacheId, iRay);
-#else
-                this->_mfTriangleAcc[node->_uiSinglePrimitive].intersectSingle(
-                    oRay, oHit, uiCacheId, iRay);
-#endif
             }
             else 
             {
@@ -658,18 +630,11 @@ void RTCacheKD<DescT>::intersectSingle(SIMDRayPacket   &oRay,
                 
                 for(u_int i = 0; i < nPrimitives; ++i) 
                 {
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
                     this->_mfTriangleAcc[prims[i]].intersectSingle(vRayDirs,
                                                                    vOrigin, 
                                                                    oHit,
                                                                    uiCacheId,
                                                                    iRay);
-#else
-                    this->_mfTriangleAcc[prims[i]].intersectSingle(oRay, 
-                                                                   oHit,
-                                                                   uiCacheId,
-                                                                   iRay);
-#endif
                 }
             }
             
@@ -1269,528 +1234,6 @@ void RTCacheKD<DescT>::intersectSDQO(SIMDRayPacket    &oRay,
 
 
 
-#if 0
-template<typename DescT> inline
-void RTCacheKD<DescT>::intersectSingle(FullSIMDRayPacket &oRay, 
-                                       RTHitSIMDPacket   &oHit,
-                                       KDElemStack       &sKDToDoStack,
-                                       UInt32             uiCacheId,
-                                       UInt16            *uiActive     )
-{
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
-    Vec3f vRayDirs   [4];
-    Pnt3f vRayOrigins[4];
-
-    union
-    {
-        Float4 vec;
-        Real32 vecConv[4];
-    };
-
-    for(UInt32 i = 0; i < 3; ++i)
-    {
-        vec = oRay.getDir(i);
-
-        vRayDirs[0][i] = vecConv[0];
-        vRayDirs[1][i] = vecConv[1];
-        vRayDirs[2][i] = vecConv[2];
-        vRayDirs[3][i] = vecConv[3];
-    }
-
-    for(UInt32 i = 0; i < 3; ++i)
-    {
-        vec = oRay.getOrigin(i);
-
-        vRayOrigins[0][i] = vecConv[0];
-        vRayOrigins[1][i] = vecConv[1];
-        vRayOrigins[2][i] = vecConv[2];
-        vRayOrigins[3][i] = vecConv[3];
-    }
-
-#if 0
-    Pnt3f vOrigin(oRay.getOriginComp(0),
-                  oRay.getOriginComp(1),
-                  oRay.getOriginComp(2));
-#endif
-#endif
-
-    for(UInt32 iRay = 0; iRay < 4; ++iRay)
-    {
-        float tmin, tmax;
-
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
-        Line lineRay(vRayOrigins[iRay], vRayDirs[iRay]);
-#else
-        Line lineRay(oRay.getOriginPnt(), oRay.getDirVec(iRay));
-#endif
-        
-/*
-    if (!bounds.IntersectP(ray, &tmin, &tmax))
-        return false;
- */
-
-        sKDToDoStack.clear  (   );
-
-        if(this->_sfBoundingVolume.getValue().intersect(lineRay, 
-                                                        tmin, 
-                                                        tmax   ) == false)
-        {
-            continue;
-        }
-
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
-        Vec3f invDir(1.f / vRayDirs[iRay].x(), 
-                     1.f / vRayDirs[iRay].y(), 
-                     1.f / vRayDirs[iRay].z());
-#else
-        Vec3f invDir(1.f / oRay.getDirVec(iRay).x(), 
-                     1.f / oRay.getDirVec(iRay).y(), 
-                     1.f / oRay.getDirVec(iRay).z());
-#endif
-
-        
-        union
-        {
-            const RTCacheKDNode *node;
-                  UIntPointer    addr;
-        };
-
-        node = &(_mfKDTree[1]);
-
-        while(node != NULL) 
-        {
-            while(!node->isLeaf()) 
-            {
-                int axis = node->getSplitAxis();
-
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
-                float tplane = 
-                    (node->getSplitPos() - vRayOrigins[iRay][axis]) *
-                    invDir[axis];
-#else
-                float tplane = 
-                    (node->getSplitPos() - oRay.getOriginPnt()[axis]) *
-                    invDir[axis];
-#endif
-
-                union
-                {
-                    const RTCacheKDNode *nearChild;
-                          UIntPointer    nearAddr;
-                };
-                
-                union
-                {
-                    const RTCacheKDNode *farChild;
-                          UIntPointer    farAddr;
-                };
-
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
-                bool belowFirst = 
-                    vRayOrigins[iRay][axis] <= node->getSplitPos();
-#else
-                bool belowFirst = 
-                    oRay.getOriginPnt()[axis] <= node->getSplitPos();
-#endif
-                if(belowFirst == true) 
-                {
-                    nearAddr = addr + node->_uiAboveChild;
-
-                    farAddr  = 
-                        addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
-                }
-                else 
-                {
-                    nearAddr = 
-                        addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
-
-                    farAddr  = addr + node->_uiAboveChild;
-                }
-
-                if(tplane >= tmax || tplane < 0)
-                {
-                    node = nearChild;
-                }
-                else if(tplane <= tmin)
-                {
-                    node = farChild;
-                }
-                else 
-                {
-                    KDSIMDStackElem otherNode;
-                    
-                    otherNode.node        = farChild;
-                    otherNode.tminA[iRay] = tplane;
-                    otherNode.tmaxA[iRay] = tmax;
-                    
-                    node = nearChild;
-                    tmax = tplane;
-
-//                    oRay.setCacheNode(node);
-
-                    sKDToDoStack.push_back(otherNode);
-                }
-            }
-            
-            UInt32 nPrimitives = node->getNumPrimitives();
-
-            if(nPrimitives == 1) 
-            {
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
-                this->_mfTriangleAcc[node->_uiSinglePrimitive].intersectSingle(
-                    vRayDirs, vRayOrigins, oHit, uiCacheId, iRay);
-#else
-                this->_mfTriangleAcc[node->_uiSinglePrimitive].intersectSingle(
-                    oRay, oHit, uiCacheId, iRay);
-#endif
-            }
-            else 
-            {
-                std::vector<UInt32> &prims = 
-                    this->_mfPrimitives[node->_pPrimitiveIdx];
-                
-                for(u_int i = 0; i < nPrimitives; ++i) 
-                {
-#ifndef OSG_SIMD_RAYPACKET_DEBUG
-                    this->_mfTriangleAcc[prims[i]].intersectSingle(vRayDirs,
-                                                                   vRayOrigins, 
-                                                                   oHit,
-                                                                   uiCacheId,
-                                                                   iRay);
-#else
-                    this->_mfTriangleAcc[prims[i]].intersectSingle(oRay, 
-                                                                   oHit,
-                                                                   uiCacheId,
-                                                                   iRay);
-#endif
-                }
-            }
-            
-            if(oHit.getDist(iRay) <= tmax)
-                break;
-            
-            if(sKDToDoStack.size() > 0) 
-            {
-                KDSIMDStackElem otherNode = sKDToDoStack.back();
-                
-                node = otherNode.node;
-                tmin = otherNode.tminA[iRay];
-                tmax = otherNode.tmaxA[iRay];
-                
-                sKDToDoStack.pop_back();
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
-}
-#endif
-
-template<typename DescT> inline
-void RTCacheKD<DescT>::intersect(FullSIMDRayPacket &oRay, 
-                                 RTHitSIMDPacket   &oHit,
-                                 KDElemStack       &sKDToDoStack,
-                                 UInt32             uiCacheId,
-                                 UInt16            *uiActive     )
-{
-#if 0
-    for(UInt32 i = 0; i < this->_mfTriangleAcc.size(); ++i)
-    {
-        for(UInt32 j = 0; j < 4; ++j)
-        {
-            this->_mfTriangleAcc[i].intersect(oRay, oHit, uiCacheId, 1<<j);
-        }
-    }
-#else
-
-    UInt32 uiDirSign[3];
-
-#if 0
-    uiDirSign[0] = osgSIMDMoveMask(oRay.getDir(RTRaySIMDPacket::X));
-    uiDirSign[1] = osgSIMDMoveMask(oRay.getDir(RTRaySIMDPacket::Y));
-    uiDirSign[2] = osgSIMDMoveMask(oRay.getDir(RTRaySIMDPacket::Z));
-
-    if (((uiDirSign[0] != 0) && (uiDirSign[0] != 15)) || 
-        ((uiDirSign[1] != 0) && (uiDirSign[1] != 15)) ||
-        ((uiDirSign[2] != 0) && (uiDirSign[2] != 15)))
-
-    {
-        intersectSingle(oRay, 
-                        oHit,
-                        sKDToDoStack,
-                        uiCacheId,
-                        uiActive);
-
-        OSG_ASSERT(false);
-
-        return;
-    }
-#endif
-
-    uiDirSign[0] = oRay.getSingleComp(RTRaySIMDPacket::X) < 0.f;
-    uiDirSign[1] = oRay.getSingleComp(RTRaySIMDPacket::Y) < 0.f;
-    uiDirSign[2] = oRay.getSingleComp(RTRaySIMDPacket::Z) < 0.f;
-
-    Float4 tmin4       = SIMDZero;
-    Float4 tmax4       = SIMDInfinity;
-    UInt32 activeMask  = 0xf;
-    UInt32 termination = 0;
-
-
-    SSEVec4 invDir;   
-
-    invDir._data[RTRaySIMDPacket::X] = 
-        osgSIMDInvert(osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::X)));
-    invDir._data[RTRaySIMDPacket::Y] = 
-        osgSIMDInvert(osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Y)));
-    invDir._data[RTRaySIMDPacket::Z] = 
-        osgSIMDInvert(osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Z)));
-
-    BoxVolume &boxVolume = this->_sfBoundingVolume.getValue();
-
-    // ClipX
-    const Float4 clipMinX = 
-        osgSIMDMul(
-            osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::X]),
-                       oRay.getQuad(RTRaySIMDPacket::X)),
-            invDir._data[RTRaySIMDPacket::X]);
-
-    const Float4 clipMaxX = 
-        osgSIMDMul(
-            osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::X]),
-                       oRay.getQuad(RTRaySIMDPacket::X)),
-            invDir._data[RTRaySIMDPacket::X]);
-
-
-    const Float4 cmpX = 
-        osgSIMDCmpGT(osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::X)), 
-                     SIMDZero);
-
-    tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpX, clipMinX, clipMaxX));
-    tmax4 = osgSIMDMin(tmax4, osgSIMDUpdate(cmpX, clipMaxX, clipMinX));
-
-#if 0
-    fprintf(stderr, "X\n");
-    osgSIMDDump(clipMinX);
-    osgSIMDDump(clipMaxX);
-    osgSIMDDump(tmin4);
-    osgSIMDDump(tmax4);
-#endif
-
-    // ClipY
-    const Float4 clipMinY = 
-        osgSIMDMul(
-            osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::Y]),
-                       oRay.getQuad(RTRaySIMDPacket::Y)),
-            invDir._data[RTRaySIMDPacket::Y]);
-    
-    const Float4 clipMaxY = 
-        osgSIMDMul(
-            osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::Y]),
-                       oRay.getQuad(RTRaySIMDPacket::Y)),
-            invDir._data[RTRaySIMDPacket::Y]);
-    
-    const Float4 cmpY = 
-        osgSIMDCmpGT(osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Y)), 
-                     SIMDZero);
-
-
-    tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpY, clipMinY, clipMaxY));
-    tmax4 = osgSIMDMin(tmax4, osgSIMDUpdate(cmpY, clipMaxY, clipMinY));
-
-#if 0
-    fprintf(stderr, "Y\n");
-    osgSIMDDump(clipMinY);
-    osgSIMDDump(clipMaxY);
-    osgSIMDDump(tmin4);
-    osgSIMDDump(tmax4);
-#endif
-
-
-    // ClipZ
-    const Float4 clipMinZ = 
-        osgSIMDMul(
-            osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::Z]),
-                       oRay.getQuad(RTRaySIMDPacket::Z)),
-            invDir._data[RTRaySIMDPacket::Z]);
-
-    const Float4 clipMaxZ = 
-        osgSIMDMul(
-            osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::Z]),
-                       oRay.getQuad(RTRaySIMDPacket::Z)),
-            invDir._data[RTRaySIMDPacket::Z]);
- 
-    const Float4 cmpZ = 
-        osgSIMDCmpGT(osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Z)), 
-                     SIMDZero);
-
-    tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpZ, clipMinZ, clipMaxZ));
-    tmax4 = osgSIMDMin(tmax4, osgSIMDUpdate(cmpZ, clipMaxZ, clipMinZ));
-
-#if 0
-    fprintf(stderr, "Z\n");
-    osgSIMDDump(clipMinZ);
-    osgSIMDDump(clipMaxZ);
-    osgSIMDDump(tmin4);
-    osgSIMDDump(tmax4);
-#endif
-
-    activeMask = osgSIMDMoveMask(osgSIMDCmpLT(tmin4, tmax4));
-
-//    fprintf(stderr, "%d\n", activeMask);
-
-    if(activeMask == 0x0)
-    {
-        return;
-    }
-
-    sKDToDoStack.clear  (   );
-
-    union
-    {
-        const RTCacheKDNode *node;
-              UIntPointer    addr;
-    };
-
-    node = &(_mfKDTree[1]);
-
-    while(node != NULL) 
-    {
-        while(!node->isLeaf()) 
-        {
-            int axis = node->getSplitAxis();
-            
-            const Float4 tplane4 = 
-                osgSIMDMul(
-                    osgSIMDSub(osgSIMDSet(node->getSplitPos()),
-                               oRay.getQuad(axis)),
-                    invDir._data[axis]);
-
-//            fprintf(stderr, "axis %d\n", axis);
-//            osgSIMDDump(tplane4);
-
-            union
-            {
-                const RTCacheKDNode *nearChild;
-                      UIntPointer    nearAddr;
-            };
-                
-            union
-            {
-                const RTCacheKDNode *farChild;
-                      UIntPointer    farAddr;
-            };
-
-//            bool belowFirst = oRay.getDirVec(0)[axis] > 0;
-            bool belowFirst = !uiDirSign[axis];
-
-            if(belowFirst == true) 
-            {
-                nearAddr = addr + node->_uiAboveChild;
-                
-                farAddr  = 
-                    addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
-            }
-            else 
-            {
-                nearAddr = 
-                    addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
-                
-                farAddr  = addr + node->_uiAboveChild;
-            }
-            
-            node = nearChild;
-
-            if(!(osgSIMDMoveMask(osgSIMDCmpGT(tmax4, 
-                                              tplane4)) & activeMask))
-            {
-                continue;
-            }
-
-            node = farChild;
-
-            if(!(osgSIMDMoveMask(osgSIMDCmpLE(tmin4, 
-                                              tplane4)) & activeMask))
-            {
-                continue;
-            }
-
-            KDSIMDStackElem otherNode;
-                
-            otherNode.node        = farChild;
-
-            otherNode.tmin4 = osgSIMDMax(tplane4, tmin4);
-            otherNode.tmax4 = tmax4;
-
-
-            node       = nearChild;
-
-//            oRay.setCacheNode(node);
-
-            tmax4 = osgSIMDMin(tplane4, tmax4);
-
-            activeMask = osgSIMDMoveMask(osgSIMDCmpLT(tmin4, tmax4));
-
-            sKDToDoStack.push_back(otherNode);
-        }
-            
-
-        UInt32 nPrimitives = node->getNumPrimitives();
-
-        static const UInt32 ActiveMask[4] = { 0x1, 0x2, 0x4, 0x8 };
-
-        if(nPrimitives == 1) 
-        {
-            this->_mfTriangleAcc[node->_uiSinglePrimitive].intersect(
-                oRay, oHit, uiCacheId, activeMask);
-        }
-        else 
-        {
-            std::vector<UInt32> &prims = 
-                this->_mfPrimitives[node->_pPrimitiveIdx];
-            
-            for(u_int i = 0; i < nPrimitives; ++i) 
-            {
-                this->_mfTriangleAcc[prims[i]].intersect(oRay, 
-                                                         oHit,
-                                                         uiCacheId,
-                                                         activeMask);
-            }
-        }
-
-        termination |= (activeMask &
-            osgSIMDMoveMask(osgSIMDCmpLE(osgSIMDSet(oHit.getDist(3),
-                                                    oHit.getDist(2),
-                                                    oHit.getDist(1),
-                                                    oHit.getDist(0)),
-                                         tmax4)));
-
-        if(termination == 0xf)
-            break;
-
-        if(sKDToDoStack.size() > 0) 
-        {
-            KDSIMDStackElem otherNode = sKDToDoStack.back();
-            
-            node    = otherNode.node;
-
-            tmin4 = otherNode.tmin4;
-            tmax4 = otherNode.tmax4;
-
-            activeMask = ~termination &
-                osgSIMDMoveMask(osgSIMDCmpLE(tmin4, tmax4));
-
-            sKDToDoStack.pop_back();
-        }
-        else
-        {
-            break;
-        }
-    }
-#endif
-}
 
 
 

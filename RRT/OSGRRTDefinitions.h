@@ -128,7 +128,6 @@ template<class DescT>
 class RTCacheRefRayPacketMixin;
 
 class RTRaySIMDPacket;
-class RTRayFullSIMDPacket;
 class RTRaySIMDPacketInfo;
 
 template<class DescT>
@@ -158,7 +157,6 @@ namespace RRT
         typedef RTRaySIMDPacket     BasicSIMDRayPacket;
 
         typedef RTRaySIMDPacket     SIMDRayPacket;
-        typedef RTRayFullSIMDPacket FullSIMDRayPacket;
     };
 
 
@@ -334,14 +332,9 @@ namespace RRT
                   SIMDPacketDescBase>                SingleHitPacket;
 
         typedef RTRaySIMDPacket                      SIMDRayPacket;
-        typedef RTRayFullSIMDPacket                  FullSIMDRayPacket;
 
 #ifndef OSG_XCACHEKD
-#ifndef OSG_FULL_SIMDRAYS
         typedef RTRaySIMDPacket                      BasicSIMDRayPacket;
-#else
-        typedef RTRayFullSIMDPacket                  BasicSIMDRayPacket;
-#endif
 #else
         typedef RTCacheRefSIMDPacketMixin<
                   SIMDPacketDescBase>                BasicSIMDRayPacket;
@@ -371,12 +364,7 @@ namespace RRT
 
         typedef std::vector<RTFourRaySIMDPacket<RTRaySIMDPacket>,
                             SIMDRayAllocator>        SIMDRayStore;
-                                                                        
-        typedef RTFourRaySIMDPacket<RTRayFullSIMDPacket> StoredFullSIMDPacket;
 
-        typedef std::vector<RTFourRaySIMDPacket<RTRayFullSIMDPacket>,
-                            SIMDRayAllocator>        FullSIMDRayStore;
-        
 
         static const Char8 *getCacheBaseTypeName(void)
         {
