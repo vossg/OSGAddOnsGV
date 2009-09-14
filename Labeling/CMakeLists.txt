@@ -23,5 +23,9 @@ SET(OSGContribLabeling_OSG_Dependencies OSGBase
 
 SET(OSGContribLabeling_Test_OSG_Dependencies OSGWindow OSGWindowGLUT)
 
+IF(WIN32 AND GLUT_FOUND)
+    SET(OSGContribLabeling_Ext_Inc_Dependencies GLUT_INCLUDE_DIR)
+ENDIF(WIN32 AND GLUT_FOUND)
+
 SETUP_PROJECT(OSGContribLabeling OSG_COMPILECONTRIBLABELINGLIB)
 
