@@ -276,12 +276,6 @@ const SFUInt32 *RayTracerBase::getSFWidth(void) const
     return &_sfWidth;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFUInt32            *RayTracerBase::getSFWidth          (void)
-{
-    return this->editSFWidth          ();
-}
-#endif
 
 SFUInt32 *RayTracerBase::editSFHeight(void)
 {
@@ -295,12 +289,6 @@ const SFUInt32 *RayTracerBase::getSFHeight(void) const
     return &_sfHeight;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFUInt32            *RayTracerBase::getSFHeight         (void)
-{
-    return this->editSFHeight         ();
-}
-#endif
 
 
 

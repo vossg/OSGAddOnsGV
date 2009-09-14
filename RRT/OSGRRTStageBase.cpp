@@ -354,12 +354,6 @@ const SFUInt32 *RRTStageBase::getSFWidth(void) const
     return &_sfWidth;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFUInt32            *RRTStageBase::getSFWidth          (void)
-{
-    return this->editSFWidth          ();
-}
-#endif
 
 SFUInt32 *RRTStageBase::editSFHeight(void)
 {
@@ -373,12 +367,6 @@ const SFUInt32 *RRTStageBase::getSFHeight(void) const
     return &_sfHeight;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFUInt32            *RRTStageBase::getSFHeight         (void)
-{
-    return this->editSFHeight         ();
-}
-#endif
 
 SFBool *RRTStageBase::editSFSplitThreads(void)
 {
@@ -392,12 +380,6 @@ const SFBool *RRTStageBase::getSFSplitThreads(void) const
     return &_sfSplitThreads;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *RRTStageBase::getSFSplitThreads   (void)
-{
-    return this->editSFSplitThreads   ();
-}
-#endif
 
 SFBool *RRTStageBase::editSFTiled(void)
 {
@@ -411,12 +393,6 @@ const SFBool *RRTStageBase::getSFTiled(void) const
     return &_sfTiled;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *RRTStageBase::getSFTiled          (void)
-{
-    return this->editSFTiled          ();
-}
-#endif
 
 //! Get the RRTStage::_sfRTCamera field.
 const SFUnrecRTCameraDecoratorPtr *RRTStageBase::getSFRTCamera(void) const

@@ -117,22 +117,14 @@ UInt32 &RayTracerBase::editWidth(void)
 
 //! Get the value of the RayTracer::_sfWidth field.
 inline
-const UInt32 RayTracerBase::getWidth(void) const
+      UInt32  RayTracerBase::getWidth(void) const
 {
     return _sfWidth.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-UInt32              &RayTracerBase::getWidth          (void)
-{
-    return this->editWidth          ();
-}
-#endif
-
 //! Set the value of the RayTracer::_sfWidth field.
 inline
-void RayTracerBase::setWidth(const UInt32 &value)
+void RayTracerBase::setWidth(const UInt32 value)
 {
     editSField(WidthFieldMask);
 
@@ -150,22 +142,14 @@ UInt32 &RayTracerBase::editHeight(void)
 
 //! Get the value of the RayTracer::_sfHeight field.
 inline
-const UInt32 RayTracerBase::getHeight(void) const
+      UInt32  RayTracerBase::getHeight(void) const
 {
     return _sfHeight.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-UInt32              &RayTracerBase::getHeight         (void)
-{
-    return this->editHeight         ();
-}
-#endif
-
 //! Set the value of the RayTracer::_sfHeight field.
 inline
-void RayTracerBase::setHeight(const UInt32 &value)
+void RayTracerBase::setHeight(const UInt32 value)
 {
     editSField(HeightFieldMask);
 

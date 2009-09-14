@@ -136,9 +136,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
             const SFUnrecGeometryPtr  *getSFGeo            (void) const;
                   SFUnrecGeometryPtr  *editSFGeo            (void);
 
-#ifdef OSG_1_GET_COMPAT
-                  SFMatrix            *getSFMatrix          (void);
-#endif
                   SFMatrix            *editSFMatrix         (void);
             const SFMatrix            *getSFMatrix          (void) const;
             const SFUnrecStatePtr     *getSFState          (void) const;
@@ -147,11 +144,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
 
                   Geometry * getGeo            (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Matrix              &getMatrix          (void);
-#endif
                   Matrix              &editMatrix         (void);
-            const Matrix               getMatrix          (void) const;
+            const Matrix              &getMatrix          (void) const;
 
                   State * getState          (void) const;
 

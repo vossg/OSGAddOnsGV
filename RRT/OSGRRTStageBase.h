@@ -154,27 +154,15 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
             const SFUnrecTextureObjChunkPtr *getSFTextureTarget  (void) const;
                   SFUnrecTextureObjChunkPtr *editSFTextureTarget  (void);
 
-#ifdef OSG_1_GET_COMPAT
-                  SFUInt32            *getSFWidth           (void);
-#endif
                   SFUInt32            *editSFWidth          (void);
             const SFUInt32            *getSFWidth           (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFUInt32            *getSFHeight          (void);
-#endif
                   SFUInt32            *editSFHeight         (void);
             const SFUInt32            *getSFHeight          (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFSplitThreads    (void);
-#endif
                   SFBool              *editSFSplitThreads   (void);
             const SFBool              *getSFSplitThreads    (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFTiled           (void);
-#endif
                   SFBool              *editSFTiled          (void);
             const SFBool              *getSFTiled           (void) const;
             const SFUnrecRTCameraDecoratorPtr *getSFRTCamera       (void) const;
@@ -185,29 +173,17 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
 
                   TextureObjChunk * getTextureTarget  (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  UInt32              &getWidth           (void);
-#endif
                   UInt32              &editWidth          (void);
-            const UInt32               getWidth           (void) const;
+                  UInt32               getWidth           (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  UInt32              &getHeight          (void);
-#endif
                   UInt32              &editHeight         (void);
-            const UInt32               getHeight          (void) const;
+                  UInt32               getHeight          (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getSplitThreads    (void);
-#endif
                   bool                &editSplitThreads   (void);
-            const bool                 getSplitThreads    (void) const;
+                  bool                 getSplitThreads    (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getTiled           (void);
-#endif
                   bool                &editTiled          (void);
-            const bool                 getTiled           (void) const;
+                  bool                 getTiled           (void) const;
 
                   RTCameraDecorator * getRTCamera       (void) const;
 
@@ -218,10 +194,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStageBase : public Stage
 
             void setBackgroundRoot (Node * const value);
             void setTextureTarget  (TextureObjChunk * const value);
-            void setWidth          (const UInt32 &value);
-            void setHeight         (const UInt32 &value);
-            void setSplitThreads   (const bool &value);
-            void setTiled          (const bool &value);
+            void setWidth          (const UInt32 value);
+            void setHeight         (const UInt32 value);
+            void setSplitThreads   (const bool value);
+            void setTiled          (const bool value);
             void setRTCamera       (RTCameraDecorator * const value);
 
     /*! \}                                                                 */

@@ -240,12 +240,6 @@ const SFMatrix *RTCacheGeometryStoreBase::getSFMatrix(void) const
     return &_sfMatrix;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFMatrix            *RTCacheGeometryStoreBase::getSFMatrix         (void)
-{
-    return this->editSFMatrix         ();
-}
-#endif
 
 //! Get the RTCacheGeometryStore::_sfState field.
 const SFUnrecStatePtr *RTCacheGeometryStoreBase::getSFState(void) const

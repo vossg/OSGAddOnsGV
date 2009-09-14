@@ -117,22 +117,14 @@ UInt32 &RRTStageBase::editWidth(void)
 
 //! Get the value of the RRTStage::_sfWidth field.
 inline
-const UInt32 RRTStageBase::getWidth(void) const
+      UInt32  RRTStageBase::getWidth(void) const
 {
     return _sfWidth.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-UInt32              &RRTStageBase::getWidth          (void)
-{
-    return this->editWidth          ();
-}
-#endif
-
 //! Set the value of the RRTStage::_sfWidth field.
 inline
-void RRTStageBase::setWidth(const UInt32 &value)
+void RRTStageBase::setWidth(const UInt32 value)
 {
     editSField(WidthFieldMask);
 
@@ -150,22 +142,14 @@ UInt32 &RRTStageBase::editHeight(void)
 
 //! Get the value of the RRTStage::_sfHeight field.
 inline
-const UInt32 RRTStageBase::getHeight(void) const
+      UInt32  RRTStageBase::getHeight(void) const
 {
     return _sfHeight.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-UInt32              &RRTStageBase::getHeight         (void)
-{
-    return this->editHeight         ();
-}
-#endif
-
 //! Set the value of the RRTStage::_sfHeight field.
 inline
-void RRTStageBase::setHeight(const UInt32 &value)
+void RRTStageBase::setHeight(const UInt32 value)
 {
     editSField(HeightFieldMask);
 
@@ -183,22 +167,14 @@ bool &RRTStageBase::editSplitThreads(void)
 
 //! Get the value of the RRTStage::_sfSplitThreads field.
 inline
-const bool RRTStageBase::getSplitThreads(void) const
+      bool  RRTStageBase::getSplitThreads(void) const
 {
     return _sfSplitThreads.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &RRTStageBase::getSplitThreads   (void)
-{
-    return this->editSplitThreads   ();
-}
-#endif
-
 //! Set the value of the RRTStage::_sfSplitThreads field.
 inline
-void RRTStageBase::setSplitThreads(const bool &value)
+void RRTStageBase::setSplitThreads(const bool value)
 {
     editSField(SplitThreadsFieldMask);
 
@@ -216,22 +192,14 @@ bool &RRTStageBase::editTiled(void)
 
 //! Get the value of the RRTStage::_sfTiled field.
 inline
-const bool RRTStageBase::getTiled(void) const
+      bool  RRTStageBase::getTiled(void) const
 {
     return _sfTiled.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &RRTStageBase::getTiled          (void)
-{
-    return this->editTiled          ();
-}
-#endif
-
 //! Set the value of the RRTStage::_sfTiled field.
 inline
-void RRTStageBase::setTiled(const bool &value)
+void RRTStageBase::setTiled(const bool value)
 {
     editSField(TiledFieldMask);
 

@@ -101,18 +101,10 @@ Matrix &RTCacheGeometryStoreBase::editMatrix(void)
 
 //! Get the value of the RTCacheGeometryStore::_sfMatrix field.
 inline
-const Matrix RTCacheGeometryStoreBase::getMatrix(void) const
+const Matrix &RTCacheGeometryStoreBase::getMatrix(void) const
 {
     return _sfMatrix.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-Matrix              &RTCacheGeometryStoreBase::getMatrix         (void)
-{
-    return this->editMatrix         ();
-}
-#endif
 
 //! Set the value of the RTCacheGeometryStore::_sfMatrix field.
 inline

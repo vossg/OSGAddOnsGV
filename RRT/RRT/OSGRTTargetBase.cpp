@@ -199,12 +199,6 @@ const SFUInt32 *RTTargetBase::getSFWidth(void) const
     return &_sfWidth;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFUInt32            *RTTargetBase::getSFWidth          (void)
-{
-    return this->editSFWidth          ();
-}
-#endif
 
 SFUInt32 *RTTargetBase::editSFHeight(void)
 {
@@ -218,12 +212,6 @@ const SFUInt32 *RTTargetBase::getSFHeight(void) const
     return &_sfHeight;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFUInt32            *RTTargetBase::getSFHeight         (void)
-{
-    return this->editSFHeight         ();
-}
-#endif
 
 
 

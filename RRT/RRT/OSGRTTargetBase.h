@@ -221,18 +221,18 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTargetBase : public FieldContainer
 
 
                   UInt32              &editWidth          (void);
-            const UInt32               getWidth           (void) const;
+                  UInt32               getWidth           (void) const;
 
                   UInt32              &editHeight         (void);
-            const UInt32               getHeight          (void) const;
+                  UInt32               getHeight          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setWidth          (const UInt32 &value);
-            void setHeight         (const UInt32 &value);
+            void setWidth          (const UInt32 value);
+            void setHeight         (const UInt32 value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
