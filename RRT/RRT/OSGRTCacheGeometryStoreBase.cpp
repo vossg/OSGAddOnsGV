@@ -108,8 +108,8 @@ void RTCacheGeometryStoreBase::classDescInserter(TypeObject &oType)
         GeoFieldId, GeoFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RTCacheGeometryStoreBase::editHandleGeo),
-        static_cast<FieldGetMethodSig >(&RTCacheGeometryStoreBase::getHandleGeo));
+        static_cast<FieldEditMethodSig>(&RTCacheGeometryStore::editHandleGeo),
+        static_cast<FieldGetMethodSig >(&RTCacheGeometryStore::getHandleGeo));
 
     oType.addInitialDesc(pDesc);
 
@@ -120,8 +120,8 @@ void RTCacheGeometryStoreBase::classDescInserter(TypeObject &oType)
         MatrixFieldId, MatrixFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RTCacheGeometryStoreBase::editHandleMatrix),
-        static_cast<FieldGetMethodSig >(&RTCacheGeometryStoreBase::getHandleMatrix));
+        static_cast<FieldEditMethodSig>(&RTCacheGeometryStore::editHandleMatrix),
+        static_cast<FieldGetMethodSig >(&RTCacheGeometryStore::getHandleMatrix));
 
     oType.addInitialDesc(pDesc);
 
@@ -132,8 +132,8 @@ void RTCacheGeometryStoreBase::classDescInserter(TypeObject &oType)
         StateFieldId, StateFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RTCacheGeometryStoreBase::editHandleState),
-        static_cast<FieldGetMethodSig >(&RTCacheGeometryStoreBase::getHandleState));
+        static_cast<FieldEditMethodSig>(&RTCacheGeometryStore::editHandleState),
+        static_cast<FieldGetMethodSig >(&RTCacheGeometryStore::getHandleState));
 
     oType.addInitialDesc(pDesc);
 }
@@ -144,10 +144,10 @@ RTCacheGeometryStoreBase::TypeObject RTCacheGeometryStoreBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &RTCacheGeometryStoreBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&RTCacheGeometryStoreBase::createEmptyLocal),
     RTCacheGeometryStore::initMethod,
     RTCacheGeometryStore::exitMethod,
-    (InitalInsertDescFunc) &RTCacheGeometryStoreBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&RTCacheGeometryStoreBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

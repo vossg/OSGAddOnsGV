@@ -125,8 +125,8 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
         BackgroundRootFieldId, BackgroundRootFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RRTStageBase::editHandleBackgroundRoot),
-        static_cast<FieldGetMethodSig >(&RRTStageBase::getHandleBackgroundRoot));
+        static_cast<FieldEditMethodSig>(&RRTStage::editHandleBackgroundRoot),
+        static_cast<FieldGetMethodSig >(&RRTStage::getHandleBackgroundRoot));
 
     oType.addInitialDesc(pDesc);
 
@@ -137,8 +137,8 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
         TextureTargetFieldId, TextureTargetFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RRTStageBase::editHandleTextureTarget),
-        static_cast<FieldGetMethodSig >(&RRTStageBase::getHandleTextureTarget));
+        static_cast<FieldEditMethodSig>(&RRTStage::editHandleTextureTarget),
+        static_cast<FieldGetMethodSig >(&RRTStage::getHandleTextureTarget));
 
     oType.addInitialDesc(pDesc);
 
@@ -149,8 +149,8 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
         WidthFieldId, WidthFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RRTStageBase::editHandleWidth),
-        static_cast<FieldGetMethodSig >(&RRTStageBase::getHandleWidth));
+        static_cast<FieldEditMethodSig>(&RRTStage::editHandleWidth),
+        static_cast<FieldGetMethodSig >(&RRTStage::getHandleWidth));
 
     oType.addInitialDesc(pDesc);
 
@@ -161,8 +161,8 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
         HeightFieldId, HeightFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RRTStageBase::editHandleHeight),
-        static_cast<FieldGetMethodSig >(&RRTStageBase::getHandleHeight));
+        static_cast<FieldEditMethodSig>(&RRTStage::editHandleHeight),
+        static_cast<FieldGetMethodSig >(&RRTStage::getHandleHeight));
 
     oType.addInitialDesc(pDesc);
 
@@ -173,8 +173,8 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
         SplitThreadsFieldId, SplitThreadsFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RRTStageBase::editHandleSplitThreads),
-        static_cast<FieldGetMethodSig >(&RRTStageBase::getHandleSplitThreads));
+        static_cast<FieldEditMethodSig>(&RRTStage::editHandleSplitThreads),
+        static_cast<FieldGetMethodSig >(&RRTStage::getHandleSplitThreads));
 
     oType.addInitialDesc(pDesc);
 
@@ -185,8 +185,8 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
         TiledFieldId, TiledFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RRTStageBase::editHandleTiled),
-        static_cast<FieldGetMethodSig >(&RRTStageBase::getHandleTiled));
+        static_cast<FieldEditMethodSig>(&RRTStage::editHandleTiled),
+        static_cast<FieldGetMethodSig >(&RRTStage::getHandleTiled));
 
     oType.addInitialDesc(pDesc);
 
@@ -197,8 +197,8 @@ void RRTStageBase::classDescInserter(TypeObject &oType)
         RTCameraFieldId, RTCameraFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RRTStageBase::editHandleRTCamera),
-        static_cast<FieldGetMethodSig >(&RRTStageBase::getHandleRTCamera));
+        static_cast<FieldEditMethodSig>(&RRTStage::editHandleRTCamera),
+        static_cast<FieldGetMethodSig >(&RRTStage::getHandleRTCamera));
 
     oType.addInitialDesc(pDesc);
 }
@@ -209,10 +209,10 @@ RRTStageBase::TypeObject RRTStageBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &RRTStageBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&RRTStageBase::createEmptyLocal),
     RRTStage::initMethod,
     RRTStage::exitMethod,
-    (InitalInsertDescFunc) &RRTStageBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&RRTStageBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

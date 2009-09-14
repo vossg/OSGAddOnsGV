@@ -112,8 +112,8 @@ void RayTracerBase::classDescInserter(TypeObject &oType)
         RayTracingRootFieldId, RayTracingRootFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RayTracerBase::editHandleRayTracingRoot),
-        static_cast<FieldGetMethodSig >(&RayTracerBase::getHandleRayTracingRoot));
+        static_cast<FieldEditMethodSig>(&RayTracer::editHandleRayTracingRoot),
+        static_cast<FieldGetMethodSig >(&RayTracer::getHandleRayTracingRoot));
 
     oType.addInitialDesc(pDesc);
 
@@ -124,8 +124,8 @@ void RayTracerBase::classDescInserter(TypeObject &oType)
         BackgroundRootFieldId, BackgroundRootFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RayTracerBase::editHandleBackgroundRoot),
-        static_cast<FieldGetMethodSig >(&RayTracerBase::getHandleBackgroundRoot));
+        static_cast<FieldEditMethodSig>(&RayTracer::editHandleBackgroundRoot),
+        static_cast<FieldGetMethodSig >(&RayTracer::getHandleBackgroundRoot));
 
     oType.addInitialDesc(pDesc);
 
@@ -136,8 +136,8 @@ void RayTracerBase::classDescInserter(TypeObject &oType)
         WidthFieldId, WidthFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RayTracerBase::editHandleWidth),
-        static_cast<FieldGetMethodSig >(&RayTracerBase::getHandleWidth));
+        static_cast<FieldEditMethodSig>(&RayTracer::editHandleWidth),
+        static_cast<FieldGetMethodSig >(&RayTracer::getHandleWidth));
 
     oType.addInitialDesc(pDesc);
 
@@ -148,8 +148,8 @@ void RayTracerBase::classDescInserter(TypeObject &oType)
         HeightFieldId, HeightFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RayTracerBase::editHandleHeight),
-        static_cast<FieldGetMethodSig >(&RayTracerBase::getHandleHeight));
+        static_cast<FieldEditMethodSig>(&RayTracer::editHandleHeight),
+        static_cast<FieldGetMethodSig >(&RayTracer::getHandleHeight));
 
     oType.addInitialDesc(pDesc);
 }
@@ -160,10 +160,10 @@ RayTracerBase::TypeObject RayTracerBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &RayTracerBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&RayTracerBase::createEmptyLocal),
     RayTracer::initMethod,
     RayTracer::exitMethod,
-    (InitalInsertDescFunc) &RayTracerBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&RayTracerBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

@@ -83,7 +83,7 @@ RTInfoAttachmentBase::TypeObject RTInfoAttachmentBase::_type(
     Inherited::getClassname(),
     "RTInfoAttachment",
     0,
-    (PrototypeCreateF) &RTInfoAttachmentBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&RTInfoAttachmentBase::createEmptyLocal),
     RTInfoAttachment::initMethod,
     RTInfoAttachment::exitMethod,
     NULL,

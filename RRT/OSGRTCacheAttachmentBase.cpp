@@ -83,7 +83,7 @@ RTCacheAttachmentBase::TypeObject RTCacheAttachmentBase::_type(
     Inherited::getClassname(),
     "RTCacheAttachment",
     0,
-    (PrototypeCreateF) &RTCacheAttachmentBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&RTCacheAttachmentBase::createEmptyLocal),
     RTCacheAttachment::initMethod,
     RTCacheAttachment::exitMethod,
     NULL,

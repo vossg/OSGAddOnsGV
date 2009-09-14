@@ -102,8 +102,8 @@ void RTTargetBase::classDescInserter(TypeObject &oType)
         WidthFieldId, WidthFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RTTargetBase::editHandleWidth),
-        static_cast<FieldGetMethodSig >(&RTTargetBase::getHandleWidth));
+        static_cast<FieldEditMethodSig>(&RTTarget::editHandleWidth),
+        static_cast<FieldGetMethodSig >(&RTTarget::getHandleWidth));
 
     oType.addInitialDesc(pDesc);
 
@@ -114,8 +114,8 @@ void RTTargetBase::classDescInserter(TypeObject &oType)
         HeightFieldId, HeightFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RTTargetBase::editHandleHeight),
-        static_cast<FieldGetMethodSig >(&RTTargetBase::getHandleHeight));
+        static_cast<FieldEditMethodSig>(&RTTarget::editHandleHeight),
+        static_cast<FieldGetMethodSig >(&RTTarget::getHandleHeight));
 
     oType.addInitialDesc(pDesc);
 }
@@ -126,10 +126,10 @@ RTTargetBase::TypeObject RTTargetBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &RTTargetBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&RTTargetBase::createEmptyLocal),
     RTTarget::initMethod,
     RTTarget::exitMethod,
-    (InitalInsertDescFunc) &RTTargetBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&RTTargetBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

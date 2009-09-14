@@ -99,8 +99,8 @@ void RTImageTargetBase::classDescInserter(TypeObject &oType)
         ImageFieldId, ImageFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RTImageTargetBase::editHandleImage),
-        static_cast<FieldGetMethodSig >(&RTImageTargetBase::getHandleImage));
+        static_cast<FieldEditMethodSig>(&RTImageTarget::editHandleImage),
+        static_cast<FieldGetMethodSig >(&RTImageTarget::getHandleImage));
 
     oType.addInitialDesc(pDesc);
 }
@@ -111,10 +111,10 @@ RTImageTargetBase::TypeObject RTImageTargetBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &RTImageTargetBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&RTImageTargetBase::createEmptyLocal),
     RTImageTarget::initMethod,
     RTImageTarget::exitMethod,
-    (InitalInsertDescFunc) &RTImageTargetBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&RTImageTargetBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

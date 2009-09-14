@@ -83,7 +83,7 @@ RTCameraDecoratorBase::TypeObject RTCameraDecoratorBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &RTCameraDecoratorBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&RTCameraDecoratorBase::createEmptyLocal),
     RTCameraDecorator::initMethod,
     RTCameraDecorator::exitMethod,
     NULL,

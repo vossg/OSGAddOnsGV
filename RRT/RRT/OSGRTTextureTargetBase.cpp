@@ -99,8 +99,8 @@ void RTTextureTargetBase::classDescInserter(TypeObject &oType)
         TexObjChunkFieldId, TexObjChunkFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&RTTextureTargetBase::editHandleTexObjChunk),
-        static_cast<FieldGetMethodSig >(&RTTextureTargetBase::getHandleTexObjChunk));
+        static_cast<FieldEditMethodSig>(&RTTextureTarget::editHandleTexObjChunk),
+        static_cast<FieldGetMethodSig >(&RTTextureTarget::getHandleTexObjChunk));
 
     oType.addInitialDesc(pDesc);
 }
@@ -111,10 +111,10 @@ RTTextureTargetBase::TypeObject RTTextureTargetBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &RTTextureTargetBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&RTTextureTargetBase::createEmptyLocal),
     RTTextureTarget::initMethod,
     RTTextureTarget::exitMethod,
-    (InitalInsertDescFunc) &RTTextureTargetBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&RTTextureTargetBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
