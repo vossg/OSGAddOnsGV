@@ -155,22 +155,6 @@ void RTInfoAttachmentBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-RTInfoAttachmentTransitPtr RTInfoAttachmentBase::create(void)
-{
-    RTInfoAttachmentTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<RTInfoAttachment>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 RTInfoAttachmentTransitPtr RTInfoAttachmentBase::createLocal(BitVector bFlags)
 {
     RTInfoAttachmentTransitPtr fc;
@@ -186,17 +170,20 @@ RTInfoAttachmentTransitPtr RTInfoAttachmentBase::createLocal(BitVector bFlags)
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-RTInfoAttachment *RTInfoAttachmentBase::createEmpty(void)
+//! create a new instance of the class
+RTInfoAttachmentTransitPtr RTInfoAttachmentBase::create(void)
 {
-    RTInfoAttachment *returnValue;
+    RTInfoAttachmentTransitPtr fc;
 
-    newPtr<RTInfoAttachment>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<RTInfoAttachment>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 RTInfoAttachment *RTInfoAttachmentBase::createEmptyLocal(BitVector bFlags)
@@ -210,20 +197,19 @@ RTInfoAttachment *RTInfoAttachmentBase::createEmptyLocal(BitVector bFlags)
     return returnValue;
 }
 
-FieldContainerTransitPtr RTInfoAttachmentBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+RTInfoAttachment *RTInfoAttachmentBase::createEmpty(void)
 {
-    RTInfoAttachment *tmpPtr;
+    RTInfoAttachment *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const RTInfoAttachment *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<RTInfoAttachment>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr RTInfoAttachmentBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -238,6 +224,22 @@ FieldContainerTransitPtr RTInfoAttachmentBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr RTInfoAttachmentBase::shallowCopy(void) const
+{
+    RTInfoAttachment *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const RTInfoAttachment *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -304,12 +306,12 @@ DataType FieldTraits<RTInfoAttachment *>::_type("RTInfoAttachmentPtr", "Attachme
 
 OSG_FIELDTRAITS_GETTYPE(RTInfoAttachment *)
 
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           RTInfoAttachment *, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           RTInfoAttachment *,
                            0);
 
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
-                           RTInfoAttachment *, 
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           RTInfoAttachment *,
                            0);
 
 OSG_END_NAMESPACE

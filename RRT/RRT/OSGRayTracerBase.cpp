@@ -111,7 +111,7 @@ void RayTracerBase::classDescInserter(TypeObject &oType)
         "",
         RayTracingRootFieldId, RayTracingRootFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&RayTracer::editHandleRayTracingRoot),
         static_cast<FieldGetMethodSig >(&RayTracer::getHandleRayTracingRoot));
 
@@ -123,7 +123,7 @@ void RayTracerBase::classDescInserter(TypeObject &oType)
         "",
         BackgroundRootFieldId, BackgroundRootFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&RayTracer::editHandleBackgroundRoot),
         static_cast<FieldGetMethodSig >(&RayTracer::getHandleBackgroundRoot));
 
@@ -135,7 +135,7 @@ void RayTracerBase::classDescInserter(TypeObject &oType)
         "",
         WidthFieldId, WidthFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&RayTracer::editHandleWidth),
         static_cast<FieldGetMethodSig >(&RayTracer::getHandleWidth));
 
@@ -147,7 +147,7 @@ void RayTracerBase::classDescInserter(TypeObject &oType)
         "",
         HeightFieldId, HeightFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&RayTracer::editHandleHeight),
         static_cast<FieldGetMethodSig >(&RayTracer::getHandleHeight));
 
@@ -367,22 +367,6 @@ void RayTracerBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-RayTracerTransitPtr RayTracerBase::create(void)
-{
-    RayTracerTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<RayTracer>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 RayTracerTransitPtr RayTracerBase::createLocal(BitVector bFlags)
 {
     RayTracerTransitPtr fc;
@@ -398,17 +382,20 @@ RayTracerTransitPtr RayTracerBase::createLocal(BitVector bFlags)
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-RayTracer *RayTracerBase::createEmpty(void)
+//! create a new instance of the class
+RayTracerTransitPtr RayTracerBase::create(void)
 {
-    RayTracer *returnValue;
+    RayTracerTransitPtr fc;
 
-    newPtr<RayTracer>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<RayTracer>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 RayTracer *RayTracerBase::createEmptyLocal(BitVector bFlags)
@@ -422,20 +409,19 @@ RayTracer *RayTracerBase::createEmptyLocal(BitVector bFlags)
     return returnValue;
 }
 
-FieldContainerTransitPtr RayTracerBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+RayTracer *RayTracerBase::createEmpty(void)
 {
-    RayTracer *tmpPtr;
+    RayTracer *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const RayTracer *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<RayTracer>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr RayTracerBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -450,6 +436,22 @@ FieldContainerTransitPtr RayTracerBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr RayTracerBase::shallowCopy(void) const
+{
+    RayTracer *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const RayTracer *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -498,7 +500,7 @@ GetFieldHandlePtr RayTracerBase::getHandleRayTracingRoot  (void) const
 {
     SFWeakNodePtr::GetHandlePtr returnValue(
         new  SFWeakNodePtr::GetHandle(
-             &_sfRayTracingRoot, 
+             &_sfRayTracingRoot,
              this->getType().getFieldDesc(RayTracingRootFieldId)));
 
     return returnValue;
@@ -508,11 +510,12 @@ EditFieldHandlePtr RayTracerBase::editHandleRayTracingRoot (void)
 {
     SFWeakNodePtr::EditHandlePtr returnValue(
         new  SFWeakNodePtr::EditHandle(
-             &_sfRayTracingRoot, 
+             &_sfRayTracingRoot,
              this->getType().getFieldDesc(RayTracingRootFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&RayTracer::setRayTracingRoot, 
-                                          static_cast<RayTracer *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&RayTracer::setRayTracingRoot,
+                    static_cast<RayTracer *>(this), _1));
 
     editSField(RayTracingRootFieldMask);
 
@@ -523,7 +526,7 @@ GetFieldHandlePtr RayTracerBase::getHandleBackgroundRoot  (void) const
 {
     SFUnrecNodePtr::GetHandlePtr returnValue(
         new  SFUnrecNodePtr::GetHandle(
-             &_sfBackgroundRoot, 
+             &_sfBackgroundRoot,
              this->getType().getFieldDesc(BackgroundRootFieldId)));
 
     return returnValue;
@@ -533,11 +536,12 @@ EditFieldHandlePtr RayTracerBase::editHandleBackgroundRoot (void)
 {
     SFUnrecNodePtr::EditHandlePtr returnValue(
         new  SFUnrecNodePtr::EditHandle(
-             &_sfBackgroundRoot, 
+             &_sfBackgroundRoot,
              this->getType().getFieldDesc(BackgroundRootFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&RayTracer::setBackgroundRoot, 
-                                          static_cast<RayTracer *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&RayTracer::setBackgroundRoot,
+                    static_cast<RayTracer *>(this), _1));
 
     editSField(BackgroundRootFieldMask);
 
@@ -548,7 +552,7 @@ GetFieldHandlePtr RayTracerBase::getHandleWidth           (void) const
 {
     SFUInt32::GetHandlePtr returnValue(
         new  SFUInt32::GetHandle(
-             &_sfWidth, 
+             &_sfWidth,
              this->getType().getFieldDesc(WidthFieldId)));
 
     return returnValue;
@@ -558,8 +562,9 @@ EditFieldHandlePtr RayTracerBase::editHandleWidth          (void)
 {
     SFUInt32::EditHandlePtr returnValue(
         new  SFUInt32::EditHandle(
-             &_sfWidth, 
+             &_sfWidth,
              this->getType().getFieldDesc(WidthFieldId)));
+
 
     editSField(WidthFieldMask);
 
@@ -570,7 +575,7 @@ GetFieldHandlePtr RayTracerBase::getHandleHeight          (void) const
 {
     SFUInt32::GetHandlePtr returnValue(
         new  SFUInt32::GetHandle(
-             &_sfHeight, 
+             &_sfHeight,
              this->getType().getFieldDesc(HeightFieldId)));
 
     return returnValue;
@@ -580,8 +585,9 @@ EditFieldHandlePtr RayTracerBase::editHandleHeight         (void)
 {
     SFUInt32::EditHandlePtr returnValue(
         new  SFUInt32::EditHandle(
-             &_sfHeight, 
+             &_sfHeight,
              this->getType().getFieldDesc(HeightFieldId)));
+
 
     editSField(HeightFieldMask);
 

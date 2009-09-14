@@ -107,7 +107,7 @@ void RTCacheGeometryStoreBase::classDescInserter(TypeObject &oType)
         "",
         GeoFieldId, GeoFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&RTCacheGeometryStore::editHandleGeo),
         static_cast<FieldGetMethodSig >(&RTCacheGeometryStore::getHandleGeo));
 
@@ -119,7 +119,7 @@ void RTCacheGeometryStoreBase::classDescInserter(TypeObject &oType)
         "",
         MatrixFieldId, MatrixFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&RTCacheGeometryStore::editHandleMatrix),
         static_cast<FieldGetMethodSig >(&RTCacheGeometryStore::getHandleMatrix));
 
@@ -131,7 +131,7 @@ void RTCacheGeometryStoreBase::classDescInserter(TypeObject &oType)
         "",
         StateFieldId, StateFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&RTCacheGeometryStore::editHandleState),
         static_cast<FieldGetMethodSig >(&RTCacheGeometryStore::getHandleState));
 
@@ -319,22 +319,6 @@ void RTCacheGeometryStoreBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-RTCacheGeometryStoreTransitPtr RTCacheGeometryStoreBase::create(void)
-{
-    RTCacheGeometryStoreTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<RTCacheGeometryStore>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 RTCacheGeometryStoreTransitPtr RTCacheGeometryStoreBase::createLocal(BitVector bFlags)
 {
     RTCacheGeometryStoreTransitPtr fc;
@@ -350,17 +334,20 @@ RTCacheGeometryStoreTransitPtr RTCacheGeometryStoreBase::createLocal(BitVector b
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-RTCacheGeometryStore *RTCacheGeometryStoreBase::createEmpty(void)
+//! create a new instance of the class
+RTCacheGeometryStoreTransitPtr RTCacheGeometryStoreBase::create(void)
 {
-    RTCacheGeometryStore *returnValue;
+    RTCacheGeometryStoreTransitPtr fc;
 
-    newPtr<RTCacheGeometryStore>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<RTCacheGeometryStore>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 RTCacheGeometryStore *RTCacheGeometryStoreBase::createEmptyLocal(BitVector bFlags)
@@ -374,20 +361,19 @@ RTCacheGeometryStore *RTCacheGeometryStoreBase::createEmptyLocal(BitVector bFlag
     return returnValue;
 }
 
-FieldContainerTransitPtr RTCacheGeometryStoreBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+RTCacheGeometryStore *RTCacheGeometryStoreBase::createEmpty(void)
 {
-    RTCacheGeometryStore *tmpPtr;
+    RTCacheGeometryStore *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const RTCacheGeometryStore *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<RTCacheGeometryStore>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr RTCacheGeometryStoreBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -402,6 +388,22 @@ FieldContainerTransitPtr RTCacheGeometryStoreBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr RTCacheGeometryStoreBase::shallowCopy(void) const
+{
+    RTCacheGeometryStore *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const RTCacheGeometryStore *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -448,7 +450,7 @@ GetFieldHandlePtr RTCacheGeometryStoreBase::getHandleGeo             (void) cons
 {
     SFUnrecGeometryPtr::GetHandlePtr returnValue(
         new  SFUnrecGeometryPtr::GetHandle(
-             &_sfGeo, 
+             &_sfGeo,
              this->getType().getFieldDesc(GeoFieldId)));
 
     return returnValue;
@@ -458,11 +460,12 @@ EditFieldHandlePtr RTCacheGeometryStoreBase::editHandleGeo            (void)
 {
     SFUnrecGeometryPtr::EditHandlePtr returnValue(
         new  SFUnrecGeometryPtr::EditHandle(
-             &_sfGeo, 
+             &_sfGeo,
              this->getType().getFieldDesc(GeoFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&RTCacheGeometryStore::setGeo, 
-                                          static_cast<RTCacheGeometryStore *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&RTCacheGeometryStore::setGeo,
+                    static_cast<RTCacheGeometryStore *>(this), _1));
 
     editSField(GeoFieldMask);
 
@@ -473,7 +476,7 @@ GetFieldHandlePtr RTCacheGeometryStoreBase::getHandleMatrix          (void) cons
 {
     SFMatrix::GetHandlePtr returnValue(
         new  SFMatrix::GetHandle(
-             &_sfMatrix, 
+             &_sfMatrix,
              this->getType().getFieldDesc(MatrixFieldId)));
 
     return returnValue;
@@ -483,8 +486,9 @@ EditFieldHandlePtr RTCacheGeometryStoreBase::editHandleMatrix         (void)
 {
     SFMatrix::EditHandlePtr returnValue(
         new  SFMatrix::EditHandle(
-             &_sfMatrix, 
+             &_sfMatrix,
              this->getType().getFieldDesc(MatrixFieldId)));
+
 
     editSField(MatrixFieldMask);
 
@@ -495,7 +499,7 @@ GetFieldHandlePtr RTCacheGeometryStoreBase::getHandleState           (void) cons
 {
     SFUnrecStatePtr::GetHandlePtr returnValue(
         new  SFUnrecStatePtr::GetHandle(
-             &_sfState, 
+             &_sfState,
              this->getType().getFieldDesc(StateFieldId)));
 
     return returnValue;
@@ -505,11 +509,12 @@ EditFieldHandlePtr RTCacheGeometryStoreBase::editHandleState          (void)
 {
     SFUnrecStatePtr::EditHandlePtr returnValue(
         new  SFUnrecStatePtr::EditHandle(
-             &_sfState, 
+             &_sfState,
              this->getType().getFieldDesc(StateFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&RTCacheGeometryStore::setState, 
-                                          static_cast<RTCacheGeometryStore *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&RTCacheGeometryStore::setState,
+                    static_cast<RTCacheGeometryStore *>(this), _1));
 
     editSField(StateFieldMask);
 
@@ -563,12 +568,12 @@ DataType FieldTraits<RTCacheGeometryStore *>::_type("RTCacheGeometryStorePtr", "
 
 OSG_FIELDTRAITS_GETTYPE(RTCacheGeometryStore *)
 
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           RTCacheGeometryStore *, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           RTCacheGeometryStore *,
                            0);
 
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
-                           RTCacheGeometryStore *, 
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           RTCacheGeometryStore *,
                            0);
 
 OSG_END_NAMESPACE

@@ -98,7 +98,7 @@ void RTTextureTargetBase::classDescInserter(TypeObject &oType)
         "",
         TexObjChunkFieldId, TexObjChunkFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&RTTextureTarget::editHandleTexObjChunk),
         static_cast<FieldGetMethodSig >(&RTTextureTarget::getHandleTexObjChunk));
 
@@ -218,22 +218,6 @@ void RTTextureTargetBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-RTTextureTargetTransitPtr RTTextureTargetBase::create(void)
-{
-    RTTextureTargetTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<RTTextureTarget>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 RTTextureTargetTransitPtr RTTextureTargetBase::createLocal(BitVector bFlags)
 {
     RTTextureTargetTransitPtr fc;
@@ -249,17 +233,20 @@ RTTextureTargetTransitPtr RTTextureTargetBase::createLocal(BitVector bFlags)
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-RTTextureTarget *RTTextureTargetBase::createEmpty(void)
+//! create a new instance of the class
+RTTextureTargetTransitPtr RTTextureTargetBase::create(void)
 {
-    RTTextureTarget *returnValue;
+    RTTextureTargetTransitPtr fc;
 
-    newPtr<RTTextureTarget>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<RTTextureTarget>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 RTTextureTarget *RTTextureTargetBase::createEmptyLocal(BitVector bFlags)
@@ -273,20 +260,19 @@ RTTextureTarget *RTTextureTargetBase::createEmptyLocal(BitVector bFlags)
     return returnValue;
 }
 
-FieldContainerTransitPtr RTTextureTargetBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+RTTextureTarget *RTTextureTargetBase::createEmpty(void)
 {
-    RTTextureTarget *tmpPtr;
+    RTTextureTarget *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const RTTextureTarget *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<RTTextureTarget>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr RTTextureTargetBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -301,6 +287,22 @@ FieldContainerTransitPtr RTTextureTargetBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr RTTextureTargetBase::shallowCopy(void) const
+{
+    RTTextureTarget *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const RTTextureTarget *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -341,7 +343,7 @@ GetFieldHandlePtr RTTextureTargetBase::getHandleTexObjChunk     (void) const
 {
     SFUnrecTextureObjChunkPtr::GetHandlePtr returnValue(
         new  SFUnrecTextureObjChunkPtr::GetHandle(
-             &_sfTexObjChunk, 
+             &_sfTexObjChunk,
              this->getType().getFieldDesc(TexObjChunkFieldId)));
 
     return returnValue;
@@ -351,11 +353,12 @@ EditFieldHandlePtr RTTextureTargetBase::editHandleTexObjChunk    (void)
 {
     SFUnrecTextureObjChunkPtr::EditHandlePtr returnValue(
         new  SFUnrecTextureObjChunkPtr::EditHandle(
-             &_sfTexObjChunk, 
+             &_sfTexObjChunk,
              this->getType().getFieldDesc(TexObjChunkFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&RTTextureTarget::setTexObjChunk, 
-                                          static_cast<RTTextureTarget *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&RTTextureTarget::setTexObjChunk,
+                    static_cast<RTTextureTarget *>(this), _1));
 
     editSField(TexObjChunkFieldMask);
 
@@ -407,8 +410,8 @@ DataType FieldTraits<RTTextureTarget *>::_type("RTTextureTargetPtr", "RTTargetPt
 
 OSG_FIELDTRAITS_GETTYPE(RTTextureTarget *)
 
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           RTTextureTarget *, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           RTTextureTarget *,
                            0);
 
 

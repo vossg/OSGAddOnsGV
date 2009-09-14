@@ -101,7 +101,7 @@ void RTTargetBase::classDescInserter(TypeObject &oType)
         "",
         WidthFieldId, WidthFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&RTTarget::editHandleWidth),
         static_cast<FieldGetMethodSig >(&RTTarget::getHandleWidth));
 
@@ -113,7 +113,7 @@ void RTTargetBase::classDescInserter(TypeObject &oType)
         "",
         HeightFieldId, HeightFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&RTTarget::editHandleHeight),
         static_cast<FieldGetMethodSig >(&RTTarget::getHandleHeight));
 
@@ -266,22 +266,6 @@ void RTTargetBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-RTTargetTransitPtr RTTargetBase::create(void)
-{
-    RTTargetTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<RTTarget>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 RTTargetTransitPtr RTTargetBase::createLocal(BitVector bFlags)
 {
     RTTargetTransitPtr fc;
@@ -297,17 +281,20 @@ RTTargetTransitPtr RTTargetBase::createLocal(BitVector bFlags)
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-RTTarget *RTTargetBase::createEmpty(void)
+//! create a new instance of the class
+RTTargetTransitPtr RTTargetBase::create(void)
 {
-    RTTarget *returnValue;
+    RTTargetTransitPtr fc;
 
-    newPtr<RTTarget>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<RTTarget>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 RTTarget *RTTargetBase::createEmptyLocal(BitVector bFlags)
@@ -321,20 +308,19 @@ RTTarget *RTTargetBase::createEmptyLocal(BitVector bFlags)
     return returnValue;
 }
 
-FieldContainerTransitPtr RTTargetBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+RTTarget *RTTargetBase::createEmpty(void)
 {
-    RTTarget *tmpPtr;
+    RTTarget *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const RTTarget *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<RTTarget>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr RTTargetBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -349,6 +335,22 @@ FieldContainerTransitPtr RTTargetBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr RTTargetBase::shallowCopy(void) const
+{
+    RTTarget *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const RTTarget *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -380,7 +382,7 @@ GetFieldHandlePtr RTTargetBase::getHandleWidth           (void) const
 {
     SFUInt32::GetHandlePtr returnValue(
         new  SFUInt32::GetHandle(
-             &_sfWidth, 
+             &_sfWidth,
              this->getType().getFieldDesc(WidthFieldId)));
 
     return returnValue;
@@ -390,8 +392,9 @@ EditFieldHandlePtr RTTargetBase::editHandleWidth          (void)
 {
     SFUInt32::EditHandlePtr returnValue(
         new  SFUInt32::EditHandle(
-             &_sfWidth, 
+             &_sfWidth,
              this->getType().getFieldDesc(WidthFieldId)));
+
 
     editSField(WidthFieldMask);
 
@@ -402,7 +405,7 @@ GetFieldHandlePtr RTTargetBase::getHandleHeight          (void) const
 {
     SFUInt32::GetHandlePtr returnValue(
         new  SFUInt32::GetHandle(
-             &_sfHeight, 
+             &_sfHeight,
              this->getType().getFieldDesc(HeightFieldId)));
 
     return returnValue;
@@ -412,8 +415,9 @@ EditFieldHandlePtr RTTargetBase::editHandleHeight         (void)
 {
     SFUInt32::EditHandlePtr returnValue(
         new  SFUInt32::EditHandle(
-             &_sfHeight, 
+             &_sfHeight,
              this->getType().getFieldDesc(HeightFieldId)));
+
 
     editSField(HeightFieldMask);
 
@@ -463,8 +467,8 @@ DataType FieldTraits<RTTarget *>::_type("RTTargetPtr", "FieldContainerPtr");
 
 OSG_FIELDTRAITS_GETTYPE(RTTarget *)
 
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           RTTarget *, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           RTTarget *,
                            0);
 
 

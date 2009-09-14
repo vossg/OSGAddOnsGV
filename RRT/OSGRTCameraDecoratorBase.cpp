@@ -153,22 +153,6 @@ void RTCameraDecoratorBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-RTCameraDecoratorTransitPtr RTCameraDecoratorBase::create(void)
-{
-    RTCameraDecoratorTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<RTCameraDecorator>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 RTCameraDecoratorTransitPtr RTCameraDecoratorBase::createLocal(BitVector bFlags)
 {
     RTCameraDecoratorTransitPtr fc;
@@ -184,17 +168,20 @@ RTCameraDecoratorTransitPtr RTCameraDecoratorBase::createLocal(BitVector bFlags)
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-RTCameraDecorator *RTCameraDecoratorBase::createEmpty(void)
+//! create a new instance of the class
+RTCameraDecoratorTransitPtr RTCameraDecoratorBase::create(void)
 {
-    RTCameraDecorator *returnValue;
+    RTCameraDecoratorTransitPtr fc;
 
-    newPtr<RTCameraDecorator>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<RTCameraDecorator>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 RTCameraDecorator *RTCameraDecoratorBase::createEmptyLocal(BitVector bFlags)
@@ -208,20 +195,19 @@ RTCameraDecorator *RTCameraDecoratorBase::createEmptyLocal(BitVector bFlags)
     return returnValue;
 }
 
-FieldContainerTransitPtr RTCameraDecoratorBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+RTCameraDecorator *RTCameraDecoratorBase::createEmpty(void)
 {
-    RTCameraDecorator *tmpPtr;
+    RTCameraDecorator *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const RTCameraDecorator *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<RTCameraDecorator>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr RTCameraDecoratorBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -236,6 +222,22 @@ FieldContainerTransitPtr RTCameraDecoratorBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr RTCameraDecoratorBase::shallowCopy(void) const
+{
+    RTCameraDecorator *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const RTCameraDecorator *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -302,12 +304,12 @@ DataType FieldTraits<RTCameraDecorator *>::_type("RTCameraDecoratorPtr", "Camera
 
 OSG_FIELDTRAITS_GETTYPE(RTCameraDecorator *)
 
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           RTCameraDecorator *, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           RTCameraDecorator *,
                            0);
 
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
-                           RTCameraDecorator *, 
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           RTCameraDecorator *,
                            0);
 
 OSG_END_NAMESPACE
