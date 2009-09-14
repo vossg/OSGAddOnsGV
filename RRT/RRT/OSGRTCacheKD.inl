@@ -659,6 +659,278 @@ void RTCacheKD<DescT>::intersectSingle(SIMDRayPacket   &oRay,
     }
 }
 
+
+template<typename DescT> inline
+void RTCacheKD<DescT>::intersectByOrigin(SIMDRayPacket   &oRay, 
+                                         RTHitSIMDPacket &oHit,
+                                         KDElemStack     &sKDToDoStack,
+                                         UInt32           uiCacheId,
+                                         UInt16          *uiActive     )
+{
+#if 0
+    for(UInt32 i = 0; i < this->_mfTriangleAcc.size(); ++i)
+    {
+        for(UInt32 j = 0; j < 4; ++j)
+        {
+            this->_mfTriangleAcc[i].intersect(oRay, oHit, uiCacheId, j);
+        }
+    }
+#else
+
+#if 0
+    UInt32 uiDirSign[3];
+
+    uiDirSign[0] = osgSIMDMoveMask(oRay.getQuad(RTRaySIMDPacket::X));
+    uiDirSign[1] = osgSIMDMoveMask(oRay.getQuad(RTRaySIMDPacket::Y));
+    uiDirSign[2] = osgSIMDMoveMask(oRay.getQuad(RTRaySIMDPacket::Z));
+
+    if (((uiDirSign[0] != 0) && (uiDirSign[0] != 15)) || 
+        ((uiDirSign[1] != 0) && (uiDirSign[1] != 15)) ||
+        ((uiDirSign[2] != 0) && (uiDirSign[2] != 15)))
+
+    {
+        intersectSingle(oRay, 
+                        oHit,
+                        sKDToDoStack,
+                        uiCacheId,
+                        uiActive);
+        return;
+    }
+#endif
+
+    Float4 tmin4       = SIMDZero;
+    Float4 tmax4       = SIMDInfinity;
+    UInt32 activeMask  = 0xf;
+    UInt32 termination = 0;
+
+
+    SSEVec4 invDir;   
+
+    invDir._data[RTRaySIMDPacket::X] = 
+        osgSIMDInvert(oRay.getQuad(RTRaySIMDPacket::X));
+    invDir._data[RTRaySIMDPacket::Y] = 
+        osgSIMDInvert(oRay.getQuad(RTRaySIMDPacket::Y));
+    invDir._data[RTRaySIMDPacket::Z] = 
+        osgSIMDInvert(oRay.getQuad(RTRaySIMDPacket::Z));
+
+    BoxVolume &boxVolume = this->_sfBoundingVolume.getValue();
+
+    // ClipX
+    const Float4 clipMinX = 
+        osgSIMDMul(
+            osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::X]),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::X))),
+            invDir._data[RTRaySIMDPacket::X]);
+
+    const Float4 clipMaxX = 
+        osgSIMDMul(
+            osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::X]),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::X))),
+            invDir._data[RTRaySIMDPacket::X]);
+
+
+    const Float4 cmpX = osgSIMDCmpGT(oRay.getQuad(RTRaySIMDPacket::X), 
+                                     SIMDZero);
+
+    tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpX, clipMinX, clipMaxX));
+    tmax4 = osgSIMDMin(tmax4, osgSIMDUpdate(cmpX, clipMaxX, clipMinX));
+
+
+
+    // ClipY
+    const Float4 clipMinY = 
+        osgSIMDMul(
+            osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::Y]),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Y))),
+            invDir._data[RTRaySIMDPacket::Y]);
+    
+    const Float4 clipMaxY = 
+        osgSIMDMul(
+            osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::Y]),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Y))),
+            invDir._data[RTRaySIMDPacket::Y]);
+    
+    const Float4 cmpY = osgSIMDCmpGT(oRay.getQuad(RTRaySIMDPacket::Y), 
+                                     SIMDZero);
+
+
+    tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpY, clipMinY, clipMaxY));
+    tmax4 = osgSIMDMin(tmax4, osgSIMDUpdate(cmpY, clipMaxY, clipMinY));
+
+
+
+    // ClipZ
+    const Float4 clipMinZ = 
+        osgSIMDMul(
+            osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::Z]),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Z))),
+            invDir._data[RTRaySIMDPacket::Z]);
+
+    const Float4 clipMaxZ = 
+        osgSIMDMul(
+            osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::Z]),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Z))),
+            invDir._data[RTRaySIMDPacket::Z]);
+ 
+    const Float4 cmpZ = osgSIMDCmpGT(oRay.getQuad(RTRaySIMDPacket::Z), 
+                                     SIMDZero);
+
+    tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpZ, clipMinZ, clipMaxZ));
+    tmax4 = osgSIMDMin(tmax4, osgSIMDUpdate(cmpZ, clipMaxZ, clipMinZ));
+
+    activeMask = osgSIMDMoveMask(osgSIMDCmpLT(tmin4, tmax4));
+
+    if(activeMask == 0x0)
+    {
+        return;
+    }
+
+    sKDToDoStack.clear  (   );
+
+    union
+    {
+        const RTCacheKDNode *node;
+              UIntPointer    addr;
+    };
+
+    node = &(_mfKDTree[1]);
+
+    while(node != NULL) 
+    {
+        while(!node->isLeaf()) 
+        {
+            int axis = node->getSplitAxis();
+            
+            const Float4 tplane4 = 
+                osgSIMDMul(
+                    osgSIMDSub(osgSIMDSet(node->getSplitPos()),
+                               osgSIMDSet(oRay.getSingleComp(axis))),
+                    invDir._data[axis]);
+
+            union
+            {
+                const RTCacheKDNode *nearChild;
+                      UIntPointer    nearAddr;
+            };
+                
+            union
+            {
+                const RTCacheKDNode *farChild;
+                      UIntPointer    farAddr;
+            };
+
+//            bool belowFirst = oRay.getDirVec(0)[axis] > 0;
+//            bool belowFirst = !uiDirSign[axis];
+
+            bool belowFirst = oRay.getSingleComp(axis) <= node->getSplitPos();
+
+            if(belowFirst == true) 
+            {
+                nearAddr = addr + node->_uiAboveChild;
+                
+                farAddr  = 
+                    addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
+            }
+            else 
+            {
+                nearAddr = 
+                    addr + node->_uiAboveChild + sizeof(RTCacheKDNode);
+                
+                farAddr  = addr + node->_uiAboveChild;
+            }
+            
+            node = nearChild;
+
+            if(!(osgSIMDMoveMask(osgSIMDCmpGT(tmax4, 
+                                              tplane4)) & activeMask))
+            {
+                continue;
+            }
+
+            node = farChild;
+
+            if(!(osgSIMDMoveMask(osgSIMDCmpLE(tmin4, 
+                                              tplane4)) & activeMask))
+            {
+                continue;
+            }
+
+            KDSIMDStackElem otherNode;
+                
+            otherNode.node        = farChild;
+
+            otherNode.tmin4 = osgSIMDMax(tplane4, tmin4);
+            otherNode.tmax4 = tmax4;
+
+
+            node       = nearChild;
+
+//            oRay.setCacheNode(node);
+
+            tmax4 = osgSIMDMin(tplane4, tmax4);
+
+            activeMask = osgSIMDMoveMask(osgSIMDCmpLT(tmin4, tmax4));
+
+            sKDToDoStack.push_back(otherNode);
+        }
+            
+
+        UInt32 nPrimitives = node->getNumPrimitives();
+
+        static const UInt32 ActiveMask[4] = { 0x1, 0x2, 0x4, 0x8 };
+
+        if(nPrimitives == 1) 
+        {
+            this->_mfTriangleAcc[node->_uiSinglePrimitive].intersect(
+                oRay, oHit, uiCacheId, activeMask);
+        }
+        else 
+        {
+            std::vector<UInt32> &prims = 
+                this->_mfPrimitives[node->_pPrimitiveIdx];
+            
+            for(u_int i = 0; i < nPrimitives; ++i) 
+            {
+                this->_mfTriangleAcc[prims[i]].intersect(oRay, 
+                                                         oHit,
+                                                         uiCacheId,
+                                                         activeMask);
+            }
+        }
+
+        termination |= (activeMask &
+            osgSIMDMoveMask(osgSIMDCmpLE(osgSIMDSet(oHit.getDist(3),
+                                                    oHit.getDist(2),
+                                                    oHit.getDist(1),
+                                                    oHit.getDist(0)),
+                                         tmax4)));
+
+        if(termination == 0xf)
+            break;
+
+        if(sKDToDoStack.size() > 0) 
+        {
+            KDSIMDStackElem otherNode = sKDToDoStack.back();
+            
+            node    = otherNode.node;
+
+            tmin4 = otherNode.tmin4;
+            tmax4 = otherNode.tmax4;
+
+            activeMask = ~termination &
+                osgSIMDMoveMask(osgSIMDCmpLE(tmin4, tmax4));
+
+            sKDToDoStack.pop_back();
+        }
+        else
+        {
+            break;
+        }
+    }
+#endif
+}
+
+
 template<typename DescT> inline
 void RTCacheKD<DescT>::intersect(SIMDRayPacket   &oRay, 
                                  RTHitSIMDPacket &oHit,
@@ -687,11 +959,16 @@ void RTCacheKD<DescT>::intersect(SIMDRayPacket   &oRay,
         ((uiDirSign[2] != 0) && (uiDirSign[2] != 15)))
 
     {
+#if 1
         intersectSingle(oRay, 
                         oHit,
                         sKDToDoStack,
                         uiCacheId,
                         uiActive);
+#else
+        intersectByOrigin(oRay, oHit, sKDToDoStack, uiCacheId, uiActive);
+#endif
+
         return;
     }
 

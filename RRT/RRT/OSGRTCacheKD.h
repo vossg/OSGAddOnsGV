@@ -151,6 +151,12 @@ class RTCacheKD : public RTCacheKDBase<DescT>
                                KDElemStack        &sKDToDoStack,
                                UInt32              uiCacheId   );
 
+    void intersectByOrigin    (SIMDRayPacket      &oRay, 
+                               RTHitSIMDPacket    &oHit,
+                               KDElemStack        &sKDToDoStack,
+                               UInt32              uiCacheId   ,
+                               UInt16             *uiActive    );
+
     void intersect            (SIMDRayPacket      &oRay, 
                                RTHitSIMDPacket    &oHit,
                                KDElemStack        &sKDToDoStack,
