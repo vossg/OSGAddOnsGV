@@ -43,6 +43,7 @@
 #endif
 
 #include <assert.h>
+#include <climits>
 
 #include "OSGRTCachePrimIdxStore.h"
 #include "OSGCellRT.h"

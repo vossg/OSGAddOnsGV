@@ -42,6 +42,8 @@
 #pragma once
 #endif
 
+#include <climits>
+
 #include "OSGRTStore.h"
 
 #include "OSGCondVar.h"
