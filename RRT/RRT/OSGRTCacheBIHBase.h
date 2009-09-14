@@ -77,7 +77,7 @@ class RTCacheBIHBase : public RTCacheBase<DescT>
     typedef typename TypeObject::InitPhase                InitPhase;
 
     typedef          RTCacheGeometryStore                 GeometryStore;
-    typedef          RTCacheGeometryStorePtr              GeometryStorePtr;
+    typedef          RTCacheGeometryStore                *GeometryStorePtr;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

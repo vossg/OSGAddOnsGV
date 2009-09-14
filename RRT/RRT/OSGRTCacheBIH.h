@@ -84,10 +84,11 @@ class RTCacheBIH : public RTCacheBIHBase<DescT>
     typedef typename Inherited::TypeObject              TypeObject;
     typedef typename TypeObject::InitPhase              InitPhase;
 
-    typedef          SFieldAdaptor<ObjPtr, 
-                                   SFFieldContainerPtr> SField;
-    typedef          MFieldAdaptor<ObjPtr, 
-                                   MFFieldContainerPtr> MField;
+    typedef          PointerSField<ObjCPtr, 
+                                   UnrecordedRefCountPolicy> SField;
+
+    typedef          PointerMField<ObjCPtr, 
+                                   UnrecordedRefCountPolicy> MField;
 
     enum 
     { 
@@ -133,13 +134,19 @@ class RTCacheBIH : public RTCacheBIHBase<DescT>
                                RTHitSIMDPacket    &oHit,
                                BIHElemStack       &sKDToDoStack,
                                UInt32              uiCacheId   ,
-                               UInt32             *uiActive    );
+                               UInt16             *uiActive    );
+
+    void intersectSDQO        (BasicSIMDRayPacket &oRay, 
+                               RTHitSIMDPacket    &oHit,
+                               BIHElemStack       &sKDToDoStack,
+                               UInt32              uiCacheId   ,
+                               UInt16             *uiActive    );
 
     void intersectSingle      (BasicSIMDRayPacket &oRay, 
                                RTHitSIMDPacket    &oHit,
                                BIHElemStack       &sKDToDoStack,
                                UInt32              uiCacheId   ,
-                               UInt32             *uiActive    );
+                               UInt16             *uiActive    );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -219,7 +226,7 @@ class RTCacheBIH : public RTCacheBIHBase<DescT>
     /*! \{                                                                 */
 
 #ifdef OSG_MT_CPTR_ASPECT
-    virtual ObjPtr createAspectCopy(void) const;
+    virtual ObjCPtr createAspectCopy(const FieldContainer *pRefAspect) const;
 #endif
 
     /*! \}                                                                 */
@@ -292,11 +299,13 @@ struct FieldTraits<RTCacheBIH<DescT> *> :
     static OSG_SYSTEM_DLLMAPPING
                  DataType &getType      (void);
 
+    template<class RefCountPolicyT>
     static const Char8    *getSName     (void) 
     { 
         return DescT::getSFBIHCacheName();
     }
 
+    template<class RefCountPolicyT>
     static const Char8    *getMName     (void) 
     {
         return DescT::getMFBIHCacheName();

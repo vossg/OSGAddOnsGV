@@ -296,21 +296,25 @@ OSG_FIELD_DLLEXPORT_DEF2(PointerMField,
 #endif
 
 #ifdef OSG_CACHE_BIH
-OSG_FIELD_DLLEXPORT_DEF2(PointerSField, 
-                         RTCacheBIH<RRT::SinglePacketDescBase> *, 
-                         UnrecordedRefCountPolicy);
+OSG_EXPORT_PTR_SFIELD(PointerSField, 
+                      RTCacheBIH<RRT::SinglePacketDescBase> *, 
+                      UnrecordedRefCountPolicy,
+                      0);
 
-OSG_FIELD_DLLEXPORT_DEF2(PointerMField, 
-                         RTCacheBIH<RRT::SinglePacketDescBase> *, 
-                         UnrecordedRefCountPolicy);
+OSG_EXPORT_PTR_MFIELD(PointerMField, 
+                      RTCacheBIH<RRT::SinglePacketDescBase> *, 
+                      UnrecordedRefCountPolicy,
+                      0);
 
-OSG_FIELD_DLLEXPORT_DEF2(PointerSField, 
-                         RTCacheBIH<RRT::SIMDPacketDescBase> *, 
-                         UnrecordedRefCountPolicy);
+OSG_EXPORT_PTR_SFIELD(PointerSField, 
+                      RTCacheBIH<RRT::SIMDPacketDescBase> *, 
+                      UnrecordedRefCountPolicy,
+                      0);
 
-OSG_FIELD_DLLEXPORT_DEF2(PointerMField, 
-                         RTCacheBIH<RRT::SIMDPacketDescBase> *, 
-                         UnrecordedRefCountPolicy);
+OSG_EXPORT_PTR_MFIELD(PointerMField, 
+                      RTCacheBIH<RRT::SIMDPacketDescBase> *, 
+                      UnrecordedRefCountPolicy,
+                      0);
 #endif
 
 #define OSG_FC_GET_TYPE_INST(CLASS, T) \

@@ -69,8 +69,8 @@ struct RTSIMDMathTag;
 
 OSG_END_NAMESPACE
 
-//#define OSG_CACHE_BIH
-#define OSG_CACHE_KD
+#define OSG_CACHE_BIH
+//#define OSG_CACHE_KD
 
 #if defined(OSG_SIMD_ALTIVEC)
 #define OSG_CELL

@@ -63,10 +63,10 @@ typename RTCacheBIH<DescT>::TypeObject
         Desc::getCacheBIHParentTypeName(),
         Desc::getCacheBIHGroupName     (),
         0,
-        (PrototypeCreateF) &Self::createEmpty,
+        reinterpret_cast<PrototypeCreateF>(&Self::createEmpty),
         NULL,
         NULL,
-        (InitalInsertDescFunc) &Self::classDescInserter,
+        reinterpret_cast<InitalInsertDescFunc>(&Self::classDescInserter),
         false,
         0);                                 
            

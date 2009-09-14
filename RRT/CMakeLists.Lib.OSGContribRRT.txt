@@ -15,7 +15,10 @@ SET(${PROJECT_NAME}_DEP_OSG_LIB OSGBase
                                 OSGDrawable
                                 OSGWindow
                                 OSGState)
-SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGUtil OSGWindowGLUT)
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGUtil 
+                                     OSGFileIO
+                                     OSGImageFileIO
+                                     OSGWindowGLUT)
 
 # dependencies - External
 # SET(${PROJECT_NAME}_DEP_LIB)

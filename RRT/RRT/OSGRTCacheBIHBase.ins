@@ -68,7 +68,7 @@ typename RTCacheBIHBase<DescT>::TypeObject
         NULL,
         NULL,
         NULL,
-        (InitalInsertDescFunc) &Self::classDescInserter,
+        reinterpret_cast<InitalInsertDescFunc>(&Self::classDescInserter),
         false,
         0);                                 
            

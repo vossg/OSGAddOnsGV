@@ -91,7 +91,7 @@ void RTCacheBIH<DescT>::intersect(BasicSIMDRayPacket &oRay,
                                   RTHitSIMDPacket    &oHit,
                                   BIHElemStack       &sBIHToDoStack,
                                   UInt32              uiCacheId   ,
-                                  UInt32             *uiActive    )
+                                  UInt16             *uiActive    )
 {
 #if 1
     fprintf(stderr, "BIH Intersect simd %d\n", this->_mfTriangleAcc.size());
@@ -108,11 +108,20 @@ void RTCacheBIH<DescT>::intersect(BasicSIMDRayPacket &oRay,
 }
 
 template<typename DescT> inline
+void RTCacheBIH<DescT>::intersectSDQO(BasicSIMDRayPacket &oRay, 
+                                      RTHitSIMDPacket    &oHit,
+                                      BIHElemStack       &sKDToDoStack,
+                                      UInt32              uiCacheId   ,
+                                      UInt16             *uiActive    )
+{
+}
+
+template<typename DescT> inline
 void RTCacheBIH<DescT>::intersectSingle(BasicSIMDRayPacket &oRay, 
                                         RTHitSIMDPacket    &oHit,
                                         BIHElemStack       &sBIHToDoStack,
                                         UInt32              uiCacheId   ,
-                                        UInt32             *uiActive    )
+                                        UInt16             *uiActive    )
 {
 }
 
@@ -183,12 +192,13 @@ void RTCacheBIH<DescT>::copyFromBin(BinaryDataHandler &pMem,
 
 #ifdef OSG_MT_CPTR_ASPECT
 template<typename DescT> inline
-typename RTCacheBIH<DescT>::ObjPtr 
-    RTCacheBIH<DescT>::createAspectCopy(void) const
+typename RTCacheBIH<DescT>::ObjCPtr 
+    RTCacheBIH<DescT>::createAspectCopy(const FieldContainer *pRefAspect) const
 {
-    ObjPtr returnValue;
+    ObjCPtr returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const Self *>(pRefAspect),
                   dynamic_cast<const Self *>(this));
 
     return returnValue;
