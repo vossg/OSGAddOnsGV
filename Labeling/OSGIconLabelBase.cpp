@@ -106,7 +106,7 @@ void IconLabelBase::classDescInserter(TypeObject &oType)
         "The filename of the icon to load.\n",
         FilenameFieldId, FilenameFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&IconLabel::editHandleFilename),
         static_cast<FieldGetMethodSig >(&IconLabel::getHandleFilename));
 
@@ -118,7 +118,7 @@ void IconLabelBase::classDescInserter(TypeObject &oType)
         "The image of the icon.\n",
         ImageFieldId, ImageFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&IconLabel::editHandleImage),
         static_cast<FieldGetMethodSig >(&IconLabel::getHandleImage));
 
@@ -130,7 +130,7 @@ void IconLabelBase::classDescInserter(TypeObject &oType)
         "Size of the icon on the screen in pixel.\n",
         SizeFieldId, SizeFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&IconLabel::editHandleSize),
         static_cast<FieldGetMethodSig >(&IconLabel::getHandleSize));
 
@@ -336,22 +336,6 @@ void IconLabelBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-IconLabelTransitPtr IconLabelBase::create(void)
-{
-    IconLabelTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<IconLabel>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 IconLabelTransitPtr IconLabelBase::createLocal(BitVector bFlags)
 {
     IconLabelTransitPtr fc;
@@ -367,17 +351,20 @@ IconLabelTransitPtr IconLabelBase::createLocal(BitVector bFlags)
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-IconLabel *IconLabelBase::createEmpty(void)
+//! create a new instance of the class
+IconLabelTransitPtr IconLabelBase::create(void)
 {
-    IconLabel *returnValue;
+    IconLabelTransitPtr fc;
 
-    newPtr<IconLabel>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<IconLabel>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 IconLabel *IconLabelBase::createEmptyLocal(BitVector bFlags)
@@ -391,20 +378,19 @@ IconLabel *IconLabelBase::createEmptyLocal(BitVector bFlags)
     return returnValue;
 }
 
-FieldContainerTransitPtr IconLabelBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+IconLabel *IconLabelBase::createEmpty(void)
 {
-    IconLabel *tmpPtr;
+    IconLabel *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const IconLabel *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<IconLabel>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr IconLabelBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -419,6 +405,22 @@ FieldContainerTransitPtr IconLabelBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr IconLabelBase::shallowCopy(void) const
+{
+    IconLabel *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const IconLabel *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -463,7 +465,7 @@ GetFieldHandlePtr IconLabelBase::getHandleFilename        (void) const
 {
     SFString::GetHandlePtr returnValue(
         new  SFString::GetHandle(
-             &_sfFilename, 
+             &_sfFilename,
              this->getType().getFieldDesc(FilenameFieldId)));
 
     return returnValue;
@@ -473,8 +475,9 @@ EditFieldHandlePtr IconLabelBase::editHandleFilename       (void)
 {
     SFString::EditHandlePtr returnValue(
         new  SFString::EditHandle(
-             &_sfFilename, 
+             &_sfFilename,
              this->getType().getFieldDesc(FilenameFieldId)));
+
 
     editSField(FilenameFieldMask);
 
@@ -485,7 +488,7 @@ GetFieldHandlePtr IconLabelBase::getHandleImage           (void) const
 {
     SFUnrecImagePtr::GetHandlePtr returnValue(
         new  SFUnrecImagePtr::GetHandle(
-             &_sfImage, 
+             &_sfImage,
              this->getType().getFieldDesc(ImageFieldId)));
 
     return returnValue;
@@ -495,11 +498,12 @@ EditFieldHandlePtr IconLabelBase::editHandleImage          (void)
 {
     SFUnrecImagePtr::EditHandlePtr returnValue(
         new  SFUnrecImagePtr::EditHandle(
-             &_sfImage, 
+             &_sfImage,
              this->getType().getFieldDesc(ImageFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&IconLabel::setImage, 
-                                          static_cast<IconLabel *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&IconLabel::setImage,
+                    static_cast<IconLabel *>(this), _1));
 
     editSField(ImageFieldMask);
 
@@ -510,7 +514,7 @@ GetFieldHandlePtr IconLabelBase::getHandleSize            (void) const
 {
     SFVec2f::GetHandlePtr returnValue(
         new  SFVec2f::GetHandle(
-             &_sfSize, 
+             &_sfSize,
              this->getType().getFieldDesc(SizeFieldId)));
 
     return returnValue;
@@ -520,8 +524,9 @@ EditFieldHandlePtr IconLabelBase::editHandleSize           (void)
 {
     SFVec2f::EditHandlePtr returnValue(
         new  SFVec2f::EditHandle(
-             &_sfSize, 
+             &_sfSize,
              this->getType().getFieldDesc(SizeFieldId)));
+
 
     editSField(SizeFieldMask);
 
@@ -573,12 +578,12 @@ DataType FieldTraits<IconLabel *>::_type("IconLabelPtr", "LabelPtr");
 
 OSG_FIELDTRAITS_GETTYPE(IconLabel *)
 
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           IconLabel *, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           IconLabel *,
                            0);
 
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
-                           IconLabel *, 
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           IconLabel *,
                            0);
 
 OSG_END_NAMESPACE

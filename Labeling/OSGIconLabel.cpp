@@ -138,9 +138,9 @@ ActionBase::ResultE IconLabel::renderLeave(Action *action)
 ActionBase::ResultE IconLabel::intersect(Action *action)
 {
           IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
-    const DynamicVolume   &dv = ia->getActNode()->getVolume();
+    const BoxVolume       &bv = ia->getActNode()->getVolume();
 
-    if(dv.isValid() && ! dv.intersect(ia->getLine()))
+    if(bv.isValid() && ! bv.intersect(ia->getLine()))
     {
         return Action::Skip;  //bv missed -> can not hit children
     }

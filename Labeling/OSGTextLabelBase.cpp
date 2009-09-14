@@ -105,7 +105,7 @@ void TextLabelBase::classDescInserter(TypeObject &oType)
         "The text string for the label.\n",
         TextFieldId, TextFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&TextLabel::editHandleText),
         static_cast<FieldGetMethodSig >(&TextLabel::getHandleText));
 
@@ -117,7 +117,7 @@ void TextLabelBase::classDescInserter(TypeObject &oType)
         "Height of a single line, in  pixel.\n",
         SizeFieldId, SizeFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&TextLabel::editHandleSize),
         static_cast<FieldGetMethodSig >(&TextLabel::getHandleSize));
 
@@ -129,7 +129,7 @@ void TextLabelBase::classDescInserter(TypeObject &oType)
         "The font family to be used, e.g. \"SANS\", default if unset.\n",
         FamilyFieldId, FamilyFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&TextLabel::editHandleFamily),
         static_cast<FieldGetMethodSig >(&TextLabel::getHandleFamily));
 
@@ -339,22 +339,6 @@ void TextLabelBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-TextLabelTransitPtr TextLabelBase::create(void)
-{
-    TextLabelTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<TextLabel>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 TextLabelTransitPtr TextLabelBase::createLocal(BitVector bFlags)
 {
     TextLabelTransitPtr fc;
@@ -370,17 +354,20 @@ TextLabelTransitPtr TextLabelBase::createLocal(BitVector bFlags)
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-TextLabel *TextLabelBase::createEmpty(void)
+//! create a new instance of the class
+TextLabelTransitPtr TextLabelBase::create(void)
 {
-    TextLabel *returnValue;
+    TextLabelTransitPtr fc;
 
-    newPtr<TextLabel>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<TextLabel>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 TextLabel *TextLabelBase::createEmptyLocal(BitVector bFlags)
@@ -394,20 +381,19 @@ TextLabel *TextLabelBase::createEmptyLocal(BitVector bFlags)
     return returnValue;
 }
 
-FieldContainerTransitPtr TextLabelBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+TextLabel *TextLabelBase::createEmpty(void)
 {
-    TextLabel *tmpPtr;
+    TextLabel *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const TextLabel *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<TextLabel>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr TextLabelBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -422,6 +408,22 @@ FieldContainerTransitPtr TextLabelBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr TextLabelBase::shallowCopy(void) const
+{
+    TextLabel *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const TextLabel *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -455,7 +457,7 @@ GetFieldHandlePtr TextLabelBase::getHandleText            (void) const
 {
     SFString::GetHandlePtr returnValue(
         new  SFString::GetHandle(
-             &_sfText, 
+             &_sfText,
              this->getType().getFieldDesc(TextFieldId)));
 
     return returnValue;
@@ -465,8 +467,9 @@ EditFieldHandlePtr TextLabelBase::editHandleText           (void)
 {
     SFString::EditHandlePtr returnValue(
         new  SFString::EditHandle(
-             &_sfText, 
+             &_sfText,
              this->getType().getFieldDesc(TextFieldId)));
+
 
     editSField(TextFieldMask);
 
@@ -477,7 +480,7 @@ GetFieldHandlePtr TextLabelBase::getHandleSize            (void) const
 {
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
-             &_sfSize, 
+             &_sfSize,
              this->getType().getFieldDesc(SizeFieldId)));
 
     return returnValue;
@@ -487,8 +490,9 @@ EditFieldHandlePtr TextLabelBase::editHandleSize           (void)
 {
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
-             &_sfSize, 
+             &_sfSize,
              this->getType().getFieldDesc(SizeFieldId)));
+
 
     editSField(SizeFieldMask);
 
@@ -499,7 +503,7 @@ GetFieldHandlePtr TextLabelBase::getHandleFamily          (void) const
 {
     SFString::GetHandlePtr returnValue(
         new  SFString::GetHandle(
-             &_sfFamily, 
+             &_sfFamily,
              this->getType().getFieldDesc(FamilyFieldId)));
 
     return returnValue;
@@ -509,8 +513,9 @@ EditFieldHandlePtr TextLabelBase::editHandleFamily         (void)
 {
     SFString::EditHandlePtr returnValue(
         new  SFString::EditHandle(
-             &_sfFamily, 
+             &_sfFamily,
              this->getType().getFieldDesc(FamilyFieldId)));
+
 
     editSField(FamilyFieldMask);
 
@@ -560,12 +565,12 @@ DataType FieldTraits<TextLabel *>::_type("TextLabelPtr", "LabelPtr");
 
 OSG_FIELDTRAITS_GETTYPE(TextLabel *)
 
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           TextLabel *, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           TextLabel *,
                            0);
 
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
-                           TextLabel *, 
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           TextLabel *,
                            0);
 
 OSG_END_NAMESPACE

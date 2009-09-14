@@ -112,7 +112,7 @@ void LabelForegroundBase::classDescInserter(TypeObject &oType)
         "The range of the importanceThreshold is up to you. We suggest [0,1].\n",
         ImportanceThresholdFieldId, ImportanceThresholdFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&LabelForeground::editHandleImportanceThreshold),
         static_cast<FieldGetMethodSig >(&LabelForeground::getHandleImportanceThreshold));
 
@@ -124,7 +124,7 @@ void LabelForegroundBase::classDescInserter(TypeObject &oType)
         "Internal texture object representing the label.\n",
         TextureEnvironmentFieldId, TextureEnvironmentFieldMask,
         true,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&LabelForeground::editHandleTextureEnvironment),
         static_cast<FieldGetMethodSig >(&LabelForeground::getHandleTextureEnvironment));
 
@@ -299,22 +299,6 @@ void LabelForegroundBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-LabelForegroundTransitPtr LabelForegroundBase::create(void)
-{
-    LabelForegroundTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<LabelForeground>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 LabelForegroundTransitPtr LabelForegroundBase::createLocal(BitVector bFlags)
 {
     LabelForegroundTransitPtr fc;
@@ -330,17 +314,20 @@ LabelForegroundTransitPtr LabelForegroundBase::createLocal(BitVector bFlags)
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-LabelForeground *LabelForegroundBase::createEmpty(void)
+//! create a new instance of the class
+LabelForegroundTransitPtr LabelForegroundBase::create(void)
 {
-    LabelForeground *returnValue;
+    LabelForegroundTransitPtr fc;
 
-    newPtr<LabelForeground>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<LabelForeground>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 LabelForeground *LabelForegroundBase::createEmptyLocal(BitVector bFlags)
@@ -354,20 +341,19 @@ LabelForeground *LabelForegroundBase::createEmptyLocal(BitVector bFlags)
     return returnValue;
 }
 
-FieldContainerTransitPtr LabelForegroundBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+LabelForeground *LabelForegroundBase::createEmpty(void)
 {
-    LabelForeground *tmpPtr;
+    LabelForeground *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const LabelForeground *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<LabelForeground>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr LabelForegroundBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -382,6 +368,22 @@ FieldContainerTransitPtr LabelForegroundBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr LabelForegroundBase::shallowCopy(void) const
+{
+    LabelForeground *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const LabelForeground *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -424,7 +426,7 @@ GetFieldHandlePtr LabelForegroundBase::getHandleImportanceThreshold (void) const
 {
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
-             &_sfImportanceThreshold, 
+             &_sfImportanceThreshold,
              this->getType().getFieldDesc(ImportanceThresholdFieldId)));
 
     return returnValue;
@@ -434,8 +436,9 @@ EditFieldHandlePtr LabelForegroundBase::editHandleImportanceThreshold(void)
 {
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
-             &_sfImportanceThreshold, 
+             &_sfImportanceThreshold,
              this->getType().getFieldDesc(ImportanceThresholdFieldId)));
+
 
     editSField(ImportanceThresholdFieldMask);
 
@@ -446,7 +449,7 @@ GetFieldHandlePtr LabelForegroundBase::getHandleTextureEnvironment (void) const
 {
     SFUnrecTextureEnvChunkPtr::GetHandlePtr returnValue(
         new  SFUnrecTextureEnvChunkPtr::GetHandle(
-             &_sfTextureEnvironment, 
+             &_sfTextureEnvironment,
              this->getType().getFieldDesc(TextureEnvironmentFieldId)));
 
     return returnValue;
@@ -456,11 +459,12 @@ EditFieldHandlePtr LabelForegroundBase::editHandleTextureEnvironment(void)
 {
     SFUnrecTextureEnvChunkPtr::EditHandlePtr returnValue(
         new  SFUnrecTextureEnvChunkPtr::EditHandle(
-             &_sfTextureEnvironment, 
+             &_sfTextureEnvironment,
              this->getType().getFieldDesc(TextureEnvironmentFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&LabelForeground::setTextureEnvironment, 
-                                          static_cast<LabelForeground *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&LabelForeground::setTextureEnvironment,
+                    static_cast<LabelForeground *>(this), _1));
 
     editSField(TextureEnvironmentFieldMask);
 
@@ -512,12 +516,12 @@ DataType FieldTraits<LabelForeground *>::_type("LabelForegroundPtr", "Foreground
 
 OSG_FIELDTRAITS_GETTYPE(LabelForeground *)
 
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           LabelForeground *, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           LabelForeground *,
                            0);
 
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
-                           LabelForeground *, 
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           LabelForeground *,
                            0);
 
 OSG_END_NAMESPACE
