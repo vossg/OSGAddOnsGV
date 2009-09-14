@@ -737,11 +737,14 @@ void VarianceShadowMap::createShadowMapsFBO(DrawEnv *pEnv)
                                           0);
 
                 //_shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(_shadowVP->_texChunks[i]->getGLId()));
+#define XXXX
+#ifdef XXXX
                 glBindTexture(GL_TEXTURE_2D,
                               pEnv->getWindow()->getGLObjectId(
                               _shadowVP->_texChunks[i]->getGLId()));
                 glGenerateMipmapEXT(GL_TEXTURE_2D);
                 glBindTexture(GL_TEXTURE_2D, 0);
+#endif
                 //_shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(_shadowVP->_texChunks[i]->getGLId()));
 
                 glDrawBuffer(*buffers);
@@ -825,13 +828,23 @@ void VarianceShadowMap::createShadowMapsFBO(DrawEnv *pEnv)
 
                 _shadowVP->renderLight(pEnv->getAction(), _depthCmat, i);
 
+
                 glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+#ifndef XXXX
+                glBindTexture(GL_TEXTURE_2D,
+                              pEnv->getWindow()->getGLObjectId(
+                              _shadowVP->_texChunks[i]->getGLId()));
+                glGenerateMipmapEXT(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, 0);
+#endif
 
                 delete[] buffers;
 
                 glClearColor(0.0, 0.0, 0.0, 1.0);
 
                 pEnv->getAction()->setCamera(_shadowVP->getCamera());
+
+
             }
         }
     }

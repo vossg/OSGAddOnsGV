@@ -522,7 +522,7 @@ bool VarianceShadowMapHandler::initFBO(DrawEnv *pEnv)
             _shadowVP->_vTexChunks[i].pFBO->setColorAttachment(
                 _shadowVP->_vTexChunks[i].pFBO->getDepthAttachment(), 0);
 
-            _shadowVP->_vTexChunks[i].pFBO->setPostProcessOnDeactivate(true);
+//            _shadowVP->_vTexChunks[i].pFBO->setPostProcessOnDeactivate(true);
             
             RenderBufferUnrecPtr pDepthRB = RenderBuffer::create();
             
@@ -973,6 +973,14 @@ void VarianceShadowMapHandler::createShadowMapsFBO(DrawEnv      *pEnv,
                                                  mSize);
 
 
+                    RenderFunctor f = 
+                        boost::bind(&VarianceShadowMapHandler::genMipMapCB,
+                                    this,
+                                    _1,
+                                    i);
+
+                    pPart->addPreRenderCallback(f);
+
                     Matrix m, t;
                     
                     // set the projection
@@ -1075,6 +1083,24 @@ void VarianceShadowMapHandler::createShadowMapsFBO(DrawEnv      *pEnv,
 
     pVP->setSize(0, 0, 1, 1);
     pVP->activate();
+}
+
+void VarianceShadowMapHandler::genMipMapCB(DrawEnv *pEnv,
+                                           UInt32   uiLightIdx)
+{
+//    glDrawBuffer(GL_NONE);
+
+    glBindTexture(GL_TEXTURE_2D,
+                  pEnv->getWindow()->getGLObjectId(
+                      _shadowVP->_vTexChunks[uiLightIdx].pTexO->getGLId()));
+
+//    fprintf(stderr, "Gen mm for %d\n", uiLightIdx);
+
+    glGenerateMipmapEXT(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+//    glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 }
 
 void VarianceShadowMapHandler::createColorMap(DrawEnv *pEnv,
@@ -1887,3 +1913,4 @@ void VarianceShadowMapHandler::render(DrawEnv *pEnv,
 #endif
     }
 }
+

@@ -96,6 +96,9 @@ private:
     std::vector<SHLVariableChunkUnrecPtr> _vDepthSHLVar;
 
     SolidBackgroundUnrecPtr _pClearSMapBack;
+
+    void genMipMapCB(DrawEnv *pEnv,
+                     UInt32   uiLightIdx);
  };
 
 OSG_END_NAMESPACE

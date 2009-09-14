@@ -63,6 +63,7 @@ UInt32 frameCount;
 Real32 fps = 0.0;
 Real32 startTime2;
 
+bool bAnim = false;
 
 //FPS Counter
 void startFpsCounter()
@@ -603,167 +604,170 @@ void Animate()
     //Show FPS
     showFpsCounter();
 
-    static Real64   t0 = OSG::getSystemTime();
-
-    Real64          t = OSG::getSystemTime() - t0;
-
-    Real32          rot0 = t * 0.25;
-    if(rot0 > 360.0)
-        rot0 -= 360.0;
-
-    Real32          rota = t * 0.5;
-    if(rota > 360.0)
-        rota -= 360.0;
-
-    Real32          rotb = t * 1.0;
-    if(rotb > 360.0)
-        rotb -= 360.0;
-
-    Real32          rotc = t * 1.5;
-    if(rotc > 360.0)
-        rotc -= 360.0;
-
-    Real32          rotd = t * 2.0;
-    if(rotd > 360.0)
-        rotd -= 360.0;
-
-    //    dir2_trans->editMatrix().setTranslate(-100.0*sin(rota),-100.0*cos(rota), 250.0);
-
-    //animate Trees
-    Quaternion      q;
-
-    q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rota));
-    _tree1_trans->editMatrix().setRotate(q);
-    _tree1_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
-
-    q.setIdentity();
-
-    q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotc));
-    _tree2_trans->editMatrix().setRotate(q);
-    _tree2_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
-
-    q.setIdentity();
-
-    q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
-    _tree3_trans->editMatrix().setRotate(q);
-    _tree3_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
-
-    q.setIdentity();
-
-    q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
-    _tree4_trans->editMatrix().setRotate(q);
-    _tree4_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
-
-    q.setIdentity();
-
-    q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotc));
-    _tree5_trans->editMatrix().setRotate(q);
-    _tree5_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
-
-    q.setIdentity();
-
-    q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
-    _tree6_trans->editMatrix().setRotate(q);
-    _tree6_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
-
-    q.setIdentity();
-
-    q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotd));
-    _tree7_trans->editMatrix().setRotate(q);
-    _tree7_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
-
-    q.setIdentity();
-
-    q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
-    _tree8_trans->editMatrix().setRotate(q);
-    _tree8_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
-
-    q.setIdentity();
-
-    q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotc));
-    _tree9_trans->editMatrix().setRotate(q);
-    _tree9_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
-
-    q.setIdentity();
-
+    if(bAnim == true)
     {
-        Matrix  m;
-        m.setIdentity();
-        Vec3f   scale(0.15,0.15,0.15);
-        Vec3f   trans(-40.0 * sin(rotb),-40.0 * cos(rotb),
-                      50.0 + 25.0 * sin(rotd));
-        q.setValueAsAxisRad(0, 0, 1, -rotb);
-        m.setTransform(trans, q, scale);
-        _obj1_trans->setMatrix(m);
-    }
-
-
-    {
-        dir2_trans->editMatrix().setTranslate(-40.0 * sin(rotb), -40.0 *
-                                             cos(rotb),
-                                             50.0 + 25.0 * sin(rotd));
-    }
-
-    //animate Dinos
-
-    {
-        Matrix  m;
-        m.setIdentity();
-        Vec3f   scale(5.0,5.0,5.0);
-        Real32  ztrans1 = sin(2.0 * rotd);
-        if(ztrans1 < 0)
-            ztrans1 *= -1.0;
-        Vec3f   trans(-96.0 * cos(rot0),-96.0 * sin(rot0),
-                      10.0 + 8.0 * ztrans1);
-        m.setScale(Vec3f(5.0, 5.0, 5.0));
-        q.setValueAsAxisRad(0, 0, 1, rot0 - 170);
-        m.setTransform(trans, q, scale);
-        _dino1_trans->setMatrix(m);
-    }
-
-    {
-        Matrix  m;
-        m.setIdentity();
-        Vec3f   scale(3.0,3.0,3.0);
-        Real32  ztrans1 = sin(2.5 * rotd);
-        if(ztrans1 < 0)
-            ztrans1 *= -1.0;
-        Vec3f   trans(-96.0 * cos((rot0 - 0.5)),-96.0 * sin((rot0 - 0.5)),
-                      6.0 + 8.0 * ztrans1);
-        m.setScale(Vec3f(5.0, 5.0, 5.0));
-        q.setValueAsAxisRad(0, 0, 1, rot0 - 169.9);
-        m.setTransform(trans, q, scale);
-        _dino2_trans->setMatrix(m);
-    }
-
-    {
-        Matrix  m;
-        m.setIdentity();
-        Vec3f   scale(3.0,3.0,3.0);
-        Real32  ztrans1 = sin(3.0 * rotd);
-        if(ztrans1 < 0)
-            ztrans1 *= -1.0;
-        Vec3f   trans(-96.0 * cos((rot0 - 0.8)),-96.0 * sin((rot0 - 0.8)),
-                      6.0 + 8.0 * ztrans1);
-        m.setScale(Vec3f(5.0, 5.0, 5.0));
-        q.setValueAsAxisRad(0, 0, 1, rot0 - 170.1);
-        m.setTransform(trans, q, scale);
-        _dino3_trans->setMatrix(m);
-    }
-
-    {
-        Matrix  m;
-        m.setIdentity();
-        Vec3f   scale(3.0,3.0,3.0);
-        Real32  ztrans1 = sin(2.75 * rotd);
-        if(ztrans1 < 0)
-            ztrans1 *= -1.0;
-        Vec3f   trans(-96.0 * cos((rot0 - 1.2)),-96.0 * sin((rot0 - 1.2)),
-                      6.0 + 8.0 * ztrans1);
-        m.setScale(Vec3f(5.0, 5.0, 5.0));
-        q.setValueAsAxisRad(0, 0, 1, rot0 - 170.1);
-        m.setTransform(trans, q, scale);
-        _dino4_trans->setMatrix(m);
+        static Real64   t0 = OSG::getSystemTime();
+        
+        Real64          t = OSG::getSystemTime() - t0;
+        
+        Real32          rot0 = t * 0.25;
+        if(rot0 > 360.0)
+            rot0 -= 360.0;
+        
+        Real32          rota = t * 0.5;
+        if(rota > 360.0)
+            rota -= 360.0;
+        
+        Real32          rotb = t * 1.0;
+        if(rotb > 360.0)
+            rotb -= 360.0;
+        
+        Real32          rotc = t * 1.5;
+        if(rotc > 360.0)
+            rotc -= 360.0;
+        
+        Real32          rotd = t * 2.0;
+        if(rotd > 360.0)
+            rotd -= 360.0;
+        
+        //    dir2_trans->editMatrix().setTranslate(-100.0*sin(rota),-100.0*cos(rota), 250.0);
+        
+        //animate Trees
+        Quaternion      q;
+        
+        q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rota));
+        _tree1_trans->editMatrix().setRotate(q);
+        _tree1_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+        
+        q.setIdentity();
+        
+        q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotc));
+        _tree2_trans->editMatrix().setRotate(q);
+        _tree2_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+        
+        q.setIdentity();
+        
+        q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
+        _tree3_trans->editMatrix().setRotate(q);
+        _tree3_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+        
+        q.setIdentity();
+        
+        q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
+        _tree4_trans->editMatrix().setRotate(q);
+        _tree4_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+        
+        q.setIdentity();
+        
+        q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotc));
+        _tree5_trans->editMatrix().setRotate(q);
+        _tree5_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+        
+        q.setIdentity();
+        
+        q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
+        _tree6_trans->editMatrix().setRotate(q);
+        _tree6_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+        
+        q.setIdentity();
+        
+        q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotd));
+        _tree7_trans->editMatrix().setRotate(q);
+        _tree7_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+        
+        q.setIdentity();
+        
+        q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
+        _tree8_trans->editMatrix().setRotate(q);
+        _tree8_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+        
+        q.setIdentity();
+        
+        q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotc));
+        _tree9_trans->editMatrix().setRotate(q);
+        _tree9_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+        
+        q.setIdentity();
+        
+        {
+            Matrix  m;
+            m.setIdentity();
+            Vec3f   scale(0.15,0.15,0.15);
+            Vec3f   trans(-40.0 * sin(rotb),-40.0 * cos(rotb),
+                          50.0 + 25.0 * sin(rotd));
+            q.setValueAsAxisRad(0, 0, 1, -rotb);
+            m.setTransform(trans, q, scale);
+            _obj1_trans->setMatrix(m);
+        }
+        
+        
+        {
+            dir2_trans->editMatrix().setTranslate(-40.0 * sin(rotb), -40.0 *
+                                                  cos(rotb),
+                                                  50.0 + 25.0 * sin(rotd));
+        }
+        
+        //animate Dinos
+        
+        {
+            Matrix  m;
+            m.setIdentity();
+            Vec3f   scale(5.0,5.0,5.0);
+            Real32  ztrans1 = sin(2.0 * rotd);
+            if(ztrans1 < 0)
+                ztrans1 *= -1.0;
+            Vec3f   trans(-96.0 * cos(rot0),-96.0 * sin(rot0),
+                          10.0 + 8.0 * ztrans1);
+            m.setScale(Vec3f(5.0, 5.0, 5.0));
+            q.setValueAsAxisRad(0, 0, 1, rot0 - 170);
+            m.setTransform(trans, q, scale);
+            _dino1_trans->setMatrix(m);
+        }
+        
+        {
+            Matrix  m;
+            m.setIdentity();
+            Vec3f   scale(3.0,3.0,3.0);
+            Real32  ztrans1 = sin(2.5 * rotd);
+            if(ztrans1 < 0)
+                ztrans1 *= -1.0;
+            Vec3f   trans(-96.0 * cos((rot0 - 0.5)),-96.0 * sin((rot0 - 0.5)),
+                          6.0 + 8.0 * ztrans1);
+            m.setScale(Vec3f(5.0, 5.0, 5.0));
+            q.setValueAsAxisRad(0, 0, 1, rot0 - 169.9);
+            m.setTransform(trans, q, scale);
+            _dino2_trans->setMatrix(m);
+        }
+        
+        {
+            Matrix  m;
+            m.setIdentity();
+            Vec3f   scale(3.0,3.0,3.0);
+            Real32  ztrans1 = sin(3.0 * rotd);
+            if(ztrans1 < 0)
+                ztrans1 *= -1.0;
+            Vec3f   trans(-96.0 * cos((rot0 - 0.8)),-96.0 * sin((rot0 - 0.8)),
+                          6.0 + 8.0 * ztrans1);
+            m.setScale(Vec3f(5.0, 5.0, 5.0));
+            q.setValueAsAxisRad(0, 0, 1, rot0 - 170.1);
+            m.setTransform(trans, q, scale);
+            _dino3_trans->setMatrix(m);
+        }
+        
+        {
+            Matrix  m;
+            m.setIdentity();
+            Vec3f   scale(3.0,3.0,3.0);
+            Real32  ztrans1 = sin(2.75 * rotd);
+            if(ztrans1 < 0)
+                ztrans1 *= -1.0;
+            Vec3f   trans(-96.0 * cos((rot0 - 1.2)),-96.0 * sin((rot0 - 1.2)),
+                          6.0 + 8.0 * ztrans1);
+            m.setScale(Vec3f(5.0, 5.0, 5.0));
+            q.setValueAsAxisRad(0, 0, 1, rot0 - 170.1);
+            m.setTransform(trans, q, scale);
+            _dino4_trans->setMatrix(m);
+        }
     }
 
     _navigator.idle(_mousebuttons, _lastx, _lasty);
@@ -1070,6 +1074,11 @@ void keyboard(unsigned char k, int x, int y)
                 //SLOG << "ShadowSmoothness is: " << t << endLog;
                 break;
             }
+        case 'a':
+        {
+            bAnim = !bAnim;
+        }
+        break;
     }
     glutPostRedisplay();
 }
