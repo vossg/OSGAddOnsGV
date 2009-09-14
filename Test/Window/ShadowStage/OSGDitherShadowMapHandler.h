@@ -34,6 +34,7 @@
 #include <OSGDepthChunk.h>
 
 #include "OSGTreeHandler.h"
+#include "OSGSHLVariableChunk.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -76,7 +77,9 @@ public:
     BlendChunkUnrecPtr           _blender;
     ImageUnrecPtr                _colorMapImage;
     ImageUnrecPtr                _shadowFactorMapImage;
-    ChunkMaterialUnrecPtr        _shadowCmat;
+
+    std::vector<ChunkMaterialUnrecPtr> _vShadowCmat;
+
     SHLChunkUnrecPtr             _shadowSHL;
     SHLChunkUnrecPtr             _shadowSHL2;
     SHLChunkUnrecPtr             _shadowSHL3;
@@ -85,6 +88,13 @@ public:
     Int32                        _firstRun;
     ImageUnrecPtr                _shadowFactorMapImage2;
     bool                         _initTexturesDone;
+
+    std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar;
+    std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar2;
+    std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar3;
+    std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar4;
+
+    std::vector<SHLVariableChunkUnrecPtr> _vShadowCubeSHLVar;
 };
 
 OSG_END_NAMESPACE

@@ -610,7 +610,6 @@ DitherShadowMapHandler::DitherShadowMapHandler(ShadowStage *source) :
     _blender(NULL),
     _colorMapImage(NULL),
     _shadowFactorMapImage(NULL),
-    _shadowCmat(NULL),
     _shadowSHL(NULL),
     _shadowSHL2(NULL),
     _shadowSHL3(NULL),
@@ -724,8 +723,6 @@ DitherShadowMapHandler::DitherShadowMapHandler(ShadowStage *source) :
     //SHL Chunk 3
     _shadowCubeSHL = SHLChunk::create();
 
-    _shadowCmat = ChunkMaterial::create();
-
     //Combine Shader
     _combineCmat = ChunkMaterial::create();
     _combineCmat->addChunk(_combineSHL);
@@ -798,7 +795,6 @@ DitherShadowMapHandler::DitherShadowMapHandler(ShadowStage *source) :
 
 DitherShadowMapHandler::~DitherShadowMapHandler(void)
 {
-    _shadowCmat->clearChunks();
 
     _tiledeco         = NULL;
     _blender          = NULL;
@@ -810,7 +806,13 @@ DitherShadowMapHandler::~DitherShadowMapHandler(void)
     _combineDepth     = NULL;
     _shadowCubeSHL    = NULL;
     _combineCmat      = NULL;
-    _shadowCmat       = NULL;
+
+    _vShadowCmat      .clear();
+    _vShadowSHLVar    .clear();
+    _vShadowSHLVar2   .clear();
+    _vShadowSHLVar3   .clear();
+    _vShadowSHLVar4   .clear();
+    _vShadowCubeSHLVar.clear();
 
 #ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
 #if 0
@@ -1824,6 +1826,7 @@ void DitherShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
 void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
                                                    RenderAction *pTmpAction)
 {
+#if 0
     glClearColor(0.0, 0.0, 0.0, 1.0);
     if(_firstRun)
     {
@@ -1875,6 +1878,8 @@ void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
                 activeLights++;
         }
     }
+
+
 
     //Zuerst alle echte Pointlights
     for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
@@ -1996,15 +2001,15 @@ void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
                 _shadowCubeSHL->addUniformVariable("yFactor",
                                                     Real32(yFactor));
 
-                _shadowCmat->clearChunks();
-                _shadowCmat->addChunk(_shadowCubeSHL);
-                _shadowCmat->addChunk(_shadowVP->_texChunks[i]);
-                _shadowCmat->addChunk(_shadowFactorMapO);
+                _shadowCmat[0]->clearChunks();
+                _shadowCmat[0]->addChunk(_shadowCubeSHL);
+                _shadowCmat[0]->addChunk(_shadowVP->_texChunks[i]);
+                _shadowCmat[0]->addChunk(_shadowFactorMapO);
 
 #if 0
-                _shadowVP->renderLight(pEnv->getAction(), _shadowCmat, i);
+                _shadowVP->renderLight(pEnv->getAction(), _shadowCmat[0], i);
 #endif
-                _shadowVP->renderLight(pTmpAction, _shadowCmat, i);
+                _shadowVP->renderLight(pTmpAction, _shadowCmat[0], i);
 
                 pEnv->getWindow()->validateGLObject(_shadowFactorMapO->getGLId(),
                                                     pEnv);
@@ -2129,7 +2134,7 @@ void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
                 UInt32  lightOffset = lightCounter - (i * 4);
 
                 //clear chunk and add Textures
-                _shadowCmat->clearChunks();
+                _shadowCmat[i]->clearChunks();
 
                 UInt32  lightNum = 0;
                 for(UInt32 j = 0;j < _shadowVP->_lights.size();j++)
@@ -2142,7 +2147,7 @@ void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
                         {
                             if(lightNum >= (i * 4) && lightNum < ((i + 1) * 4))
                             {
-                                _shadowCmat->addChunk(
+                                _shadowCmat[i]->addChunk(
                                     _shadowVP->_texChunks[j]);
                             }
                             lightNum++;
@@ -2152,8 +2157,8 @@ void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
 
                 if(lightOffset == 1)
                 {
-                    _shadowCmat->addChunk(_shadowSHL);
-                    _shadowCmat->addChunk(_shadowFactorMapO);
+                    _shadowCmat[i]->addChunk(_shadowSHL);
+                    _shadowCmat[i]->addChunk(_shadowFactorMapO);
 
                     _shadowSHL->addUniformVariable("oldFactorMap", 1);
                     _shadowSHL->addUniformVariable("shadowMap", 0);
@@ -2181,8 +2186,8 @@ void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
 
                 else if(lightOffset == 2)
                 {
-                    _shadowCmat->addChunk(_shadowSHL2);
-                    _shadowCmat->addChunk(_shadowFactorMapO);
+                    _shadowCmat[i]->addChunk(_shadowSHL2);
+                    _shadowCmat[i]->addChunk(_shadowFactorMapO);
 
                     _shadowSHL2->addUniformVariable("oldFactorMap", 2);
                     _shadowSHL2->addUniformVariable("shadowMap1", 0);
@@ -2225,8 +2230,8 @@ void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
 
                 else if(lightOffset == 3)
                 {
-                    _shadowCmat->addChunk(_shadowSHL3);
-                    _shadowCmat->addChunk(_shadowFactorMapO);
+                    _shadowCmat[i]->addChunk(_shadowSHL3);
+                    _shadowCmat[i]->addChunk(_shadowFactorMapO);
 
                     _shadowSHL3->addUniformVariable("oldFactorMap", 3);
                     _shadowSHL3->addUniformVariable("shadowMap1", 0);
@@ -2283,8 +2288,8 @@ void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
 
                 else
                 {
-                    _shadowCmat->addChunk(_shadowSHL4);
-                    _shadowCmat->addChunk(_shadowFactorMapO);
+                    _shadowCmat[i]->addChunk(_shadowSHL4);
+                    _shadowCmat[i]->addChunk(_shadowFactorMapO);
 
                     _shadowSHL4->addUniformVariable("oldFactorMap", 4);
                     _shadowSHL4->addUniformVariable("shadowMap1", 0);
@@ -2355,9 +2360,9 @@ void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
 
 
 #if 0
-                _shadowVP->renderLight(pEnv->getAction(), _shadowCmat, i);
+                _shadowVP->renderLight(pEnv->getAction(), _shadowCmat[i], i);
 #endif
-                _shadowVP->renderLight(pTmpAction, _shadowCmat, i);
+                _shadowVP->renderLight(pTmpAction, _shadowCmat[i], i);
 
                 pEnv->getWindow()->validateGLObject(_shadowFactorMapO->getGLId(),
                                                     pEnv);
@@ -2463,6 +2468,7 @@ void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
     texFactorF.clear();
     mapFactorF.clear();
     shadowMatrixF.clear();
+#endif
 }
 
 void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
@@ -2515,6 +2521,9 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
         }
     }
 
+#define OSG_D_USEPART 1
+
+#ifndef OSG_D_USEPART
     {
         //clear all ShadowFactorMaps
         GLenum  *buffers = NULL;
@@ -2564,6 +2573,14 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 
         delete[] buffers;
     }
+#endif
+
+    bool bCA1Cleared = false;
+    bool bCA2Cleared = false;
+
+    RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
+
+    UInt32 uiPLightCount = 0;
 
     //Zuerst alle echte Pointlights
     for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
@@ -2585,35 +2602,45 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 
                 Matrix  LVM, LPM, CVM;
 #if 0
-                _shadowVP->_lightCameras[i]->getViewing(LVM,
-                                                        _shadowVP->getPixelWidth(), _shadowVP->getPixelHeight());
-                _shadowVP->_lightCameras[i]->getProjection(LPM,
-                                                           _shadowVP->getPixelWidth(), _shadowVP->getPixelHeight());
-                _shadowVP->getCamera()->getViewing(CVM,
-                                                   _shadowVP->getPixelWidth(),
-                                                   _shadowVP->getPixelHeight
-                                                   ());
+                _shadowVP->_lightCameras[i]->getViewing(
+                    LVM,
+                    _shadowVP->getPixelWidth(), _shadowVP->getPixelHeight());
+                _shadowVP->_lightCameras[i]->getProjection(
+                    LPM,
+                    _shadowVP->getPixelWidth(), _shadowVP->getPixelHeight());
+                _shadowVP->getCamera()->getViewing(
+                    CVM,
+                    _shadowVP->getPixelWidth(),
+                    _shadowVP->getPixelHeight());
 #endif
-                _shadowVP->_lightCameras[i]->getViewing(LVM,
-                                                        pEnv->getPixelWidth(),
-                                                        pEnv->getPixelHeight());
-                _shadowVP->_lightCameras[i]->getProjection(LPM,
-                                                           pEnv->getPixelWidth(), 
-                                                           pEnv->getPixelHeight());
-                pEnv->getAction()->getCamera()->getViewing(CVM,
-                                              pEnv->getPixelWidth(),
-                                              pEnv->getPixelHeight
-                                                   ());
+                _shadowVP->_lightCameras[i]->getViewing(
+                    LVM,
+                    pEnv->getPixelWidth(),
+                    pEnv->getPixelHeight());
+                _shadowVP->_lightCameras[i]->getProjection(
+                    LPM,
+                    pEnv->getPixelWidth(), 
+                    pEnv->getPixelHeight());
+                pEnv->getAction()->getCamera()->getViewing(
+                    CVM,
+                    pEnv->getPixelWidth(),
+                    pEnv->getPixelHeight());
+
                 Matrix  iCVM = CVM;
                 iCVM.invert();
 
                 Real32  texFactor;
-                if(_shadowVP->_lights[i].second->getType() == PointLight::getClassType
-                   () || _shadowVP->_lights[i].second->getType() ==
-                   SpotLight::getClassType())
+                if(_shadowVP->_lights[i].second->getType() == 
+                                                  PointLight::getClassType() ||
+                   _shadowVP->_lights[i].second->getType() ==
+                                                  SpotLight::getClassType())
+                {
                     texFactor = Real32(_width) / Real32(_height);
+                }
                 else
+                {
                     texFactor = 1.0;
+                }
 
                 Matrix  shadowMatrix = LPM;
                 shadowMatrix.mult(LVM);
@@ -2666,6 +2693,13 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                 shadowMatrixF.mult(LVM);
                 shadowMatrixF.mult(iCVM);
 
+                if(_vShadowCubeSHLVar.size() == uiPLightCount)
+                {
+                    _vShadowCubeSHLVar.push_back(SHLVariableChunk::create());
+                }
+
+                OSG_ASSERT(uiPLightCount < _vShadowCubeSHLVar.size());
+
                 _shadowCubeSHL->addUniformVariable("shadowMap", 0);
                 _shadowCubeSHL->addUniformVariable("oldFactorMap", 1);
                 _shadowCubeSHL->addUniformVariable("firstRun", _firstRun);
@@ -2688,25 +2722,35 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                 _shadowCubeSHL->addUniformVariable("yFactor",
                                                     Real32(yFactor));
 
-                _shadowCmat->clearChunks();
-                _shadowCmat->addChunk(_shadowCubeSHL);
-                _shadowCmat->addChunk(_shadowVP->_texChunks[i]);
+                if(_vShadowCmat.size() == uiPLightCount)
+                {
+                    _vShadowCmat.push_back(ChunkMaterial::create());
+                }
+
+                OSG_ASSERT( uiPLightCount < _vShadowCmat.size());
+
+                _vShadowCmat[uiPLightCount]->clearChunks();
+                _vShadowCmat[uiPLightCount]->addChunk(_shadowCubeSHL);
+                _vShadowCmat[uiPLightCount]->addChunk(_shadowVP->_texChunks[i]);
+
                 if(_activeFactorMap == 0)
                 {
-                    _shadowCmat->addChunk(_shadowFactorMap2O);
+                    _vShadowCmat[uiPLightCount]->addChunk(_shadowFactorMap2O);
                 }
                 else
                 {
-                    _shadowCmat->addChunk(_shadowFactorMapO);
+                    _vShadowCmat[uiPLightCount]->addChunk(_shadowFactorMapO);
                 }
 
                 GLenum  *buffers = NULL;
                 buffers = new GLenum[1];
+
                 if(_activeFactorMap == 0)
                     buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
                 else
                     buffers[0] = GL_COLOR_ATTACHMENT2_EXT;
 
+#ifndef OSG_D_USEPART
                 //Setup FBO
                 //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
 
@@ -2715,19 +2759,75 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                 glDrawBuffer(*buffers);
 
 #if 0
-                _shadowVP->renderLight(pEnv->getAction(), _shadowCmat, i);
+                _shadowVP->renderLight(pEnv->getAction(), _shadowCmat[0], i);
 #endif
-                _shadowVP->renderLight(pTmpAction, _shadowCmat, i);
+                _shadowVP->renderLight(pTmpAction, 
+                                       _vShadowCmat[uiPLightCount],
+                                       i);
 
                 //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
                 _pFB->deactivate(pEnv);
+#else
+
+                a->pushPartition((RenderPartition::CopyWindow      |
+                                  RenderPartition::CopyViewing     |
+                                  RenderPartition::CopyProjection  |
+                                  RenderPartition::CopyFrustum     |
+                                  RenderPartition::CopyNearFar     |
+                                  RenderPartition::CopyViewportSize),
+                                 RenderPartition::StateSorting);
+                {
+                    RenderPartition *pPart = a->getActivePartition();
+
+                    pPart->setRenderTarget(_pFB);
+                    pPart->setDrawBuffer  (*buffers);
+
+                    Node *light  = _shadowVP->_lights[i].first;
+                    Node *parent =  light->getParent();
+
+                    if(parent != NULL)
+                    {
+                        a->pushMatrix(parent->getToWorld());
+                    }
+
+#if 1
+                    if(_activeFactorMap == 0 && bCA1Cleared == false)
+                    {
+                        pPart->setBackground(_pClearBackground);
+                        bCA1Cleared = true;
+                    }
+                    else if(bCA2Cleared == false)
+                    {
+                        pPart->setBackground(_pClearBackground);
+                        bCA2Cleared = true;
+                    }
+#endif
+                             
+                    commitChanges();
+
+                    a->overrideMaterial(_vShadowCmat[uiPLightCount], 
+                                         a->getActNode());
+                    a->recurse(light);
+                    a->overrideMaterial( NULL, 
+                                         a->getActNode());
+
+                    if(parent != NULL)
+                    {
+                        a->popMatrix();
+                    }
+                }
+                a->popPartition();
+#endif
 
                 delete[] buffers;
                 _firstRun = 0;
+
                 if(_activeFactorMap == 0)
                     _activeFactorMap = 1;
                 else
                     _activeFactorMap = 0;
+
+                ++uiPLightCount;
             }
         }
     }
@@ -2818,7 +2918,9 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 
     if(lightCounter != 0)
     {
-        UInt32  renderTimes = 1;
+        UInt32 renderTimes = 1;
+        UInt32 uiMatCount  = uiPLightCount;
+
         if(lightCounter > 4)
             renderTimes = UInt32(ceil(Real32(lightCounter) / 4.0f));
 
@@ -2827,6 +2929,7 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 
             GLenum  *buffers = NULL;
             buffers = new GLenum[1];
+
             if(_activeFactorMap == 0)
                 buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
             else
@@ -2834,10 +2937,21 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 
             UInt32  lightOffset = lightCounter - (i * 4);
 
+//            fprintf(stderr, "Foo %d\n", lightOffset\n");
+
             //clear chunk and add Textures
-            _shadowCmat->clearChunks();
+
+            if(_vShadowCmat.size() == uiMatCount)
+            {
+                _vShadowCmat.push_back(ChunkMaterial::create());
+            }
+
+            OSG_ASSERT( uiMatCount < _vShadowCmat.size());
+
+            _vShadowCmat[uiMatCount]->clearChunks();
 
             UInt32  lightNum = 0;
+
             for(UInt32 j = 0;j < _shadowVP->_lights.size();j++)
             {
                 if(_shadowVP->_lightStates[j] != 0)
@@ -2848,7 +2962,8 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                     {
                         if(lightNum >= (i * 4) && lightNum < ((i + 1) * 4))
                         {
-                            _shadowCmat->addChunk(_shadowVP->_texChunks[j]);
+                            _vShadowCmat[uiMatCount]->addChunk(
+                                _shadowVP->_texChunks[j]);
                         }
                         lightNum++;
                     }
@@ -2857,16 +2972,23 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 
             if(lightOffset == 1)
             {
-                _shadowCmat->addChunk(_shadowSHL);
+                _vShadowCmat[uiMatCount]->addChunk(_shadowSHL);
 
                 if(_activeFactorMap == 0)
                 {
-                    _shadowCmat->addChunk(_shadowFactorMap2O);
+                    _vShadowCmat[uiMatCount]->addChunk(_shadowFactorMap2O);
                 }
                 else
                 {
-                    _shadowCmat->addChunk(_shadowFactorMapO);
+                    _vShadowCmat[uiMatCount]->addChunk(_shadowFactorMapO);
                 }
+
+                if(_vShadowSHLVar.size() == i)
+                {
+                    _vShadowSHLVar.push_back(SHLVariableChunk::create());
+                }
+
+                OSG_ASSERT(i < _vShadowSHLVar.size());
 
                 _shadowSHL->addUniformVariable("oldFactorMap", 1);
                 _shadowSHL->addUniformVariable("shadowMap", 0);
@@ -2889,15 +3011,23 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 
             else if(lightOffset == 2)
             {
-                _shadowCmat->addChunk(_shadowSHL2);
+                _vShadowCmat[uiMatCount]->addChunk(_shadowSHL2);
+
                 if(_activeFactorMap == 0)
                 {
-                    _shadowCmat->addChunk(_shadowFactorMap2O);
+                    _vShadowCmat[uiMatCount]->addChunk(_shadowFactorMap2O);
                 }
                 else
                 {
-                    _shadowCmat->addChunk(_shadowFactorMapO);
+                    _vShadowCmat[uiMatCount]->addChunk(_shadowFactorMapO);
                 }
+
+                if(_vShadowSHLVar2.size() == i)
+                {
+                    _vShadowSHLVar2.push_back(SHLVariableChunk::create());
+                }
+
+                OSG_ASSERT(i < _vShadowSHLVar2.size());
 
                 _shadowSHL2->addUniformVariable("oldFactorMap", 2);
                 _shadowSHL2->addUniformVariable("shadowMap1", 0);
@@ -2932,15 +3062,24 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 
             else if(lightOffset == 3)
             {
-                _shadowCmat->addChunk(_shadowSHL3);
+                _vShadowCmat[uiMatCount]->addChunk(_shadowSHL3);
+
                 if(_activeFactorMap == 0)
                 {
-                    _shadowCmat->addChunk(_shadowFactorMap2O);
+                    _vShadowCmat[uiMatCount]->addChunk(_shadowFactorMap2O);
                 }
                 else
                 {
-                    _shadowCmat->addChunk(_shadowFactorMapO);
+                    _vShadowCmat[uiMatCount]->addChunk(_shadowFactorMapO);
                 }
+
+                if(_vShadowSHLVar3.size() == i)
+                {
+                    _vShadowSHLVar3.push_back(SHLVariableChunk::create());
+                }
+
+                OSG_ASSERT(i < _vShadowSHLVar3.size());
+
                 _shadowSHL3->addUniformVariable("oldFactorMap", 3);
                 _shadowSHL3->addUniformVariable("shadowMap1", 0);
                 _shadowSHL3->addUniformVariable("shadowMap2", 1);
@@ -2985,15 +3124,23 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 
             else
             {
-                _shadowCmat->addChunk(_shadowSHL4);
+                _vShadowCmat[uiMatCount]->addChunk(_shadowSHL4);
+
                 if(_activeFactorMap == 0)
                 {
-                    _shadowCmat->addChunk(_shadowFactorMap2O);
+                    _vShadowCmat[uiMatCount]->addChunk(_shadowFactorMap2O);
                 }
                 else
                 {
-                    _shadowCmat->addChunk(_shadowFactorMapO);
+                    _vShadowCmat[uiMatCount]->addChunk(_shadowFactorMapO);
                 }
+
+                if(_vShadowSHLVar4.size() == i)
+                {
+                    _vShadowSHLVar4.push_back(SHLVariableChunk::create());
+                }
+
+                OSG_ASSERT(i < _vShadowSHLVar4.size());
 
                 _shadowSHL4->addUniformVariable("oldFactorMap", 4);
                 _shadowSHL4->addUniformVariable("shadowMap1", 0);
@@ -3049,6 +3196,7 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
             }
 
 
+#ifndef OSG_D_USEPART
             //Setup FBO
             //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
             _pFB->activate(pEnv);
@@ -3056,12 +3204,61 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
             glDrawBuffer(*buffers);
 
 #if 0
-            _shadowVP->renderLight(pEnv->getAction(), _shadowCmat, i);
+            _shadowVP->renderLight(pEnv->getAction(), _shadowCmat[i], i);
 #endif
-            _shadowVP->renderLight(pTmpAction, _shadowCmat, i);
+            _shadowVP->renderLight(pTmpAction, _shadowCmat[i], i);
 
             //glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
             _pFB->deactivate(pEnv);
+#else
+
+            a->pushPartition((RenderPartition::CopyWindow      |
+                              RenderPartition::CopyViewing     |
+                              RenderPartition::CopyProjection  |
+                              RenderPartition::CopyFrustum     |
+                              RenderPartition::CopyNearFar     |
+                              RenderPartition::CopyViewportSize),
+                             RenderPartition::StateSorting);
+            {
+                RenderPartition *pPart = a->getActivePartition();
+                
+                pPart->setRenderTarget(_pFB);
+                pPart->setDrawBuffer  (*buffers);
+                
+                Node *light  = _shadowVP->_lights[i].first;
+                Node *parent =  light->getParent();
+                
+                if(parent != NULL)
+                {
+                    a->pushMatrix(parent->getToWorld());
+                }
+                
+#if 1
+                if(_activeFactorMap == 0 && bCA1Cleared == false)
+                {
+                    pPart->setBackground(_pClearBackground);
+                    bCA1Cleared = true;
+                }
+                else if(bCA2Cleared == false)
+                {
+                    pPart->setBackground(_pClearBackground);
+                    bCA2Cleared = true;
+                }
+#endif
+
+                commitChanges();
+
+                a->overrideMaterial(_vShadowCmat[uiMatCount], a->getActNode());
+                a->recurse(light);
+                a->overrideMaterial( NULL,                    a->getActNode());
+
+                if(parent != NULL)
+                {
+                    a->popMatrix();
+                }
+            }
+            a->popPartition();
+#endif
 
             _firstRun = 0;
             if(_activeFactorMap == 0)
@@ -3069,6 +3266,8 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
             else
                 _activeFactorMap = 0;
             delete[] buffers;
+
+            ++uiMatCount;
         }
     }
     _firstRun = 0;
@@ -3179,67 +3378,54 @@ void DitherShadowMapHandler::render(DrawEnv *pEnv,
             }
         }
 
-        if(_shadowVP->getMapAutoUpdate())
+        if(_shadowVP->getMapAutoUpdate() == true ||
+           _shadowVP->_trigger_update    == true  )
         {
-#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
             if(_useFBO && _useNPOTTextures)
+            {
                 createColorMapFBO(pEnv, pTmpAction);
+            }
             else
-#endif
+            {
                 createColorMap(pEnv, pTmpAction);
+            }
+
 
             //deactivate transparent Nodes
             for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+            {
                 _shadowVP->_transparent[t]->setTravMask(0);
+            }
+
 
             if(_useFBO)
+            {
                 createShadowMapsFBO(pEnv, pTmpAction);
+            }
             else
+            {
                 createShadowMaps(pEnv, pTmpAction);
+            }
+
 
             // switch on all transparent geos
             for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
-                _shadowVP->_transparent[t]->setTravMask(TypeTraits<UInt32>::BitsSet);
-
-#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
-            if(_useFBO && _useNPOTTextures)
-                createShadowFactorMapFBO(pEnv, pTmpAction);
-            else
-#endif
-                createShadowFactorMap(pEnv, pTmpAction);
-        }
-        else
-        {
-            if(_shadowVP->_trigger_update)
             {
-#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
-                if(_useFBO && _useNPOTTextures)
-                    createColorMapFBO(pEnv, pTmpAction);
-                else
-#endif
-                    createColorMap(pEnv, pTmpAction);
-
-                //deactivate transparent Nodes
-                for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
-                    _shadowVP->_transparent[t]->setTravMask(0);
-
-                if(_useFBO)
-                    createShadowMapsFBO(pEnv, pTmpAction);
-                else
-                    createShadowMaps(pEnv, pTmpAction);
-
-                // switch on all transparent geos
-                for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
-                    _shadowVP->_transparent[t]->setTravMask(TypeTraits<UInt32>::BitsSet);
-
-#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
-                if(_useFBO && _useNPOTTextures)
-                    createShadowFactorMapFBO(pEnv, pTmpAction);
-                else
-#endif
-                    createShadowFactorMap(pEnv, pTmpAction);
-                _shadowVP->_trigger_update = false;
+                _shadowVP->_transparent[t]->setTravMask(
+                    TypeTraits<UInt32>::BitsSet);
             }
+
+
+            if(_useFBO && _useNPOTTextures)
+            {
+                createShadowFactorMapFBO(pEnv, pTmpAction);
+            }
+            else
+            {
+                createShadowFactorMap(pEnv, pTmpAction);
+            }
+
+            _shadowVP->_trigger_update = false;
         }
 
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);

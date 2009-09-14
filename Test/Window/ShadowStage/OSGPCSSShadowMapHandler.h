@@ -34,6 +34,7 @@
 #include <OSGDepthChunk.h>
 
 #include "OSGTreeHandler.h"
+#include "OSGSHLVariableChunk.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -58,10 +59,16 @@ class OSG_WINDOW_DLLMAPPING PCSSShadowMapHandler : public TreeHandler
                         RenderAction *pTmpAction);
     void createColorMapFBO(DrawEnv *pEnv,
                            RenderAction *pTmpAction);
-    void createShadowFactorMap(DrawEnv *pEnv,
-                               RenderAction *pTmpAction, UInt32 num);
-    void createShadowFactorMapFBO(DrawEnv *pEnv,
-                                  RenderAction *pTmpAction, UInt32 num);
+
+    void createShadowFactorMap(DrawEnv         *pEnv,
+                               RenderAction    *pTmpAction, 
+                               UInt32           num               );
+
+    void createShadowFactorMapFBO(DrawEnv      *pEnv,
+                                  RenderAction *pTmpAction, 
+                                  UInt32        num,
+                                  UInt32        uiActiveLightCount);
+
     void createShadowMapsFBO(DrawEnv *pEnv, 
                              RenderAction *pTmpAction);
     bool initFBO(DrawEnv *pEnv);
@@ -71,13 +78,17 @@ class OSG_WINDOW_DLLMAPPING PCSSShadowMapHandler : public TreeHandler
     TileCameraDecoratorUnrecPtr  _tiledeco;
     ImageUnrecPtr                _colorMapImage;
     ImageUnrecPtr                _shadowFactorMapImage;
-    ChunkMaterialUnrecPtr        _shadowCmat;
+
+    std::vector<ChunkMaterialUnrecPtr>    _vShadowCmat;
+
     SHLChunkUnrecPtr             _shadowSHL;
     Int32                        _firstRun;
 //    GLuint                       _fb;
     GLuint                       _fb2;
 //    GLuint                       _rb_depth;
     bool                         _initTexturesDone;
+
+    std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar;
 };
 
 OSG_END_NAMESPACE

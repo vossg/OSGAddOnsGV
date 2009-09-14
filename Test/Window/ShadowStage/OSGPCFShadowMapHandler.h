@@ -34,6 +34,7 @@
 #include <OSGDepthChunk.h>
 
 #include "OSGTreeHandler.h"
+#include "OSGSHLVariableChunk.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -74,7 +75,9 @@ class OSG_WINDOW_DLLMAPPING PCFShadowMapHandler : public TreeHandler
     ImageUnrecPtr                _colorMapImage;
     ImageUnrecPtr                _shadowFactorMapImage;
     ImageUnrecPtr                _shadowFactorMapImage2;
-    ChunkMaterialUnrecPtr        _shadowCmat;
+
+    std::vector<ChunkMaterialUnrecPtr>        _vShadowCmat;
+
     SHLChunkUnrecPtr             _shadowSHL;
     SHLChunkUnrecPtr             _shadowSHL2;
     SHLChunkUnrecPtr             _shadowSHL3;
@@ -89,6 +92,13 @@ class OSG_WINDOW_DLLMAPPING PCFShadowMapHandler : public TreeHandler
     Real32  _oldRange;
     
     bool    _initTexturesDone;
+
+    std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar;
+    std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar2;
+    std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar3;
+    std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar4;
+
+    std::vector<SHLVariableChunkUnrecPtr> _vShadowCubeSHLVar;
 };
 
 OSG_END_NAMESPACE

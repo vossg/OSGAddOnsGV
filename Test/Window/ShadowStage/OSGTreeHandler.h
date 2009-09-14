@@ -28,6 +28,7 @@
 #include "OSGTextureObjChunk.h"
 #include "OSGTextureEnvChunk.h"
 #include "OSGFrameBufferObject.h"
+#include "OSGSolidBackground.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -171,6 +172,8 @@ class OSG_WINDOW_DLLMAPPING TreeHandler
 
     FrameBufferObjectUnrecPtr    _pFB;
     FrameBufferObjectUnrecPtr    _pFB2;
+
+    SolidBackgroundUnrecPtr      _pClearBackground;
 
     void setupDrawCombineMap1(Action  *pAction);
     void doDrawCombineMap1   (DrawEnv *pEnv   );

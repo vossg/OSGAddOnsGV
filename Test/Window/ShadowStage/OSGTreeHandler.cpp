@@ -235,6 +235,8 @@ TreeHandler::TreeHandler(ShadowStage *source) :
     _unlitMat = SimpleMaterial::create();
 
     _unlitMat->setLit(false);
+
+    _pClearBackground = SolidBackground::create();
 }
 
 
@@ -252,6 +254,7 @@ TreeHandler::~TreeHandler(void)
     _pFB               = NULL;
     _pFB2              = NULL;
 
+    _pClearBackground  = NULL;
 }
 
 void TreeHandler::initialize(Window *win)

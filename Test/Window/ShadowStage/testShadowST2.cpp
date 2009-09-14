@@ -330,14 +330,15 @@ int doMain(int argc, char **argv)
         rootNode->addChild(point1);
 
         //one active light at startup
-/*
+#if 0
         _point2_core->setOn(false);
         _point3_core->setOn(false);
         _point4_core->setOn(false);
         _point5_core->setOn(false);
         _point6_core->setOn(false);
         _point7_core->setOn(false);
- */
+ #endif
+
         _point1_core->setOn(true);
         _point1_core->setAmbient(0.3, 0.3, 0.3, 1);
         _point1_core->setDiffuse(0.8, 0.8, 0.8, 1);
