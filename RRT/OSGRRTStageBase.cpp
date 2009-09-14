@@ -82,7 +82,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 /***************************************************************************\
- *                         Field Description                               *
+ *                        Field Documentation                              *
 \***************************************************************************/
 
 /*! \var Node *          RRTStageBase::_sfBackgroundRoot
@@ -113,6 +113,20 @@ OSG_BEGIN_NAMESPACE
     
 */
 
+
+/***************************************************************************\
+ *                      FieldType/FieldTrait Instantiation                 *
+\***************************************************************************/
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<RRTStage *>::_type("RRTStagePtr", "StagePtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(RRTStage *)
+
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
 
 void RRTStageBase::classDescInserter(TypeObject &oType)
 {
@@ -918,11 +932,5 @@ void RRTStageBase::resolveLinks(void)
 
 }
 
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RRTStage *>::_type("RRTStagePtr", "StagePtr");
-#endif
-
-OSG_FIELDTRAITS_GETTYPE(RRTStage *)
 
 OSG_END_NAMESPACE

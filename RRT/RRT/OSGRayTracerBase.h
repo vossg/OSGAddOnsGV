@@ -61,14 +61,12 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGFieldContainer.h" // Parent
 
 #include "OSGNodeFields.h" // RayTracingRoot type
-#include "OSGNodeFields.h" // BackgroundRoot type
-#include "OSGUInt32Fields.h" // Width type
-#include "OSGUInt32Fields.h" // Height type
+#include "OSGSysFields.h" // Width type
 
 #include "OSGRayTracerFields.h"
 

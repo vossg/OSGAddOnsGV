@@ -81,7 +81,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 /***************************************************************************\
- *                         Field Description                               *
+ *                        Field Documentation                              *
 \***************************************************************************/
 
 /*! \var Geometry *      RTCacheGeometryStoreBase::_sfGeo
@@ -96,6 +96,28 @@ OSG_BEGIN_NAMESPACE
     
 */
 
+
+/***************************************************************************\
+ *                      FieldType/FieldTrait Instantiation                 *
+\***************************************************************************/
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<RTCacheGeometryStore *>::_type("RTCacheGeometryStorePtr", "FieldContainerPtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(RTCacheGeometryStore *)
+
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           RTCacheGeometryStore *,
+                           0);
+
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           RTCacheGeometryStore *,
+                           0);
+
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
 
 void RTCacheGeometryStoreBase::classDescInserter(TypeObject &oType)
 {
@@ -602,19 +624,5 @@ void RTCacheGeometryStoreBase::resolveLinks(void)
 
 }
 
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTCacheGeometryStore *>::_type("RTCacheGeometryStorePtr", "FieldContainerPtr");
-#endif
-
-OSG_FIELDTRAITS_GETTYPE(RTCacheGeometryStore *)
-
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
-                           RTCacheGeometryStore *,
-                           0);
-
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
-                           RTCacheGeometryStore *,
-                           0);
 
 OSG_END_NAMESPACE

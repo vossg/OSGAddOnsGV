@@ -61,12 +61,12 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGFieldContainer.h" // Parent
 
 #include "OSGGeometryFields.h" // Geo type
-#include "OSGMatrixFields.h" // Matrix type
+#include "OSGMathFields.h" // Matrix type
 #include "OSGStateFields.h" // State type
 
 #include "OSGRTCacheGeometryStoreFields.h"

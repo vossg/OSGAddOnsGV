@@ -79,7 +79,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 /***************************************************************************\
- *                         Field Description                               *
+ *                        Field Documentation                              *
 \***************************************************************************/
 
 /*! \var UInt32          RTTargetBase::_sfWidth
@@ -90,6 +90,25 @@ OSG_BEGIN_NAMESPACE
     
 */
 
+
+/***************************************************************************\
+ *                      FieldType/FieldTrait Instantiation                 *
+\***************************************************************************/
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<RTTarget *>::_type("RTTargetPtr", "FieldContainerPtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(RTTarget *)
+
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           RTTarget *,
+                           0);
+
+
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
 
 void RTTargetBase::classDescInserter(TypeObject &oType)
 {
@@ -498,17 +517,6 @@ void RTTargetBase::resolveLinks(void)
 
 
 }
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTTarget *>::_type("RTTargetPtr", "FieldContainerPtr");
-#endif
-
-OSG_FIELDTRAITS_GETTYPE(RTTarget *)
-
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
-                           RTTarget *,
-                           0);
 
 
 OSG_END_NAMESPACE

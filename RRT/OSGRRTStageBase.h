@@ -61,16 +61,13 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGStage.h" // Parent
 
 #include "OSGNodeFields.h" // BackgroundRoot type
 #include "OSGTextureObjChunkFields.h" // TextureTarget type
-#include "OSGUInt32Fields.h" // Width type
-#include "OSGUInt32Fields.h" // Height type
-#include "OSGBoolFields.h" // SplitThreads type
-#include "OSGBoolFields.h" // Tiled type
+#include "OSGSysFields.h" // Width type
 #include "OSGRTCameraDecoratorFields.h" // RTCamera type
 
 #include "OSGRRTStageFields.h"
