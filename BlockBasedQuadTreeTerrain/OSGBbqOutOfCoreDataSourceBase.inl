@@ -85,18 +85,10 @@ std::string &BbqOutOfCoreDataSourceBase::editFilename(void)
 
 //! Get the value of the BbqOutOfCoreDataSource::_sfFilename field.
 inline
-const std::string BbqOutOfCoreDataSourceBase::getFilename(void) const
+const std::string &BbqOutOfCoreDataSourceBase::getFilename(void) const
 {
     return _sfFilename.getValue();
 }
-
-#ifdef OSG_1_GET_COMPAT
-inline
-std::string         &BbqOutOfCoreDataSourceBase::getFilename       (void)
-{
-    return this->editFilename       ();
-}
-#endif
 
 //! Set the value of the BbqOutOfCoreDataSource::_sfFilename field.
 inline
@@ -118,22 +110,14 @@ Real32 &BbqOutOfCoreDataSourceBase::editHeightScale(void)
 
 //! Get the value of the BbqOutOfCoreDataSource::_sfHeightScale field.
 inline
-const Real32 BbqOutOfCoreDataSourceBase::getHeightScale(void) const
+      Real32  BbqOutOfCoreDataSourceBase::getHeightScale(void) const
 {
     return _sfHeightScale.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Real32              &BbqOutOfCoreDataSourceBase::getHeightScale    (void)
-{
-    return this->editHeightScale    ();
-}
-#endif
-
 //! Set the value of the BbqOutOfCoreDataSource::_sfHeightScale field.
 inline
-void BbqOutOfCoreDataSourceBase::setHeightScale(const Real32 &value)
+void BbqOutOfCoreDataSourceBase::setHeightScale(const Real32 value)
 {
     editSField(HeightScaleFieldMask);
 
@@ -151,22 +135,14 @@ Real32 &BbqOutOfCoreDataSourceBase::editHeightOffset(void)
 
 //! Get the value of the BbqOutOfCoreDataSource::_sfHeightOffset field.
 inline
-const Real32 BbqOutOfCoreDataSourceBase::getHeightOffset(void) const
+      Real32  BbqOutOfCoreDataSourceBase::getHeightOffset(void) const
 {
     return _sfHeightOffset.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Real32              &BbqOutOfCoreDataSourceBase::getHeightOffset   (void)
-{
-    return this->editHeightOffset   ();
-}
-#endif
-
 //! Set the value of the BbqOutOfCoreDataSource::_sfHeightOffset field.
 inline
-void BbqOutOfCoreDataSourceBase::setHeightOffset(const Real32 &value)
+void BbqOutOfCoreDataSourceBase::setHeightOffset(const Real32 value)
 {
     editSField(HeightOffsetFieldMask);
 
@@ -184,22 +160,14 @@ Real32 &BbqOutOfCoreDataSourceBase::editSampleSpacing(void)
 
 //! Get the value of the BbqOutOfCoreDataSource::_sfSampleSpacing field.
 inline
-const Real32 BbqOutOfCoreDataSourceBase::getSampleSpacing(void) const
+      Real32  BbqOutOfCoreDataSourceBase::getSampleSpacing(void) const
 {
     return _sfSampleSpacing.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Real32              &BbqOutOfCoreDataSourceBase::getSampleSpacing  (void)
-{
-    return this->editSampleSpacing  ();
-}
-#endif
-
 //! Set the value of the BbqOutOfCoreDataSource::_sfSampleSpacing field.
 inline
-void BbqOutOfCoreDataSourceBase::setSampleSpacing(const Real32 &value)
+void BbqOutOfCoreDataSourceBase::setSampleSpacing(const Real32 value)
 {
     editSField(SampleSpacingFieldMask);
 

@@ -174,12 +174,6 @@ const SFBool *BbqDataSourceBase::getSFIgnoreGeoRef(void) const
     return &_sfIgnoreGeoRef;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *BbqDataSourceBase::getSFIgnoreGeoRef   (void)
-{
-    return this->editSFIgnoreGeoRef   ();
-}
-#endif
 
 
 

@@ -138,54 +138,30 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
     /*! \{                                                                 */
 
 
-#ifdef OSG_1_GET_COMPAT
-                  SFString            *getSFFilename        (void);
-#endif
                   SFString            *editSFFilename       (void);
             const SFString            *getSFFilename        (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFReal32            *getSFHeightScale     (void);
-#endif
                   SFReal32            *editSFHeightScale    (void);
             const SFReal32            *getSFHeightScale     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFReal32            *getSFHeightOffset    (void);
-#endif
                   SFReal32            *editSFHeightOffset   (void);
             const SFReal32            *getSFHeightOffset    (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFReal32            *getSFSampleSpacing   (void);
-#endif
                   SFReal32            *editSFSampleSpacing  (void);
             const SFReal32            *getSFSampleSpacing   (void) const;
 
 
-#ifdef OSG_1_GET_COMPAT
-                  std::string         &getFilename        (void);
-#endif
                   std::string         &editFilename       (void);
-            const std::string          getFilename        (void) const;
+            const std::string         &getFilename        (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Real32              &getHeightScale     (void);
-#endif
                   Real32              &editHeightScale    (void);
-            const Real32               getHeightScale     (void) const;
+                  Real32               getHeightScale     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Real32              &getHeightOffset    (void);
-#endif
                   Real32              &editHeightOffset   (void);
-            const Real32               getHeightOffset    (void) const;
+                  Real32               getHeightOffset    (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Real32              &getSampleSpacing   (void);
-#endif
                   Real32              &editSampleSpacing  (void);
-            const Real32               getSampleSpacing   (void) const;
+                  Real32               getSampleSpacing   (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -193,9 +169,9 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
     /*! \{                                                                 */
 
             void setFilename       (const std::string &value);
-            void setHeightScale    (const Real32 &value);
-            void setHeightOffset   (const Real32 &value);
-            void setSampleSpacing  (const Real32 &value);
+            void setHeightScale    (const Real32 value);
+            void setHeightOffset   (const Real32 value);
+            void setSampleSpacing  (const Real32 value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

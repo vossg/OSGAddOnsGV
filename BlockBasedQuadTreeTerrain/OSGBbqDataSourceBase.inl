@@ -85,22 +85,14 @@ bool &BbqDataSourceBase::editIgnoreGeoRef(void)
 
 //! Get the value of the BbqDataSource::_sfIgnoreGeoRef field.
 inline
-const bool BbqDataSourceBase::getIgnoreGeoRef(void) const
+      bool  BbqDataSourceBase::getIgnoreGeoRef(void) const
 {
     return _sfIgnoreGeoRef.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &BbqDataSourceBase::getIgnoreGeoRef   (void)
-{
-    return this->editIgnoreGeoRef   ();
-}
-#endif
-
 //! Set the value of the BbqDataSource::_sfIgnoreGeoRef field.
 inline
-void BbqDataSourceBase::setIgnoreGeoRef(const bool &value)
+void BbqDataSourceBase::setIgnoreGeoRef(const bool value)
 {
     editSField(IgnoreGeoRefFieldMask);
 

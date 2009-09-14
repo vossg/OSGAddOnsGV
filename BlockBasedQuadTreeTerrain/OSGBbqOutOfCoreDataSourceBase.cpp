@@ -252,12 +252,6 @@ const SFString *BbqOutOfCoreDataSourceBase::getSFFilename(void) const
     return &_sfFilename;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFString            *BbqOutOfCoreDataSourceBase::getSFFilename       (void)
-{
-    return this->editSFFilename       ();
-}
-#endif
 
 SFReal32 *BbqOutOfCoreDataSourceBase::editSFHeightScale(void)
 {
@@ -271,12 +265,6 @@ const SFReal32 *BbqOutOfCoreDataSourceBase::getSFHeightScale(void) const
     return &_sfHeightScale;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFReal32            *BbqOutOfCoreDataSourceBase::getSFHeightScale    (void)
-{
-    return this->editSFHeightScale    ();
-}
-#endif
 
 SFReal32 *BbqOutOfCoreDataSourceBase::editSFHeightOffset(void)
 {
@@ -290,12 +278,6 @@ const SFReal32 *BbqOutOfCoreDataSourceBase::getSFHeightOffset(void) const
     return &_sfHeightOffset;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFReal32            *BbqOutOfCoreDataSourceBase::getSFHeightOffset   (void)
-{
-    return this->editSFHeightOffset   ();
-}
-#endif
 
 SFReal32 *BbqOutOfCoreDataSourceBase::editSFSampleSpacing(void)
 {
@@ -309,12 +291,6 @@ const SFReal32 *BbqOutOfCoreDataSourceBase::getSFSampleSpacing(void) const
     return &_sfSampleSpacing;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFReal32            *BbqOutOfCoreDataSourceBase::getSFSampleSpacing  (void)
-{
-    return this->editSFSampleSpacing  ();
-}
-#endif
 
 
 

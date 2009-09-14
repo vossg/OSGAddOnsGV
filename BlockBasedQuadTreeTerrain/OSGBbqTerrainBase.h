@@ -150,27 +150,15 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
             const SFUnrecBbqDataSourcePtr *getSFDataSource     (void) const;
                   SFUnrecBbqDataSourcePtr *editSFDataSource     (void);
 
-#ifdef OSG_1_GET_COMPAT
-                  SFUInt32            *getSFMaxNumResidentNodes (void);
-#endif
                   SFUInt32            *editSFMaxNumResidentNodes(void);
             const SFUInt32            *getSFMaxNumResidentNodes (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFReal32            *getSFScreenSpaceError (void);
-#endif
                   SFReal32            *editSFScreenSpaceError(void);
             const SFReal32            *getSFScreenSpaceError (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFEnableSkirts    (void);
-#endif
                   SFBool              *editSFEnableSkirts   (void);
             const SFBool              *getSFEnableSkirts    (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFShowSwitchDistance (void);
-#endif
                   SFBool              *editSFShowSwitchDistance(void);
             const SFBool              *getSFShowSwitchDistance (void) const;
 
@@ -179,29 +167,17 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
 
                   BbqDataSource * getDataSource     (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  UInt32              &getMaxNumResidentNodes (void);
-#endif
                   UInt32              &editMaxNumResidentNodes(void);
-            const UInt32               getMaxNumResidentNodes (void) const;
+                  UInt32               getMaxNumResidentNodes (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  Real32              &getScreenSpaceError (void);
-#endif
                   Real32              &editScreenSpaceError(void);
-            const Real32               getScreenSpaceError (void) const;
+                  Real32               getScreenSpaceError (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getEnableSkirts    (void);
-#endif
                   bool                &editEnableSkirts   (void);
-            const bool                 getEnableSkirts    (void) const;
+                  bool                 getEnableSkirts    (void) const;
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getShowSwitchDistance (void);
-#endif
                   bool                &editShowSwitchDistance(void);
-            const bool                 getShowSwitchDistance (void) const;
+                  bool                 getShowSwitchDistance (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -210,10 +186,10 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
 
             void setBeacon         (Node * const value);
             void setDataSource     (BbqDataSource * const value);
-            void setMaxNumResidentNodes(const UInt32 &value);
-            void setScreenSpaceError(const Real32 &value);
-            void setEnableSkirts   (const bool &value);
-            void setShowSwitchDistance(const bool &value);
+            void setMaxNumResidentNodes(const UInt32 value);
+            void setScreenSpaceError(const Real32 value);
+            void setEnableSkirts   (const bool value);
+            void setShowSwitchDistance(const bool value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

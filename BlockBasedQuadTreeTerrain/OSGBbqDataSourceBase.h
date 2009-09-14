@@ -126,25 +126,19 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSourceBase : public FieldContainer
     /*! \{                                                                 */
 
 
-#ifdef OSG_1_GET_COMPAT
-                  SFBool              *getSFIgnoreGeoRef    (void);
-#endif
                   SFBool              *editSFIgnoreGeoRef   (void);
             const SFBool              *getSFIgnoreGeoRef    (void) const;
 
 
-#ifdef OSG_1_GET_COMPAT
-                  bool                &getIgnoreGeoRef    (void);
-#endif
                   bool                &editIgnoreGeoRef   (void);
-            const bool                 getIgnoreGeoRef    (void) const;
+                  bool                 getIgnoreGeoRef    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setIgnoreGeoRef   (const bool &value);
+            void setIgnoreGeoRef   (const bool value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

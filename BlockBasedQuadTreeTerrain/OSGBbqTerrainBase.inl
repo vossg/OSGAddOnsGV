@@ -117,22 +117,14 @@ UInt32 &BbqTerrainBase::editMaxNumResidentNodes(void)
 
 //! Get the value of the BbqTerrain::_sfMaxNumResidentNodes field.
 inline
-const UInt32 BbqTerrainBase::getMaxNumResidentNodes(void) const
+      UInt32  BbqTerrainBase::getMaxNumResidentNodes(void) const
 {
     return _sfMaxNumResidentNodes.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-UInt32              &BbqTerrainBase::getMaxNumResidentNodes(void)
-{
-    return this->editMaxNumResidentNodes();
-}
-#endif
-
 //! Set the value of the BbqTerrain::_sfMaxNumResidentNodes field.
 inline
-void BbqTerrainBase::setMaxNumResidentNodes(const UInt32 &value)
+void BbqTerrainBase::setMaxNumResidentNodes(const UInt32 value)
 {
     editSField(MaxNumResidentNodesFieldMask);
 
@@ -150,22 +142,14 @@ Real32 &BbqTerrainBase::editScreenSpaceError(void)
 
 //! Get the value of the BbqTerrain::_sfScreenSpaceError field.
 inline
-const Real32 BbqTerrainBase::getScreenSpaceError(void) const
+      Real32  BbqTerrainBase::getScreenSpaceError(void) const
 {
     return _sfScreenSpaceError.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-Real32              &BbqTerrainBase::getScreenSpaceError(void)
-{
-    return this->editScreenSpaceError();
-}
-#endif
-
 //! Set the value of the BbqTerrain::_sfScreenSpaceError field.
 inline
-void BbqTerrainBase::setScreenSpaceError(const Real32 &value)
+void BbqTerrainBase::setScreenSpaceError(const Real32 value)
 {
     editSField(ScreenSpaceErrorFieldMask);
 
@@ -183,22 +167,14 @@ bool &BbqTerrainBase::editEnableSkirts(void)
 
 //! Get the value of the BbqTerrain::_sfEnableSkirts field.
 inline
-const bool BbqTerrainBase::getEnableSkirts(void) const
+      bool  BbqTerrainBase::getEnableSkirts(void) const
 {
     return _sfEnableSkirts.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &BbqTerrainBase::getEnableSkirts   (void)
-{
-    return this->editEnableSkirts   ();
-}
-#endif
-
 //! Set the value of the BbqTerrain::_sfEnableSkirts field.
 inline
-void BbqTerrainBase::setEnableSkirts(const bool &value)
+void BbqTerrainBase::setEnableSkirts(const bool value)
 {
     editSField(EnableSkirtsFieldMask);
 
@@ -216,22 +192,14 @@ bool &BbqTerrainBase::editShowSwitchDistance(void)
 
 //! Get the value of the BbqTerrain::_sfShowSwitchDistance field.
 inline
-const bool BbqTerrainBase::getShowSwitchDistance(void) const
+      bool  BbqTerrainBase::getShowSwitchDistance(void) const
 {
     return _sfShowSwitchDistance.getValue();
 }
 
-#ifdef OSG_1_GET_COMPAT
-inline
-bool                &BbqTerrainBase::getShowSwitchDistance(void)
-{
-    return this->editShowSwitchDistance();
-}
-#endif
-
 //! Set the value of the BbqTerrain::_sfShowSwitchDistance field.
 inline
-void BbqTerrainBase::setShowSwitchDistance(const bool &value)
+void BbqTerrainBase::setShowSwitchDistance(const bool value)
 {
     editSField(ShowSwitchDistanceFieldMask);
 

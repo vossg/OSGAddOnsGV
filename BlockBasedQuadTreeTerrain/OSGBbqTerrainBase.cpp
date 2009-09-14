@@ -327,12 +327,6 @@ const SFUInt32 *BbqTerrainBase::getSFMaxNumResidentNodes(void) const
     return &_sfMaxNumResidentNodes;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFUInt32            *BbqTerrainBase::getSFMaxNumResidentNodes(void)
-{
-    return this->editSFMaxNumResidentNodes();
-}
-#endif
 
 SFReal32 *BbqTerrainBase::editSFScreenSpaceError(void)
 {
@@ -346,12 +340,6 @@ const SFReal32 *BbqTerrainBase::getSFScreenSpaceError(void) const
     return &_sfScreenSpaceError;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFReal32            *BbqTerrainBase::getSFScreenSpaceError(void)
-{
-    return this->editSFScreenSpaceError();
-}
-#endif
 
 SFBool *BbqTerrainBase::editSFEnableSkirts(void)
 {
@@ -365,12 +353,6 @@ const SFBool *BbqTerrainBase::getSFEnableSkirts(void) const
     return &_sfEnableSkirts;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *BbqTerrainBase::getSFEnableSkirts   (void)
-{
-    return this->editSFEnableSkirts   ();
-}
-#endif
 
 SFBool *BbqTerrainBase::editSFShowSwitchDistance(void)
 {
@@ -384,12 +366,6 @@ const SFBool *BbqTerrainBase::getSFShowSwitchDistance(void) const
     return &_sfShowSwitchDistance;
 }
 
-#ifdef OSG_1_GET_COMPAT
-SFBool              *BbqTerrainBase::getSFShowSwitchDistance(void)
-{
-    return this->editSFShowSwitchDistance();
-}
-#endif
 
 
 
