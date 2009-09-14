@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="LabelForeground"
+	parent="Foreground"
+	library="ContribLabeling"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+\ingroup GrpSystemWindowForegroundsStatistics
+
+LabelForeground displays the labels of the scenegraph as a text representation close to the projected location of the label in pixelOffset distance.
+
+See \ref PageSystemWindowForegroundLabelSimple
+	<Field
+		name="importanceThreshold"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Only labels with an importance value equal/greater than the
+        importanceThreshold will be displayed. The default value for
+        importanceThreshold is 0, i.e. all labels are displayed.
+        The range of the importanceThreshold is up to you. We suggest [0,1].
+	</Field>
+
+
+  <!-- protected fields -->
+	<Field
+		name="textureEnvironment"
+		type="TextureEnvChunk"
+		cardinality="single"
+		visibility="internal"
+		access="protected"
+                category="pointer"
+	>
+        Internal texture object representing the label.
+	</Field>
+</FieldContainer>

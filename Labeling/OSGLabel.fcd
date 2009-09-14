@@ -1,0 +1,165 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="Label"
+	parent="Group"
+	library="ContribLabeling"
+	structure="abstract"
+	pointerfieldtypes="both"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+        decoratable="false"
+        useLocalIncludes="false"
+>
+The Label class... FIXME: more documentation required
+
+	<Field
+		name="position"
+		type="Pnt3f"
+		cardinality="single"
+		visibility="external"
+                defaultValue="0,0,0"
+		access="public"
+	>
+	Location of label in local world coordinates with respect to center
+	of the group's bounding box.
+	</Field>
+	<Field
+		name="pixelOffset"
+		type="Vec2f"
+		cardinality="single"
+		visibility="external"
+                defaultValue="0,0"
+		access="public"
+	>
+	Offset to projection point on viewport in pixel.
+	</Field>
+	<Field
+		name="orientation"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0.0"
+		access="public"
+	>
+	Rotation angle of text in degree (anticlockwise). The
+        default is 0.0 (i.e. no rotation).
+	</Field>
+	<Field
+		name="horizontalAlign"
+		type="UInt8"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	Simple form of layout management, 1 defaults to center.
+	</Field>
+	<Field
+		name="verticalAlign"
+		type="UInt8"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	Simple form of layout management, 1 defaults to center.
+	</Field>
+	<Field
+		name="margin"
+		type="Vec2f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0"
+		access="public"
+	>
+	Margin in pixels.
+	</Field>
+	<Field
+		name="color"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1,1,1,1"
+		access="public"
+	>
+	Color of the text or blend color for icon image.
+	</Field>
+	<Field
+		name="bgColor"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0,0"
+		access="public"
+	>
+	Color of the background.
+	</Field>
+	<Field
+		name="shadowColor"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0,1"
+		access="public"
+	>
+	Color of the shadow.
+	</Field>
+	<Field
+		name="shadowOffset"
+		type="Vec2f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1,-1"
+		access="public"
+	>
+	Offset of the shadow, in pixels.
+	</Field>
+	<Field
+		name="borderColor"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0,0"
+		access="public"
+	>
+	Color of the border.
+	</Field>
+	<Field
+		name="borderOffset"
+		type="Vec2f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="4,4"
+		access="public"
+	>
+	Offset of the border in pixels.
+	</Field>
+	<Field
+		name="importance"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	Only labels with an importance value equal/greater than the
+        LabelForeground's importanceThreshold will be displayed.
+        The default value for importance is 1, i.e. all labels are displayed.
+        The range of the importance value is up to you. We suggest [0,1].
+	</Field>
+
+
+
+  <!-- protected fields -->
+	<Field
+		name="textureObject"
+		type="TextureObjChunk"
+		cardinality="single"
+		visibility="internal"
+		access="protected"
+                category="pointer"
+	>
+        Internal texture object representing the label.
+	</Field>
+</FieldContainer>

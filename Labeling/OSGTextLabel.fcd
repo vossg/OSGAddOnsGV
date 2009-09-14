@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="TextLabel"
+	parent="Label"
+	library="ContribLabeling"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+        decoratable="false"
+        useLocalIncludes="true"
+	isNodeCore="true"
+>
+The TextLabel class... FIXME: more documentation required
+
+	<Field
+		name="text"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The text string for the label.
+	</Field>
+	<Field
+		name="size"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="16"
+		access="public"
+	>
+	Height of a single line, in  pixel.
+	</Field>
+	<Field
+		name="family"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The font family to be used, e.g. "SANS", default if unset.
+	</Field>
+
+</FieldContainer>

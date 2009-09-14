@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+	name="IconLabel"
+	parent="Label"
+	library="ContribLabeling"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+        decoratable="false"
+        useLocalIncludes="true"
+	isNodeCore="true"
+>
+The IconLabel class... FIXME: more documentation required
+
+	<Field
+		name="filename"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The filename of the icon to load.
+	</Field>
+	<Field
+		name="image"
+		type="ImagePtr"
+		cardinality="single"
+		visibility="external"
+                defaultValue="NULL"
+                header="OSGImage.h"
+		access="public"
+	>
+	The image of the icon.
+	</Field>
+
+	<Field
+		name="size"
+		type="Vec2f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="32,32"
+		access="public"
+	>
+        Size of the icon on the screen in pixel.
+	</Field>
+</FieldContainer>
