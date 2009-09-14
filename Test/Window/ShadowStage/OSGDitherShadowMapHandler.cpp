@@ -1934,6 +1934,7 @@ void DitherShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
     vpLeft   = pEnv->getPixelLeft();
     vpRight  = pEnv->getPixelRight();
 
+#if 0
     Viewport *pVP = pTmpAction->getViewport();
 
     pVP->setSize(0, 0, pEnv->getPixelWidth() - 1,
@@ -1990,6 +1991,40 @@ void DitherShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
 #endif
     pVP->setSize(vpLeft, vpBottom, vpRight, vpTop);
     pVP->activate();
+#endif
+
+    RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
+
+    a->pushPartition((RenderPartition::CopyWindow      |
+                      RenderPartition::CopyViewing     |
+                      RenderPartition::CopyProjection  |
+                      RenderPartition::CopyFrustum     |
+                      RenderPartition::CopyNearFar     |
+                      RenderPartition::CopyViewportSize),
+                     RenderPartition::StateSorting);
+    {
+        RenderPartition *pPart = a->getActivePartition();
+
+        pPart->setRenderTarget(_pFB);
+        pPart->setDrawBuffer  (GL_COLOR_ATTACHMENT0_EXT);
+
+        Node *parent = _shadowVP->getSceneRoot()->getParent();
+
+        if(parent != NULL)
+        {
+            a->pushMatrix(parent->getToWorld());
+        }
+        
+        pPart->setBackground(a->getBackground());
+
+        a->recurse(_shadowVP->getSceneRoot());
+
+        if(parent != NULL)
+        {
+            a->popMatrix();
+        }
+    }
+    a->popPartition();
 }
 
 void DitherShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
