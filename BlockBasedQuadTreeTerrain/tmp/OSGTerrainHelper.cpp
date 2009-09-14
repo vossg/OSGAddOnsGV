@@ -309,7 +309,7 @@ bool OpenGLShader::loadVtxFromFile(const Char8 *szFilename)
 {
     if(_pShader == NULL)
     {
-        _pShader = SHLChunk::create();
+        _pShader = SimpleSHLChunk::create();
     }
 
     return _pShader->readVertexProgram(szFilename);
@@ -319,7 +319,7 @@ bool OpenGLShader::loadFrgFromFile(const Char8 *szFilename)
 {
     if(_pShader == NULL)
     {
-        _pShader = SHLChunk::create();
+        _pShader = SimpleSHLChunk::create();
     }
 
     return _pShader->readFragmentProgram(szFilename);

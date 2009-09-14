@@ -50,7 +50,7 @@
 #include "OSGBaseTypes.h"
 #include "OSGBaseFunctions.h"
 #include "OSGImage.h"
-#include "OSGSHLChunk.h"
+#include "OSGSimpleSHLChunk.h"
 #include "OSGTextureObjChunk.h"
 #include "OSGGeoReferenceAttachment.h"
 
@@ -302,7 +302,7 @@ class OpenGLGpuBuffer
 
 class OpenGLShader
 {
-    SHLChunkUnrecPtr _pShader;
+    SimpleSHLChunkUnrecPtr _pShader;
 
   public:
 
