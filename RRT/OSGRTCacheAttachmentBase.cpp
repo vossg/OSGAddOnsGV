@@ -171,6 +171,22 @@ RTCacheAttachmentTransitPtr RTCacheAttachmentBase::createLocal(BitVector bFlags)
     return fc;
 }
 
+//! create a new instance of the class, copy the container flags
+RTCacheAttachmentTransitPtr RTCacheAttachmentBase::createDependent(BitVector bFlags)
+{
+    RTCacheAttachmentTransitPtr fc;
+
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
+
+        fc = dynamic_pointer_cast<RTCacheAttachment>(tmpPtr);
+    }
+
+    return fc;
+}
+
 //! create a new instance of the class
 RTCacheAttachmentTransitPtr RTCacheAttachmentBase::create(void)
 {
@@ -222,6 +238,20 @@ FieldContainerTransitPtr RTCacheAttachmentBase::shallowCopyLocal(
     FieldContainerTransitPtr returnValue(tmpPtr);
 
     tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RTCacheAttachmentBase::shallowCopyDependent(
+    BitVector bFlags) const
+{
+    RTCacheAttachment *tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const RTCacheAttachment *>(this), ~bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
 
     return returnValue;
 }

@@ -135,6 +135,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTInfoAttachmentBase : public Attachment
     static  RTInfoAttachment            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
+    static  RTInfoAttachmentTransitPtr  createDependent  (BitVector bFlags);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
@@ -143,6 +145,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTInfoAttachmentBase : public Attachment
     virtual FieldContainerTransitPtr shallowCopy     (void) const;
     virtual FieldContainerTransitPtr shallowCopyLocal(
                                        BitVector bFlags = FCLocal::All) const;
+    virtual FieldContainerTransitPtr shallowCopyDependent(
+                                                      BitVector bFlags) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

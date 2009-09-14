@@ -176,6 +176,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTextureTargetBase : public RTTarget
     static  RTTextureTarget            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
+    static  RTTextureTargetTransitPtr  createDependent  (BitVector bFlags);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
@@ -184,6 +186,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTTextureTargetBase : public RTTarget
     virtual FieldContainerTransitPtr shallowCopy     (void) const;
     virtual FieldContainerTransitPtr shallowCopyLocal(
                                        BitVector bFlags = FCLocal::All) const;
+    virtual FieldContainerTransitPtr shallowCopyDependent(
+                                                      BitVector bFlags) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

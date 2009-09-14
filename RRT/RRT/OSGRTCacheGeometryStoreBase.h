@@ -198,6 +198,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
     static  RTCacheGeometryStore            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
+    static  RTCacheGeometryStoreTransitPtr  createDependent  (BitVector bFlags);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
@@ -206,6 +208,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCacheGeometryStoreBase : public FieldContainer
     virtual FieldContainerTransitPtr shallowCopy     (void) const;
     virtual FieldContainerTransitPtr shallowCopyLocal(
                                        BitVector bFlags = FCLocal::All) const;
+    virtual FieldContainerTransitPtr shallowCopyDependent(
+                                                      BitVector bFlags) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

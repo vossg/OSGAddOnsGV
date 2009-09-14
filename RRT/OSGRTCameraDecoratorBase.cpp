@@ -169,6 +169,22 @@ RTCameraDecoratorTransitPtr RTCameraDecoratorBase::createLocal(BitVector bFlags)
     return fc;
 }
 
+//! create a new instance of the class, copy the container flags
+RTCameraDecoratorTransitPtr RTCameraDecoratorBase::createDependent(BitVector bFlags)
+{
+    RTCameraDecoratorTransitPtr fc;
+
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
+
+        fc = dynamic_pointer_cast<RTCameraDecorator>(tmpPtr);
+    }
+
+    return fc;
+}
+
 //! create a new instance of the class
 RTCameraDecoratorTransitPtr RTCameraDecoratorBase::create(void)
 {
@@ -220,6 +236,20 @@ FieldContainerTransitPtr RTCameraDecoratorBase::shallowCopyLocal(
     FieldContainerTransitPtr returnValue(tmpPtr);
 
     tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RTCameraDecoratorBase::shallowCopyDependent(
+    BitVector bFlags) const
+{
+    RTCameraDecorator *tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const RTCameraDecorator *>(this), ~bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
 
     return returnValue;
 }

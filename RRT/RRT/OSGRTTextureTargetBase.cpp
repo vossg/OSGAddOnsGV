@@ -234,6 +234,22 @@ RTTextureTargetTransitPtr RTTextureTargetBase::createLocal(BitVector bFlags)
     return fc;
 }
 
+//! create a new instance of the class, copy the container flags
+RTTextureTargetTransitPtr RTTextureTargetBase::createDependent(BitVector bFlags)
+{
+    RTTextureTargetTransitPtr fc;
+
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
+
+        fc = dynamic_pointer_cast<RTTextureTarget>(tmpPtr);
+    }
+
+    return fc;
+}
+
 //! create a new instance of the class
 RTTextureTargetTransitPtr RTTextureTargetBase::create(void)
 {
@@ -285,6 +301,20 @@ FieldContainerTransitPtr RTTextureTargetBase::shallowCopyLocal(
     FieldContainerTransitPtr returnValue(tmpPtr);
 
     tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RTTextureTargetBase::shallowCopyDependent(
+    BitVector bFlags) const
+{
+    RTTextureTarget *tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const RTTextureTarget *>(this), ~bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
 
     return returnValue;
 }

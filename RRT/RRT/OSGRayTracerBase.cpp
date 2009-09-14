@@ -383,6 +383,22 @@ RayTracerTransitPtr RayTracerBase::createLocal(BitVector bFlags)
     return fc;
 }
 
+//! create a new instance of the class, copy the container flags
+RayTracerTransitPtr RayTracerBase::createDependent(BitVector bFlags)
+{
+    RayTracerTransitPtr fc;
+
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
+
+        fc = dynamic_pointer_cast<RayTracer>(tmpPtr);
+    }
+
+    return fc;
+}
+
 //! create a new instance of the class
 RayTracerTransitPtr RayTracerBase::create(void)
 {
@@ -434,6 +450,20 @@ FieldContainerTransitPtr RayTracerBase::shallowCopyLocal(
     FieldContainerTransitPtr returnValue(tmpPtr);
 
     tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr RayTracerBase::shallowCopyDependent(
+    BitVector bFlags) const
+{
+    RayTracer *tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const RayTracer *>(this), ~bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
 
     return returnValue;
 }

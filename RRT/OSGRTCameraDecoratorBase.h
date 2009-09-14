@@ -135,6 +135,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecoratorBase : public CameraDecorator
     static  RTCameraDecorator            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
+    static  RTCameraDecoratorTransitPtr  createDependent  (BitVector bFlags);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
@@ -143,6 +145,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecoratorBase : public CameraDecorator
     virtual FieldContainerTransitPtr shallowCopy     (void) const;
     virtual FieldContainerTransitPtr shallowCopyLocal(
                                        BitVector bFlags = FCLocal::All) const;
+    virtual FieldContainerTransitPtr shallowCopyDependent(
+                                                      BitVector bFlags) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
