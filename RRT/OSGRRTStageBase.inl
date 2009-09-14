@@ -258,7 +258,7 @@ void RRTStageBase::execSync (      RRTStageBase *pFrom,
 
 
 inline
-Char8 *RRTStageBase::getClassname(void)
+const Char8 *RRTStageBase::getClassname(void)
 {
     return "RRTStage";
 }

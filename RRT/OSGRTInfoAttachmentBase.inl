@@ -89,7 +89,7 @@ void RTInfoAttachmentBase::execSync (      RTInfoAttachmentBase *pFrom,
 
 
 inline
-Char8 *RTInfoAttachmentBase::getClassname(void)
+const Char8 *RTInfoAttachmentBase::getClassname(void)
 {
     return "RTInfoAttachment";
 }

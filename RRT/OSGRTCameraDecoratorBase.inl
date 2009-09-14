@@ -89,7 +89,7 @@ void RTCameraDecoratorBase::execSync (      RTCameraDecoratorBase *pFrom,
 
 
 inline
-Char8 *RTCameraDecoratorBase::getClassname(void)
+const Char8 *RTCameraDecoratorBase::getClassname(void)
 {
     return "RTCameraDecorator";
 }

@@ -89,7 +89,7 @@ void RTCacheAttachmentBase::execSync (      RTCacheAttachmentBase *pFrom,
 
 
 inline
-Char8 *RTCacheAttachmentBase::getClassname(void)
+const Char8 *RTCacheAttachmentBase::getClassname(void)
 {
     return "RTCacheAttachment";
 }

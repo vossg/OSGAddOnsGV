@@ -108,7 +108,7 @@ void RTImageTargetBase::execSync (      RTImageTargetBase *pFrom,
 
 
 inline
-Char8 *RTImageTargetBase::getClassname(void)
+const Char8 *RTImageTargetBase::getClassname(void)
 {
     return "RTImageTarget";
 }

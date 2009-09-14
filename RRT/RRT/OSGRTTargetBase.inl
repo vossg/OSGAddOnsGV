@@ -145,7 +145,7 @@ void RTTargetBase::execSync (      RTTargetBase *pFrom,
 
 
 inline
-Char8 *RTTargetBase::getClassname(void)
+const Char8 *RTTargetBase::getClassname(void)
 {
     return "RTTarget";
 }

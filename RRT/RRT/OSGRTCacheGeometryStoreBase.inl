@@ -155,7 +155,7 @@ void RTCacheGeometryStoreBase::execSync (      RTCacheGeometryStoreBase *pFrom,
 
 
 inline
-Char8 *RTCacheGeometryStoreBase::getClassname(void)
+const Char8 *RTCacheGeometryStoreBase::getClassname(void)
 {
     return "RTCacheGeometryStore";
 }

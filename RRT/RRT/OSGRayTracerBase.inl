@@ -183,7 +183,7 @@ void RayTracerBase::execSync (      RayTracerBase *pFrom,
 
 
 inline
-Char8 *RayTracerBase::getClassname(void)
+const Char8 *RayTracerBase::getClassname(void)
 {
     return "RayTracer";
 }

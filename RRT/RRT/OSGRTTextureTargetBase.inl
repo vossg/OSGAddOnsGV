@@ -108,7 +108,7 @@ void RTTextureTargetBase::execSync (      RTTextureTargetBase *pFrom,
 
 
 inline
-Char8 *RTTextureTargetBase::getClassname(void)
+const Char8 *RTTextureTargetBase::getClassname(void)
 {
     return "RTTextureTarget";
 }
