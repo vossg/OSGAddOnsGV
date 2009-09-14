@@ -231,12 +231,21 @@ void key(unsigned char key, int x, int y)
         {
             if(pStage != NULL)
             {
-                pStage->setSize(64, 64);
+                pStage->setSize(63, 63);
             }
         }
         break;
         
         case '2':
+        {
+            if(pStage != NULL)
+            {
+                pStage->setSize(64, 64);
+            }
+        }
+        break;
+
+        case '3':
         {
             if(pStage != NULL)
             {
@@ -453,10 +462,10 @@ int doMain (int argc, char **argv)
     pPos->push_back(Pnt2f(0.3f, 0.3f));
     pPos->push_back(Pnt2f(0.0f, 0.3f));
 
-    pTex->push_back(Vec3f(0.0f, 1.0f, 0.0f));
-    pTex->push_back(Vec3f(1.0f, 1.0f, 0.0f));
-    pTex->push_back(Vec3f(1.0f, 0.0f, 0.0f));
     pTex->push_back(Vec3f(0.0f, 0.0f, 0.0f));
+    pTex->push_back(Vec3f(1.0f, 0.0f, 0.0f));
+    pTex->push_back(Vec3f(1.0f, 1.0f, 0.0f));
+    pTex->push_back(Vec3f(0.0f, 1.0f, 0.0f));
 
     vp->addForeground(pFG);
 

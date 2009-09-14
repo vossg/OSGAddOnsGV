@@ -153,17 +153,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void fillTile(RRT::SIMDPacketDesc::SIMDRayStore     &vRays,
-                  RRT::SIMDPacketDesc::RayInfoStore     &vRayInfos,
-                                       UInt32            uiWidth,
-                                       UInt32            uiHeight,
-                                       Vec3f             vCurr, 
-                                       Vec3f             vRight, 
-                                       Vec3f             vUp,
-                                       Pnt3f             vOrigin,
-                                       UInt32            uiX,
-                                       UInt32            uiY,
-                                       UInt32            uiTilesX );
+    void fillTile(                     UInt32               uiWidth,
+                                       UInt32               uiHeight,
+                                       UInt32               uiX,
+                                       UInt32               uiY,
+                  RRT::SIMDPacketDesc::SingleRayPacketInfo &rayInfo );
 
     void fillTile(RRT::SIMDPacketDesc::FullSIMDRayStore &vRays,
                   RRT::SIMDPacketDesc::RayInfoStore     &vRayInfos,

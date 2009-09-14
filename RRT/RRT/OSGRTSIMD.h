@@ -174,6 +174,9 @@ Float4 osgSIMDSet(const Real32 rVal0,
                   const Real32 rVal2,
                   const Real32 rVal3);
 
+#define osgSIMDSplat(v, i) \
+    _mm_shuffle_ps((v), (v), _MM_SHUFFLE((i), (i), (i), (i)))
+
 Float4 osgSIMDUpdate(const Float4 mask, const Float4 v1, const Float4 v2);
 
 void osgSIMDDump(const Float4 v1);

@@ -87,8 +87,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacketInfo
 
     bool    hasActive    (void        );
 
+#if 1
     UInt16 *getActiveRays(void        );
-
+#else
+    UInt16  getActiveRays(void);
+#endif
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
@@ -158,6 +161,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRaySIMDPacket : public RTSIMDPacket
 
     void setDirection      (Vec3f  vDir,
                             UInt32 uiIdx  );
+
+    void setDirections     (Float4 fDirX,
+                            Float4 fDirY,
+                            Float4 fDirZ  );
 
     void setDirX           (Float4 fDir   );
     void setDirY           (Float4 fDir   );

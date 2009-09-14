@@ -133,6 +133,8 @@ void RTTarget::setPixel(UInt32 uiX, UInt32 uiY, RTColorSIMDPacket &oColor)
 
             UInt32 uiIdx = (uiPixelY * _sfWidth.getValue() + uiPixelX) * 3;
 
+            OSG_ASSERT(uiIdx < _mfPixel.size());
+
 #ifdef CLAMP_COLOR
             _mfPixel[uiIdx    ] = clampConvert(
                 oColor.getColor(uiPacketIndex)[0]);

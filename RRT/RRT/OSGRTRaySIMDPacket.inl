@@ -95,11 +95,19 @@ bool RTRaySIMDPacketInfo::hasActive(void)
     return returnValue;
 }
 
+#if 1
 inline
 UInt16 *RTRaySIMDPacketInfo::getActiveRays(void)
 {
     return _bIsActive;
 }
+#else
+inline
+UInt16 RTRaySIMDPacketInfo::getActiveRays(void)
+{
+    return 0; //_bIsActive;
+}
+#endif
 
 inline 
 void RTRaySIMDPacketInfo::operator =(const RTRaySIMDPacketInfo &source)
@@ -221,6 +229,16 @@ void RTRaySIMDPacket::setDirection(Vec3f  vDir,
 #ifdef OSG_SIMD_RAYPACKET_DEBUG
     _vDir[uiIdx] = vDir;
 #endif
+}
+
+inline
+void RTRaySIMDPacket::setDirections(Float4 fDirX,
+                                    Float4 fDirY,
+                                    Float4 fDirZ  )
+{
+    _fDir[0] = fDirX;
+    _fDir[1] = fDirY;
+    _fDir[2] = fDirZ;
 }
 
 inline
