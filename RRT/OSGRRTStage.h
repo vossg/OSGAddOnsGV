@@ -72,8 +72,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RRTStage : public RRTStageBase
   public:
 
 
-//    typedef SinglePacketRayTracer   ActiveRayTracer;
-    typedef SIMDPacketRayTracer                   ActiveRayTracer;
+    typedef SinglePacketRayTracer   ActiveRayTracer;
+//    typedef SIMDPacketRayTracer                   ActiveRayTracer;
 
     typedef RefCountPtr<ActiveRayTracer , 
                         UnrecordedRefCountPolicy> ActiveRayTracerUnrecPtr;
