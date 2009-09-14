@@ -101,6 +101,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqDataSourceBase : public FieldContainer
         (TypeTraits<BitVector>::One << IgnoreGeoRefFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFBool            SFIgnoreGeoRefType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */

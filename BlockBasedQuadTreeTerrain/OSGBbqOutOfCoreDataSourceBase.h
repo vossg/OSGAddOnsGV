@@ -113,6 +113,11 @@ class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
         (TypeTraits<BitVector>::One << SampleSpacingFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFString          SFFilenameType;
+    typedef SFReal32          SFHeightScaleType;
+    typedef SFReal32          SFHeightOffsetType;
+    typedef SFReal32          SFSampleSpacingType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */

@@ -121,6 +121,13 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
         (TypeTraits<BitVector>::One << ShowSwitchDistanceFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFUnrecNodePtr    SFBeaconType;
+    typedef SFUnrecBbqDataSourcePtr SFDataSourceType;
+    typedef SFUInt32          SFMaxNumResidentNodesType;
+    typedef SFReal32          SFScreenSpaceErrorType;
+    typedef SFBool            SFEnableSkirtsType;
+    typedef SFBool            SFShowSwitchDistanceType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
