@@ -530,21 +530,25 @@ void IconLabelBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    this->execSync(static_cast<IconLabelBase *>(&oFrom),
-                   whichField,
-                   oOffsets,
-                   syncMode,
-                   uiSyncInfo);
+    IconLabel *pThis = static_cast<IconLabel *>(this);
+
+    pThis->execSync(static_cast<IconLabel *>(&oFrom),
+                    whichField,
+                    oOffsets,
+                    syncMode,
+                    uiSyncInfo);
 }
 #endif
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *IconLabelBase::createAspectCopy(void) const
+FieldContainer *IconLabelBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     IconLabel *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const IconLabel *>(pRefAspect),
                   dynamic_cast<const IconLabel *>(this));
 
     return returnValue;

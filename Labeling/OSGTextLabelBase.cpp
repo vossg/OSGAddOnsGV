@@ -513,21 +513,25 @@ void TextLabelBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    this->execSync(static_cast<TextLabelBase *>(&oFrom),
-                   whichField,
-                   oOffsets,
-                   syncMode,
-                   uiSyncInfo);
+    TextLabel *pThis = static_cast<TextLabel *>(this);
+
+    pThis->execSync(static_cast<TextLabel *>(&oFrom),
+                    whichField,
+                    oOffsets,
+                    syncMode,
+                    uiSyncInfo);
 }
 #endif
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *TextLabelBase::createAspectCopy(void) const
+FieldContainer *TextLabelBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     TextLabel *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const TextLabel *>(pRefAspect),
                   dynamic_cast<const TextLabel *>(this));
 
     return returnValue;

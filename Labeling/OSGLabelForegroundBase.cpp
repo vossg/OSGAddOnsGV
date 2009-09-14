@@ -474,21 +474,25 @@ void LabelForegroundBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    this->execSync(static_cast<LabelForegroundBase *>(&oFrom),
-                   whichField,
-                   oOffsets,
-                   syncMode,
-                   uiSyncInfo);
+    LabelForeground *pThis = static_cast<LabelForeground *>(this);
+
+    pThis->execSync(static_cast<LabelForeground *>(&oFrom),
+                    whichField,
+                    oOffsets,
+                    syncMode,
+                    uiSyncInfo);
 }
 #endif
 
 
 #ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *LabelForegroundBase::createAspectCopy(void) const
+FieldContainer *LabelForegroundBase::createAspectCopy(
+    const FieldContainer *pRefAspect) const
 {
     LabelForeground *returnValue;
 
     newAspectCopy(returnValue,
+                  dynamic_cast<const LabelForeground *>(pRefAspect),
                   dynamic_cast<const LabelForeground *>(this));
 
     return returnValue;
