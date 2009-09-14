@@ -1,3 +1,41 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
 #ifndef _OSGPERSPECTIVESHADOWMAPHANDLER_H_
 #define _OSGPERSPECTIVESHADOWMAPHANDLER_H_
 #ifdef __sgi
@@ -5,39 +43,12 @@
 #endif
 
 #include <vector>
-#include <OSGConfig.h>
-#include <OSGAction.h>
-#include <OSGRenderActionBase.h>
-#include <OSGSpotLight.h>
-#include <OSGDirectionalLight.h>
-#include <OSGPerspectiveCamera.h>
-#include <OSGMatrixCamera.h>
-#include <OSGTransform.h>
-#include <OSGTextureChunk.h>
-#include <OSGSimpleMaterial.h>
-#include <OSGPassiveBackground.h>
-#include <OSGSolidBackground.h>
-#include <OSGChunkMaterial.h>
-#include <OSGMaterialChunk.h>
-#include <OSGMaterialGroup.h>
-#include <OSGSHLChunk.h>
-#include <OSGForeground.h>
-#include <OSGPolygonForeground.h>
-#include <OSGGrabForeground.h>
-#include <OSGTextureGrabForeground.h>
-#include <OSGFileGrabForeground.h>
-#include <OSGImageForeground.h>
-#include <OSGTexGenChunk.h>
-#include <OSGTextureTransformChunk.h>
-#include <OSGPolygonChunk.h>
-#include <OSGBlendChunk.h>
-#include <OSGSimpleTexturedMaterial.h>
-#include <OSGTileCameraDecorator.h>
-#include <OSGPolygonForeground.h>
-#include <OSGMatrixCameraDecorator.h>
-#include <OSGDepthChunk.h>
 
 #include "OSGTreeHandler.h"
+#include "OSGTileCameraDecorator.h"
+#include "OSGMatrixCamera.h"
+#include "OSGPolygonChunk.h"
+#include "OSGMatrixCameraDecorator.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -46,61 +57,79 @@ class TreeRenderer;
 
 class OSG_WINDOW_DLLMAPPING PerspectiveShadowMapHandler : public TreeHandler
 {
-public:
+  public:
 
-    PerspectiveShadowMapHandler(ShadowStage *source);
+    typedef TreeHandler Inherited;
+
+    PerspectiveShadowMapHandler (ShadowStage     *pSource,
+                                 ShadowStageData *pData  );
     ~PerspectiveShadowMapHandler(void);
+
     virtual void render(DrawEnv *pEnv);
 
-private:
-
-    bool initFBO(DrawEnv *pEnv);
-    void reInit(DrawEnv *pEnv);
-
-    void initTextures(DrawEnv *pEnv);
-
+  private:
 
     void createColorMapFBO       (DrawEnv *pEnv);
     void createShadowMapsFBO     (DrawEnv *pEnv);
     void createShadowFactorMapFBO(DrawEnv *pEnv);
 
+    /*----------------------------------------------------------------------*/
 
-    void calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt32 num,
-                                                      DrawEnv *pEnv);
-    bool bbInsideFrustum(Pnt3f sceneMin, Pnt3f sceneMax, Matrix LPVM);
-    void calcHull2(std::vector<Pnt3f> *points, Matrix invEyeProjMatrix, Pnt3f sceneMin, Pnt3f sceneMax, Matrix LPVM);
-    void calcUpVec2(Vec3f &up99,Vec3f viewDir,Vec3f lightDir);
-    void calcCubicHull2(Pnt3f &min99, Pnt3f &max99, std::vector<Pnt3f> *points);
-    void scaleTranslateToFit2(Matrix &mat, const Pnt3f vMin, const Pnt3f vMax); 
-    void calcBodyVec(Vec3f &dir, Pnt3f eyePos, std::vector<Pnt3f> *points);
-    bool pntInFrontOf(Pnt3f p1, Pnt3f p2, Pnt3f p3, Pnt3f p);
+
+    void calcPerspectiveSpot (      Matrix             &_LPM, 
+                                    Matrix             &_LVM, 
+                                    UInt32              num,
+                                    DrawEnv            *pEnv            );
+    bool bbInsideFrustum     (      Pnt3f               sceneMin, 
+                                    Pnt3f               sceneMax, 
+                                    Matrix              LPVM            );
+    void calcHull2           (      std::vector<Pnt3f> *points, 
+                                    Matrix              invEyeProjMatrix, 
+                                    Pnt3f               sceneMin, 
+                                    Pnt3f               sceneMax, 
+                                    Matrix              LPVM            );
+    void calcUpVec2          (      Vec3f              &up99,
+                                    Vec3f               viewDir,
+                                    Vec3f               lightDir        );
+    void calcCubicHull2      (      Pnt3f              &min99, 
+                                    Pnt3f              &max99, 
+                                    std::vector<Pnt3f> *points          );
+    void scaleTranslateToFit2(      Matrix             &mat, 
+                              const Pnt3f               vMin, 
+                              const Pnt3f               vMax            ); 
+    void calcBodyVec         (      Vec3f              &dir, 
+                                    Pnt3f               eyePos, 
+                                    std::vector<Pnt3f> *points          );
+    bool pntInFrontOf        (      Pnt3f               p1, 
+                                    Pnt3f               p2, 
+                                    Pnt3f               p3, 
+                                    Pnt3f               p               );
+
+    /*----------------------------------------------------------------------*/
 
     void printMatrix(Matrix m);
-    void printPoint(Pnt3f p);
+    void printPoint (Pnt3f  p);
 
-    Matrix _transforms[6];
+    /*----------------------------------------------------------------------*/
 
-    std::vector<Matrix>          _perspectiveLPM;
-    std::vector<Matrix>          _perspectiveLVM;
+    std::vector<Matrix>           _perspectiveLPM;
+    std::vector<Matrix>           _perspectiveLVM;
 
-    TileCameraDecoratorUnrecPtr  _tiledeco;
-    BlendChunkUnrecPtr           _blender;
-    MatrixCameraUnrecPtr         _matrixCam2;
-    ImageUnrecPtr                _colorMapImage;
-    ImageUnrecPtr                _shadowFactorMapImage;
-    ImageUnrecPtr                _shadowFactorMapImage2;
-    ChunkMaterialUnrecPtr        _shadowCmat;
-    SHLChunkUnrecPtr             _shadowSHL;
-    SHLChunkUnrecPtr             _shadowCubeSHL;
-    SHLChunkUnrecPtr             _shadowSHL2;
-    SHLChunkUnrecPtr             _shadowSHL3;
-    SHLChunkUnrecPtr             _shadowSHL4;
-    SHLChunkUnrecPtr             _shadowSHL5;
-    SHLChunkUnrecPtr             _shadowSHL6;
-    SHLChunkUnrecPtr             _shadowSHL7;
-
-    Int32                        _firstRun;
-    bool                         _initTexturesDone;
+    TileCameraDecoratorUnrecPtr   _tiledeco;
+    MatrixCameraDecoratorUnrecPtr _matrixDeco;
+    BlendChunkUnrecPtr            _blender;
+    MatrixCameraUnrecPtr          _matrixCam2;
+    ChunkMaterialUnrecPtr         _shadowCmat;
+    SHLChunkUnrecPtr              _shadowSHL;
+    SHLChunkUnrecPtr              _shadowCubeSHL;
+    SHLChunkUnrecPtr              _shadowSHL2;
+    SHLChunkUnrecPtr              _shadowSHL3;
+    SHLChunkUnrecPtr              _shadowSHL4;
+    SHLChunkUnrecPtr              _shadowSHL5;
+    SHLChunkUnrecPtr              _shadowSHL6;
+    SHLChunkUnrecPtr              _shadowSHL7;
+    PolygonChunkUnrecPtr          _pPoly;
+    Int32                         _firstRun;
 };
 
 OSG_END_NAMESPACE

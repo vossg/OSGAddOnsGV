@@ -40,5 +40,12 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+Node *ShadowStage::getLightRoot(UInt32 index)
+{
+    // return getSceneRoot();
+    return _lights[index].first;
+}
+
 OSG_END_NAMESPACE
 

@@ -451,7 +451,7 @@ int main(int argc, char **argv)
 //do Animation-Calculations here
 void Animate()
 {
-    showFpsCounter();
+    //showFpsCounter();
 
     if(animateScene)
     {

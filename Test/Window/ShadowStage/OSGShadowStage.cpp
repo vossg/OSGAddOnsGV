@@ -1,39 +1,39 @@
 /*---------------------------------------------------------------------------*\
-*                                OpenSG                                     *
-*                                                                           *
-*                                                                           *
-*               Copyright (C) 2000-2002 by the OpenSG Forum                 *
-*                                                                           *
-*                            www.opensg.org                                 *
-*                                                                           *
-*   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
-*                                                                           *
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------* \
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
-*                                License                                    *
-*                                                                           *
-* This library is free software; you can redistribute it and/or modify it   *
-* under the terms of the GNU Library General Public License as published    *
-* by the Free Software Foundation, version 2.                               *
-*                                                                           *
-* This library is distributed in the hope that it will be useful, but       *
-* WITHOUT ANY WARRANTY; without even the implied warranty of                *
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
-* Library General Public License for more details.                          *
-*                                                                           *
-* You should have received a copy of the GNU Library General Public         *
-* License along with this library; if not, write to the Free Software       *
-* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
-*                                                                           *
-\*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*\
-*                                Changes                                    *
-*                                                                           *
-*                                                                           *
-*                                                                           *
-*                                                                           *
-*                                                                           *
-*                                                                           *
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
 \*---------------------------------------------------------------------------*/
 
 #define GL_GLEXT_PROTOTYPES
@@ -44,21 +44,22 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <OSGConfig.h>
-#include <OSGQuaternion.h>
-#include <OSGRenderAction.h>
-#include <OSGMultiPassMaterial.h>
-#include <OSGMatrix.h>
-#include <OSGMatrixUtility.h>
-#include <OSGBackground.h>
-#include <OSGForeground.h>
-#include <OSGImage.h>
-#include <OSGMaterialGroup.h>
-#include <OSGGeometry.h>
-#include <OSGLight.h>
+
 #include "OSGShadowStage.h"
 
 #include "OSGTreeHandler.h"
+#include "OSGShadowStageData.h"
+
+#include "OSGGeometry.h"
+#include "OSGMaterialGroup.h"
+#include "OSGMultiPassMaterial.h"
+
+#include "OSGSpotLight.h"
+#include "OSGDirectionalLight.h"
+#include "OSGMatrixUtility.h"
+
+#include "OSGPerspectiveCamera.h"
+#include "OSGMatrixCamera.h"
 
 #define OSG_HAS_STDMAP
 #define OSG_HAS_PERSPMAP
@@ -91,40 +92,7 @@
 #include "OSGTextureBuffer.h"
 
 //--------------------------------------------------------------------
-#ifndef GL_CLAMP_TO_EDGE
-#   define GL_CLAMP_TO_EDGE    0x812F
-#endif
-#ifndef GL_CLAMP_TO_BORDER_ARB
-#   define GL_CLAMP_TO_BORDER_ARB  0x812D
-#endif
-#ifndef GL_ARB_depth_texture
-#   define GL_DEPTH_COMPONENT16_ARB    0x81A5
-#   define GL_DEPTH_COMPONENT24_ARB    0x81A6
-#   define GL_DEPTH_COMPONENT32_ARB    0x81A7
-#   define GL_TEXTURE_DEPTH_SIZE_ARB   0x884A
-#   define GL_DEPTH_TEXTURE_MODE_ARB   0x884B
-#endif
-#ifndef GL_ARB_shadow
-#   define GL_TEXTURE_COMPARE_MODE_ARB 0x884C
-#   define GL_TEXTURE_COMPARE_FUNC_ARB 0x884D
-#   define GL_COMPARE_R_TO_TEXTURE_ARB 0x884E
-#endif
-#ifndef GL_SGIX_depth_texture
-#   define GL_DEPTH_COMPONENT16_SGIX   0x81A5
-#   define GL_DEPTH_COMPONENT24_SGIX   0x81A6
-#   define GL_DEPTH_COMPONENT32_SGIX   0x81A7
-#endif
-#ifndef GL_SGIX_shadow
-#   define GL_TEXTURE_COMPARE_SGIX             0x819A
-#   define GL_TEXTURE_COMPARE_OPERATOR_SGIX    0x819B
-#   define GL_TEXTURE_LEQUAL_R_SGIX            0x819C
-#   define GL_TEXTURE_GEQUAL_R_SGIX            0x819D
-#endif
-#ifndef GL_DEPTH_COMPONENT_ARB
-#   define GL_DEPTH_COMPONENT_ARB            0x1902
-#endif
 
-//--------------------------------------------------------------------
 OSG_USING_NAMESPACE
 
 /***************************************************************************\
@@ -134,6 +102,12 @@ OSG_USING_NAMESPACE
 /***************************************************************************\
 *                           Class variables                               *
 \***************************************************************************/
+
+UInt32 ShadowStage::_extSHL               = Window::invalidExtensionID;
+UInt32 ShadowStage::_extDepthTexture      = Window::invalidExtensionID;
+UInt32 ShadowStage::_extShadows           = Window::invalidExtensionID;
+UInt32 ShadowStage::_extFramebufferObject = Window::invalidExtensionID;
+UInt32 ShadowStage::_extDrawBuffers       = Window::invalidExtensionID;
 
 /***************************************************************************\
 *                           Class methods                                 *
@@ -153,6 +127,20 @@ void ShadowStage::initMethod(InitPhase ePhase)
             ShadowStage::getClassType(), 
             reinterpret_cast<Action::Callback>(&ShadowStage::renderLeave));
 
+        _extSHL               = 
+            Window::registerExtension("GL_ARB_shading_language_100");
+
+        _extDepthTexture      = 
+            Window::registerExtension("GL_ARB_depth_texture");
+
+        _extShadows           = 
+            Window::registerExtension("GL_ARB_shadow");
+
+        _extFramebufferObject = 
+            Window::registerExtension("GL_EXT_framebuffer_object");
+
+        _extDrawBuffers       =
+            Window::registerExtension("GL_ARB_draw_buffers");
     }
 }
 
@@ -169,20 +157,7 @@ void ShadowStage::initMethod(InitPhase ePhase)
 
 ShadowStage::ShadowStage(void) :
     Inherited(),
-    _bRunning(false),
-    _GLSLsupported(false),
-    _initDone(false),
-    _restart(false),
-    _treeRenderer(NULL),
-    _mapRenderSize(128),
     _mapSizeChanged(false),
-    _texGen(NULL),
-    _poly(NULL),
-    _offset(NULL),
-    _dummy(NULL),
-    _silentBack(NULL),
-    _windowW(0),
-    _windowH(0),
     _transparent(),
     _lights(),
     _oldLights(),
@@ -190,63 +165,17 @@ ShadowStage::ShadowStage(void) :
     _lightCamTrans(),
     _lightCamBeacons(),
     _lightStates(),
-    _shadowImages(),
-    _vTexChunks(),
     _excludeNodeActive(),
     _realPointLight(),
     _renderSide(),
     _trigger_update(false),
-    _transforms(),
-    _light_render_transform(NULL),
     _occlusionQuery(0)
 {
-    _transforms[0] = Matrix(1, 0, 0, 0,
-                            0, -1, 0, 0,
-                            0, 0, -1, 0,
-                            0, 0, 0, 1);
-
-    _transforms[1] = Matrix(1, 0, 0, 0,
-                            0, 1, 0, 0,
-                            0, 0, 1, 0,
-                            0, 0, 0, 1);
-
-    _transforms[2] = Matrix(1, 0, 0, 0,
-                            0, 0, 1, 0,
-                            0, -1, 0, 0,
-                            0, 0, 0, 1);
-
-    _transforms[3] = Matrix(1, 0, 0, 0,
-                            0, 0, -1, 0,
-                            0, 1, 0, 0,
-                            0, 0, 0, 1);
-
-    _transforms[4] = Matrix(0, 0, 1, 0,
-                            0, 1, 0, 0,
-                            -1, 0, 0, 0,
-                            0, 0, 0, 1);
-
-    _transforms[5] = Matrix(0, 0, -1, 0,
-                            0, 1, 0, 0,
-                            1, 0, 0, 0,
-                            0, 0, 0, 1);
 }
 
 ShadowStage::ShadowStage(const ShadowStage &source) :
     Inherited(source),
-    _bRunning(false),
-    _GLSLsupported(source._GLSLsupported),
-    _initDone(source._initDone),
-    _restart(source._restart),
-    _treeRenderer(source._treeRenderer),
-    _mapRenderSize(source._mapRenderSize),
     _mapSizeChanged(source._mapSizeChanged),
-    _texGen(source._texGen),
-    _poly(source._poly),
-    _offset(source._offset),
-    _dummy(source._dummy),
-    _silentBack(source._silentBack),
-    _windowW(source._windowW),
-    _windowH(source._windowH),
     _transparent(source._transparent),
     _lights(source._lights),
     _oldLights(source._oldLights),
@@ -254,55 +183,17 @@ ShadowStage::ShadowStage(const ShadowStage &source) :
     _lightCamTrans(source._lightCamTrans),
     _lightCamBeacons(source._lightCamBeacons),
     _lightStates(source._lightStates),
-    _shadowImages(source._shadowImages),
-    _vTexChunks(source._vTexChunks),
     _excludeNodeActive(source._excludeNodeActive),
     _realPointLight(source._realPointLight),
     _renderSide(source._renderSide),
     _trigger_update(source._trigger_update),
-    _transforms(),
-    _light_render_transform(source._light_render_transform),
     _occlusionQuery(source._occlusionQuery)
 {
-    _treeRenderer = NULL;
-    _initDone = false;
-    _restart = false;
-
-    _transforms[0] = Matrix(1, 0, 0, 0,
-                            0, -1, 0, 0,
-                            0, 0, -1, 0,
-                            0, 0, 0, 1);
-
-    _transforms[1] = Matrix(1, 0, 0, 0,
-                            0, 1, 0, 0,
-                            0, 0, 1, 0,
-                            0, 0, 0, 1);
-
-    _transforms[2] = Matrix(1, 0, 0, 0,
-                            0, 0, 1, 0,
-                            0, -1, 0, 0,
-                            0, 0, 0, 1);
-
-    _transforms[3] = Matrix(1, 0, 0, 0,
-                            0, 0, -1, 0,
-                            0, 1, 0, 0,
-                            0, 0, 0, 1);
-
-    _transforms[4] = Matrix(0, 0, 1, 0,
-                            0, 1, 0, 0,
-                            -1, 0, 0, 0,
-                            0, 0, 0, 1);
-
-    _transforms[5] = Matrix(0, 0, -1, 0,
-                            0, 1, 0, 0,
-                            1, 0, 0, 0,
-                            0, 0, 0, 1);
 
 }
 
 ShadowStage::~ShadowStage(void)
 {
-    _light_render_transform = NULL;
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -311,18 +202,6 @@ void ShadowStage::changed(BitVector whichField,
                           UInt32    origin,
                           BitVector details)
 {
-    if(whichField & OffBiasFieldMask ||
-       whichField & OffFactorFieldMask)
-    {
-        FDEBUG(("ShadowStage::changed : ofsset bias/factor changed.\n"));
-        // Setting up Polygon-Chunk with Depth-Offset
-        {
-            _poly->setOffsetBias(getOffBias());
-            _poly->setOffsetFactor(getOffFactor());
-            _poly->setOffsetFill(true);
-        }
-    }
-
     if(whichField & LightNodesFieldMask)
     {
         FDEBUG(("ShadowStage::changed : light nodes changed.\n"));
@@ -366,11 +245,6 @@ void ShadowStage::changed(BitVector whichField,
         FNOTICE(("ShadowSmoothness set to %f\n", getShadowSmoothness()));
     }
 
-    if(whichField & ShadowModeFieldMask || whichField & MapSizeFieldMask)
-    {
-        _restart = true;
-    }
-
     Inherited::changed(whichField, origin, details);
 }
 
@@ -381,77 +255,66 @@ void ShadowStage::dump(      UInt32,
 }
 
 
-void ShadowStage::onCreate(const ShadowStage *OSG_CHECK_ARG(source))
+void ShadowStage::onCreate(const ShadowStage *source)
 {
+    Inherited::onCreate(source);
+
     // if we're in startup this is the prototype ...
     if(OSG::GlobalSystemState == OSG::Startup)
         return;
-
-    _treeRenderer = NULL;
-
-    _mapRenderSize = 128;
-
-    _dummy = makeCoredNode<Group>();
-
-    _texGen = TexGenChunk::create();
-
-    //------Setting up TexGen--------------
-    {
-        _texGen->setSBeacon(_dummy);
-        _texGen->setTBeacon(_dummy);
-        _texGen->setRBeacon(_dummy);
-        _texGen->setQBeacon(_dummy);
-
-        _texGen->setGenFuncS(GL_EYE_LINEAR);
-        _texGen->setGenFuncT(GL_EYE_LINEAR);
-        _texGen->setGenFuncR(GL_EYE_LINEAR);
-        _texGen->setGenFuncQ(GL_EYE_LINEAR);
-    }
-
-    _poly = PolygonChunk::create();
-
-    _offset = PolygonChunk::create();
-
-    _silentBack = PassiveBackground::create();
 }
 
-void ShadowStage::onDestroy(void)
+void ShadowStage::onDestroy(UInt32 uiContainerId)
 {
+    Inherited::onDestroy(uiContainerId);
+
     clearLights(_lights.size());
-
-    _silentBack = NULL;
-    _poly       = NULL;
-    _texGen     = NULL;
-    _dummy      = NULL;
-}
-
-void ShadowStage::postProcess(DrawEnv *pEnv)
-{
-    RenderAction *ract = dynamic_cast<RenderAction *>(pEnv->getAction());
-
-    ract->disableDefaultPartition();
 }
 
 ActionBase::ResultE ShadowStage::renderEnter(Action *action)
 {
     ActionBase::ResultE returnValue = ActionBase::Continue;
 
-//    fprintf(stderr, "ShadowStage::renderEnter\n");
-
-    if(_bRunning == true)
-        return returnValue;
-
     RenderAction *ract = dynamic_cast<RenderAction *>(action);
 
-
-    _bRunning = true;
-
-    if(_restart)
+    if(ract->getWindow()->hasExtension(_extSHL              ) == false ||
+       ract->getWindow()->hasExtension(_extDepthTexture     ) == false ||
+       ract->getWindow()->hasExtension(_extShadows          ) == false ||
+       ract->getWindow()->hasExtension(_extFramebufferObject) == false ||
+       ract->getWindow()->hasExtension(_extDrawBuffers      ) == false  )
     {
-        if(_treeRenderer != NULL)
-            delete _treeRenderer;
+        return returnValue;
+    }
 
-        _treeRenderer = NULL;
+       
+
+    ShadowStageData *pData = ract->getData<ShadowStageData *>(_iDataSlotId);
+
+
+    if(pData == NULL)
+    {
+        ShadowStageDataUnrecPtr pTmp = ShadowStageData::createLocal();
+
+        pData = pTmp;
+
+        this->setData(pData, _iDataSlotId, ract);
+    }
+
+//    fprintf(stderr, "ShadowStage::renderEnter\n");
+
+    if(pData->getRunning() == true)
+        return returnValue;
+
+
+    pData->setRunning(true);
+
+
+    TreeHandler *pTreeHandler = pData->getTreeHandler();
+      
+    if(pTreeHandler == NULL || 
+       this->getShadowMode() != pTreeHandler->getMode())
+    {       
+        pTreeHandler = NULL;
 
         clearLights(_oldLights.size());
 
@@ -469,7 +332,7 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
             {
                 FNOTICE(("using standard Shadow Mapping...\n"));
 #ifdef OSG_HAS_STDMAP
-                _treeRenderer = new StdShadowMapHandler(this);
+                pTreeHandler = new StdShadowMapHandler(this, pData);
 #endif
             }
             break;
@@ -478,7 +341,7 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
             {
                 FNOTICE(("using Lisp Perspective Shadow Mapping...\n"));
 #ifdef OSG_HAS_PERSPMAP
-                _treeRenderer = new PerspectiveShadowMapHandler(this);
+                pTreeHandler = new PerspectiveShadowMapHandler(this, pData);
 #endif
             }
             break;
@@ -487,7 +350,7 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
             {
                 FNOTICE(("using Dither Shadow Mapping...\n"));
 #ifdef OSG_HAS_DITHERMAP
-                _treeRenderer = new DitherShadowMapHandler(this);
+                pTreeHandler = new DitherShadowMapHandler(this, pData);
 #endif
             }
             break;
@@ -496,7 +359,7 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
             {
                 FNOTICE(("using PCF Shadow Mapping...\n"));
 #ifdef OSG_HAS_PCFMAP
-                _treeRenderer = new PCFShadowMapHandler(this);
+                pTreeHandler = new PCFShadowMapHandler(this, pData);
 #endif
             }
             break;
@@ -505,7 +368,7 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
             {
                 FNOTICE(("using PCSS Shadow Mapping...\n"));
 #ifdef OSG_HAS_PCSSMAP
-                _treeRenderer = new PCSSShadowMapHandler(this);
+                pTreeHandler = new PCSSShadowMapHandler(this, pData);
 #endif
             }
             break;
@@ -514,7 +377,7 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
             {
                 FNOTICE(("using Variance Shadow Mapping...\n"));
 #ifdef OSG_HAS_VARMAP
-                _treeRenderer = new VarianceShadowMapHandler(this);
+                pTreeHandler = new VarianceShadowMapHandler(this, pData);
 #endif
             }
             break;
@@ -523,31 +386,16 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
                 break;
         }
 
-        _restart = false;
+        pData->setTreeHandler(pTreeHandler);
     }
 
-    if(_treeRenderer == NULL || getShadowOn() == false)
+    if(pTreeHandler == NULL || getShadowOn() == false)
     {
-        _bRunning = false;
+        pData->setRunning(false);
 
         return returnValue;
     }
 
-
-    if(!_initDone)
-    {
-        _GLSLsupported = true;
-
-        if(!ract->getWindow()->hasExtension("GL_ARB_shading_language_100") ||
-           !ract->getWindow()->hasExtension("GL_ARB_fragment_shader") ||
-           !ract->getWindow()->hasExtension("GL_ARB_vertex_shader") ||
-           !ract->getWindow()->hasExtension("GL_ARB_shader_objects") )
-        {
-            _GLSLsupported = false;
-        }
-
-        _initDone = true;
-    }
 
     if(getSceneRoot() == NULL)
     {
@@ -593,7 +441,7 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
     }
     if(_lights.size() == 0 || allLightsZero)
     {
-        _bRunning = false;
+        pData->setRunning(false);
 
         return returnValue;
     }
@@ -612,9 +460,6 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
                                  _1) );
         }
 
-        _windowW = ract->getViewport()->getPixelWidth();
-        _windowH = ract->getViewport()->getPixelHeight();
-
         //check if excludeNodes are disabled
         for(UInt32 i = 0;i < getMFExcludeNodes()->size();++i)
         {
@@ -627,21 +472,16 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
         //TODO: Not implemented yet ...
         _renderSide.clear();
 
-        // active stereo support.
-        activate();
-
         ract->beginPartitionGroup();
         {
-            _treeRenderer->render(&(ract->getActivePartition()->getDrawEnv()));
+            pTreeHandler->render(&(ract->getActivePartition()->getDrawEnv()));
         }
         ract->endPartitionGroup();
-
-        deactivate();
 
         returnValue = ActionBase::Skip;
     }
 
-    _bRunning = false;
+    pData->setRunning(false);
 
     return returnValue;
 }
@@ -671,16 +511,6 @@ ActionBase::ResultE ShadowStage::renderLeave(Action *action)
 
 
 
-#if 0
-void ShadowStage::setVPSize(Real32 a, Real32 b, Real32 c, Real32 d)
-{
-#ifdef SHADOW_CHECK
-    this->setSize(a, b, c, d);
-
-    this->activateSize();
-#endif
-}
-#endif
 
 void ShadowStage::triggerMapUpdate(void)
 {
@@ -688,71 +518,7 @@ void ShadowStage::triggerMapUpdate(void)
 }
 
 
-#if 0
-void ShadowStage::activateSize(void)
-{
-#ifdef SHADOW_CHECK
-    Inherited::activateSize();
-#endif
-}
-#endif
 
-void ShadowStage::activate(void)
-{
-    glColorMask(getRed(), getGreen(), getBlue(), getAlpha());
-
-#ifdef SHADOW_CHECK
-    Inherited::activate();
-#endif
-}
-
-void ShadowStage::deactivate(void)
-{
-#ifdef SHADOW_CHECK
-    Inherited::deactivate();
-#endif
-
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-}
-
-void ShadowStage::render(RenderActionBase *action)
-{
-
-
-#ifdef SHADOW_CHECK
-    if(getCamera() == NULL)
-    {
-        SWARNING << "ShadowStage::render: no camera!" << std::endl;
-        return;
-    }
-
-    if(getBackground() == NULL)
-    {
-        SWARNING << "ShadowStage::render: no Background!" << std::endl;
-        return;
-    }
-
-    if(getRoot() == NULL)
-    {
-        SWARNING << "ShadowStage::render: no root!" << std::endl;
-        return;
-    }
-#endif
-
-
-
-
-
-
-#ifdef SHADOW_CHECK
-    action->setCamera    ( getCamera() );
-    action->setBackground(_silentBack  );
-    action->setViewport  ( this        );
-    action->setTravMask  (getTravMask());
-#endif
-
-
-}
 
 Action::ResultE ShadowStage::findLight(Node * const node)
 {
@@ -869,9 +635,14 @@ void ShadowStage::checkLights(RenderActionBase *action)
             bool light_state = _lights[i].second->getOn();
 
             if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_ON)
+            {
                 light_state = true;
-            else if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_OFF)
+            }
+            else if(_lights[i].second->getShadowMode() == 
+                                                        Light::CAST_SHADOW_OFF)
+            {
                 light_state = false;
+            }
 
             _lightStates.push_back(light_state ? 1 : 0);
 
@@ -945,7 +716,8 @@ void ShadowStage::updateLights(RenderActionBase *action)
                 tmpMatrix.setTransform(Vec3f(lightpos), q);
                 _realPointLight.push_back(false);
             }
-            else if(_lights[i].second->getType() == DirectionalLight::getClassType())
+            else if(_lights[i].second->getType() == 
+                                             DirectionalLight::getClassType())
             {
                 Vec3f   diff;
                 Pnt3f   center;
@@ -1008,7 +780,7 @@ void ShadowStage::updateLights(RenderActionBase *action)
                 if((getShadowMode() == STD_SHADOW_MAP ||
                     getShadowMode() == PERSPECTIVE_SHADOW_MAP ||
                     getShadowMode() == DITHER_SHADOW_MAP ||
-                    getShadowMode() == PCF_SHADOW_MAP) && _GLSLsupported)
+                    getShadowMode() == PCF_SHADOW_MAP))
                 {
                     //Lightpos inside Scene BB?
                     Pnt3f   sceneMin = getLightRoot(i)->getVolume().getMin();
@@ -1177,6 +949,7 @@ void ShadowStage::updateLights(RenderActionBase *action)
                 tmpSpot = dynamic_cast<SpotLight *>(_lights[i].second.get());
 
                 Pnt3f   lightpos = tmpSpot->getPosition();
+
                 if(tmpSpot->getBeacon() != NULL)
                 {
                     Matrix  m = tmpSpot->getBeacon()->getToWorld();
@@ -1217,7 +990,8 @@ void ShadowStage::updateLights(RenderActionBase *action)
                 dynamic_cast<PerspectiveCamera *>(_lightCameras[i].get())->
                     setFov(tmpSpot->getSpotCutOffDeg() * 2);
             }
-                // Is the Lightsource a Directional-Light? Setting up MatrixCamera
+            // Is the Lightsource a Directional-Light? 
+            // Setting up MatrixCamera
             else if(isDirect)
             {
                 Matrix  proMatrix, modMatrix;
@@ -1232,9 +1006,10 @@ void ShadowStage::updateLights(RenderActionBase *action)
                 // Grabbing ModelView-Matrix from Light-Transformation
                 modMatrix = _lightCamTrans[i]->getMatrix();
 
-                dynamic_cast<MatrixCamera *>(_lightCameras[i].get())->setProjectionMatrix(proMatrix);
-                dynamic_cast<MatrixCamera *>(_lightCameras[i].get())->setModelviewMatrix(
-                    modMatrix);
+                dynamic_cast<MatrixCamera *>(
+                    _lightCameras[i].get())->setProjectionMatrix(proMatrix);
+                dynamic_cast<MatrixCamera *>(
+                    _lightCameras[i].get())->setModelviewMatrix(modMatrix);
             }
             else
                 // If none of above the Lightsource must be a PointLight
@@ -1242,8 +1017,7 @@ void ShadowStage::updateLights(RenderActionBase *action)
                 if((getShadowMode() == STD_SHADOW_MAP ||
                     getShadowMode() == PERSPECTIVE_SHADOW_MAP ||
                     getShadowMode() == DITHER_SHADOW_MAP ||
-                    getShadowMode() == PCF_SHADOW_MAP) && _realPointLight[i] &&
-                   _GLSLsupported)
+                    getShadowMode() == PCF_SHADOW_MAP) && _realPointLight[i] )
                 {
                     Vec3f   dist, diff;
                     Pnt3f   center;
@@ -1315,8 +1089,8 @@ void ShadowStage::updateLights(RenderActionBase *action)
                     _lightCameras[i]->setNear( zNear );
                     _lightCameras[i]->setFar( zFar );
 
-                    dynamic_cast<PerspectiveCamera *>(_lightCameras[i].get())->setFov(
-                        PLangle);
+                    dynamic_cast<PerspectiveCamera *>(
+                        _lightCameras[i].get())->setFov(PLangle);
                 }
             }
 
@@ -1359,7 +1133,8 @@ void ShadowStage::initializeLights(RenderActionBase *action)
                 //Creation of new Perspective-LightCam
                 _lightCameras.push_back(PerspectiveCamera::create());
             }
-            else if(_lights[i].second->getType() == DirectionalLight::getClassType())
+            else if(_lights[i].second->getType() == 
+                                             DirectionalLight::getClassType())
             {
                 _lightCameras.push_back(MatrixCamera::create());
             }
@@ -1376,19 +1151,22 @@ void ShadowStage::initializeLights(RenderActionBase *action)
         }
         else
         {
-            getSceneRoot()->addChild(_lightCamBeacons[i]);
+//            getSceneRoot()->addChild(_lightCamBeacons[i]);
         }
 
         //----------Shadowtexture-Images and Texture-Chunks-----------
-
+#ifdef MAPS_IN_STAGE
         if(_lights[i].second->getType() != PointLight::getClassType())
         {
             _shadowImages.push_back(Image::create());
 
             // creates a image without allocating main memory.
-            _shadowImages[i]->set(Image::OSG_L_PF, getMapSize(), getMapSize(),
-                                  1, 1, 1, 0, NULL,
-                                  Image::OSG_UINT8_IMAGEDATA, false);
+            _shadowImages[i]->set(Image::OSG_L_PF, 
+                                  getMapSize(), getMapSize(), 1, 
+                                  1, 1, 0, 
+                                  NULL,
+                                  Image::OSG_UINT8_IMAGEDATA, 
+                                  false);
 
             ShadowMapStore tmpStore;
 
@@ -1430,7 +1208,7 @@ void ShadowStage::initializeLights(RenderActionBase *action)
             if((getShadowMode() == STD_SHADOW_MAP ||
                 getShadowMode() == PERSPECTIVE_SHADOW_MAP ||
                 getShadowMode() == DITHER_SHADOW_MAP ||
-                getShadowMode() == PCF_SHADOW_MAP) && _GLSLsupported)
+                getShadowMode() == PCF_SHADOW_MAP))
             {
                 _shadowImages[i]->set(Image::OSG_L_PF, getMapSize(),
                                       getMapSize(),
@@ -1473,7 +1251,7 @@ void ShadowStage::initializeLights(RenderActionBase *action)
             }
 
         }
-
+#endif
     }
 
     updateLights(action);
@@ -1487,80 +1265,35 @@ void ShadowStage::clearLights(UInt32 size)
 
         for(UInt32 i = 0;i < size;++i)
         {
+#if 0
             if(i < _lightCamBeacons.size())
                 getSceneRoot()->subChild(_lightCamBeacons[i]);
+#endif
 
             if(i < _lightCameras.size())
                 _lightCameras[i] = NULL;
 
+#ifdef MAPS_IN_STAGE
             if(i < _vTexChunks.size())
             {
-                _vTexChunks[i].pTexO = NULL;
-                _vTexChunks[i].pTexE = NULL;
+                _vTexChunks[i].pTexO  = NULL;
+                _vTexChunks[i].pTexE  = NULL;
+                _vTexChunks[i].pFBO   = NULL;
+                _vTexChunks[i].pImage = NULL;
             }
+#endif
         }
 
         _lightCameras.clear();
         _lightCamTrans.clear();
         _lightCamBeacons.clear();
         _lightStates.clear();
+#ifdef MAPS_IN_STAGE
         _vTexChunks.clear();
-        _shadowImages.clear();
+#endif
     }
 }
 
-void ShadowStage::renderLight(RenderActionBase *action, 
-                                 Material *mat, 
-                                 UInt32 index)
-{
-    RenderAction *ract = dynamic_cast<RenderAction *>(action);
-
-    if(_light_render_transform == NULL)
-    {
-        _light_render_transform = Node::create();
-        _light_render_transform->setCore(Transform::create());
-    }
-
-    NodeUnrecPtr  light = _lights[index].first;
-    Node         *parent = light->getParent();
-
-    if(parent != NULL)
-    {
-        Transform *trans = 
-            dynamic_cast<Transform *>(_light_render_transform->getCore());
-
-        trans->setMatrix(parent->getToWorld());
-
-        _light_render_transform->addChild(light);
-
-        // ok we render only one unlit material for the whole scene in this pass.
-        ract->setGlobalOverride(mat);
-
-        // disable color mask we only need the depth values!
-        action->apply(_light_render_transform);
-
-        parent->addChild(light);
-        // reset material.
-        ract->setGlobalOverride(NULL);
-    }
-    else
-    {
-        // ok we render only one unlit material for the whole scene in this pass.
-        ract->setGlobalOverride(mat);
-
-        action->apply(light);
-        // reset material.
-
-        ract->setGlobalOverride(NULL);
-    }
-
-}
-
-Node *ShadowStage::getLightRoot(UInt32 index)
-{
-    // return getSceneRoot();
-    return _lights[index].first;
-}
 
 void ShadowStage::checkLightsOcclusion(RenderActionBase *action)
 {
@@ -1648,35 +1381,6 @@ void ShadowStage::checkLightsOcclusion(RenderActionBase *action)
     //updateLights();
 }
 
-void ShadowStage::setReadBuffer(void)
-{
-#ifdef SHADOW_CHECK
-    if(getLeftBuffer())
-    {
-        if(getRightBuffer())
-        {
-            glReadBuffer(GL_BACK);
-        }
-        else
-        {
-            glReadBuffer(GL_BACK_LEFT);
-        }
-    }
-    else
-    {
-        if(getRightBuffer())
-        {
-            glReadBuffer(GL_BACK_RIGHT);
-        }
-        else
-        {
-            glReadBuffer(GL_NONE);
-        }
-    }
-#else
-    glReadBuffer(GL_BACK);
-#endif
-}
 
 void ShadowStage::drawOcclusionBB(const Pnt3f &bbmin, const Pnt3f &bbmax)
 {

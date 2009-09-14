@@ -1219,6 +1219,7 @@ void PCSSShadowMap::render(DrawEnv *pEnv)
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
         _firstRun = 1;
 
+#if 0
         for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
         {
             {
@@ -1226,6 +1227,7 @@ void PCSSShadowMap::render(DrawEnv *pEnv)
                 _shadowVP->_texChunks[i]->setMagFilter(GL_NEAREST);
             }
         }
+#endif
 
         if(_shadowVP->getPixelWidth() != _width ||
            _shadowVP->getPixelHeight() != _height)

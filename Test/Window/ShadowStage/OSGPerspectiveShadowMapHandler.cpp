@@ -1,315 +1,170 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
 #include <stdlib.h>
 #include <stdio.h>
-#include <OSGConfig.h>
-#include <OSGQuaternion.h>
-#include <OSGRenderAction.h>
-#include <OSGMatrix.h>
-#include <OSGMatrixUtility.h>
-#include <OSGBackground.h>
-#include <OSGForeground.h>
-#include <OSGGrabForeground.h>
-#include <OSGPolygonForeground.h>
-#include <OSGPolygonBackground.h>
-#include <OSGTextureGrabForeground.h>
-#include <OSGFileGrabForeground.h>
-#include <OSGImageForeground.h>
-#include <OSGImage.h>
-#include <OSGGeometry.h>
-#include <OSGSimpleGeometry.h>
-#include <OSGLight.h>
-#include <OSGMaterialGroup.h>
+
 #include "OSGPerspectiveShadowMapHandler.h"
 #include "OSGShadowStage.h"
-#include "OSGTreeHandler.h"
-#include "OSGGLU.h"
-
-
-
-#include "OSGRenderBuffer.h"
-#include "OSGTextureBuffer.h"
-
+#include "OSGShadowStageData.h"
+#include "OSGRenderAction.h"
+#include "OSGSpotLight.h"
+#include "OSGDirectionalLight.h"
+#include "OSGMatrixUtility.h"
 
 OSG_BEGIN_NAMESPACE
 
 #include "ShaderCode/OSGPerspectiveShadowMapShaderCode.cinl"
 
-PerspectiveShadowMapHandler::PerspectiveShadowMapHandler(ShadowStage *source) :
-    TreeHandler(source),
-    _transforms(),
-    _perspectiveLPM(),
-    _perspectiveLVM(),
-    _tiledeco(NULL),
-    _blender(NULL),
-    _matrixCam2(NULL),
-    _colorMapImage(NULL),
-    _shadowFactorMapImage(NULL),
-    _shadowFactorMapImage2(NULL),
-    _shadowCmat(NULL),
-    _shadowSHL(NULL),
-    _shadowCubeSHL(NULL),
-    _shadowSHL2(NULL),
-    _shadowSHL3(NULL),
-    _shadowSHL4(NULL),
-    _shadowSHL5(NULL),
-    _shadowSHL6(NULL),
-    _shadowSHL7(NULL),
-    _firstRun(0),
-    _initTexturesDone(false)
+PerspectiveShadowMapHandler::PerspectiveShadowMapHandler(
+    ShadowStage     *pSource,
+    ShadowStageData *pData  ) :
+
+     Inherited     (pSource, 
+                    pData  ),
+    _perspectiveLPM(       ),
+    _perspectiveLVM(       ),
+    _tiledeco      (NULL   ),
+    _matrixDeco    (NULL   ),
+    _blender       (NULL   ),
+    _matrixCam2    (NULL   ),
+    _shadowCmat    (NULL   ),
+    _shadowSHL     (NULL   ),
+    _shadowCubeSHL (NULL   ),
+    _shadowSHL2    (NULL   ),
+    _shadowSHL3    (NULL   ),
+    _shadowSHL4    (NULL   ),
+    _shadowSHL5    (NULL   ),
+    _shadowSHL6    (NULL   ),
+    _shadowSHL7    (NULL   ),
+    _pPoly         (NULL   ),
+    _firstRun      (0      )
 {
+    _uiMode = ShadowStage::PERSPECTIVE_SHADOW_MAP;
 
-    _blender = BlendChunk::create();
-    {
-        _blender->setAlphaFunc(GL_GEQUAL);
-        _blender->setAlphaValue(0.99);
-    }
+    _blender = BlendChunk::createLocal();
 
-    _matrixCam2 = MatrixCamera::create();
+    _blender->setAlphaFunc(GL_GEQUAL);
+    _blender->setAlphaValue(0.99);
 
-
-    _colorMapO = TextureObjChunk::create();
-    _colorMapImage = Image::create();
-
-    _colorMapO->setImage(_colorMapImage);
-    _colorMapO->setInternalFormat(GL_RGB);
-    _colorMapO->setExternalFormat(GL_RGB);
-    _colorMapO->setMinFilter(GL_NEAREST);
-    _colorMapO->setMagFilter(GL_NEAREST);
-    _colorMapO->setWrapS(GL_REPEAT);
-    _colorMapO->setWrapT(GL_REPEAT);
-    _colorMapO->setTarget(GL_TEXTURE_2D);
+    _matrixCam2 = MatrixCamera::createLocal();
 
 
-    _shadowFactorMapO = TextureObjChunk::create();
-    _shadowFactorMapImage = Image::create();
+    _shadowFactorMap2O     = TextureObjChunk::createLocal();
+    _shadowFactorMapImage2 = Image          ::createLocal();
 
-    _shadowFactorMapO->setImage(_shadowFactorMapImage);
-    _shadowFactorMapO->setInternalFormat(GL_RGB);
-    _shadowFactorMapO->setExternalFormat(GL_RGB);
-    _shadowFactorMapO->setMinFilter(GL_LINEAR);
-    _shadowFactorMapO->setMagFilter(GL_LINEAR);
-    _shadowFactorMapO->setWrapS(GL_REPEAT);
-    _shadowFactorMapO->setWrapT(GL_REPEAT);
-    _shadowFactorMapO->setTarget(GL_TEXTURE_2D);
-
-
-    _shadowFactorMap2O = TextureObjChunk::create();
-    _shadowFactorMapImage2 = Image::create();
-
-    _shadowFactorMap2O->setImage(_shadowFactorMapImage2);
+    _shadowFactorMap2O->setImage         (_shadowFactorMapImage2);
     _shadowFactorMap2O->setInternalFormat(GL_RGB);
     _shadowFactorMap2O->setExternalFormat(GL_RGB);
-    _shadowFactorMap2O->setMinFilter(GL_LINEAR);
-    _shadowFactorMap2O->setMagFilter(GL_LINEAR);
-    _shadowFactorMap2O->setWrapS(GL_REPEAT);
-    _shadowFactorMap2O->setWrapT(GL_REPEAT);
-    _shadowFactorMap2O->setTarget(GL_TEXTURE_2D);
+    _shadowFactorMap2O->setMinFilter     (GL_LINEAR);
+    _shadowFactorMap2O->setMagFilter     (GL_LINEAR);
+    _shadowFactorMap2O->setWrapS         (GL_REPEAT);
+    _shadowFactorMap2O->setWrapT         (GL_REPEAT);
+    _shadowFactorMap2O->setTarget        (GL_TEXTURE_2D);
 
 
     //SHL Chunk 1
-    _shadowSHL = SHLChunk::create();
-    //_shadowSHL->readVertexProgram("Perspective_Shadow.vert");
-    //_shadowSHL->readFragmentProgram("Perspective_Shadow.frag");
-    _shadowSHL->setVertexProgram(_lisp_shadow_vp);
+    _shadowSHL = SHLChunk::createLocal();
+    _shadowSHL->setVertexProgram  (_lisp_shadow_vp);
     _shadowSHL->setFragmentProgram(_lisp_shadow_fp);
 
-    _shadowSHL2 = SHLChunk::create();
-    //_shadowSHL2->readVertexProgram("PSM_Shadow2.vert");
-    //_shadowSHL2->readFragmentProgram("PSM_Shadow2.frag");
-    _shadowSHL2->setVertexProgram(_lisp_shadow2_vp);
+    _shadowSHL2 = SHLChunk::createLocal();
+    _shadowSHL2->setVertexProgram  (_lisp_shadow2_vp);
     _shadowSHL2->setFragmentProgram(_lisp_shadow2_fp);
 
-    _shadowSHL3 = SHLChunk::create();
-    //_shadowSHL3->readVertexProgram("PSM_Shadow3.vert");
-    //_shadowSHL3->readFragmentProgram("PSM_Shadow3.frag");
-    _shadowSHL3->setVertexProgram(_lisp_shadow3_vp);
+    _shadowSHL3 = SHLChunk::createLocal();
+    _shadowSHL3->setVertexProgram  (_lisp_shadow3_vp);
     _shadowSHL3->setFragmentProgram(_lisp_shadow3_fp);
 
-    _shadowSHL4 = SHLChunk::create();
-    //_shadowSHL4->readVertexProgram("PSM_Shadow4.vert");
-    //_shadowSHL4->readFragmentProgram("PSM_Shadow4.frag");
-    _shadowSHL4->setVertexProgram(_lisp_shadow4_vp);
+    _shadowSHL4 = SHLChunk::createLocal();
+    _shadowSHL4->setVertexProgram  (_lisp_shadow4_vp);
     _shadowSHL4->setFragmentProgram(_lisp_shadow4_fp);
 
-    _shadowSHL5 = SHLChunk::create();
-    //_shadowSHL5->readVertexProgram("PSM_Shadow5.vert");
-    //_shadowSHL5->readFragmentProgram("PSM_Shadow5.frag");
-    _shadowSHL5->setVertexProgram(_lisp_shadow5_vp);
+    _shadowSHL5 = SHLChunk::createLocal();
+    _shadowSHL5->setVertexProgram  (_lisp_shadow5_vp);
     _shadowSHL5->setFragmentProgram(_lisp_shadow5_fp);
 
-    _shadowSHL6 = SHLChunk::create();
-    //_shadowSHL6->readVertexProgram("PSM_Shadow6.vert");
-    //_shadowSHL6->readFragmentProgram("PSM_Shadow6.frag");
-    _shadowSHL6->setVertexProgram(_lisp_shadow6_vp);
+    _shadowSHL6 = SHLChunk::createLocal();
+    _shadowSHL6->setVertexProgram  (_lisp_shadow6_vp);
     _shadowSHL6->setFragmentProgram(_lisp_shadow6_fp);
 
-    _shadowSHL7 = SHLChunk::create();
-    //_shadowSHL7->readVertexProgram("PSM_Shadow7.vert");
-    //_shadowSHL7->readFragmentProgram("PSM_Shadow7.frag");
-    _shadowSHL7->setVertexProgram(_lisp_shadow7_vp);
+    _shadowSHL7 = SHLChunk::createLocal();
+    _shadowSHL7->setVertexProgram  (_lisp_shadow7_vp);
     _shadowSHL7->setFragmentProgram(_lisp_shadow7_fp);
 
-    //SHL Chunk 2
-    _combineSHL = SHLChunk::create();
-
-    //_combineSHL->readVertexProgram("Perspective_Shadow_combine.vert");
-    //_combineSHL->readFragmentProgram("Perspective_Shadow_combine.frag");
-    _combineSHL->setVertexProgram(_shadow_combine_vp);
-    _combineSHL->setFragmentProgram(_shadow_combine_fp);
-
-    _combineDepth = DepthChunk::create();
-        _combineDepth->setReadOnly(true);
 
     //SHL Chunk 3
-    _shadowCubeSHL = SHLChunk::create();
-    //_shadowCubeSHL->readVertexProgram("Std_ShadowCube.vert");
-    //_shadowCubeSHL->readFragmentProgram("Std_ShadowCube.frag");
-    _shadowCubeSHL->setVertexProgram(_lisp_shadowCube_vp);
+    _shadowCubeSHL = SHLChunk::createLocal();
+    _shadowCubeSHL->setVertexProgram  (_lisp_shadowCube_vp);
     _shadowCubeSHL->setFragmentProgram(_lisp_shadowCube_fp);
 
-    _shadowCmat = ChunkMaterial::create();
+    _shadowCmat = ChunkMaterial::createLocal();
 
-    //Combine Shader
-    _combineCmat = ChunkMaterial::create();
-    _combineCmat->addChunk(_combineSHL);
-    _combineCmat->addChunk(_colorMapO);
-    _combineCmat->addChunk(_shadowFactorMapO);
-    _combineCmat->addChunk(_combineDepth);
+    _pPoly = PolygonChunk::createLocal();
 
+    _unlitMat->addChunk(_pPoly);
 
-    _transforms[0] = Matrix(1, 0, 0, 0,
-                            0, -1, 0, 0,
-                            0, 0, -1, 0,
-                            0, 0, 0, 1);
+    _matrixDeco = MatrixCameraDecorator::createLocal();
 
-    _transforms[1] = Matrix(1, 0, 0, 0,
-                            0, 1, 0, 0,
-                            0, 0, 1, 0,
-                            0, 0, 0, 1);
-
-    _transforms[2] = Matrix(1, 0, 0, 0,
-                            0, 0, 1, 0,
-                            0, -1, 0, 0,
-                            0, 0, 0, 1);
-
-    _transforms[3] = Matrix(1, 0, 0, 0,
-                            0, 0, -1, 0,
-                            0, 1, 0, 0,
-                            0, 0, 0, 1);
-
-    _transforms[4] = Matrix(0, 0, 1, 0,
-                            0, 1, 0, 0,
-                            -1, 0, 0, 0,
-                            0, 0, 0, 1);
-
-    _transforms[5] = Matrix(0, 0, -1, 0,
-                            0, 1, 0, 0,
-                            1, 0, 0, 0,
-                            0, 0, 0, 1);
-
-    PolygonChunkUnrecPtr pPoly = PolygonChunk::create();
-
-    pPoly->setOffsetFill  (true                     );
-    pPoly->setOffsetFactor(_shadowVP->getOffFactor());
-    pPoly->setOffsetBias  (_shadowVP->getOffBias  ());
-
-    _unlitMat->addChunk(pPoly);
 }
 
 PerspectiveShadowMapHandler::~PerspectiveShadowMapHandler(void)
 {
-    _tiledeco = NULL;
-
+    _tiledeco         = NULL;
+    _matrixDeco       = NULL;
     _blender          = NULL;
+    _matrixCam2       = NULL;
+    _shadowCmat       = NULL;
     _shadowSHL        = NULL;
+    _shadowCubeSHL    = NULL;
     _shadowSHL2       = NULL;
     _shadowSHL3       = NULL;
     _shadowSHL4       = NULL;
     _shadowSHL5       = NULL;
     _shadowSHL6       = NULL;
     _shadowSHL7       = NULL;
-    _combineSHL       = NULL;
-    _combineDepth     = NULL;
-    _shadowCubeSHL    = NULL;
-    _combineCmat      = NULL;
-    _shadowCmat       = NULL;
-    _matrixCam2       = NULL;
-}
-
-bool PerspectiveShadowMapHandler::initFBO(DrawEnv *pEnv)
-{
-    Int32   width  = pEnv->getPixelWidth();
-    Int32   height = pEnv->getPixelHeight();
-
-    if(width <= 0 || height <= 0)
-        return false;
-
-    if(_pFB != NULL)
-        return true;
-
-    Window *win = pEnv->getWindow();
-
-    _width  = pEnv->getPixelWidth();
-    _height = pEnv->getPixelHeight();
-
-    _colorMapImage->set(GL_RGB, _width, _height);
-
-    _shadowFactorMapImage->set(GL_RGB, _width, _height);
-
-    _shadowFactorMapImage2->set(GL_RGB, _width, _height);
-
-    commitChanges();
-
-
-    _pFB = FrameBufferObject::create();
-        
-    _pFB->setSize(_width, _height);
-
-    RenderBufferUnrecPtr pDepthRB = RenderBuffer::create();
-        
-    pDepthRB->setInternalFormat(GL_DEPTH_COMPONENT24);
-
-
-    TextureBufferUnrecPtr pTexBuffer = TextureBuffer::create();
-
-    pTexBuffer->setTexture(_colorMapO);
-
-    _pFB->setColorAttachment(pTexBuffer, 0);
-
-
-    pTexBuffer = TextureBuffer::create();
-
-    pTexBuffer->setTexture(_shadowFactorMapO);
-
-    _pFB->setColorAttachment(pTexBuffer, 1);
-        
-
-    pTexBuffer = TextureBuffer::create();
-    
-    pTexBuffer->setTexture(_shadowFactorMap2O);
-
-    _pFB->setColorAttachment(pTexBuffer, 2);
-
-
-    _pFB->setDepthAttachment(pDepthRB);
-
-    commitChanges();
-
-    return true;
-}
-
-void PerspectiveShadowMapHandler::reInit(DrawEnv *pEnv)
-{
-}
-
-void PerspectiveShadowMapHandler::initTextures(DrawEnv *pEnv)
-{
-    _initTexturesDone = true;
+    _pPoly            = NULL;
 }
 
 
-void PerspectiveShadowMapHandler::calcPerspectiveSpot(Matrix &_LPM, 
-                                                      Matrix &_LVM,
-                                                      UInt32   num,
+void PerspectiveShadowMapHandler::calcPerspectiveSpot(Matrix  &_LPM, 
+                                                      Matrix  &_LVM,
+                                                      UInt32    num,
                                                       DrawEnv *pEnv)
 {
 
@@ -357,15 +212,21 @@ void PerspectiveShadowMapHandler::calcPerspectiveSpot(Matrix &_LPM,
     bool    isDirect = false;
     bool    useStd = false;
 
-    if(_shadowVP->_lights[num].second->getType() == DirectionalLight::getClassType())
+    if(_shadowVP->_lights[num].second->getType() == 
+                                              DirectionalLight::getClassType())
+    {
         isDirect = true;
+    }
 
     if(!isDirect)
     {
-        if(_shadowVP->_lights[num].second->getType() == PointLight::getClassType())
+        if(_shadowVP->_lights[num].second->getType() == 
+                                                    PointLight::getClassType())
         {
             PointLight *tmpPoint;
-            tmpPoint = dynamic_cast<PointLight *>(_shadowVP->_lights[num].second.get());
+
+            tmpPoint = dynamic_cast<PointLight *>(
+                _shadowVP->_lights[num].second.get());
 	
             lPos = tmpPoint->getPosition();
 	
@@ -376,10 +237,14 @@ void PerspectiveShadowMapHandler::calcPerspectiveSpot(Matrix &_LPM,
             }
         }
 	
-        if(_shadowVP->_lights[num].second->getType() == SpotLight::getClassType())
+        if(_shadowVP->_lights[num].second->getType() == 
+                                                     SpotLight::getClassType())
         {
             SpotLight *tmpSpot;
-            tmpSpot = dynamic_cast<SpotLight *>(_shadowVP->_lights[num].second.get());
+
+            tmpSpot = dynamic_cast<SpotLight *>(
+                _shadowVP->_lights[num].second.get());
+
             lPos = tmpSpot->getPosition();
             if(tmpSpot->getBeacon() != NULL)
             {
@@ -388,7 +253,9 @@ void PerspectiveShadowMapHandler::calcPerspectiveSpot(Matrix &_LPM,
             }
         }
 	
-        //Wenn Lichtposition innerhalb der Scene-BB ist standard Shadow Mapping verwenden
+        // Wenn Lichtposition innerhalb der Scene-BB ist standard 
+        // Shadow Mapping verwenden
+
         if(lPos[0] > sceneMin[0] && lPos[1] > sceneMin[1] &&
            lPos[2] > sceneMin[2] && lPos[0] < sceneMax[0] &&
            lPos[1] < sceneMax[1] && lPos[2] < sceneMax[2])
@@ -397,9 +264,11 @@ void PerspectiveShadowMapHandler::calcPerspectiveSpot(Matrix &_LPM,
             _LVM = LVM;
             useStd = true;
         }
-            //beleuchtet das Spotlight die komplette Szene? Wenn nicht -> standard Shadow Mapping
-        else if(_shadowVP->_lights[num].second->getType() == SpotLight::getClassType
-                () && !bbInsideFrustum(sceneMin, sceneMax, LPVM))
+        //beleuchtet das Spotlight die komplette Szene? 
+        //Wenn nicht -> standard Shadow Mapping
+        else if(_shadowVP->_lights[num].second->getType() == 
+                                                 SpotLight::getClassType() && 
+                !bbInsideFrustum(sceneMin, sceneMax, LPVM))
         {
             _LPM = LPM;
             _LVM = LVM;
@@ -435,9 +304,12 @@ void PerspectiveShadowMapHandler::calcPerspectiveSpot(Matrix &_LPM,
             //Gibt leider Probleme im Grenzbereich ...
             /*double tmpNear;
                tmpNear = _shadowVP->_lightCameras[num]->getNear();
-               _shadowVP->_lightCameras[num]->setNear(-_shadowVP->_lightCameras[num]->getFar());
+               _shadowVP->_lightCameras[num]->setNear(
+               -_shadowVP->_lightCameras[num]->getFar());
                _shadowVP->_lightCameras[num]->setFar(tmpNear);
-               _shadowVP->_lightCameras[num]->getProjection(LPM,_shadowVP->getParent()->getWidth(),_shadowVP->getParent()->getHeight());
+               _shadowVP->_lightCameras[num]->getProjection(
+              LPM,_shadowVP->getParent()->getWidth(),
+              _shadowVP->getParent()->getHeight());
                LPVM = LPM;
                LPVM.mult(LVM);
                lightDir = Vec3f(0,0,-1);*/
@@ -561,13 +433,15 @@ void PerspectiveShadowMapHandler::calcPerspectiveSpot(Matrix &_LPM,
     }
 }
 
-void PerspectiveShadowMapHandler::calcHull2(std::vector<Pnt3f> *points,
-                                            Matrix invEyeProjMatrix, 
-                                            Pnt3f sceneMin,
-                                            Pnt3f sceneMax, 
-                                            Matrix LPVM)
+void PerspectiveShadowMapHandler::calcHull2(
+    std::vector<Pnt3f> *points,
+    Matrix              invEyeProjMatrix, 
+    Pnt3f               sceneMin,
+    Pnt3f               sceneMax, 
+    Matrix              LPVM)
 {
-    //Die Funktion clippt das Kamera Frustum mit der Szenen Bounding Box und liefert eine Punktmenge zurck
+    // Die Funktion clippt das Kamera Frustum mit der Szenen Bounding Box 
+    // und liefert eine Punktmenge zurck
 
     //Unit Cube
     Pnt3f   vf0(-1,-1,-1);
@@ -740,7 +614,8 @@ void PerspectiveShadowMapHandler::calcHull2(std::vector<Pnt3f> *points,
     }
 }
 
-void PerspectiveShadowMapHandler::calcBodyVec(Vec3f &dir, Pnt3f eyePos,
+void PerspectiveShadowMapHandler::calcBodyVec(Vec3f              &dir, 
+                                              Pnt3f               eyePos,
                                               std::vector<Pnt3f> *points)
 {
     for(UInt32 i = 0;i < points->size();i++)
@@ -761,8 +636,14 @@ void PerspectiveShadowMapHandler::printMatrix(Matrix m)
 {
     printf("Printing Matrix...\n");
     Real32  *mPtr = m.getValues();
-    printf(
-        " %f, %f, %f, %f \n %f, %f, %f, %f \n %f, %f, %f, %f \n %f, %f, %f, %f \n", mPtr[0], mPtr[1], mPtr[2], mPtr[3], mPtr[4], mPtr[5], mPtr[6], mPtr[7], mPtr[8], mPtr[9], mPtr[10], mPtr[11], mPtr[12], mPtr[13], mPtr[14], mPtr[15]);
+    printf(" %f, %f, %f, %f \n"
+           " %f, %f, %f, %f \n"
+           " %f, %f, %f, %f \n"
+           " %f, %f, %f, %f \n", 
+           mPtr[0],  mPtr[1],  mPtr[2],  mPtr[3], 
+           mPtr[4],  mPtr[5],  mPtr[6],  mPtr[7], 
+           mPtr[8],  mPtr[9],  mPtr[10], mPtr[11], 
+           mPtr[12], mPtr[13], mPtr[14], mPtr[15]);
 }
 
 void PerspectiveShadowMapHandler::printPoint(Pnt3f p)
@@ -771,15 +652,22 @@ void PerspectiveShadowMapHandler::printPoint(Pnt3f p)
     printf("%f, %f, %f\n", p.x(), p.y(), p.z());
 }
 
-void PerspectiveShadowMapHandler::calcUpVec2(Vec3f &up, Vec3f viewDir, Vec3f lightDir)
+void PerspectiveShadowMapHandler::calcUpVec2(Vec3f &up, 
+                                             Vec3f  viewDir, 
+                                             Vec3f  lightDir)
 {
     Vec3f   left;
+
     left = lightDir.cross(viewDir);
-    up = left.cross(lightDir);
+    up   = left.cross(lightDir);
+
     up.normalize();
 }
 
-bool PerspectiveShadowMapHandler::pntInFrontOf(Pnt3f p1, Pnt3f p2, Pnt3f p3, Pnt3f p)
+bool PerspectiveShadowMapHandler::pntInFrontOf(Pnt3f p1, 
+                                               Pnt3f p2, 
+                                               Pnt3f p3, 
+                                               Pnt3f p)
 {
     Vec3f   dir1, dir2, testdir, norm;
     dir1 = p2 - p1;
@@ -796,7 +684,8 @@ bool PerspectiveShadowMapHandler::pntInFrontOf(Pnt3f p1, Pnt3f p2, Pnt3f p3, Pnt
         return true;
 }
 
-void PerspectiveShadowMapHandler::calcCubicHull2(Pnt3f &min, Pnt3f &max,
+void PerspectiveShadowMapHandler::calcCubicHull2(Pnt3f              &min, 
+                                                 Pnt3f              &max,
                                                  std::vector<Pnt3f> *points)
 {
     min = Pnt3f(1000000.0, 1000000.0, 1000000.0);
@@ -814,9 +703,9 @@ void PerspectiveShadowMapHandler::calcCubicHull2(Pnt3f &min, Pnt3f &max,
     }
 }
 
-void PerspectiveShadowMapHandler::scaleTranslateToFit2(Matrix &mat, 
-                                                       const Pnt3f vMin,
-                                                       const Pnt3f vMax)
+void PerspectiveShadowMapHandler::scaleTranslateToFit2(      Matrix &mat, 
+                                                       const Pnt3f   vMin,
+                                                       const Pnt3f   vMax)
 {
     Real32  output[16];
     output[ 0] = 2 / (vMax[0] - vMin[0]);
@@ -844,8 +733,8 @@ void PerspectiveShadowMapHandler::scaleTranslateToFit2(Matrix &mat,
                            output[12], output[13], output[14], output[15]);
 }
 
-bool PerspectiveShadowMapHandler::bbInsideFrustum(Pnt3f sceneMin, 
-                                                  Pnt3f sceneMax,
+bool PerspectiveShadowMapHandler::bbInsideFrustum(Pnt3f  sceneMin, 
+                                                  Pnt3f  sceneMax,
                                                   Matrix LPVM)
 {
     Matrix  iLPVM(LPVM);
@@ -929,6 +818,8 @@ void PerspectiveShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
 
     RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
 
+    ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
+
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i])
@@ -950,14 +841,14 @@ void PerspectiveShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                     {
                         RenderPartition   *pPart    = a->getActivePartition();
 
-                        pPart->setRenderTarget(_shadowVP->_vTexChunks[i].pFBO);
+                        pPart->setRenderTarget(vShadowMaps[i].pFBO);
 
                         pPart->setWindow  (a->getWindow());
 
                         pPart->calcViewportDimension(0.f,
                                                      0.f,
-                                                     _shadowVP->getMapSize(),
-                                                     _shadowVP->getMapSize(),
+                                                     _shadowVP->getMapSize()-1,
+                                                     _shadowVP->getMapSize()-1,
                                                  
                                                      _shadowVP->getMapSize(),
                                                      _shadowVP->getMapSize() );
@@ -1016,9 +907,6 @@ void PerspectiveShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                 }
                 else
                 {
-                    MatrixCameraDecoratorUnrecPtr    deco =
-                        MatrixCameraDecorator::create();
-
                     for(UInt32 j = 0;j < 6;j++)
                     {
                         //Offset berechnen
@@ -1054,15 +942,14 @@ void PerspectiveShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                             yOffset = _PLMapSize;
                         }
 
-                        deco->setDecoratee(_shadowVP->_lightCameras[i]);
-                        deco->setPreProjection(_transforms[j]);
+                        _matrixDeco->setDecoratee(_shadowVP->_lightCameras[i]);
+                        _matrixDeco->setPreProjection(_aCubeTrans[j]);
 
                         a->pushPartition();
                         {
                             RenderPartition   *pPart = a->getActivePartition();
 
-                            pPart->setRenderTarget(
-                                _shadowVP->_vTexChunks[i].pFBO);
+                            pPart->setRenderTarget(vShadowMaps[i].pFBO);
 
                             pPart->setWindow  (a->getWindow());
 
@@ -1079,19 +966,19 @@ void PerspectiveShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                             Matrix m, t;
                     
                             // set the projection
-                            deco->getProjection          (
+                            _matrixDeco->getProjection          (
                                 m, 
                                 pPart->getViewportWidth (), 
                                 pPart->getViewportHeight());
                             
-                            deco->getProjectionTranslation(
+                            _matrixDeco->getProjectionTranslation(
                                 t, 
                                 pPart->getViewportWidth (), 
                                 pPart->getViewportHeight());
                             
                             pPart->setupProjection(m, t);
                             
-                            deco->getViewing(
+                            _matrixDeco->getViewing(
                                 m, 
                                 pPart->getViewportWidth (),
                                 pPart->getViewportHeight());
@@ -1099,9 +986,9 @@ void PerspectiveShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                             pPart->setupViewing(m);
                         
                             pPart->setNear     (
-                                deco->getNear());
+                                _matrixDeco->getNear());
                             pPart->setFar      (
-                                deco->getFar ());
+                                _matrixDeco->getFar ());
                         
                             pPart->calcFrustum();
                             
@@ -1174,7 +1061,7 @@ void PerspectiveShadowMapHandler::createColorMapFBO(DrawEnv *pEnv)
     {
         RenderPartition *pPart = a->getActivePartition();
 
-        pPart->setRenderTarget(_pFB);
+        pPart->setRenderTarget(_pSceneFBO);
         pPart->setDrawBuffer  (GL_COLOR_ATTACHMENT0_EXT);
 
         Node *parent = _shadowVP->getSceneRoot()->getParent();
@@ -1228,6 +1115,8 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
     bool bCA2Cleared = false;
 
     RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
+
+    ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
 
     //Zuerst alle echte Pointlights
     for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
@@ -1294,32 +1183,32 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
                 shadowMatrix.mult(iCVM);
 
                 Matrix  shadowMatrixA = LPM;
-                shadowMatrixA.mult(_transforms[0]);
+                shadowMatrixA.mult(_aCubeTrans[0]);
                 shadowMatrixA.mult(LVM);
                 shadowMatrixA.mult(iCVM);
 
                 Matrix  shadowMatrixB = LPM;
-                shadowMatrixB.mult(_transforms[1]);
+                shadowMatrixB.mult(_aCubeTrans[1]);
                 shadowMatrixB.mult(LVM);
                 shadowMatrixB.mult(iCVM);
 
                 Matrix  shadowMatrixC = LPM;
-                shadowMatrixC.mult(_transforms[2]);
+                shadowMatrixC.mult(_aCubeTrans[2]);
                 shadowMatrixC.mult(LVM);
                 shadowMatrixC.mult(iCVM);
 
                 Matrix  shadowMatrixD = LPM;
-                shadowMatrixD.mult(_transforms[3]);
+                shadowMatrixD.mult(_aCubeTrans[3]);
                 shadowMatrixD.mult(LVM);
                 shadowMatrixD.mult(iCVM);
 
                 Matrix  shadowMatrixE = LPM;
-                shadowMatrixE.mult(_transforms[4]);
+                shadowMatrixE.mult(_aCubeTrans[4]);
                 shadowMatrixE.mult(LVM);
                 shadowMatrixE.mult(iCVM);
 
                 Matrix  shadowMatrixF = LPM;
-                shadowMatrixF.mult(_transforms[5]);
+                shadowMatrixF.mult(_aCubeTrans[5]);
                 shadowMatrixF.mult(LVM);
                 shadowMatrixF.mult(iCVM);
 
@@ -1345,8 +1234,8 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
 
                 _shadowCmat->clearChunks();
                 _shadowCmat->addChunk(_shadowCubeSHL);
-                _shadowCmat->addChunk(_shadowVP->_vTexChunks[i].pTexO);
-                _shadowCmat->addChunk(_shadowVP->_vTexChunks[i].pTexE);
+                _shadowCmat->addChunk(vShadowMaps[i].pTexO);
+                _shadowCmat->addChunk(vShadowMaps[i].pTexE);
 
                 if(_activeFactorMap == 0)
                 {
@@ -1374,7 +1263,7 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
                 {
                     RenderPartition *pPart = a->getActivePartition();
 
-                    pPart->setRenderTarget(_pFB);
+                    pPart->setRenderTarget(_pSceneFBO);
                     pPart->setDrawBuffer  (*buffers);
 
                     Node *light  = _shadowVP->_lights[i].first;
@@ -1461,8 +1350,9 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
                 shadowMatrixF.push_back(shadowMatrix);
 
                 Real32  mapFactor;
-                mapFactor = Real32(_shadowVP->getMapSize()) /
-                    Real32(_shadowVP->_shadowImages[i]->getWidth());
+                mapFactor = 
+                    Real32(_shadowVP->getMapSize()) /
+                    Real32(vShadowMaps[i].pImage->getWidth());
                 mapFactorF.push_back(mapFactor);
                 lightCounter++;
             }
@@ -1502,9 +1392,9 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
                         if(lightNum >= (i * 7) && lightNum < ((i + 1) * 7))
                         {
                             _shadowCmat->addChunk(
-                                _shadowVP->_vTexChunks[j].pTexO);
+                                vShadowMaps[j].pTexO);
                             _shadowCmat->addChunk(
-                                _shadowVP->_vTexChunks[j].pTexE);
+                                vShadowMaps[j].pTexE);
                         }
                         lightNum++;
                     }
@@ -1899,7 +1789,7 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
             {
                 RenderPartition *pPart = a->getActivePartition();
                 
-                pPart->setRenderTarget(_pFB);
+                pPart->setRenderTarget(_pSceneFBO);
                 pPart->setDrawBuffer  (*buffers);
                 
                 Node *light  = _shadowVP->_lights[i].first;
@@ -1948,18 +1838,50 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
 }
 
 
-void PerspectiveShadowMapHandler::render(DrawEnv      *pEnv)
+void PerspectiveShadowMapHandler::render(DrawEnv *pEnv)
 {
-    Window  *win = pEnv->getWindow();
-    initialize(win);
-
     glPushAttrib(GL_ENABLE_BIT);
 
-    if(!_initTexturesDone)
-        initTextures(pEnv);
+    if(_pStageData->getShadowMaps().size() != _shadowVP->_lights.size())
+    {
+        fprintf(stderr, "ShadowMaps.size() != Light.size() (%d|%d)\n",
+                _pStageData->getShadowMaps().size(),
+                _shadowVP->_lights.size());
 
-    if(!initFBO(pEnv))
-        printf("ERROR with FBOBJECT\n");
+        initShadowMaps();
+    }
+
+    if(_bShadowMapsConfigured == false)
+    {
+        fprintf(stderr, "ShadowMaps not configures\n");
+        configureShadowMaps();
+    }
+
+    if(_uiMapSize != _shadowVP->getMapSize())
+    {
+        fprintf(stderr, "MapSize changed (%d|%d)\n",
+                _uiMapSize,
+                _shadowVP->getMapSize());
+
+        updateShadowMapSize();
+    }
+
+    if(_pSceneFBO == NULL)
+        initSceneFBO(pEnv, true);
+
+    if(_width  != pEnv->getPixelWidth () ||
+       _height != pEnv->getPixelHeight()  )
+    {
+        fprintf(stderr, "SceneSize changed (%d %d|%d %d)\n",
+                _width,
+                _height,
+                 pEnv->getPixelWidth (),
+                 pEnv->getPixelHeight());
+
+        updateSceneFBOSize(pEnv, true);
+    }
+
+    commitChanges();
 
 
     GLfloat globalAmbient[] =
@@ -1969,19 +1891,6 @@ void PerspectiveShadowMapHandler::render(DrawEnv      *pEnv)
 
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
 
-    for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
-    {
-        glBindTexture(GL_TEXTURE_2D,
-                      pEnv->getWindow()->getGLObjectId(
-                          _shadowVP->_vTexChunks[i].pTexO->getGLId()));
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_ARB,
-                        GL_COMPARE_R_TO_TEXTURE_ARB);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_ARB,
-                        GL_LEQUAL);
-        glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE_ARB,
-                        GL_LUMINANCE);
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
 
     if(_shadowVP->getMapSize() / 4 > _maxPLMapSize)
         _PLMapSize = _maxPLMapSize;
@@ -1990,28 +1899,6 @@ void PerspectiveShadowMapHandler::render(DrawEnv      *pEnv)
 
     _firstRun = 1;
 			
-#if 0
-    if(_shadowVP->getPixelWidth() != _width ||
-       _shadowVP->getPixelHeight() != _height)
-#endif
-        if(pEnv->getPixelWidth() != _width ||
-           pEnv->getPixelHeight() != _height)
-        {
-#if 0
-            _width = _shadowVP->getPixelWidth();
-            _height = _shadowVP->getPixelHeight();
-#endif
-            _width  = pEnv->getPixelWidth();
-            _height = pEnv->getPixelHeight();
-
-            _colorMapImage->set(GL_RGB, _width, _height);
-                
-            _shadowFactorMapImage->set(GL_RGB, _width, _height);
-            
-            _shadowFactorMapImage2->set(GL_RGB, _width, _height);
-		
-            reInit(pEnv);
-        }
 
     //Matrizen fr alle Lichter berechnen
     for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
@@ -2039,6 +1926,10 @@ void PerspectiveShadowMapHandler::render(DrawEnv      *pEnv)
     if(_shadowVP->getMapAutoUpdate() == true ||
        _shadowVP->_trigger_update    == true  )
     {
+        _pPoly->setOffsetFill  (true                     );
+        _pPoly->setOffsetFactor(_shadowVP->getOffFactor());
+        _pPoly->setOffsetBias  (_shadowVP->getOffBias  ());
+
         createColorMapFBO(pEnv);
         
         

@@ -25,6 +25,7 @@
 #include <OSGSceneFileHandler.h>
 #include <OSGNavigator.h>
 #include "OSGShadowStage.h"
+#include "OSGMatrixCamera.h"
 
 OSG_USING_NAMESPACE
 
@@ -602,7 +603,7 @@ int main(int argc, char **argv)
 void Animate()
 {
     //Show FPS
-    showFpsCounter();
+    //showFpsCounter();
 
     if(bAnim == true)
     {

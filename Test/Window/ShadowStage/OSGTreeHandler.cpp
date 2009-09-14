@@ -1,96 +1,53 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <OSGConfig.h>
-#include <OSGQuaternion.h>
-#include <OSGRenderAction.h>
-#include <OSGMatrix.h>
-#include <OSGMatrixUtility.h>
-#include <OSGBackground.h>
-#include <OSGForeground.h>
-#include <OSGImage.h>
-#include <OSGLight.h>
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
 #include "OSGTreeHandler.h"
 #include "OSGShadowStage.h"
+#include "OSGRenderBuffer.h"
+#include "OSGTextureBuffer.h"
+#include "OSGShadowStageData.h"
 
-#define PI 3.14159265f
+#include "OSGPointLight.h"
+#include "OSGRenderAction.h"
+#include "OSGMatrixUtility.h"
 
-//--------------------------------------------------------------------
-#define GL_INVALID_FRAMEBUFFER_OPERATION_EXT 0x0506
-#define GL_MAX_RENDERBUFFER_SIZE_EXT 0x84E8
-#define GL_FRAMEBUFFER_BINDING_EXT 0x8CA6
-#define GL_RENDERBUFFER_BINDING_EXT 0x8CA7
-#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE_EXT 0x8CD0
-#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME_EXT 0x8CD1
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL_EXT 0x8CD2
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE_EXT 0x8CD3
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_3D_ZOFFSET_EXT 0x8CD4
-#define GL_FRAMEBUFFER_COMPLETE_EXT 0x8CD5
-#define GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT 0x8CD6
-#define GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT 0x8CD7
-#define GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT 0x8CD8
-#define GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT 0x8CD9
-#define GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT 0x8CDA
-#define GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT 0x8CDB
-#define GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT 0x8CDC
-#define GL_FRAMEBUFFER_UNSUPPORTED_EXT 0x8CDD
-#define GL_FRAMEBUFFER_STATUS_ERROR_EXT 0x8CDE
-#define GL_MAX_COLOR_ATTACHMENTS_EXT 0x8CDF
-#define GL_COLOR_ATTACHMENT0_EXT 0x8CE0
-#define GL_COLOR_ATTACHMENT1_EXT 0x8CE1
-#define GL_COLOR_ATTACHMENT2_EXT 0x8CE2
-#define GL_COLOR_ATTACHMENT3_EXT 0x8CE3
-#define GL_COLOR_ATTACHMENT4_EXT 0x8CE4
-#define GL_COLOR_ATTACHMENT5_EXT 0x8CE5
-#define GL_COLOR_ATTACHMENT6_EXT 0x8CE6
-#define GL_COLOR_ATTACHMENT7_EXT 0x8CE7
-#define GL_COLOR_ATTACHMENT8_EXT 0x8CE8
-#define GL_COLOR_ATTACHMENT9_EXT 0x8CE9
-#define GL_COLOR_ATTACHMENT10_EXT 0x8CEA
-#define GL_COLOR_ATTACHMENT11_EXT 0x8CEB
-#define GL_COLOR_ATTACHMENT12_EXT 0x8CEC
-#define GL_COLOR_ATTACHMENT13_EXT 0x8CED
-#define GL_COLOR_ATTACHMENT14_EXT 0x8CEE
-#define GL_COLOR_ATTACHMENT15_EXT 0x8CEF
-#define GL_DEPTH_ATTACHMENT_EXT 0x8D00
-#define GL_STENCIL_ATTACHMENT_EXT 0x8D20
-#define GL_FRAMEBUFFER_EXT 0x8D40
-#define GL_RENDERBUFFER_EXT 0x8D41
-#define GL_RENDERBUFFER_WIDTH_EXT 0x8D42
-#define GL_RENDERBUFFER_HEIGHT_EXT 0x8D43
-#define GL_RENDERBUFFER_INTERNAL_FORMAT_EXT 0x8D44
-#define GL_STENCIL_INDEX_EXT 0x8D45
-#define GL_STENCIL_INDEX1_EXT 0x8D46
-#define GL_STENCIL_INDEX4_EXT 0x8D47
-#define GL_STENCIL_INDEX8_EXT 0x8D48
-#define GL_STENCIL_INDEX16_EXT 0x8D49
-#define GL_ARB_draw_buffers 1
+OSG_BEGIN_NAMESPACE
 
-
-
-OSG_USING_NAMESPACE
-
-UInt32 TreeHandler::_depth_texture_extension;
-UInt32 TreeHandler::_shadow_extension;
-UInt32 TreeHandler::_framebuffer_object_extension;
-UInt32 TreeHandler::_draw_buffers_extension;
-UInt32 TreeHandler::_funcDrawBuffers =                         Window::invalidFunctionID;
-UInt32 TreeHandler::_funcBindFramebuffer =                     Window::invalidFunctionID;
-UInt32 TreeHandler::_funcBindRenderbuffer =                    Window::invalidFunctionID;
-UInt32 TreeHandler::_funcCheckFramebufferStatus =              Window::invalidFunctionID;
-UInt32 TreeHandler::_funcDeleteFramebuffers =                  Window::invalidFunctionID;
-UInt32 TreeHandler::_funcDeleteRenderbuffers =                 Window::invalidFunctionID;
-UInt32 TreeHandler::_funcFramebufferRenderbuffer =             Window::invalidFunctionID;
-UInt32 TreeHandler::_funcFramebufferTexture1D =                Window::invalidFunctionID;
-UInt32 TreeHandler::_funcFramebufferTexture2D =                Window::invalidFunctionID;
-UInt32 TreeHandler::_funcFramebufferTexture3D =                Window::invalidFunctionID;
-UInt32 TreeHandler::_funcGenFramebuffers =                     Window::invalidFunctionID;
-UInt32 TreeHandler::_funcGenRenderbuffers =                    Window::invalidFunctionID;
-UInt32 TreeHandler::_funcGenerateMipmap =                      Window::invalidFunctionID;
-UInt32 TreeHandler::_funcGetFramebufferAttachmentParameteriv = Window::invalidFunctionID;
-UInt32 TreeHandler::_funcGetRenderbufferParameteriv =          Window::invalidFunctionID;
-UInt32 TreeHandler::_funcIsFramebuffer =                       Window::invalidFunctionID;
-UInt32 TreeHandler::_funcIsRenderbuffer =                      Window::invalidFunctionID;
-UInt32 TreeHandler::_funcRenderbufferStorage =                 Window::invalidFunctionID;
 
 std::string TreeHandler::_shadow_combine_vp =
     "varying vec2 texCoord;\n"
@@ -117,347 +74,499 @@ std::string TreeHandler::_shadow_combine_fp =
     "    gl_FragColor = vec4(color, 1.0);\n"
     "}\n";
 
-TreeHandler::TreeHandler(ShadowStage *source) :
-    _initDone(false),
-    _shadowVP(source),
-    _maxPLMapSize(0),
-    _PLMapSize(1),
-    _maxTexSize(0),
-    _unlitMat(NULL),
 
-    _width(1),
-    _height(1),
-    _widthHeightPOT(0),
-    _combineSHL(NULL),
-    _combineDepth(NULL),
-    _combineCmat(NULL),
-    _colorMapO(NULL),
-    _activeFactorMap(1),
-    _shadowFactorMapO(NULL),
-    _shadowFactorMap2O(NULL),
-    _pFB(NULL),
-    _pFB2(NULL)
 
+
+TreeHandler::TreeHandler(ShadowStage     *pSource,
+                         ShadowStageData *pData) :
+     Inherited            (                      ),
+
+    _uiMode               (ShadowStage::NO_SHADOW),
+    _uiMapSize            (0                     ),
+    _bShadowMapsConfigured(false                 ),
+    _activeFactorMap      (1                     ),
+
+    _width                (1                     ),
+    _height               (1                     ),
+
+    _maxPLMapSize         (0                     ),
+    _PLMapSize            (1                     ),
+    _maxTexSize           (0                     ),
+
+    _shadowVP             (pSource               ),
+    _pStageData           (pData                 ),
+
+    _colorMapO            (NULL                  ),
+    _shadowFactorMapO     (NULL                  ),
+    _shadowFactorMap2O    (NULL                  ),
+
+    _colorMapImage        (NULL                  ),
+    _shadowFactorMapImage (NULL                  ),
+    _shadowFactorMapImage2(NULL                  ),
+
+    _pSceneFBO            (NULL                  ),
+
+    _pClearBackground     (NULL                  ),
+
+    _unlitMat             (NULL                  ),
+
+    _combineSHL           (NULL                  ),
+    _combineDepth         (NULL                  ),
+    _combineCmat          (NULL                  ),
+
+    _aCubeTrans           (                      )
 {
     GLint   max_tex_size = 0;
+
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
 
-    _maxTexSize = max_tex_size;
+    _maxTexSize   = max_tex_size;
     _maxPLMapSize = _maxTexSize / 4;
 
-    _depth_texture_extension = Window::registerExtension(
-        "GL_ARB_depth_texture");
-
-    _shadow_extension = Window::registerExtension("GL_ARB_shadow");
-
-    _framebuffer_object_extension = Window::registerExtension(
-        "GL_EXT_framebuffer_object");
-
-    _draw_buffers_extension = Window::registerExtension("GL_ARB_draw_buffers");
-
-    _funcDrawBuffers =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glDrawBuffers", GL_ARB_draw_buffers);
-
-    _funcBindFramebuffer =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBindFramebufferEXT",
-                                  _framebuffer_object_extension);
-
-    _funcBindRenderbuffer =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBindRenderbufferEXT",
-                                  _framebuffer_object_extension);
-
-    _funcCheckFramebufferStatus =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCheckFramebufferStatusEXT",
-                                  _framebuffer_object_extension);
-
-    _funcDeleteFramebuffers =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glDeleteFramebuffersEXT",
-                                  _framebuffer_object_extension);
-
-    _funcDeleteRenderbuffers =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glDeleteRenderbuffersEXT",
-                                  _framebuffer_object_extension);
-
-    _funcFramebufferRenderbuffer =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glFramebufferRenderbufferEXT",
-                                  _framebuffer_object_extension);
-
-    _funcFramebufferTexture1D =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glFramebufferTexture1DEXT",
-                                  _framebuffer_object_extension);
-
-    _funcFramebufferTexture2D =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glFramebufferTexture2DEXT",
-                                  _framebuffer_object_extension);
-
-    _funcFramebufferTexture3D =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glFramebufferTexture3DEXT",
-                                  _framebuffer_object_extension);
-
-    _funcGenFramebuffers =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGenFramebuffersEXT",
-                                  _framebuffer_object_extension);
-
-    _funcGenRenderbuffers =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGenRenderbuffersEXT",
-                                  _framebuffer_object_extension);
-
-    _funcGenerateMipmap =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGenerateMipmapEXT",
-                                  _framebuffer_object_extension);
-
-    _funcGetFramebufferAttachmentParameteriv =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetFramebufferAttachmentParameterivEXT",
-                                  _framebuffer_object_extension);
-
-    _funcGetRenderbufferParameteriv =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetRenderbufferParameterivEXT",
-                                  _framebuffer_object_extension);
-
-    _funcIsFramebuffer =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glIsFramebufferEXT",
-                                  _framebuffer_object_extension);
-
-    _funcIsRenderbuffer =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glIsRenderbufferEXT",
-                                  _framebuffer_object_extension);
-
-    _funcRenderbufferStorage =
-        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glRenderbufferStorageEXT",
-                                  _framebuffer_object_extension);
-
-
-    _unlitMat = SimpleMaterial::create();
+    _unlitMat = SimpleMaterial::createLocal();
 
     _unlitMat->setLit(false);
 
-    _pClearBackground = SolidBackground::create();
+    _pClearBackground = SolidBackground::createLocal();
+
+
+    _aCubeTrans[0] = Matrix(1,  0,  0, 0,
+                            0, -1,  0, 0,
+                            0,  0, -1, 0,
+                            0,  0,  0, 1);
+
+    _aCubeTrans[1] = Matrix(1, 0, 0, 0,
+                            0, 1, 0, 0,
+                            0, 0, 1, 0,
+                            0, 0, 0, 1);
+
+    _aCubeTrans[2] = Matrix(1,  0, 0, 0,
+                            0,  0, 1, 0,
+                            0, -1, 0, 0,
+                            0,  0, 0, 1);
+
+    _aCubeTrans[3] = Matrix(1, 0,  0, 0,
+                            0, 0, -1, 0,
+                            0, 1,  0, 0,
+                            0, 0,  0, 1);
+
+    _aCubeTrans[4] = Matrix( 0, 0, 1, 0,
+                             0, 1, 0, 0,
+                            -1, 0, 0, 0,
+                             0, 0, 0, 1);
+
+    _aCubeTrans[5] = Matrix(0, 0, -1, 0,
+                            0, 1,  0, 0,
+                            1, 0,  0, 0,
+                            0, 0,  0, 1);
+
+    //Prepare Color Map grabbing
+    _colorMapO     = TextureObjChunk::createLocal();
+    _colorMapImage = Image          ::createLocal();
+
+    _colorMapO->setImage         (_colorMapImage);
+    _colorMapO->setInternalFormat(GL_RGB);
+    _colorMapO->setExternalFormat(GL_RGB);
+    _colorMapO->setMinFilter     (GL_NEAREST);
+    _colorMapO->setMagFilter     (GL_NEAREST);
+    _colorMapO->setWrapS         (GL_REPEAT);
+    _colorMapO->setWrapT         (GL_REPEAT);
+    _colorMapO->setTarget        (GL_TEXTURE_2D);
+
+    //Prepare Shadow Factor Map grabbing
+    _shadowFactorMapO     = TextureObjChunk::createLocal();
+    _shadowFactorMapImage = Image          ::createLocal();
+
+    _shadowFactorMapO->setImage         (_shadowFactorMapImage);
+    _shadowFactorMapO->setInternalFormat(GL_RGB);
+    _shadowFactorMapO->setExternalFormat(GL_RGB);
+    _shadowFactorMapO->setMinFilter     (GL_LINEAR);
+    _shadowFactorMapO->setMagFilter     (GL_LINEAR);
+    _shadowFactorMapO->setWrapS         (GL_REPEAT);
+    _shadowFactorMapO->setWrapT         (GL_REPEAT);
+    _shadowFactorMapO->setTarget        (GL_TEXTURE_2D);
+
+    //SHL Chunk 2
+    _combineSHL = SHLChunk::createLocal();
+    _combineSHL->setVertexProgram  (_shadow_combine_vp);
+    _combineSHL->setFragmentProgram(_shadow_combine_fp);
+
+    _combineDepth = DepthChunk::createLocal();
+    _combineDepth->setReadOnly(true);
+
+    //Combine Shader
+    _combineCmat = ChunkMaterial::createLocal();
+    _combineCmat->addChunk(_combineSHL);
+    _combineCmat->addChunk(_colorMapO);
+    _combineCmat->addChunk(_shadowFactorMapO);
+    _combineCmat->addChunk(_combineDepth);
 }
 
 
 TreeHandler::~TreeHandler(void)
 {
-    _unlitMat          = NULL;
-
-    _combineSHL        = NULL;
-    _combineDepth      = NULL;
-    _combineCmat       = NULL;
-    _colorMapO         = NULL;
-    _shadowFactorMapO  = NULL;
-    _shadowFactorMap2O = NULL;
+    _shadowVP             = NULL;
+    _pStageData           = NULL;
  
-    _pFB               = NULL;
-    _pFB2              = NULL;
+    _colorMapO            = NULL;
+    _shadowFactorMapO     = NULL;
+    _shadowFactorMap2O    = NULL;
+ 
+    _colorMapImage         = NULL;
+    _shadowFactorMapImage  = NULL;
+    _shadowFactorMapImage2 = NULL;
 
-    _pClearBackground  = NULL;
+    _pSceneFBO             = NULL;
+
+    _pClearBackground      = NULL;
+
+    _unlitMat              = NULL;
+
+    _combineSHL            = NULL;
+    _combineDepth          = NULL;
+    _combineCmat           = NULL;
 }
 
-void TreeHandler::initialize(Window *win)
+
+
+
+
+
+
+
+bool TreeHandler::initSceneFBO(DrawEnv *pEnv,
+                               bool     bHaveTwoFactorMaps)
 {
-    if(!_initDone)
+    Int32   width  = pEnv->getPixelWidth();
+    Int32   height = pEnv->getPixelHeight();
+
+    if(width <= 0 || height <= 0)
+        return false;
+
+#ifdef MAPS_IN_STAGE
+    if(_pSceneFBO != NULL)
+        return true;
+#endif
+
+    Window *win = pEnv->getWindow();
+
+    _width  = pEnv->getPixelWidth();
+    _height = pEnv->getPixelHeight();
+
+
+    _colorMapImage->set        (GL_RGB, 
+                                _width, _height, 1, 
+                                1, 1, 0.f,
+                                NULL,
+                                Image::OSG_UINT8_IMAGEDATA,
+                                false);
+        
+    _shadowFactorMapImage->set (GL_RGB, 
+                                _width, _height, 1, 
+                                1, 1, 0.f,
+                                NULL,
+                                Image::OSG_UINT8_IMAGEDATA,
+                                false);
+    
+    if(bHaveTwoFactorMaps == true)
     {
-        // without this the registered extensions are not valid yet!
-        win->frameInit();
+        _shadowFactorMapImage2->set( GL_RGB, 
+                                    _width, _height, 1, 
+                                     1, 1, 0.f,
+                                     NULL,
+                                     Image::OSG_UINT8_IMAGEDATA,
+                                     false);
+    }
 
-        //check support for ShadowExtension
-        if(!win->hasExtension(_depth_texture_extension))
+    _pSceneFBO = FrameBufferObject::createLocal();
+    
+    _pSceneFBO->setSize(_width, _height);
+        
+
+    RenderBufferUnrecPtr pDepthRB = RenderBuffer::createLocal();
+        
+    pDepthRB->setInternalFormat(GL_DEPTH_COMPONENT24);
+
+
+    TextureBufferUnrecPtr pTexBuffer = TextureBuffer::createLocal();
+
+    pTexBuffer->setTexture(_colorMapO);
+
+    _pSceneFBO->setColorAttachment(pTexBuffer, 0);
+
+
+    pTexBuffer = TextureBuffer::createLocal();
+
+    pTexBuffer->setTexture(_shadowFactorMapO);
+
+    _pSceneFBO->setColorAttachment(pTexBuffer, 1);
+
+
+    if(bHaveTwoFactorMaps == true)
+    {
+        pTexBuffer = TextureBuffer::createLocal();
+
+        pTexBuffer->setTexture(_shadowFactorMap2O);
+
+        _pSceneFBO->setColorAttachment(pTexBuffer, 2);
+    }
+
+    _pSceneFBO->setDepthAttachment(pDepthRB);
+
+
+    commitChanges();
+
+    return true;
+}
+
+void TreeHandler::updateSceneFBOSize(DrawEnv *pEnv,
+                                     bool     bHaveTwoFactorMaps)
+{
+    _width  = pEnv->getPixelWidth();
+    _height = pEnv->getPixelHeight();
+
+
+    _colorMapImage->set        (GL_RGB, 
+                                _width, _height, 1, 
+                                1, 1, 0.f,
+                                NULL,
+                                Image::OSG_UINT8_IMAGEDATA,
+                                false);
+        
+    _shadowFactorMapImage->set (GL_RGB, 
+                                _width, _height, 1, 
+                                1, 1, 0.f,
+                                NULL,
+                                Image::OSG_UINT8_IMAGEDATA,
+                                false);
+
+    if(bHaveTwoFactorMaps == true)
+    {
+        _shadowFactorMapImage2->set( GL_RGB, 
+                                    _width, _height, 1, 
+                                     1, 1, 0.f,
+                                     NULL,
+                                     Image::OSG_UINT8_IMAGEDATA,
+                                     false);
+    }
+
+    _pSceneFBO->setSize(_width, _height);
+}
+
+
+void TreeHandler::initShadowMaps(void)
+{
+    ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
+
+    if(_shadowVP->_lights.size() < vShadowMaps.size())
+    {
+        vShadowMaps.resize(_shadowVP->_lights.size());
+    }
+    else
+    {
+        UInt32 uiLSize   = _shadowVP->_lights.size();
+        UInt32 uiMapSize = _shadowVP-> getMapSize ();
+
+        if(vShadowMaps.size() == 0) 
         {
-            SWARNING <<
-                "No ARB_depth_texture-Extension available! All shadow modes disabled." << endLog;
-        }
-        else if(!win->hasExtension(_shadow_extension))
-        {
-            SWARNING <<
-                "No ARB_shadow-Extension available! All shadow modes disabled."
-                << endLog;
-        }
-
-
-        GLenum  errCode;
-        bool    FBOerror = false;
-
-        glBindFramebufferEXT =
-            reinterpret_cast<OSGGLBINDFRAMEBUFFEREXTPROC>(
-                win->getFunction(_funcBindFramebuffer));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        glBindRenderbufferEXT =
-            reinterpret_cast<OSGGLBINDRENDERBUFFEREXTPROC>(
-                win->getFunction(_funcBindRenderbuffer));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-        
-        glCheckFramebufferStatusEXT =
-            reinterpret_cast<OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC>(
-                win->getFunction(_funcCheckFramebufferStatus));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        glDeleteFramebuffersEXT =
-            reinterpret_cast<OSGGLDELETEFRAMEBUFFERSEXTPROC>(
-                win->getFunction(_funcDeleteFramebuffers));
-        
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        glDeleteRenderbuffersEXT =
-            reinterpret_cast<OSGGLDELETERENDERBUFFERSEXTPROC>(
-                win->getFunction(_funcDeleteRenderbuffers));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        glFramebufferRenderbufferEXT =
-            reinterpret_cast<OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC>(
-                win->getFunction(_funcFramebufferRenderbuffer));
-        
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-        
-        glFramebufferTexture1DEXT =
-            reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE1DEXTPROC>(
-                win->getFunction(_funcFramebufferTexture1D));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        glFramebufferTexture2DEXT =
-            reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE2DEXTPROC>(
-                win->getFunction(_funcFramebufferTexture2D));
-        
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-        
-        glFramebufferTexture3DEXT =
-            reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE3DEXTPROC>(
-                win->getFunction(_funcFramebufferTexture3D));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        glGenFramebuffersEXT =
-            reinterpret_cast<OSGGLGENFRAMEBUFFERSEXTPROC>(
-                win->getFunction(_funcGenFramebuffers));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-        
-        glGenRenderbuffersEXT =
-            reinterpret_cast<OSGGLGENRENDERBUFFERSEXTPROC>(
-                win->getFunction(_funcGenRenderbuffers));
-        
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        glGenerateMipmapEXT =
-            reinterpret_cast<OSGGLGENERATEMIPMAPEXTPROC>(
-                win->getFunction(_funcGenerateMipmap));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        glGetFramebufferAttachmentParameterivEXT =
-            reinterpret_cast<
-            OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC>(
-                win->getFunction(
-                    _funcGetFramebufferAttachmentParameteriv));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        glGetRenderbufferParameterivEXT =
-            reinterpret_cast<OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC>(
-                win->getFunction(_funcGetRenderbufferParameteriv));
-        
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-        
-        glIsFramebufferEXT =
-            reinterpret_cast<OSGGLISFRAMEBUFFEREXTPROC>(
-                win->getFunction(_funcIsFramebuffer));
-        
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-        
-        glIsRenderbufferEXT =
-            reinterpret_cast<OSGGLISRENDERBUFFEREXTPROC>(
-                win->getFunction(_funcIsRenderbuffer));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        glRenderbufferStorageEXT =
-            reinterpret_cast<OSGGLRENDERBUFFERSTORAGEEXTPROC>(
-                win->getFunction(_funcRenderbufferStorage));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        glDrawBuffersARB =
-            reinterpret_cast<OSGGLDRAWBUFFERSARBPROC>(
-                win->getFunction(_funcDrawBuffers));
-
-        if((errCode = glGetError()) != GL_NO_ERROR)
-            FBOerror = true;
-
-        GLenum  status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-        
-        if(FBOerror)
-        {
-            FNOTICE(
-                (
-                    "Needed FBO functions could not be initialized (error code %d), FBOs disabled. Try new video drivers!\n", errCode));
+            _uiMapSize = uiMapSize;
         }
 
-        switch(status)
+        for(UInt32 i = vShadowMaps.size(); i < uiLSize; ++i)
         {
-            case GL_FRAMEBUFFER_COMPLETE_EXT:
-                FINFO(("%x: framebuffer complete!\n", status));
-                break;
-            case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
-                FWARNING(
-                    ("%x: framebuffer GL_FRAMEBUFFER_UNSUPPORTED_EXT\n",
-                     status));
-                break;
-            default:
-                break;
+            if(_shadowVP->_lights[i].second->getType() != 
+                                                   PointLight::getClassType())
+            {
+                ShadowStageData::ShadowMapElem tmpElem;
+
+                tmpElem.pImage = Image            ::createLocal();
+                tmpElem.pTexO  = TextureObjChunk  ::createLocal();
+                tmpElem.pTexE  = TextureEnvChunk  ::createLocal();
+                tmpElem.pFBO   = FrameBufferObject::createLocal();
+
+
+                // creates a image without allocating main memory.
+                tmpElem.pImage->set(Image::OSG_L_PF, 
+                                    uiMapSize, uiMapSize, 1, 
+                                    1, 1, 0.f, 
+                                    NULL,
+                                    Image::OSG_UINT8_IMAGEDATA, 
+                                    false);
+                
+
+
+                TextureBufferUnrecPtr pDepthTex = TextureBuffer::createLocal();
+
+                pDepthTex->setTexture(tmpElem.pTexO);
+
+                tmpElem.pFBO->setDepthAttachment(pDepthTex);
+
+            // Preparation of Texture be a Depth-Texture
+                tmpElem.pTexO->setImage         (tmpElem.pImage);
+
+                tmpElem.pTexO->setInternalFormat(GL_DEPTH_COMPONENT);
+                tmpElem.pTexO->setExternalFormat(GL_DEPTH_COMPONENT);
+
+                tmpElem.pTexO->setMinFilter     (GL_LINEAR);
+                tmpElem.pTexO->setMagFilter     (GL_LINEAR);
+
+                tmpElem.pTexO->setWrapS         (GL_CLAMP_TO_EDGE);
+                tmpElem.pTexO->setWrapT         (GL_CLAMP_TO_EDGE);
+
+                tmpElem.pTexO->setTarget        (GL_TEXTURE_2D);
+
+                tmpElem.pTexE->setEnvMode       (GL_MODULATE);
+
+                vShadowMaps.push_back(tmpElem);
+            }
+            else   //Light is a point light
+            {
+#if 0
+                //TODO: Texturgr�se anpassen, je nach Bedarf
+
+                GLint   max_texture_size;
+
+                glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size);
+                
+#endif
+                ShadowStageData::ShadowMapElem tmpElem;
+
+                tmpElem.pImage = Image            ::createLocal();
+                tmpElem.pTexO  = TextureObjChunk  ::createLocal();
+                tmpElem.pTexE  = TextureEnvChunk  ::createLocal();
+                tmpElem.pFBO   = FrameBufferObject::createLocal();
+
+                // creates a image without allocating main memory.
+                if((_uiMode == ShadowStage::STD_SHADOW_MAP         ||
+                    _uiMode == ShadowStage::PERSPECTIVE_SHADOW_MAP ||
+                    _uiMode == ShadowStage::DITHER_SHADOW_MAP      ||
+                    _uiMode == ShadowStage::PCF_SHADOW_MAP         ))
+                {
+                    tmpElem.pImage->set(Image::OSG_L_PF, 
+                                        uiMapSize, uiMapSize, 1,
+                                        1, 1, 0.f, 
+                                        NULL,
+                                        Image::OSG_UINT8_IMAGEDATA, 
+                                        false);
+                }
+                else
+                {
+                    tmpElem.pImage->set(Image::OSG_L_PF, 
+                                        uiMapSize, uiMapSize, 1, 
+                                        1, 1, 0.f, 
+                                        NULL,
+                                        Image::OSG_UINT8_IMAGEDATA, 
+                                        false);
+                }
+
+                TextureBufferUnrecPtr pDepthTex = TextureBuffer::createLocal();
+
+                pDepthTex->setTexture(tmpElem.pTexO);
+
+                tmpElem.pFBO->setDepthAttachment(pDepthTex);
+
+                // Preparation of Texture be a Depth-Texture
+                tmpElem.pTexO->setImage(tmpElem.pImage);
+
+                tmpElem.pTexO->setInternalFormat(GL_DEPTH_COMPONENT);
+                tmpElem.pTexO->setExternalFormat(GL_DEPTH_COMPONENT);
+
+                tmpElem.pTexO->setMinFilter     (GL_LINEAR);
+                tmpElem.pTexO->setMagFilter     (GL_LINEAR);
+
+                tmpElem.pTexO->setWrapS         (GL_CLAMP_TO_BORDER_ARB);
+                tmpElem.pTexO->setWrapT         (GL_CLAMP_TO_BORDER_ARB);
+
+                tmpElem.pTexE->setEnvMode       (GL_MODULATE);
+
+                tmpElem.pTexO->setTarget        (GL_TEXTURE_2D);
+
+                vShadowMaps.push_back(tmpElem);
+            }
+            
         }
-        _initDone = true;
     }
 }
 
-Material *TreeHandler::getUnlitMaterial(void)
+void TreeHandler::updateShadowMapSize(void)
 {
-    return _unlitMat;
-}
+    ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
+ 
+    UInt32 uiSHMSize    =  vShadowMaps.size();
+    UInt32 uiNewMapSize = _shadowVP->getMapSize();
 
-bool TreeHandler::hasFactorMap(void)
-{
-    for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
+    for(UInt32 i = 0; i < uiSHMSize; ++i)
     {
-        if (_shadowVP->_lightStates[i] != 0 &&
-            (_shadowVP->_lights[i].second->getShadowIntensity() != 0.0 ||
-			_shadowVP->getGlobalShadowIntensity() != 0.0))
+        if(vShadowMaps[i].pImage->getWidth() != uiNewMapSize)
         {
-            return true;
+            vShadowMaps[i].pImage->set(Image::OSG_L_PF, 
+                                       uiNewMapSize, uiNewMapSize, 1,
+                                       1, 1, 0.f, 
+                                       NULL,
+                                       Image::OSG_UINT8_IMAGEDATA, 
+                                       false);
         }
     }
 
-    return false;
+    _uiMapSize = uiNewMapSize;
 }
 
+void TreeHandler::configureShadowMaps(void)
+{
+    ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
 
+    UInt32 uiSHMSize = vShadowMaps.size();
 
+    UInt32 uiMapSize = _shadowVP-> getMapSize ();
 
+    for(UInt32 i = 0; i < uiSHMSize; ++i)
+    {
+        vShadowMaps[i].pTexO->setCompareMode(GL_COMPARE_R_TO_TEXTURE_ARB);
+        vShadowMaps[i].pTexO->setCompareFunc(GL_LEQUAL                  );
+        vShadowMaps[i].pTexO->setDepthMode  (GL_LUMINANCE               );
 
+        vShadowMaps[i].pTexO->setMinFilter  (GL_LINEAR);
+        vShadowMaps[i].pTexO->setMagFilter  (GL_LINEAR);
 
+        if(vShadowMaps[i].uiType == 
+                                ShadowStageData::ShadowMapElem::ColorShadowMap)
+        {
+            vShadowMaps[i].pTexO->setInternalFormat(GL_DEPTH_COMPONENT);
+            vShadowMaps[i].pTexO->setExternalFormat(GL_DEPTH_COMPONENT);
 
+            if(_shadowVP->_lights[i].second->getType() != 
+                                                   PointLight::getClassType())
+            {
+                vShadowMaps[i].pTexO->setWrapS(GL_CLAMP_TO_EDGE);
+                vShadowMaps[i].pTexO->setWrapT(GL_CLAMP_TO_EDGE);
+            }
+            else
+            {
+                vShadowMaps[i].pTexO->setWrapS(GL_CLAMP_TO_BORDER_ARB);
+                vShadowMaps[i].pTexO->setWrapT(GL_CLAMP_TO_BORDER_ARB);
+            }
 
+            vShadowMaps[i].pTexO->setAnisotropy(1.0);
 
+            vShadowMaps[i].pImage->set(Image::OSG_L_PF, 
+                                       uiMapSize, uiMapSize, 1, 
+                                       1, 1, 0.f, 
+                                       NULL,
+                                       Image::OSG_UINT8_IMAGEDATA, 
+                                       false);
+
+            vShadowMaps[i].pFBO->setDepthAttachment(
+                vShadowMaps[i].pFBO->getColorAttachments(0));
+
+            vShadowMaps[i].pFBO->setColorAttachment(NULL, 0);
+
+            vShadowMaps[i].uiType = 
+                                ShadowStageData::ShadowMapElem::DepthShadowMap;
+        }
+    }
+
+    _bShadowMapsConfigured = true;
+}
 
 
 void TreeHandler::setupDrawCombineMap2(Action  *pAction)
@@ -622,3 +731,20 @@ void TreeHandler::doDrawCombineMap1(DrawEnv *pEnv)
 
     glPopMatrix();
 }
+
+bool TreeHandler::hasFactorMap(void)
+{
+    for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
+    {
+        if (_shadowVP->_lightStates[i] != 0 &&
+            (_shadowVP->_lights[i].second->getShadowIntensity() != 0.0 ||
+			_shadowVP->getGlobalShadowIntensity() != 0.0))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+OSG_END_NAMESPACE

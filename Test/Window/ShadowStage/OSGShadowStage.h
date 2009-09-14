@@ -45,31 +45,13 @@
 #include <vector>
 #include <utility>
 
-#include "OSGConfig.h"
 #include "OSGShadowStageBase.h"
 
-
-#include <OSGAction.h>
-#include <OSGRenderActionBase.h>
-#include <OSGSpotLight.h>
-#include <OSGDirectionalLight.h>
-#include <OSGNode.h>
-#include <OSGPerspectiveCamera.h>
-#include <OSGMatrixCamera.h>
-#include <OSGTransform.h>
-#include <OSGTextureChunk.h>
-#include <OSGPassiveBackground.h>
-#include <OSGTexGenChunk.h>
-#include <OSGTextureTransformChunk.h>
-#include <OSGPolygonChunk.h>
-#include <OSGBlendChunk.h>
-#include <OSGTileCameraDecorator.h>
-#include "OSGTreeHandler.h"
+#include "OSGLight.h"
+#include "OSGTransform.h"
+#include "OSGCamera.h"
 
 OSG_BEGIN_NAMESPACE
-
-class TreeHandler;
-class StdShadowMapHandler;
 
 class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
 {
@@ -77,6 +59,8 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
     /*==========================  PUBLIC  =================================*/
 
   public:
+
+    typedef ShadowStageBase Inherited;
 
     enum Mode
     {
@@ -97,21 +81,6 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
                          UInt32     origin,
                          BitVector  details);
 
-
-
-
-
-
-
-#if 0
-    virtual void setVPSize   (Real32 a,Real32 b, Real32 c, Real32 d);
-    virtual void activateSize(void);
-#endif
-    virtual void activate    (void);
-    virtual void deactivate  (void);
-
-    virtual void render      (RenderActionBase* action);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
@@ -120,13 +89,21 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector  bvFlags  = 0) const;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
     void triggerMapUpdate(void);
 
-    void renderLight(RenderActionBase *action, Material *mat, UInt32 index);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
     Node *getLightRoot(UInt32 index);
 
     void checkLightsOcclusion(RenderActionBase *action);
-    void setReadBuffer(void);
     void drawOcclusionBB(const Pnt3f &bbmin, const Pnt3f &bbmax);
 
     /*! \}                                                                 */
@@ -135,6 +112,12 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
   protected:
 
     // Variables should all be in ShadowStageBase.
+
+    static UInt32 _extSHL;
+    static UInt32 _extDepthTexture;
+    static UInt32 _extShadows;
+    static UInt32 _extFramebufferObject;
+    static UInt32 _extDrawBuffers;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
@@ -163,8 +146,8 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
     /*! \name                   Draw                                       */
     /*! \{                                                                 */
 
-    void onCreate (const ShadowStage *source = NULL);
-    void onDestroy(      void                      );
+    void onCreate (const ShadowStage *source        = NULL);
+    void onDestroy(      UInt32       uiContainerId       );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -175,26 +158,9 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \{                                                                 */
 
-    bool _bRunning;
-
-    UInt32                    _mapRenderSize;
-    bool                      _mapSizeChanged;
-
-    TexGenChunkUnrecPtr       _texGen;
-    PolygonChunkUnrecPtr      _poly;
-    PolygonChunkUnrecPtr      _offset;
-    NodeUnrecPtr              _dummy;
-    PassiveBackgroundUnrecPtr _silentBack;
-    UInt32                    _windowW;
-    UInt32                    _windowH;
-
-    struct ShadowMapStore
-    {
-        TextureObjChunkUnrecPtr   pTexO;
-        TextureEnvChunkUnrecPtr   pTexE;
-        FrameBufferObjectUnrecPtr pFBO;
-    };
+    bool                                                  _mapSizeChanged;
 
     std::vector<NodeUnrecPtr>                             _transparent;
     std::vector<std::pair<NodeUnrecPtr, LightUnrecPtr> >  _lights;
@@ -204,21 +170,33 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
     std::vector<NodeUnrecPtr>                             _lightCamBeacons;
     std::vector<UInt32>                                   _lightStates;
 
-    std::vector<ImageUnrecPtr>                            _shadowImages;
-    std::vector<ShadowMapStore>                           _vTexChunks;
-
     std::vector<bool>                                     _excludeNodeActive;
     std::vector<bool>                                     _realPointLight;
     std::vector<bool*>                                    _renderSide;
 
-    bool                            _trigger_update;
-    Matrix                          _transforms[6];
+    bool                                                  _trigger_update;
 
-    NodeUnrecPtr                    _light_render_transform;
-    GLuint                          _occlusionQuery;
+    GLuint                                                _occlusionQuery;
 
-    void postProcess(DrawEnv *pEnv);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
 
+    void checkLights     (RenderActionBase* action);
+    void updateLights    (RenderActionBase *action);
+    void initializeLights(RenderActionBase *action);
+    void clearLights     (UInt32            size  );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    Action::ResultE findLight      (Node * node);
+    Action::ResultE findTransparent(Node * node);
+
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
 
   private:
@@ -235,24 +213,6 @@ class OSG_WINDOW_DLLMAPPING ShadowStage : public ShadowStageBase
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const ShadowStage &source);
-
-
-
-    bool             _GLSLsupported;
-    bool             _initDone;
-    bool             _restart;
-    TreeHandler     *_treeRenderer;
-
-    typedef ShadowStageBase Inherited;
-
-    void checkLights     (RenderActionBase* action);
-    void updateLights    (RenderActionBase *action);
-    void initializeLights(RenderActionBase *action);
-    void clearLights     (UInt32            size  );
-
-    Action::ResultE findLight      (Node * node);
-    Action::ResultE findTransparent(Node * node);
-    
 };
 
 typedef ShadowStage *ShadowStageP;

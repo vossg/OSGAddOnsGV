@@ -86,17 +86,26 @@ void ShadowStageData::initMethod(InitPhase ePhase)
 /*----------------------- constructors & destructors ----------------------*/
 
 ShadowStageData::ShadowStageData(void) :
-    Inherited()
+     Inherited   (     ),
+    _bRunning    (false),
+    _pTreeHandler(NULL ),
+    _vShadowMaps (     )
 {
 }
 
 ShadowStageData::ShadowStageData(const ShadowStageData &source) :
-    Inherited(source)
+     Inherited   (source),
+    _bRunning    (false ),
+    _pTreeHandler(NULL  ),
+    _vShadowMaps (      )
 {
 }
 
 ShadowStageData::~ShadowStageData(void)
 {
+    _pTreeHandler = NULL;
+
+    _vShadowMaps.clear();
 }
 
 /*----------------------------- class specific ----------------------------*/

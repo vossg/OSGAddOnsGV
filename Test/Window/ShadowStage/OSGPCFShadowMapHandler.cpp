@@ -1,438 +1,201 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
 #include <stdlib.h>
 #include <stdio.h>
-#include <OSGConfig.h>
-#include <OSGQuaternion.h>
-#include <OSGRenderAction.h>
-#include <OSGMatrix.h>
-#include <OSGMatrixUtility.h>
-#include <OSGBackground.h>
-#include <OSGForeground.h>
-#include <OSGGrabForeground.h>
-#include <OSGPolygonForeground.h>
-#include <OSGPolygonBackground.h>
-#include <OSGTextureGrabForeground.h>
-#include <OSGFileGrabForeground.h>
-#include <OSGImageForeground.h>
-#include <OSGImage.h>
-#include <OSGGeometry.h>
-#include <OSGSimpleGeometry.h>
-#include <OSGMatrixCameraDecorator.h>
-#include <OSGLight.h>
-#include <OSGMaterialGroup.h>
+
 #include "OSGPCFShadowMapHandler.h"
+#include "OSGShadowStageData.h"
+#include "OSGRenderAction.h"
 #include "OSGShadowStage.h"
-#include "OSGTreeHandler.h"
-#include "OSGGLU.h"
-
-#include "OSGRenderBuffer.h"
-#include "OSGTextureBuffer.h"
-
-//#define USE_FBO_FOR_COLOR_AND_FACTOR_MAP
-
-#if 0
-//--------------------------------------------------------------------
-#ifndef GL_CLAMP_TO_EDGE
-#   define GL_CLAMP_TO_EDGE    0x812F
-#endif
-#ifndef GL_CLAMP_TO_BORDER_ARB
-#   define GL_CLAMP_TO_BORDER_ARB  0x812D
-#endif
-#ifndef GL_ARB_depth_texture
-#   define GL_DEPTH_COMPONENT16_ARB    0x81A5
-#   define GL_DEPTH_COMPONENT24_ARB    0x81A6
-#   define GL_DEPTH_COMPONENT32_ARB    0x81A7
-#   define GL_TEXTURE_DEPTH_SIZE_ARB   0x884A
-#   define GL_DEPTH_TEXTURE_MODE_ARB   0x884B
-#endif
-#ifndef GL_ARB_shadow
-#   define GL_TEXTURE_COMPARE_MODE_ARB 0x884C
-#   define GL_TEXTURE_COMPARE_FUNC_ARB 0x884D
-#   define GL_COMPARE_R_TO_TEXTURE_ARB 0x884E
-#endif
-#ifndef GL_SGIX_depth_texture
-#   define GL_DEPTH_COMPONENT16_SGIX   0x81A5
-#   define GL_DEPTH_COMPONENT24_SGIX   0x81A6
-#   define GL_DEPTH_COMPONENT32_SGIX   0x81A7
-#endif
-#ifndef GL_SGIX_shadow
-#   define GL_TEXTURE_COMPARE_SGIX             0x819A
-#   define GL_TEXTURE_COMPARE_OPERATOR_SGIX    0x819B
-#   define GL_TEXTURE_LEQUAL_R_SGIX            0x819C
-#   define GL_TEXTURE_GEQUAL_R_SGIX            0x819D
-#endif
-#ifndef GL_DEPTH_COMPONENT_ARB
-#   define GL_DEPTH_COMPONENT_ARB            0x1902
-#endif
-#if 1 //GL_ARB_texture_float
-#    define    GL_RGBA32F_ARB                      0x8814
-#    define    GL_RGB32F_ARB                       0x8815
-#    define    GL_ALPHA32F_ARB                     0x8816
-#    define    GL_INTENSITY32F_ARB                 0x8817
-#    define    GL_LUMINANCE32F_ARB                 0x8818
-#    define    GL_LUMINANCE_ALPHA32F_ARB           0x8819
-#    define    GL_RGBA16F_ARB                      0x881A
-#    define    GL_RGB16F_ARB                       0x881B
-#    define    GL_ALPHA16F_ARB                     0x881C
-#    define    GL_INTENSITY16F_ARB                 0x881D
-#    define    GL_LUMINANCE16F_ARB                 0x881E
-#    define    GL_LUMINANCE_ALPHA16F_ARB           0x881F
-#endif
-
-/* ----------------------- GL_EXT_framebuffer_object ----------------------- */
-
-#ifndef GL_EXT_framebuffer_object
-#define GL_INVALID_FRAMEBUFFER_OPERATION_EXT 0x0506
-#define GL_MAX_RENDERBUFFER_SIZE_EXT 0x84E8
-#define GL_FRAMEBUFFER_BINDING_EXT 0x8CA6
-#define GL_RENDERBUFFER_BINDING_EXT 0x8CA7
-#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE_EXT 0x8CD0
-#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME_EXT 0x8CD1
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL_EXT 0x8CD2
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE_EXT 0x8CD3
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_3D_ZOFFSET_EXT 0x8CD4
-#define GL_FRAMEBUFFER_COMPLETE_EXT 0x8CD5
-#define GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT 0x8CD6
-#define GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT 0x8CD7
-#define GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT 0x8CD9
-#define GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT 0x8CDA
-#define GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT 0x8CDB
-#define GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT 0x8CDC
-#define GL_FRAMEBUFFER_UNSUPPORTED_EXT 0x8CDD
-#define GL_FRAMEBUFFER_STATUS_ERROR_EXT 0x8CDE
-#define GL_MAX_COLOR_ATTACHMENTS_EXT 0x8CDF
-#define GL_COLOR_ATTACHMENT0_EXT 0x8CE0
-#define GL_COLOR_ATTACHMENT1_EXT 0x8CE1
-#define GL_COLOR_ATTACHMENT2_EXT 0x8CE2
-#define GL_COLOR_ATTACHMENT3_EXT 0x8CE3
-#define GL_COLOR_ATTACHMENT4_EXT 0x8CE4
-#define GL_COLOR_ATTACHMENT5_EXT 0x8CE5
-#define GL_COLOR_ATTACHMENT6_EXT 0x8CE6
-#define GL_COLOR_ATTACHMENT7_EXT 0x8CE7
-#define GL_COLOR_ATTACHMENT8_EXT 0x8CE8
-#define GL_COLOR_ATTACHMENT9_EXT 0x8CE9
-#define GL_COLOR_ATTACHMENT10_EXT 0x8CEA
-#define GL_COLOR_ATTACHMENT11_EXT 0x8CEB
-#define GL_COLOR_ATTACHMENT12_EXT 0x8CEC
-#define GL_COLOR_ATTACHMENT13_EXT 0x8CED
-#define GL_COLOR_ATTACHMENT14_EXT 0x8CEE
-#define GL_COLOR_ATTACHMENT15_EXT 0x8CEF
-#define GL_DEPTH_ATTACHMENT_EXT 0x8D00
-#define GL_STENCIL_ATTACHMENT_EXT 0x8D20
-#define GL_FRAMEBUFFER_EXT 0x8D40
-#define GL_RENDERBUFFER_EXT 0x8D41
-#define GL_RENDERBUFFER_WIDTH_EXT 0x8D42
-#define GL_RENDERBUFFER_HEIGHT_EXT 0x8D43
-#define GL_RENDERBUFFER_INTERNAL_FORMAT_EXT 0x8D44
-#define GL_STENCIL_INDEX_EXT 0x8D45
-#define GL_STENCIL_INDEX1_EXT 0x8D46
-#define GL_STENCIL_INDEX4_EXT 0x8D47
-#define GL_STENCIL_INDEX8_EXT 0x8D48
-#define GL_STENCIL_INDEX16_EXT 0x8D49
-#endif
-
-// Some installations have a typo in the name for this one
-#ifndef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT
-#define GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT 0x8CD6
-#endif
-
-#ifndef GL_TEXTURE_RECTANGLE_ARB
-#define GL_TEXTURE_RECTANGLE_ARB 0x84F5
-#endif
-
-#ifndef GL_DEPTH_COMPONENT_ARB
-    #define GL_DEPTH_COMPONENT_ARB 0x1902
-#endif
-
-#ifndef GL_ARB_depth_texture
-#define GL_DEPTH_COMPONENT16_ARB 0x81A5
-#define GL_DEPTH_COMPONENT24_ARB 0x81A6
-#define GL_DEPTH_COMPONENT32_ARB 0x81A7
-#define GL_TEXTURE_DEPTH_SIZE_ARB 0x884A
-#define GL_DEPTH_TEXTURE_MODE_ARB 0x884B
-#endif
-
-#ifndef GL_ARB_shadow
-#define GL_TEXTURE_COMPARE_MODE_ARB 0x884C
-#define GL_TEXTURE_COMPARE_FUNC_ARB 0x884D
-#define GL_COMPARE_R_TO_TEXTURE_ARB 0x884E
-#endif
-#endif
+#include "OSGSpotLight.h"
 
 OSG_BEGIN_NAMESPACE
 
 #include "ShaderCode/OSGPCFShadowMapShaderCode.cinl"
 
-PCFShadowMapHandler::PCFShadowMapHandler(ShadowStage *source) :
-    TreeHandler(source),
-    _tiledeco(NULL),
-    _colorMapImage(NULL),
-    _shadowFactorMapImage(NULL),
-    _shadowFactorMapImage2(NULL),
-    _shadowSHL(NULL),
-    _shadowSHL2(NULL),
-    _shadowSHL3(NULL),
-    _shadowSHL4(NULL),
-    _shadowCubeSHL(NULL),
-    _firstRun(1),
-    _transforms(),
-    _oldRange(0),
-    _initTexturesDone(false)
+PCFShadowMapHandler::PCFShadowMapHandler(ShadowStage     *pSource,
+                                         ShadowStageData *pData  ) :
+     Inherited    (pSource, 
+                   pData  ),
+    _pPoly        (NULL   ),
+    _matrixDeco   (NULL   ),
+
+    _shadowSHL    (NULL   ),
+    _shadowSHL2   (NULL   ),
+    _shadowSHL3   (NULL   ),
+    _shadowSHL4   (NULL   ),
+    _shadowCubeSHL(NULL   ),
+
+    _firstRun     (1      ),
+    _oldRange     (0      )
 {
-    _colorMapO = TextureObjChunk::create();
+    _uiMode = ShadowStage::PCF_SHADOW_MAP;
 
-    _colorMapImage = Image::create();
+    _shadowFactorMap2O     = TextureObjChunk::createLocal();
+    _shadowFactorMapImage2 = Image          ::createLocal();
 
-    _colorMapO->setImage(_colorMapImage);
-    _colorMapO->setInternalFormat(GL_RGB);
-    _colorMapO->setExternalFormat(GL_RGB);
-    _colorMapO->setMinFilter(GL_NEAREST);
-    _colorMapO->setMagFilter(GL_NEAREST);
-    _colorMapO->setWrapS(GL_REPEAT);
-    _colorMapO->setWrapT(GL_REPEAT);
-    _colorMapO->setTarget(GL_TEXTURE_2D);
-
-    _shadowFactorMapO = TextureObjChunk::create();
-
-    _shadowFactorMapImage = Image::create();
-
-    _shadowFactorMapO->setImage(_shadowFactorMapImage);
-    _shadowFactorMapO->setInternalFormat(GL_RGB);
-    _shadowFactorMapO->setExternalFormat(GL_RGB);
-    _shadowFactorMapO->setMinFilter(GL_LINEAR);
-    _shadowFactorMapO->setMagFilter(GL_LINEAR);
-    _shadowFactorMapO->setWrapS(GL_REPEAT);
-    _shadowFactorMapO->setWrapT(GL_REPEAT);
-    _shadowFactorMapO->setTarget(GL_TEXTURE_2D);
-
-    _shadowFactorMap2O = TextureObjChunk::create();
-
-    _shadowFactorMapImage2 = Image::create();
-
-    _shadowFactorMap2O->setImage(_shadowFactorMapImage2);
+    _shadowFactorMap2O->setImage         (_shadowFactorMapImage2);
     _shadowFactorMap2O->setInternalFormat(GL_RGB);
     _shadowFactorMap2O->setExternalFormat(GL_RGB);
-    _shadowFactorMap2O->setMinFilter(GL_LINEAR);
-    _shadowFactorMap2O->setMagFilter(GL_LINEAR);
-    _shadowFactorMap2O->setWrapS(GL_REPEAT);
-    _shadowFactorMap2O->setWrapT(GL_REPEAT);
-    _shadowFactorMap2O->setTarget(GL_TEXTURE_2D);
+    _shadowFactorMap2O->setMinFilter     (GL_LINEAR);
+    _shadowFactorMap2O->setMagFilter     (GL_LINEAR);
+    _shadowFactorMap2O->setWrapS         (GL_REPEAT);
+    _shadowFactorMap2O->setWrapT         (GL_REPEAT);
+    _shadowFactorMap2O->setTarget        (GL_TEXTURE_2D);
 
     //SHL Chunk 1
-    _shadowSHL = SHLChunk::create();
-    _shadowSHL2 = SHLChunk::create();
-    _shadowSHL3 = SHLChunk::create();
-    _shadowSHL4 = SHLChunk::create();
+    _shadowSHL  = SHLChunk::createLocal();
+    _shadowSHL2 = SHLChunk::createLocal();
+    _shadowSHL3 = SHLChunk::createLocal();
+    _shadowSHL4 = SHLChunk::createLocal();
 
-    //SHL Chunk 2
-    _combineSHL = SHLChunk::create();
 
     //SHL Chunk 3
-    _shadowCubeSHL = SHLChunk::create();
+    _shadowCubeSHL = SHLChunk::createLocal();
 
-    //_combineSHL->readVertexProgram("PCF_Shadow_combine.vert");
-    //_combineSHL->readFragmentProgram("PCF_Shadow_combine.frag");
-    _combineSHL->setVertexProgram(_shadow_combine_vp);
-    _combineSHL->setFragmentProgram(_shadow_combine_fp);
-
-    _combineDepth = DepthChunk::create();
-    _combineDepth->setReadOnly(true);
-
-    //Combine Shader
-    _combineCmat = ChunkMaterial::create();
-    _combineCmat->addChunk(_combineSHL);
-    _combineCmat->addChunk(_colorMapO);
-    _combineCmat->addChunk(_shadowFactorMapO);
-    _combineCmat->addChunk(_combineDepth);
 
     _oldRange = _shadowVP->getShadowSmoothness();
 
     if(_oldRange <= 0.1999)
     {
-        //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-        //_shadowSHL->readFragmentProgram("PCF2_Shadow.frag");
-        _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+        _shadowSHL->setVertexProgram  (_pcf_shadow_vp);
         _shadowSHL->setFragmentProgram(_pcf2_shadow_fp);
 
-        //_shadowSHL2->readVertexProgram("PCF_Shadow2.vert");
-        //_shadowSHL2->readFragmentProgram("PCF2_Shadow2.frag");
-        _shadowSHL2->setVertexProgram(_pcf_shadow2_vp);
+        _shadowSHL2->setVertexProgram  (_pcf_shadow2_vp);
         _shadowSHL2->setFragmentProgram(_pcf2_shadow2_fp);
 
-        //_shadowSHL3->readVertexProgram("PCF_Shadow3.vert");
-        //_shadowSHL3->readFragmentProgram("PCF2_Shadow3.frag");
-        _shadowSHL3->setVertexProgram(_pcf_shadow3_vp);
+        _shadowSHL3->setVertexProgram  (_pcf_shadow3_vp);
         _shadowSHL3->setFragmentProgram(_pcf2_shadow3_fp);
 
-        //_shadowSHL4->readVertexProgram("PCF_Shadow4.vert");
-        //_shadowSHL4->readFragmentProgram("PCF2_Shadow4.frag");
-        _shadowSHL4->setVertexProgram(_pcf_shadow4_vp);
+        _shadowSHL4->setVertexProgram  (_pcf_shadow4_vp);
         _shadowSHL4->setFragmentProgram(_pcf2_shadow4_fp);
 
-        //_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
-        //_shadowCubeSHL->readFragmentProgram("PCF2_CubeShadow.frag");
-        _shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+        _shadowCubeSHL->setVertexProgram  (_pcf_shadowCube_vp);
         _shadowCubeSHL->setFragmentProgram(_pcf2_shadowCube_fp);
     }
     else if(_oldRange <= 0.3999)
     {
-        //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-        //_shadowSHL->readFragmentProgram("PCF3_Shadow.frag");
-        _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+        _shadowSHL->setVertexProgram  (_pcf_shadow_vp);
         _shadowSHL->setFragmentProgram(_pcf3_shadow_fp);
 
-        //_shadowSHL2->readVertexProgram("PCF_Shadow2.vert");
-        //_shadowSHL2->readFragmentProgram("PCF3_Shadow2.frag");
-        _shadowSHL2->setVertexProgram(_pcf_shadow2_vp);
+        _shadowSHL2->setVertexProgram  (_pcf_shadow2_vp);
         _shadowSHL2->setFragmentProgram(_pcf3_shadow2_fp);
 
-        //_shadowSHL3->readVertexProgram("PCF_Shadow3.vert");
-        //_shadowSHL3->readFragmentProgram("PCF3_Shadow3.frag");
-        _shadowSHL3->setVertexProgram(_pcf_shadow3_vp);
+        _shadowSHL3->setVertexProgram  (_pcf_shadow3_vp);
         _shadowSHL3->setFragmentProgram(_pcf3_shadow3_fp);
 
-        //_shadowSHL4->readVertexProgram("PCF_Shadow4.vert");
-        //_shadowSHL4->readFragmentProgram("PCF3_Shadow4.frag");
-        _shadowSHL4->setVertexProgram(_pcf_shadow4_vp);
+        _shadowSHL4->setVertexProgram  (_pcf_shadow4_vp);
         _shadowSHL4->setFragmentProgram(_pcf3_shadow4_fp);
 
-        //_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
-        //_shadowCubeSHL->readFragmentProgram("PCF3_CubeShadow.frag");
-        _shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+        _shadowCubeSHL->setVertexProgram  (_pcf_shadowCube_vp);
         _shadowCubeSHL->setFragmentProgram(_pcf3_shadowCube_fp);
     }
     else if(_oldRange <= 0.5999)
     {
-        //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-        //_shadowSHL->readFragmentProgram("PCF4_Shadow.frag");
-        _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+        _shadowSHL->setVertexProgram  (_pcf_shadow_vp);
         _shadowSHL->setFragmentProgram(_pcf4_shadow_fp);
 
-        //_shadowSHL2->readVertexProgram("PCF_Shadow2.vert");
-        //_shadowSHL2->readFragmentProgram("PCF4_Shadow2.frag");
-        _shadowSHL2->setVertexProgram(_pcf_shadow2_vp);
+        _shadowSHL2->setVertexProgram  (_pcf_shadow2_vp);
         _shadowSHL2->setFragmentProgram(_pcf4_shadow2_fp);
 
-        //_shadowSHL3->readVertexProgram("PCF_Shadow3.vert");
-        //_shadowSHL3->readFragmentProgram("PCF4_Shadow3.frag");
-        _shadowSHL3->setVertexProgram(_pcf_shadow3_vp);
+        _shadowSHL3->setVertexProgram  (_pcf_shadow3_vp);
         _shadowSHL3->setFragmentProgram(_pcf4_shadow3_fp);
 
-        //_shadowSHL4->readVertexProgram("PCF_Shadow4.vert");
-        //_shadowSHL4->readFragmentProgram("PCF4_Shadow4.frag");
-        _shadowSHL4->setVertexProgram(_pcf_shadow4_vp);
+        _shadowSHL4->setVertexProgram  (_pcf_shadow4_vp);
         _shadowSHL4->setFragmentProgram(_pcf4_shadow4_fp);
 
-        //_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
-        //_shadowCubeSHL->readFragmentProgram("PCF4_CubeShadow.frag");
-        _shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+        _shadowCubeSHL->setVertexProgram  (_pcf_shadowCube_vp);
         _shadowCubeSHL->setFragmentProgram(_pcf4_shadowCube_fp);
     }
     else if(_oldRange <= 0.7999)
     {
-        //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-        //_shadowSHL->readFragmentProgram("PCF5_Shadow.frag");
-        _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+        _shadowSHL->setVertexProgram  (_pcf_shadow_vp);
         _shadowSHL->setFragmentProgram(_pcf5_shadow_fp);
 
-        //_shadowSHL2->readVertexProgram("PCF_Shadow2.vert");
-        //_shadowSHL2->readFragmentProgram("PCF5_Shadow2.frag");
-        _shadowSHL2->setVertexProgram(_pcf_shadow2_vp);
+        _shadowSHL2->setVertexProgram  (_pcf_shadow2_vp);
         _shadowSHL2->setFragmentProgram(_pcf5_shadow2_fp);
 
-        //_shadowSHL3->readVertexProgram("PCF_Shadow3.vert");
-        //_shadowSHL3->readFragmentProgram("PCF5_Shadow3.frag");
-        _shadowSHL3->setVertexProgram(_pcf_shadow3_vp);
+        _shadowSHL3->setVertexProgram  (_pcf_shadow3_vp);
         _shadowSHL3->setFragmentProgram(_pcf5_shadow3_fp);
 
-        //_shadowSHL4->readVertexProgram("PCF_Shadow4.vert");
-        //_shadowSHL4->readFragmentProgram("PCF5_Shadow4.frag");
-        _shadowSHL4->setVertexProgram(_pcf_shadow4_vp);
+        _shadowSHL4->setVertexProgram  (_pcf_shadow4_vp);
         _shadowSHL4->setFragmentProgram(_pcf5_shadow4_fp);
 
-        //_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
-        //_shadowCubeSHL->readFragmentProgram("PCF5_CubeShadow.frag");
-        _shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+        _shadowCubeSHL->setVertexProgram  (_pcf_shadowCube_vp);
         _shadowCubeSHL->setFragmentProgram(_pcf5_shadowCube_fp);
     }
     else
     {
-        //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-        //_shadowSHL->readFragmentProgram("PCF6_Shadow.frag");
-        _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+        _shadowSHL->setVertexProgram  (_pcf_shadow_vp);
         _shadowSHL->setFragmentProgram(_pcf6_shadow_fp);
 
-        //_shadowSHL2->readVertexProgram("PCF_Shadow2.vert");
-        //_shadowSHL2->readFragmentProgram("PCF6_Shadow2.frag");
-        _shadowSHL2->setVertexProgram(_pcf_shadow2_vp);
+        _shadowSHL2->setVertexProgram  (_pcf_shadow2_vp);
         _shadowSHL2->setFragmentProgram(_pcf6_shadow2_fp);
 
-        //_shadowSHL3->readVertexProgram("PCF_Shadow3.vert");
-        //_shadowSHL3->readFragmentProgram("PCF6_Shadow3.frag");
-        _shadowSHL3->setVertexProgram(_pcf_shadow3_vp);
+        _shadowSHL3->setVertexProgram  (_pcf_shadow3_vp);
         _shadowSHL3->setFragmentProgram(_pcf6_shadow3_fp);
 
-        //_shadowSHL4->readVertexProgram("PCF_Shadow4.vert");
-        //_shadowSHL4->readFragmentProgram("PCF6_Shadow4.frag");
-        _shadowSHL4->setVertexProgram(_pcf_shadow4_vp);
+        _shadowSHL4->setVertexProgram  (_pcf_shadow4_vp);
         _shadowSHL4->setFragmentProgram(_pcf6_shadow4_fp);
 
-        //_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
-        //_shadowCubeSHL->readFragmentProgram("PCF6_CubeShadow.frag");
-        _shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+        _shadowCubeSHL->setVertexProgram  (_pcf_shadowCube_vp);
         _shadowCubeSHL->setFragmentProgram(_pcf6_shadowCube_fp);
     }
 
-    _transforms[0] = Matrix(1, 0, 0, 0,
-                            0, -1, 0, 0,
-                            0, 0, -1, 0,
-                            0, 0, 0, 1);
 
-    _transforms[1] = Matrix(1, 0, 0, 0,
-                            0, 1, 0, 0,
-                            0, 0, 1, 0,
-                            0, 0, 0, 1);
+    _pPoly = PolygonChunk::createLocal();
 
-    _transforms[2] = Matrix(1, 0, 0, 0,
-                            0, 0, 1, 0,
-                            0, -1, 0, 0,
-                            0, 0, 0, 1);
+    _unlitMat->addChunk(_pPoly);
 
-    _transforms[3] = Matrix(1, 0, 0, 0,
-                            0, 0, -1, 0,
-                            0, 1, 0, 0,
-                            0, 0, 0, 1);
-
-    _transforms[4] = Matrix(0, 0, 1, 0,
-                            0, 1, 0, 0,
-                            -1, 0, 0, 0,
-                            0, 0, 0, 1);
-
-    _transforms[5] = Matrix(0, 0, -1, 0,
-                            0, 1, 0, 0,
-                            1, 0, 0, 0,
-                            0, 0, 0, 1);
-
-    PolygonChunkUnrecPtr pPoly = PolygonChunk::create();
-
-    pPoly->setOffsetFill  (true                     );
-    pPoly->setOffsetFactor(_shadowVP->getOffFactor());
-    pPoly->setOffsetBias  (_shadowVP->getOffBias  ());
-
-    _unlitMat->addChunk(pPoly);
+    _matrixDeco = MatrixCameraDecorator::createLocal();
 }
 
 PCFShadowMapHandler::~PCFShadowMapHandler(void)
 {
-    _tiledeco         = NULL;
+    _pPoly            = NULL;
+    _matrixDeco       = NULL;
 
     _shadowSHL        = NULL;
     _shadowSHL2       = NULL;
     _shadowSHL3       = NULL;
     _shadowSHL4       = NULL;
-    _combineSHL       = NULL;
-    _combineDepth     = NULL;
     _shadowCubeSHL    = NULL;
-    _combineCmat      = NULL;
 
     _vShadowCmat      .clear();
     _vShadowSHLVar    .clear();
@@ -442,77 +205,6 @@ PCFShadowMapHandler::~PCFShadowMapHandler(void)
     _vShadowCubeSHLVar.clear();
 }
 
-
-bool PCFShadowMapHandler::initFBO(DrawEnv *pEnv)
-{
-    Int32   width = pEnv->getPixelWidth();
-    Int32   height = pEnv->getPixelHeight();
-    
-    if(width <= 0 || height <= 0)
-        return false;
-    
-    if(_pFB != NULL)
-        return true;
-    
-    Window *win = pEnv->getWindow();
-    
-    _width  = pEnv->getPixelWidth();
-    _height = pEnv->getPixelHeight();
-    
-    _colorMapImage->set(GL_RGB, _width, _height);
-    
-    _shadowFactorMapImage->set(GL_RGB, _width, _height);
-    
-    _shadowFactorMapImage2->set(GL_RGB, _width, _height);
-    
-    commitChanges();
-    
-
-    _pFB = FrameBufferObject::create();
-    
-    _pFB->setSize(_width, _height);
-    
-    RenderBufferUnrecPtr pDepthRB = RenderBuffer::create();
-    
-    pDepthRB->setInternalFormat(GL_DEPTH_COMPONENT24);
-    
-    
-    TextureBufferUnrecPtr pTexBuffer = TextureBuffer::create();
-    
-    pTexBuffer->setTexture(_colorMapO);
-    
-    _pFB->setColorAttachment(pTexBuffer, 0);
-    
-
-    pTexBuffer = TextureBuffer::create();
-    
-    pTexBuffer->setTexture(_shadowFactorMapO);
-    
-    _pFB->setColorAttachment(pTexBuffer, 1);
-    
-    
-    pTexBuffer = TextureBuffer::create();
-    
-    pTexBuffer->setTexture(_shadowFactorMap2O);
-    
-    _pFB->setColorAttachment(pTexBuffer, 2);
-    
-    
-    _pFB->setDepthAttachment(pDepthRB);
-    
-    commitChanges();
-
-    return true;
-}
-
-void PCFShadowMapHandler::reInit(DrawEnv *pEnv)
-{
-}
-
-void PCFShadowMapHandler::initTextures(DrawEnv *pEnv)
-{
-    _initTexturesDone = true;
-}
 
 
 void PCFShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
@@ -546,6 +238,8 @@ void PCFShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
             exnode->setTravMask(0);
     }
 
+    ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
+
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i])
@@ -563,14 +257,14 @@ void PCFShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                     {
                         RenderPartition   *pPart    = a->getActivePartition();
 
-                        pPart->setRenderTarget(_shadowVP->_vTexChunks[i].pFBO);
+                        pPart->setRenderTarget(vShadowMaps[i].pFBO);
 
                         pPart->setWindow  (a->getWindow());
 
                         pPart->calcViewportDimension(0.f,
                                                      0.f,
-                                                     _shadowVP->getMapSize(),
-                                                     _shadowVP->getMapSize(),
+                                                     _shadowVP->getMapSize()-1,
+                                                     _shadowVP->getMapSize()-1,
                                                  
                                                      _shadowVP->getMapSize(),
                                                      _shadowVP->getMapSize() );
@@ -631,9 +325,6 @@ void PCFShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                 }
                 else
                 {
-                    MatrixCameraDecoratorUnrecPtr    deco =
-                        MatrixCameraDecorator::create();
-
                     for(UInt32 j = 0;j < 6;j++)
                     {
                         //Offset berechnen
@@ -669,15 +360,15 @@ void PCFShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                             yOffset = _PLMapSize;
                         }
 
-                        deco->setDecoratee(_shadowVP->_lightCameras[i]);
-                        deco->setPreProjection(_transforms[j]);
+                        _matrixDeco->setDecoratee(_shadowVP->_lightCameras[i]);
+                        _matrixDeco->setPreProjection(_aCubeTrans[j]);
 
                         a->pushPartition();
                         {
                             RenderPartition   *pPart = a->getActivePartition();
 
                             pPart->setRenderTarget(
-                                _shadowVP->_vTexChunks[i].pFBO);
+                                vShadowMaps[i].pFBO);
 
                             pPart->setWindow  (a->getWindow());
 
@@ -694,19 +385,19 @@ void PCFShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                             Matrix m, t;
                     
                             // set the projection
-                            deco->getProjection          (
+                            _matrixDeco->getProjection          (
                                 m, 
                                 pPart->getViewportWidth (), 
                                 pPart->getViewportHeight());
                             
-                            deco->getProjectionTranslation(
+                            _matrixDeco->getProjectionTranslation(
                                 t, 
                                 pPart->getViewportWidth (), 
                                 pPart->getViewportHeight());
                             
                             pPart->setupProjection(m, t);
                             
-                            deco->getViewing(
+                            _matrixDeco->getViewing(
                                 m, 
                                 pPart->getViewportWidth (),
                                 pPart->getViewportHeight());
@@ -714,9 +405,9 @@ void PCFShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                             pPart->setupViewing(m);
                         
                             pPart->setNear     (
-                                deco->getNear());
+                                _matrixDeco->getNear());
                             pPart->setFar      (
-                                deco->getFar ());
+                                _matrixDeco->getFar ());
                         
                             pPart->calcFrustum();
                             
@@ -788,7 +479,7 @@ void PCFShadowMapHandler::createColorMapFBO(DrawEnv *pEnv)
     {
         RenderPartition *pPart = a->getActivePartition();
 
-        pPart->setRenderTarget(_pFB);
+        pPart->setRenderTarget(_pSceneFBO);
         pPart->setDrawBuffer  (GL_COLOR_ATTACHMENT0_EXT);
 
         Node *parent = _shadowVP->getSceneRoot()->getParent();
@@ -840,6 +531,8 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
     RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
 
     UInt32 uiPLightCount = 0;
+
+    ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
 
     //Zuerst alle echte Pointlights
     for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
@@ -901,38 +594,39 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
                 shadowMatrix.mult(iCVM);
 
                 Matrix      shadowMatrixA = LPM;
-                shadowMatrixA.mult(_transforms[0]);
+                shadowMatrixA.mult(_aCubeTrans[0]);
                 shadowMatrixA.mult(LVM);
                 shadowMatrixA.mult(iCVM);
 
                 Matrix      shadowMatrixB = LPM;
-                shadowMatrixB.mult(_transforms[1]);
+                shadowMatrixB.mult(_aCubeTrans[1]);
                 shadowMatrixB.mult(LVM);
                 shadowMatrixB.mult(iCVM);
 
                 Matrix      shadowMatrixC = LPM;
-                shadowMatrixC.mult(_transforms[2]);
+                shadowMatrixC.mult(_aCubeTrans[2]);
                 shadowMatrixC.mult(LVM);
                 shadowMatrixC.mult(iCVM);
 
                 Matrix      shadowMatrixD = LPM;
-                shadowMatrixD.mult(_transforms[3]);
+                shadowMatrixD.mult(_aCubeTrans[3]);
                 shadowMatrixD.mult(LVM);
                 shadowMatrixD.mult(iCVM);
 
                 Matrix      shadowMatrixE = LPM;
-                shadowMatrixE.mult(_transforms[4]);
+                shadowMatrixE.mult(_aCubeTrans[4]);
                 shadowMatrixE.mult(LVM);
                 shadowMatrixE.mult(iCVM);
 
                 Matrix      shadowMatrixF = LPM;
-                shadowMatrixF.mult(_transforms[5]);
+                shadowMatrixF.mult(_aCubeTrans[5]);
                 shadowMatrixF.mult(LVM);
                 shadowMatrixF.mult(iCVM);
 
                 if(_vShadowCubeSHLVar.size() == uiPLightCount)
                 {
-                    _vShadowCubeSHLVar.push_back(SHLVariableChunk::create());
+                    _vShadowCubeSHLVar.push_back(
+                        SHLVariableChunk::createLocal());
                 }
 
                 OSG_ASSERT(uiPLightCount < _vShadowCubeSHLVar.size());
@@ -962,7 +656,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
 
                 if(_vShadowCmat.size() == uiPLightCount)
                 {
-                    _vShadowCmat.push_back(ChunkMaterial::create());
+                    _vShadowCmat.push_back(ChunkMaterial::createLocal());
                 }
 
                 OSG_ASSERT( uiPLightCount < _vShadowCmat.size());
@@ -971,10 +665,10 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
                 _vShadowCmat[uiPLightCount]->addChunk(_shadowCubeSHL);
 
                 _vShadowCmat[uiPLightCount]->addChunk(
-                    _shadowVP->_vTexChunks[i].pTexO);
+                    vShadowMaps[i].pTexO);
 
                 _vShadowCmat[uiPLightCount]->addChunk(
-                    _shadowVP->_vTexChunks[i].pTexE);
+                    vShadowMaps[i].pTexE);
 
                 if(_activeFactorMap == 0)
                 {
@@ -1003,7 +697,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
                 {
                     RenderPartition *pPart = a->getActivePartition();
 
-                    pPart->setRenderTarget(_pFB);
+                    pPart->setRenderTarget(_pSceneFBO);
                     pPart->setDrawBuffer  (*buffers);
 
                     Node *light  = _shadowVP->_lights[i].first;
@@ -1118,8 +812,10 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
             shadowMatrixF.push_back(shadowMatrix);
 
             Real32      mapFactor;
+
             mapFactor = Real32(_shadowVP->getMapSize()) /
-                Real32(_shadowVP->_shadowImages[i]->getWidth());
+                Real32(vShadowMaps[i].pImage->getWidth());
+
             mapFactorF.push_back(mapFactor);
             lightCounter++;
         }
@@ -1152,7 +848,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
 		
             if(_vShadowCmat.size() == uiMatCount)
             {
-                _vShadowCmat.push_back(ChunkMaterial::create());
+                _vShadowCmat.push_back(ChunkMaterial::createLocal());
             }
 
             OSG_ASSERT( uiMatCount < _vShadowCmat.size());
@@ -1172,9 +868,9 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
                         if(lightNum >= (i * 4) && lightNum < ((i + 1) * 4))
                         {
                             _vShadowCmat[uiMatCount]->addChunk(
-                                _shadowVP->_vTexChunks[j].pTexO);
+                                vShadowMaps[j].pTexO);
                             _vShadowCmat[uiMatCount]->addChunk(
-                                _shadowVP->_vTexChunks[j].pTexE);
+                                vShadowMaps[j].pTexE);
                         }
                         lightNum++;
                     }
@@ -1196,7 +892,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
 
                 if(_vShadowSHLVar.size() == uiVarCount)
                 {
-                    _vShadowSHLVar.push_back(SHLVariableChunk::create());
+                    _vShadowSHLVar.push_back(SHLVariableChunk::createLocal());
                 }
 
                 OSG_ASSERT(uiVarCount < _vShadowSHLVar.size());
@@ -1236,7 +932,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
 
                 if(_vShadowSHLVar2.size() == uiVarCount2)
                 {
-                    _vShadowSHLVar2.push_back(SHLVariableChunk::create());
+                    _vShadowSHLVar2.push_back(SHLVariableChunk::createLocal());
                 }
 
                 OSG_ASSERT(uiVarCount2 < _vShadowSHLVar2.size());
@@ -1289,7 +985,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
 
                 if(_vShadowSHLVar3.size() == uiVarCount3)
                 {
-                    _vShadowSHLVar3.push_back(SHLVariableChunk::create());
+                    _vShadowSHLVar3.push_back(SHLVariableChunk::createLocal());
                 }
 
                 OSG_ASSERT(uiVarCount3 < _vShadowSHLVar3.size());
@@ -1354,7 +1050,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
 
                 if(_vShadowSHLVar4.size() == uiVarCount4)
                 {
-                    _vShadowSHLVar4.push_back(SHLVariableChunk::create());
+                    _vShadowSHLVar4.push_back(SHLVariableChunk::createLocal());
                 }
 
                 OSG_ASSERT(uiVarCount4 < _vShadowSHLVar4.size());
@@ -1425,7 +1121,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
             {
                 RenderPartition *pPart = a->getActivePartition();
                 
-                pPart->setRenderTarget(_pFB);
+                pPart->setRenderTarget(_pSceneFBO);
                 pPart->setDrawBuffer  (*buffers);
                 
                 Node *light  = _shadowVP->_lights[i].first;
@@ -1478,37 +1174,58 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
 }
 
 
-void PCFShadowMapHandler::render(DrawEnv      *pEnv)
+void PCFShadowMapHandler::render(DrawEnv *pEnv)
 {
-    Window  *win = pEnv->getWindow();
-    initialize(win);
-
     glPushAttrib(GL_ENABLE_BIT);
 
-    if(!_initTexturesDone)
-        initTextures(pEnv);
+    if(_pStageData->getShadowMaps().size() != _shadowVP->_lights.size())
+    {
+        fprintf(stderr, "ShadowMaps.size() != Light.size() (%d|%d)\n",
+                _pStageData->getShadowMaps().size(),
+                _shadowVP->_lights.size());
+
+        initShadowMaps();
+    }
+
+    if(_bShadowMapsConfigured == false)
+    {
+        fprintf(stderr, "ShadowMaps not configures\n");
+        configureShadowMaps();
+    }
+
+    if(_uiMapSize != _shadowVP->getMapSize())
+    {
+        fprintf(stderr, "MapSize changed (%d|%d)\n",
+                _uiMapSize,
+                _shadowVP->getMapSize());
+
+        updateShadowMapSize();
+    }
+
+    if(_pSceneFBO == NULL)
+        initSceneFBO(pEnv, true);
+
+    if(_width  != pEnv->getPixelWidth () ||
+       _height != pEnv->getPixelHeight()  )
+    {
+        fprintf(stderr, "SceneSize changed (%d %d|%d %d)\n",
+                _width,
+                _height,
+                 pEnv->getPixelWidth (),
+                 pEnv->getPixelHeight());
+
+        updateSceneFBOSize(pEnv, true);
+    }
+
+    commitChanges();
+
 
     if(_shadowVP->getMapSize() / 4 > _maxPLMapSize)
         _PLMapSize = _maxPLMapSize;
     else
         _PLMapSize = _shadowVP->getMapSize() / 4;
 
-    for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
-    {
-        glBindTexture(GL_TEXTURE_2D,
-                      pEnv->getWindow()->getGLObjectId(
-                          _shadowVP->_vTexChunks[i].pTexO->getGLId()));
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_ARB,
-                        GL_COMPARE_R_TO_TEXTURE_ARB);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_ARB,
-                        GL_LEQUAL);
-        glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE_ARB,
-                        GL_LUMINANCE);
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
 
-    if(!initFBO(pEnv))
-        printf("ERROR with FBOBJECT\n");
 
     GLfloat globalAmbient[4];
     glGetFloatv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
@@ -1521,164 +1238,92 @@ void PCFShadowMapHandler::render(DrawEnv      *pEnv)
     //Used for ShadowFactorMap
     _firstRun = 1;
 
-#if 0
-    if(_shadowVP->getPixelWidth() != _width ||
-       _shadowVP->getPixelHeight() != _height)
-#endif
-    if(pEnv->getPixelWidth() != _width ||
-       pEnv->getPixelHeight() != _height)
-    {
-#if 0
-        _width = _shadowVP->getPixelWidth();
-        _height = _shadowVP->getPixelHeight();
-#endif
-        _width  = pEnv->getPixelWidth();
-        _height = pEnv->getPixelHeight();
-
-        _colorMapImage->set(GL_RGB, _width, _height);
-            
-        _shadowFactorMapImage->set(GL_RGB, _width, _height);
-            
-        _shadowFactorMapImage2->set(GL_RGB, _width, _height);
-            
-        reInit(pEnv);
-    }
 
     if(_oldRange != _shadowVP->getShadowSmoothness())
     {
         _oldRange = _shadowVP->getShadowSmoothness();
         if(_oldRange <= 0.1999)
         {
-            //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-            //_shadowSHL->readFragmentProgram("PCF2_Shadow.frag");
             _shadowSHL->setVertexProgram(_pcf_shadow_vp);
             _shadowSHL->setFragmentProgram(_pcf2_shadow_fp);
             
-            //_shadowSHL2->readVertexProgram("PCF_Shadow2.vert");
-            //_shadowSHL2->readFragmentProgram("PCF2_Shadow2.frag");
             _shadowSHL2->setVertexProgram(_pcf_shadow2_vp);
             _shadowSHL2->setFragmentProgram(_pcf2_shadow2_fp);
 
-            //_shadowSHL3->readVertexProgram("PCF_Shadow3.vert");
-            //_shadowSHL3->readFragmentProgram("PCF2_Shadow3.frag");
             _shadowSHL3->setVertexProgram(_pcf_shadow3_vp);
             _shadowSHL3->setFragmentProgram(_pcf2_shadow3_fp);
 
-            //_shadowSHL4->readVertexProgram("PCF_Shadow4.vert");
-            //_shadowSHL4->readFragmentProgram("PCF2_Shadow4.frag");
             _shadowSHL4->setVertexProgram(_pcf_shadow4_vp);
             _shadowSHL4->setFragmentProgram(_pcf2_shadow4_fp);
 
-            //_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
-            //_shadowCubeSHL->readFragmentProgram("PCF2_CubeShadow.frag");
             _shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
             _shadowCubeSHL->setFragmentProgram(_pcf2_shadowCube_fp);
         }
         else if(_oldRange <= 0.3999)
         {
-            //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-            //_shadowSHL->readFragmentProgram("PCF3_Shadow.frag");
             _shadowSHL->setVertexProgram(_pcf_shadow_vp);
             _shadowSHL->setFragmentProgram(_pcf3_shadow_fp);
             
-            //_shadowSHL2->readVertexProgram("PCF_Shadow2.vert");
-            //_shadowSHL2->readFragmentProgram("PCF3_Shadow2.frag");
             _shadowSHL2->setVertexProgram(_pcf_shadow2_vp);
             _shadowSHL2->setFragmentProgram(_pcf3_shadow2_fp);
             
-            //_shadowSHL3->readVertexProgram("PCF_Shadow3.vert");
-            //_shadowSHL3->readFragmentProgram("PCF3_Shadow3.frag");
             _shadowSHL3->setVertexProgram(_pcf_shadow3_vp);
             _shadowSHL3->setFragmentProgram(_pcf3_shadow3_fp);
             
-            //_shadowSHL4->readVertexProgram("PCF_Shadow4.vert");
-            //_shadowSHL4->readFragmentProgram("PCF3_Shadow4.frag");
             _shadowSHL4->setVertexProgram(_pcf_shadow4_vp);
             _shadowSHL4->setFragmentProgram(_pcf3_shadow4_fp);
 
-            //_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
-            //_shadowCubeSHL->readFragmentProgram("PCF3_CubeShadow.frag");
             _shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
             _shadowCubeSHL->setFragmentProgram(_pcf3_shadowCube_fp);
         }
         else if(_oldRange <= 0.5999)
         {
-            //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-            //_shadowSHL->readFragmentProgram("PCF4_Shadow.frag");
             _shadowSHL->setVertexProgram(_pcf_shadow_vp);
             _shadowSHL->setFragmentProgram(_pcf4_shadow_fp);
             
-            //_shadowSHL2->readVertexProgram("PCF_Shadow2.vert");
-            //_shadowSHL2->readFragmentProgram("PCF4_Shadow2.frag");
             _shadowSHL2->setVertexProgram(_pcf_shadow2_vp);
             _shadowSHL2->setFragmentProgram(_pcf4_shadow2_fp);
             
-            //_shadowSHL3->readVertexProgram("PCF_Shadow3.vert");
-            //_shadowSHL3->readFragmentProgram("PCF4_Shadow3.frag");
             _shadowSHL3->setVertexProgram(_pcf_shadow3_vp);
             _shadowSHL3->setFragmentProgram(_pcf4_shadow3_fp);
             
-            //_shadowSHL4->readVertexProgram("PCF_Shadow4.vert");
-            //_shadowSHL4->readFragmentProgram("PCF4_Shadow4.frag");
             _shadowSHL4->setVertexProgram(_pcf_shadow4_vp);
             _shadowSHL4->setFragmentProgram(_pcf4_shadow4_fp);
             
-            //_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
-            //_shadowCubeSHL->readFragmentProgram("PCF4_CubeShadow.frag");
             _shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
             _shadowCubeSHL->setFragmentProgram(_pcf4_shadowCube_fp);
         }
         else if(_oldRange <= 0.7999)
         {
-            //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-            //_shadowSHL->readFragmentProgram("PCF5_Shadow.frag");
             _shadowSHL->setVertexProgram(_pcf_shadow_vp);
             _shadowSHL->setFragmentProgram(_pcf5_shadow_fp);
             
-            //_shadowSHL2->readVertexProgram("PCF_Shadow2.vert");
-            //_shadowSHL2->readFragmentProgram("PCF5_Shadow2.frag");
             _shadowSHL2->setVertexProgram(_pcf_shadow2_vp);
             _shadowSHL2->setFragmentProgram(_pcf5_shadow2_fp);
             
-            //_shadowSHL3->readVertexProgram("PCF_Shadow3.vert");
-            //_shadowSHL3->readFragmentProgram("PCF5_Shadow3.frag");
             _shadowSHL3->setVertexProgram(_pcf_shadow3_vp);
             _shadowSHL3->setFragmentProgram(_pcf5_shadow3_fp);
 
-            //_shadowSHL4->readVertexProgram("PCF_Shadow4.vert");
-            //_shadowSHL4->readFragmentProgram("PCF5_Shadow4.frag");
             _shadowSHL4->setVertexProgram(_pcf_shadow4_vp);
             _shadowSHL4->setFragmentProgram(_pcf5_shadow4_fp);
 
-            //_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
-            //_shadowCubeSHL->readFragmentProgram("PCF5_CubeShadow.frag");
             _shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
             _shadowCubeSHL->setFragmentProgram(_pcf5_shadowCube_fp);
         }
         else
         {
-            //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-            //_shadowSHL->readFragmentProgram("PCF6_Shadow.frag");
             _shadowSHL->setVertexProgram(_pcf_shadow_vp);
             _shadowSHL->setFragmentProgram(_pcf6_shadow_fp);
             
-            //_shadowSHL2->readVertexProgram("PCF_Shadow2.vert");
-            //_shadowSHL2->readFragmentProgram("PCF6_Shadow2.frag");
             _shadowSHL2->setVertexProgram(_pcf_shadow2_vp);
             _shadowSHL2->setFragmentProgram(_pcf6_shadow2_fp);
             
-            //_shadowSHL3->readVertexProgram("PCF_Shadow3.vert");
-            //_shadowSHL3->readFragmentProgram("PCF6_Shadow3.frag");
             _shadowSHL3->setVertexProgram(_pcf_shadow3_vp);
             _shadowSHL3->setFragmentProgram(_pcf6_shadow3_fp);
             
-            //_shadowSHL4->readVertexProgram("PCF_Shadow4.vert");
-            //_shadowSHL4->readFragmentProgram("PCF6_Shadow4.frag");
             _shadowSHL4->setVertexProgram(_pcf_shadow4_vp);
             _shadowSHL4->setFragmentProgram(_pcf6_shadow4_fp);
             
-            //_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
-            //_shadowCubeSHL->readFragmentProgram("PCF6_CubeShadow.frag");
             _shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
             _shadowCubeSHL->setFragmentProgram(_pcf6_shadowCube_fp);
         }
@@ -1687,6 +1332,10 @@ void PCFShadowMapHandler::render(DrawEnv      *pEnv)
     if(_shadowVP->getMapAutoUpdate() == true ||
        _shadowVP->_trigger_update    == true  )
     {
+        _pPoly->setOffsetFill  (true                     );
+        _pPoly->setOffsetFactor(_shadowVP->getOffFactor());
+        _pPoly->setOffsetBias  (_shadowVP->getOffBias  ());
+
         createColorMapFBO(pEnv);
 
 

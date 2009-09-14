@@ -1,239 +1,94 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
 #include <stdlib.h>
 #include <stdio.h>
-#include <OSGConfig.h>
-#include <OSGQuaternion.h>
-#include <OSGRenderAction.h>
-#include <OSGMatrix.h>
-#include <OSGMatrixUtility.h>
-#include <OSGBackground.h>
-#include <OSGForeground.h>
-#include <OSGGrabForeground.h>
-#include <OSGPolygonForeground.h>
-#include <OSGPolygonBackground.h>
-#include <OSGTextureGrabForeground.h>
-#include <OSGFileGrabForeground.h>
-#include <OSGImageForeground.h>
-#include <OSGImage.h>
-#include <OSGGeometry.h>
-#include <OSGSimpleGeometry.h>
-#include <OSGLight.h>
-#include <OSGMaterialGroup.h>
+
 #include "OSGPCSSShadowMapHandler.h"
+#include "OSGRenderAction.h"
 #include "OSGShadowStage.h"
-#include "OSGTreeHandler.h"
-#include "OSGGLU.h"
-
-
-#include "OSGRenderBuffer.h"
-#include "OSGTextureBuffer.h"
+#include "OSGShadowStageData.h"
+#include "OSGSpotLight.h"
+#include "OSGDirectionalLight.h"
 
 OSG_BEGIN_NAMESPACE
 
 #include "ShaderCode/OSGPCSSShadowMapShaderCode.cinl"
 
-PCSSShadowMapHandler::PCSSShadowMapHandler(ShadowStage *source) :
-    TreeHandler(source),
-    _tiledeco(NULL),
-    _colorMapImage(NULL),
-    _shadowFactorMapImage(NULL),
-    _shadowSHL(NULL),
-    _firstRun(1),
-    _initTexturesDone(false)
+PCSSShadowMapHandler::PCSSShadowMapHandler(ShadowStage     *pSource,
+                                           ShadowStageData *pData  ) :
+     Inherited     (pSource, 
+                    pData  ),
+    _pClearSMapBack(NULL   ),
+    _pPoly         (NULL   ),
+    _shadowSHL     (NULL   ),
+    _firstRun      (1      )
 {
-    _tiledeco = NULL;
-
-    //Prepare Color Map grabbing
-    _colorMapO = TextureObjChunk::create();
-    _colorMapImage = Image::create();
-
-    _colorMapO->setImage(_colorMapImage);
-    _colorMapO->setInternalFormat(GL_RGB);
-    _colorMapO->setExternalFormat(GL_RGB);
-    _colorMapO->setMinFilter(GL_NEAREST);
-    _colorMapO->setMagFilter(GL_NEAREST);
-    _colorMapO->setWrapS(GL_REPEAT);
-    _colorMapO->setWrapT(GL_REPEAT);
-    _colorMapO->setTarget(GL_TEXTURE_2D);
-
-    //Prepare Shadow Factor Map grabbing
-    _shadowFactorMapO = TextureObjChunk::create();
-    _shadowFactorMapImage = Image::create();
-
-    _shadowFactorMapO->setImage(_shadowFactorMapImage);
-    _shadowFactorMapO->setInternalFormat(GL_RGB);
-    _shadowFactorMapO->setExternalFormat(GL_RGB);
-    _shadowFactorMapO->setMinFilter(GL_LINEAR);
-    _shadowFactorMapO->setMagFilter(GL_LINEAR);
-    _shadowFactorMapO->setWrapS(GL_REPEAT);
-    _shadowFactorMapO->setWrapT(GL_REPEAT);
-    _shadowFactorMapO->setTarget(GL_TEXTURE_2D);
+    _uiMode = ShadowStage::PCSS_SHADOW_MAP;
 
 
     //SHL Chunk 1
 
-    _shadowSHL = SHLChunk::create();
-    //_shadowSHL->readVertexProgram("PCSS_Shadow.vert");
-    //_shadowSHL->readFragmentProgram("PCSS_Shadow.frag");
-    _shadowSHL->setVertexProgram(_pcss_shadow_vp);
+    _shadowSHL = SHLChunk::createLocal();
+    _shadowSHL->setVertexProgram  (_pcss_shadow_vp);
     _shadowSHL->setFragmentProgram(_pcss_shadow_fp);
 
-    //SHL Chunk 2
-    _combineSHL = SHLChunk::create();
 
-    //_combineSHL->readVertexProgram("PCSS_Shadow_combine.vert");
-    //_combineSHL->readFragmentProgram("PCSS_Shadow_combine.frag");
-    _combineSHL->setVertexProgram(_shadow_combine_vp);
-    _combineSHL->setFragmentProgram(_shadow_combine_fp);
+    _pPoly = PolygonChunk::createLocal();
 
-    _combineDepth = DepthChunk::create();
-        _combineDepth->setReadOnly(true);
+    _unlitMat->addChunk(_pPoly);
 
-    //Shadow Shader
-
-    //Combine Shader
-    _combineCmat = ChunkMaterial::create();
-    _combineCmat->addChunk(_combineSHL);
-    _combineCmat->addChunk(_colorMapO);
-    _combineCmat->addChunk(_shadowFactorMapO);
-    _combineCmat->addChunk(_combineDepth);
-
-    PolygonChunkUnrecPtr pPoly = PolygonChunk::create();
-
-    pPoly->setOffsetFill  (true                     );
-    pPoly->setOffsetFactor(_shadowVP->getOffFactor());
-    pPoly->setOffsetBias  (_shadowVP->getOffBias  ());
-
-    _unlitMat->addChunk(pPoly);
+    _pClearSMapBack = SolidBackground::createLocal();
+    
+    _pClearSMapBack->setColor(Color3f(1.f, 1.f, 1.f));
 }
 
 PCSSShadowMapHandler::~PCSSShadowMapHandler(void)
 {
-    _tiledeco        = NULL;
-
+    _pClearSMapBack  = NULL;
+    _pPoly           = NULL;
     _shadowSHL       = NULL;
-    _combineSHL      = NULL;
-    _combineDepth    = NULL;
-    _combineCmat     = NULL;
 
     _vShadowCmat  .clear();
     _vShadowSHLVar.clear();
+
 }
 
-/// Checks if FBO status is ok
-bool PCSSShadowMapHandler::checkFrameBufferStatus(Window *win)
-{
-    GLenum  errCode, status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-
-    switch(status)
-    {
-        case GL_FRAMEBUFFER_COMPLETE_EXT:
-            FINFO(("%x: framebuffer complete!\n", status));
-            break;
-        case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
-            FWARNING(("%x: framebuffer GL_FRAMEBUFFER_UNSUPPORTED_EXT\n",
-                      status));
-            // choose different formats
-            return false;
-        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:
-            FWARNING(("%x: framebuffer INCOMPLETE_ATTACHMENT\n", status));
-            break;
-        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
-            FWARNING(("%x: framebuffer FRAMEBUFFER_MISSING_ATTACHMENT\n",
-                      status));
-            break;
-        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
-            FWARNING(("%x: framebuffer FRAMEBUFFER_DIMENSIONS\n", status));
-            break;
-        case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
-            FWARNING(("%x: framebuffer INCOMPLETE_FORMATS\n", status));
-            break;
-        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT:
-            FWARNING(("%x: framebuffer INCOMPLETE_DRAW_BUFFER\n", status));
-            break;
-        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
-            FWARNING(("%x: framebuffer INCOMPLETE_READ_BUFFER\n", status));
-            break;
-        case GL_FRAMEBUFFER_BINDING_EXT:
-            FWARNING(("%x: framebuffer BINDING_EXT\n", status));
-            break;
-        default:
-            return false;
-    }
-
-    if((errCode = glGetError()) != GL_NO_ERROR)
-    {
-        const GLubyte   *errString = gluErrorString(errCode);
-        FWARNING(("OpenGL Error: %s!\n", errString));
-        return false;
-    }
-    return true;
-}
-
-
-bool PCSSShadowMapHandler::initFBO(DrawEnv *pEnv)
-{
-    Int32   width  = pEnv->getPixelWidth();
-    Int32   height = pEnv->getPixelHeight();
-
-    if(width <= 0 || height <= 0)
-        return false;
-
-    if(_pFB != NULL)
-        return true;
-
-    Window *win = pEnv->getWindow();
-
-    _width  = pEnv->getPixelWidth();
-    _height = pEnv->getPixelHeight();
-
-    _colorMapImage->set(GL_RGB, _width, _height);
-
-    _shadowFactorMapImage->set(GL_RGB, _width, _height);
-
-    commitChanges();
-
-
-    _pFB = FrameBufferObject::create();
-    
-    _pFB->setSize(_width, _height);
-
-    RenderBufferUnrecPtr pDepthRB = RenderBuffer::create();
-        
-    pDepthRB->setInternalFormat(GL_DEPTH_COMPONENT24);
-
-
-
-    TextureBufferUnrecPtr pTexBuffer = TextureBuffer::create();
-
-    pTexBuffer->setTexture(_colorMapO);
-
-    _pFB->setColorAttachment(pTexBuffer, 0);
-
-
-    pTexBuffer = TextureBuffer::create();
-    
-    pTexBuffer->setTexture(_shadowFactorMapO);
-
-    _pFB->setColorAttachment(pTexBuffer, 1);
-
-
-
-    _pFB->setDepthAttachment(pDepthRB);
-    
-    commitChanges();
-
-
-    return true;
-}
-
-void PCSSShadowMapHandler::reInit(DrawEnv *pEnv)
-{
-}
-
-void PCSSShadowMapHandler::initTextures(DrawEnv *pEnv)
-{
-    _initTexturesDone = true;
-}
 
 void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
 {
@@ -263,6 +118,8 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
             exnode->setTravMask(0);
     }
 
+    ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
+
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i] != 0)
@@ -274,14 +131,14 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                 {
                     RenderPartition   *pPart    = a->getActivePartition();
                     
-                    pPart->setRenderTarget(_shadowVP->_vTexChunks[i].pFBO);
+                    pPart->setRenderTarget(vShadowMaps[i].pFBO);
                     
                     pPart->setWindow  (a->getWindow());
                     
                     pPart->calcViewportDimension(0.f,
                                                  0.f,
-                                                 _shadowVP->getMapSize(),
-                                                 _shadowVP->getMapSize(),
+                                                 _shadowVP->getMapSize()-1,
+                                                 _shadowVP->getMapSize()-1,
                                                  
                                                  _shadowVP->getMapSize(),
                                                  _shadowVP->getMapSize() );
@@ -317,7 +174,7 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
                     
                     pPart->calcFrustum();
                     
-                    pPart->setBackground(_pClearBackground);
+                    pPart->setBackground(_pClearSMapBack);
                     
                     Node *light  = _shadowVP->_lights[i].first;
                     Node *parent =  light->getParent();
@@ -382,7 +239,7 @@ void PCSSShadowMapHandler::createColorMapFBO(DrawEnv *pEnv)
     {
         RenderPartition *pPart = a->getActivePartition();
 
-        pPart->setRenderTarget(_pFB);
+        pPart->setRenderTarget(_pSceneFBO);
         pPart->setDrawBuffer  (GL_COLOR_ATTACHMENT0_EXT);
 
         Node *parent = _shadowVP->getSceneRoot()->getParent();
@@ -502,18 +359,17 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
 
         if(_vShadowCmat.size() == uiActiveLightCount)
         {
-            _vShadowCmat.push_back(ChunkMaterial::create());
+            _vShadowCmat.push_back(ChunkMaterial::createLocal());
         }
         
         OSG_ASSERT( uiActiveLightCount < _vShadowCmat.size());
 
         if(_vShadowSHLVar.size() == uiActiveLightCount)
         {
-            _vShadowSHLVar.push_back(SHLVariableChunk::create());
+            _vShadowSHLVar.push_back(SHLVariableChunk::createLocal());
 
             _vShadowSHLVar[uiActiveLightCount]->setSHLChunk(_shadowSHL);
         }
-
 
         _shadowSHL->addUniformVariable("shadowMap",    0);
         _shadowSHL->addUniformVariable("oldFactorMap", 1);
@@ -544,6 +400,9 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
             "yFactor", Real32(yFactor));
 
 
+        ShadowStageData::ShadowMapStore &vShadowMaps = 
+            _pStageData->getShadowMaps();
+
 
         _vShadowCmat[uiActiveLightCount]->clearChunks();
 
@@ -554,10 +413,10 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
             _vShadowSHLVar[uiActiveLightCount]);
 
         _vShadowCmat[uiActiveLightCount]->addChunk(
-            _shadowVP->_vTexChunks[num].pTexO);
+            vShadowMaps[num].pTexO);
 
         _vShadowCmat[uiActiveLightCount]->addChunk(
-            _shadowVP->_vTexChunks[num].pTexE);
+            vShadowMaps[num].pTexE);
 
         _vShadowCmat[uiActiveLightCount]->addChunk(
             _shadowFactorMapO);
@@ -574,7 +433,7 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
         {
             RenderPartition *pPart = a->getActivePartition();
 
-            pPart->setRenderTarget(_pFB);
+            pPart->setRenderTarget(_pSceneFBO);
             pPart->setDrawBuffer  (GL_COLOR_ATTACHMENT1_EXT);
             
             Node *light  = _shadowVP->_lights[num].first;
@@ -609,19 +468,112 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
     }
 }
 
+void PCSSShadowMapHandler::configureShadowMaps(void)
+{
+    ShadowStageData::ShadowMapStore &vShadowMaps = _pStageData->getShadowMaps();
+
+    UInt32 uiSHMSize = vShadowMaps.size();
+    UInt32 uiMapSize = _shadowVP-> getMapSize ();
+
+    for(UInt32 i = 0; i < uiSHMSize; ++i)
+    {
+        vShadowMaps[i].pTexO->setCompareMode(GL_NONE     );
+        vShadowMaps[i].pTexO->setCompareFunc(GL_LEQUAL   );
+        vShadowMaps[i].pTexO->setDepthMode  (GL_LUMINANCE);
+
+        vShadowMaps[i].pTexO->setMinFilter  (GL_NEAREST  );
+        vShadowMaps[i].pTexO->setMagFilter  (GL_NEAREST  );
+
+        if(vShadowMaps[i].uiType == 
+                                ShadowStageData::ShadowMapElem::ColorShadowMap)
+        {
+            vShadowMaps[i].pTexO->setInternalFormat(GL_DEPTH_COMPONENT);
+            vShadowMaps[i].pTexO->setExternalFormat(GL_DEPTH_COMPONENT);
+
+            if(_shadowVP->_lights[i].second->getType() != 
+                                                   PointLight::getClassType())
+            {
+                vShadowMaps[i].pTexO->setWrapS(GL_CLAMP_TO_EDGE);
+                vShadowMaps[i].pTexO->setWrapT(GL_CLAMP_TO_EDGE);
+            }
+            else
+            {
+                vShadowMaps[i].pTexO->setWrapS(GL_CLAMP_TO_BORDER_ARB);
+                vShadowMaps[i].pTexO->setWrapT(GL_CLAMP_TO_BORDER_ARB);
+            }
+
+            vShadowMaps[i].pTexO->setAnisotropy(1.0);
+
+            vShadowMaps[i].pImage->set(Image::OSG_L_PF, 
+                                       uiMapSize, uiMapSize, 1, 
+                                       1, 1, 0.f, 
+                                       NULL,
+                                       Image::OSG_UINT8_IMAGEDATA, 
+                                       false);
+
+            vShadowMaps[i].pFBO->setDepthAttachment(
+                vShadowMaps[i].pFBO->getColorAttachments(0));
+
+            vShadowMaps[i].pFBO->setColorAttachment(NULL, 0);
+
+            vShadowMaps[i].uiType = 
+                                ShadowStageData::ShadowMapElem::DepthShadowMap;
+        }
+    }
+
+    _bShadowMapsConfigured = true;
+}
 
 void PCSSShadowMapHandler::render(DrawEnv *pEnv)
 {
-    Window  *win = pEnv->getWindow();
-    initialize(win);
-
     glPushAttrib(GL_ENABLE_BIT);
 
-    if(!_initTexturesDone)
-        initTextures(pEnv);
+#ifndef SHADOW_CHECK
+    if(_bShadowMapsConfigured == false)
+        _pStageData->getShadowMaps().clear();
+#endif
 
-    if(!initFBO(pEnv))
-        printf("ERROR with FBOBJECT\n");
+    if(_pStageData->getShadowMaps().size() != _shadowVP->_lights.size())
+    {
+        fprintf(stderr, "ShadowMaps.size() != Light.size() (%d|%d)\n",
+                _pStageData->getShadowMaps().size(),
+                _shadowVP->_lights.size());
+
+        initShadowMaps();
+    }
+
+    if(_bShadowMapsConfigured == false)
+    {
+        fprintf(stderr, "ShadowMaps not configured\n");
+        configureShadowMaps();
+    }
+
+    if(_uiMapSize != _shadowVP->getMapSize())
+    {
+        fprintf(stderr, "MapSize changed (%d|%d)\n",
+                _uiMapSize,
+                _shadowVP->getMapSize());
+
+        updateShadowMapSize();
+    }
+
+    if(_pSceneFBO == NULL)
+        initSceneFBO(pEnv, false);
+
+    if(_width  != pEnv->getPixelWidth () ||
+       _height != pEnv->getPixelHeight()  )
+    {
+        fprintf(stderr, "SceneSize changed (%d %d|%d %d)\n",
+                _width,
+                _height,
+                 pEnv->getPixelWidth (),
+                 pEnv->getPixelHeight());
+
+        updateSceneFBOSize(pEnv, false);
+    }
+
+    commitChanges();
+
 
     GLfloat globalAmbient[] =
     {
@@ -631,40 +583,13 @@ void PCSSShadowMapHandler::render(DrawEnv *pEnv)
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
     _firstRun = 1;
 
-    for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
-    {
-        {
-            _shadowVP->_vTexChunks[i].pTexO->setMinFilter(GL_NEAREST);
-            _shadowVP->_vTexChunks[i].pTexO->setMagFilter(GL_NEAREST);
-        }
-    }
-
-#if 0
-    if(_shadowVP->getPixelWidth() != _width ||
-       _shadowVP->getPixelHeight() != _height)
-#endif
-    if(pEnv->getPixelWidth() != _width ||
-       pEnv->getPixelHeight() != _height)
-    {
-#if 0
-        _width = _shadowVP->getPixelWidth();
-        _height = _shadowVP->getPixelHeight();
-#endif
-        _width = pEnv->getPixelWidth();
-        _height = pEnv->getPixelHeight();
-
-        _colorMapImage->set(GL_RGB, _width, _height);
-            
-        _shadowFactorMapImage->set(GL_RGB, _width, _height);
-            
-        reInit(pEnv);
-    }
-
-    commitChanges();
-
     if(_shadowVP->getMapAutoUpdate() == true ||
        _shadowVP->_trigger_update    == true  )
     {
+        _pPoly->setOffsetFill  (true                     );
+        _pPoly->setOffsetFactor(_shadowVP->getOffFactor());
+        _pPoly->setOffsetBias  (_shadowVP->getOffBias  ());
+
         createColorMapFBO(pEnv);
 
 

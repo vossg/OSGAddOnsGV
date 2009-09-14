@@ -40,4 +40,34 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+void ShadowStageData::setRunning(bool bVal)
+{
+    _bRunning = bVal;
+}
+
+inline
+bool ShadowStageData::getRunning(void)
+{
+    return _bRunning;
+}
+
+inline
+void ShadowStageData::setTreeHandler(TreeHandler *pHandler)
+{
+    _pTreeHandler = pHandler;
+}
+
+inline
+TreeHandler *ShadowStageData::getTreeHandler(void)
+{
+    return _pTreeHandler;
+}
+
+inline
+ShadowStageData::ShadowMapStore &ShadowStageData::getShadowMaps(void)
+{
+    return _vShadowMaps;
+}
+
 OSG_END_NAMESPACE

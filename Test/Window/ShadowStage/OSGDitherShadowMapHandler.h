@@ -1,3 +1,41 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
 #ifndef _OSGDITHERSHADOWMAPHANDLER_H_
 #define _OSGDITHERSHADOWMAPHANDLER_H_
 #ifdef __sgi
@@ -5,36 +43,11 @@
 #endif
 
 #include <vector>
-#include <OSGConfig.h>
-#include <OSGAction.h>
-#include <OSGRenderActionBase.h>
-#include <OSGSpotLight.h>
-#include <OSGDirectionalLight.h>
-#include <OSGPerspectiveCamera.h>
-#include <OSGMatrixCamera.h>
-#include <OSGTransform.h>
-#include <OSGTextureChunk.h>
-#include <OSGSimpleMaterial.h>
-#include <OSGPassiveBackground.h>
-#include <OSGSolidBackground.h>
-#include <OSGChunkMaterial.h>
-#include <OSGMaterialChunk.h>
-#include <OSGSHLChunk.h>
-#include <OSGForeground.h>
-#include <OSGPolygonForeground.h>
-#include <OSGGrabForeground.h>
-#include <OSGTextureGrabForeground.h>
-#include <OSGFileGrabForeground.h>
-#include <OSGImageForeground.h>
-#include <OSGTexGenChunk.h>
-#include <OSGTextureTransformChunk.h>
-#include <OSGPolygonChunk.h>
-#include <OSGBlendChunk.h>
-#include <OSGTileCameraDecorator.h>
-#include <OSGDepthChunk.h>
 
 #include "OSGTreeHandler.h"
 #include "OSGSHLVariableChunk.h"
+#include "OSGPolygonChunk.h"
+#include "OSGMatrixCameraDecorator.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -43,37 +56,36 @@ class TreeRenderer;
 
 class OSG_WINDOW_DLLMAPPING DitherShadowMapHandler : public TreeHandler
 {
-public:
+  public:
 
-    DitherShadowMapHandler(ShadowStage *source);
+    typedef TreeHandler Inherited;
+
+    DitherShadowMapHandler (ShadowStage     *pSource,
+                            ShadowStageData *pData  );
     ~DitherShadowMapHandler(void);
+
     virtual void render(DrawEnv *pEnv);
 
   private:
 
-    void createColorMapFBO(DrawEnv *pEnv);
+    void createColorMapFBO       (DrawEnv *pEnv);
     void createShadowFactorMapFBO(DrawEnv *pEnv);
-    void createShadowMapsFBO(DrawEnv *pEnv);
-    bool initFBO(DrawEnv *pEnv);
-    void reInit(DrawEnv *pEnv);
-    void initTextures(DrawEnv *pEnv);
+    void createShadowMapsFBO     (DrawEnv *pEnv);
 
-    Matrix                       _transforms[6];
-    TileCameraDecoratorUnrecPtr  _tiledeco;
-    BlendChunkUnrecPtr           _blender;
-    ImageUnrecPtr                _colorMapImage;
-    ImageUnrecPtr                _shadowFactorMapImage;
 
-    std::vector<ChunkMaterialUnrecPtr> _vShadowCmat;
+    BlendChunkUnrecPtr                    _blender;
+    MatrixCameraDecoratorUnrecPtr         _matrixDeco;
 
-    SHLChunkUnrecPtr             _shadowSHL;
-    SHLChunkUnrecPtr             _shadowSHL2;
-    SHLChunkUnrecPtr             _shadowSHL3;
-    SHLChunkUnrecPtr             _shadowSHL4;
-    SHLChunkUnrecPtr             _shadowCubeSHL;
-    Int32                        _firstRun;
-    ImageUnrecPtr                _shadowFactorMapImage2;
-    bool                         _initTexturesDone;
+    std::vector<ChunkMaterialUnrecPtr>    _vShadowCmat;
+
+    SHLChunkUnrecPtr                      _shadowSHL;
+    SHLChunkUnrecPtr                      _shadowSHL2;
+    SHLChunkUnrecPtr                      _shadowSHL3;
+    SHLChunkUnrecPtr                      _shadowSHL4;
+    SHLChunkUnrecPtr                      _shadowCubeSHL;
+    PolygonChunkUnrecPtr                  _pPoly;
+
+    Int32                                 _firstRun;
 
     std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar;
     std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar2;

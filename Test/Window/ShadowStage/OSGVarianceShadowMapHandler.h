@@ -1,3 +1,41 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
 #ifndef _OSGVARIANCESHADOWMAPHANDLER_H_
 #define _OSGVARIANCESHADOWMAPHANDLER_H_
 #ifdef __sgi
@@ -5,35 +43,10 @@
 #endif
 
 #include <vector>
-#include <OSGConfig.h>
-#include <OSGAction.h>
-#include <OSGRenderActionBase.h>
-#include <OSGSpotLight.h>
-#include <OSGDirectionalLight.h>
-#include <OSGPerspectiveCamera.h>
-#include <OSGMatrixCamera.h>
-#include <OSGTransform.h>
-#include <OSGTextureChunk.h>
-#include <OSGPassiveBackground.h>
-#include <OSGSolidBackground.h>
-#include <OSGChunkMaterial.h>
-#include <OSGMaterialChunk.h>
-#include <OSGSHLChunk.h>
-#include <OSGForeground.h>
-#include <OSGPolygonForeground.h>
-#include <OSGGrabForeground.h>
-#include <OSGTextureGrabForeground.h>
-#include <OSGFileGrabForeground.h>
-#include <OSGImageForeground.h>
-#include <OSGTexGenChunk.h>
-#include <OSGTextureTransformChunk.h>
-#include <OSGPolygonChunk.h>
-#include <OSGBlendChunk.h>
-#include <OSGTileCameraDecorator.h>
-#include <OSGDepthChunk.h>
 
 #include "OSGTreeHandler.h"
 #include "OSGSHLVariableChunk.h"
+#include "OSGTileCameraDecorator.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -42,59 +55,46 @@ class TreeRenderer;
 
 class OSG_WINDOW_DLLMAPPING VarianceShadowMapHandler : public TreeHandler
 {
-
     /*==========================  PUBLIC  =================================*/
-  public:
 
-    VarianceShadowMapHandler(ShadowStage *source);
+  public:
+    
+    typedef TreeHandler Inherited;
+
+    VarianceShadowMapHandler (ShadowStage     *pSource,
+                              ShadowStageData *pData  );
+
     ~VarianceShadowMapHandler(void);
 
     virtual void render(DrawEnv *pEnv);
 
-private:
+  private:
 
-    void initTextures(DrawEnv *pEnv);
+    void createColorMapFBO       (DrawEnv *pEnv              );
+    void createShadowFactorMapFBO(DrawEnv *pEnv,
+                                  UInt32   num,
+                                  UInt32   uiActiveLightCount);
+    void createShadowMapsFBO     (DrawEnv *pEnv              );
 
-    void createColorMapFBO(DrawEnv *pEnv);
+    void genMipMapCB             (DrawEnv *pEnv,
+                                  UInt32   uiLightIdx        );
 
-    void createShadowFactorMapFBO(DrawEnv      *pEnv,
-                                  UInt32        num,
-                                  UInt32        uiActiveLightCount);
-
-    void createShadowMapsFBO(DrawEnv *pEnv);
-
+    void initShadowMaps          (void                       );
+    void updateShadowMapSize     (void                       );
+    void configureShadowMaps     (void                       );
 
 
-    bool initFBO(DrawEnv *pEnv);
-    void reInit(DrawEnv *pEnv);
-    bool checkFrameBufferStatus(Window *win);
+    SolidBackgroundUnrecPtr               _pClearSMapBack;
 
-    TileCameraDecoratorUnrecPtr  _tiledeco;
-    ImageUnrecPtr                _colorMapImage;
-    ImageUnrecPtr                _shadowFactorMapImage;
+    SHLChunkUnrecPtr                      _shadowSHL;
+    SHLChunkUnrecPtr                      _depthSHL;
+    Int32                                 _firstRun;
 
     std::vector<ChunkMaterialUnrecPtr>    _vShadowCmat;
-
-    SHLChunkUnrecPtr             _shadowSHL;
-    std::vector<ChunkMaterialUnrecPtr>        _vDepthCmat;
-    SHLChunkUnrecPtr             _depthSHL;
-    Int32                        _firstRun;
-
-//    GLuint                       _fb;
-//    GLuint                       _fb2;
-//    GLuint                       _rb_depth;
-//    GLuint                       _rb_depth2;
-    bool                         _texChanged;
-    bool                         _initTexturesDone;
- 
     std::vector<SHLVariableChunkUnrecPtr> _vShadowSHLVar;
+    std::vector<ChunkMaterialUnrecPtr>    _vDepthCmat;
     std::vector<SHLVariableChunkUnrecPtr> _vDepthSHLVar;
-
-    SolidBackgroundUnrecPtr _pClearSMapBack;
-
-    void genMipMapCB(DrawEnv *pEnv,
-                     UInt32   uiLightIdx);
- };
+};
 
 OSG_END_NAMESPACE
 

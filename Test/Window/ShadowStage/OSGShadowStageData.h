@@ -43,6 +43,8 @@
 #endif
 
 #include "OSGShadowStageDataBase.h"
+#include "OSGTreeHandler.h"
+#include "OSGTextureEnvChunk.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -61,6 +63,58 @@ class OSG_WINDOW_DLLMAPPING ShadowStageData : public ShadowStageDataBase
     typedef ShadowStageDataBase Inherited;
     typedef ShadowStageData     Self;
 
+    struct ShadowMapElem
+    {
+        static const UInt32 DepthShadowMap = 0x0001;
+        static const UInt32 ColorShadowMap = 0x0002;
+
+        UInt32                    uiType;
+        ImageUnrecPtr             pImage;
+        TextureObjChunkUnrecPtr   pTexO;
+        TextureEnvChunkUnrecPtr   pTexE;
+        FrameBufferObjectUnrecPtr pFBO;
+
+        ShadowMapElem(void) :
+            uiType(DepthShadowMap),
+            pImage(NULL          ),
+            pTexO (NULL          ),
+            pTexE (NULL          ),
+            pFBO  (NULL          )
+        {
+        }
+
+        ShadowMapElem(const ShadowMapElem &src) :
+            uiType(src.uiType),
+            pImage(src.pImage),
+            pTexO (src.pTexO ),
+            pTexE (src.pTexE ),
+            pFBO  (src.pFBO  )
+        {
+        }
+
+        ~ShadowMapElem(void)
+        {
+            pImage = NULL;
+            pTexO  = NULL;
+            pTexE  = NULL;
+            pFBO   = NULL;
+        }
+
+        void operator =(const ShadowMapElem &src)
+        {
+            if(this != &src)
+                return;
+
+            uiType = src.uiType;
+            pImage = src.pImage;
+            pTexO  = src.pTexO;
+            pTexE  = src.pTexE;
+            pFBO   = src.pFBO;
+        }
+    };
+
+    typedef std::vector<ShadowMapElem> ShadowMapStore;
+
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -68,6 +122,29 @@ class OSG_WINDOW_DLLMAPPING ShadowStageData : public ShadowStageDataBase
     virtual void changed(ConstFieldMaskArg whichField,
                          UInt32            origin,
                          BitVector         detail);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void setRunning(bool bVal);
+    bool getRunning(void     );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    void         setTreeHandler(TreeHandler *pHandler);
+    TreeHandler *getTreeHandler(void                 );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    ShadowMapStore &getShadowMaps(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -83,6 +160,11 @@ class OSG_WINDOW_DLLMAPPING ShadowStageData : public ShadowStageDataBase
   protected:
 
     // Variables should all be in ShadowStageDataBase.
+
+    bool              _bRunning;
+    TreeHandlerRefPtr _pTreeHandler;
+
+    ShadowMapStore    _vShadowMaps;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */

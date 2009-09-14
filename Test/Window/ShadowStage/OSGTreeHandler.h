@@ -1,34 +1,57 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
 #ifndef _OSGTREEHANDLER_H_
 #define _OSGTREEHANDLER_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <vector>
-#include <OSGConfig.h>
-#include <OSGAction.h>
-#include <OSGRenderActionBase.h>
-#include <OSGSpotLight.h>
-#include <OSGDirectionalLight.h>
-#include <OSGPerspectiveCamera.h>
-#include <OSGMatrixCamera.h>
-#include <OSGTransform.h>
-#include <OSGTextureChunk.h>
-#include <OSGPassiveBackground.h>
-#include <OSGTexGenChunk.h>
-#include <OSGTextureTransformChunk.h>
-#include <OSGPolygonChunk.h>
-#include <OSGBlendChunk.h>
-#include <OSGTileCameraDecorator.h>
-#include <OSGSimpleMaterial.h>
+#include "OSGWindowDef.h"
+#include "OSGMemoryObject.h"
 
-
+#include "OSGTextureObjChunk.h"
+#include "OSGImage.h"
+#include "OSGSolidBackground.h"
+#include "OSGFrameBufferObject.h"
 #include "OSGDepthChunk.h"
 #include "OSGSHLChunk.h"
-#include "OSGTextureObjChunk.h"
-#include "OSGTextureEnvChunk.h"
-#include "OSGFrameBufferObject.h"
-#include "OSGSolidBackground.h"
+#include <OSGSimpleMaterial.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -37,137 +60,111 @@ OSG_BEGIN_NAMESPACE
 #endif
 
 class ShadowStage;
+class ShadowStageData;
 class DrawEnv;
-class RenderAction;
 
-class OSG_WINDOW_DLLMAPPING TreeHandler
+class OSG_WINDOW_DLLMAPPING TreeHandler : public MemoryObject
 {
 
-/*==========================  PUBLIC  =================================*/
+    /*==========================  PUBLIC  =================================*/
+
   public:
 
-    TreeHandler(ShadowStage *source);
+    typedef MemoryObject Inherited;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    TreeHandler(ShadowStage     *pSource,
+                ShadowStageData *pData  );
     
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
     virtual ~TreeHandler(void);
     
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Draw                                       */
+    /*! \{                                                                 */
+
     virtual void render(DrawEnv *pEnv) = 0;
 
-    Material *getUnlitMaterial(void);
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Draw                                       */
+    /*! \{                                                                 */
 
-    typedef void (OSG_APIENTRY * OSGGLDRAWBUFFERSARBPROC)
-        (GLsizei n, const GLenum* bufs);
-    typedef void (OSG_APIENTRY * OSGGLBINDFRAMEBUFFEREXTPROC)
-        (GLenum target, GLuint framebuffer);
-    typedef void (OSG_APIENTRY * OSGGLBINDRENDERBUFFEREXTPROC)
-        (GLenum target, GLuint renderbuffer);
-    typedef GLenum (OSG_APIENTRY * OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC)
-        (GLenum target);
-    typedef void (OSG_APIENTRY * OSGGLDELETEFRAMEBUFFERSEXTPROC)
-        (GLsizei n, const GLuint* framebuffers);
-    typedef void (OSG_APIENTRY * OSGGLDELETERENDERBUFFERSEXTPROC)
-        (GLsizei n, const GLuint* renderbuffers);
-    typedef void (OSG_APIENTRY * OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC)
-        (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
-    typedef void (OSG_APIENTRY * OSGGLFRAMEBUFFERTEXTURE1DEXTPROC)
-        (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-    typedef void (OSG_APIENTRY * OSGGLFRAMEBUFFERTEXTURE2DEXTPROC)
-        (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-    typedef void (OSG_APIENTRY * OSGGLFRAMEBUFFERTEXTURE3DEXTPROC)
-        (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset);
-    typedef void (OSG_APIENTRY * OSGGLGENFRAMEBUFFERSEXTPROC)
-        (GLsizei n, GLuint* framebuffers);
-    typedef void (OSG_APIENTRY * OSGGLGENRENDERBUFFERSEXTPROC)
-        (GLsizei n, GLuint* renderbuffers);
-    typedef void (OSG_APIENTRY * OSGGLGENERATEMIPMAPEXTPROC)
-        (GLenum target);
-    typedef void (OSG_APIENTRY * OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC)
-        (GLenum target, GLenum attachment, GLenum pname, GLint* params);
-    typedef void (OSG_APIENTRY * OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC)
-        (GLenum target, GLenum pname, GLint* params);
-    typedef GLboolean (OSG_APIENTRY * OSGGLISFRAMEBUFFEREXTPROC)
-        (GLuint framebuffer);
-    typedef GLboolean (OSG_APIENTRY * OSGGLISRENDERBUFFEREXTPROC)
-        (GLuint renderbuffer);
-    typedef void (OSG_APIENTRY * OSGGLRENDERBUFFERSTORAGEEXTPROC)
-        (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
+    UInt32 getMode(void);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
 
   protected:
 
-    OSGGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT;
-    OSGGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT;
-    OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT;
-    OSGGLDELETEFRAMEBUFFERSEXTPROC glDeleteFramebuffersEXT;
-    OSGGLDELETERENDERBUFFERSEXTPROC glDeleteRenderbuffersEXT;
-    OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT;
-    OSGGLFRAMEBUFFERTEXTURE1DEXTPROC glFramebufferTexture1DEXT;
-    OSGGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT;
-    OSGGLFRAMEBUFFERTEXTURE3DEXTPROC glFramebufferTexture3DEXT;
-    OSGGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT;
-    OSGGLGENRENDERBUFFERSEXTPROC glGenRenderbuffersEXT;
-    OSGGLGENERATEMIPMAPEXTPROC glGenerateMipmapEXT;
-    OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC glGetFramebufferAttachmentParameterivEXT;
-    OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC glGetRenderbufferParameterivEXT;
-    OSGGLISFRAMEBUFFEREXTPROC glIsFramebufferEXT;
-    OSGGLISRENDERBUFFEREXTPROC glIsRenderbufferEXT;
-    OSGGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT;
-    OSGGLDRAWBUFFERSARBPROC glDrawBuffersARB;
+    static std::string         _shadow_combine_vp;
+    static std::string         _shadow_combine_fp;
 
-    static UInt32 _depth_texture_extension;
-    static UInt32 _shadow_extension;
-    static UInt32 _framebuffer_object_extension;
-    static UInt32 _draw_buffers_extension;
-    static UInt32 _funcDrawBuffers;
-    static UInt32 _funcBindFramebuffer;
-    static UInt32 _funcBindRenderbuffer;
-    static UInt32 _funcCheckFramebufferStatus;
-    static UInt32 _funcDeleteFramebuffers;
-    static UInt32 _funcDeleteRenderbuffers;
-    static UInt32 _funcFramebufferRenderbuffer;
-    static UInt32 _funcFramebufferTexture1D;
-    static UInt32 _funcFramebufferTexture2D;
-    static UInt32 _funcFramebufferTexture3D;
-    static UInt32 _funcGenFramebuffers;
-    static UInt32 _funcGenRenderbuffers;
-    static UInt32 _funcGenerateMipmap;
-    static UInt32 _funcGetFramebufferAttachmentParameteriv;
-    static UInt32 _funcGetRenderbufferParameteriv;
-    static UInt32 _funcIsFramebuffer;
-    static UInt32 _funcIsRenderbuffer;
-    static UInt32 _funcRenderbufferStorage;
 
-    static std::string _shadow_combine_vp;
-    static std::string _shadow_combine_fp;
+    UInt32                     _uiMode;
+    UInt32                     _uiMapSize;
+    bool                       _bShadowMapsConfigured;
+    UInt32                     _activeFactorMap;
 
-    // reference to parent
-    ShadowStage *_shadowVP;
+    UInt32                     _width;
+    UInt32                     _height;
 
-    UInt32 _maxPLMapSize;
-    UInt32 _PLMapSize;
-    UInt32 _maxTexSize;
-    SimpleMaterialUnrecPtr _unlitMat;
+    UInt32                     _maxPLMapSize;
+    UInt32                     _PLMapSize;
+    UInt32                     _maxTexSize;
 
-    void initialize(Window *win);
-    bool hasFactorMap(void);
 
-    // New
+    ShadowStage               *_shadowVP;
+    ShadowStageData           *_pStageData;
 
-    UInt32                       _width;
-    UInt32                       _height;
-    UInt32                       _widthHeightPOT;
+    TextureObjChunkUnrecPtr    _colorMapO;
+    TextureObjChunkUnrecPtr    _shadowFactorMapO;
+    TextureObjChunkUnrecPtr    _shadowFactorMap2O;
 
-    SHLChunkUnrecPtr             _combineSHL;
-    DepthChunkUnrecPtr           _combineDepth;
-    ChunkMaterialUnrecPtr        _combineCmat;
-    TextureObjChunkUnrecPtr      _colorMapO;
-    UInt32                       _activeFactorMap;
+    ImageUnrecPtr              _colorMapImage;
+    ImageUnrecPtr              _shadowFactorMapImage;
+    ImageUnrecPtr              _shadowFactorMapImage2;
 
-    TextureObjChunkUnrecPtr      _shadowFactorMapO;
-    TextureObjChunkUnrecPtr      _shadowFactorMap2O;
+    FrameBufferObjectUnrecPtr  _pSceneFBO;
 
-    FrameBufferObjectUnrecPtr    _pFB;
-    FrameBufferObjectUnrecPtr    _pFB2;
+    SolidBackgroundUnrecPtr    _pClearBackground;
 
-    SolidBackgroundUnrecPtr      _pClearBackground;
+    SimpleMaterialUnrecPtr     _unlitMat;
+
+    SHLChunkUnrecPtr           _combineSHL;
+    DepthChunkUnrecPtr         _combineDepth;
+    ChunkMaterialUnrecPtr      _combineCmat;
+
+    Matrix                     _aCubeTrans[6];
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Edit                                   */
+    /*! \{                                                                 */
+
+    bool initSceneFBO      (DrawEnv *pEnv, bool bHaveTwoFactorMaps);
+    void updateSceneFBOSize(DrawEnv *pEnv, bool bHaveTwoFactorMaps);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Draw                                       */
+    /*! \{                                                                 */
+
+    void initShadowMaps     (void);
+    void updateShadowMapSize(void);
+    void configureShadowMaps(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Draw                                       */
+    /*! \{                                                                 */
 
     void setupDrawCombineMap1(Action  *pAction);
     void doDrawCombineMap1   (DrawEnv *pEnv   );
@@ -175,11 +172,29 @@ class OSG_WINDOW_DLLMAPPING TreeHandler
     void setupDrawCombineMap2(Action  *pAction);
     void doDrawCombineMap2   (DrawEnv *pEnv   );
 
-private:
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Draw                                       */
+    /*! \{                                                                 */
 
-    bool _initDone;
+    bool hasFactorMap(void);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+
+    /*---------------------------------------------------------------------*/
+
+    // prohibit default functions (move to 'public' if you need one)
+    TreeHandler(const TreeHandler &source);
+    void operator =(const TreeHandler &source);
 };
 
+typedef RefCountPtr<TreeHandler, MemObjRefCountPolicy> TreeHandlerRefPtr;
+
 OSG_END_NAMESPACE
+
+#include "OSGTreeHandler.inl"
 
 #endif /* _OSGTREEHANDLER_H_ */
