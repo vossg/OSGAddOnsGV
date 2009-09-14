@@ -33,8 +33,6 @@
 
 #include <OSGShadowStage.h>
 
-OSG_USING_NAMESPACE
-
 SimpleSceneManager *mgr;
 
 GLUTWindowUnrecPtr gwin;

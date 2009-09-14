@@ -27,8 +27,6 @@
 #include "OSGShadowStage.h"
 #include "OSGMatrixCamera.h"
 
-OSG_USING_NAMESPACE
-
 SimpleSceneManager *mgr;
 
 GLUTWindowUnrecPtr gwin;

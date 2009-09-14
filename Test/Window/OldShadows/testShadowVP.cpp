@@ -26,7 +26,6 @@
 #include <OSGNavigator.h>
 #include "OSGShadowViewport.h"
 
-OSG_USING_NAMESPACE
 
 SimpleSceneManager *mgr;
 
