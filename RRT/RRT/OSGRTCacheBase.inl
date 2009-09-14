@@ -289,9 +289,9 @@ void RTCacheBase<DescT>::initAccel(BBoxStore &vBounds)
             posPtr->getValue(b, tI.getPositionIndex(1));
             posPtr->getValue(c, tI.getPositionIndex(2));
             
-            mToWorld.mult(a);
-            mToWorld.mult(b);
-            mToWorld.mult(c);
+            a = mToWorld * a;
+            b = mToWorld * b;
+            c = mToWorld * c;
 
             triangleAccel.setup(a, b, c, i, tI.getIndex());
             

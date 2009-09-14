@@ -144,7 +144,7 @@ void RTPrimaryRayTiledStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
     Vec3f vUp   (mCam[1][0], mCam[1][1], mCam[1][2]);
     Vec3f vDir  (0.f, 0.f, -1.f);
 
-    mCam.mult(vDir);
+    vDir = mCam * vDir;
 
     vRight *= rVOff;
     vUp    *= rHOff;
