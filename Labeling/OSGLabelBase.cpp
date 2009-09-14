@@ -157,8 +157,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         PositionFieldId, PositionFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandlePosition),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandlePosition));
+        static_cast<FieldEditMethodSig>(&Label::editHandlePosition),
+        static_cast<FieldGetMethodSig >(&Label::getHandlePosition));
 
     oType.addInitialDesc(pDesc);
 
@@ -169,8 +169,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         PixelOffsetFieldId, PixelOffsetFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandlePixelOffset),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandlePixelOffset));
+        static_cast<FieldEditMethodSig>(&Label::editHandlePixelOffset),
+        static_cast<FieldGetMethodSig >(&Label::getHandlePixelOffset));
 
     oType.addInitialDesc(pDesc);
 
@@ -182,8 +182,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         OrientationFieldId, OrientationFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleOrientation),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleOrientation));
+        static_cast<FieldEditMethodSig>(&Label::editHandleOrientation),
+        static_cast<FieldGetMethodSig >(&Label::getHandleOrientation));
 
     oType.addInitialDesc(pDesc);
 
@@ -194,8 +194,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         HorizontalAlignFieldId, HorizontalAlignFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleHorizontalAlign),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleHorizontalAlign));
+        static_cast<FieldEditMethodSig>(&Label::editHandleHorizontalAlign),
+        static_cast<FieldGetMethodSig >(&Label::getHandleHorizontalAlign));
 
     oType.addInitialDesc(pDesc);
 
@@ -206,8 +206,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         VerticalAlignFieldId, VerticalAlignFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleVerticalAlign),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleVerticalAlign));
+        static_cast<FieldEditMethodSig>(&Label::editHandleVerticalAlign),
+        static_cast<FieldGetMethodSig >(&Label::getHandleVerticalAlign));
 
     oType.addInitialDesc(pDesc);
 
@@ -218,8 +218,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         MarginFieldId, MarginFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleMargin),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleMargin));
+        static_cast<FieldEditMethodSig>(&Label::editHandleMargin),
+        static_cast<FieldGetMethodSig >(&Label::getHandleMargin));
 
     oType.addInitialDesc(pDesc);
 
@@ -230,8 +230,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         ColorFieldId, ColorFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleColor),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleColor));
+        static_cast<FieldEditMethodSig>(&Label::editHandleColor),
+        static_cast<FieldGetMethodSig >(&Label::getHandleColor));
 
     oType.addInitialDesc(pDesc);
 
@@ -242,8 +242,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         BgColorFieldId, BgColorFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleBgColor),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleBgColor));
+        static_cast<FieldEditMethodSig>(&Label::editHandleBgColor),
+        static_cast<FieldGetMethodSig >(&Label::getHandleBgColor));
 
     oType.addInitialDesc(pDesc);
 
@@ -254,8 +254,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         ShadowColorFieldId, ShadowColorFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleShadowColor),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleShadowColor));
+        static_cast<FieldEditMethodSig>(&Label::editHandleShadowColor),
+        static_cast<FieldGetMethodSig >(&Label::getHandleShadowColor));
 
     oType.addInitialDesc(pDesc);
 
@@ -266,8 +266,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         ShadowOffsetFieldId, ShadowOffsetFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleShadowOffset),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleShadowOffset));
+        static_cast<FieldEditMethodSig>(&Label::editHandleShadowOffset),
+        static_cast<FieldGetMethodSig >(&Label::getHandleShadowOffset));
 
     oType.addInitialDesc(pDesc);
 
@@ -278,8 +278,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         BorderColorFieldId, BorderColorFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleBorderColor),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleBorderColor));
+        static_cast<FieldEditMethodSig>(&Label::editHandleBorderColor),
+        static_cast<FieldGetMethodSig >(&Label::getHandleBorderColor));
 
     oType.addInitialDesc(pDesc);
 
@@ -290,8 +290,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         BorderOffsetFieldId, BorderOffsetFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleBorderOffset),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleBorderOffset));
+        static_cast<FieldEditMethodSig>(&Label::editHandleBorderOffset),
+        static_cast<FieldGetMethodSig >(&Label::getHandleBorderOffset));
 
     oType.addInitialDesc(pDesc);
 
@@ -305,8 +305,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         ImportanceFieldId, ImportanceFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleImportance),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleImportance));
+        static_cast<FieldEditMethodSig>(&Label::editHandleImportance),
+        static_cast<FieldGetMethodSig >(&Label::getHandleImportance));
 
     oType.addInitialDesc(pDesc);
 
@@ -317,8 +317,8 @@ void LabelBase::classDescInserter(TypeObject &oType)
         TextureObjectFieldId, TextureObjectFieldMask,
         true,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelBase::editHandleTextureObject),
-        static_cast<FieldGetMethodSig >(&LabelBase::getHandleTextureObject));
+        static_cast<FieldEditMethodSig>(&Label::editHandleTextureObject),
+        static_cast<FieldGetMethodSig >(&Label::getHandleTextureObject));
 
     oType.addInitialDesc(pDesc);
 }
@@ -332,7 +332,7 @@ LabelBase::TypeObject LabelBase::_type(
     NULL,
     Label::initMethod,
     Label::exitMethod,
-    (InitalInsertDescFunc) &LabelBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&LabelBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"

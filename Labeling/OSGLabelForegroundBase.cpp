@@ -113,8 +113,8 @@ void LabelForegroundBase::classDescInserter(TypeObject &oType)
         ImportanceThresholdFieldId, ImportanceThresholdFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelForegroundBase::editHandleImportanceThreshold),
-        static_cast<FieldGetMethodSig >(&LabelForegroundBase::getHandleImportanceThreshold));
+        static_cast<FieldEditMethodSig>(&LabelForeground::editHandleImportanceThreshold),
+        static_cast<FieldGetMethodSig >(&LabelForeground::getHandleImportanceThreshold));
 
     oType.addInitialDesc(pDesc);
 
@@ -125,8 +125,8 @@ void LabelForegroundBase::classDescInserter(TypeObject &oType)
         TextureEnvironmentFieldId, TextureEnvironmentFieldMask,
         true,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&LabelForegroundBase::editHandleTextureEnvironment),
-        static_cast<FieldGetMethodSig >(&LabelForegroundBase::getHandleTextureEnvironment));
+        static_cast<FieldEditMethodSig>(&LabelForeground::editHandleTextureEnvironment),
+        static_cast<FieldGetMethodSig >(&LabelForeground::getHandleTextureEnvironment));
 
     oType.addInitialDesc(pDesc);
 }
@@ -137,10 +137,10 @@ LabelForegroundBase::TypeObject LabelForegroundBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &LabelForegroundBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&LabelForegroundBase::createEmptyLocal),
     LabelForeground::initMethod,
     LabelForeground::exitMethod,
-    (InitalInsertDescFunc) &LabelForegroundBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&LabelForegroundBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

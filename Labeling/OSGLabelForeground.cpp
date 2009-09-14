@@ -205,8 +205,8 @@ void LabelForeground::drawLabel(Node* labelNode) const
     screenPos += label->getPosition().subZero();
 
     _cachedViewport->getCamera()->getWorldToScreen(toScreen, *_cachedViewport);
-    toWorld.multMatrixPnt(screenPos);
-    toScreen.multFullMatrixPnt(screenPos);
+    toWorld.mult(screenPos, screenPos);
+    toScreen.multFull(screenPos, screenPos);
 
     screenPos[0] = (screenPos[0] + 1.0) /2;
     screenPos[1] = (screenPos[1] + 1.0) /2;

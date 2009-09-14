@@ -106,8 +106,8 @@ void TextLabelBase::classDescInserter(TypeObject &oType)
         TextFieldId, TextFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&TextLabelBase::editHandleText),
-        static_cast<FieldGetMethodSig >(&TextLabelBase::getHandleText));
+        static_cast<FieldEditMethodSig>(&TextLabel::editHandleText),
+        static_cast<FieldGetMethodSig >(&TextLabel::getHandleText));
 
     oType.addInitialDesc(pDesc);
 
@@ -118,8 +118,8 @@ void TextLabelBase::classDescInserter(TypeObject &oType)
         SizeFieldId, SizeFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&TextLabelBase::editHandleSize),
-        static_cast<FieldGetMethodSig >(&TextLabelBase::getHandleSize));
+        static_cast<FieldEditMethodSig>(&TextLabel::editHandleSize),
+        static_cast<FieldGetMethodSig >(&TextLabel::getHandleSize));
 
     oType.addInitialDesc(pDesc);
 
@@ -130,8 +130,8 @@ void TextLabelBase::classDescInserter(TypeObject &oType)
         FamilyFieldId, FamilyFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&TextLabelBase::editHandleFamily),
-        static_cast<FieldGetMethodSig >(&TextLabelBase::getHandleFamily));
+        static_cast<FieldEditMethodSig>(&TextLabel::editHandleFamily),
+        static_cast<FieldGetMethodSig >(&TextLabel::getHandleFamily));
 
     oType.addInitialDesc(pDesc);
 }
@@ -142,10 +142,10 @@ TextLabelBase::TypeObject TextLabelBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &TextLabelBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&TextLabelBase::createEmptyLocal),
     TextLabel::initMethod,
     TextLabel::exitMethod,
-    (InitalInsertDescFunc) &TextLabelBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&TextLabelBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"

@@ -107,8 +107,8 @@ void IconLabelBase::classDescInserter(TypeObject &oType)
         FilenameFieldId, FilenameFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&IconLabelBase::editHandleFilename),
-        static_cast<FieldGetMethodSig >(&IconLabelBase::getHandleFilename));
+        static_cast<FieldEditMethodSig>(&IconLabel::editHandleFilename),
+        static_cast<FieldGetMethodSig >(&IconLabel::getHandleFilename));
 
     oType.addInitialDesc(pDesc);
 
@@ -119,8 +119,8 @@ void IconLabelBase::classDescInserter(TypeObject &oType)
         ImageFieldId, ImageFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&IconLabelBase::editHandleImage),
-        static_cast<FieldGetMethodSig >(&IconLabelBase::getHandleImage));
+        static_cast<FieldEditMethodSig>(&IconLabel::editHandleImage),
+        static_cast<FieldGetMethodSig >(&IconLabel::getHandleImage));
 
     oType.addInitialDesc(pDesc);
 
@@ -131,8 +131,8 @@ void IconLabelBase::classDescInserter(TypeObject &oType)
         SizeFieldId, SizeFieldMask,
         false,
         Field::SFDefaultFlags,
-        static_cast<FieldEditMethodSig>(&IconLabelBase::editHandleSize),
-        static_cast<FieldGetMethodSig >(&IconLabelBase::getHandleSize));
+        static_cast<FieldEditMethodSig>(&IconLabel::editHandleSize),
+        static_cast<FieldGetMethodSig >(&IconLabel::getHandleSize));
 
     oType.addInitialDesc(pDesc);
 }
@@ -143,10 +143,10 @@ IconLabelBase::TypeObject IconLabelBase::_type(
     Inherited::getClassname(),
     "NULL",
     0,
-    (PrototypeCreateF) &IconLabelBase::createEmptyLocal,
+    reinterpret_cast<PrototypeCreateF>(&IconLabelBase::createEmptyLocal),
     IconLabel::initMethod,
     IconLabel::exitMethod,
-    (InitalInsertDescFunc) &IconLabelBase::classDescInserter,
+    reinterpret_cast<InitalInsertDescFunc>(&IconLabelBase::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"
