@@ -118,7 +118,7 @@ class BbqRenderCache
     
     Int32 getSize() const
     {
-        return (Int32) _vEntries.size();
+        return Int32(_vEntries.size());
     }
 
     T &getEntry(Int32 i)
@@ -130,7 +130,7 @@ class BbqRenderCache
     {
         assert(pNode);
 
-        Entry *entry = (Entry *) pNode->renderCache[CacheType];
+        Entry *entry = static_cast<Entry *>(pNode->renderCache[CacheType]);
         
         if(entry && entry->pNode == pNode)
         {

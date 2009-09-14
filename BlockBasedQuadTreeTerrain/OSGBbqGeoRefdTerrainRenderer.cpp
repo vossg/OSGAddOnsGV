@@ -520,17 +520,18 @@ void BbqGeoRefdTerrainRenderer<HeightType,
     _oTerrainShader.update(options.pDrawEnv);
     
     glBindBuffer( GL_ARRAY_BUFFER, _oStaticVertexBuffer.getBufferId() );
-    glVertexPointer( 2, GL_SHORT, 0, ( char* )0 );
+    glVertexPointer( 2, GL_SHORT, 0, NULL );
     glEnableClientState( GL_VERTEX_ARRAY );
     
     glBindBuffer( GL_ARRAY_BUFFER, heightDataVbo->getBufferId() );
-    glTexCoordPointer( 2, GL_FLOAT, 0, ( char* )0 );
+    glTexCoordPointer( 2, GL_FLOAT, 0, NULL );
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
     
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
     
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, _oStaticIndexBuffer.getBufferId() );
-    glDrawRangeElements( GL_TRIANGLES, 0, ( GLuint ) _vStaticVertexData.size(), 3 * triangleCount, GL_UNSIGNED_SHORT, 0 );
+    glDrawRangeElements( GL_TRIANGLES, 0, GLuint(_vStaticVertexData.size()), 
+                         3 * triangleCount, GL_UNSIGNED_SHORT, 0 );
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
     
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );

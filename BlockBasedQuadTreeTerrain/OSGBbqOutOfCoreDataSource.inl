@@ -148,7 +148,7 @@ bool BbqOutOfCoreEngine<HeightType,
                         TextureType    >::onLoadNodeData(
     BbqTerrainNodeBase &oNode)
 {
-    assert(isValidNodeId(oNode.id, (Int32) _oStaticNodeData.size()));
+    assert(isValidNodeId(oNode.id, Int32(_oStaticNodeData.size())));
     
     BbqTerrNode *pNode = dynamic_cast<BbqTerrNode *>(&oNode);
 
@@ -212,7 +212,7 @@ bool BbqOutOfCoreEngine<HeightType,
             pNode->data.textureData.resize(bytesPerBlock * blockCount);
             
             if(!_oInput.readData(&(pNode->data.textureData[0]), 
-                                 (Int32) pNode->data.textureData.size()))
+                                 Int32(pNode->data.textureData.size())))
             {
                 return false;
             }
@@ -225,7 +225,7 @@ bool BbqOutOfCoreEngine<HeightType,
                 3 * osgSqr(_oHeader._iTextureTileSize));
             
             if(!_oInput.readData(&(pNode->data.textureData[0]), 
-                                 (Int32) pNode->data.textureData.size()))
+                                 Int32(pNode->data.textureData.size())))
             {
                 return false;
             }               

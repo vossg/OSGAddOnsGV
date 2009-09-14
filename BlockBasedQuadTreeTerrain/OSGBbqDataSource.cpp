@@ -71,7 +71,7 @@ void BbqDataSourceEngine::computeBoundingBox(
     Real32              fMinHeightSample, 
     Real32              fMaxHeightSample)
 {
-    const Real32 blockDimension = (Real32)(_oInformation.heightTileSize - 1);
+    const Real32 blockDimension = Real32(_oInformation.heightTileSize - 1);
 
     const Vec2f objectBlockScale = 
         Vec2f(_oInformation.sampleSpacing * oNode.blockScale, 

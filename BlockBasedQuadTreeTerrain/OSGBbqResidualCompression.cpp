@@ -81,18 +81,18 @@ void ResidualCompression::quantize(Int16 *pData,
                                    size_t uiDataSize, 
                                    Int32  iQualityFactor)
 {
-    const float step    = ( 1000.0f / (Real32) iQualityFactor);
+    const float step    = ( 1000.0f / Real32(iQualityFactor));
     const float invStep = 1.0f / step;
     
     for(size_t i = 0; i < uiDataSize; ++i)
     {
         if(*pData > 0)
         {
-            *pData = (Int16)(Real32(*pData) * invStep + 0.5);
+            *pData = Int16(Real32(*pData) * invStep + 0.5);
         }
         else
         {
-            *pData = (Int16)(Real32(*pData) * invStep - 0.5);
+            *pData = Int16(Real32(*pData) * invStep - 0.5);
         }
         
         pData++;
@@ -107,11 +107,11 @@ void ResidualCompression::dequantize(Int16  *pData,
                                      size_t  uiDataSize, 
                                      Int32   iQualityFactor)
 {
-    const float step = (1000.0f / (Real32) iQualityFactor);
+    const float step = (1000.0f / Real32(iQualityFactor));
     
     for(size_t i = 0; i < uiDataSize; ++i)
     {
-        *pData = (Int16)(*pData * step);
+        *pData = Int16(*pData * step);
         
         pData++;
     }
@@ -125,12 +125,16 @@ void ResidualCompression::compressHuffman(std::vector<UInt8>      &vTarget,
                                           Int16             const *pSource, 
                                           size_t                   uiSourceSize)
 {
+    typedef unsigned int chui;
+
     // resize to the worst case buffer size:
     vTarget.resize(4 * uiSourceSize);
     
-    Int32 iSize = Huffman_Compress((unsigned char *) pSource, 
-                                   &(vTarget[0]), 
-                                   (unsigned int)(2 * uiSourceSize));
+    Int32 iSize = 
+        Huffman_Compress(const_cast<unsigned char *>(
+                             reinterpret_cast<const unsigned char *>(pSource)), 
+                         &(vTarget[0]), 
+                         chui(2 * uiSourceSize));
     
     //todo: if size > sourceSize.. save the original data uncompressed or
     //something more sensible 
@@ -148,13 +152,16 @@ void ResidualCompression::decompressHuffman(
     UInt8              const *pSource, 
     size_t                    uiSourceSize)
 {
+    typedef unsigned int dhui;
+
     // target size has to be correct..
     assert(vTarget.size() > 0);
     
-    Huffman_Uncompress((unsigned char *)  pSource, 
-                       (unsigned char *) &(vTarget[0]), 
-                       (unsigned int   )  uiSourceSize, 
-                       (unsigned int   ) (2 * vTarget.size()));      
+    Huffman_Uncompress(const_cast<unsigned char *>(
+                           reinterpret_cast<const unsigned char *>(pSource)), 
+                       reinterpret_cast<      unsigned char *>(&(vTarget[0])),
+                       dhui(uiSourceSize), 
+                       dhui(2 * vTarget.size()));      
 }
 
 
@@ -165,13 +172,15 @@ void ResidualCompression::compressZlib(std::vector<UInt8>       &vTarget,
                                        Int16              const *pSource, 
                                        size_t                    uiSourceSize)
 {
-    vTarget.resize(compressBound((unsigned long) (2 * uiSourceSize)));
+    typedef unsigned long czul;
+
+    vTarget.resize(compressBound(czul(2 * uiSourceSize)));
     
-    uLongf uiSize = (uLongf) vTarget.size();
+    uLongf uiSize = uLongf(vTarget.size());
 
     compress(&(vTarget[0]), 
              &uiSize, 
-             (unsigned char *) pSource, 
+             reinterpret_cast<const unsigned char *>(pSource), 
               uLongf(2 * uiSourceSize));
     
     vTarget.resize(uiSize);
@@ -187,7 +196,7 @@ void ResidualCompression::decompressZlib(std::vector<Int16>      &vTarget,
 {
     uLongf destLen = 0;
 
-    uncompress((unsigned char *) &(vTarget[0]), 
+    uncompress(reinterpret_cast<unsigned char *>(&(vTarget[0])), 
                &destLen,
                pSource, 
                uLongf(uiSourceSize));
@@ -270,15 +279,15 @@ void ResidualCompression::computeResiduals(
                 pParentData[iParentFirstSampleOffset + 
                             iParentSecondSampleOffset];
             
-            Int32 iExpectedHeightValue = lerp((Int32) uiParentHeightSample0, 
-                                              (Int32) uiParentHeightSample1, 
+            Int32 iExpectedHeightValue = lerp(Int32(uiParentHeightSample0), 
+                                              Int32(uiParentHeightSample1), 
                                               0.5f );
 
             Int32 iResidual = uiHeightSample - iExpectedHeightValue;
             
             iMaxResidual = osgMax(iMaxResidual, abs(iResidual));
             
-            vResiduals[iResidualIndex++] = (Int16) iResidual;
+            vResiduals[iResidualIndex++] = Int16(iResidual);
             
             if(!xIsEven)
             {
@@ -366,15 +375,15 @@ void ResidualCompression::createChildHeightData(
                 pParentData[iParentFirstSampleOffset + 
                             iParentSecondSampleOffset];
             
-            Int32 iExpectedHeightSample = lerp((Int32) iParentHeightSample0, 
-                                               (Int32) iParentHeightSample1, 
+            Int32 iExpectedHeightSample = lerp(Int32(iParentHeightSample0), 
+                                               Int32(iParentHeightSample1), 
                                                0.5f);
 
             Int32 iFinalHeightSample = 
                 iExpectedHeightSample + pResiduals[iResidualIndex++];
 
             vHeightData[y * iTileSize + x] = 
-                ( UInt16 )clamp(iFinalHeightSample, 0, 65535);
+                UInt16(clamp(iFinalHeightSample, 0, 65535));
 
             if(!xIsEven)
             {
@@ -481,7 +490,7 @@ int ResidualCompressor::compressResiduals(
                        _vQuantizationBuffer.size() );
     }
     
-    UInt16 iCompressedSize = (UInt16) _vCompressionBuffer.size();
+    UInt16 iCompressedSize = UInt16(_vCompressionBuffer.size());
     
     if(iCompressedSize >= 
         sizeof(_vQuantizationBuffer[0]) * _vQuantizationBuffer.size())
@@ -495,7 +504,7 @@ int ResidualCompressor::compressResiduals(
     // 3.step: write the compressed residuals into the output file:
     if( !_pOutput->writeData(&iCompressedSize, sizeof(iCompressedSize)) ||
         !_pOutput->writeData(&_vCompressionBuffer[0], 
-                             (Int32) _vCompressionBuffer.size())       )
+                             Int32(_vCompressionBuffer.size()))       )
     {
         return -1;
     }
@@ -512,7 +521,7 @@ int ResidualCompressor::compressResiduals(
                  vDecompressedResiduals.size(), 
                 _iQuantizationQuality         );
     
-    return (Int32) _vCompressionBuffer.size();
+    return Int32(_vCompressionBuffer.size());
 }
 
 
@@ -590,7 +599,7 @@ bool ResidualDecompressor::decompressResiduals(std::vector<Int16> &vResiduals)
     _vCompressionBuffer.resize(iCompressedSize);
     
     if(!_pInput->readData( &(_vCompressionBuffer[0]), 
-                           (Int32) _vCompressionBuffer.size()))
+                           Int32(_vCompressionBuffer.size())))
     {
         return false;
     }

@@ -170,8 +170,8 @@ void BbqTerrainEngine<HeightType,
     std::make_heap(_qLoadQueue  .begin(), _qLoadQueue  .end(), loadQueueComp  );
     std::make_heap(_qUnloadQueue.begin(), _qUnloadQueue.end(), unloadQueueComp);
     
-    _oDataStatistics.loadQueueSize   = (Int32) _qLoadQueue  .size();
-    _oDataStatistics.unloadQueueSize = (Int32) _qUnloadQueue.size();
+    _oDataStatistics.loadQueueSize   = Int32(_qLoadQueue  .size());
+    _oDataStatistics.unloadQueueSize = Int32(_qUnloadQueue.size());
 
     _pTreeAccessMutex->release();
     

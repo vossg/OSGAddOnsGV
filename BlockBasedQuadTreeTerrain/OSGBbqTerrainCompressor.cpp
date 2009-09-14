@@ -493,13 +493,13 @@ Int32 BbqTerrainCompressor::getMaxDifference(
     const std::vector<UInt16> &vHeightData0, 
     const std::vector<UInt16> &vHeightData1 )
 {
-    const Int32 iSize = (Int32) vHeightData0.size();
+    const Int32 iSize = Int32(vHeightData0.size());
     
     Int32 iResult = 0;
     
     for(Int32 i = 0; i < iSize; ++i)
     {
-        Int32 iDifference = (Int32) vHeightData0[i] - (Int32) vHeightData1[i];
+        Int32 iDifference = Int32(vHeightData0[i]) - Int32(vHeightData1[i]);
         
         iResult = osgMax(iResult, iDifference);
     }

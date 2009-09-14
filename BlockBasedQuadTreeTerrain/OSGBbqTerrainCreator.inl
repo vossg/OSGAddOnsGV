@@ -214,7 +214,7 @@ void BbqCreateEngine<HeightType, TextureType>::step(void)
 
         _pOutputFile->gotoNodeInfoTable();
         
-        const Int32 nodeCount = (Int32) _vQuadtree.size();
+        const Int32 nodeCount = Int32(_vQuadtree.size());
 
         for(Int32 i = 0; i < nodeCount; ++i)
         {
@@ -251,7 +251,7 @@ template<class HeightType, class TextureType> inline
 bool BbqCreateEngine<HeightType, TextureType>::isLeafNodeId(BbqNodeId iId) const
 {
     // if the first child is invalid this has to be a leaf node:
-    return 4 * iId + 1 >= (Int32) _vQuadtree.size();
+    return 4 * iId + 1 >= Int32(_vQuadtree.size());
 }
 
 
@@ -438,7 +438,7 @@ void BbqCreateEngine<HeightType, TextureType>::processNode(BbqNodeId iId)
         node.minHeightSample = node.data->heightData[0];
         node.maxHeightSample = node.data->heightData[0];
         
-        const Int32 heightSampleCount = (Int32) node.data->heightData.size();
+        const Int32 heightSampleCount = Int32(node.data->heightData.size());
         
         for(Int32 i = 1; i < heightSampleCount; ++i)
         {
@@ -452,14 +452,14 @@ void BbqCreateEngine<HeightType, TextureType>::processNode(BbqNodeId iId)
 
         _pOutputFile->writeData( 
             &node.data->heightData[0], 
-             sizeof(HeightType) * (Int32) node.data->heightData.size());
+            sizeof(HeightType) * Int32(node.data->heightData.size()));
     }
     
     // write the texture data (if any)
     if(node.data->textureDataValid)
     {
         _pOutputFile->writeData(&node.data->textureData[0], 
-                                (Int32) node.data->textureData.size());
+                                Int32(node.data->textureData.size()));
         
         node.hasTextureData = true;
     }
@@ -498,7 +498,7 @@ void BbqCreateEngine<HeightType, TextureType>::getTextureData(
         _pTextureImage->readBlockRGB(  oNode.sampleOrigin, 
                                       _iTextureSize, 
                                      &oNode.data->textureData[0], 
-                                     (Int32) oNode.data->textureData.size());
+                                       Int32(oNode.data->textureData.size()));
 }
 
 //-----------------------------------------------------------------------------
@@ -524,7 +524,7 @@ void BbqCreateEngine<HeightType, TextureType>::getHeightData(
              oNode.sampleOrigin, 
             _iTileSize,
             &oNode.data->heightData[0], 
-            2 * (Int32) oNode.data->heightData.size());
+             2 * Int32(oNode.data->heightData.size()));
 
     for(UInt32 i = 0; i < oNode.data->heightData.size(); ++i)
     {

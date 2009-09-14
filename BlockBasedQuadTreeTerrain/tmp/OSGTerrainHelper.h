@@ -102,7 +102,7 @@ int lerp(int a, int b, float t)
 {
     int size = b - a;
 
-    int result = int( ((float)a) + (((float)size) * t) );    
+    int result = int( (float(a)) + ((float(size)) * t) );    
 
     return result;
 }
@@ -110,7 +110,9 @@ int lerp(int a, int b, float t)
 inline
 unsigned int getCeil(float f)
 {
-    return (unsigned int) osgCeil(f);
+    typedef unsigned int gcui;
+
+    return gcui(osgCeil(f));
 }
 
 

@@ -77,8 +77,8 @@ void createBlockIndicesPart(Int32      blockSize,
         IndexType* indexPtr = 
             ptr + 6 * ( partY * ( blockSize - 1 ) + partOffsetX );
         
-        const IndexType row0 = ( IndexType )( partY * blockSize );
-        const IndexType row1 = ( IndexType )( ( partY + 1 ) * blockSize );
+        const IndexType row0 = IndexType( partY * blockSize );
+        const IndexType row1 = IndexType( ( partY + 1 ) * blockSize );
         
         bool leftToRight = ( y % 2 ) == 0;
         
@@ -91,8 +91,8 @@ void createBlockIndicesPart(Int32      blockSize,
                 partX = partOffsetX + ( partSize - 1 ) - x;
             }
             
-            const IndexType col0 = ( IndexType ) partX;
-            const IndexType col1 = ( IndexType )( partX + 1 );
+            const IndexType col0 = IndexType(partX);
+            const IndexType col1 = IndexType(partX + 1 );
             
             const IndexType idx0 = row0 + col0;
             const IndexType idx1 = row0 + col1;
@@ -146,13 +146,13 @@ void createBlockIndices(int blockSize, std::vector<IndexType> &indices)
     
     for( int y = 0; y < blockSize - 1; ++y )
     {
-        const IndexType row0 = ( IndexType )( y * blockSize );
-        const IndexType row1 = ( IndexType )( ( y + 1 ) * blockSize );
+        const IndexType row0 = IndexType( y * blockSize );
+        const IndexType row1 = IndexType( ( y + 1 ) * blockSize );
         
         for( int x = 0; x < blockSize - 1; ++x )
         {
-            const IndexType col0 = ( IndexType ) x;
-            const IndexType col1 = ( IndexType )( x + 1 );
+            const IndexType col0 = IndexType(x);
+            const IndexType col1 = IndexType( x + 1 );
             
             const IndexType idx0 = row0 + col0;
             const IndexType idx1 = row0 + col1;
@@ -188,8 +188,8 @@ void addBlockSkirtIndices( int blockSize,
         int row0 = 0;
         
         // two triangles:
-        const IndexType col0 = ( IndexType ) i;
-        const IndexType col1 = ( IndexType )( i + 1 );
+        const IndexType col0 = IndexType(i);
+        const IndexType col1 = IndexType(( i + 1 ));
         
         const IndexType idx0 = row0 + col0;
         const IndexType idx1 = row0 + col1;
@@ -213,11 +213,11 @@ void addBlockSkirtIndices( int blockSize,
     for( int i = 0; i < databaseInfo_.heightTileSize - 1; ++i )
     {
         IndexType row0 = 0;
-        IndexType row1 = ( IndexType )sqr( databaseInfo_.heightTileSize );
+        IndexType row1 = IndexType(sqr( databaseInfo_.heightTileSize ));
         
         // two triangles:
-        const IndexType col0 = ( IndexType ) i;
-        const IndexType col1 = ( IndexType )( i + 1 );
+        const IndexType col0 = IndexType(i);
+        const IndexType col1 = IndexType( i + 1 );
         
         const IndexType idx0 = row0 + col0;
         const IndexType idx1 = row0 + col1;
@@ -334,11 +334,11 @@ bool BbqTerrainRendererBase<HeightType,
     for(Int32 i = 0; i < _oDatabaseInfo.heightTileSize - 1; ++i)
     {
         IndexType row0 = 0;
-        IndexType row1 = (IndexType) osgSqr(_oDatabaseInfo.heightTileSize);
+        IndexType row1 = IndexType(osgSqr(_oDatabaseInfo.heightTileSize));
         
         // two triangles:
-        const IndexType col0 = (IndexType) i;
-        const IndexType col1 = (IndexType)(i + 1);
+        const IndexType col0 = IndexType(i);
+        const IndexType col1 = IndexType(i + 1);
         
         const IndexType idx0 = row0 + col0;
         const IndexType idx1 = row0 + col1;
@@ -363,16 +363,16 @@ bool BbqTerrainRendererBase<HeightType,
     for(Int32 i = 0; i < _oDatabaseInfo.heightTileSize - 1; ++i)
     {
         IndexType row0 = 
-            (IndexType) osgSqr(_oDatabaseInfo.heightTileSize) - 
+            IndexType(osgSqr(_oDatabaseInfo.heightTileSize)) - 
             _oDatabaseInfo.heightTileSize;
 
         IndexType row1 = 
-            (IndexType) osgSqr(_oDatabaseInfo.heightTileSize) + 
+            IndexType(osgSqr(_oDatabaseInfo.heightTileSize)) + 
             _oDatabaseInfo.heightTileSize;
         
         // two triangles:
-        const IndexType col0 = (IndexType) i;
-        const IndexType col1 = (IndexType)(i + 1);
+        const IndexType col0 = IndexType(i);
+        const IndexType col1 = IndexType(i + 1);
         
         const IndexType idx0 = row0 + col0;
         const IndexType idx1 = row0 + col1;
@@ -398,15 +398,14 @@ bool BbqTerrainRendererBase<HeightType,
     {
         IndexType row0 = 0;
         IndexType row1 = 
-            (IndexType) osgSqr(_oDatabaseInfo.heightTileSize) + 
-
+            IndexType(osgSqr(_oDatabaseInfo.heightTileSize)) + 
             2 * _oDatabaseInfo.heightTileSize;
 
         Int32 increment = _oDatabaseInfo.heightTileSize;
 
         // two triangles:
-        const IndexType col0 = (IndexType)(i    * increment);
-        const IndexType col1 = (IndexType)(col0 + increment);
+        const IndexType col0 = IndexType(i    * increment);
+        const IndexType col1 = IndexType(col0 + increment);
         
         const IndexType idx0 = row0 + col0;
         const IndexType idx1 = row0 + col1;
@@ -433,14 +432,14 @@ bool BbqTerrainRendererBase<HeightType,
         IndexType row0 = _oDatabaseInfo.heightTileSize - 1;
 
         IndexType row1 = 
-            (IndexType) osgSqr(_oDatabaseInfo.heightTileSize) + 
+            IndexType(osgSqr(_oDatabaseInfo.heightTileSize)) + 
             3 * _oDatabaseInfo.heightTileSize;
 
         Int32 increment = _oDatabaseInfo.heightTileSize;
 
         // two triangles:
-        const IndexType col0 = (IndexType) (i    * increment);
-        const IndexType col1 = (IndexType) (col0 + increment);
+        const IndexType col0 = IndexType(i    * increment);
+        const IndexType col1 = IndexType(col0 + increment);
         
         const IndexType idx0 = row0 + col0;
         const IndexType idx1 = row0 + col1;
@@ -482,35 +481,35 @@ bool BbqTerrainRendererBase<HeightType,
     {
         for(Int32 x = 0; x < _oDatabaseInfo.heightTileSize; ++x)
         {
-            _vStaticVertexData.push_back((UInt16) x);
-            _vStaticVertexData.push_back((UInt16) y);
+            _vStaticVertexData.push_back(UInt16(x));
+            _vStaticVertexData.push_back(UInt16(y));
         }
     }
 
     // todo: put this into a method..
     for(Int32 i = 0; i < _oDatabaseInfo.heightTileSize; ++i)
     {
-        _vStaticVertexData.push_back((UInt16) i);
-        _vStaticVertexData.push_back((UInt16) 0);
+        _vStaticVertexData.push_back(UInt16(i));
+        _vStaticVertexData.push_back(UInt16(0));
     }
 
     for(Int32 i = 0; i < _oDatabaseInfo.heightTileSize; ++i)
     {
-        _vStaticVertexData.push_back((UInt16) i);
+        _vStaticVertexData.push_back(UInt16(i));
         _vStaticVertexData.push_back( 
-            (UInt16) _oDatabaseInfo.heightTileSize - 1);
+            UInt16(_oDatabaseInfo.heightTileSize - 1));
     }
 
     for(Int32 i = 0; i < _oDatabaseInfo.heightTileSize; ++i)
     {
-        _vStaticVertexData.push_back((UInt16) 0);
-        _vStaticVertexData.push_back((UInt16) i);
+        _vStaticVertexData.push_back(UInt16(0));
+        _vStaticVertexData.push_back(UInt16(i));
     }
     for(Int32 i = 0; i < _oDatabaseInfo.heightTileSize; ++i)
     {
         _vStaticVertexData.push_back( 
-            (UInt16) _oDatabaseInfo.heightTileSize - 1);
-        _vStaticVertexData.push_back((UInt16) i);
+            UInt16(_oDatabaseInfo.heightTileSize - 1));
+        _vStaticVertexData.push_back(UInt16(i));
     }
 
     _oStaticVertexBuffer.create(GL_ARRAY_BUFFER_ARB, 
@@ -677,7 +676,7 @@ void BbqTerrainRendererBase<HeightType,
     const HeightType* heightData = &node->data.heightData[ 0 ];
 
     const int tileSize = _oDatabaseInfo.heightTileSize;
-    const int heightSampleCount = ( int )node->data.heightData.size();
+    const int heightSampleCount = int(node->data.heightData.size());
     
     target.resize( 2 * heightSampleCount + 8 * tileSize );
     
@@ -757,8 +756,8 @@ void BbqTerrainRendererBase<HeightType,
                     parentHeightData[ parentFirstSampleOffset + 
                                       parentSecondSampleOffset ];
                 
-                int expectedHeightValue = lerp( ( int )parentHeightSample0, 
-                                                ( int )parentHeightSample1,
+                int expectedHeightValue = lerp( int(parentHeightSample0), 
+                                                int(parentHeightSample1),
                                                 0.5f );
                 int residual = expectedHeightValue - heightSample;
                 
@@ -1358,17 +1357,18 @@ void BbqTerrainRenderer<HeightType,
     _oTerrainShader.update(options.pDrawEnv);
     
     glBindBuffer( GL_ARRAY_BUFFER, _oStaticVertexBuffer.getBufferId() );
-    glVertexPointer( 2, GL_SHORT, 0, ( char* )0 );
+    glVertexPointer( 2, GL_SHORT, 0, NULL);
     glEnableClientState( GL_VERTEX_ARRAY );
     
     glBindBuffer( GL_ARRAY_BUFFER, heightDataVbo->getBufferId() );
-    glTexCoordPointer( 2, GL_FLOAT, 0, ( char* )0 );
+    glTexCoordPointer( 2, GL_FLOAT, 0, NULL );
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
     
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
     
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, _oStaticIndexBuffer.getBufferId() );
-    glDrawRangeElements( GL_TRIANGLES, 0, ( GLuint ) _vStaticVertexData.size(), 3 * triangleCount, GL_UNSIGNED_SHORT, 0 );
+    glDrawRangeElements( GL_TRIANGLES, 0, GLuint(_vStaticVertexData.size()),
+                         3 * triangleCount, GL_UNSIGNED_SHORT, 0 );
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
     
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );

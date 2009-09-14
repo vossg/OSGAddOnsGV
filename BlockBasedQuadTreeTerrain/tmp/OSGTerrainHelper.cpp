@@ -108,7 +108,7 @@ bool ImageBlockAccessorX::readBlockA16(Vec2i   vSampleOrigin,
 {
     const UInt8 *pData = _pImage->getData();
 
-    UInt8 *pDst = (UInt8 *) pTarget;
+    UInt8 *pDst = reinterpret_cast<UInt8 *>(pTarget);
 
     UInt32 destIdx = 0;
 
@@ -152,7 +152,7 @@ bool ImageBlockAccessorX::readBlockA16(Vec2i   vSampleOrigin,
 {
     const UInt8 *pData = _pImage->getData();
 
-    UInt8 *pDst = (UInt8 *) pTarget;
+    UInt8 *pDst = reinterpret_cast<UInt8 *>(pTarget);
 
     UInt32 destIdx = 0;
 

@@ -262,17 +262,17 @@ bool BbqFileReader::open( const std::string& filename )
     _oHeader._fHeightOffset              = _oInputStream.readFloat ();
 
     _oHeader._eHeightType              = 
-        (Image::Type) _oInputStream.readUInt32();
+        Image::Type(_oInputStream.readUInt32());
 
     _oHeader._eTextureType             = 
-        (Image::Type) _oInputStream.readUInt32();
+        Image::Type(_oInputStream.readUInt32());
 
 
     _oHeader._eHeightFormat              = 
-        (BbqFile::HeightFormat ) _oInputStream.readUInt32();
+        BbqFile::HeightFormat(_oInputStream.readUInt32());
 
     _oHeader._eTextureFormat             = 
-        (BbqFile::TextureFormat) _oInputStream.readUInt32();
+        BbqFile::TextureFormat(_oInputStream.readUInt32());
 
     _oHeader._uiHeightCompressionQuality = _oInputStream.readUInt32();
 
