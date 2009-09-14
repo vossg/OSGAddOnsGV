@@ -97,7 +97,7 @@ void BbqDataSourceBase::classDescInserter(TypeObject &oType)
         "",
         IgnoreGeoRefFieldId, IgnoreGeoRefFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&BbqDataSource::editHandleIgnoreGeoRef),
         static_cast<FieldGetMethodSig >(&BbqDataSource::getHandleIgnoreGeoRef));
 
@@ -244,7 +244,7 @@ GetFieldHandlePtr BbqDataSourceBase::getHandleIgnoreGeoRef    (void) const
 {
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
-             &_sfIgnoreGeoRef, 
+             &_sfIgnoreGeoRef,
              this->getType().getFieldDesc(IgnoreGeoRefFieldId)));
 
     return returnValue;
@@ -254,8 +254,9 @@ EditFieldHandlePtr BbqDataSourceBase::editHandleIgnoreGeoRef   (void)
 {
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
-             &_sfIgnoreGeoRef, 
+             &_sfIgnoreGeoRef,
              this->getType().getFieldDesc(IgnoreGeoRefFieldId)));
+
 
     editSField(IgnoreGeoRefFieldMask);
 
@@ -294,12 +295,12 @@ DataType FieldTraits<BbqDataSource *>::_type("BbqDataSourcePtr", "FieldContainer
 
 OSG_FIELDTRAITS_GETTYPE(BbqDataSource *)
 
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField, 
-                           BbqDataSource *, 
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           BbqDataSource *,
                            0);
 
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField, 
-                           BbqDataSource *, 
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           BbqDataSource *,
                            0);
 
 OSG_END_NAMESPACE

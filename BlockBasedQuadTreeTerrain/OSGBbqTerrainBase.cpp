@@ -119,7 +119,7 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         "",
         BeaconFieldId, BeaconFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleBeacon),
         static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleBeacon));
 
@@ -131,7 +131,7 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         "",
         DataSourceFieldId, DataSourceFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleDataSource),
         static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleDataSource));
 
@@ -143,7 +143,7 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         "",
         MaxNumResidentNodesFieldId, MaxNumResidentNodesFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleMaxNumResidentNodes),
         static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleMaxNumResidentNodes));
 
@@ -155,7 +155,7 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         "",
         ScreenSpaceErrorFieldId, ScreenSpaceErrorFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleScreenSpaceError),
         static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleScreenSpaceError));
 
@@ -167,7 +167,7 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         "",
         EnableSkirtsFieldId, EnableSkirtsFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleEnableSkirts),
         static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleEnableSkirts));
 
@@ -179,7 +179,7 @@ void BbqTerrainBase::classDescInserter(TypeObject &oType)
         "",
         ShowSwitchDistanceFieldId, ShowSwitchDistanceFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&BbqTerrain::editHandleShowSwitchDistance),
         static_cast<FieldGetMethodSig >(&BbqTerrain::getHandleShowSwitchDistance));
 
@@ -468,22 +468,6 @@ void BbqTerrainBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-BbqTerrainTransitPtr BbqTerrainBase::create(void)
-{
-    BbqTerrainTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<BbqTerrain>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 BbqTerrainTransitPtr BbqTerrainBase::createLocal(BitVector bFlags)
 {
     BbqTerrainTransitPtr fc;
@@ -499,17 +483,20 @@ BbqTerrainTransitPtr BbqTerrainBase::createLocal(BitVector bFlags)
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-BbqTerrain *BbqTerrainBase::createEmpty(void)
+//! create a new instance of the class
+BbqTerrainTransitPtr BbqTerrainBase::create(void)
 {
-    BbqTerrain *returnValue;
+    BbqTerrainTransitPtr fc;
 
-    newPtr<BbqTerrain>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<BbqTerrain>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 BbqTerrain *BbqTerrainBase::createEmptyLocal(BitVector bFlags)
@@ -523,20 +510,19 @@ BbqTerrain *BbqTerrainBase::createEmptyLocal(BitVector bFlags)
     return returnValue;
 }
 
-FieldContainerTransitPtr BbqTerrainBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+BbqTerrain *BbqTerrainBase::createEmpty(void)
 {
-    BbqTerrain *tmpPtr;
+    BbqTerrain *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const BbqTerrain *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<BbqTerrain>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr BbqTerrainBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -551,6 +537,22 @@ FieldContainerTransitPtr BbqTerrainBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr BbqTerrainBase::shallowCopy(void) const
+{
+    BbqTerrain *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const BbqTerrain *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -603,7 +605,7 @@ GetFieldHandlePtr BbqTerrainBase::getHandleBeacon          (void) const
 {
     SFUnrecNodePtr::GetHandlePtr returnValue(
         new  SFUnrecNodePtr::GetHandle(
-             &_sfBeacon, 
+             &_sfBeacon,
              this->getType().getFieldDesc(BeaconFieldId)));
 
     return returnValue;
@@ -613,11 +615,12 @@ EditFieldHandlePtr BbqTerrainBase::editHandleBeacon         (void)
 {
     SFUnrecNodePtr::EditHandlePtr returnValue(
         new  SFUnrecNodePtr::EditHandle(
-             &_sfBeacon, 
+             &_sfBeacon,
              this->getType().getFieldDesc(BeaconFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&BbqTerrain::setBeacon, 
-                                          static_cast<BbqTerrain *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&BbqTerrain::setBeacon,
+                    static_cast<BbqTerrain *>(this), _1));
 
     editSField(BeaconFieldMask);
 
@@ -628,7 +631,7 @@ GetFieldHandlePtr BbqTerrainBase::getHandleDataSource      (void) const
 {
     SFUnrecBbqDataSourcePtr::GetHandlePtr returnValue(
         new  SFUnrecBbqDataSourcePtr::GetHandle(
-             &_sfDataSource, 
+             &_sfDataSource,
              this->getType().getFieldDesc(DataSourceFieldId)));
 
     return returnValue;
@@ -638,11 +641,12 @@ EditFieldHandlePtr BbqTerrainBase::editHandleDataSource     (void)
 {
     SFUnrecBbqDataSourcePtr::EditHandlePtr returnValue(
         new  SFUnrecBbqDataSourcePtr::EditHandle(
-             &_sfDataSource, 
+             &_sfDataSource,
              this->getType().getFieldDesc(DataSourceFieldId)));
 
-    returnValue->setSetMethod(boost::bind(&BbqTerrain::setDataSource, 
-                                          static_cast<BbqTerrain *>(this), _1));
+    returnValue->setSetMethod(
+        boost::bind(&BbqTerrain::setDataSource,
+                    static_cast<BbqTerrain *>(this), _1));
 
     editSField(DataSourceFieldMask);
 
@@ -653,7 +657,7 @@ GetFieldHandlePtr BbqTerrainBase::getHandleMaxNumResidentNodes (void) const
 {
     SFUInt32::GetHandlePtr returnValue(
         new  SFUInt32::GetHandle(
-             &_sfMaxNumResidentNodes, 
+             &_sfMaxNumResidentNodes,
              this->getType().getFieldDesc(MaxNumResidentNodesFieldId)));
 
     return returnValue;
@@ -663,8 +667,9 @@ EditFieldHandlePtr BbqTerrainBase::editHandleMaxNumResidentNodes(void)
 {
     SFUInt32::EditHandlePtr returnValue(
         new  SFUInt32::EditHandle(
-             &_sfMaxNumResidentNodes, 
+             &_sfMaxNumResidentNodes,
              this->getType().getFieldDesc(MaxNumResidentNodesFieldId)));
+
 
     editSField(MaxNumResidentNodesFieldMask);
 
@@ -675,7 +680,7 @@ GetFieldHandlePtr BbqTerrainBase::getHandleScreenSpaceError (void) const
 {
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
-             &_sfScreenSpaceError, 
+             &_sfScreenSpaceError,
              this->getType().getFieldDesc(ScreenSpaceErrorFieldId)));
 
     return returnValue;
@@ -685,8 +690,9 @@ EditFieldHandlePtr BbqTerrainBase::editHandleScreenSpaceError(void)
 {
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
-             &_sfScreenSpaceError, 
+             &_sfScreenSpaceError,
              this->getType().getFieldDesc(ScreenSpaceErrorFieldId)));
+
 
     editSField(ScreenSpaceErrorFieldMask);
 
@@ -697,7 +703,7 @@ GetFieldHandlePtr BbqTerrainBase::getHandleEnableSkirts    (void) const
 {
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
-             &_sfEnableSkirts, 
+             &_sfEnableSkirts,
              this->getType().getFieldDesc(EnableSkirtsFieldId)));
 
     return returnValue;
@@ -707,8 +713,9 @@ EditFieldHandlePtr BbqTerrainBase::editHandleEnableSkirts   (void)
 {
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
-             &_sfEnableSkirts, 
+             &_sfEnableSkirts,
              this->getType().getFieldDesc(EnableSkirtsFieldId)));
+
 
     editSField(EnableSkirtsFieldMask);
 
@@ -719,7 +726,7 @@ GetFieldHandlePtr BbqTerrainBase::getHandleShowSwitchDistance (void) const
 {
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
-             &_sfShowSwitchDistance, 
+             &_sfShowSwitchDistance,
              this->getType().getFieldDesc(ShowSwitchDistanceFieldId)));
 
     return returnValue;
@@ -729,8 +736,9 @@ EditFieldHandlePtr BbqTerrainBase::editHandleShowSwitchDistance(void)
 {
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
-             &_sfShowSwitchDistance, 
+             &_sfShowSwitchDistance,
              this->getType().getFieldDesc(ShowSwitchDistanceFieldId)));
+
 
     editSField(ShowSwitchDistanceFieldMask);
 

@@ -109,7 +109,7 @@ void BbqOutOfCoreDataSourceBase::classDescInserter(TypeObject &oType)
         "",
         FilenameFieldId, FilenameFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSource::editHandleFilename),
         static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSource::getHandleFilename));
 
@@ -121,7 +121,7 @@ void BbqOutOfCoreDataSourceBase::classDescInserter(TypeObject &oType)
         "",
         HeightScaleFieldId, HeightScaleFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSource::editHandleHeightScale),
         static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSource::getHandleHeightScale));
 
@@ -133,7 +133,7 @@ void BbqOutOfCoreDataSourceBase::classDescInserter(TypeObject &oType)
         "",
         HeightOffsetFieldId, HeightOffsetFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSource::editHandleHeightOffset),
         static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSource::getHandleHeightOffset));
 
@@ -145,7 +145,7 @@ void BbqOutOfCoreDataSourceBase::classDescInserter(TypeObject &oType)
         "",
         SampleSpacingFieldId, SampleSpacingFieldMask,
         false,
-        Field::SFDefaultFlags,
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&BbqOutOfCoreDataSource::editHandleSampleSpacing),
         static_cast<FieldGetMethodSig >(&BbqOutOfCoreDataSource::getHandleSampleSpacing));
 
@@ -369,22 +369,6 @@ void BbqOutOfCoreDataSourceBase::copyFromBin(BinaryDataHandler &pMem,
 }
 
 //! create a new instance of the class
-BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::create(void)
-{
-    BbqOutOfCoreDataSourceTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<BbqOutOfCoreDataSource>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
 BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::createLocal(BitVector bFlags)
 {
     BbqOutOfCoreDataSourceTransitPtr fc;
@@ -400,17 +384,20 @@ BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::createLocal(BitVect
     return fc;
 }
 
-//! create an empty new instance of the class, do not copy the prototype
-BbqOutOfCoreDataSource *BbqOutOfCoreDataSourceBase::createEmpty(void)
+//! create a new instance of the class
+BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::create(void)
 {
-    BbqOutOfCoreDataSource *returnValue;
+    BbqOutOfCoreDataSourceTransitPtr fc;
 
-    newPtr<BbqOutOfCoreDataSource>(returnValue, Thread::getCurrentLocalFlags());
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopy();
 
-    returnValue->_pFieldFlags->_bNamespaceMask &= 
-        ~Thread::getCurrentLocalFlags(); 
+        fc = dynamic_pointer_cast<BbqOutOfCoreDataSource>(tmpPtr);
+    }
 
-    return returnValue;
+    return fc;
 }
 
 BbqOutOfCoreDataSource *BbqOutOfCoreDataSourceBase::createEmptyLocal(BitVector bFlags)
@@ -424,20 +411,19 @@ BbqOutOfCoreDataSource *BbqOutOfCoreDataSourceBase::createEmptyLocal(BitVector b
     return returnValue;
 }
 
-FieldContainerTransitPtr BbqOutOfCoreDataSourceBase::shallowCopy(void) const
+//! create an empty new instance of the class, do not copy the prototype
+BbqOutOfCoreDataSource *BbqOutOfCoreDataSourceBase::createEmpty(void)
 {
-    BbqOutOfCoreDataSource *tmpPtr;
+    BbqOutOfCoreDataSource *returnValue;
 
-    newPtr(tmpPtr, 
-           dynamic_cast<const BbqOutOfCoreDataSource *>(this), 
-           Thread::getCurrentLocalFlags());
+    newPtr<BbqOutOfCoreDataSource>(returnValue, Thread::getCurrentLocalFlags());
 
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
+    returnValue->_pFieldFlags->_bNamespaceMask &=
+        ~Thread::getCurrentLocalFlags();
 
     return returnValue;
 }
+
 
 FieldContainerTransitPtr BbqOutOfCoreDataSourceBase::shallowCopyLocal(
     BitVector bFlags) const
@@ -452,6 +438,22 @@ FieldContainerTransitPtr BbqOutOfCoreDataSourceBase::shallowCopyLocal(
 
     return returnValue;
 }
+
+FieldContainerTransitPtr BbqOutOfCoreDataSourceBase::shallowCopy(void) const
+{
+    BbqOutOfCoreDataSource *tmpPtr;
+
+    newPtr(tmpPtr,
+           dynamic_cast<const BbqOutOfCoreDataSource *>(this),
+           Thread::getCurrentLocalFlags());
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    return returnValue;
+}
+
 
 
 
@@ -487,7 +489,7 @@ GetFieldHandlePtr BbqOutOfCoreDataSourceBase::getHandleFilename        (void) co
 {
     SFString::GetHandlePtr returnValue(
         new  SFString::GetHandle(
-             &_sfFilename, 
+             &_sfFilename,
              this->getType().getFieldDesc(FilenameFieldId)));
 
     return returnValue;
@@ -497,8 +499,9 @@ EditFieldHandlePtr BbqOutOfCoreDataSourceBase::editHandleFilename       (void)
 {
     SFString::EditHandlePtr returnValue(
         new  SFString::EditHandle(
-             &_sfFilename, 
+             &_sfFilename,
              this->getType().getFieldDesc(FilenameFieldId)));
+
 
     editSField(FilenameFieldMask);
 
@@ -509,7 +512,7 @@ GetFieldHandlePtr BbqOutOfCoreDataSourceBase::getHandleHeightScale     (void) co
 {
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
-             &_sfHeightScale, 
+             &_sfHeightScale,
              this->getType().getFieldDesc(HeightScaleFieldId)));
 
     return returnValue;
@@ -519,8 +522,9 @@ EditFieldHandlePtr BbqOutOfCoreDataSourceBase::editHandleHeightScale    (void)
 {
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
-             &_sfHeightScale, 
+             &_sfHeightScale,
              this->getType().getFieldDesc(HeightScaleFieldId)));
+
 
     editSField(HeightScaleFieldMask);
 
@@ -531,7 +535,7 @@ GetFieldHandlePtr BbqOutOfCoreDataSourceBase::getHandleHeightOffset    (void) co
 {
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
-             &_sfHeightOffset, 
+             &_sfHeightOffset,
              this->getType().getFieldDesc(HeightOffsetFieldId)));
 
     return returnValue;
@@ -541,8 +545,9 @@ EditFieldHandlePtr BbqOutOfCoreDataSourceBase::editHandleHeightOffset   (void)
 {
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
-             &_sfHeightOffset, 
+             &_sfHeightOffset,
              this->getType().getFieldDesc(HeightOffsetFieldId)));
+
 
     editSField(HeightOffsetFieldMask);
 
@@ -553,7 +558,7 @@ GetFieldHandlePtr BbqOutOfCoreDataSourceBase::getHandleSampleSpacing   (void) co
 {
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
-             &_sfSampleSpacing, 
+             &_sfSampleSpacing,
              this->getType().getFieldDesc(SampleSpacingFieldId)));
 
     return returnValue;
@@ -563,8 +568,9 @@ EditFieldHandlePtr BbqOutOfCoreDataSourceBase::editHandleSampleSpacing  (void)
 {
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
-             &_sfSampleSpacing, 
+             &_sfSampleSpacing,
              this->getType().getFieldDesc(SampleSpacingFieldId)));
+
 
     editSField(SampleSpacingFieldMask);
 
