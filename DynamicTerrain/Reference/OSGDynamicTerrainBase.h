@@ -165,6 +165,24 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
         (TypeTraits<BitVector>::One << CpuFragmentProgramFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
+        
+    typedef SFInt32           SFLevelSizeType;
+    typedef SFUnrecImagePtr   SFHeightDataType;
+    typedef SFReal32          SFHeightDataScaleType;
+    typedef SFReal32          SFHeightDataOffsetType;
+    typedef SFReal32          SFSampleDistanceType;
+    typedef SFUnrecImagePtr   SFTextureDataType;
+    typedef SFUnrecTextureChunkPtr SFHeightColorTextureType;
+    typedef SFInt32           SFSampleUpdateBudgetType;
+    typedef SFBool            SFEnableFrustumCullingType;
+    typedef SFBool            SFUseGpuRendererType;
+    typedef SFBool            SFUseVboExtensionType;
+    typedef SFBool            SFEnableSmoothTransitionType;
+    typedef SFBool            SFShowBoundingBoxesType;
+    typedef SFBool            SFShowTransitionRegionsType;
+    typedef SFBool            SFDisableUpdateType;
+    typedef SFString          SFCpuVertexProgramType;
+    typedef SFString          SFCpuFragmentProgramType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
