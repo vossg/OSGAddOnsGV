@@ -754,11 +754,13 @@ void BbqTerrainBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    this->execSync(static_cast<BbqTerrainBase *>(&oFrom),
-                   whichField,
-                   oOffsets,
-                   syncMode,
-                   uiSyncInfo);
+    BbqTerrain *pThis = static_cast<BbqTerrain *>(this);
+
+    pThis->execSync(static_cast<BbqTerrain *>(&oFrom),
+                    whichField,
+                    oOffsets,
+                    syncMode,
+                    uiSyncInfo);
 }
 #endif
 

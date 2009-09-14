@@ -586,11 +586,13 @@ void BbqOutOfCoreDataSourceBase::execSyncV(      FieldContainer    &oFrom,
                                         ConstFieldMaskArg  syncMode,
                                   const UInt32             uiSyncInfo)
 {
-    this->execSync(static_cast<BbqOutOfCoreDataSourceBase *>(&oFrom),
-                   whichField,
-                   oOffsets,
-                   syncMode,
-                   uiSyncInfo);
+    BbqOutOfCoreDataSource *pThis = static_cast<BbqOutOfCoreDataSource *>(this);
+
+    pThis->execSync(static_cast<BbqOutOfCoreDataSource *>(&oFrom),
+                    whichField,
+                    oOffsets,
+                    syncMode,
+                    uiSyncInfo);
 }
 #endif
 
