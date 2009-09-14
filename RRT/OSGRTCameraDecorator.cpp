@@ -339,6 +339,8 @@ void RTCameraDecorator::fillTile(
 
     OSG_ASSERT(uiY * uiTilesX + uiX < vRays.size());
 
+    rayTile.setOrigin(vOrigin);
+
     for(UInt32 i = 0; i < FourRayPacket::NumVRays; ++i)
     {
         vCurrV = vCurrH;
@@ -369,9 +371,7 @@ void RTCameraDecorator::fillTile(
                 else
                 {
                     rayInfo.setActive(true, uiPacketIndex);
-
-                    rayTile.setOrigin(vOrigin);
-                    
+                   
                     rayTile.setDirection(vCurrV, uiPacketIndex);
                     
                     rayInfo.setXY(uiX, uiY);
@@ -527,7 +527,7 @@ void RTCameraDecorator::fillTile(
                 {
                     rayInfo.setActive(true, uiPacketIndex);
 
-                    rayTile.setOrigin(vOrigin);
+                    rayTile.setOrigin(vOrigin, uiPacketIndex);
                     
                     rayTile.setDirection(vCurrV, uiPacketIndex);
                     

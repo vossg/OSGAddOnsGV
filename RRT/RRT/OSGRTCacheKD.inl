@@ -969,27 +969,40 @@ void RTCacheKD<DescT>::intersectSingle(FullSIMDRayPacket &oRay,
                                        UInt16            *uiActive     )
 {
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
-    Vec3f vRayDirs[4];
+    Vec3f vRayDirs   [4];
+    Pnt3f vRayOrigins[4];
 
     union
     {
-        Float4 dir;
-        Real32 dirConv[4];
+        Float4 vec;
+        Real32 vecConv[4];
     };
 
     for(UInt32 i = 0; i < 3; ++i)
     {
-        dir = oRay.getDir(i);
+        vec = oRay.getDir(i);
 
-        vRayDirs[0][i] = dirConv[0];
-        vRayDirs[1][i] = dirConv[1];
-        vRayDirs[2][i] = dirConv[2];
-        vRayDirs[3][i] = dirConv[3];
+        vRayDirs[0][i] = vecConv[0];
+        vRayDirs[1][i] = vecConv[1];
+        vRayDirs[2][i] = vecConv[2];
+        vRayDirs[3][i] = vecConv[3];
     }
 
+    for(UInt32 i = 0; i < 3; ++i)
+    {
+        vec = oRay.getOrigin(i);
+
+        vRayOrigins[0][i] = vecConv[0];
+        vRayOrigins[1][i] = vecConv[1];
+        vRayOrigins[2][i] = vecConv[2];
+        vRayOrigins[3][i] = vecConv[3];
+    }
+
+#if 0
     Pnt3f vOrigin(oRay.getOriginComp(0),
                   oRay.getOriginComp(1),
                   oRay.getOriginComp(2));
+#endif
 #endif
 
     for(UInt32 iRay = 0; iRay < 4; ++iRay)
@@ -997,7 +1010,7 @@ void RTCacheKD<DescT>::intersectSingle(FullSIMDRayPacket &oRay,
         float tmin, tmax;
 
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
-        Line lineRay(vOrigin, vRayDirs[iRay]);
+        Line lineRay(vRayOrigins[iRay], vRayDirs[iRay]);
 #else
         Line lineRay(oRay.getOriginPnt(), oRay.getDirVec(iRay));
 #endif
@@ -1043,7 +1056,7 @@ void RTCacheKD<DescT>::intersectSingle(FullSIMDRayPacket &oRay,
 
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
                 float tplane = 
-                    (node->getSplitPos() - vOrigin[axis]) *
+                    (node->getSplitPos() - vRayOrigins[iRay][axis]) *
                     invDir[axis];
 #else
                 float tplane = 
@@ -1065,7 +1078,7 @@ void RTCacheKD<DescT>::intersectSingle(FullSIMDRayPacket &oRay,
 
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
                 bool belowFirst = 
-                    vOrigin[axis] <= node->getSplitPos();
+                    vRayOrigins[iRay][axis] <= node->getSplitPos();
 #else
                 bool belowFirst = 
                     oRay.getOriginPnt()[axis] <= node->getSplitPos();
@@ -1116,7 +1129,7 @@ void RTCacheKD<DescT>::intersectSingle(FullSIMDRayPacket &oRay,
             {
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
                 this->_mfTriangleAcc[node->_uiSinglePrimitive].intersectSingle(
-                    vRayDirs, vOrigin, oHit, uiCacheId, iRay);
+                    vRayDirs, vRayOrigins, oHit, uiCacheId, iRay);
 #else
                 this->_mfTriangleAcc[node->_uiSinglePrimitive].intersectSingle(
                     oRay, oHit, uiCacheId, iRay);
@@ -1131,7 +1144,7 @@ void RTCacheKD<DescT>::intersectSingle(FullSIMDRayPacket &oRay,
                 {
 #ifndef OSG_SIMD_RAYPACKET_DEBUG
                     this->_mfTriangleAcc[prims[i]].intersectSingle(vRayDirs,
-                                                                   vOrigin, 
+                                                                   vRayOrigins, 
                                                                    oHit,
                                                                    uiCacheId,
                                                                    iRay);
@@ -1222,13 +1235,13 @@ void RTCacheKD<DescT>::intersect(FullSIMDRayPacket &oRay,
     const Float4 clipMinX = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::X]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::X))),
+                       oRay.getOrigin(RTRaySIMDPacket::X)),
             invDir._data[RTRaySIMDPacket::X]);
 
     const Float4 clipMaxX = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::X]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::X))),
+                       oRay.getOrigin(RTRaySIMDPacket::X)),
             invDir._data[RTRaySIMDPacket::X]);
 
 
@@ -1244,13 +1257,13 @@ void RTCacheKD<DescT>::intersect(FullSIMDRayPacket &oRay,
     const Float4 clipMinY = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::Y]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Y))),
+                       oRay.getOrigin(RTRaySIMDPacket::Y)),
             invDir._data[RTRaySIMDPacket::Y]);
     
     const Float4 clipMaxY = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::Y]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Y))),
+                       oRay.getOrigin(RTRaySIMDPacket::Y)),
             invDir._data[RTRaySIMDPacket::Y]);
     
     const Float4 cmpY = osgSIMDCmpGT(oRay.getDir(RTRaySIMDPacket::Y), 
@@ -1266,13 +1279,13 @@ void RTCacheKD<DescT>::intersect(FullSIMDRayPacket &oRay,
     const Float4 clipMinZ = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::Z]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Z))),
+                       oRay.getOrigin(RTRaySIMDPacket::Z)),
             invDir._data[RTRaySIMDPacket::Z]);
 
     const Float4 clipMaxZ = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::Z]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Z))),
+                       oRay.getOrigin(RTRaySIMDPacket::Z)),
             invDir._data[RTRaySIMDPacket::Z]);
  
     const Float4 cmpZ = osgSIMDCmpGT(oRay.getDir(RTRaySIMDPacket::Z), 
@@ -1307,7 +1320,7 @@ void RTCacheKD<DescT>::intersect(FullSIMDRayPacket &oRay,
             const Float4 tplane4 = 
                 osgSIMDMul(
                     osgSIMDSub(osgSIMDSet(node->getSplitPos()),
-                               osgSIMDSet(oRay.getOriginComp(axis))),
+                               oRay.getOrigin(axis)),
                     invDir._data[axis]);
 
             union

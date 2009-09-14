@@ -458,6 +458,69 @@ void RTTriAccelBarycentric::intersectSingle(RTRaySIMDPacket &oRay,
 }
 
 inline
+void RTTriAccelBarycentric::intersectSingle(Vec3f           *vRayDirs,
+                                            Pnt3f           *vRayOrigins,
+                                            RTHitSIMDPacket &oHit,
+                                            UInt32           uiCacheId,
+                                            UInt32           uiActive  )
+{
+    static const UInt32 aMod[] = {0, 1, 2, 0, 1};
+
+//    for(UInt32 i = 0; i < 4; ++i)
+
+    UInt32 i = uiActive;
+    {
+#ifndef OSG_SIMD_RAYPACKET_DEBUG
+        const Real32 nd = 1.f / 
+            (      vRayDirs[i][_uiProj] + 
+             _nU * vRayDirs[i][KU     ] + 
+             _nV * vRayDirs[i][KV     ]);
+
+        const Real32 f  = (_nD - 
+                                 vRayOrigins[i][_uiProj] - 
+                           _nU * vRayOrigins[i][KU     ] -
+                           _nV * vRayOrigins[i][KV     ]) * nd;
+#else
+        const Real32 nd = 1.f / 
+            (      oRay.getDirVec(i)[_uiProj] + 
+             _nU * oRay.getDirVec(i)[KU     ] + 
+             _nV * oRay.getDirVec(i)[KV     ]);
+
+        const Real32 f  = (_nD - 
+                                 oRay.getOriginPnt()[_uiProj] - 
+                           _nU * oRay.getOriginPnt()[KU     ] -
+                           _nV * oRay.getOriginPnt()[KV     ]) * nd;
+#endif
+
+        if(!(oHit.getDist(i) > f && f > 0.00001))
+            return; //continue;
+
+#ifndef OSG_SIMD_RAYPACKET_DEBUG
+        const float hu = (vRayOrigins[i][KU] + f * vRayDirs[i][KU]);
+        const float hv = (vRayOrigins[i][KV] + f * vRayDirs[i][KV]);
+#else
+        const float hu = (oRay.getOriginPnt()[KU] + f * oRay.getDirVec(i)[KU]);
+        const float hv = (oRay.getOriginPnt()[KV] + f * oRay.getDirVec(i)[KV]);
+#endif
+        const float lambda = (hu * _bNU + hv * _bNV + _bD);
+        
+        if(lambda < 0.)
+            return; //continue;
+
+        const float mue = (hu * _cNU + hv * _cNV + _cD);
+        
+        if(mue < 0.)
+            return; //continue;
+        
+        if(lambda + mue > 1.)
+            return; //continue;
+        
+        oHit.set(i, f, lambda, mue, _uiObjId, _uiTriId, uiCacheId);
+    }
+}
+
+
+inline
 void RTTriAccelBarycentric::intersect(RTRaySIMDPacket &oRay, 
                                       RTHitSIMDPacket &oHit,
                                       UInt32           uiCacheId,
