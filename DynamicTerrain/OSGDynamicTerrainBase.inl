@@ -538,7 +538,7 @@ void DynamicTerrainBase::execSync (      DynamicTerrainBase *pFrom,
 
 
 inline
-Char8 *DynamicTerrainBase::getClassname(void)
+const Char8 *DynamicTerrainBase::getClassname(void)
 {
     return "DynamicTerrain";
 }
