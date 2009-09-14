@@ -92,12 +92,13 @@ class OSG_FILEIO_DLLMAPPING MSceneFileType : public SceneFileType
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual bool write(const NodePtr      &node, 
-                             std::ostream &os,
-                       const Char8        *fileNameOrExtension) const;
+    virtual bool write(Node         * const  node, 
+                       std::ostream         &os,
+                       Char8          const *fileNameOrExtension) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/

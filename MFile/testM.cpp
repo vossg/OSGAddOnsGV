@@ -64,7 +64,7 @@ TransformUnrecPtr scene_trans;
 PolygonChunkUnrecPtr pPoly;
 bool                 bPolyActive = false;
 ChunkOverrideGroupUnrecPtr pCOver;
-SHLChunkUnrecPtr pSHL = NullFC;
+SHLChunkUnrecPtr pSHL = NULL;
 
 Trackball tball;
 
@@ -222,16 +222,16 @@ void key(unsigned char key, int x, int y)
         case 27:    
             delete rentravact;
 
-            root = NullFC;
-            file = NullFC;
-            cam = NullFC;
-            vp = NullFC;
-            win = NullFC;
-            cam_trans = NullFC;
-            scene_trans = NullFC;
-            pPoly = NullFC;
-            pCOver = NullFC;
-            pSHL = NullFC;
+            root = NULL;
+            file = NULL;
+            cam = NULL;
+            vp = NULL;
+            win = NULL;
+            cam_trans = NULL;
+            scene_trans = NULL;
+            pPoly = NULL;
+            pCOver = NULL;
+            pSHL = NULL;
 
             osgExit(); 
             exit(0);
@@ -423,12 +423,12 @@ int main (int argc, char **argv)
 
     // Load the file
 
-    NodeUnrecPtr file = NullFC;
+    NodeUnrecPtr file = NULL;
     
     if(argc > 1)
         file = SceneFileHandler::the()->read(argv[1], NULL);
     
-    if ( file == NullFC )
+    if ( file == NULL )
     {
         std::cerr << "Couldn't load file, ignoring" << std::endl;
 
@@ -439,12 +439,12 @@ int main (int argc, char **argv)
 #if 0
     GeometryPtr pGeo = cast_dynamic<GeometryPtr>(file->getCore());
     
-    if(pGeo == NullFC && file->getNChildren() != 0)
+    if(pGeo == NULL && file->getNChildren() != 0)
     {
         pGeo = cast_dynamic<GeometryPtr>(file->getChild(0)->getCore());
     }
 
-    if(pGeo == NullFC)
+    if(pGeo == NULL)
     {
         fprintf(stderr, "no geo\n");
     }

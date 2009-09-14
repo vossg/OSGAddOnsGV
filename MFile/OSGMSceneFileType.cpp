@@ -97,7 +97,7 @@ MSceneFileType  MSceneFileType::_the(_suffixA,
 
 NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
 {
-    NodeTransitPtr rootPtr(NullFC);
+    NodeTransitPtr rootPtr(NULL);
 
 
     if(is)
@@ -508,9 +508,9 @@ NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
         for (meshI = meshList.begin(); meshI != meshList.end(); meshI++)
         {
             geoPtr   = Geometry::create();
-            posIndexPtr = NullFC;
-            texIndexPtr = NullFC;
-            normalIndexPtr = NullFC;
+            posIndexPtr = NULL;
+            texIndexPtr = NULL;
+            normalIndexPtr = NULL;
             lensPtr  = GeoUIntProperty::create();
             typePtr  = GeoUInt8Property::create();
 
@@ -595,7 +595,7 @@ NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
                 }
                 else
                 {
-                    geoPtr->setTexCoords ( NullFC );
+                    geoPtr->setTexCoords ( NULL );
                 }
 
                 if ( (meshIndexMask & 4) && normalPtr->size() > 0 )
@@ -607,10 +607,10 @@ NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
                 }
                 else
                 {
-                    geoPtr->setNormals   ( NullFC );
+                    geoPtr->setNormals   ( NULL );
                 }
 
-                if (meshI->mtlPtr == NullFC)
+                if (meshI->mtlPtr == NULL)
                 {
                     meshI->mtlPtr = SimpleTexturedMaterial::create();
                     meshI->mtlPtr->setDiffuse( Color3r( .8f, .8f, .8f ) );
@@ -640,9 +640,9 @@ NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
                         else
                         {
                             posIndexPtr->push_back(faceI->tieVec[i].index[0]);
-                            if(texIndexPtr != NullFC)
+                            if(texIndexPtr != NULL)
                                 texIndexPtr->push_back(faceI->tieVec[i].index[1]);
-                            if(normalIndexPtr != NullFC)
+                            if(normalIndexPtr != NULL)
                                 normalIndexPtr->push_back(faceI->tieVec[i].index[2]);
                         }
                     }
@@ -664,7 +664,7 @@ NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
                 // need to port the geometry functions ...
 
 #ifndef OSG_EMBEDDED
-				if(geoPtr->getNormals() == NullFC)
+				if(geoPtr->getNormals() == NULL)
                     calcVertexNormals(geoPtr);
 #endif
 
@@ -674,7 +674,7 @@ NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
     
                 if (meshList.size() > 1)
                 {
-                    if (rootPtr == NullFC)
+                    if (rootPtr == NULL)
                     {
                         rootPtr = Node::create();
                         rootPtr->setCore ( Group::create() );
@@ -701,9 +701,9 @@ NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
     return rootPtr;
 }
 
-bool MSceneFileType::write(const NodePtr      &node, 
-                                 std::ostream &os,
-                           const Char8        *fileNameOrExtension) const
+bool MSceneFileType::write(Node         * const  node, 
+                           std::ostream         &os,
+                           Char8          const *fileNameOrExtension) const
 {
     return true;
 }
