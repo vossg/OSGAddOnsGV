@@ -139,7 +139,6 @@ RTRaySIMDPacket::RTRaySIMDPacket(const RTRaySIMDPacket &source) :
     _fDir[0] = source._fDir[0];
     _fDir[1] = source._fDir[1];
     _fDir[2] = source._fDir[2];
-    _fDir[3] = source._fDir[3];
 
 #ifdef OSG_SIMD_RAYPACKET_DEBUG
     _vDir[0] = source._vDir[0];
@@ -164,7 +163,6 @@ void RTRaySIMDPacket::operator =(const RTRaySIMDPacket &source)
     _fDir[0]   = source._fDir[0];
     _fDir[1]   = source._fDir[1];
     _fDir[2]   = source._fDir[2];
-    _fDir[3]   = source._fDir[3];
 
 #ifdef OSG_SIMD_RAYPACKET_DEBUG
     _vOrigin   = source._vOrigin;
@@ -305,6 +303,164 @@ Float4 RTRaySIMDPacket::getDir(const UInt32 uiCoord)
     OSG_ASSERT(uiCoord < 3);
 
     return _fDir[uiCoord];
+}
+
+
+inline
+RTRayFullSIMDPacket::RTRayFullSIMDPacket(void) :
+     Inherited(        ),
+    _fOrigin  (        ),
+    _fDir     (        )
+{
+}
+
+inline
+RTRayFullSIMDPacket::RTRayFullSIMDPacket(const RTRayFullSIMDPacket &source) :
+     Inherited(source)
+{
+    _fOrigin[X] = source._fOrigin[X];
+    _fOrigin[Y] = source._fOrigin[Y];
+    _fOrigin[Z] = source._fOrigin[Z];
+
+    _fDir[X] = source._fDir[X];
+    _fDir[Y] = source._fDir[Y];
+    _fDir[Z] = source._fDir[Z];
+}
+
+
+inline
+RTRayFullSIMDPacket::~RTRayFullSIMDPacket(void)
+{
+}
+
+inline 
+void RTRayFullSIMDPacket::operator =(const RTRayFullSIMDPacket &source)
+{
+    Inherited::operator =(source);
+
+    _fOrigin[X] = source._fOrigin[X];
+    _fOrigin[Y] = source._fOrigin[Y];
+    _fOrigin[Z] = source._fOrigin[Z];
+
+    _fDir[X]    = source._fDir[X];
+    _fDir[Y]    = source._fDir[Y];
+    _fDir[Z]    = source._fDir[Z];
+}
+
+inline
+void RTRayFullSIMDPacket::setOrigin(Pnt3f vOrigin)
+{
+    _vOriginA[X][0] = vOrigin[X];
+    _vOriginA[Y][0] = vOrigin[Y];
+    _vOriginA[Z][0] = vOrigin[Z];
+
+    _vOriginA[X][1] = vOrigin[X];
+    _vOriginA[Y][1] = vOrigin[Y];
+    _vOriginA[Z][1] = vOrigin[Z];
+
+    _vOriginA[X][2] = vOrigin[X];
+    _vOriginA[Y][2] = vOrigin[Y];
+    _vOriginA[Z][2] = vOrigin[Z];
+
+    _vOriginA[X][3] = vOrigin[X];
+    _vOriginA[Y][3] = vOrigin[Y];
+    _vOriginA[Z][3] = vOrigin[Z];
+}
+
+inline 
+void RTRayFullSIMDPacket::setOrigin(Real32 oX,
+                                    Real32 oY,
+                                    Real32 oZ,
+                                    UInt32 uiIdx)
+{
+    OSG_ASSERT(uiIdx < NumRays);
+
+    _vOriginA[X][uiIdx] = oX;
+    _vOriginA[Y][uiIdx] = oY;
+    _vOriginA[Z][uiIdx] = oZ;
+}
+
+inline
+void RTRayFullSIMDPacket::setOrigin(Pnt3f  vOrigin,
+                                    UInt32 uiIdx  )
+{
+    OSG_ASSERT(uiIdx < NumRays);
+
+    _vOriginA[X][uiIdx] = vOrigin[X];
+    _vOriginA[Y][uiIdx] = vOrigin[Y];
+    _vOriginA[Z][uiIdx] = vOrigin[Z];
+}
+
+inline 
+void RTRayFullSIMDPacket::setDirection(Vec3f  vDir,
+                                       UInt32 uiIdx)
+{
+    OSG_ASSERT(uiIdx < NumRays);
+
+    _vDirA[X][uiIdx] = vDir[X];
+    _vDirA[Y][uiIdx] = vDir[Y];
+    _vDirA[Z][uiIdx] = vDir[Z];
+}
+
+inline
+void RTRayFullSIMDPacket::setDirX(Float4 fDir)
+{
+    _fDir[X] = fDir;
+}
+
+inline
+void RTRayFullSIMDPacket::setDirY(Float4 fDir)
+{
+    _fDir[Y] = fDir;
+}
+
+inline
+void RTRayFullSIMDPacket::setDirZ(Float4 fDir)
+{
+    _fDir[Z] = fDir;
+}
+
+inline 
+void RTRayFullSIMDPacket::normalizeDirection(void)
+{
+    Float4 v1  = osgSIMDMul(_fDir[X], _fDir[X]);
+    Float4 v2  = osgSIMDMul(_fDir[Y], _fDir[Y]);
+    Float4 v3  = osgSIMDMul(_fDir[Z], _fDir[Z]);
+
+    Float4 sum = osgSIMDAdd(v1, osgSIMDAdd(v2, v3));
+
+    Float4 nr         = osgSIMDRSqrtE(sum);
+
+    Float4 mulsum     = osgSIMDMul(osgSIMDMul(sum, nr), nr);
+
+    Float4 reciprocal = osgSIMDMul(osgSIMDMul(SIMDHalf,  nr    ), 
+                                   osgSIMDSub(SIMDThree, mulsum));
+
+    _fDir[X] = osgSIMDMul(_fDir[X], reciprocal);
+    _fDir[Y] = osgSIMDMul(_fDir[Y], reciprocal);
+    _fDir[Z] = osgSIMDMul(_fDir[Z], reciprocal);
+}
+
+inline 
+Float4 RTRayFullSIMDPacket::getOrigin(const UInt32 uiCoord)
+{
+    OSG_ASSERT(uiCoord < 3);
+
+    return _fOrigin[uiCoord];
+}
+
+inline 
+Float4 RTRayFullSIMDPacket::getDir(const UInt32 uiCoord)
+{
+    OSG_ASSERT(uiCoord < 3);
+
+    return _fDir[uiCoord];
+}
+
+inline 
+Real32 RTRayFullSIMDPacket::getOriginComp(const UInt32 uiIndex)
+{
+    return _vOriginA[uiIndex][0];
 }
 
 OSG_END_NAMESPACE

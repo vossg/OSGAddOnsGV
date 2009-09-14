@@ -272,15 +272,14 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayFullSIMDPacket : public RTSIMDPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
+    void setOrigin         (Pnt3f  vOrigin);
+
     void setOrigin         (Real32 oX,
                             Real32 oY,
                             Real32 oZ,
                             UInt32 uiIdx  );
 
     void setOrigin         (Pnt3f  vOrigin,
-                            UInt32 uiIdx  );
-
-    void setOrigin         (Float4 origin,
                             UInt32 uiIdx  );
 
 
@@ -298,12 +297,6 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayFullSIMDPacket : public RTSIMDPacket
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-#ifdef OSG_SIMD_RAYPACKET_DEBUG
-    Pnt3f getOriginPnt         (const UInt32 uiCoord);
-
-    Vec3f getDirVec            (const UInt32 uiCoord);
-#endif
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -316,6 +309,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayFullSIMDPacket : public RTSIMDPacket
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
+
+    Real32 getOriginComp(const UInt32 uiIndex);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -333,17 +328,10 @@ class OSG_CONTRIBRRT_DLLMAPPING RTRayFullSIMDPacket : public RTSIMDPacket
 
     typedef Real32 Real32_4[4];
 
-#ifdef OSG_SIMD_RAYPACKET_DEBUG
-    Pnt3f  _vOrigin;
-    Real32 _pad0;
-
-    Vec3f  _vDir[4];
-#endif
-
     union
     {
-        Float4    _fOrigin[3];
-        Real32_4  _vOriginA[4];
+        Float4    _fOrigin [3];
+        Real32_4  _vOriginA[3];
     };
 
     union

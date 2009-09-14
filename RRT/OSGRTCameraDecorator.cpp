@@ -372,9 +372,6 @@ void RTCameraDecorator::fillTile(
 
                     rayTile.setOrigin(vOrigin);
                     
-                    Vec3f vDir = vCurrV;
-                    vDir.normalize();
-                    
                     rayTile.setDirection(vCurrV, uiPacketIndex);
                     
                     rayInfo.setXY(uiX, uiY);
@@ -397,7 +394,154 @@ UInt32 RTCameraDecorator::fillRayStores(
                                UInt32            uiVTiles,
                                UInt32            uiHTiles )
 {
-    return 0;
+    UInt32 uiWidth  = pTarget.getWidth ();
+    UInt32 uiHeight = pTarget.getHeight();
+
+    UInt32 uiCurrV  = 0;
+    UInt32 uiCurrH  = 0;
+    UInt32 uiCountV = 0;
+    UInt32 uiCountH = 0;
+
+    PerspectiveCamera *pPCam = 
+        dynamic_cast<PerspectiveCamera *>(this->getDecoratee());
+
+    if(pPCam == NULL)
+    {
+        fprintf(stderr, "RTCamDeco::Unknow Camera\n");
+
+        return 0;
+    }
+
+    Matrix mCam;
+
+    pPCam->getBeacon()->getToWorld(mCam);
+
+    Real32 rVOff = atan(pPCam->getFov() / 2.f);
+    Real32 rHOff = (rVOff * uiHeight) / uiWidth;
+
+    Vec3f vRight(mCam[0][0], mCam[0][1], mCam[0][2]);
+    Vec3f vUp   (mCam[1][0], mCam[1][1], mCam[1][2]);
+    Vec3f vDir  (0.f, 0.f, -1.f);
+
+    mCam.mult(vDir);
+
+    vRight *= rVOff;
+    vUp    *= rHOff;
+
+//    vRight.setValues(0.f, 0.f, 0.f);
+//    vUp.setValues   (0.f, 0.f, 0.f);
+
+    Vec3f vTopLeft = vDir - vRight + vUp;
+
+    vRight *= 2.f / (uiWidth  - 1);
+    vUp    *= 2.f / (uiHeight - 1);
+
+    Vec3f vCurrH = vTopLeft;
+    Vec3f vCurrV = vTopLeft;
+
+    Pnt3f vOrigin(mCam[3][0], mCam[3][1], mCam[3][2]);
+
+    for(UInt32 i = 0; i < uiVTiles; ++i)
+    {
+        vCurrV = vCurrH;
+
+        for(UInt32 j = 0; j < uiHTiles; j++)
+        {
+            fillTile(vRays,
+                     vRayInfos,
+                     pTarget.getWidth(),
+                     pTarget.getHeight(),
+                     vCurrV, 
+                     vRight, 
+                     vUp, 
+                     vOrigin, 
+                     j, 
+                     i, 
+                     uiHTiles);
+
+            vCurrV += 
+                Real32(RRT::SIMDPacketDesc::SingleRayPacket::NumHRays) * vRight;
+        }
+
+        vCurrH -= Real32(RRT::SIMDPacketDesc::SingleRayPacket::NumVRays) * vUp;
+    }
+
+    return (uiVTiles * uiHTiles);
+}
+
+
+void RTCameraDecorator::fillTile(
+    RRT::SIMDPacketDesc::FullSIMDRayStore &vRays,
+    RRT::SIMDPacketDesc::RayInfoStore     &vRayInfos,
+                         UInt32            uiWidth,
+                         UInt32            uiHeight,
+                         Vec3f             vCurr, 
+                         Vec3f             vRight, 
+                         Vec3f             vUp,
+                         Pnt3f             vOrigin,
+                         UInt32            uiX,
+                         UInt32            uiY,
+                         UInt32            uiTilesX )
+{
+    typedef RRT::SIMDPacketDesc::StoredFullSIMDPacket FourRayPacket;
+    typedef RRT::SIMDPacketDesc::SingleRayPacketInfo  FourRayPacketInfo;
+
+    Vec3f vCurrH = vCurr;
+    Vec3f vCurrV = vCurr;
+
+    FourRayPacket     &rayTile = vRays    [uiY * uiTilesX + uiX];
+    FourRayPacketInfo &rayInfo = vRayInfos[uiY * uiTilesX + uiX];
+
+//    fprintf(stderr, "%d %d\n", uiY * uiTilesX + uiX, _vTiles.size());
+
+    OSG_ASSERT(uiY * uiTilesX + uiX < vRays.size());
+
+    for(UInt32 i = 0; i < FourRayPacket::NumVRays; ++i)
+    {
+        vCurrV = vCurrH;
+
+        UInt32 cY = uiY * FourRayPacket::NumVRays + i;
+
+        if(cY >= uiHeight)
+        {
+            for(UInt32 j = 0; j < FourRayPacket::NumHRays; ++j)
+            {
+                UInt32 uiPacketIndex = i * FourRayPacket::NumHRays + j;
+
+                rayInfo.setActive(false, uiPacketIndex);
+            }
+        }
+        else
+        {
+            for(UInt32 j = 0; j < FourRayPacket::NumHRays; ++j)
+            {
+                UInt32 uiPacketIndex = i * FourRayPacket::NumHRays + j;
+
+                UInt32 cX = uiX * FourRayPacket::NumHRays + j;
+
+                if(cX >= uiWidth)
+                {
+                    rayInfo.setActive(false, uiPacketIndex);
+                }
+                else
+                {
+                    rayInfo.setActive(true, uiPacketIndex);
+
+                    rayTile.setOrigin(vOrigin);
+                    
+                    rayTile.setDirection(vCurrV, uiPacketIndex);
+                    
+                    rayInfo.setXY(uiX, uiY);
+                    
+                    vCurrV += vRight;
+                }
+            }
+
+            vCurrH -= vUp;
+        }
+    }
+
+    rayTile.normalizeDirection();
 }
 
 OSG_END_NAMESPACE
