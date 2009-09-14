@@ -93,7 +93,7 @@ RTInfoAttachmentBase::TypeObject RTInfoAttachmentBase::_type(
     "\n"
     "<FieldContainer\n"
     "\tname=\"RTInfoAttachment\"\n"
-    "\tparent=\"FieldContainerAttachment\"\n"
+    "\tparent=\"Attachment\"\n"
     "\tlibrary=\"ContribRRT\"\n"
     "\tpointerfieldtypes=\"both\"\n"
     "\tstructure=\"concrete\"\n"
@@ -299,7 +299,7 @@ void RTInfoAttachmentBase::resolveLinks(void)
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTInfoAttachmentPtr>::_type("RTInfoAttachmentPtr", "FieldContainerAttachmentPtr");
+DataType FieldTraits<RTInfoAttachmentPtr>::_type("RTInfoAttachmentPtr", "AttachmentPtr");
 #endif
 
 OSG_FIELDTRAITS_GETTYPE(RTInfoAttachmentPtr)

@@ -93,7 +93,7 @@ RTCacheAttachmentBase::TypeObject RTCacheAttachmentBase::_type(
     "\n"
     "<FieldContainer\n"
     "\tname=\"RTCacheAttachment\"\n"
-    "\tparent=\"FieldContainerAttachment\"\n"
+    "\tparent=\"Attachment\"\n"
     "\tlibrary=\"ContribRRT\"\n"
     "\tpointerfieldtypes=\"both\"\n"
     "\tstructure=\"concrete\"\n"
@@ -299,7 +299,7 @@ void RTCacheAttachmentBase::resolveLinks(void)
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTCacheAttachmentPtr>::_type("RTCacheAttachmentPtr", "FieldContainerAttachmentPtr");
+DataType FieldTraits<RTCacheAttachmentPtr>::_type("RTCacheAttachmentPtr", "AttachmentPtr");
 #endif
 
 OSG_FIELDTRAITS_GETTYPE(RTCacheAttachmentPtr)

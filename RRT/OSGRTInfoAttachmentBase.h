@@ -63,7 +63,7 @@
 
 #include "OSGBaseTypes.h"
 
-#include "OSGFieldContainerAttachment.h" // Parent
+#include "OSGAttachment.h" // Parent
 
 
 #include "OSGRTInfoAttachmentFields.h"
@@ -74,12 +74,12 @@ class RTInfoAttachment;
 
 //! \brief RTInfoAttachment Base Class.
 
-class OSG_CONTRIBRRT_DLLMAPPING RTInfoAttachmentBase : public FieldContainerAttachment
+class OSG_CONTRIBRRT_DLLMAPPING RTInfoAttachmentBase : public Attachment
 {
   public:
 
-    typedef FieldContainerAttachment Inherited;
-    typedef FieldContainerAttachment ParentContainer;
+    typedef Attachment Inherited;
+    typedef Attachment ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;

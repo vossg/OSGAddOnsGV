@@ -63,7 +63,7 @@
 
 #include "OSGBaseTypes.h"
 
-#include "OSGFieldContainerAttachment.h" // Parent
+#include "OSGAttachment.h" // Parent
 
 
 #include "OSGRTCacheAttachmentFields.h"
@@ -74,12 +74,12 @@ class RTCacheAttachment;
 
 //! \brief RTCacheAttachment Base Class.
 
-class OSG_CONTRIBRRT_DLLMAPPING RTCacheAttachmentBase : public FieldContainerAttachment
+class OSG_CONTRIBRRT_DLLMAPPING RTCacheAttachmentBase : public Attachment
 {
   public:
 
-    typedef FieldContainerAttachment Inherited;
-    typedef FieldContainerAttachment ParentContainer;
+    typedef Attachment Inherited;
+    typedef Attachment ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
     typedef TypeObject::InitPhase InitPhase;
