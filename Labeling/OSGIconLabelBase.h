@@ -200,6 +200,8 @@ class OSG_CONTRIBLABELING_DLLMAPPING IconLabelBase : public Label
     static  IconLabel            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
+    static  IconLabelTransitPtr  createDependent  (BitVector bFlags);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
@@ -208,6 +210,8 @@ class OSG_CONTRIBLABELING_DLLMAPPING IconLabelBase : public Label
     virtual FieldContainerTransitPtr shallowCopy     (void) const;
     virtual FieldContainerTransitPtr shallowCopyLocal(
                                        BitVector bFlags = FCLocal::All) const;
+    virtual FieldContainerTransitPtr shallowCopyDependent(
+                                                      BitVector bFlags) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

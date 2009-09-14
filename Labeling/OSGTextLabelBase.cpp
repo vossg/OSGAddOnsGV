@@ -337,6 +337,22 @@ TextLabelTransitPtr TextLabelBase::createLocal(BitVector bFlags)
     return fc;
 }
 
+//! create a new instance of the class, copy the container flags
+TextLabelTransitPtr TextLabelBase::createDependent(BitVector bFlags)
+{
+    TextLabelTransitPtr fc;
+
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
+
+        fc = dynamic_pointer_cast<TextLabel>(tmpPtr);
+    }
+
+    return fc;
+}
+
 //! create a new instance of the class
 TextLabelTransitPtr TextLabelBase::create(void)
 {
@@ -388,6 +404,20 @@ FieldContainerTransitPtr TextLabelBase::shallowCopyLocal(
     FieldContainerTransitPtr returnValue(tmpPtr);
 
     tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr TextLabelBase::shallowCopyDependent(
+    BitVector bFlags) const
+{
+    TextLabel *tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const TextLabel *>(this), ~bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
 
     return returnValue;
 }

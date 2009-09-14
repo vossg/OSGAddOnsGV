@@ -183,6 +183,8 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForegroundBase : public Foreground
     static  LabelForeground            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
+    static  LabelForegroundTransitPtr  createDependent  (BitVector bFlags);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
@@ -191,6 +193,8 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForegroundBase : public Foreground
     virtual FieldContainerTransitPtr shallowCopy     (void) const;
     virtual FieldContainerTransitPtr shallowCopyLocal(
                                        BitVector bFlags = FCLocal::All) const;
+    virtual FieldContainerTransitPtr shallowCopyDependent(
+                                                      BitVector bFlags) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

@@ -309,6 +309,22 @@ LabelForegroundTransitPtr LabelForegroundBase::createLocal(BitVector bFlags)
     return fc;
 }
 
+//! create a new instance of the class, copy the container flags
+LabelForegroundTransitPtr LabelForegroundBase::createDependent(BitVector bFlags)
+{
+    LabelForegroundTransitPtr fc;
+
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
+
+        fc = dynamic_pointer_cast<LabelForeground>(tmpPtr);
+    }
+
+    return fc;
+}
+
 //! create a new instance of the class
 LabelForegroundTransitPtr LabelForegroundBase::create(void)
 {
@@ -360,6 +376,20 @@ FieldContainerTransitPtr LabelForegroundBase::shallowCopyLocal(
     FieldContainerTransitPtr returnValue(tmpPtr);
 
     tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr LabelForegroundBase::shallowCopyDependent(
+    BitVector bFlags) const
+{
+    LabelForeground *tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const LabelForeground *>(this), ~bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
 
     return returnValue;
 }

@@ -340,6 +340,22 @@ IconLabelTransitPtr IconLabelBase::createLocal(BitVector bFlags)
     return fc;
 }
 
+//! create a new instance of the class, copy the container flags
+IconLabelTransitPtr IconLabelBase::createDependent(BitVector bFlags)
+{
+    IconLabelTransitPtr fc;
+
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
+
+        fc = dynamic_pointer_cast<IconLabel>(tmpPtr);
+    }
+
+    return fc;
+}
+
 //! create a new instance of the class
 IconLabelTransitPtr IconLabelBase::create(void)
 {
@@ -391,6 +407,20 @@ FieldContainerTransitPtr IconLabelBase::shallowCopyLocal(
     FieldContainerTransitPtr returnValue(tmpPtr);
 
     tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr IconLabelBase::shallowCopyDependent(
+    BitVector bFlags) const
+{
+    IconLabel *tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const IconLabel *>(this), ~bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
 
     return returnValue;
 }
