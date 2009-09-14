@@ -305,7 +305,7 @@ OpenGLShader::OpenGLShader(void) :
 {
 }
 
-bool OpenGLShader::loadVtxFromFile(Char8 *szFilename)
+bool OpenGLShader::loadVtxFromFile(const Char8 *szFilename)
 {
     if(_pShader == NULL)
     {
@@ -315,7 +315,7 @@ bool OpenGLShader::loadVtxFromFile(Char8 *szFilename)
     return _pShader->readVertexProgram(szFilename);
 }
 
-bool OpenGLShader::loadFrgFromFile(Char8 *szFilename)
+bool OpenGLShader::loadFrgFromFile(const Char8 *szFilename)
 {
     if(_pShader == NULL)
     {
@@ -342,17 +342,17 @@ void OpenGLShader::update(DrawEnv *pEnv)
                                false, true, true);
 }
 
-void OpenGLShader::setSampler(Char8 *szName, Int32 iVal)
+void OpenGLShader::setSampler(const Char8 *szName, Int32 iVal)
 {
     _pShader->setUniformParameter(szName, iVal);
 }
 
-void OpenGLShader::setUniform(Char8 *szName, Real32 rVal)
+void OpenGLShader::setUniform(const Char8 *szName, Real32 rVal)
 {
     _pShader->setUniformParameter(szName, rVal);
 }
 
-void OpenGLShader::setUniform(Char8 *szName, Vec2f  vVal)
+void OpenGLShader::setUniform(const Char8 *szName, Vec2f  vVal)
 {
     _pShader->setUniformParameter(szName, vVal);
 }
@@ -364,7 +364,7 @@ OpenGLTexture::OpenGLTexture(void) :
 {
 }
 
-bool OpenGLTexture::loadFromFile(Char8 *szFilename)
+bool OpenGLTexture::loadFromFile(const Char8 *szFilename)
 {
     return true;
 }

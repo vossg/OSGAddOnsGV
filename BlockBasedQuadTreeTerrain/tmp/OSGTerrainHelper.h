@@ -308,9 +308,9 @@ class OpenGLShader
 
     OpenGLShader(void);
 
-    bool loadVtxFromFile(Char8 *szFilename);
+    bool loadVtxFromFile(const Char8 *szFilename);
 
-    bool loadFrgFromFile(Char8 *szFilename);
+    bool loadFrgFromFile(const Char8 *szFilename);
 
 #if 0
     GLhandleARB getProgramHandle(void)
@@ -323,9 +323,9 @@ class OpenGLShader
     void deactivate(DrawEnv *pEnv);
     void update    (DrawEnv *pEnv);
 
-    void setSampler(Char8 *szName, Int32 iVal);
-    void setUniform(Char8 *szName, Real32 rVal);
-    void setUniform(Char8 *szName, Vec2f  vVal);
+    void setSampler(const Char8 *szName, Int32 iVal);
+    void setUniform(const Char8 *szName, Real32 rVal);
+    void setUniform(const Char8 *szName, Vec2f  vVal);
 };
 
 class OpenGLTexture
@@ -338,7 +338,7 @@ class OpenGLTexture
 
     OpenGLTexture(void);
 
-    bool loadFromFile(Char8 *szFilename);
+    bool loadFromFile(const Char8 *szFilename);
     bool create2D(Image::PixelFormat pf, int iWidth, int iHeight, int unknown);
 
     bool upload2DRect( int iX, 
