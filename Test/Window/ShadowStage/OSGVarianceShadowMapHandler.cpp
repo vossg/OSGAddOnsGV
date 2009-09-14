@@ -522,7 +522,7 @@ bool VarianceShadowMapHandler::initFBO(DrawEnv *pEnv)
             _shadowVP->_vTexChunks[i].pFBO->setColorAttachment(
                 _shadowVP->_vTexChunks[i].pFBO->getDepthAttachment(), 0);
 
-//            _shadowVP->_vTexChunks[i].pFBO->setPostProcessOnDeactivate(true);
+            _shadowVP->_vTexChunks[i].pFBO->setPostProcessOnDeactivate(true);
             
             RenderBufferUnrecPtr pDepthRB = RenderBuffer::create();
             
