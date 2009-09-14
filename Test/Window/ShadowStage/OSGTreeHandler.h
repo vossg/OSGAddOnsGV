@@ -22,6 +22,10 @@
 #include <OSGTileCameraDecorator.h>
 #include <OSGSimpleMaterial.h>
 
+
+#include <OSGDepthChunk.h>
+#include <OSGSHLChunk.h>
+
 OSG_BEGIN_NAMESPACE
 
 #ifdef __APPLE__
@@ -142,11 +146,31 @@ class OSG_WINDOW_DLLMAPPING TreeHandler
     UInt32 _maxPLMapSize;
     UInt32 _PLMapSize;
     UInt32 _maxTexSize;
-    CameraUnrecPtr _combine_camera;
     SimpleMaterialUnrecPtr _unlitMat;
 
     void initialize(Window *win);
     bool hasFactorMap(void);
+
+    // New
+
+    UInt32                       _width;
+    UInt32                       _height;
+    UInt32                       _widthHeightPOT;
+
+    SHLChunkUnrecPtr             _combineSHL;
+    DepthChunkUnrecPtr           _combineDepth;
+    ChunkMaterialUnrecPtr        _combineCmat;
+    TextureChunkUnrecPtr         _colorMap;
+    UInt32 _activeFactorMap;
+
+    TextureChunkUnrecPtr         _shadowFactorMap;
+    TextureChunkUnrecPtr         _shadowFactorMap2;
+
+    void setupDrawCombineMap1(Action  *pAction);
+    void doDrawCombineMap1   (DrawEnv *pEnv   );
+
+    void setupDrawCombineMap2(Action  *pAction);
+    void doDrawCombineMap2   (DrawEnv *pEnv   );
 
 private:
 

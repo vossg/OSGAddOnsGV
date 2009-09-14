@@ -787,19 +787,13 @@ StdShadowMapHandler::StdShadowMapHandler(ShadowStage *source) :
     _fb(0),
     _fb2(0),
     _rb_depth(0),
-    _activeFactorMap(1),
-    _widthHeightPOT(0),
     _transforms(),
     _tiledeco(NULL),
     _blender(NULL),
-    _colorMap(NULL),
-    _shadowFactorMap(NULL),
     _colorMapImage(NULL),
     _shadowFactorMapImage(NULL),
-    _shadowFactorMap2(NULL),
     _shadowFactorMapImage2(NULL),
     _shadowCmat(NULL),
-    _combineCmat(NULL),
     _shadowSHL(NULL),
     _shadowCubeSHL(NULL),
     _shadowSHL2(NULL),
@@ -808,12 +802,7 @@ StdShadowMapHandler::StdShadowMapHandler(ShadowStage *source) :
     _shadowSHL5(NULL),
     _shadowSHL6(NULL),
     _shadowSHL7(NULL),
-    _combineSHL(NULL),
-    _combineDepth(NULL),
-    _pf(NULL),
     _firstRun(1),
-    _width(1),
-    _height(1),
     _initTexturesDone(false)
 {
     _blender = BlendChunk::create();
@@ -982,23 +971,6 @@ StdShadowMapHandler::StdShadowMapHandler(ShadowStage *source) :
     _combineCmat->addChunk(_shadowFactorMap);
     _combineCmat->addChunk(_combineDepth);
 
-    _pf = PolygonForeground::create();
-    _pf->setMaterial(_combineCmat);
-    _pf->editMFTexCoords()->push_back(Vec3f(0.0f, 0.0f, 0.0f));
-    _pf->editMFPositions()->push_back(Pnt2f(0.0f, 0.0f));
-
-    _pf->editMFTexCoords()->push_back(Vec3f(1.0f, 0.0f, 0.0f));
-    _pf->editMFPositions()->push_back(Pnt2f(1.0f, 0.0f));
-
-    _pf->editMFTexCoords()->push_back(Vec3f(1.0f, 1.0f, 0.0f));
-    _pf->editMFPositions()->push_back(Pnt2f(1.0f, 1.0f));
-
-    _pf->editMFTexCoords()->push_back(Vec3f(0.0f, 1.0f, 0.0f));
-    _pf->editMFPositions()->push_back(Pnt2f(0.0f, 1.0f));
-
-    _pf->setNormalizedX(true);
-    _pf->setNormalizedY(true);
-
     _transforms[0] = Matrix(1, 0, 0, 0, //andere Richtung als Orig (posZ)
                            0, -1, 0, 0,
                            0, 0, -1, 0,
@@ -1050,7 +1022,6 @@ StdShadowMapHandler::~StdShadowMapHandler(void)
     _shadowCubeSHL    = NULL;
     _combineCmat      = NULL;
     _shadowCmat       = NULL;
-    _pf               = NULL;
 
 #ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
     if(_fb != 0)
@@ -4047,64 +4018,6 @@ void StdShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
     fprintf(stderr, "StdShadowMapHandler::createShadowFactorMapFBO end\n");
 }
 
-void StdShadowMapHandler::drawCombineMap(DrawEnv      *pEnv,
-                                         RenderAction *pTmpAction)
-{
-    fprintf(stderr, "StdShadowMapHandler::drawCombineMap start\n");
-
-    Real32  xFactor = 1.0f;
-    Real32  yFactor = 1.0f;
-    if(!_useNPOTTextures)
-    {
-        xFactor = Real32(_width) / Real32(_widthHeightPOT);
-        yFactor = Real32(_height) / Real32(_widthHeightPOT);
-    }
-
-    _combineCmat->clearChunks();
-    _combineCmat->addChunk(_combineSHL);
-    _combineCmat->addChunk(_colorMap);
-    if(_activeFactorMap == 0 && _useFBO)
-        _combineCmat->addChunk(_shadowFactorMap2);
-    else
-        _combineCmat->addChunk(_shadowFactorMap);
-    _combineCmat->addChunk(_combineDepth);
-
-    _combineSHL->addUniformVariable("colorMap", 0);
-    _combineSHL->addUniformVariable("shadowFactorMap", 1);
-    _combineSHL->addUniformVariable("xFactor", Real32(xFactor));
-    _combineSHL->addUniformVariable("yFactor", Real32(yFactor));
-    _combineSHL->addUniformVariable("hasFactorMap", hasFactorMap());
-
-    // glViewport is called in the render action but we don't use the renderaction here!
-#if 0
-    GLint   pl = _shadowVP->getPixelLeft(), 
-            pr = _shadowVP->getPixelRight(),
-            pb = _shadowVP->getPixelBottom(),
-            pt = _shadowVP->getPixelTop();
-#endif
-    GLint   pl = pEnv->getPixelLeft(), 
-            pr = pEnv->getPixelRight(),
-            pb = pEnv->getPixelBottom(),
-            pt = pEnv->getPixelTop();
-    GLint   pw = pr - pl + 1, ph = pt - pb + 1;
-    glViewport(pl, pb, pw, ph);
-    glScissor(pl, pb, pw, ph);
-    glEnable(GL_SCISSOR_TEST);
-
-#if 0
-    // we can't use the shadowVP camera here could be a TileCameraDecorator!
-    pEnv->getAction()->setCamera(_combine_camera);
-    _pf->draw(pEnv, _shadowVP);
-    pEnv->getAction()->setCamera(_shadowVP->getCamera());
-#endif
-    pTmpAction->setCamera(_combine_camera);
-    _pf->draw(pEnv, pTmpAction->getViewport());
-    pTmpAction->setCamera(pEnv->getAction()->getCamera());
-
-    glDisable(GL_SCISSOR_TEST);
-
-    fprintf(stderr, "StdShadowMapHandler::drawCombineMap end\n");
-}
 
 void StdShadowMapHandler::render(DrawEnv      *pEnv, 
                                  RenderAction *pTmpAction)
@@ -4300,7 +4213,7 @@ void StdShadowMapHandler::render(DrawEnv      *pEnv,
                     _shadowVP->_trigger_update = false;
                 }
             }
-            drawCombineMap(pEnv, pTmpAction);
+            setupDrawCombineMap2(pEnv->getAction());
         }
 
         glPopAttrib();
@@ -4317,3 +4230,4 @@ void StdShadowMapHandler::render(DrawEnv      *pEnv,
 
     fprintf(stderr, "StdShadowMapHandler::render end\n");
 }
+

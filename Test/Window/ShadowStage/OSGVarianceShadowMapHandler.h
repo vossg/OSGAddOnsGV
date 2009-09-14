@@ -53,8 +53,6 @@ class OSG_WINDOW_DLLMAPPING VarianceShadowMapHandler : public TreeHandler
 private:
 
     void initTextures(DrawEnv *pEnv);
-    void drawCombineMap(DrawEnv *pEnv, 
-                        RenderAction *pTmpAction);
     void createColorMap(DrawEnv *pEnv,
                         RenderAction *pTmpAction);
     void createColorMapFBO(DrawEnv *pEnv,
@@ -70,28 +68,19 @@ private:
     bool checkFrameBufferStatus(Window *win);
 
     TileCameraDecoratorUnrecPtr  _tiledeco;
-    TextureChunkUnrecPtr         _colorMap;
-    TextureChunkUnrecPtr         _shadowFactorMap;
     ImageUnrecPtr                _colorMapImage;
     ImageUnrecPtr                _shadowFactorMapImage;
     ChunkMaterialUnrecPtr        _shadowCmat;
     SHLChunkUnrecPtr             _shadowSHL;
-    SHLChunkUnrecPtr             _combineSHL;
-    DepthChunkUnrecPtr           _combineDepth;
     ChunkMaterialUnrecPtr        _depthCmat;
     SHLChunkUnrecPtr             _depthSHL;
-    ChunkMaterialUnrecPtr        _combineCmat;
-    PolygonForegroundUnrecPtr    _pf;
     Int32                        _firstRun;
-    UInt32                       _width;
-    UInt32                       _height;
 
     GLuint                       _fb;
     GLuint                       _fb2;
     GLuint                       _rb_depth;
     GLuint                       _rb_depth2;
     bool                         _texChanged;
-    UInt32                       _widthHeightPOT;
     bool                         _initTexturesDone;
 };
 

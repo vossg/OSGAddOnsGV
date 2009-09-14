@@ -645,8 +645,12 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
         // active stereo support.
         activate();
 
-        _treeRenderer->render(&(ract->getActivePartition()->getDrawEnv()), 
-                              tmpAction);
+        ract->beginPartitionGroup();
+        {
+            _treeRenderer->render(&(ract->getActivePartition()->getDrawEnv()), 
+                                  tmpAction);
+        }
+        ract->endPartitionGroup();
 
         deactivate();
 

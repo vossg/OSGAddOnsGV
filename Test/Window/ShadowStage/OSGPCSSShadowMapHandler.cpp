@@ -276,19 +276,11 @@ static std::string _pcss_shadow_fp =
 PCSSShadowMapHandler::PCSSShadowMapHandler(ShadowStage *source) :
     TreeHandler(source),
     _tiledeco(NULL),
-    _colorMap(NULL),
-    _shadowFactorMap(NULL),
     _colorMapImage(NULL),
     _shadowFactorMapImage(NULL),
     _shadowCmat(NULL),
     _shadowSHL(NULL),
-    _combineSHL(NULL),
-    _combineDepth(NULL),
-    _pf(NULL),
     _firstRun(1),
-    _width(1),
-    _height(1),
-    _widthHeightPOT(0),
     _fb(0),
     _fb2(0),
     _rb_depth(0),
@@ -390,24 +382,6 @@ PCSSShadowMapHandler::PCSSShadowMapHandler(ShadowStage *source) :
     _combineCmat->addChunk(_colorMap);
     _combineCmat->addChunk(_shadowFactorMap);
     _combineCmat->addChunk(_combineDepth);
-
-    _pf = PolygonForeground::create();
-    // ref counting is not supported in the polygon foreground!
-    _pf->setMaterial(_combineCmat);
-    _pf->editMFTexCoords()->push_back(Vec3f(0.0f, 0.0f, 0.0f));
-    _pf->editMFPositions()->push_back(Pnt2f(0.0f, 0.0f));
-
-    _pf->editMFTexCoords()->push_back(Vec3f(1.0f, 0.0f, 0.0f));
-    _pf->editMFPositions()->push_back(Pnt2f(1.0f, 0.0f));
-
-    _pf->editMFTexCoords()->push_back(Vec3f(1.0f, 1.0f, 0.0f));
-    _pf->editMFPositions()->push_back(Pnt2f(1.0f, 1.0f));
-
-    _pf->editMFTexCoords()->push_back(Vec3f(0.0f, 1.0f, 0.0f));
-    _pf->editMFPositions()->push_back(Pnt2f(0.0f, 1.0f));
-
-    _pf->setNormalizedX(true);
-    _pf->setNormalizedY(true);
 }
 
 PCSSShadowMapHandler::~PCSSShadowMapHandler(void)
@@ -421,7 +395,6 @@ PCSSShadowMapHandler::~PCSSShadowMapHandler(void)
     _combineSHL      = NULL;
     _combineDepth    = NULL;
     _combineCmat     = NULL;
-    _pf              = NULL;
 
 #ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
     if(_fb != 0)
@@ -1315,53 +1288,6 @@ void PCSSShadowMapHandler::createShadowFactorMap(DrawEnv *pEnv,
     }
 }
 
-void PCSSShadowMapHandler::drawCombineMap(DrawEnv *pEnv,
-                                          RenderAction *pTmpAction)
-{
-    Real32  xFactor = 1.0;
-    Real32  yFactor = 1.0;
-    if(!_useNPOTTextures)
-    {
-        xFactor = Real32(_width) / Real32(_widthHeightPOT);
-        yFactor = Real32(_height) / Real32(_widthHeightPOT);
-    }
-
-    _combineSHL->addUniformVariable("colorMap", 0);
-    _combineSHL->addUniformVariable("shadowFactorMap", 1);
-    _combineSHL->addUniformVariable("xFactor", Real32(xFactor));
-    _combineSHL->addUniformVariable("yFactor", Real32(yFactor));
-    _combineSHL->addUniformVariable("hasFactorMap", hasFactorMap());
-
-    //draw the Scene
-    // glViewport is called in the render action but we don't use the renderaction here!
-#if 0
-    GLint   pl = _shadowVP->getPixelLeft(), 
-            pr = _shadowVP->getPixelRight(),
-            pb = _shadowVP->getPixelBottom(),
-            pt = _shadowVP->getPixelTop();
-#endif
-    GLint   pl = pEnv->getPixelLeft(), 
-            pr = pEnv->getPixelRight(),
-            pb = pEnv->getPixelBottom(),
-            pt = pEnv->getPixelTop();
-
-    GLint   pw = pr - pl + 1, ph = pt - pb + 1;
-    glViewport(pl, pb, pw, ph);
-    glScissor(pl, pb, pw, ph);
-    glEnable(GL_SCISSOR_TEST);
-
-    // we can't use the shadowVP camera here could be a TileCameraDecorator!
-#if 0 
-    pEnv->getAction()->setCamera(_combine_camera);
-    _pf->draw(pEnv, _shadowVP);
-    pEnv->getAction()->setCamera(_shadowVP->getCamera());
-#endif
-    pTmpAction->setCamera(_combine_camera);
-    _pf->draw(pEnv, pTmpAction->getViewport());
-    pTmpAction->setCamera(pEnv->getAction()->getCamera());
-
-    glDisable(GL_SCISSOR_TEST);
-}
 
 void PCSSShadowMapHandler::render(DrawEnv *pEnv,
                                   RenderAction *pTmpAction)
@@ -1525,8 +1451,8 @@ void PCSSShadowMapHandler::render(DrawEnv *pEnv,
             }
         }
 
-        drawCombineMap(pEnv, pTmpAction);
-
+        setupDrawCombineMap1(pEnv->getAction());
+            
         glPopAttrib();
 
 #if 0

@@ -58,8 +58,6 @@ class OSG_WINDOW_DLLMAPPING PCFShadowMapHandler : public TreeHandler
                           RenderAction *pTmpAction);
     void createColorMap(DrawEnv *pEnv,
                         RenderAction *pTmpAction);
-    void drawCombineMap(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
     void createShadowFactorMap(DrawEnv *pEnv,
                                RenderAction *pTmpAction);
     void createColorMapFBO(DrawEnv *pEnv,
@@ -73,28 +71,17 @@ class OSG_WINDOW_DLLMAPPING PCFShadowMapHandler : public TreeHandler
     bool checkFrameBufferStatus(Window *win);
 
     TileCameraDecoratorUnrecPtr  _tiledeco;
-    TextureChunkUnrecPtr         _colorMap;
-    TextureChunkUnrecPtr         _shadowFactorMap;
     ImageUnrecPtr                _colorMapImage;
     ImageUnrecPtr                _shadowFactorMapImage;
     ImageUnrecPtr                _shadowFactorMapImage2;
-    TextureChunkUnrecPtr         _shadowFactorMap2;
-    UInt32                       _activeFactorMap;
     ChunkMaterialUnrecPtr        _shadowCmat;
     SHLChunkUnrecPtr             _shadowSHL;
     SHLChunkUnrecPtr             _shadowSHL2;
     SHLChunkUnrecPtr             _shadowSHL3;
     SHLChunkUnrecPtr             _shadowSHL4;
     SHLChunkUnrecPtr             _shadowCubeSHL;
-    SHLChunkUnrecPtr             _combineSHL;
-    DepthChunkUnrecPtr           _combineDepth;
-    ChunkMaterialUnrecPtr        _combineCmat;
-    PolygonForegroundUnrecPtr    _pf;
     Int32                        _firstRun;
     Matrix                       _transforms[6];
-    UInt32                       _width;
-    UInt32                       _height;
-    UInt32                       _widthHeightPOT;
 
     GLuint  _fb;
     GLuint  _fb2;

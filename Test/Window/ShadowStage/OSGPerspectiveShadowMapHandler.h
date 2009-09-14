@@ -76,8 +76,6 @@ private:
                                RenderAction *pTmpAction);
     void createColorMap(DrawEnv *pEnv,
                         RenderAction *pTmpAction);
-    void drawCombineMap(DrawEnv      *pEnv,
-                        RenderAction *pTmpAction);
 
     void calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt32 num,
                                                       DrawEnv *pEnv);
@@ -95,8 +93,6 @@ private:
     GLuint _fb;
     GLuint _fb2;
     GLuint _rb_depth;
-    UInt32 _widthHeightPOT;
-    UInt32 _activeFactorMap;
     Matrix _transforms[6];
 
     std::vector<Matrix>          _perspectiveLPM;
@@ -105,14 +101,10 @@ private:
     TileCameraDecoratorUnrecPtr  _tiledeco;
     BlendChunkUnrecPtr           _blender;
     MatrixCameraUnrecPtr         _matrixCam2;
-    TextureChunkUnrecPtr         _colorMap;
-    TextureChunkUnrecPtr         _shadowFactorMap;
     ImageUnrecPtr                _colorMapImage;
     ImageUnrecPtr                _shadowFactorMapImage;
-    TextureChunkUnrecPtr         _shadowFactorMap2;
     ImageUnrecPtr                _shadowFactorMapImage2;
     ChunkMaterialUnrecPtr        _shadowCmat;
-    ChunkMaterialUnrecPtr        _combineCmat;
     SHLChunkUnrecPtr             _shadowSHL;
     SHLChunkUnrecPtr             _shadowCubeSHL;
     SHLChunkUnrecPtr             _shadowSHL2;
@@ -121,12 +113,7 @@ private:
     SHLChunkUnrecPtr             _shadowSHL5;
     SHLChunkUnrecPtr             _shadowSHL6;
     SHLChunkUnrecPtr             _shadowSHL7;
-    SHLChunkUnrecPtr             _combineSHL;
-    DepthChunkUnrecPtr           _combineDepth;
-    PolygonForegroundUnrecPtr    _pf;
 
-    UInt32                       _width;
-    UInt32                       _height;
     Int32                        _firstRun;
     bool                         _initTexturesDone;
 };

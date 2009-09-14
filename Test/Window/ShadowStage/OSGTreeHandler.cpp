@@ -128,8 +128,19 @@ TreeHandler::TreeHandler(ShadowStage *source) :
     _maxPLMapSize(0),
     _PLMapSize(1),
     _maxTexSize(0),
-    _combine_camera(NULL),
-    _unlitMat(NULL)
+    _unlitMat(NULL),
+
+    _width(1),
+    _height(1),
+    _widthHeightPOT(0),
+    _combineSHL(NULL),
+    _combineDepth(NULL),
+    _combineCmat(NULL),
+    _colorMap(NULL),
+    _activeFactorMap(1),
+    _shadowFactorMap(NULL),
+    _shadowFactorMap2(NULL)
+
 {
     GLint   max_tex_size = 0;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
@@ -218,7 +229,6 @@ TreeHandler::TreeHandler(ShadowStage *source) :
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glRenderbufferStorageEXT",
                                   _framebuffer_object_extension);
 
-    _combine_camera = PerspectiveCamera::create();
 
     _unlitMat = SimpleMaterial::create();
 
@@ -228,7 +238,6 @@ TreeHandler::TreeHandler(ShadowStage *source) :
 
 TreeHandler::~TreeHandler(void)
 {
-    _combine_camera = NULL;
     _unlitMat       = NULL;
 }
 
@@ -506,4 +515,185 @@ bool TreeHandler::hasFactorMap(void)
     }
 
     return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+void TreeHandler::setupDrawCombineMap2(Action  *pAction)
+{
+    RenderAction *a = dynamic_cast<RenderAction *>(pAction);
+    
+    a->pushPartition((RenderPartition::CopyWindow      |
+                      RenderPartition::CopyViewportSize),
+                     RenderPartition::SimpleCallback);
+    {
+        RenderPartition *pPart  = a->getActivePartition();
+        Matrix m, t;
+        
+        m.setIdentity();
+        t.setIdentity();
+        
+        MatrixOrthogonal( m,
+                          0.f, 1.f,
+                          0.f, 1.f,
+                         -1.f, 1.f);
+        
+        pPart->setupProjection(m, t);
+        
+        RenderPartition::SimpleDrawCallback f;
+        
+        f = boost::bind(&TreeHandler::doDrawCombineMap2, this, _1);
+        
+        pPart->dropFunctor(f);
+    }
+    a->popPartition();
+}
+
+void TreeHandler::doDrawCombineMap2(DrawEnv *pEnv)
+{
+    Real32  xFactor = 1.0f;
+    Real32  yFactor = 1.0f;
+
+    if(!_useNPOTTextures)
+    {
+        xFactor = Real32(_width)  / Real32(_widthHeightPOT);
+        yFactor = Real32(_height) / Real32(_widthHeightPOT);
+    }
+
+    _combineCmat->clearChunks();
+
+    _combineCmat->addChunk(_combineSHL);
+    _combineCmat->addChunk(_colorMap);
+
+    if(_activeFactorMap == 0 && _useFBO)
+        _combineCmat->addChunk(_shadowFactorMap2);
+    else
+        _combineCmat->addChunk(_shadowFactorMap);
+
+    _combineCmat->addChunk(_combineDepth);
+
+    _combineSHL->addUniformVariable("colorMap",        0);
+    _combineSHL->addUniformVariable("shadowFactorMap", 1);
+    _combineSHL->addUniformVariable("xFactor",         Real32(xFactor));
+    _combineSHL->addUniformVariable("yFactor",         Real32(yFactor));
+    _combineSHL->addUniformVariable("hasFactorMap",    hasFactorMap());
+
+    commitChanges();
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+
+    glLoadIdentity();
+
+    State *pCombineState = _combineCmat->getState();
+
+    pEnv->activateState(pCombineState, NULL);
+
+    glBegin(GL_QUADS);
+    {
+        glTexCoord2f(0.00, 0.00);
+        glVertex2f  (0.00, 0.00);
+        
+        glTexCoord2f(1.00, 0.00);
+        glVertex2f  (1.00, 0.00);
+        
+        glTexCoord2f(1.00, 1.00);
+        glVertex2f  (1.00, 1.00);
+        
+        glTexCoord2f(0.00, 1.00);
+        glVertex2f  (0.00, 1.00);
+    }
+    glEnd();
+
+    pEnv->deactivateState();
+
+    glPopMatrix();
+}
+
+
+void TreeHandler::setupDrawCombineMap1(Action  *pAction)
+{
+    RenderAction *a = dynamic_cast<RenderAction *>(pAction);
+    
+    a->pushPartition((RenderPartition::CopyWindow      |
+                      RenderPartition::CopyViewportSize),
+                     RenderPartition::SimpleCallback);
+    {
+        RenderPartition *pPart  = a->getActivePartition();
+        Matrix m, t;
+        
+        m.setIdentity();
+        t.setIdentity();
+        
+        MatrixOrthogonal( m,
+                          0.f, 1.f,
+                          0.f, 1.f,
+                         -1.f, 1.f);
+        
+        pPart->setupProjection(m, t);
+        
+        RenderPartition::SimpleDrawCallback f;
+        
+        f = boost::bind(&TreeHandler::doDrawCombineMap1, this, _1);
+        
+        pPart->dropFunctor(f);
+    }
+    a->popPartition();
+}
+
+void TreeHandler::doDrawCombineMap1(DrawEnv *pEnv)
+{
+    Real32  xFactor = 1.0f;
+    Real32  yFactor = 1.0f;
+
+    if(!_useNPOTTextures)
+    {
+        xFactor = Real32(_width)  / Real32(_widthHeightPOT);
+        yFactor = Real32(_height) / Real32(_widthHeightPOT);
+    }
+
+    _combineSHL->addUniformVariable("colorMap",        0);
+    _combineSHL->addUniformVariable("shadowFactorMap", 1);
+    _combineSHL->addUniformVariable("xFactor",         Real32(xFactor));
+    _combineSHL->addUniformVariable("yFactor",         Real32(yFactor));
+    _combineSHL->addUniformVariable("hasFactorMap",    hasFactorMap());
+
+    commitChanges();
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+
+    glLoadIdentity();
+
+    State *pCombineState = _combineCmat->getState();
+
+    pEnv->activateState(pCombineState, NULL);
+
+    glBegin(GL_QUADS);
+    {
+        glTexCoord2f(0.00, 0.00);
+        glVertex2f  (0.00, 0.00);
+        
+        glTexCoord2f(1.00, 0.00);
+        glVertex2f  (1.00, 0.00);
+        
+        glTexCoord2f(1.00, 1.00);
+        glVertex2f  (1.00, 1.00);
+        
+        glTexCoord2f(0.00, 1.00);
+        glVertex2f  (0.00, 1.00);
+    }
+    glEnd();
+
+    pEnv->deactivateState();
+
+    glPopMatrix();
 }

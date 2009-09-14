@@ -55,8 +55,6 @@ public:
                           RenderAction *pTmpAction);
     void createColorMap(DrawEnv *pEnv,
                         RenderAction *pTmpAction);
-    void drawCombineMap(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
     void createShadowFactorMap(DrawEnv *pEnv,
                              RenderAction *pTmpAction);
     void createColorMapFBO(DrawEnv *pEnv,
@@ -76,26 +74,15 @@ public:
     Matrix                       _transforms[6];
     TileCameraDecoratorUnrecPtr  _tiledeco;
     BlendChunkUnrecPtr           _blender;
-    TextureChunkUnrecPtr         _colorMap;
-    TextureChunkUnrecPtr         _shadowFactorMap;
     ImageUnrecPtr                _colorMapImage;
     ImageUnrecPtr                _shadowFactorMapImage;
     ChunkMaterialUnrecPtr        _shadowCmat;
-    ChunkMaterialUnrecPtr        _combineCmat;
     SHLChunkUnrecPtr             _shadowSHL;
     SHLChunkUnrecPtr             _shadowSHL2;
     SHLChunkUnrecPtr             _shadowSHL3;
     SHLChunkUnrecPtr             _shadowSHL4;
     SHLChunkUnrecPtr             _shadowCubeSHL;
-    SHLChunkUnrecPtr             _combineSHL;
-    DepthChunkUnrecPtr           _combineDepth;
-    PolygonForegroundUnrecPtr    _pf;
     Int32                        _firstRun;
-    UInt32                       _width;
-    UInt32                       _height;
-    UInt32                       _widthHeightPOT;
-    UInt32                       _activeFactorMap;
-    TextureChunkUnrecPtr         _shadowFactorMap2;
     ImageUnrecPtr                _shadowFactorMapImage2;
     bool                         _initTexturesDone;
 };

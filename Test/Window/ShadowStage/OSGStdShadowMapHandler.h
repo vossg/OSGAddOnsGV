@@ -20,7 +20,6 @@
 #include <OSGChunkMaterial.h>
 #include <OSGMaterialChunk.h>
 #include <OSGMaterialGroup.h>
-#include <OSGSHLChunk.h>
 #include <OSGForeground.h>
 #include <OSGPolygonForeground.h>
 #include <OSGGrabForeground.h>
@@ -34,7 +33,6 @@
 #include <OSGSimpleTexturedMaterial.h>
 #include <OSGTileCameraDecorator.h>
 #include <OSGPolygonForeground.h>
-#include <OSGDepthChunk.h>
 
 #include "OSGTreeHandler.h"
 
@@ -70,25 +68,18 @@ class OSG_WINDOW_DLLMAPPING StdShadowMapHandler : public TreeHandler
     void createShadowFactorMapFBO(DrawEnv *pEnv, RenderAction *pTmpAction);
     void createShadowFactorMap(DrawEnv *pEnv, RenderAction *pTmpAction);
     void createColorMap(DrawEnv *pEnv, RenderAction *pTmpAction);
-    void drawCombineMap(DrawEnv *pEnv, RenderAction *pTmpAction);
 
     GLuint _fb;
     GLuint _fb2;
     GLuint _rb_depth;
-    UInt32 _activeFactorMap;
-    UInt32 _widthHeightPOT;
     Matrix _transforms[6];
     
     TileCameraDecoratorUnrecPtr  _tiledeco;
     BlendChunkUnrecPtr           _blender;
-    TextureChunkUnrecPtr         _colorMap;
-    TextureChunkUnrecPtr         _shadowFactorMap;
     ImageUnrecPtr                _colorMapImage;
     ImageUnrecPtr                _shadowFactorMapImage;
-    TextureChunkUnrecPtr         _shadowFactorMap2;
     ImageUnrecPtr                _shadowFactorMapImage2;
     ChunkMaterialUnrecPtr        _shadowCmat;
-    ChunkMaterialUnrecPtr        _combineCmat;
     SHLChunkUnrecPtr             _shadowSHL;
     SHLChunkUnrecPtr             _shadowCubeSHL;
     SHLChunkUnrecPtr             _shadowSHL2;
@@ -97,12 +88,7 @@ class OSG_WINDOW_DLLMAPPING StdShadowMapHandler : public TreeHandler
     SHLChunkUnrecPtr             _shadowSHL5;
     SHLChunkUnrecPtr             _shadowSHL6;
     SHLChunkUnrecPtr             _shadowSHL7;
-    SHLChunkUnrecPtr             _combineSHL;
-    DepthChunkUnrecPtr           _combineDepth;
-    PolygonForegroundUnrecPtr    _pf;
     Int32                        _firstRun;
-    UInt32                       _width;
-    UInt32                       _height;
     bool                         _initTexturesDone;
 };
 
