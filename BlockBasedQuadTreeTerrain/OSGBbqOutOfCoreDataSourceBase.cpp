@@ -385,6 +385,22 @@ BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::createLocal(BitVect
     return fc;
 }
 
+//! create a new instance of the class, copy the container flags
+BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::createDependent(BitVector bFlags)
+{
+    BbqOutOfCoreDataSourceTransitPtr fc;
+
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
+
+        fc = dynamic_pointer_cast<BbqOutOfCoreDataSource>(tmpPtr);
+    }
+
+    return fc;
+}
+
 //! create a new instance of the class
 BbqOutOfCoreDataSourceTransitPtr BbqOutOfCoreDataSourceBase::create(void)
 {
@@ -436,6 +452,20 @@ FieldContainerTransitPtr BbqOutOfCoreDataSourceBase::shallowCopyLocal(
     FieldContainerTransitPtr returnValue(tmpPtr);
 
     tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr BbqOutOfCoreDataSourceBase::shallowCopyDependent(
+    BitVector bFlags) const
+{
+    BbqOutOfCoreDataSource *tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const BbqOutOfCoreDataSource *>(this), ~bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
 
     return returnValue;
 }

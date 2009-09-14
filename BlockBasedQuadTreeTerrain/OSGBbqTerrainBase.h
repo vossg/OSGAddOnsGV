@@ -234,6 +234,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     static  BbqTerrain            *createEmptyLocal(
                                               BitVector bFlags = FCLocal::All);
 
+    static  BbqTerrainTransitPtr  createDependent  (BitVector bFlags);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
@@ -242,6 +244,8 @@ class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
     virtual FieldContainerTransitPtr shallowCopy     (void) const;
     virtual FieldContainerTransitPtr shallowCopyLocal(
                                        BitVector bFlags = FCLocal::All) const;
+    virtual FieldContainerTransitPtr shallowCopyDependent(
+                                                      BitVector bFlags) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

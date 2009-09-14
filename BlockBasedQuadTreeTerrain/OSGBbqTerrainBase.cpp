@@ -484,6 +484,22 @@ BbqTerrainTransitPtr BbqTerrainBase::createLocal(BitVector bFlags)
     return fc;
 }
 
+//! create a new instance of the class, copy the container flags
+BbqTerrainTransitPtr BbqTerrainBase::createDependent(BitVector bFlags)
+{
+    BbqTerrainTransitPtr fc;
+
+    if(getClassType().getPrototype() != NULL)
+    {
+        FieldContainerTransitPtr tmpPtr =
+            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
+
+        fc = dynamic_pointer_cast<BbqTerrain>(tmpPtr);
+    }
+
+    return fc;
+}
+
 //! create a new instance of the class
 BbqTerrainTransitPtr BbqTerrainBase::create(void)
 {
@@ -535,6 +551,20 @@ FieldContainerTransitPtr BbqTerrainBase::shallowCopyLocal(
     FieldContainerTransitPtr returnValue(tmpPtr);
 
     tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
+
+    return returnValue;
+}
+
+FieldContainerTransitPtr BbqTerrainBase::shallowCopyDependent(
+    BitVector bFlags) const
+{
+    BbqTerrain *tmpPtr;
+
+    newPtr(tmpPtr, dynamic_cast<const BbqTerrain *>(this), ~bFlags);
+
+    FieldContainerTransitPtr returnValue(tmpPtr);
+
+    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
 
     return returnValue;
 }
