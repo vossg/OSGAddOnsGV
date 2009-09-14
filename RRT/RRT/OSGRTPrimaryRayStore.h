@@ -73,25 +73,27 @@ struct RTPrimaryRayStoreSetupHelper;
 template<typename DescT>
 struct RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>
 {
-    typedef          DescT                     Desc;
-    typedef typename Desc::SingleRayPacket     SingleRayPacket;
-    typedef typename Desc::SingleRayPacketInfo SingleRayPacketInfo;
+    typedef          DescT                        Desc;
+    typedef typename Desc::SingleRayPacket        SingleRayPacket;
+    typedef typename Desc::SingleRayPacketInfo    SingleRayPacketInfo;
+    typedef          RTRaySIMDPacketInfo::RayMode RayMode;
 
-    static void setupRays(RTPrimaryRayStore<DescT> *pThis,
-                          RTCameraDecorator        &pCam, 
-                          RTTarget                 &pTarget);
+    static RayMode setupRays(RTPrimaryRayStore<DescT> *pThis,
+                             RTCameraDecorator        &pCam, 
+                             RTTarget                 &pTarget);
 };
 
 template<typename DescT>
 struct RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>
 {
-    typedef          DescT                     Desc;
-    typedef typename Desc::SingleRayPacket     FourRayPacket;
-    typedef typename Desc::SingleRayPacketInfo FourRayPacketInfo;
+    typedef          DescT                        Desc;
+    typedef typename Desc::SingleRayPacket        FourRayPacket;
+    typedef typename Desc::SingleRayPacketInfo    FourRayPacketInfo;
+    typedef          RTRaySIMDPacketInfo::RayMode RayMode;
 
-    static void setupRays(RTPrimaryRayStore<DescT> *pThis,
-                          RTCameraDecorator        &pCam, 
-                          RTTarget                 &pTarget);
+    static RayMode setupRays(RTPrimaryRayStore<DescT> *pThis,
+                             RTCameraDecorator        &pCam, 
+                             RTTarget                 &pTarget);
 };
 
 template<typename DescT>
@@ -105,13 +107,15 @@ class RTPrimaryRayStore : public RTStore
 
     static const UInt32 Empty = UINT_MAX;
 
-    typedef          DescT                     Desc;
-    typedef typename Desc::SingleRayPacket     SingleRayPacket;
-    typedef typename Desc::SingleRayPacketInfo SingleRayPacketInfo;
-    typedef typename Desc::RayInfoStore        RayInfoStore;
-    typedef typename Desc::RayStore            RayStore;
+    typedef          DescT                        Desc;
+    typedef typename Desc::SingleRayPacket        SingleRayPacket;
+    typedef typename Desc::SingleRayPacketInfo    SingleRayPacketInfo;
+    typedef typename Desc::RayInfoStore           RayInfoStore;
+    typedef typename Desc::RayStore               RayStore;
 
-    typedef typename Desc::MathTag             MathTag;
+    typedef typename Desc::MathTag                MathTag;
+
+    typedef          RTRaySIMDPacketInfo::RayMode RayMode;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -124,7 +128,7 @@ class RTPrimaryRayStore : public RTStore
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    void startFrame(RTCameraDecorator &pCam, RTTarget &pTarget);
+    RayMode startFrame(RTCameraDecorator &pCam, RTTarget &pTarget);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

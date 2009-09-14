@@ -72,26 +72,36 @@ class RTScene : public MemoryObject
 
   public:
 
-    typedef RTScene<DescT>                    Self;
+    typedef RTScene<DescT>                        Self;
 
-    typedef DescT                             Desc;
+    typedef DescT                                 Desc;
 
-    typedef typename Desc::RayPacket          RayPacket;
-    typedef typename Desc::HitPacket          HitPacket;
-    typedef typename Desc::RTCache            RTCache;
-    typedef typename RTCache::ElemStack       ElemStack;
+    typedef typename Desc::RayPacket              RayPacket;
+    typedef typename Desc::HitPacket              HitPacket;
+    typedef typename Desc::RTCache                RTCache;
+    typedef typename RTCache::ElemStack           ElemStack;
 
-    typedef typename Desc::BasicRayPacket     BasicRayPacket;
+    typedef typename Desc::BasicRayPacket         BasicRayPacket;
 
-    typedef typename Desc::BasicSIMDRayPacket BasicSIMDRayPacket;
+    typedef typename Desc::BasicSIMDRayPacket     BasicSIMDRayPacket;
 
-    typedef typename std::vector<RTCache *>   RTCacheStore;
+    typedef typename std::vector<RTCache *>       RTCacheStore;
+
+    typedef          RTRaySIMDPacketInfo::RayMode RayMode;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
  
     RTScene(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Reference Counting                           */
+    /*! \{                                                                 */
+
+    RayMode getRayMode(void         );
+    void    setRayMode(RayMode eMode);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -118,28 +128,45 @@ class RTScene : public MemoryObject
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    void tracePrimaryRays(BasicRayPacket  &oRay, 
-                          HitPacket       &oHit,
-                          ElemStack       &sKDToDoStack,
-                          UInt16          *uiActive     );
+    void tracePrimaryRays    (BasicRayPacket  &oRay, 
+                              HitPacket       &oHit,
+                              ElemStack       &sKDToDoStack,
+                              UInt16          *uiActive     );
+    void tracePrimaryRaysSDQO(BasicRayPacket  &oRay, 
+                              HitPacket       &oHit,
+                              ElemStack       &sKDToDoStack,
+                              UInt16          *uiActive     );
 
-    void tracePrimaryRays(BasicSIMDRayPacket &oRay, 
-                          HitPacket          &oHit,
-                          ElemStack          &sKDToDoStack,
-                          UInt16             *uiActive     );
+    void tracePrimaryRays    (BasicSIMDRayPacket &oRay, 
+                              HitPacket          &oHit,
+                              ElemStack          &sKDToDoStack,
+                              UInt16             *uiActive     );
+
+    void tracePrimaryRaysSDQO(BasicSIMDRayPacket &oRay, 
+                              HitPacket          &oHit,
+                              ElemStack          &sKDToDoStack,
+                              UInt16             *uiActive     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    void shade(RTHitPacket        &oHit,
-               BasicRayPacket     &oRay,
-               RTColorPacket      &oResult);
+    void shade    (RTHitPacket        &oHit,
+                   BasicRayPacket     &oRay,
+                   RTColorPacket      &oResult);
 
-    void shade(RTHitSIMDPacket    &oHit,
-               BasicSIMDRayPacket &oRay,
-               RTColorSIMDPacket  &oResult);
+    void shadeSDQO(RTHitPacket        &oHit,
+                   BasicRayPacket     &oRay,
+                   RTColorPacket      &oResult);
+
+    void shade    (RTHitSIMDPacket    &oHit,
+                   BasicSIMDRayPacket &oRay,
+                   RTColorSIMDPacket  &oResult);
+
+    void shadeSDQO(RTHitSIMDPacket    &oHit,
+                   BasicSIMDRayPacket &oRay,
+                   RTColorSIMDPacket  &oResult);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -169,10 +196,11 @@ class RTScene : public MemoryObject
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    Color4f            _cBackground;
+    RTRaySIMDPacketInfo::RayMode  _eRayMode;
+    Color4f                       _cBackground;
 
-    RTCameraDecorator *_pCam;
-    RTCacheStore       _vRTCaches;
+    RTCameraDecorator            *_pCam;
+    RTCacheStore                  _vRTCaches;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

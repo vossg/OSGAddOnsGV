@@ -181,12 +181,16 @@ void RTLocalPacketManager<DescT>::trace(RTCameraDecorator *pCam, bool bTiled)
         }
         else
         {
-            _pScene          ->setCamera ( pCam           );
-            _pPrimaryRayStore->startFrame(*pCam, *_pTarget);
+            RTRaySIMDPacketInfo::RayMode eRayMode;
+
+                       _pScene          ->setCamera ( pCam           );
+            eRayMode = _pPrimaryRayStore->startFrame(*pCam, *_pTarget);
 
             _pHitStore->startFrame(
                 *_pTarget, 
                  _pPrimaryRayStore->getNumRayPackets());
+
+            _pScene->setRayMode(eRayMode);
         }
 
         _pSyncBarrier->enter();

@@ -508,7 +508,7 @@ void RTCacheKD<DescT>::intersectSingle(SIMDRayPacket   &oRay,
 
     for(UInt32 i = 0; i < 3; ++i)
     {
-        dir = oRay.getDir(i);
+        dir = oRay.getQuad(i);
 
         vRayDirs[0][i] = dirConv[0];
         vRayDirs[1][i] = dirConv[1];
@@ -516,9 +516,9 @@ void RTCacheKD<DescT>::intersectSingle(SIMDRayPacket   &oRay,
         vRayDirs[3][i] = dirConv[3];
     }
 
-    Pnt3f vOrigin(oRay.getOriginComp(0),
-                  oRay.getOriginComp(1),
-                  oRay.getOriginComp(2));
+    Pnt3f vOrigin(oRay.getSingleComp(0),
+                  oRay.getSingleComp(1),
+                  oRay.getSingleComp(2));
 #endif
 
     for(UInt32 iRay = 0; iRay < 4; ++iRay)
@@ -713,9 +713,9 @@ void RTCacheKD<DescT>::intersect(SIMDRayPacket   &oRay,
 
     UInt32 uiDirSign[3];
 
-    uiDirSign[0] = osgSIMDMoveMask(oRay.getDir(RTRaySIMDPacket::X));
-    uiDirSign[1] = osgSIMDMoveMask(oRay.getDir(RTRaySIMDPacket::Y));
-    uiDirSign[2] = osgSIMDMoveMask(oRay.getDir(RTRaySIMDPacket::Z));
+    uiDirSign[0] = osgSIMDMoveMask(oRay.getQuad(RTRaySIMDPacket::X));
+    uiDirSign[1] = osgSIMDMoveMask(oRay.getQuad(RTRaySIMDPacket::Y));
+    uiDirSign[2] = osgSIMDMoveMask(oRay.getQuad(RTRaySIMDPacket::Z));
 
     if (((uiDirSign[0] != 0) && (uiDirSign[0] != 15)) || 
         ((uiDirSign[1] != 0) && (uiDirSign[1] != 15)) ||
@@ -739,11 +739,11 @@ void RTCacheKD<DescT>::intersect(SIMDRayPacket   &oRay,
     SSEVec4 invDir;   
 
     invDir._data[RTRaySIMDPacket::X] = 
-        osgSIMDInvert(oRay.getDir(RTRaySIMDPacket::X));
+        osgSIMDInvert(oRay.getQuad(RTRaySIMDPacket::X));
     invDir._data[RTRaySIMDPacket::Y] = 
-        osgSIMDInvert(oRay.getDir(RTRaySIMDPacket::Y));
+        osgSIMDInvert(oRay.getQuad(RTRaySIMDPacket::Y));
     invDir._data[RTRaySIMDPacket::Z] = 
-        osgSIMDInvert(oRay.getDir(RTRaySIMDPacket::Z));
+        osgSIMDInvert(oRay.getQuad(RTRaySIMDPacket::Z));
 
     BoxVolume &boxVolume = this->_sfBoundingVolume.getValue();
 
@@ -751,17 +751,17 @@ void RTCacheKD<DescT>::intersect(SIMDRayPacket   &oRay,
     const Float4 clipMinX = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::X]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::X))),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::X))),
             invDir._data[RTRaySIMDPacket::X]);
 
     const Float4 clipMaxX = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::X]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::X))),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::X))),
             invDir._data[RTRaySIMDPacket::X]);
 
 
-    const Float4 cmpX = osgSIMDCmpGT(oRay.getDir(RTRaySIMDPacket::X), 
+    const Float4 cmpX = osgSIMDCmpGT(oRay.getQuad(RTRaySIMDPacket::X), 
                                      SIMDZero);
 
     tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpX, clipMinX, clipMaxX));
@@ -773,16 +773,16 @@ void RTCacheKD<DescT>::intersect(SIMDRayPacket   &oRay,
     const Float4 clipMinY = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::Y]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Y))),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Y))),
             invDir._data[RTRaySIMDPacket::Y]);
     
     const Float4 clipMaxY = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::Y]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Y))),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Y))),
             invDir._data[RTRaySIMDPacket::Y]);
     
-    const Float4 cmpY = osgSIMDCmpGT(oRay.getDir(RTRaySIMDPacket::Y), 
+    const Float4 cmpY = osgSIMDCmpGT(oRay.getQuad(RTRaySIMDPacket::Y), 
                                      SIMDZero);
 
 
@@ -795,16 +795,16 @@ void RTCacheKD<DescT>::intersect(SIMDRayPacket   &oRay,
     const Float4 clipMinZ = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMin()[RTRaySIMDPacket::Z]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Z))),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Z))),
             invDir._data[RTRaySIMDPacket::Z]);
 
     const Float4 clipMaxZ = 
         osgSIMDMul(
             osgSIMDSub(osgSIMDSet(boxVolume.getMax()[RTRaySIMDPacket::Z]),
-                       osgSIMDSet(oRay.getOriginComp(RTRaySIMDPacket::Z))),
+                       osgSIMDSet(oRay.getSingleComp(RTRaySIMDPacket::Z))),
             invDir._data[RTRaySIMDPacket::Z]);
  
-    const Float4 cmpZ = osgSIMDCmpGT(oRay.getDir(RTRaySIMDPacket::Z), 
+    const Float4 cmpZ = osgSIMDCmpGT(oRay.getQuad(RTRaySIMDPacket::Z), 
                                      SIMDZero);
 
     tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpZ, clipMinZ, clipMaxZ));
@@ -836,7 +836,7 @@ void RTCacheKD<DescT>::intersect(SIMDRayPacket   &oRay,
             const Float4 tplane4 = 
                 osgSIMDMul(
                     osgSIMDSub(osgSIMDSet(node->getSplitPos()),
-                               osgSIMDSet(oRay.getOriginComp(axis))),
+                               osgSIMDSet(oRay.getSingleComp(axis))),
                     invDir._data[axis]);
 
             union
@@ -1190,7 +1190,7 @@ void RTCacheKD<DescT>::intersect(FullSIMDRayPacket &oRay,
     {
         for(UInt32 j = 0; j < 4; ++j)
         {
-            this->_mfTriangleAcc[i].intersect(oRay, oHit, uiCacheId, j);
+            this->_mfTriangleAcc[i].intersect(oRay, oHit, uiCacheId, 1<<j);
         }
     }
 #else
@@ -1211,6 +1211,9 @@ void RTCacheKD<DescT>::intersect(FullSIMDRayPacket &oRay,
                         sKDToDoStack,
                         uiCacheId,
                         uiActive);
+
+        OSG_ASSERT(false);
+
         return;
     }
 
@@ -1251,7 +1254,13 @@ void RTCacheKD<DescT>::intersect(FullSIMDRayPacket &oRay,
     tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpX, clipMinX, clipMaxX));
     tmax4 = osgSIMDMin(tmax4, osgSIMDUpdate(cmpX, clipMaxX, clipMinX));
 
-
+#if 0
+    fprintf(stderr, "X\n");
+    osgSIMDDump(clipMinX);
+    osgSIMDDump(clipMaxX);
+    osgSIMDDump(tmin4);
+    osgSIMDDump(tmax4);
+#endif
 
     // ClipY
     const Float4 clipMinY = 
@@ -1273,6 +1282,13 @@ void RTCacheKD<DescT>::intersect(FullSIMDRayPacket &oRay,
     tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpY, clipMinY, clipMaxY));
     tmax4 = osgSIMDMin(tmax4, osgSIMDUpdate(cmpY, clipMaxY, clipMinY));
 
+#if 0
+    fprintf(stderr, "Y\n");
+    osgSIMDDump(clipMinY);
+    osgSIMDDump(clipMaxY);
+    osgSIMDDump(tmin4);
+    osgSIMDDump(tmax4);
+#endif
 
 
     // ClipZ
@@ -1294,7 +1310,17 @@ void RTCacheKD<DescT>::intersect(FullSIMDRayPacket &oRay,
     tmin4 = osgSIMDMax(tmin4, osgSIMDUpdate(cmpZ, clipMinZ, clipMaxZ));
     tmax4 = osgSIMDMin(tmax4, osgSIMDUpdate(cmpZ, clipMaxZ, clipMinZ));
 
+#if 0
+    fprintf(stderr, "Z\n");
+    osgSIMDDump(clipMinZ);
+    osgSIMDDump(clipMaxZ);
+    osgSIMDDump(tmin4);
+    osgSIMDDump(tmax4);
+#endif
+
     activeMask = osgSIMDMoveMask(osgSIMDCmpLT(tmin4, tmax4));
+
+//    fprintf(stderr, "%d\n", activeMask);
 
     if(activeMask == 0x0)
     {
@@ -1322,6 +1348,9 @@ void RTCacheKD<DescT>::intersect(FullSIMDRayPacket &oRay,
                     osgSIMDSub(osgSIMDSet(node->getSplitPos()),
                                oRay.getOrigin(axis)),
                     invDir._data[axis]);
+
+//            fprintf(stderr, "axis %d\n", axis);
+//            osgSIMDDump(tplane4);
 
             union
             {

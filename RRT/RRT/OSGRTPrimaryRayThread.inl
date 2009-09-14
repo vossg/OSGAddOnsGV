@@ -140,34 +140,79 @@ void RTPrimaryRayThread<DescT>::workProc(void)
             }
 
             UInt32 uiRayIndex = _pRayStore->nextIndex();
-            
-            while(uiRayIndex != PrimaryRayStore::Empty)
+
+            typename Scene::RayMode eMode = _pScene->getRayMode();
+
+            if((eMode == RTRaySIMDPacketInfo::SingleOriginQuadDir) ||
+               (eMode == RTRaySIMDPacketInfo::SingleOriginSingleDir))
             {
-                UInt32             uiHitIndex = _pHitStore->getWriteIndex();
-                
-                SingleRayPacket     &oRayPacket = 
-                    _pRayStore->getRayPacket(uiRayIndex);
+                fprintf(stderr, "SOQD\n");
 
-                SingleRayPacketInfo &oRayPacketInfo = 
-                    _pRayStore->getRayPacketInfo(uiRayIndex);
+                while(uiRayIndex != PrimaryRayStore::Empty)
+                {
+                    UInt32             uiHitIndex = _pHitStore->getWriteIndex();
                 
-                SingleHitPacket &oHitPacket = 
-                    _pHitStore->getPacket   (uiHitIndex);
-                
-                oHitPacket.reset();
-                oHitPacket.setXY(oRayPacketInfo.getX(), 
-                                 oRayPacketInfo.getY());
-                
-                oHitPacket.setRayPacket(&oRayPacket);
+                    SingleRayPacket     &oRayPacket = 
+                        _pRayStore->getRayPacket(uiRayIndex);
 
-                _pScene->tracePrimaryRays(oRayPacket, 
-                                          oHitPacket, 
-                                          sKDToDoStack,
-                                          oRayPacketInfo.getActiveRays());
+                    SingleRayPacketInfo &oRayPacketInfo = 
+                        _pRayStore->getRayPacketInfo(uiRayIndex);
                 
-                _pHitStore->pushWriteIndex(uiHitIndex);
+                    SingleHitPacket &oHitPacket = 
+                        _pHitStore->getPacket   (uiHitIndex);
                 
-                uiRayIndex = _pRayStore->nextIndex();
+                    oHitPacket.reset();
+                    oHitPacket.setXY(oRayPacketInfo.getX(), 
+                                     oRayPacketInfo.getY());
+                    
+                    oHitPacket.setRayPacket(&oRayPacket);
+
+                    _pScene->tracePrimaryRays(oRayPacket, 
+                                              oHitPacket, 
+                                              sKDToDoStack,
+                                              oRayPacketInfo.getActiveRays());
+                
+                    _pHitStore->pushWriteIndex(uiHitIndex);
+                
+                    uiRayIndex = _pRayStore->nextIndex();
+                }
+            }
+            else if(eMode == RTRaySIMDPacketInfo::SingleDirQuadOrigin)
+            {
+                fprintf(stderr, "SDQO\n");
+
+                while(uiRayIndex != PrimaryRayStore::Empty)
+                {
+                    UInt32             uiHitIndex = _pHitStore->getWriteIndex();
+                
+                    SingleRayPacket     &oRayPacket = 
+                        _pRayStore->getRayPacket(uiRayIndex);
+
+                    SingleRayPacketInfo &oRayPacketInfo = 
+                        _pRayStore->getRayPacketInfo(uiRayIndex);
+                
+                    SingleHitPacket &oHitPacket = 
+                        _pHitStore->getPacket   (uiHitIndex);
+                
+                    oHitPacket.reset();
+                    oHitPacket.setXY(oRayPacketInfo.getX(), 
+                                     oRayPacketInfo.getY());
+                    
+                    oHitPacket.setRayPacket(&oRayPacket);
+
+                    _pScene->tracePrimaryRays(oRayPacket, 
+                                              oHitPacket, 
+                                              sKDToDoStack,
+                                              oRayPacketInfo.getActiveRays());
+                
+                    _pHitStore->pushWriteIndex(uiHitIndex);
+                
+                    uiRayIndex = _pRayStore->nextIndex();
+                }
+            }
+            else
+            {
+                fprintf(stderr, "Unknow mode\n");
             }
             
             

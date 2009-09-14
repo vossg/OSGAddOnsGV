@@ -94,12 +94,13 @@ RTPrimaryRayStore<DescT>::~RTPrimaryRayStore(void)
 }
 
 template<typename DescT> inline
-void RTPrimaryRayStore<DescT>::startFrame(RTCameraDecorator &pCam, 
-                                          RTTarget          &pTarget)
+typename RTPrimaryRayStore<DescT>::RayMode
+    RTPrimaryRayStore<DescT>::startFrame(RTCameraDecorator &pCam, 
+                                         RTTarget          &pTarget)
 {
-    RTPrimaryRayStoreSetupHelper<DescT, MathTag>::setupRays(this,
-                                                            pCam,
-                                                            pTarget);
+    return RTPrimaryRayStoreSetupHelper<DescT, MathTag>::setupRays(this,
+                                                                   pCam,
+                                                                   pTarget);
 }
 
 template<typename DescT> inline
@@ -111,10 +112,11 @@ UInt32 RTPrimaryRayStore<DescT>::getNumRayPackets(void)
 #ifdef OSG_CELL
 
 template<typename DescT> inline
-void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::setupRays(
-    RTPrimaryRayStore<DescT> *pThis,
-    RTCameraDecorator        &pCam, 
-    RTTarget                 &pTarget)
+RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::RayMode
+    RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::setupRays(
+        RTPrimaryRayStore<DescT> *pThis,
+        RTCameraDecorator        &pCam, 
+        RTTarget                 &pTarget)
 {
     if(pThis->_uiWidth  != pTarget.getWidth() || 
        pThis->_uiHeight != pTarget.getHeight())
@@ -164,10 +166,11 @@ void RTPrimaryRayStore<DescT>::convCellStruct(UInt32         tileIndex,
 #else // OSG_CELL
 
 template<typename DescT> inline
-void RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
-    RTPrimaryRayStore<DescT> *pThis,
-    RTCameraDecorator        &pCam, 
-    RTTarget                 &pTarget)
+typename RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>::RayMode
+    RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
+        RTPrimaryRayStore<DescT> *pThis,
+        RTCameraDecorator        &pCam, 
+        RTTarget                 &pTarget)
 {
     pThis->_uiNumRays    = pTarget.getWidth() * pTarget.getHeight();
     pThis->_uiCurrentRay = 0;
@@ -178,13 +181,16 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
     pThis->_uiNumRays = pCam.fillRayStores(pThis->_vRays, 
                                            pThis->_vRayInfos, 
                                            pTarget);
+
+    return RTRaySIMDPacketInfo::SingleOriginSingleDir;
 }
 
 template<typename DescT> inline
-void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::setupRays(
-    RTPrimaryRayStore<DescT> *pThis,
-    RTCameraDecorator        &pCam, 
-    RTTarget                 &pTarget)
+typename RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::RayMode
+    RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::setupRays(
+        RTPrimaryRayStore<DescT> *pThis,
+        RTCameraDecorator        &pCam, 
+        RTTarget                 &pTarget)
 {
     // Hack need full SIMD impl.
 
@@ -206,11 +212,16 @@ void RTPrimaryRayStoreSetupHelper<DescT, RTSIMDMathTag>::setupRays(
 
     pThis->_uiCurrentRay = 0;
 
+    RayMode returnValue;
+
     pThis->_uiNumRays = pCam.fillRayStores(pThis->_vRays, 
                                            pThis->_vRayInfos, 
                                            pTarget,
                                            pThis->_uiVTiles,
-                                           pThis->_uiHTiles);
+                                           pThis->_uiHTiles,
+                                           returnValue);
+
+    return returnValue;
 }
 
 #endif // OSG_CELL

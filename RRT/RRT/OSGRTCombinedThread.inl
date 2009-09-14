@@ -1086,186 +1086,149 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
             uiRayStat = 0;
             uiHitStat = 0;
+
+            typename Scene::RayMode eMode = pThis->_pScene->getRayMode();
+
+            if((eMode == RTRaySIMDPacketInfo::SingleOriginQuadDir) ||
+               (eMode == RTRaySIMDPacketInfo::SingleOriginSingleDir))
+            {
+                fprintf(stderr, "SOQD\n");
             
-            while(uiRayIndex != PrimaryRayStore::Empty) 
-            {
-                UInt32               uiHitIndex = 
-                    pThis->_pHitStore->getWriteIndex();
+                while(uiRayIndex != PrimaryRayStore::Empty) 
+                {
+                    UInt32               uiHitIndex = 
+                        pThis->_pHitStore->getWriteIndex();
                 
-                FourRayPacket     &oRayPacket = 
-                    pThis->_pRayStore->getRayPacket(uiRayIndex);
+                    FourRayPacket     &oRayPacket = 
+                        pThis->_pRayStore->getRayPacket(uiRayIndex);
 
-                FourRayPacketInfo &oRayPacketInfo = 
-                    pThis->_pRayStore->getRayPacketInfo(uiRayIndex);
+                    FourRayPacketInfo &oRayPacketInfo = 
+                        pThis->_pRayStore->getRayPacketInfo(uiRayIndex);
                 
-                FourHitPacket &oHitPacket = 
-                    pThis->_pHitStore->getPacket   (uiHitIndex);
-
-                oHitPacket.reset();
-
-                oHitPacket.setXY       (oRayPacketInfo.getX(), 
-                                        oRayPacketInfo.getY());
-
-                oHitPacket.setRayPacket(&oRayPacket);
-
-                pThis->_pScene->tracePrimaryRays(
-                    oRayPacket, 
-                    oHitPacket, 
-                    sKDToDoStack,
-                    oRayPacketInfo.getActiveRays());
-
-                pThis->_pHitStore->pushWriteIndex(uiHitIndex);
-
-                ++uiRayStat;
-                
-                uiRayIndex = pThis->_pRayStore->nextIndex();
-            }
-
-#if 0  
-            // Prints a diagonal set of raytiles to console or raytiles in
-            // leftmost column of stage
-            //for(UInt32 i = 0; i < pThis->_pRayStore->getNumTiles() ; 
-            // i=i+pThis->_pRayStore->getNumHTiles()+1)
-
-            for(UInt32 i = 0; 
-                       i < pThis->_pRayStore->getNumTiles() ; 
-                       i = i + pThis->_pRayStore->getNumHTiles())
-            {
-                FourRayPacket &oRayTile = pThis->_pRayStore->getRayPacket(i);
-                union
-                {
-                    Float4 dir;
-                    Real32 arrayDir[4];
-                };        
-
-                dir = oRayTile.getDir(0);
-
-                printf("%d\n", i);
-                printf("x: %f %f %f %f\n", 
-                       arrayDir[0], arrayDir[1], arrayDir[2], arrayDir[3]);
-
-                dir = oRayTile.getDir(1);
-
-                printf("y: %f %f %f %f\n", 
-                       arrayDir[0], arrayDir[1], arrayDir[2], arrayDir[3]);
-
-                dir = oRayTile.getDir(2);
-
-                printf("z: %f %f %f %f\n", 
-                       arrayDir[0], arrayDir[1], arrayDir[2], arrayDir[3]);
-            }
-
-            exit(-1);
-#endif
-
-
-#if 0   // Write binary to file
-
-            FILE* fp;
-            fp=fopen(
-                "/home/filip/tmp/OpenSG/Standalone.app/HitPacketsPPU_box.bin", 
-                "wb+");
-
-            UInt32 hits = 0;
-
-            for(UInt32 i = 0; i < 4096 ; ++i)
-            {
-                FourHitPacket     &oHitPacket = 
-                    pThis->_pHitStore->getPacket(i);
-    
-                Real32 rDist[4], rU[4], rV[4];
-                UInt32 objId[4], triId[4], cacheId[4];
-
-                for(UInt32 j = 0 ; j < 4 ; ++j)
-                {
-                    rDist[j] = oHitPacket.getDist(j);
-                    rU[j] = oHitPacket.getU(j);
-                    rV[j] = oHitPacket.getV(j);
-                    objId[j] = oHitPacket.getObjId(j);
-                    triId[j] = oHitPacket.getTriId(j);
-                    cacheId[j] = oHitPacket.getCacheId(j); 
-
-                    if(rDist[j] < FLT_MAX)
-                        hits++;
-                }
-          
-                fwrite(&rDist, 4, 4, fp);
-                fwrite(&rU, 4, 4, fp);
-                fwrite(&rV, 4, 4, fp);
-                fwrite(&objId, 4, 4, fp);
-                fwrite(&triId, 4, 4, fp);
-                fwrite(&cacheId, 4, 4, fp);
-            }
-        
-            fclose(fp);
-
-            printf("Hits %u\n", hits);
-            printf("Binary hitdata written to file\n");
-            exit(-1);
-#endif
-
-#if 0  // write triId stored in hitpacket to file
-
-            FILE* fp;
-            fp=fopen("/home/filip/tmp/OpenSG/Standalone.app/HitTriIdPPU_box.list", "w+");
-
-            UInt32 triId[4];
-
-            for(UInt32 i = 0; i < 4096 ; ++i)
-            {
-                FourHitPacket     &oHitPacket = 
-                    pThis->_pHitStore->getPacket(i);
-
-                for(UInt32 j = 0 ; j < 4 ; ++j)
-                {
-                    triId[j] = oHitPacket.getTriId(j);
-                }
-                fprintf(fp, "%d %d %d %d\n", triId[0], triId[1], triId[2], triId[3]);
-            }
-            fclose(fp);
-            exit(-1);
-
-#endif
-
-            UInt32 uiHitIndex = pThis->_pHitStore->getReadIndex();
-
-            while(uiHitIndex != HitStore::Empty)
-            {
-                if(uiHitIndex != HitStore::Waiting)
-                {
                     FourHitPacket &oHitPacket = 
-                        pThis->_pHitStore->getPacket(uiHitIndex);
+                        pThis->_pHitStore->getPacket   (uiHitIndex);
 
-                    FourRayPacket *pRayPacket = 
-                        oHitPacket.getRayPacket();
+                    oHitPacket.reset();
 
-                    pThis->_pScene->shade(oHitPacket, *pRayPacket, oColor);
+                    oHitPacket.setXY       (oRayPacketInfo.getX(), 
+                                            oRayPacketInfo.getY());
 
-                    pThis->_pTarget->setPixel(oHitPacket.getX(), 
-                                              oHitPacket.getY(),
-                                              oColor           );
+                    oHitPacket.setRayPacket(&oRayPacket);
+
+                    pThis->_pScene->tracePrimaryRays(
+                        oRayPacket, 
+                        oHitPacket, 
+                        sKDToDoStack,
+                        oRayPacketInfo.getActiveRays());
+
+                    pThis->_pHitStore->pushWriteIndex(uiHitIndex);
+
+                    ++uiRayStat;
                 
-#if 0
-                    if(oHitPacket.getU() > -0.5)
+                    uiRayIndex = pThis->_pRayStore->nextIndex();
+                }
+                
+                // Was DumpToFile
+
+                UInt32 uiHitIndex = pThis->_pHitStore->getReadIndex();
+
+                while(uiHitIndex != HitStore::Empty)
+                {
+                    if(uiHitIndex != HitStore::Waiting)
                     {
-                        _pTarget->markPixelHit(oHitPacket.getX(), 
-                                               oHitPacket.getY());
+                        FourHitPacket &oHitPacket = 
+                            pThis->_pHitStore->getPacket(uiHitIndex);
+
+                        FourRayPacket *pRayPacket = 
+                            oHitPacket.getRayPacket();
+
+                        pThis->_pScene->shade(oHitPacket, *pRayPacket, oColor);
+                        
+                        pThis->_pTarget->setPixel(oHitPacket.getX(), 
+                                                  oHitPacket.getY(),
+                                                  oColor           );
+                        
+                        ++uiHitStat;
                     }
                     else
                     {
-                        _pTarget->markPixelNotHit(oHitPacket.getX(), 
-                                                  oHitPacket.getY());
+                        osgSleep(1);
                     }
-#endif
-
-                    ++uiHitStat;
+                    
+                    uiHitIndex = pThis->_pHitStore->getReadIndex();
                 }
-                else
+            }
+            else if(eMode == RTRaySIMDPacketInfo::SingleDirQuadOrigin)
+            {
+                fprintf(stderr, "SDQO\n");
+
+                while(uiRayIndex != PrimaryRayStore::Empty) 
                 {
-                    osgSleep(1);
+                    UInt32               uiHitIndex = 
+                        pThis->_pHitStore->getWriteIndex();
+                
+                    FourRayPacket     &oRayPacket = 
+                        pThis->_pRayStore->getRayPacket(uiRayIndex);
+
+                    FourRayPacketInfo &oRayPacketInfo = 
+                        pThis->_pRayStore->getRayPacketInfo(uiRayIndex);
+                
+                    FourHitPacket &oHitPacket = 
+                        pThis->_pHitStore->getPacket   (uiHitIndex);
+
+                    oHitPacket.reset();
+
+                    oHitPacket.setXY       (oRayPacketInfo.getX(), 
+                                            oRayPacketInfo.getY());
+
+                    oHitPacket.setRayPacket(&oRayPacket);
+
+                    pThis->_pScene->tracePrimaryRaysSDQO(
+                        oRayPacket, 
+                        oHitPacket, 
+                        sKDToDoStack,
+                        oRayPacketInfo.getActiveRays());
+
+                    pThis->_pHitStore->pushWriteIndex(uiHitIndex);
+
+                    ++uiRayStat;
+                
+                    uiRayIndex = pThis->_pRayStore->nextIndex();
                 }
 
-                uiHitIndex = pThis->_pHitStore->getReadIndex();
+                UInt32 uiHitIndex = pThis->_pHitStore->getReadIndex();
+
+                while(uiHitIndex != HitStore::Empty)
+                {
+                    if(uiHitIndex != HitStore::Waiting)
+                    {
+                        FourHitPacket &oHitPacket = 
+                            pThis->_pHitStore->getPacket(uiHitIndex);
+
+                        FourRayPacket *pRayPacket = 
+                            oHitPacket.getRayPacket();
+
+                        pThis->_pScene->shadeSDQO( oHitPacket, 
+                                                  *pRayPacket, 
+                                                   oColor    );
+                        
+                        pThis->_pTarget->setPixel(oHitPacket.getX(), 
+                                                  oHitPacket.getY(),
+                                                  oColor           );
+                        
+                        ++uiHitStat;
+                    }
+                    else
+                    {
+                        osgSleep(1);
+                    }
+                    
+                    uiHitIndex = pThis->_pHitStore->getReadIndex();
+                }
+            }
+            else
+            {
+                fprintf(stderr, "Unknow mode\n");
             }
 
 #if 0
@@ -1283,10 +1246,6 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
         while(true)
         {
-#if 0
-            fprintf(stderr, "Frame start\n");
-#endif
-
             pThis->_pSyncBarrier->enter();
 
             if(pThis->_bRunning == false)
@@ -1317,7 +1276,6 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
                 oHitTile.setActive ( oRayTile.getActive());
 
-#if 1
                 for(UInt32 i = 0; 
                            i < HitTile::NumVPackets * HitTile::NumHPackets;
                          ++i)
@@ -1335,51 +1293,6 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
 
                     ++uiRayStat;
                 }
-#else
-                for(UInt32 i = 0; i < HitTile::NumVPackets; ++i)
-                {
-                    for(UInt32 j = 0; 
-                               j < HitTile::NumHPackets; 
-                             ++j)
-                    {
-                        UInt32 uiPacketIndex = 
-                            i * HitTile::NumHPackets + j;
-
-                        FourRayPacket &oRayPacket = 
-                            oRayTile.getPacket(uiPacketIndex);
-
-                        HitPacket       &oHitPacket = 
-                            oHitTile.getPacket(uiPacketIndex);
-                        
-                        oHitPacket.reset();
-                        
-                        oHitPacket.setRayPacket(&oRayPacket);
-
-                        if(oRayPacket.hasActive() == false)
-                            continue;
-
-                        UInt32 uiX = 
-                            oHitTile.getX() * HitTile::NumHPackets + j;
-
-                        UInt32 uiY =
-                            oHitTile.getY() * HitTile::NumVPackets + i;
-                        
-                        if(uiX >= _pTarget->getWidth() ||
-                           uiY >= _pTarget->getHeight())
-                        {
-                            fprintf(stderr, "%d %d\n", uiX, uiY);
-
-                            OSG_ASSERT(false);
-                        }
-
-                        _pScene->tracePrimaryRays(oRayPacket, 
-                                                  oHitPacket, 
-                                                  sKDToDoStack);
-
-                        ++uiRayStat;
-                    }
-                }
-#endif
                 
                 pThis->_pHitTiledStore->pushWriteIndex(uiHitIndex);
                 
@@ -1422,17 +1335,6 @@ void RTCombinedThreadHelper<DescT, RTSIMDMathTag>::workProcHelper(
                                 
                             pThis->_pTarget->setPixel(uiX, uiY, oColor);
 
-#if 0
-                            if(oHitPacket.getU() > -0.5)
-                            {
-                                _pTarget->markPixelHit(uiX, uiY);
-                            }
-                            else
-                            {
-                                _pTarget->markPixelNotHit(uiX, uiY);
-                            }
-#endif
-
                             ++uiHitStat;
                         }
                     }
@@ -1469,3 +1371,116 @@ void RTCombinedThreadHelper<DescT, RTFloatMathTag>::workProcHelper(
 #endif
 
 OSG_END_NAMESPACE
+
+
+
+
+
+#if 0  
+// Put to DumpToFile
+                // Prints a diagonal set of raytiles to console or raytiles in
+                // leftmost column of stage
+                //for(UInt32 i = 0; i < pThis->_pRayStore->getNumTiles() ; 
+                // i=i+pThis->_pRayStore->getNumHTiles()+1)
+
+                for(UInt32 i = 0; 
+                           i < pThis->_pRayStore->getNumTiles() ; 
+                           i = i + pThis->_pRayStore->getNumHTiles())
+                {
+                    FourRayPacket &oRayTile = 
+                        pThis->_pRayStore->getRayPacket(i);
+
+                    union
+                    {
+                        Float4 dir;
+                        Real32 arrayDir[4];
+                    };        
+
+                    dir = oRayTile.getDir(0);
+
+                    printf("%d\n", i);
+                    printf("x: %f %f %f %f\n", 
+                           arrayDir[0], arrayDir[1], arrayDir[2], arrayDir[3]);
+
+                    dir = oRayTile.getDir(1);
+
+                    printf("y: %f %f %f %f\n", 
+                           arrayDir[0], arrayDir[1], arrayDir[2], arrayDir[3]);
+
+                    dir = oRayTile.getDir(2);
+
+                    printf("z: %f %f %f %f\n", 
+                           arrayDir[0], arrayDir[1], arrayDir[2], arrayDir[3]);
+                }
+
+                exit(-1);
+#endif
+
+
+#if 0   // Write binary to file
+
+                FILE* fp;
+                fp=fopen(
+                    "/home/filip/tmp/OpenSG/Standalone.app/HitPacketsPPU_box.bin", 
+                    "wb+");
+
+                UInt32 hits = 0;
+
+                for(UInt32 i = 0; i < 4096 ; ++i)
+                {
+                    FourHitPacket     &oHitPacket = 
+                        pThis->_pHitStore->getPacket(i);
+    
+                    Real32 rDist[4], rU[4], rV[4];
+                    UInt32 objId[4], triId[4], cacheId[4];
+                    
+                    for(UInt32 j = 0 ; j < 4 ; ++j)
+                    {
+                        rDist[j] = oHitPacket.getDist(j);
+                        rU[j] = oHitPacket.getU(j);
+                        rV[j] = oHitPacket.getV(j);
+                        objId[j] = oHitPacket.getObjId(j);
+                        triId[j] = oHitPacket.getTriId(j);
+                        cacheId[j] = oHitPacket.getCacheId(j); 
+                        
+                        if(rDist[j] < FLT_MAX)
+                            hits++;
+                    }
+          
+                    fwrite(&rDist, 4, 4, fp);
+                    fwrite(&rU, 4, 4, fp);
+                    fwrite(&rV, 4, 4, fp);
+                    fwrite(&objId, 4, 4, fp);
+                    fwrite(&triId, 4, 4, fp);
+                    fwrite(&cacheId, 4, 4, fp);
+                }
+        
+                fclose(fp);
+                
+                printf("Hits %u\n", hits);
+                printf("Binary hitdata written to file\n");
+                exit(-1);
+#endif
+
+#if 0  // write triId stored in hitpacket to file
+
+                FILE* fp;
+                fp=fopen("/home/filip/tmp/OpenSG/Standalone.app/HitTriIdPPU_box.list", "w+");
+                
+                UInt32 triId[4];
+                
+                for(UInt32 i = 0; i < 4096 ; ++i)
+                {
+                    FourHitPacket     &oHitPacket = 
+                        pThis->_pHitStore->getPacket(i);
+                    
+                    for(UInt32 j = 0 ; j < 4 ; ++j)
+                    {
+                        triId[j] = oHitPacket.getTriId(j);
+                    }
+                    fprintf(fp, "%d %d %d %d\n", triId[0], triId[1], triId[2], triId[3]);
+                }
+                fclose(fp);
+                exit(-1);
+                
+#endif

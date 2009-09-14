@@ -45,10 +45,13 @@
 #include "OSGRTCameraDecoratorBase.h"
 
 #include "OSGRRTDefinitions.h"
+#include "OSGRTRaySIMDPacket.h"
 
 OSG_BEGIN_NAMESPACE
 
 class RTTarget;
+class PerspectiveCamera;
+class OrthographicCamera;
 
 /*! \brief RTCameraDecorator class. See \ref
            PageContribRRTRTCameraDecorator for a description.
@@ -62,9 +65,11 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
 
   public:
 
-    typedef RTCameraDecoratorBase Inherited;
-    typedef RTCameraDecorator     Self;
+    typedef RTCameraDecoratorBase        Inherited;
+    typedef RTCameraDecorator            Self;
 
+    typedef RTRaySIMDPacketInfo::RayMode RayMode;
+    
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -103,7 +108,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
                                  RRT::SIMDPacketDesc  ::RayInfoStore &vRayInfos,
                                                         RTTarget     &pTarget,
                                                         UInt32        uiVTiles,
-                                                        UInt32        uiHTiles);
+                                                        UInt32        uiHTiles,
+                                                        RayMode      &eRayMode);
 
     virtual UInt32 fillRayStores(
         RRT::SIMDPacketDesc  ::FullSIMDRayStore &vRays,
@@ -153,23 +159,32 @@ class OSG_CONTRIBRRT_DLLMAPPING RTCameraDecorator : public RTCameraDecoratorBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    void fillTile(                     UInt32               uiWidth,
-                                       UInt32               uiHeight,
-                                       UInt32               uiX,
-                                       UInt32               uiY,
-                  RRT::SIMDPacketDesc::SingleRayPacketInfo &rayInfo );
+    void fillTile(                          UInt32               uiWidth,
+                                            UInt32               uiHeight,
+                                            UInt32               uiX,
+                                            UInt32               uiY,
+                       RRT::SIMDPacketDesc::SingleRayPacketInfo &rayInfo );
 
-    void fillTile(RRT::SIMDPacketDesc::FullSIMDRayStore &vRays,
-                  RRT::SIMDPacketDesc::RayInfoStore     &vRayInfos,
-                                       UInt32            uiWidth,
-                                       UInt32            uiHeight,
-                                       Vec3f             vCurr, 
-                                       Vec3f             vRight, 
-                                       Vec3f             vUp,
-                                       Pnt3f             vOrigin,
-                                       UInt32            uiX,
-                                       UInt32            uiY,
-                                       UInt32            uiTilesX );
+    void fillOrthoTile(                     UInt32               uiWidth,
+                                            UInt32               uiHeight,
+                                            UInt32               uiX,
+                                            UInt32               uiY,
+                       RRT::SIMDPacketDesc::SingleRayPacketInfo &rayInfo);
+
+
+    UInt32 fillRayStores(RRT::SIMDPacketDesc  ::SIMDRayStore       &vRays,
+                         RRT::SIMDPacketDesc  ::RayInfoStore       &vRayInfos,
+                                                RTTarget           &pTarget,
+                                                PerspectiveCamera  *pPCam,
+                                                UInt32              uiVTiles,
+                                                UInt32              uiHTiles);
+
+    UInt32 fillRayStores(RRT::SIMDPacketDesc  ::SIMDRayStore       &vRays,
+                         RRT::SIMDPacketDesc  ::RayInfoStore       &vRayInfos,
+                                                RTTarget           &pTarget,
+                                                OrthographicCamera *pOCam,
+                                                UInt32              uiVTiles,
+                                                UInt32              uiHTiles);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
