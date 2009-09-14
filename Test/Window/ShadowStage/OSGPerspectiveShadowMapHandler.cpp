@@ -314,46 +314,20 @@ void PerspectiveShadowMapHandler::calcPerspectiveSpot(Matrix &_LPM,
 {
 
     Matrix  CPM, CVM;
-#if 0
-    _shadowVP->getCamera()->getViewing(CVM, _shadowVP->getParent()->getWidth(),
-                                       _shadowVP->getParent()->getHeight());
-    _shadowVP->getCamera()->getProjection(CPM,
-                                          _shadowVP->getParent()->getWidth(),
-                                          _shadowVP->getParent()->getHeight());
-#endif
-    pEnv->getAction()->getCamera()->getViewing(
-        CVM, 
-        pEnv->getWindow()->getWidth(),
-        pEnv->getWindow()->getHeight());
 
-    pEnv->getAction()->getCamera()->getProjection(
-        CPM,
-        pEnv->getWindow()->getWidth(),
-        pEnv->getWindow()->getHeight());
+    CVM = pEnv->getCameraViewing();
+    CPM = pEnv->getCameraProjection();
 
     Matrix  LPM, LVM;
-#if 0
+
     _shadowVP->_lightCameras[num]->getViewing(LVM,
-                                              _shadowVP->getParent()->getWidth
-                                              (),
-                                              _shadowVP->getParent()->getHeight
-                                              ());
-    _shadowVP->_lightCameras[num]->getProjection(LPM,
-                                                 _shadowVP->getParent
-                                                 ()->getWidth(),
-                                                 _shadowVP->getParent
-                                                 ()->getHeight());
-#endif
-    _shadowVP->_lightCameras[num]->getViewing(LVM,
-                                              pEnv->getWindow()->getWidth
-                                              (),
-                                              pEnv->getWindow()->getHeight
-                                              ());
-    _shadowVP->_lightCameras[num]->getProjection(LPM,
-                                                 pEnv->getWindow
-                                                 ()->getWidth(),
-                                                 pEnv->getWindow
-                                                 ()->getHeight());
+                                              pEnv->getWindow()->getWidth(),
+                                              pEnv->getWindow()->getHeight());
+
+    _shadowVP->_lightCameras[num]->getProjection(
+        LPM,
+        pEnv->getWindow()->getWidth(),
+        pEnv->getWindow()->getHeight());
 
     Matrix  LPVM;
     LPVM = LPM;
@@ -441,10 +415,8 @@ void PerspectiveShadowMapHandler::calcPerspectiveSpot(Matrix &_LPM,
 
         //Kamerapunkt holen
         Pnt3f   eyePos(0,0,0);
-#if 0
-        Matrix  m2 = _shadowVP->getCamera()->getBeacon()->getToWorld();
-#endif
-        Matrix  m2 = pEnv->getAction()->getCamera()->getBeacon()->getToWorld();
+
+        Matrix m2 = pEnv->getCameraToWorld();
 
         m2.mult(eyePos, eyePos);
         
@@ -478,12 +450,9 @@ void PerspectiveShadowMapHandler::calcPerspectiveSpot(Matrix &_LPM,
         {
             //ViewDir
             Vec3f               viewDir(0,0,-1);
-#if 0
-            Matrix              m3 = _shadowVP->getCamera()->getBeacon
-                ()->getToWorld();
-#endif
-            Matrix              m3 = pEnv->getAction()->getCamera()->getBeacon
-                ()->getToWorld();
+
+            Matrix m3 = pEnv->getCameraToWorld();
+
             m3  .mult(viewDir, viewDir);
             LPVM.mult(viewDir, viewDir);
             viewDir.normalize();
@@ -932,8 +901,7 @@ bool PerspectiveShadowMapHandler::bbInsideFrustum(Pnt3f sceneMin,
 }
 
 
-void PerspectiveShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv, 
-                                                      RenderAction *pTmpAction)
+void PerspectiveShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
 {
 #ifdef SHADOWCHECK
     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
@@ -1192,8 +1160,7 @@ void PerspectiveShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv,
 
 
 
-void PerspectiveShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
-                                                    RenderAction *pTmpAction)
+void PerspectiveShadowMapHandler::createColorMapFBO(DrawEnv *pEnv)
 {
     RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
 
@@ -1232,8 +1199,7 @@ void PerspectiveShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
 
 
 void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
-    DrawEnv *pEnv,
-    RenderAction *pTmpAction)
+    DrawEnv *pEnv)
 {
     _activeFactorMap = 0;
 
@@ -1297,17 +1263,7 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
                     pEnv->getPixelWidth(),
                     pEnv->getPixelHeight());
 
-#if 0
-                _shadowVP->getCamera()->getViewing(
-                    CVM,
-                    _shadowVP->getPixelWidth(),
-                    _shadowVP->getPixelHeight());
-#endif
-
-                pTmpAction->getCamera()->getViewing(
-                    CVM,
-                    pEnv->getPixelWidth(),
-                    pEnv->getPixelHeight());
+                CVM = pEnv->getCameraViewing();
 
                 Matrix  iCVM = CVM;
                 iCVM.invert();
@@ -1332,12 +1288,7 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
                 Real32  xFactor = 1.0;
                 Real32  yFactor = 1.0;
 	
-#if 0
-                Matrix  m = 
-                    pEnv->getAction()->getCamera()->getBeacon()->getToWorld();
-#endif
-
-                Matrix  m = pTmpAction->getCamera()->getBeacon()->getToWorld();
+                Matrix m = pEnv->getCameraToWorld();
 
                 Matrix  shadowMatrixOP = LVM;
                 shadowMatrix.mult(iCVM);
@@ -1499,16 +1450,8 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
                 LVM = _perspectiveLVM[i];
                 LPM = _perspectiveLPM[i];
 
-#if 0
-                _shadowVP->getCamera()->getViewing(CVM,
-                                                   _shadowVP->getPixelWidth(),
-                                                   _shadowVP->getPixelHeight
-                                                   ());
-#endif
-                pTmpAction->getCamera()->getViewing(CVM,
-                                                   pEnv->getPixelWidth(),
-                                                   pEnv->getPixelHeight
-                                                   ());
+                CVM = pEnv->getCameraViewing();
+
                 Matrix  iCVM = CVM;
                 iCVM.invert();
 
@@ -2005,8 +1948,7 @@ void PerspectiveShadowMapHandler::createShadowFactorMapFBO(
 }
 
 
-void PerspectiveShadowMapHandler::render(DrawEnv      *pEnv,
-                                         RenderAction *pTmpAction)
+void PerspectiveShadowMapHandler::render(DrawEnv      *pEnv)
 {
     Window  *win = pEnv->getWindow();
     initialize(win);
@@ -2097,7 +2039,7 @@ void PerspectiveShadowMapHandler::render(DrawEnv      *pEnv,
     if(_shadowVP->getMapAutoUpdate() == true ||
        _shadowVP->_trigger_update    == true  )
     {
-        createColorMapFBO(pEnv, pTmpAction);
+        createColorMapFBO(pEnv);
         
         
         //deactivate transparent Nodes
@@ -2107,7 +2049,7 @@ void PerspectiveShadowMapHandler::render(DrawEnv      *pEnv,
         }
 
 
-        createShadowMapsFBO(pEnv, pTmpAction);
+        createShadowMapsFBO(pEnv);
 
         
         // switch on all transparent geos
@@ -2118,7 +2060,7 @@ void PerspectiveShadowMapHandler::render(DrawEnv      *pEnv,
         }
 
 
-        createShadowFactorMapFBO(pEnv, pTmpAction);
+        createShadowFactorMapFBO(pEnv);
         
         _shadowVP->_trigger_update = false;
     }

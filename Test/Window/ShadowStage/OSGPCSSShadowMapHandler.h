@@ -47,36 +47,22 @@ class OSG_WINDOW_DLLMAPPING PCSSShadowMapHandler : public TreeHandler
 
     PCSSShadowMapHandler(ShadowStage *source);
     ~PCSSShadowMapHandler(void);
-    virtual void render(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
+    virtual void render(DrawEnv *pEnv);
 
   private:
 
     void initTextures(DrawEnv *pEnv);
-    void createColorMapFBO(DrawEnv *pEnv,
-                           RenderAction *pTmpAction);
+    void createColorMapFBO(DrawEnv *pEnv);
 
 
     void createShadowFactorMapFBO(DrawEnv      *pEnv,
-                                  RenderAction *pTmpAction, 
                                   UInt32        num,
                                   UInt32        uiActiveLightCount);
 
-    void createShadowMapsFBO(DrawEnv *pEnv, 
-                             RenderAction *pTmpAction);
+    void createShadowMapsFBO(DrawEnv *pEnv);
     bool initFBO(DrawEnv *pEnv);
     void reInit(DrawEnv *pEnv);
     bool checkFrameBufferStatus(Window *win);
-
-#if 0
-    void createShadowMaps(DrawEnv *pEnv, 
-                          RenderAction *pTmpAction);
-    void createColorMap(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
-    void createShadowFactorMap(DrawEnv         *pEnv,
-                               RenderAction    *pTmpAction, 
-                               UInt32           num               );
-#endif
 
     TileCameraDecoratorUnrecPtr  _tiledeco;
     ImageUnrecPtr                _colorMapImage;

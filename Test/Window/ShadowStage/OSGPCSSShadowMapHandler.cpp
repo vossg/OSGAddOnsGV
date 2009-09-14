@@ -235,8 +235,7 @@ void PCSSShadowMapHandler::initTextures(DrawEnv *pEnv)
     _initTexturesDone = true;
 }
 
-void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv, 
-                                              RenderAction *pTmpAction)
+void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
 {
     RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
 
@@ -369,8 +368,7 @@ void PCSSShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv,
 }
 
 
-void PCSSShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
-                                             RenderAction *pTmpAction)
+void PCSSShadowMapHandler::createColorMapFBO(DrawEnv *pEnv)
 {
     RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
 
@@ -410,7 +408,6 @@ void PCSSShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
 
 void PCSSShadowMapHandler::createShadowFactorMapFBO(
     DrawEnv      *pEnv,
-    RenderAction *pTmpAction,
     UInt32        num,
     UInt32        uiActiveLightCount)
 {
@@ -466,17 +463,7 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
             pEnv->getPixelWidth(),
             pEnv->getPixelHeight());
 
-#if 0
-        _shadowVP->getCamera()->getViewing(
-            CVM, 
-            _shadowVP->getPixelWidth(),
-            _shadowVP->getPixelHeight());
-#endif
-
-        pEnv->getAction()->getCamera()->getViewing(
-            CVM, 
-            pEnv->getPixelWidth(),
-            pEnv->getPixelHeight());
+        CVM = pEnv->getCameraViewing();
 
         Matrix  iCVM = CVM;
         iCVM.invert();
@@ -623,8 +610,7 @@ void PCSSShadowMapHandler::createShadowFactorMapFBO(
 }
 
 
-void PCSSShadowMapHandler::render(DrawEnv *pEnv,
-                                  RenderAction *pTmpAction)
+void PCSSShadowMapHandler::render(DrawEnv *pEnv)
 {
     Window  *win = pEnv->getWindow();
     initialize(win);
@@ -679,7 +665,7 @@ void PCSSShadowMapHandler::render(DrawEnv *pEnv,
     if(_shadowVP->getMapAutoUpdate() == true ||
        _shadowVP->_trigger_update    == true  )
     {
-        createColorMapFBO(pEnv, pTmpAction);
+        createColorMapFBO(pEnv);
 
 
         //deactivate transparent Nodes
@@ -689,7 +675,7 @@ void PCSSShadowMapHandler::render(DrawEnv *pEnv,
         }
 
 
-        createShadowMapsFBO(pEnv, pTmpAction);
+        createShadowMapsFBO(pEnv);
 
 
         // switch on all transparent geos
@@ -711,7 +697,6 @@ void PCSSShadowMapHandler::render(DrawEnv *pEnv,
                    0.0)
                 {
                     createShadowFactorMapFBO(pEnv, 
-                                             pTmpAction, 
                                              i,
                                              uiActiveLightCount);
                     

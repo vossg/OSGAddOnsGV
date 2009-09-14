@@ -49,8 +49,7 @@ class OSG_WINDOW_DLLMAPPING StdShadowMapHandler : public TreeHandler
 
     StdShadowMapHandler(ShadowStage *source);
     ~StdShadowMapHandler(void);
-    virtual void render(DrawEnv      *pEnv,
-                        RenderAction *pTmpAction);
+    virtual void render(DrawEnv *pEnv);
 
   private:
 
@@ -59,9 +58,9 @@ class OSG_WINDOW_DLLMAPPING StdShadowMapHandler : public TreeHandler
     
     void initTextures(DrawEnv *pEnv);
 
-    void createColorMapFBO       (DrawEnv *pEnv, RenderAction *pTmpAction);
-    void createShadowMapsFBO     (DrawEnv *pEnv, RenderAction *pTmpAction);
-    void createShadowFactorMapFBO(DrawEnv *pEnv, RenderAction *pTmpAction);
+    void createColorMapFBO       (DrawEnv *pEnv);
+    void createShadowMapsFBO     (DrawEnv *pEnv);
+    void createShadowFactorMapFBO(DrawEnv *pEnv);
 
     Matrix _transforms[6];
     

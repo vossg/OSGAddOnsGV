@@ -50,8 +50,7 @@ class OSG_WINDOW_DLLMAPPING TreeHandler
     
     virtual ~TreeHandler(void);
     
-    virtual void render(DrawEnv      *pEnv,
-                        RenderAction *pTmpAction)=0;
+    virtual void render(DrawEnv *pEnv) = 0;
 
     Material *getUnlitMaterial(void);
 

@@ -515,8 +515,7 @@ void PCFShadowMapHandler::initTextures(DrawEnv *pEnv)
 }
 
 
-void PCFShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv, 
-                                              RenderAction *pTmpAction)
+void PCFShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
 {
 
     //------Setting up Window to fit size of ShadowMap----------------
@@ -775,8 +774,7 @@ void PCFShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv,
 #endif
 }
 
-void PCFShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
-                                            RenderAction *pTmpAction)
+void PCFShadowMapHandler::createColorMapFBO(DrawEnv *pEnv)
 {
     RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
 
@@ -812,8 +810,7 @@ void PCFShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
     a->popPartition();
 }
 
-void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
-                                                   RenderAction *pTmpAction)
+void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
 {
     _activeFactorMap = 0;
 
@@ -873,25 +870,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                     pEnv->getPixelWidth(), 
                     pEnv->getPixelHeight());
                 
-#if 0
-                Camera *cam = _shadowVP->getCamera();
-                if(cam != NULL)
-                    cam->getViewing(CVM, _shadowVP->getPixelWidth(),
-                                    _shadowVP->getPixelHeight());
-#endif
-                Camera *cam = pEnv->getAction()->getCamera();
-                if(cam != NULL)
-                {
-                    cam->getViewing(CVM, 
-                                    pEnv->getPixelWidth(),
-                                    pEnv->getPixelHeight());
-                }
-                else
-                {
-                    SWARNING <<
-                        "PCFShadowMap::createShadowFactorMapFBO: no camera "
-                        "found!" << std::endl;
-                }
+                CVM = pEnv->getCameraViewing();
 
                 Matrix      iCVM = CVM;
                 iCVM.invert();
@@ -916,12 +895,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                 Real32      xFactor = 1.0;
                 Real32      yFactor = 1.0;
 	
-#if 0
-                Matrix      m = 
-                    pEnv->getAction()->getCamera()->getBeacon()->getToWorld();
-#endif
-                Matrix      m = 
-                    pTmpAction->getCamera()->getBeacon()->getToWorld();
+                Matrix      m = pEnv->getCameraToWorld();
 
                 Matrix      shadowMatrixOP = LVM;
                 shadowMatrix.mult(iCVM);
@@ -1117,25 +1091,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                                                        (),
                                                        pEnv->getPixelHeight());
 
-#if 0
-            Camera *cam = _shadowVP->getCamera();
-            if(cam != NULL)
-                cam->getViewing(CVM, _shadowVP->getPixelWidth(),
-                                _shadowVP->getPixelHeight());
-#endif
-            Camera *cam = pTmpAction->getCamera();
-            if(cam != NULL)
-            {
-                cam->getViewing(CVM, 
-                                pEnv->getPixelWidth(),
-                                pEnv->getPixelHeight());
-            }
-            else
-            {
-                SWARNING <<
-                    "PCFShadowMap::createShadowFactorMapFBO: no camera found!"
-                    << std::endl;
-            }
+            CVM = pEnv->getCameraViewing();
 
             Matrix      iCVM = CVM;
             iCVM.invert();
@@ -1522,8 +1478,7 @@ void PCFShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 }
 
 
-void PCFShadowMapHandler::render(DrawEnv      *pEnv, 
-                                 RenderAction *pTmpAction)
+void PCFShadowMapHandler::render(DrawEnv      *pEnv)
 {
     Window  *win = pEnv->getWindow();
     initialize(win);
@@ -1732,7 +1687,7 @@ void PCFShadowMapHandler::render(DrawEnv      *pEnv,
     if(_shadowVP->getMapAutoUpdate() == true ||
        _shadowVP->_trigger_update    == true  )
     {
-        createColorMapFBO(pEnv, pTmpAction);
+        createColorMapFBO(pEnv);
 
 
         //deactivate transparent Nodes
@@ -1742,7 +1697,7 @@ void PCFShadowMapHandler::render(DrawEnv      *pEnv,
         }
 
 
-        createShadowMapsFBO(pEnv, pTmpAction);
+        createShadowMapsFBO(pEnv);
 
 
         // switch on all transparent geos
@@ -1753,7 +1708,7 @@ void PCFShadowMapHandler::render(DrawEnv      *pEnv,
         }
 
 
-        createShadowFactorMapFBO(pEnv, pTmpAction);
+        createShadowFactorMapFBO(pEnv);
         
         _shadowVP->_trigger_update = false;
     }

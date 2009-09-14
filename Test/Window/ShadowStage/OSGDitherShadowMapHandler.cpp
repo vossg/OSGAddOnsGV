@@ -279,8 +279,7 @@ void DitherShadowMapHandler::initTextures(DrawEnv *pEnv)
 }
 
 
-void DitherShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv, 
-                                                 RenderAction *pTmpAction)
+void DitherShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv)
 {
 
     RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
@@ -537,8 +536,7 @@ void DitherShadowMapHandler::createShadowMapsFBO(DrawEnv *pEnv,
 }
 
 
-void DitherShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
-                                               RenderAction *pTmpAction)
+void DitherShadowMapHandler::createColorMapFBO(DrawEnv *pEnv)
 {
     RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
 
@@ -574,8 +572,7 @@ void DitherShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
     a->popPartition();
 }
 
-void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
-                                                      RenderAction *pTmpAction)
+void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv)
 {
     _activeFactorMap = 0;
 
@@ -636,16 +633,7 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                     pEnv->getPixelWidth(), 
                     pEnv->getPixelHeight());
 
-#if 0
-                _shadowVP->getCamera()->getViewing(
-                    CVM,
-                    _shadowVP->getPixelWidth(),
-                    _shadowVP->getPixelHeight());
-#endif
-                pEnv->getAction()->getCamera()->getViewing(
-                    CVM,
-                    pEnv->getPixelWidth(),
-                    pEnv->getPixelHeight());
+                CVM = pEnv->getCameraViewing();
 
                 Matrix  iCVM = CVM;
                 iCVM.invert();
@@ -670,11 +658,7 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                 Real32  xFactor = 1.0;
                 Real32  yFactor = 1.0;
 
-#if 0
-                Matrix  m = 
-                    pEnv->getAction()->getCamera()->getBeacon()->getToWorld();
-#endif
-                Matrix  m = pTmpAction->getCamera()->getBeacon()->getToWorld();
+                Matrix m = pEnv->getCameraToWorld();
 
                 Matrix  shadowMatrixOP = LVM;
                 shadowMatrix.mult(iCVM);
@@ -866,13 +850,8 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
                                                        pEnv->getPixelWidth
                                                        (),
                                                        pEnv->getPixelHeight());
-#if 0
-            _shadowVP->getCamera()->getViewing(CVM, _shadowVP->getPixelWidth(),
-                                               _shadowVP->getPixelHeight());
-#endif
+            CVM = pEnv->getCameraViewing();
 
-            pTmpAction->getCamera()->getViewing(CVM, pEnv->getPixelWidth(),
-                                               pEnv->getPixelHeight());
             Matrix  iCVM = CVM;
             iCVM.invert();
 
@@ -1259,8 +1238,7 @@ void DitherShadowMapHandler::createShadowFactorMapFBO(DrawEnv *pEnv,
 }
 
 
-void DitherShadowMapHandler::render(DrawEnv *pEnv,
-                                    RenderAction *pTmpAction)
+void DitherShadowMapHandler::render(DrawEnv *pEnv)
 {
     Window  *win = pEnv->getWindow();
     initialize(win);
@@ -1330,7 +1308,7 @@ void DitherShadowMapHandler::render(DrawEnv *pEnv,
     if(_shadowVP->getMapAutoUpdate() == true ||
        _shadowVP->_trigger_update    == true  )
     {
-        createColorMapFBO(pEnv, pTmpAction);
+        createColorMapFBO(pEnv);
 
 
         //deactivate transparent Nodes
@@ -1340,7 +1318,7 @@ void DitherShadowMapHandler::render(DrawEnv *pEnv,
         }
 
 
-        createShadowMapsFBO(pEnv, pTmpAction);
+        createShadowMapsFBO(pEnv);
 
 
         // switch on all transparent geos
@@ -1351,7 +1329,7 @@ void DitherShadowMapHandler::render(DrawEnv *pEnv,
         }
 
 
-        createShadowFactorMapFBO(pEnv, pTmpAction);
+        createShadowFactorMapFBO(pEnv);
 
         _shadowVP->_trigger_update = false;
     }

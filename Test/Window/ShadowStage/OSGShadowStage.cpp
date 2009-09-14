@@ -572,13 +572,6 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
         }
     }
 
-    RenderAction *tmpAction = RenderAction::create();
-
-    tmpAction->setCamera    ( ract->getCamera() );
-    tmpAction->setBackground(_silentBack  );
-    tmpAction->setViewport  ( ract->getViewport()  );
-    tmpAction->setTravMask  ( ract->getTravMask());
-    tmpAction->setWindow    ( ract->getWindow());
     checkLights(ract);
 
     bool allLightsZero = true;
@@ -600,8 +593,6 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
     }
     if(_lights.size() == 0 || allLightsZero)
     {
-        delete tmpAction;
-
         _bRunning = false;
 
         return returnValue;
@@ -636,20 +627,12 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
         //TODO: Not implemented yet ...
         _renderSide.clear();
 
-#if 0
-        DrawEnv oEnv;
-        
-        oEnv.setWindow(ract->getWindow());
-        oEnv.setAction(ract);
-#endif
-
         // active stereo support.
         activate();
 
         ract->beginPartitionGroup();
         {
-            _treeRenderer->render(&(ract->getActivePartition()->getDrawEnv()), 
-                                  tmpAction);
+            _treeRenderer->render(&(ract->getActivePartition()->getDrawEnv()));
         }
         ract->endPartitionGroup();
 
@@ -657,8 +640,6 @@ ActionBase::ResultE ShadowStage::renderEnter(Action *action)
 
         returnValue = ActionBase::Skip;
     }
-
-    delete tmpAction;
 
     _bRunning = false;
 

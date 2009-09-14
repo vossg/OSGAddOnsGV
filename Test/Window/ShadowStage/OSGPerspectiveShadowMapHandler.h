@@ -50,8 +50,7 @@ public:
 
     PerspectiveShadowMapHandler(ShadowStage *source);
     ~PerspectiveShadowMapHandler(void);
-    virtual void render(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
+    virtual void render(DrawEnv *pEnv);
 
 private:
 
@@ -61,12 +60,9 @@ private:
     void initTextures(DrawEnv *pEnv);
 
 
-    void createColorMapFBO(DrawEnv *pEnv,
-                           RenderAction *pTmpAction);
-    void createShadowMapsFBO(DrawEnv *pEnv, 
-                             RenderAction *pTmpAction);
-    void createShadowFactorMapFBO(DrawEnv *pEnv,
-                                  RenderAction *pTmpAction);
+    void createColorMapFBO       (DrawEnv *pEnv);
+    void createShadowMapsFBO     (DrawEnv *pEnv);
+    void createShadowFactorMapFBO(DrawEnv *pEnv);
 
 
     void calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt32 num,

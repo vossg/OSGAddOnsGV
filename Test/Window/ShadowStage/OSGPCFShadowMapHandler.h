@@ -49,18 +49,15 @@ class OSG_WINDOW_DLLMAPPING PCFShadowMapHandler : public TreeHandler
 
     PCFShadowMapHandler(ShadowStage *source);
     ~PCFShadowMapHandler(void);
-    virtual void render(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
+    virtual void render(DrawEnv *pEnv);
 
   private:
 
     void initTextures(DrawEnv *pEnv);
-    void createColorMapFBO(DrawEnv *pEnv,
-                           RenderAction *pTmpAction);
-    void createShadowFactorMapFBO(DrawEnv *pEnv,
-                                  RenderAction *pTmpAction);
-    void createShadowMapsFBO(DrawEnv *pEnv, 
-                             RenderAction *pTmpAction);
+    void createColorMapFBO(DrawEnv *pEnv);
+    void createShadowFactorMapFBO(DrawEnv *pEnv);
+    void createShadowMapsFBO(DrawEnv *pEnv);
+
     bool initFBO(DrawEnv *pEnv);
     void reInit(DrawEnv *pEnv);
 

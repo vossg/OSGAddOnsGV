@@ -302,8 +302,7 @@ void VarianceShadowMapHandler::initTextures(DrawEnv *pEnv)
 }
 
 
-void VarianceShadowMapHandler::createShadowMapsFBO(DrawEnv      *pEnv, 
-                                                   RenderAction *pTmpAction)
+void VarianceShadowMapHandler::createShadowMapsFBO(DrawEnv      *pEnv)
 {
     UInt32  mSize = _shadowVP->getMapSize();
 
@@ -563,8 +562,7 @@ void VarianceShadowMapHandler::genMipMapCB(DrawEnv *pEnv,
 }
 
 
-void VarianceShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
-                                            RenderAction *pTmpAction)
+void VarianceShadowMapHandler::createColorMapFBO(DrawEnv *pEnv)
 {
     RenderAction *a = dynamic_cast<RenderAction *>(pEnv->getAction());
 
@@ -604,7 +602,6 @@ void VarianceShadowMapHandler::createColorMapFBO(DrawEnv *pEnv,
 
 void VarianceShadowMapHandler::createShadowFactorMapFBO(
     DrawEnv      *pEnv,
-    RenderAction *pTmpAction,
     UInt32        num,
     UInt32        uiActiveLightCount)
 {
@@ -658,15 +655,8 @@ void VarianceShadowMapHandler::createShadowFactorMapFBO(
                                                      pEnv->getPixelWidth(),
                                                      pEnv->getPixelHeight());
 
-#if 0
-        _shadowVP->getCamera()->getViewing(CVM, 
-                                           _shadowVP->getPixelWidth(),
-                                           _shadowVP->getPixelHeight());
-#endif
+        CVM = pEnv->getCameraViewing();
 
-        pEnv->getAction()->getCamera()->getViewing(CVM,
-                                                   pEnv->getPixelWidth(),
-                                                   pEnv->getPixelHeight());
         Matrix  iCVM = CVM;
         iCVM.invert();
 
@@ -897,8 +887,7 @@ void VarianceShadowMapHandler::createShadowFactorMapFBO(
 }
 
 
-void VarianceShadowMapHandler::render(DrawEnv *pEnv, 
-                                      RenderAction *pTmpAction)
+void VarianceShadowMapHandler::render(DrawEnv *pEnv)
 {
     Window  *win = pEnv->getWindow();
     initialize(win);
@@ -945,7 +934,7 @@ void VarianceShadowMapHandler::render(DrawEnv *pEnv,
     if(_shadowVP->getMapAutoUpdate() == true ||
        _shadowVP->_trigger_update    == true  )
     {
-        createColorMapFBO(pEnv, pTmpAction);
+        createColorMapFBO(pEnv);
 
 
         //deactivate transparent Nodes
@@ -955,7 +944,7 @@ void VarianceShadowMapHandler::render(DrawEnv *pEnv,
         }
 
 
-        createShadowMapsFBO(pEnv, pTmpAction);
+        createShadowMapsFBO(pEnv);
 
 
         // switch on all transparent geos
@@ -979,7 +968,6 @@ void VarianceShadowMapHandler::render(DrawEnv *pEnv,
                    _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
                 {
                     createShadowFactorMapFBO(pEnv, 
-                                             pTmpAction, 
                                              i,
                                              uiActiveLightCount);
                     

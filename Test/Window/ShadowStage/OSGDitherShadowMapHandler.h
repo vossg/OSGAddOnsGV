@@ -47,34 +47,16 @@ public:
 
     DitherShadowMapHandler(ShadowStage *source);
     ~DitherShadowMapHandler(void);
-    virtual void render(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
+    virtual void render(DrawEnv *pEnv);
 
   private:
 
-    void createColorMapFBO(DrawEnv *pEnv,
-                           RenderAction *pTmpAction);
-    void createShadowFactorMapFBO(DrawEnv *pEnv,
-                                  RenderAction *pTmpAction);
-    void createShadowMapsFBO(DrawEnv *pEnv,
-                             RenderAction *pTmpAction);
+    void createColorMapFBO(DrawEnv *pEnv);
+    void createShadowFactorMapFBO(DrawEnv *pEnv);
+    void createShadowMapsFBO(DrawEnv *pEnv);
     bool initFBO(DrawEnv *pEnv);
     void reInit(DrawEnv *pEnv);
     void initTextures(DrawEnv *pEnv);
-
-#if 0
-    bool checkFrameBufferStatus(Window *win);
-    void createShadowMaps(DrawEnv *pEnv, 
-                          RenderAction *pTmpAction);
-    void createColorMap(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
-    void createShadowFactorMap(DrawEnv *pEnv,
-                             RenderAction *pTmpAction);
-
-//    GLuint                       _fb;
-//    GLuint                       _fb2;
-//    GLuint                       _rb_depth;
-#endif
 
     Matrix                       _transforms[6];
     TileCameraDecoratorUnrecPtr  _tiledeco;

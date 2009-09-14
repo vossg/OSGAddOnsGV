@@ -48,31 +48,22 @@ class OSG_WINDOW_DLLMAPPING VarianceShadowMapHandler : public TreeHandler
 
     VarianceShadowMapHandler(ShadowStage *source);
     ~VarianceShadowMapHandler(void);
-    virtual void render(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
+
+    virtual void render(DrawEnv *pEnv);
 
 private:
 
     void initTextures(DrawEnv *pEnv);
 
-    void createColorMapFBO(DrawEnv *pEnv,
-                           RenderAction *pTmpAction);
+    void createColorMapFBO(DrawEnv *pEnv);
 
     void createShadowFactorMapFBO(DrawEnv      *pEnv,
-                                  RenderAction *pTmpAction, 
                                   UInt32        num,
                                   UInt32        uiActiveLightCount);
 
-    void createShadowMapsFBO(DrawEnv *pEnv, 
-                                              RenderAction *pTmpAction);
-#if 0
-    void createColorMap(DrawEnv *pEnv,
-                        RenderAction *pTmpAction);
-    void createShadowFactorMap   (DrawEnv      *pEnv,
-                                  RenderAction *pTmpAction, 
-                                  UInt32        num,
-                                  bool          bClear    );
-#endif
+    void createShadowMapsFBO(DrawEnv *pEnv);
+
+
 
     bool initFBO(DrawEnv *pEnv);
     void reInit(DrawEnv *pEnv);
