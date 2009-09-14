@@ -142,6 +142,41 @@ Float4 osgSIMDSet(const Real32 rVal0,
 }
 
 inline
+Float4 osgSIMDSet(const UInt32 uiVal)
+{
+    union
+    {
+        Float4 returnValue;
+        UInt32 iData[4];
+    };
+
+    iData[0] = iData[1] = iData[2] = iData[3] = uiVal;
+
+    return returnValue;
+}
+
+
+inline
+Float4 osgSIMDSet(const UInt32 uiVal0,
+                  const UInt32 uiVal1,
+                  const UInt32 uiVal2,
+                  const UInt32 uiVal3)
+{
+    union
+    {
+        Float4 returnValue;
+        UInt32 iData[4];
+    };
+
+    iData[0] = uiVal0;
+    iData[1] = uiVal1;
+    iData[2] = uiVal2;
+    iData[3] = uiVal3;
+
+    return returnValue;
+}
+
+inline
 Float4 osgSIMDUpdate(const Float4 mask, const Float4 v1, const Float4 v2)
 {
     return _mm_or_ps(_mm_and_ps   (v1,   mask),

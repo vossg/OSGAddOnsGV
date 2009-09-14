@@ -174,6 +174,13 @@ Float4 osgSIMDSet(const Real32 rVal0,
                   const Real32 rVal2,
                   const Real32 rVal3);
 
+Float4 osgSIMDSet(const UInt32 uiVal);
+
+Float4 osgSIMDSet(const UInt32 uiVal0,
+                  const UInt32 uiVal1,
+                  const UInt32 uiVal2,
+                  const UInt32 uiVal3);
+
 #define osgSIMDSplat(v, i) \
     _mm_shuffle_ps((v), (v), _MM_SHUFFLE((i), (i), (i), (i)))
 
@@ -183,12 +190,65 @@ void osgSIMDDump(const Float4 v1);
 
 typedef std::numeric_limits<Real32> Real32Limits;
 
-static const Float4 SIMDZero     = osgSIMDSet(0.0f);
-static const Float4 SIMDHalf     = osgSIMDSet(0.5f);
-static const Float4 SIMDOne      = osgSIMDSet(1.0f);
-static const Float4 SIMDThree    = osgSIMDSet(3.0f);
-static const Float4 SIMDEps      = osgSIMDSet(0.00001);
+static const Float4 SIMDZero     = osgSIMDSet( 0.0f);
+static const Float4 SIMDHalf     = osgSIMDSet( 0.5f);
+static const Float4 SIMDOne      = osgSIMDSet( 1.0f);
+static const Float4 SIMDMinusOne = osgSIMDSet(-1.0f);
+static const Float4 SIMDThree    = osgSIMDSet( 3.0f);
+static const Float4 SIMDEps      = osgSIMDSet( 0.00001f);
 static const Float4 SIMDInfinity = osgSIMDSet(Real32Limits::max());
+
+#if 0
+static const Float4 SIMDMaskTranslation[16] = 
+{
+    osgSIMDSet(0x00000000u, 0x00000000u, 0x00000000u, 0x00000000u),
+    osgSIMDSet(0x00000000u, 0x00000000u, 0x00000000u, 0xFFFFFFFFu),
+
+    osgSIMDSet(0x00000000u, 0x00000000u, 0xFFFFFFFFu, 0x00000000u),
+    osgSIMDSet(0x00000000u, 0x00000000u, 0xFFFFFFFFu, 0xFFFFFFFFu),
+
+    osgSIMDSet(0x00000000u, 0xFFFFFFFFu, 0x00000000u, 0x00000000u),
+    osgSIMDSet(0x00000000u, 0xFFFFFFFFu, 0x00000000u, 0xFFFFFFFFu),
+    osgSIMDSet(0x00000000u, 0xFFFFFFFFu, 0xFFFFFFFFu, 0x00000000u),
+    osgSIMDSet(0x00000000u, 0xFFFFFFFFu, 0xFFFFFFFFu, 0xFFFFFFFFu),
+
+    osgSIMDSet(0xFFFFFFFFu, 0x00000000u, 0x00000000u, 0x00000000u),
+    osgSIMDSet(0xFFFFFFFFu, 0x00000000u, 0x00000000u, 0xFFFFFFFFu),
+
+    osgSIMDSet(0xFFFFFFFFu, 0x00000000u, 0xFFFFFFFFu, 0x00000000u),
+    osgSIMDSet(0xFFFFFFFFu, 0x00000000u, 0xFFFFFFFFu, 0xFFFFFFFFu),
+
+    osgSIMDSet(0xFFFFFFFFu, 0xFFFFFFFFu, 0x00000000u, 0x00000000u),
+    osgSIMDSet(0xFFFFFFFFu, 0xFFFFFFFFu, 0x00000000u, 0xFFFFFFFFu),
+    osgSIMDSet(0xFFFFFFFFu, 0xFFFFFFFFu, 0xFFFFFFFFu, 0x00000000u),
+    osgSIMDSet(0xFFFFFFFFu, 0xFFFFFFFFu, 0xFFFFFFFFu, 0xFFFFFFFFu)
+};
+#else
+static const Float4 SIMDMaskTranslation[16] = 
+{
+    osgSIMDSet(0x00000000u, 0x00000000u, 0x00000000u, 0x00000000u),
+    osgSIMDSet(0xFFFFFFFFu, 0x00000000u, 0x00000000u, 0x00000000u),
+
+    osgSIMDSet(0x00000000u, 0xFFFFFFFFu, 0x00000000u, 0x00000000u),
+    osgSIMDSet(0xFFFFFFFFu, 0xFFFFFFFFu, 0x00000000u, 0x00000000u),
+
+    osgSIMDSet(0x00000000u, 0x00000000u, 0xFFFFFFFFu, 0x00000000u),
+    osgSIMDSet(0xFFFFFFFFu, 0x00000000u, 0xFFFFFFFFu, 0x00000000u),
+    osgSIMDSet(0x00000000u, 0xFFFFFFFFu, 0xFFFFFFFFu, 0x00000000u),
+    osgSIMDSet(0xFFFFFFFFu, 0xFFFFFFFFu, 0xFFFFFFFFu, 0x00000000u),
+
+    osgSIMDSet(0x00000000u, 0x00000000u, 0x00000000u, 0xFFFFFFFFu),
+    osgSIMDSet(0xFFFFFFFFu, 0x00000000u, 0x00000000u, 0xFFFFFFFFu),
+
+    osgSIMDSet(0x00000000u, 0xFFFFFFFFu, 0x00000000u, 0xFFFFFFFFu),
+    osgSIMDSet(0xFFFFFFFFu, 0xFFFFFFFFu, 0x00000000u, 0xFFFFFFFFu),
+
+    osgSIMDSet(0x00000000u, 0x00000000u, 0xFFFFFFFFu, 0xFFFFFFFFu),
+    osgSIMDSet(0xFFFFFFFFu, 0x00000000u, 0xFFFFFFFFu, 0xFFFFFFFFu),
+    osgSIMDSet(0x00000000u, 0xFFFFFFFFu, 0xFFFFFFFFu, 0xFFFFFFFFu),
+    osgSIMDSet(0xFFFFFFFFu, 0xFFFFFFFFu, 0xFFFFFFFFu, 0xFFFFFFFFu)
+};
+#endif
 
 OSG_END_NAMESPACE
 

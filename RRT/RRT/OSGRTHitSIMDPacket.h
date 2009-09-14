@@ -155,13 +155,41 @@ class OSG_CONTRIBRRT_DLLMAPPING RTHitSIMDPacket : public RTSIMDPacket
 
     /*==========================  PRIVATE  ================================*/
 
-    Real32 _rDist[4];
-    Real32 _rU[4];
-    Real32 _rV[4];
+    union
+    {
+        Real32 _rDistA[4];
+        Float4 _rDist;
+    };
+
+    union
+    {
+        Real32 _rUA[4];
+        Float4 _rU;
+    };
+
+    union
+    {
+        Real32 _rVA[4];
+        Float4 _rV;
+    };
     
-    UInt32 _uiCacheId[4];
-    UInt32 _uiObjId[4];
-    UInt32 _uiTriId[4];
+    union
+    {
+        UInt32 _uiCacheIdA[4];
+        Float4 _uiCacheId;
+    };
+
+    union
+    {
+        UInt32 _uiObjIdA[4];
+        Float4 _uiObjId;
+    };
+
+    union
+    {
+        UInt32 _uiTriIdA[4];
+        Float4 _uiTriId;
+    };
 
   private:
 };

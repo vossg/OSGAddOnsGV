@@ -42,44 +42,26 @@ OSG_BEGIN_NAMESPACE
 
 inline
 RTHitSIMDPacket::RTHitSIMDPacket(void) :
-     Inherited (),
-    _rDist     (),
-    _rU        (),
-    _rV        (),
-    _uiCacheId (),
-    _uiObjId   (),
-    _uiTriId   ()
+     Inherited (            ),
+    _rDist     (SIMDInfinity),
+    _rU        (SIMDMinusOne),
+    _rV        (SIMDMinusOne),
+    _uiCacheId (SIMDZero    ),
+    _uiObjId   (SIMDZero    ),
+    _uiTriId   (SIMDZero    )
 {
-    for(UInt32 i = 0; i < NumHits; ++i)
-    {
-        _rDist    [i] = std::numeric_limits<Real32>::max();
-        _rU       [i] = -1.f;
-        _rV       [i] = -1.f;
-        _uiCacheId[i] = 0;
-        _uiObjId  [i] = 0;
-        _uiTriId  [i] = 0;
-    }
 }
  
 inline
 RTHitSIMDPacket::RTHitSIMDPacket(const RTHitSIMDPacket &source) :
      Inherited (),
-    _rDist     (),
-    _rU        (),
-    _rV        (),
-    _uiCacheId (),
-    _uiObjId   (),
-    _uiTriId   ()
+    _rDist     (source._rDist    ),
+    _rU        (source._rU       ),
+    _rV        (source._rV       ),
+    _uiCacheId (source._uiCacheId),
+    _uiObjId   (source._uiObjId  ),
+    _uiTriId   (source._uiTriId  )
 {
-    for(UInt32 i = 0; i < NumHits; ++i)
-    {
-        _rDist    [i] = source._rDist    [i];
-        _rU       [i] = source._rU       [i];
-        _rV       [i] = source._rV       [i];
-        _uiCacheId[i] = source._uiCacheId[i];
-        _uiObjId  [i] = source._uiObjId  [i];
-        _uiTriId  [i] = source._uiTriId  [i];
-    }
 }
 
 inline
@@ -90,15 +72,12 @@ RTHitSIMDPacket::~RTHitSIMDPacket(void)
 inline
 void RTHitSIMDPacket::reset(void)
 {
-    for(UInt32 i = 0; i < NumHits; ++i)
-    {
-        _rDist    [i] = std::numeric_limits<Real32>::max();
-        _rU       [i] = -1.f;
-        _rV       [i] = -1.f;
-        _uiCacheId[i] = 0;
-        _uiObjId  [i] = 0;
-        _uiTriId  [i] = 0;
-    }
+    _rDist     = SIMDInfinity;
+    _rU        = SIMDMinusOne;
+    _rV        = SIMDMinusOne;
+    _uiCacheId = SIMDZero;
+    _uiObjId   = SIMDZero;
+    _uiTriId   = SIMDZero;
 }
 
 inline
@@ -112,15 +91,14 @@ void RTHitSIMDPacket::set(UInt32 uiIdx,
 {
     OSG_ASSERT(uiIdx < NumHits);
 
-    _rDist    [uiIdx] = rDist;
-    _rU       [uiIdx] = rU;
-    _rV       [uiIdx] = rV;
-    _uiObjId  [uiIdx] = uiObjId;
-    _uiTriId  [uiIdx] = uiTriId;
-    _uiCacheId[uiIdx] = uiCacheId;
+    _rDistA    [uiIdx] = rDist;
+    _rUA       [uiIdx] = rU;
+    _rVA       [uiIdx] = rV;
+    _uiObjIdA  [uiIdx] = uiObjId;
+    _uiTriIdA  [uiIdx] = uiTriId;
+    _uiCacheIdA[uiIdx] = uiCacheId;
 }
 
-#if 1
 inline
 void RTHitSIMDPacket::set(const UInt32 mask,
                           const Float4 rDist, 
@@ -130,47 +108,15 @@ void RTHitSIMDPacket::set(const UInt32 mask,
                           const UInt32 uiTriId,
                           const UInt32 uiCacheId)
 {
-    // Hack need full SIMD impl.
+    Float4 simdMask = SIMDMaskTranslation[mask];
 
-    static const UInt32 maskCheck[4] = { 0x01, 0x02, 0x04, 0x08 };
-//    static const UInt32 maskCheck[4] = { 0x08, 0x04, 0x02, 0x01 };
-
-    union
-    {
-        Float4 sseDist;
-        Real32 arrayDist[4];
-    };
-
-    union
-    {
-        Float4 sseRU;
-        Real32 arrayRU[4];
-    };
-
-    union
-    {
-        Float4 sseRV;
-        Real32 arrayRV[4];
-    };
-
-    sseDist = rDist;
-    sseRU   = rU;
-    sseRV   = rV;
-
-    for(UInt32 i = 0; i < 4; ++i)
-    {
-        if((mask & maskCheck[i]) != 0)
-        {
-            _rDist    [i] = arrayDist[i];
-            _rU       [i] = arrayRU[i];
-            _rV       [i] = arrayRV[i];
-            _uiObjId  [i] = uiObjId;
-            _uiTriId  [i] = uiTriId;
-            _uiCacheId[i] = uiCacheId;
-        }
-    }
+    _rDist     = osgSIMDUpdate(simdMask,            rDist,      _rDist    );
+    _rU        = osgSIMDUpdate(simdMask,            rU,         _rU       );
+    _rV        = osgSIMDUpdate(simdMask,            rV,         _rV       );
+    _uiObjId   = osgSIMDUpdate(simdMask, osgSIMDSet(uiObjId  ), _uiObjId  );
+    _uiTriId   = osgSIMDUpdate(simdMask, osgSIMDSet(uiTriId  ), _uiTriId  );
+    _uiCacheId = osgSIMDUpdate(simdMask, osgSIMDSet(uiCacheId), _uiCacheId);
 }
-#endif
 
 #if defined(OSG_SIMD_ALTIVEC)
 inline
@@ -236,7 +182,7 @@ Real32 RTHitSIMDPacket::getDist(UInt32 uiIdx)
 {
     OSG_ASSERT(uiIdx < NumHits);
 
-    return _rDist[uiIdx];
+    return _rDistA[uiIdx];
 }
 
 inline
@@ -244,7 +190,7 @@ Real32 RTHitSIMDPacket::getU(UInt32 uiIdx)
 {
     OSG_ASSERT(uiIdx < NumHits);
 
-    return _rU[uiIdx];
+    return _rUA[uiIdx];
 }
 
 inline
@@ -252,7 +198,7 @@ Real32 RTHitSIMDPacket::getV(UInt32 uiIdx)
 {
     OSG_ASSERT(uiIdx < NumHits);
 
-    return _rV[uiIdx];
+    return _rVA[uiIdx];
 }
 
 
@@ -261,7 +207,7 @@ UInt32 RTHitSIMDPacket::getObjId(UInt32 uiIdx)
 {
     OSG_ASSERT(uiIdx < NumHits);
 
-    return _uiObjId[uiIdx];
+    return _uiObjIdA[uiIdx];
 }
 
 inline
@@ -269,7 +215,7 @@ UInt32 RTHitSIMDPacket::getTriId(UInt32 uiIdx)
 {
     OSG_ASSERT(uiIdx < NumHits);
 
-    return _uiTriId[uiIdx];
+    return _uiTriIdA[uiIdx];
 }
 
 inline
@@ -277,7 +223,7 @@ UInt32 RTHitSIMDPacket::getCacheId(UInt32 uiIdx)
 {
     OSG_ASSERT(uiIdx < NumHits);
 
-    return _uiCacheId[uiIdx];
+    return _uiCacheIdA[uiIdx];
 }
 
 inline 
@@ -285,15 +231,12 @@ void RTHitSIMDPacket::operator =(const RTHitSIMDPacket &source)
 {
     Inherited::operator =(source);
 
-    for(UInt32 i = 0; i < NumHits; ++i)
-    {
-        _rDist    [i]  = source._rDist    [i];
-        _rU       [i]  = source._rU       [i];
-        _rV       [i]  = source._rV       [i];
-        _uiCacheId[i]  = source._uiCacheId[i];
-        _uiObjId  [i]  = source._uiObjId  [i];
-        _uiTriId  [i]  = source._uiTriId  [i];
-    }
+    _rDist     = source._rDist;
+    _rU        = source._rU;
+    _rV        = source._rV;
+    _uiCacheId = source._uiCacheId;
+    _uiObjId   = source._uiObjId;
+    _uiTriId   = source._uiTriId;
 }
 
 OSG_END_NAMESPACE
