@@ -150,7 +150,7 @@ class BbqDataSourceEngine
            PageDrawableBbqDataSource for a description.
 */
 
-class OSG_DRAWABLE_DLLMAPPING BbqDataSource : public BbqDataSourceBase
+class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqDataSource : public BbqDataSourceBase
 {
   protected:
 

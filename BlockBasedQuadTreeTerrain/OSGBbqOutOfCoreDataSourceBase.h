@@ -59,16 +59,14 @@
 
 
 #include "OSGConfig.h"
-#include "OSGDrawableDef.h"
+#include "OSGContribBbqTerrainDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGBbqDataSource.h" // Parent
 
-#include "OSGStringFields.h" // Filename type
-#include "OSGReal32Fields.h" // HeightScale type
-#include "OSGReal32Fields.h" // HeightOffset type
-#include "OSGReal32Fields.h" // SampleSpacing type
+#include "OSGBaseFields.h"              // Filename type
+#include "OSGSysFields.h"               // HeightScale type
 
 #include "OSGBbqOutOfCoreDataSourceFields.h"
 
@@ -78,7 +76,7 @@ class BbqOutOfCoreDataSource;
 
 //! \brief BbqOutOfCoreDataSource Base Class.
 
-class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
+class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDataSource
 {
   public:
 

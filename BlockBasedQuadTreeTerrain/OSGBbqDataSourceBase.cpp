@@ -79,13 +79,35 @@ OSG_BEGIN_NAMESPACE
  */
 
 /***************************************************************************\
- *                         Field Description                               *
+ *                        Field Documentation                              *
 \***************************************************************************/
 
 /*! \var bool            BbqDataSourceBase::_sfIgnoreGeoRef
     
 */
 
+
+/***************************************************************************\
+ *                      FieldType/FieldTrait Instantiation                 *
+\***************************************************************************/
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<BbqDataSource *>::_type("BbqDataSourcePtr", "FieldContainerPtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(BbqDataSource *)
+
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           BbqDataSource *,
+                           0);
+
+OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
+                           BbqDataSource *,
+                           0);
+
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
 
 void BbqDataSourceBase::classDescInserter(TypeObject &oType)
 {
@@ -114,7 +136,7 @@ BbqDataSourceBase::TypeObject BbqDataSourceBase::_type(
     NULL,
     BbqDataSource::initMethod,
     BbqDataSource::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&BbqDataSourceBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&BbqDataSource::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
@@ -128,7 +150,7 @@ BbqDataSourceBase::TypeObject BbqDataSourceBase::_type(
     "    parentsystemcomponent=\"true\"\n"
     "    decoratable=\"false\"\n"
     "    useLocalIncludes=\"false\"\n"
-    "    library=\"Drawable\"\n"
+    "    library=\"ContribBbqTerrain\"\n"
     ">\n"
     "\t<Field\n"
     "\t\tname=\"ignoreGeoRef\"\n"
@@ -246,7 +268,8 @@ GetFieldHandlePtr BbqDataSourceBase::getHandleIgnoreGeoRef    (void) const
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
              &_sfIgnoreGeoRef,
-             this->getType().getFieldDesc(IgnoreGeoRefFieldId)));
+             this->getType().getFieldDesc(IgnoreGeoRefFieldId),
+             const_cast<BbqDataSourceBase *>(this)));
 
     return returnValue;
 }
@@ -256,7 +279,8 @@ EditFieldHandlePtr BbqDataSourceBase::editHandleIgnoreGeoRef   (void)
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
              &_sfIgnoreGeoRef,
-             this->getType().getFieldDesc(IgnoreGeoRefFieldId)));
+             this->getType().getFieldDesc(IgnoreGeoRefFieldId),
+             this));
 
 
     editSField(IgnoreGeoRefFieldMask);
@@ -291,19 +315,5 @@ void BbqDataSourceBase::resolveLinks(void)
 
 }
 
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BbqDataSource *>::_type("BbqDataSourcePtr", "FieldContainerPtr");
-#endif
-
-OSG_FIELDTRAITS_GETTYPE(BbqDataSource *)
-
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
-                           BbqDataSource *,
-                           0);
-
-OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
-                           BbqDataSource *,
-                           0);
 
 OSG_END_NAMESPACE

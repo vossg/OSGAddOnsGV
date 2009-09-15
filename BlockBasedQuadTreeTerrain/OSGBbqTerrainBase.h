@@ -59,18 +59,15 @@
 
 
 #include "OSGConfig.h"
-#include "OSGDrawableDef.h"
+#include "OSGContribBbqTerrainDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGStageDrawable.h" // Parent
 
-#include "OSGNodeFields.h" // Beacon type
-#include "OSGBbqDataSourceFields.h" // DataSource type
-#include "OSGUInt32Fields.h" // MaxNumResidentNodes type
-#include "OSGReal32Fields.h" // ScreenSpaceError type
-#include "OSGBoolFields.h" // EnableSkirts type
-#include "OSGBoolFields.h" // ShowSwitchDistance type
+#include "OSGNodeFields.h"              // Beacon type
+#include "OSGBbqDataSourceFields.h"     // DataSource type
+#include "OSGSysFields.h"               // MaxNumResidentNodes type
 
 #include "OSGBbqTerrainFields.h"
 
@@ -80,7 +77,7 @@ class BbqTerrain;
 
 //! \brief BbqTerrain Base Class.
 
-class OSG_DRAWABLE_DLLMAPPING BbqTerrainBase : public StageDrawable
+class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqTerrainBase : public StageDrawable
 {
   public:
 

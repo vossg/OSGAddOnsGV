@@ -342,7 +342,7 @@ class BbqTerrainEngine : public BbqTerrainEngineBase
            PageDrawableBbqTerrain for a description.
 */
 
-class OSG_DRAWABLE_DLLMAPPING BbqTerrain : public BbqTerrainBase
+class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqTerrain : public BbqTerrainBase
 {
   protected:
 

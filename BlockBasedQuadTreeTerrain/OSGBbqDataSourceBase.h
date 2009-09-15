@@ -59,13 +59,13 @@
 
 
 #include "OSGConfig.h"
-#include "OSGDrawableDef.h"
+#include "OSGContribBbqTerrainDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGFieldContainer.h" // Parent
 
-#include "OSGBoolFields.h" // IgnoreGeoRef type
+#include "OSGSysFields.h"               // IgnoreGeoRef type
 
 #include "OSGBbqDataSourceFields.h"
 
@@ -75,7 +75,7 @@ class BbqDataSource;
 
 //! \brief BbqDataSource Base Class.
 
-class OSG_DRAWABLE_DLLMAPPING BbqDataSourceBase : public FieldContainer
+class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqDataSourceBase : public FieldContainer
 {
   public:
 

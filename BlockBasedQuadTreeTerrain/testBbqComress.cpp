@@ -42,6 +42,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#include "OSGBaseInitFunctions.h"
 #include "OSGBbqTerrainCompressor.h"
 #include <iostream>
 
@@ -52,11 +53,11 @@ int main( int argc, char** argv )
 
     int compressionQuality = 500;
 
-    osgInit(argc, argv);
+    OSG::osgInit(argc, argv);
 
     std::cout << "Compressing Terrain with Quantization Quality set to " << compressionQuality << " !\n";
 
-    BbqTerrainCompressor terrainCompressor;
+    OSG::BbqTerrainCompressor terrainCompressor;
 
     if( !terrainCompressor.start( bbqSourceFilename, bbqTargetFilename, compressionQuality ) )
     {
@@ -73,7 +74,7 @@ int main( int argc, char** argv )
 
     std::cout << "\rFinished!                            \n";
 
-    const BbqTerrainCompressor::Statistics& stats = terrainCompressor.getStatistics();
+    const OSG::BbqTerrainCompressor::Statistics& stats = terrainCompressor.getStatistics();
 
     std::cout << "Height Compression Factor  = " 
         << float( stats.originalHeightDataSize ) / float( stats.compressedHeightDataSize ) << " " 

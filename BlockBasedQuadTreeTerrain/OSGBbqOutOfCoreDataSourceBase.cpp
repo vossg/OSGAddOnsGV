@@ -79,7 +79,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 /***************************************************************************\
- *                         Field Description                               *
+ *                        Field Documentation                              *
 \***************************************************************************/
 
 /*! \var std::string     BbqOutOfCoreDataSourceBase::_sfFilename
@@ -98,6 +98,20 @@ OSG_BEGIN_NAMESPACE
     
 */
 
+
+/***************************************************************************\
+ *                      FieldType/FieldTrait Instantiation                 *
+\***************************************************************************/
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<BbqOutOfCoreDataSource *>::_type("BbqOutOfCoreDataSourcePtr", "BbqDataSourcePtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(BbqOutOfCoreDataSource *)
+
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
 
 void BbqOutOfCoreDataSourceBase::classDescInserter(TypeObject &oType)
 {
@@ -162,7 +176,7 @@ BbqOutOfCoreDataSourceBase::TypeObject BbqOutOfCoreDataSourceBase::_type(
     reinterpret_cast<PrototypeCreateF>(&BbqOutOfCoreDataSourceBase::createEmptyLocal),
     BbqOutOfCoreDataSource::initMethod,
     BbqOutOfCoreDataSource::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&BbqOutOfCoreDataSourceBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&BbqOutOfCoreDataSource::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
@@ -176,7 +190,7 @@ BbqOutOfCoreDataSourceBase::TypeObject BbqOutOfCoreDataSourceBase::_type(
     "    parentsystemcomponent=\"true\"\n"
     "    decoratable=\"false\"\n"
     "    useLocalIncludes=\"false\"\n"
-    "    library=\"Drawable\"\n"
+    "    library=\"ContribBbqTerrain\"\n"
     ">\n"
     "\t<Field\n"
     "\t\tname=\"filename\"\n"
@@ -521,7 +535,8 @@ GetFieldHandlePtr BbqOutOfCoreDataSourceBase::getHandleFilename        (void) co
     SFString::GetHandlePtr returnValue(
         new  SFString::GetHandle(
              &_sfFilename,
-             this->getType().getFieldDesc(FilenameFieldId)));
+             this->getType().getFieldDesc(FilenameFieldId),
+             const_cast<BbqOutOfCoreDataSourceBase *>(this)));
 
     return returnValue;
 }
@@ -531,7 +546,8 @@ EditFieldHandlePtr BbqOutOfCoreDataSourceBase::editHandleFilename       (void)
     SFString::EditHandlePtr returnValue(
         new  SFString::EditHandle(
              &_sfFilename,
-             this->getType().getFieldDesc(FilenameFieldId)));
+             this->getType().getFieldDesc(FilenameFieldId),
+             this));
 
 
     editSField(FilenameFieldMask);
@@ -544,7 +560,8 @@ GetFieldHandlePtr BbqOutOfCoreDataSourceBase::getHandleHeightScale     (void) co
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
              &_sfHeightScale,
-             this->getType().getFieldDesc(HeightScaleFieldId)));
+             this->getType().getFieldDesc(HeightScaleFieldId),
+             const_cast<BbqOutOfCoreDataSourceBase *>(this)));
 
     return returnValue;
 }
@@ -554,7 +571,8 @@ EditFieldHandlePtr BbqOutOfCoreDataSourceBase::editHandleHeightScale    (void)
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
              &_sfHeightScale,
-             this->getType().getFieldDesc(HeightScaleFieldId)));
+             this->getType().getFieldDesc(HeightScaleFieldId),
+             this));
 
 
     editSField(HeightScaleFieldMask);
@@ -567,7 +585,8 @@ GetFieldHandlePtr BbqOutOfCoreDataSourceBase::getHandleHeightOffset    (void) co
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
              &_sfHeightOffset,
-             this->getType().getFieldDesc(HeightOffsetFieldId)));
+             this->getType().getFieldDesc(HeightOffsetFieldId),
+             const_cast<BbqOutOfCoreDataSourceBase *>(this)));
 
     return returnValue;
 }
@@ -577,7 +596,8 @@ EditFieldHandlePtr BbqOutOfCoreDataSourceBase::editHandleHeightOffset   (void)
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
              &_sfHeightOffset,
-             this->getType().getFieldDesc(HeightOffsetFieldId)));
+             this->getType().getFieldDesc(HeightOffsetFieldId),
+             this));
 
 
     editSField(HeightOffsetFieldMask);
@@ -590,7 +610,8 @@ GetFieldHandlePtr BbqOutOfCoreDataSourceBase::getHandleSampleSpacing   (void) co
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
              &_sfSampleSpacing,
-             this->getType().getFieldDesc(SampleSpacingFieldId)));
+             this->getType().getFieldDesc(SampleSpacingFieldId),
+             const_cast<BbqOutOfCoreDataSourceBase *>(this)));
 
     return returnValue;
 }
@@ -600,7 +621,8 @@ EditFieldHandlePtr BbqOutOfCoreDataSourceBase::editHandleSampleSpacing  (void)
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
              &_sfSampleSpacing,
-             this->getType().getFieldDesc(SampleSpacingFieldId)));
+             this->getType().getFieldDesc(SampleSpacingFieldId),
+             this));
 
 
     editSField(SampleSpacingFieldMask);
@@ -647,11 +669,6 @@ void BbqOutOfCoreDataSourceBase::resolveLinks(void)
 
 
 }
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BbqOutOfCoreDataSource *>::_type("BbqOutOfCoreDataSourcePtr", "BbqDataSourcePtr");
-#endif
 
 
 OSG_END_NAMESPACE

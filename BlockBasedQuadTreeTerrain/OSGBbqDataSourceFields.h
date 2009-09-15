@@ -55,7 +55,7 @@
 #endif
 
 #include "OSGConfig.h"
-#include "OSGDrawableDef.h"
+#include "OSGContribBbqTerrainDef.h"
 
 #include "OSGFieldContainerFields.h"
 #include "OSGPointerSField.h"
@@ -66,20 +66,11 @@ OSG_BEGIN_NAMESPACE
 
 class BbqDataSource;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
-//! BbqDataSourcePtr
-
 OSG_GEN_CONTAINERPTR(BbqDataSource);
 
-#endif
-
-#if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup GrpDrawableFieldTraits
+/*! \ingroup GrpContribBbqTerrainFieldTraits
+    \ingroup GrpLibOSGContribBbqTerrain
  */
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \hideinhierarchy */
-#endif
-
 template <>
 struct FieldTraits<BbqDataSource *> :
     public FieldTraitsFCPtrBase<BbqDataSource *>
@@ -94,7 +85,7 @@ struct FieldTraits<BbqDataSource *> :
 
     enum                        { Convertible = NotConvertible };
 
-    static OSG_DRAWABLE_DLLMAPPING DataType &getType(void);
+    static OSG_CONTRIBBBQTERRAIN_DLLMAPPING DataType &getType(void);
 
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
@@ -154,42 +145,78 @@ const Char8 *FieldTraits<BbqDataSource *, 0>::getMName<NoRefCountPolicy>(void)
     return "MFUnrefdBbqDataSourcePtr"; 
 }
 
-#if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<BbqDataSourcePtr, 0>
-    \hideinhierarchy
- */
-#endif
 
-#endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpDrawableFieldSingle */
-
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/*! \ingroup GrpContribBbqTerrainFieldSFields */
 typedef PointerSField<BbqDataSource *,
                       RecordedRefCountPolicy  > SFRecBbqDataSourcePtr;
+/*! \ingroup GrpContribBbqTerrainFieldSFields */
 typedef PointerSField<BbqDataSource *,
                       UnrecordedRefCountPolicy> SFUnrecBbqDataSourcePtr;
+/*! \ingroup GrpContribBbqTerrainFieldSFields */
 typedef PointerSField<BbqDataSource *,
                       WeakRefCountPolicy      > SFWeakBbqDataSourcePtr;
+/*! \ingroup GrpContribBbqTerrainFieldSFields */
 typedef PointerSField<BbqDataSource *,
                       NoRefCountPolicy        > SFUncountedBbqDataSourcePtr;
-#endif
 
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
-/*! \ingroup GrpDrawableFieldMulti */
-
+/*! \ingroup GrpContribBbqTerrainFieldMFields */
 typedef PointerMField<BbqDataSource *,
                       RecordedRefCountPolicy  > MFRecBbqDataSourcePtr;
+/*! \ingroup GrpContribBbqTerrainFieldMFields */
 typedef PointerMField<BbqDataSource *,
                       UnrecordedRefCountPolicy> MFUnrecBbqDataSourcePtr;
+/*! \ingroup GrpContribBbqTerrainFieldMFields */
 typedef PointerMField<BbqDataSource *,
                       WeakRefCountPolicy      > MFWeakBbqDataSourcePtr;
+/*! \ingroup GrpContribBbqTerrainFieldMFields */
 typedef PointerMField<BbqDataSource *,
                       NoRefCountPolicy        > MFUncountedBbqDataSourcePtr;
-#endif
 
+
+
+
+#else // these are the doxygen hacks
+
+/*! \ingroup GrpContribBbqTerrainFieldSFields \ingroup GrpLibOSGContribBbqTerrain */
+struct SFRecBbqDataSourcePtr : 
+    public PointerSField<BbqDataSource *,
+                         RecordedRefCountPolicy> {};
+/*! \ingroup GrpContribBbqTerrainFieldSFields \ingroup GrpLibOSGContribBbqTerrain */
+struct SFUnrecBbqDataSourcePtr : 
+    public PointerSField<BbqDataSource *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribBbqTerrainFieldSFields \ingroup GrpLibOSGContribBbqTerrain */
+struct SFWeakBbqDataSourcePtr :
+    public PointerSField<BbqDataSource *,
+                         WeakRefCountPolicy> {};
+/*! \ingroup GrpContribBbqTerrainFieldSFields \ingroup GrpLibOSGContribBbqTerrain */
+struct SFUncountedBbqDataSourcePtr :
+    public PointerSField<BbqDataSource *,
+                         NoRefCountPolicy> {};
+
+
+/*! \ingroup GrpContribBbqTerrainFieldMFields \ingroup GrpLibOSGContribBbqTerrain */
+struct MFRecBbqDataSourcePtr :
+    public PointerMField<BbqDataSource *,
+                         RecordedRefCountPolicy  > {};
+/*! \ingroup GrpContribBbqTerrainFieldMFields \ingroup GrpLibOSGContribBbqTerrain */
+struct MFUnrecBbqDataSourcePtr :
+    public PointerMField<BbqDataSource *,
+                         UnrecordedRefCountPolicy> {};
+/*! \ingroup GrpContribBbqTerrainFieldMFields \ingroup GrpLibOSGContribBbqTerrain */
+struct MFWeakBbqDataSourcePtr :
+    public PointerMField<BbqDataSource *,
+                         WeakRefCountPolicy      > {};
+/*! \ingroup GrpContribBbqTerrainFieldMFields \ingroup GrpLibOSGContribBbqTerrain */
+struct MFUncountedBbqDataSourcePtr :
+    public PointerMField<BbqDataSource *,
+                         NoRefCountPolicy        > {};
+
+
+
+#endif // these are the doxygen hacks
 
 OSG_END_NAMESPACE
 

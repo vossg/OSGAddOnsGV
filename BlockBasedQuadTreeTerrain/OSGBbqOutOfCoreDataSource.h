@@ -113,7 +113,7 @@ class BbqOutOfCoreEngine : public BbqDataSourceEngine
            PageDrawableBbqOutOfCoreDataSource for a description.
 */
 
-class OSG_DRAWABLE_DLLMAPPING BbqOutOfCoreDataSource : 
+class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqOutOfCoreDataSource : 
     public BbqOutOfCoreDataSourceBase
 {
   protected:

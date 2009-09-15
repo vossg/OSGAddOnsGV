@@ -429,10 +429,10 @@ class BbqFile
 
     enum TextureFormat
     {
-        None  = 0x0000,
-        Dxt1  = 0x0001,
-        RGB8  = 0x0002,
-        Count = 0x0003
+        TexFormatNotSet  = 0x0000,
+        Dxt1             = 0x0001,
+        RGB8             = 0x0002,
+        Count            = 0x0003
     };
 
     struct BbqFileHeader

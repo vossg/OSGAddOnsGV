@@ -58,8 +58,8 @@
 
 
 
-#include <OSGNode.h> // Beacon Class
-#include <OSGBbqDataSource.h> // DataSource Class
+#include "OSGNode.h"                    // Beacon Class
+#include "OSGBbqDataSource.h"           // DataSource Class
 
 #include "OSGBbqTerrainBase.h"
 #include "OSGBbqTerrain.h"
@@ -81,7 +81,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 /***************************************************************************\
- *                         Field Description                               *
+ *                        Field Documentation                              *
 \***************************************************************************/
 
 /*! \var Node *          BbqTerrainBase::_sfBeacon
@@ -108,6 +108,20 @@ OSG_BEGIN_NAMESPACE
     
 */
 
+
+/***************************************************************************\
+ *                      FieldType/FieldTrait Instantiation                 *
+\***************************************************************************/
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<BbqTerrain *>::_type("BbqTerrainPtr", "StageDrawablePtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(BbqTerrain *)
+
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
 
 void BbqTerrainBase::classDescInserter(TypeObject &oType)
 {
@@ -196,7 +210,7 @@ BbqTerrainBase::TypeObject BbqTerrainBase::_type(
     reinterpret_cast<PrototypeCreateF>(&BbqTerrainBase::createEmptyLocal),
     BbqTerrain::initMethod,
     BbqTerrain::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&BbqTerrainBase::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(&BbqTerrain::classDescInserter),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"
@@ -210,7 +224,7 @@ BbqTerrainBase::TypeObject BbqTerrainBase::_type(
     "    parentsystemcomponent=\"true\"\n"
     "    decoratable=\"false\"\n"
     "    useLocalIncludes=\"false\"\n"
-    "    library=\"Drawable\"\n"
+    "    library=\"ContribBbqTerrain\"\n"
     ">\n"
     "\t<Field\n"
     "\t\tname=\"beacon\"\n"
@@ -637,7 +651,8 @@ GetFieldHandlePtr BbqTerrainBase::getHandleBeacon          (void) const
     SFUnrecNodePtr::GetHandlePtr returnValue(
         new  SFUnrecNodePtr::GetHandle(
              &_sfBeacon,
-             this->getType().getFieldDesc(BeaconFieldId)));
+             this->getType().getFieldDesc(BeaconFieldId),
+             const_cast<BbqTerrainBase *>(this)));
 
     return returnValue;
 }
@@ -647,7 +662,8 @@ EditFieldHandlePtr BbqTerrainBase::editHandleBeacon         (void)
     SFUnrecNodePtr::EditHandlePtr returnValue(
         new  SFUnrecNodePtr::EditHandle(
              &_sfBeacon,
-             this->getType().getFieldDesc(BeaconFieldId)));
+             this->getType().getFieldDesc(BeaconFieldId),
+             this));
 
     returnValue->setSetMethod(
         boost::bind(&BbqTerrain::setBeacon,
@@ -663,7 +679,8 @@ GetFieldHandlePtr BbqTerrainBase::getHandleDataSource      (void) const
     SFUnrecBbqDataSourcePtr::GetHandlePtr returnValue(
         new  SFUnrecBbqDataSourcePtr::GetHandle(
              &_sfDataSource,
-             this->getType().getFieldDesc(DataSourceFieldId)));
+             this->getType().getFieldDesc(DataSourceFieldId),
+             const_cast<BbqTerrainBase *>(this)));
 
     return returnValue;
 }
@@ -673,7 +690,8 @@ EditFieldHandlePtr BbqTerrainBase::editHandleDataSource     (void)
     SFUnrecBbqDataSourcePtr::EditHandlePtr returnValue(
         new  SFUnrecBbqDataSourcePtr::EditHandle(
              &_sfDataSource,
-             this->getType().getFieldDesc(DataSourceFieldId)));
+             this->getType().getFieldDesc(DataSourceFieldId),
+             this));
 
     returnValue->setSetMethod(
         boost::bind(&BbqTerrain::setDataSource,
@@ -689,7 +707,8 @@ GetFieldHandlePtr BbqTerrainBase::getHandleMaxNumResidentNodes (void) const
     SFUInt32::GetHandlePtr returnValue(
         new  SFUInt32::GetHandle(
              &_sfMaxNumResidentNodes,
-             this->getType().getFieldDesc(MaxNumResidentNodesFieldId)));
+             this->getType().getFieldDesc(MaxNumResidentNodesFieldId),
+             const_cast<BbqTerrainBase *>(this)));
 
     return returnValue;
 }
@@ -699,7 +718,8 @@ EditFieldHandlePtr BbqTerrainBase::editHandleMaxNumResidentNodes(void)
     SFUInt32::EditHandlePtr returnValue(
         new  SFUInt32::EditHandle(
              &_sfMaxNumResidentNodes,
-             this->getType().getFieldDesc(MaxNumResidentNodesFieldId)));
+             this->getType().getFieldDesc(MaxNumResidentNodesFieldId),
+             this));
 
 
     editSField(MaxNumResidentNodesFieldMask);
@@ -712,7 +732,8 @@ GetFieldHandlePtr BbqTerrainBase::getHandleScreenSpaceError (void) const
     SFReal32::GetHandlePtr returnValue(
         new  SFReal32::GetHandle(
              &_sfScreenSpaceError,
-             this->getType().getFieldDesc(ScreenSpaceErrorFieldId)));
+             this->getType().getFieldDesc(ScreenSpaceErrorFieldId),
+             const_cast<BbqTerrainBase *>(this)));
 
     return returnValue;
 }
@@ -722,7 +743,8 @@ EditFieldHandlePtr BbqTerrainBase::editHandleScreenSpaceError(void)
     SFReal32::EditHandlePtr returnValue(
         new  SFReal32::EditHandle(
              &_sfScreenSpaceError,
-             this->getType().getFieldDesc(ScreenSpaceErrorFieldId)));
+             this->getType().getFieldDesc(ScreenSpaceErrorFieldId),
+             this));
 
 
     editSField(ScreenSpaceErrorFieldMask);
@@ -735,7 +757,8 @@ GetFieldHandlePtr BbqTerrainBase::getHandleEnableSkirts    (void) const
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
              &_sfEnableSkirts,
-             this->getType().getFieldDesc(EnableSkirtsFieldId)));
+             this->getType().getFieldDesc(EnableSkirtsFieldId),
+             const_cast<BbqTerrainBase *>(this)));
 
     return returnValue;
 }
@@ -745,7 +768,8 @@ EditFieldHandlePtr BbqTerrainBase::editHandleEnableSkirts   (void)
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
              &_sfEnableSkirts,
-             this->getType().getFieldDesc(EnableSkirtsFieldId)));
+             this->getType().getFieldDesc(EnableSkirtsFieldId),
+             this));
 
 
     editSField(EnableSkirtsFieldMask);
@@ -758,7 +782,8 @@ GetFieldHandlePtr BbqTerrainBase::getHandleShowSwitchDistance (void) const
     SFBool::GetHandlePtr returnValue(
         new  SFBool::GetHandle(
              &_sfShowSwitchDistance,
-             this->getType().getFieldDesc(ShowSwitchDistanceFieldId)));
+             this->getType().getFieldDesc(ShowSwitchDistanceFieldId),
+             const_cast<BbqTerrainBase *>(this)));
 
     return returnValue;
 }
@@ -768,7 +793,8 @@ EditFieldHandlePtr BbqTerrainBase::editHandleShowSwitchDistance(void)
     SFBool::EditHandlePtr returnValue(
         new  SFBool::EditHandle(
              &_sfShowSwitchDistance,
-             this->getType().getFieldDesc(ShowSwitchDistanceFieldId)));
+             this->getType().getFieldDesc(ShowSwitchDistanceFieldId),
+             this));
 
 
     editSField(ShowSwitchDistanceFieldMask);
@@ -819,11 +845,6 @@ void BbqTerrainBase::resolveLinks(void)
 
 
 }
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BbqTerrain *>::_type("BbqTerrainPtr", "StageDrawablePtr");
-#endif
 
 
 OSG_END_NAMESPACE

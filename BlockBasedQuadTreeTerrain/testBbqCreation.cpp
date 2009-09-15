@@ -55,7 +55,7 @@
 int main( int argc, char** argv )
 {
 
-    osgInit(argc, argv);
+    OSG::osgInit(argc, argv);
 
     int tileSize    = 65;
 //    int textureSize = 128;
@@ -77,7 +77,7 @@ int main( int argc, char** argv )
 //  std::string bbqTerrainFilename  = "/home/gerrit/mtmp/ps.bbq";
 
 
-    BbqTerrainCreator *terrainCreator = new BbqTerrainCreator();
+    OSG::BbqTerrainCreator *terrainCreator = new OSG::BbqTerrainCreator();
     
     if( !terrainCreator->start( heightFieldFilename, 
                                 textureFilename, 
