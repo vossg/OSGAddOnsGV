@@ -19,7 +19,7 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 
-	ImageHeightDataSource::ImageHeightDataSource( ImagePtr image )
+	ImageHeightDataSource::ImageHeightDataSource( Image *image )
 	{
 		setImage( image );
 		heightScale_ = 1.0f;
@@ -37,11 +37,11 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 	
-	void ImageHeightDataSource::setImage( ImagePtr image )
+	void ImageHeightDataSource::setImage( Image *image )
 	{
 		image_ = image;
 
-		if( image_ != NullFC )
+		if( image_ != NULL )
 		{
 			size_.setValues( image_->getWidth(), image_->getHeight() );			
 		}
@@ -129,19 +129,19 @@ namespace OSG
 		default:
 		case Image::OSG_INVALID_IMAGEDATATYPE:
 		case Image::OSG_UINT8_IMAGEDATA:
-			return ( ( UInt8* )image_->getData() )[ index ] / Real32( TypeTraits< UInt8 >::getMax() );
+			return ( static_cast<const UInt8*>(image_->getData() ))[ index ] / Real32( TypeTraits< UInt8 >::getMax() );
 
 		case Image::OSG_UINT16_IMAGEDATA:
-			return ( ( UInt16* )image_->getData())[ index ] / Real32( TypeTraits< UInt16 >::getMax() );
+			return ( reinterpret_cast<const UInt16*>(image_->getData()))[ index ] / Real32( TypeTraits< UInt16 >::getMax() );
 
 		case Image::OSG_UINT32_IMAGEDATA:
-			return ( ( UInt32* )image_->getData() )[ index ] / Real32( TypeTraits< UInt32 >::getMax() );
+			return ( reinterpret_cast<const UInt32*>(image_->getData() ))[ index ] / Real32( TypeTraits< UInt32 >::getMax() );
 
 		case Image::OSG_FLOAT16_IMAGEDATA:
-			return ( ( Real16* )image_->getData() )[ index ];
+			return ( reinterpret_cast<const Real16* >(image_->getData()) )[ index ];
 
 		case Image::OSG_FLOAT32_IMAGEDATA:
-			return ( ( Real32* )image_->getData() )[ index ];
+			return ( reinterpret_cast<const Real32* >(image_->getData()) )[ index ];
 		};
 		return 0.0f;
 	}

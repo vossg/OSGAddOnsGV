@@ -13,6 +13,7 @@
 #include <OSGSimpleGeometry.h>
 #include <OSGImageFileHandler.h>
 #include <OSGTextureObjChunk.h>
+#include <OSGWalkEngine.h>
 
 #include "OSGDynamicTerrain.h"
 #include "OSGTerrainTools.h"
@@ -29,9 +30,9 @@ using namespace OSG;
 
 // The SimpleSceneManager to manage simple applications
 SimpleSceneManager *mgr;
-NodePtr terrainNode;
+NodeUnrecPtr terrainNode;
 
-DynamicTerrainPtr	terrainCore;
+DynamicTerrainUnrecPtr	terrainCore;
 
 #ifdef _DEBUG
 const bool testPerformance = false;
@@ -47,12 +48,12 @@ bool showStats = false;
 // forward declaration so we can have the interesting stuff upfront
 int setupGLUT( int *argc, char *argv[] );
 bool reloadShader();
-TransformPtr markerTrans;
+TransformUnrecPtr markerTrans;
 
-TextureObjChunkPtr makeTexture( const char* texname )
+TextureObjChunkUnrecPtr makeTexture( const char* texname )
 {
-	ImagePtr image = ImageFileHandler::the()->read(texname);
-	TextureObjChunkPtr texChunkPtr   = TextureObjChunk::create();
+	ImageUnrecPtr image = ImageFileHandler::the()->read(texname);
+	TextureObjChunkUnrecPtr texChunkPtr   = TextureObjChunk::create();
 
     texChunkPtr->setImage( image );
     texChunkPtr->setWrapS( GL_CLAMP );
@@ -78,7 +79,7 @@ int main( int argc, char**argv )
 	int winid = setupGLUT(&argc, argv);
 
 	// the connection between GLUT and OpenSG
-	GLUTWindowPtr gwin= GLUTWindow::create();
+	GLUTWindowUnrecPtr gwin= GLUTWindow::create();
 	gwin->setGlutId(winid);
 	gwin->init();
 
@@ -88,18 +89,18 @@ int main( int argc, char**argv )
 		std::cerr << "usage: testDynamicTerrain heightmapfile texturefile heightscale sampleDistance [levelsize]" << std::endl;
 		return 1;
 	}  
+    
+	ImageUnrecPtr heightData = ImageFileHandler::the()->read( argv[ 1 ] );
 
-	ImagePtr heightData = ImageFileHandler::the()->read( argv[ 1 ] );
-
-	if( heightData == NullFC )
+	if( heightData == NULL )
 	{
 		std::cerr << "Could not open heightmap " << argv[ 1 ] << std::endl;
 		return 2;
 	}
 
-	ImagePtr textureData = ImageFileHandler::the()->read( argv[ 2 ] );
+	ImageUnrecPtr textureData = ImageFileHandler::the()->read( argv[ 2 ] );
 
-	if( textureData == NullFC )
+	if( textureData == NULL )
 	{
 		std::cerr << "Could not open texture " << argv[ 2 ] << std::endl;
 		return 3;
@@ -140,16 +141,16 @@ int main( int argc, char**argv )
 	mgr = new SimpleSceneManager;
 
 	// Create the Scenegraph:
-	NodePtr sceneNode = Node::create();
-	GroupPtr sceneCore = Group::create();
+	NodeUnrecPtr sceneNode = Node::create();
+	GroupUnrecPtr sceneCore = Group::create();
 
 	// add the marker object:
 	markerTrans = Transform::create();
 
-	GeometryPtr markerGeometry = makeSphereGeo( 4, 5.0 );
-	NodePtr markerNode = Node::create();
+	GeometryUnrecPtr markerGeometry = makeSphereGeo( 4, 5.0 );
+	NodeUnrecPtr markerNode = Node::create();
 
-	SimpleMaterialPtr m1 = SimpleMaterial::create();
+	SimpleMaterialUnrecPtr m1 = SimpleMaterial::create();
 
 	// when everything is changed, not setting the mask is ok
 
@@ -188,10 +189,10 @@ int main( int argc, char**argv )
 	// show the whole terrainNode
 	//mgr->showAll();
 
-	WalkNavigator *walker = mgr->getNavigator()->getWalkNavigator();
+	WalkEngine &walker = mgr->getNavigator()->getWalkEngine();
 
-	walker->setGroundDistance( 30 );
-	walker->setPersonDimensions( 3, 1, 1 );
+	walker.setGroundDistance( 30 );
+	walker.setPersonDimensions( 3, 1, 1 );
 
 	mgr->setNavigationMode( Navigator::WALK );
 	mgr->getNavigator()->setMotionFactor( 1.0f );
@@ -211,18 +212,18 @@ int main( int argc, char**argv )
 // redraw the window
 
 int frameCount = 0;
-Time lastLogTime = 0;
+OSG::Time lastLogTime = 0;
 float logTimeDelta = 2.0f;
 
 void display()
 {	
-	Time currentTime = getSystemTime();
+    OSG::Time currentTime = getSystemTime();
 
 	if( testPerformance )
 	{
 		if( currentTime - lastLogTime > logTimeDelta )
 		{
-			float fps = ( float )frameCount / logTimeDelta;
+			float fps = float(frameCount / logTimeDelta);
 
 			//std::cout << "Current FPS = " << fps << " !\n";
 

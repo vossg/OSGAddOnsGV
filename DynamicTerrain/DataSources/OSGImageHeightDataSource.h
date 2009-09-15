@@ -29,10 +29,10 @@ namespace OSG
 	class ImageHeightDataSource : public HeightDataSource
 	{
 	public:		
-		explicit					ImageHeightDataSource( ImagePtr image = NullFC );
+		explicit					ImageHeightDataSource(Image *image = NULL);
 		virtual						~ImageHeightDataSource();
 
-		void						setImage( ImagePtr image );
+		void						setImage(Image *image);
 
 		virtual float				getMinHeight() const;
 		virtual float				getMaxHeight() const;
@@ -41,7 +41,7 @@ namespace OSG
 		virtual	void				fillHeightData( GeometryClipmapLevel& level, const Rectangle2i& targetRect ) const;
 
 	private:
-		ImagePtr					image_;
+		ImageUnrecPtr				image_;
 		Pnt2i						size_;
 		float						heightScale_;
 		float						hegihtOffset_;

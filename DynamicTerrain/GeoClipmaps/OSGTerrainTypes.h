@@ -46,6 +46,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if 0
 typedef OSG::PointInterface<OSG::Real32, 
           OSG::VecStorage2< OSG::Real32 > > Pnt2f;  
 typedef OSG::PointInterface<OSG::Real32, 
@@ -56,6 +57,7 @@ typedef OSG::PointInterface<OSG::Int32,
           OSG::VecStorage2< OSG::Int32 > >  Pnt2i;
 
 typedef OSG::TransformationMatrix< OSG::Real32 > TransformMatrix;   
+#endif
 
 Vec3f           colorToVector( Color3f color );
 
@@ -78,16 +80,15 @@ Pnt2i           componentAdd( const Pnt2i& lhs, const Pnt2i& rhs );
 Int32           getAlignedInt( Int32 x, Int32 n, bool roundUp );
 Pnt2i           alignPoint( const Pnt2i& p, Int32 n, bool roundUp );
 
-template< typename T, typename VS > struct BoundingBox
+template< typename T, UInt32 SIZE > struct BoundingBox
 {
-    typedef OSG::PointInterface< T, VS >    PntType;
+    typedef OSG::Point< T, SIZE >    PntType;
     
     PntType min;
     PntType max;
 };
 
-typedef BoundingBox<OSG::Real32,
-                    OSG::VecStorage3< OSG::Real32 > > BoundingBox3f;
+typedef BoundingBox<OSG::Real32, 3> BoundingBox3f;
 
 OSG_END_NAMESPACE
 

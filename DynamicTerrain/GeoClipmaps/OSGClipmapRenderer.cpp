@@ -38,7 +38,7 @@
 
 #include "OSGClipmapRenderer.h"
 #include "OSGGeometryClipmaps.h"
-#include "OSGRenderTraversalAction.h"
+#include "OSGRenderAction.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -71,8 +71,8 @@ ClipmapRenderParameters::ClipmapRenderParameters()
     useVboExtension			= true;
     showTransitionRegions	= false;
     drawEnv     			= 0;
-    globalTextureObj		= NullFC;		
-    globalTextureEnv		= NullFC;		
+    globalTextureObj		= NULL;		
+    globalTextureEnv		= NULL;		
 }
 
 

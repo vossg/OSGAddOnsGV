@@ -115,7 +115,7 @@ Color3f			getDebugColor( int index );
 CpuClipmapRenderer::CpuClipmapRenderer()
 {
 #ifndef OLD_GEOCLIP
-    _pTerrainShader = NullFC;
+    _pTerrainShader = NULL;
 #endif
 
     window_ = 0;
@@ -207,7 +207,7 @@ void CpuClipmapRenderer::onDestroyGpuResources()
 #ifdef OLD_GEOCLIP
     terrainShader_.destroy();
 #else
-    OSG::subRef(_pTerrainShader);
+    _pTerrainShader = NULL;
 #endif
     
     const int levelCount = levels_.size();
@@ -218,7 +218,7 @@ void CpuClipmapRenderer::onDestroyGpuResources()
         
         levelData.vertexBuffer.destroy();
         
-        levelData.texture = NullFC;
+        levelData.texture = NULL;
     }
 }
 
@@ -228,7 +228,7 @@ void CpuClipmapRenderer::onCreateGpuResources()
     assert( window_ );
 
 #ifndef OLD_GEOCLIP
-    OSG::setRefd(_pTerrainShader, SHLChunk::create());
+    _pTerrainShader = SimpleSHLChunk::create();
 #endif
         
     reloadShader();
@@ -288,12 +288,12 @@ void CpuClipmapRenderer::onRender( const ClipmapRenderParameters& renderParamete
     
     bool useDependentTextureLookup = false;
     
-    if( renderParameters.globalTextureObj != NullFC )
+    if( renderParameters.globalTextureObj != NULL )
     {
         renderParameters.globalTextureObj->activate( renderParameters.drawEnv );
         renderParameters.globalTextureEnv->activate( renderParameters.drawEnv );
     }
-    else if( renderParameters.heightColorTexture != NullFC )
+    else if( renderParameters.heightColorTexture != NULL )
     {
         // todo: use a different pixel shader here
         useDependentTextureLookup = true;
@@ -349,19 +349,19 @@ void CpuClipmapRenderer::onRender( const ClipmapRenderParameters& renderParamete
         _pTerrainShader->setUniformParameter(
             "baseColor0", colorToVector( debugColor ) );
 #endif
-        _pTerrainShader->setUniformParameter( 
+        _pTerrainShader->addUniformVariable( 
             "sampleDistance", 
             renderParameters.worldTransform.sampleDistance );
 
-        _pTerrainShader->setUniformParameter(
+        _pTerrainShader->addUniformVariable(
             "worldOffset", 
             renderParameters.worldTransform.offset );
 
-        _pTerrainShader->setUniformParameter(
+        _pTerrainShader->addUniformVariable(
             "heightScale", 
             renderParameters.worldTransform.heightScale );
 
-        _pTerrainShader->setUniformParameter(
+        _pTerrainShader->addUniformVariable(
             "heightOffset", 
             renderParameters.worldTransform.heightOffset );
 #endif        
@@ -404,14 +404,14 @@ void CpuClipmapRenderer::onRender( const ClipmapRenderParameters& renderParamete
         stats_.drawnLevelCount++;
     }
     
-    if( renderParameters.globalTextureObj != NullFC )
+    if( renderParameters.globalTextureObj != NULL )
     {
         renderParameters.globalTextureObj->deactivate( 
             renderParameters.drawEnv );
         renderParameters.globalTextureEnv->deactivate( 
             renderParameters.drawEnv );
     }
-    else if(renderParameters.heightColorTexture != NullFC)
+    else if(renderParameters.heightColorTexture != NULL)
     {
         renderParameters.heightColorTexture->deactivate( 
             renderParameters.drawEnv );
@@ -480,7 +480,10 @@ void CpuClipmapRenderer::onBuildVertices( GeometryClipmapLevel& level, const Geo
             vertexPtr->pos[ 3 ] = *samplePtr;
             
             // todo: correct uv coordinates:
-            vertexPtr->uv.setValues( ( float )samplePos[ 0 ] / ( float )worldSampleCount[ 0 ], ( float )samplePos[ 1 ] / ( float )worldSampleCount[ 1 ] );
+            vertexPtr->uv.setValues( float(samplePos[ 0 ]) / 
+                                     float(worldSampleCount[ 0 ]), 
+                                     float(samplePos[ 1 ]) /
+                                     float(worldSampleCount[ 1 ]) );
             //vertexPtr->uv.setValues( float( x ) / float( levelSampleCount - 1 ), float( y ) / float( levelSampleCount - 1 ) );
             
             samplePtr++;
@@ -589,7 +592,12 @@ bool CpuClipmapRenderer::checkVboConsistency( TerrainLevelRenderData& levelRende
     
     const int vertexCount = levelRenderData.vertices.size();
     
-    OpenGLTerrainVertex* vboContent = ( OpenGLTerrainVertex* )levelRenderData.vertexBuffer.lock( 0, sizeof( OpenGLTerrainVertex ) * vertexCount, BufferLockOption_ReadOnly );
+    OpenGLTerrainVertex* vboContent = 
+        static_cast<OpenGLTerrainVertex*>(
+            levelRenderData.vertexBuffer.lock( 
+                0, 
+                sizeof( OpenGLTerrainVertex ) * vertexCount, 
+                BufferLockOption_ReadOnly ));
     
     if( !vboContent )
     {
@@ -861,7 +869,7 @@ void CpuClipmapRenderer::renderBlock( const GeometryClipmapLevel& level, const G
 
     // enable the texture:
     // todo: enable the texture of the next coarser level too, so we can blend between both
-    if( renderData.texture != NullFC )
+    if( renderData.texture != NULL )
     {
         //renderData.texture->activate( renderParameters.renderAction );
     }
@@ -898,14 +906,14 @@ void CpuClipmapRenderer::renderBlock( const GeometryClipmapLevel& level, const G
     terrainShader_.setUniform( "baseColor0", colorToVector( debugColor ) );
     //endEditCP( terrainShader_ );
 #else
-    _pTerrainShader->setUniformParameter( "transitionWidth", 
+    _pTerrainShader->addUniformVariable( "transitionWidth", 
                                           Vec2f( worldTransitionSize ) );
-    _pTerrainShader->setUniformParameter( "activeRegionMin", 
+    _pTerrainShader->addUniformVariable( "activeRegionMin", 
                                           Vec2f( activeRegionMin ) );
-    _pTerrainShader->setUniformParameter( "activeRegionMax", 
+    _pTerrainShader->addUniformVariable( "activeRegionMax", 
                                           Vec2f( activeRegionMax ) );
     //terrainShader_->setUniform( "activeRegionCenter", activeRegionCenter );		
-    _pTerrainShader->setUniformParameter( "localViewerPos", 
+    _pTerrainShader->addUniformVariable( "localViewerPos", 
                                           Vec3f( viewerPosition_ ) );
 #ifdef NOTUSED
     _pTerrainShader->setUniformParameter( "baseColor0", 
@@ -956,7 +964,8 @@ void CpuClipmapRenderer::renderBlock( const GeometryClipmapLevel& level, const G
         glTexCoordPointer( 2, GL_FLOAT, sizeof( OpenGLTerrainVertex ), base + sizeof( Pnt4f ) );
         glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 
-        glDrawElements( GL_TRIANGLES, ( GLsizei ) renderData.indices.size(), GL_UNSIGNED_SHORT, &renderData.indices[ 0 ] );
+        glDrawElements( GL_TRIANGLES, GLsizei(renderData.indices.size()),
+                        GL_UNSIGNED_SHORT, &renderData.indices[ 0 ] );
 
         renderData.vertexBuffer.deactivate();
     }
@@ -968,7 +977,8 @@ void CpuClipmapRenderer::renderBlock( const GeometryClipmapLevel& level, const G
         glTexCoordPointer( 2, GL_FLOAT, sizeof( OpenGLTerrainVertex ), &renderData.vertices[ 0 ].uv );
         glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 
-        glDrawElements( GL_TRIANGLES, ( GLsizei ) renderData.indices.size(), GL_UNSIGNED_SHORT, &renderData.indices[ 0 ] );
+        glDrawElements( GL_TRIANGLES, GLsizei(renderData.indices.size()),
+                        GL_UNSIGNED_SHORT, &renderData.indices[ 0 ] );
     }
 
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
@@ -979,7 +989,7 @@ void CpuClipmapRenderer::renderBlock( const GeometryClipmapLevel& level, const G
     stats_.drawnTriangleCount		+= renderData.indices.size() / 3;
     stats_.transformedVertexCount	+= renderData.vertices.size();
 
-    if( renderData.texture != NullFC )
+    if( renderData.texture != NULL )
     {
         //renderData.texture->deactivate( renderParameters.renderAction );
     }

@@ -62,8 +62,8 @@ float Heightmap::getHeight( float x, float y ) const
     // todo: build in triangle interpolation
     
     // find the nearest sample and return it:
-    int ix = ( int ) x;
-    int iy = ( int ) y;
+    int ix = int(x);
+    int iy = int(y);
     
     if( ( ix < 0 || ix >= size ) ||
         ( iy < 0 || iy >= size ) )

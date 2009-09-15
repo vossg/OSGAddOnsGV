@@ -59,29 +59,16 @@
 
 
 #include "OSGConfig.h"
-#include "OSGDrawableDef.h"
+#include "OSGContribDynamicTerrainDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGMaterialDrawable.h" // Parent
 
-#include "OSGInt32Fields.h" // LevelSize type
-#include "OSGImageFields.h" // HeightData type
-#include "OSGReal32Fields.h" // HeightDataScale type
-#include "OSGReal32Fields.h" // HeightDataOffset type
-#include "OSGReal32Fields.h" // SampleDistance type
-#include "OSGImageFields.h" // TextureData type
-#include "OSGTextureObjChunkFields.h" // HeightColorTexture type
-#include "OSGInt32Fields.h" // SampleUpdateBudget type
-#include "OSGBoolFields.h" // EnableFrustumCulling type
-#include "OSGBoolFields.h" // UseGpuRenderer type
-#include "OSGBoolFields.h" // UseVboExtension type
-#include "OSGBoolFields.h" // EnableSmoothTransition type
-#include "OSGBoolFields.h" // ShowBoundingBoxes type
-#include "OSGBoolFields.h" // ShowTransitionRegions type
-#include "OSGBoolFields.h" // DisableUpdate type
-#include "OSGStringFields.h" // CpuVertexProgram type
-#include "OSGStringFields.h" // CpuFragmentProgram type
+#include "OSGSysFields.h"               // LevelSize type
+#include "OSGImageFields.h"             // HeightData type
+#include "OSGTextureObjChunkFields.h"   // HeightColorTexture type
+#include "OSGBaseFields.h"              // CpuVertexProgram type
 
 #include "OSGDynamicTerrainFields.h"
 
@@ -91,7 +78,7 @@ class DynamicTerrain;
 
 //! \brief DynamicTerrain Base Class.
 
-class OSG_DRAWABLE_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
+class OSG_CONTRIBDYNAMICTERRAIN_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
 {
   public:
 

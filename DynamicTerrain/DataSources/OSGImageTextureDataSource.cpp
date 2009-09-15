@@ -21,7 +21,7 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 
-	ImageTextureDataSource::ImageTextureDataSource( ImagePtr image )
+	ImageTextureDataSource::ImageTextureDataSource( Image *image )
 	{
 		setImage( image );
 	}
@@ -38,11 +38,11 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 	
-	void ImageTextureDataSource::setImage( ImagePtr image )
+	void ImageTextureDataSource::setImage( Image *image )
 	{
 		image_ = image;
 
-		if( image_ != NullFC )
+		if( image_ != NULL )
 		{
 			size_.setValues( image_->getWidth(), image_->getHeight() );			
 		}

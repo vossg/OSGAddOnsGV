@@ -9,7 +9,7 @@
     parentsystemcomponent="true"
     decoratable="false"
     useLocalIncludes="false"
-    library="Drawable"
+    library="ContribDynamicTerrain"
 >
   <Field
         name="levelSize"

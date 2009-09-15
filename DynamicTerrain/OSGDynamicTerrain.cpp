@@ -47,8 +47,9 @@
 #include <OSGImage.h>
 #include <OSGTextureObjChunk.h>
 #include <OSGIntersectAction.h>
-#include <OSGRenderTraversalActionBase.h>
+//#include <OSGRenderTraversalActionBase.h>
 //#include <OSGDrawAction.h>
+#include <OSGRenderAction.h>
 #include "OSGDynamicTerrain.h"
 #include "OSGImageHeightDataSource.h"
 #include "OSGTerrainTools.h"
@@ -108,8 +109,8 @@ DynamicTerrain::DynamicTerrain(void) :
     Inherited()
 {
     needInitialize_   = true;
-    globalTextureObj_ = NullFC;
-    globalTextureEnv_ = NullFC;
+    globalTextureObj_ = NULL;
+    globalTextureEnv_ = NULL;
 }
 
 
@@ -117,8 +118,8 @@ DynamicTerrain::DynamicTerrain(const DynamicTerrain &source) :
     Inherited(source)
 {
     needInitialize_   = true;
-    globalTextureObj_ = NullFC;
-    globalTextureEnv_ = NullFC;
+    globalTextureObj_ = NULL;
+    globalTextureEnv_ = NULL;
 }
 
 
@@ -174,9 +175,9 @@ void DynamicTerrain::changed(BitVector whichField,
     if( whichField & DynamicTerrain::TextureDataFieldId )
     {
         // create a texture chunk:
-        ImagePtr textureImage = getTextureData();
+        Image *textureImage = getTextureData();
         
-        if( textureImage != NullFC )
+        if( textureImage != NULL )
         {
             globalTextureObj_ = TextureObjChunk::create();
             globalTextureEnv_ = TextureEnvChunk::create();
@@ -193,12 +194,15 @@ void DynamicTerrain::changed(BitVector whichField,
         }
         else
         {
-            globalTextureObj_ = NullFC;
-            globalTextureEnv_ = NullFC;
+            globalTextureObj_ = NULL;
+            globalTextureEnv_ = NULL;
         }
     }
 }
 
+void DynamicTerrain::fill(DrawableStatsAttachment *pStat)
+{
+}
 
 void DynamicTerrain::dumpIt(void)
 {
@@ -216,7 +220,7 @@ void DynamicTerrain::dump(UInt32, const BitVector) const
 
 TextureDataSource *DynamicTerrain::getTextureSource(void)
 {
-    if( getTextureData() != NullFC )
+    if( getTextureData() != NULL )
     {
         return &imageTextureSource_;
     }
@@ -231,12 +235,14 @@ TextureDataSource *DynamicTerrain::getTextureSource(void)
 Action::ResultE DynamicTerrain::drawPrimitives( DrawEnv *pEnv )
 {
     // do frustum culling here.. extract frustum from the current camera:
-    RenderTraversalActionBase* renderAction = 
-        dynamic_cast< RenderTraversalActionBase* >( pEnv->getRTAction() );
+#if 0
+    RenderAction* renderAction = 
+        dynamic_cast< RenderAction* >( pEnv->getAction() );
+#endif
 
     if( needInitialize_ )
     {
-        if( getHeightData() != NullFC )
+        if( getHeightData() != NULL )
         {
             if( getLevelSize() < 3 )
             {
@@ -265,11 +271,23 @@ Action::ResultE DynamicTerrain::drawPrimitives( DrawEnv *pEnv )
     // if not: create a new TerrainView and attach it to the camera
     
     // update/render the view
-    if( renderAction )
+    if( pEnv )
     {
         // frustum culling
-        const FrustumVolume& frustum = renderAction->getFrustum();
-        
+//        const FrustumVolume& frustum = pEnv->getFrustum();
+//        getProjection           (pr , p.getPixelWidth(), p.getPixelHeight());
+        //getProjectionTranslation(prt, p.getPixelWidth(),
+        //p.getPixelHeight());
+
+        Matrix pr = pEnv->getCameraFullProjection();
+        Matrix mv = pEnv->getCameraViewing();
+
+        pr.mult(mv );
+
+        FrustumVolume frustum;
+
+        frustum.setPlanes(pr);
+      
         // make an update right here:
         Matrix camera  = pEnv->getCameraToWorld();
         Matrix toworld = pEnv->getObjectToWorld();          
@@ -297,7 +315,7 @@ Action::ResultE DynamicTerrain::drawPrimitives( DrawEnv *pEnv )
         ClipmapRenderParameters renderParams;
         
         renderParams.drawEnv                = pEnv;
-        renderParams.window                 = renderAction->getWindow();
+        renderParams.window                 = pEnv->getWindow();
         renderParams.viewFrustum            = frustum;
         renderParams.enableFrustumCulling   = getEnableFrustumCulling();
         renderParams.showTransitionRegions  = getShowTransitionRegions();
@@ -318,7 +336,7 @@ Action::ResultE DynamicTerrain::drawPrimitives( DrawEnv *pEnv )
         }
         
         // update stats:
-        StatCollector* statCollector = renderAction->getStatCollector();
+        StatCollector* statCollector = pEnv->getStatCollector();
         
         if( statCollector ) 
         {
@@ -377,6 +395,7 @@ void DynamicTerrain::adjustVolume(Volume &volume)
 
 Action::ResultE DynamicTerrain::intersect(Action* action )
 {
+#if 0
     IntersectAction* intersectAction = 
         dynamic_cast< IntersectAction* >( action );
     
@@ -394,6 +413,7 @@ Action::ResultE DynamicTerrain::intersect(Action* action )
     {
         intersectAction->setHit( t, intersectAction->getActNode(), 0, normal );
     }
+#endif
     
     return Action::Continue;
 }

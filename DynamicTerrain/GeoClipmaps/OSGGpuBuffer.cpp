@@ -138,17 +138,17 @@ bool VboFunctions::initFunctionPointers( Window* window )
 {
     assert( window );
     
-    bindBuffer				= (OSGGLBINDBUFFERARBPROC) window->getFunction( bindBufferId_ );
-    bufferData				= (OSGGLBUFFERDATAARBPROC) window->getFunction( bufferDataId_ );
-    bufferSubData			= (OSGGLBUFFERSUBDATAARBPROC) window->getFunction( bufferSubDataId_ );
-    deleteBuffers			= (OSGGLDELETEBUFFERSARBPROC) window->getFunction( deleteBuffersId_ );
-    genBuffers				= (OSGGLGENBUFFERSARBPROC) window->getFunction( genBuffersId_ );
-    getBufferParameteriv	= (OSGGLGETBUFFERPARAMETERIVARBPROC) window->getFunction( getBufferParameterivId_ );
-    getBufferPointerv		= (OSGGLGETBUFFERPOINTERVARBPROC) window->getFunction( getBufferPointervId_ );
-    getBufferSubData		= (OSGGLGETBUFFERSUBDATAARBPROC) window->getFunction( getBufferSubDataId_ );
-    isBuffer				= (OSGGLISBUFFERARBPROC) window->getFunction( isBufferId_ );
-    mapBuffer				= (OSGGLMAPBUFFERARBPROC) window->getFunction( mapBufferId_ );
-    unmapBuffer				= (OSGGLUNMAPBUFFERARBPROC) window->getFunction( unmapBufferId_ );
+    bindBuffer				= reinterpret_cast<OSGGLBINDBUFFERARBPROC>(window->getFunction( bindBufferId_ ));
+    bufferData				= reinterpret_cast<OSGGLBUFFERDATAARBPROC>( window->getFunction( bufferDataId_ ));
+    bufferSubData			= reinterpret_cast<OSGGLBUFFERSUBDATAARBPROC>( window->getFunction( bufferSubDataId_ ));
+    deleteBuffers			= reinterpret_cast<OSGGLDELETEBUFFERSARBPROC>( window->getFunction( deleteBuffersId_ ));
+    genBuffers				= reinterpret_cast<OSGGLGENBUFFERSARBPROC>( window->getFunction( genBuffersId_ ));
+    getBufferParameteriv	= reinterpret_cast<OSGGLGETBUFFERPARAMETERIVARBPROC>( window->getFunction( getBufferParameterivId_ ));
+    getBufferPointerv		= reinterpret_cast<OSGGLGETBUFFERPOINTERVARBPROC>( window->getFunction( getBufferPointervId_ ));
+    getBufferSubData		= reinterpret_cast<OSGGLGETBUFFERSUBDATAARBPROC>( window->getFunction( getBufferSubDataId_ ));
+    isBuffer				= reinterpret_cast<OSGGLISBUFFERARBPROC>( window->getFunction( isBufferId_ ));
+    mapBuffer				= reinterpret_cast<OSGGLMAPBUFFERARBPROC>( window->getFunction( mapBufferId_ ));
+    unmapBuffer				= reinterpret_cast<OSGGLUNMAPBUFFERARBPROC>( window->getFunction( unmapBufferId_ ));
     
     return ( bindBuffer != 0 ) && ( bufferData != 0 ) && ( bufferSubData != 0 ) && ( deleteBuffers != 0 ) &&
         ( genBuffers != 0 ) && ( getBufferPointerv != 0 ) && ( getBufferSubData != 0 ) && ( isBuffer != 0 ) &&

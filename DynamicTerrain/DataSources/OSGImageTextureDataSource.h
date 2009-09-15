@@ -28,16 +28,16 @@ namespace OSG
 	class ImageTextureDataSource : public TextureDataSource
 	{
 	public:		
-		explicit					ImageTextureDataSource( ImagePtr image = NullFC );
+		explicit					ImageTextureDataSource(Image *image = NULL);
 		virtual						~ImageTextureDataSource();
 
-		void						setImage( ImagePtr image );
+		void						setImage(Image *image);
 
 		virtual const Pnt2i&		getSampleCount() const;
 		virtual	void				fillTextureData( GeometryClipmapLevel& level, const Rectangle2i& targetRect ) const;
 
 	private:
-		ImagePtr					image_;
+		ImageUnrecPtr				image_;
 		Pnt2i						size_;
 	};
 	

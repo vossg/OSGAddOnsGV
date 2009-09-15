@@ -44,7 +44,7 @@
 #ifdef OLD_GEOCLIP
 #include "OSGStatelessGlslShader.h"
 #else
-#include "OSGSHLChunk.h"
+#include "OSGSimpleSHLChunk.h"
 #endif
 
 OSG_BEGIN_NAMESPACE
@@ -88,7 +88,7 @@ class CpuClipmapRenderer : public ClipmapRenderer
         bool                    rebuildIndices;
         IndexList               indices;
         GpuBuffer               vertexBuffer;
-        TextureObjChunkPtr      texture;
+        TextureObjChunkUnrecPtr texture;
     };
     
     typedef std::vector< TerrainLevelRenderData >   TerrainLevelRenderDataList;
@@ -97,7 +97,7 @@ class CpuClipmapRenderer : public ClipmapRenderer
 #ifdef OLD_GEOCLIP
     GlslShader                  terrainShader_;
 #else
-    SHLChunkPtr                 _pTerrainShader;
+    SimpleSHLChunkUnrecPtr     _pTerrainShader;
 #endif
     GpuBuffer                   testBuffer_;
     bool                        useVertexBufferObjects_;

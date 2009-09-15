@@ -81,10 +81,10 @@ struct GeometryClipmapLevel
     Pnt2i       blockOrigin;
     //Rectangle2i              clipRect;           // maximal sample region
 
-    int         sampleSpacing;
-    Heightmap   heightmap;
-    bool        isSampleDataDirty;
-    ImagePtr    textureData;
+    int           sampleSpacing;
+    Heightmap     heightmap;
+    bool          isSampleDataDirty;
+    ImageUnrecPtr textureData;
 };
 
 

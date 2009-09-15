@@ -42,6 +42,8 @@
 #include "OSGFrustumVolume.h"
 #include "OSGTextureObjChunkFields.h"
 #include "OSGTextureEnvChunkFields.h"
+#include "OSGTextureObjChunk.h"
+#include "OSGTextureEnvChunk.h"
 #include "OSGWindow.h"
 #include "OSGTerrainTypes.h"
 #include "OSGRectangle.h"
@@ -74,9 +76,9 @@ struct ClipmapRenderParameters
     bool                        enableFrustumCulling;
     bool                        showTransitionRegions;
     bool                        useVboExtension;        
-    TextureObjChunkPtr          globalTextureObj;
-    TextureEnvChunkPtr          globalTextureEnv;
-    TextureObjChunkPtr          heightColorTexture;
+    TextureObjChunkUnrecPtr     globalTextureObj;
+    TextureEnvChunkUnrecPtr     globalTextureEnv;
+    TextureObjChunkUnrecPtr     heightColorTexture;
     WorldTransformation         worldTransform;
 };
 

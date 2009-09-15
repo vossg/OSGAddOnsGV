@@ -127,8 +127,8 @@ namespace OSG
 			return 0.0f;
 		}
 
-		const float posX = ( float )samplePos[ 0 ] * frequency_;
-		const float posY = ( float )samplePos[ 1 ] * frequency_;
+		const float posX = float(samplePos[ 0 ]) * frequency_;
+		const float posY = float(samplePos[ 1 ]) * frequency_;
 
 		return 0.1f * posX;
 		return cosf( sinf( posX ) ) * sinf( posY );

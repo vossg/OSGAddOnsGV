@@ -82,8 +82,8 @@ bool GeometryClipmaps::initialize( int requestedLevelSize,
     }
     
     // fix the levelsize to be 2**x - 1:
-    const int levelSampleCount = ( int )getNextPowerOf2( requestedLevelSize ) - 1;
-    const int worldSampleCount = ( int )heightSource->getSampleCount().maxValue();
+    const int levelSampleCount = int(getNextPowerOf2( requestedLevelSize ) - 1);
+    const int worldSampleCount = int(heightSource->getSampleCount().maxValue());
     
     // Calculate needed level count 
     int levelCount = 1;
@@ -183,7 +183,8 @@ void GeometryClipmaps::update( const Pnt3f& localViewerPos )
     assert( heightSource_ );
     
     // todo: transform world to modelposition (inverse transform)
-    Pnt2i viewerSamplePos = Pnt2i( ( int )localViewerPos[ 0 ], ( int )localViewerPos[ 2 ] );
+    Pnt2i viewerSamplePos = Pnt2i( int(localViewerPos[0]),
+                                   int(localViewerPos[2]) );
     
     // for debugging:
     static Pnt2i oldViewerPos;

@@ -89,6 +89,8 @@ class DynamicTerrain : public DynamicTerrainBase
                          UInt32             origin,
                          BitVector          details   );
     
+    virtual void fill(DrawableStatsAttachment *pStat);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
@@ -148,8 +150,8 @@ class DynamicTerrain : public DynamicTerrainBase
     ImageHeightDataSource       imageHeightSource_;
     ImageTextureDataSource      imageTextureSource_;
     
-    TextureObjChunkPtr          globalTextureObj_;
-    TextureEnvChunkPtr          globalTextureEnv_;
+    TextureObjChunkUnrecPtr     globalTextureObj_;
+    TextureEnvChunkUnrecPtr     globalTextureEnv_;
     
     // use this source if the field CompressedHeightData contains valid data:
     //CompressedHeightDataSource    compressedHeightSource_;
