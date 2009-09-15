@@ -61,11 +61,11 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGRTTarget.h" // Parent
 
-#include "OSGImageFields.h" // Image type
+#include "OSGImageFields.h"             // Image type
 
 #include "OSGRTImageTargetFields.h"
 
