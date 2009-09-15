@@ -42,7 +42,7 @@
 #pragma  once
 #endif
 
-#include "OSGFileIODef.h"
+#include "OSGContribMFileDef.h"
 #include "OSGBaseTypes.h"
 #include "OSGSceneFileType.h"
 
@@ -54,7 +54,7 @@ OSG_BEGIN_NAMESPACE
 /*! \brief MSceneFileType
 */
 
-class OSG_FILEIO_DLLMAPPING MSceneFileType : public SceneFileType
+class OSG_CONTRIBMFILE_DLLMAPPING MSceneFileType : public SceneFileType
 {
     /*==========================  PUBLIC  =================================*/
   public:
