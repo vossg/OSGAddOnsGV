@@ -41,7 +41,7 @@ OSG_STORE_PROJECT_DEPENDENCIES()
 # collect sources
 ##############################################################################
 
-OSG_ADD_DIRECTORY("Source/Contrib/Labeling")
+OSG_ADD_DIRECTORY("${CMAKE_CURRENT_SOURCE_DIR}")
 
 ##############################################################################
 # setup build
