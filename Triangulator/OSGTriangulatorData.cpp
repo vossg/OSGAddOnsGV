@@ -85,7 +85,7 @@ void TriangulatorData::setPointNumber(unsigned int num)
 
 void TriangulatorData::setPoint(const Pnt2f& pnt, unsigned int idx)
 {
-    assert(idx < this->data->numberofpoints);
+    assert(int(idx) < this->data->numberofpoints);
     idx += idx; // mimic: idx = 2*idx
     this->data->pointlist[idx  ] = REAL(pnt.x());
     this->data->pointlist[idx+1] = REAL(pnt.y());
@@ -98,7 +98,7 @@ unsigned int TriangulatorData::getPointNumber(void) const
 
 Pnt2f TriangulatorData::getPoint(unsigned int idx) const
 {
-    assert(idx < this->data->numberofpoints);
+    assert(int(idx) < this->data->numberofpoints);
     idx += idx; // mimic: idx = 2*idx
     return Pnt2f(this->data->pointlist[idx], this->data->pointlist[idx+1]);
 }
@@ -114,7 +114,7 @@ void TriangulatorData::setPointMarker(int marker, unsigned int idx)
 
     if (this->data->pointmarkerlist == NULL) {
         this->data->pointmarkerlist = (int*)malloc(num * sizeof(int));
-        for (int i=0; i<num; i++) this->data->pointmarkerlist[i] = 0;
+        for (unsigned int i=0; i<num; i++) this->data->pointmarkerlist[i] = 0;
     }
     this->data->pointmarkerlist[idx] = marker;
 }
@@ -130,7 +130,7 @@ void TriangulatorData::setSegmentNumber(unsigned int num)
 
 void TriangulatorData::setSegment(int startIdx, int endIdx, unsigned int idx)
 {
-    assert(idx < this->data->numberofsegments);
+    assert(int(idx) < this->data->numberofsegments);
     idx += idx; // mimic: idx = 2*idx
     this->data->segmentlist[idx  ] = startIdx;
     this->data->segmentlist[idx+1] = endIdx;
@@ -164,14 +164,14 @@ void TriangulatorData::setSegmentMarker(int marker, unsigned int idx)
 
     if (this->data->segmentmarkerlist == NULL) {
         this->data->segmentmarkerlist = (int*)malloc(num * sizeof(int));
-        for (int i=0; i<num; i++) this->data->segmentmarkerlist[i] = 1;
+        for (unsigned int i=0; i<num; i++) this->data->segmentmarkerlist[i] = 1;
     }
     this->data->segmentmarkerlist[idx] = marker;
 }
 
 int TriangulatorData::getSegmentMarker(unsigned int idx) const
 {
-    assert(idx < this->data->numberofsegments);
+    assert(int(idx) < this->data->numberofsegments);
     return this->data->segmentmarkerlist[idx];
 }
 
@@ -193,7 +193,7 @@ void TriangulatorData::setHoleNumber(unsigned int num)
 
 void TriangulatorData::setHole(const Pnt2f& hole, unsigned int idx)
 {
-    assert(idx < this->data->numberofholes);
+    assert(int(idx) < this->data->numberofholes);
     idx += idx; // mimic: idx = 2*idx
     this->data->holelist[idx  ] = REAL(hole.x());
     this->data->holelist[idx+1] = REAL(hole.y());
@@ -213,8 +213,8 @@ unsigned int TriangulatorData::getCornerNumber(void) const
 int TriangulatorData::getTrianglePointIndex(unsigned int triIdx, 
                                             unsigned int cornIdx) const
 {
-    assert(triIdx  < this->data->numberoftriangles);
-    assert(cornIdx < this->data->numberofcorners);
+    assert(int(triIdx)  < this->data->numberoftriangles);
+    assert(int(cornIdx) < this->data->numberofcorners);
     int idx;
 
     idx = this->data->trianglelist[triIdx*this->data->numberofcorners+cornIdx];
@@ -242,7 +242,7 @@ int TriangulatorData::getNeighbourIndex(unsigned int triIdx,
                                         unsigned int sideIdx) const
 {
     assert(this->data->neighborlist != NULL);
-    assert(triIdx  < this->data->numberoftriangles);
+    assert(int(triIdx)  < this->data->numberoftriangles);
     assert(sideIdx < 3);
 
     int idx = this->data->neighborlist[triIdx * 3 + sideIdx];
@@ -320,7 +320,7 @@ bool TriangulatorData::addUniquePoint(const Pnt2f& pnt)
 
     int idx = this->point2index.size();
 
-    if (idx < getPointNumber()) {
+    if (idx < int(getPointNumber())) {
         setPoint(pnt, idx);
         this->point2index[pnt] = idx;
     }
@@ -352,7 +352,7 @@ bool TriangulatorData::isInitializedWithUniquePoints(void) const
 
     if (this->point2index.size() == 0) initializeWithUniquePoints();
 
-    return (this->point2index.size() == this->data->numberofpoints);
+    return (Int32(this->point2index.size()) == this->data->numberofpoints);
 }
 
 void TriangulatorData::initializeWithUniquePoints(void) const
@@ -375,7 +375,7 @@ void TriangulatorData::setPointMarker(int marker, const Pnt2f& pnt)
 void TriangulatorData::setSegment(const Pnt2f& start, const Pnt2f& end,
                                   unsigned int idx)
 {
-    assert(idx < this->data->numberofsegments);
+    assert(int(idx) < this->data->numberofsegments);
     idx += idx; // mimic: idx = 2*idx
 
     assert(this->point2index.count(start) == 1);
