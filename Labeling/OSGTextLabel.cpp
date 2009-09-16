@@ -254,8 +254,8 @@ void TextLabel::updateFaceAndTexture(void)
     if (_face != NULL) {
         std::string fam = getFamily();
 
-        if (_face->getParam().size == getSize() && 
-            _face->getFamily() == fam || fam.empty()) // FIXME: what about ""?
+        if ((_face->getParam().size == getSize() && 
+             _face->getFamily() == fam) || fam.empty()) // FIXME: what about ""?
         {
             return; // nothing to be done
         }
