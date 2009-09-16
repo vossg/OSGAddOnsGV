@@ -49,7 +49,8 @@ RTTile::~RTTile(void)
 {
 }
 
-RTTile::RTTile(const RTTile &source)
+RTTile::RTTile(const RTTile &source) :
+    Inherited(source)
 {
 }
 

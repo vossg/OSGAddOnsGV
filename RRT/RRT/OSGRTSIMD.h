@@ -58,6 +58,12 @@
 #  include <altivec.h>
 #endif
 
+#ifndef WIN32
+#define OSGRTNU __attribute__((unused))
+#else
+#define OSGRTNU
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 template<typename _Tp>
@@ -209,13 +215,13 @@ void osgSIMDDump(const Float4 v1);
 
 typedef std::numeric_limits<Real32> Real32Limits;
 
-static const Float4 SIMDZero     = osgSIMDSet( 0.0f);
-static const Float4 SIMDHalf     = osgSIMDSet( 0.5f);
-static const Float4 SIMDOne      = osgSIMDSet( 1.0f);
-static const Float4 SIMDMinusOne = osgSIMDSet(-1.0f);
-static const Float4 SIMDThree    = osgSIMDSet( 3.0f);
-static const Float4 SIMDEps      = osgSIMDSet( 0.00001f);
-static const Float4 SIMDInfinity = osgSIMDSet(Real32Limits::max());
+static const Float4 SIMDZero     OSGRTNU = osgSIMDSet( 0.0f);
+static const Float4 SIMDHalf     OSGRTNU = osgSIMDSet( 0.5f);
+static const Float4 SIMDOne      OSGRTNU = osgSIMDSet( 1.0f);
+static const Float4 SIMDMinusOne OSGRTNU = osgSIMDSet(-1.0f);
+static const Float4 SIMDThree    OSGRTNU = osgSIMDSet( 3.0f);
+static const Float4 SIMDEps      OSGRTNU = osgSIMDSet( 0.00001f);
+static const Float4 SIMDInfinity OSGRTNU = osgSIMDSet(Real32Limits::max());
 
 #if 0
 static const Float4 SIMDMaskTranslation[16] = 
@@ -243,7 +249,7 @@ static const Float4 SIMDMaskTranslation[16] =
     osgSIMDSet(0xFFFFFFFFu, 0xFFFFFFFFu, 0xFFFFFFFFu, 0xFFFFFFFFu)
 };
 #else
-static const Float4 SIMDMaskTranslation[16] = 
+static const Float4 SIMDMaskTranslation[16] OSGRTNU = 
 {
     osgSIMDSet(0x00000000u, 0x00000000u, 0x00000000u, 0x00000000u),
     osgSIMDSet(0xFFFFFFFFu, 0x00000000u, 0x00000000u, 0x00000000u),

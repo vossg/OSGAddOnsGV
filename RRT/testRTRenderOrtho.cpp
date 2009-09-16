@@ -432,10 +432,12 @@ int doMain (int argc, char **argv)
     tx1e = TextureEnvChunk::create();
 
 
+#if 0
     UChar8 imgdata[] =
     {  
         64,64,64, 128,128,128, 192,192,192, 255,255,255 
     };
+#endif
 
     ImageUnrecPtr pImg = Image::create();
 

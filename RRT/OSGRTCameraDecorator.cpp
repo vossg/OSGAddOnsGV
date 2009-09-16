@@ -273,10 +273,12 @@ UInt32 RTCameraDecorator::fillRayStores(
     UInt32 uiWidth  = pTarget.getWidth ();
     UInt32 uiHeight = pTarget.getHeight();
 
+#if 0
     UInt32 uiCurrV  = 0;
     UInt32 uiCurrH  = 0;
     UInt32 uiCountV = 0;
     UInt32 uiCountH = 0;
+#endif
 
     Matrix mCam;
 
@@ -402,10 +404,12 @@ UInt32 RTCameraDecorator::fillRayStores(
     UInt32 uiWidth  = pTarget.getWidth ();
     UInt32 uiHeight = pTarget.getHeight();
 
+#if 0
     UInt32 uiCurrV  = 0;
     UInt32 uiCurrH  = 0;
     UInt32 uiCountV = 0;
     UInt32 uiCountH = 0;
+#endif
 
     Matrix mCam;
 

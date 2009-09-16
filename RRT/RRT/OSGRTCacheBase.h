@@ -124,7 +124,7 @@ class RTCacheBase : public FieldContainer
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    const GeometryStorePtr  getGeoStore    (UInt32 uiIndex);
+          GeometryStorePtr  getGeoStore    (UInt32 uiIndex);
     const MFTriangleAccel  &getTrianglAccel(void          );
 
     /*! \}                                                                 */

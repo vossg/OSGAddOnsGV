@@ -36,6 +36,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
+#pragma GCC diagnostic warning "-Wunused-variable"
+#endif
+
+
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
@@ -521,8 +526,6 @@ void RRTStage::postProcess(DrawEnv *pDrawEnv)
 {
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    static int frameCount = 1;
 
     _pRayTracer->finalize(pDrawEnv);
 }

@@ -125,10 +125,12 @@ void RTPrimaryRayTiledStoreSetupHelper<DescT, RTFloatMathTag>::setupRays(
     UInt32 uiWidth  = pTarget.getWidth ();
     UInt32 uiHeight = pTarget.getHeight();
 
+#if 0
     UInt32 uiCurrV  = 0;
     UInt32 uiCurrH  = 0;
     UInt32 uiCountV = 0;
     UInt32 uiCountH = 0;
+#endif
 
     PerspectiveCamera *pPCam = 
         dynamic_cast<PerspectiveCamera *>(pCam.getDecoratee());

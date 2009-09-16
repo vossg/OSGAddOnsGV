@@ -42,9 +42,9 @@ OSG_BEGIN_NAMESPACE
 
 RTStore::RTStore(void) :
     Inherited ( ),
+   _uiNumTiles(0),
    _uiWidth   (0),
    _uiHeight  (0),
-   _uiNumTiles(0),
    _uiHTiles  (0),
    _uiVTiles  (0)
 {
@@ -54,7 +54,8 @@ RTStore::~RTStore(void)
 {
 }
 
-RTStore::RTStore(const RTStore &source)
+RTStore::RTStore(const RTStore &source) :
+    Inherited(source)
 {
 }
 

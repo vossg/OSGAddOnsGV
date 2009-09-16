@@ -732,7 +732,7 @@ Action::ResultE LightRTInitLeave(NodeCore                * const pCore,
     Action::ResultE      r       = Action::Continue;
     RTInitAction<DescT> *pRTInit = dynamic_cast<RTInitAction<DescT> *>(action);
 
-    Light               *pLight  = dynamic_cast<Light *>(pCore);
+//    Light               *pLight  = dynamic_cast<Light *>(pCore);
 
     pRTInit->releaseLightIndex();
     pRTInit->popState();

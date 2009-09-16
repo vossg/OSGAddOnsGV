@@ -253,7 +253,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
 {
     RTKDNode *returnValue = NULL;
 
-    if(numCurrentPrims <= _iMaxPrims || iCurrentDepth == 0) 
+    if(Int32(numCurrentPrims) <= _iMaxPrims || iCurrentDepth == 0) 
     {
         returnValue = new RTKDNode;
 
@@ -295,7 +295,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
     {
         primIt = currentPrimsIt;
         
-        for(Int32 i = 0; i < numCurrentPrims; ++i) 
+        for(UInt32 i = 0; i < numCurrentPrims; ++i) 
         {
             Int32 iPrimId = *primIt++;
             
@@ -318,7 +318,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
         Int32 iNumBelow = 0;
         Int32 iNumAbove = numCurrentPrims;
         
-        for(Int32 i = 0; i < 2 * numCurrentPrims; ++i) 
+        for(UInt32 i = 0; i < 2 * numCurrentPrims; ++i) 
         {
             if(vEdgeStore[iCurrAxis][i]._eEdgeType == BBoxEdge::END) 
                 --iNumAbove;
@@ -366,7 +366,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
                 ++iNumBelow;
         }
         
-        OSG_ASSERT(iNumBelow == numCurrentPrims && iNumAbove == 0); 
+        OSG_ASSERT(iNumBelow == Int32(numCurrentPrims) && iNumAbove == 0); 
         
         if(iBestAxis == -1 && iNumRetries < 2) 
         {
@@ -407,7 +407,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
 
     primIt = itPrimStore1;
 
-    for(Int32 i = iBestOffset + 1; i < 2 * numCurrentPrims; ++i)
+    for(UInt32 i = iBestOffset + 1; i < 2 * numCurrentPrims; ++i)
     {
         if(vEdgeStore[iBestAxis][i]._eEdgeType == BBoxEdge::END)
         {

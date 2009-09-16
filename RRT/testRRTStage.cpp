@@ -581,10 +581,12 @@ void initScene(int argc, char **argv)
     vpPlane->setSize      (0, 0, 1, 1);
 
 
+#if 0
     UChar8 imgdata[] =
     {  
         64,64,64, 128,128,128, 192,192,192, 255,255,255 
     };
+#endif
 
     ImageUnrecPtr pImg = Image::create();
 

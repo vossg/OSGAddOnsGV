@@ -39,7 +39,7 @@
 OSG_BEGIN_NAMESPACE
 
 template<typename DescT> inline
-const typename RTCacheBase<DescT>::GeometryStorePtr 
+typename RTCacheBase<DescT>::GeometryStorePtr 
     RTCacheBase<DescT>::getGeoStore(UInt32 uiIndex)
 {
     return _mfGeos[uiIndex];
