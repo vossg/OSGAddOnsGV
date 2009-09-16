@@ -218,6 +218,7 @@ void BbqGeoRefdTerrainRenderer<HeightType,
         const float fovY = options.fovy;
         const float screenResolution = float( options.screenSize.y() ) / fovY;
         
+#if 0 //Unused
         const float nodeError = screenResolution * 
             ( ( nodeSize / float( _oDatabaseInfo.heightTileSize ) ) / distance );
 
@@ -237,6 +238,7 @@ void BbqGeoRefdTerrainRenderer<HeightType,
         
         const float switchDistance2 =
             ( objectSpaceHeightError / detailFactor ) * screenFactor;
+#endif
 
         // todo: geomorphing geht noch nicht richtig...
         

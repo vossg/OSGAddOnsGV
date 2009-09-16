@@ -74,11 +74,11 @@ bool ImageBlockAccessorX::readBlockRGB(Vec2i  vSampleOrigin,
     Int32 yMin = vSampleOrigin.y();
     Int32 yMax = vSampleOrigin.y() + iTextureSize;
 
-    for(UInt32 y = yMin; y < yMax; y++)
+    for(Int32 y = yMin; y < yMax; y++)
     {
-        for(UInt32 x = xMin; x < xMax; x++)
+        for(Int32 x = xMin; x < xMax; x++)
         {
-            for(UInt32 i = 0; i < 3; i++)
+            for(Int32 i = 0; i < 3; i++)
             {
                 if(y >= _pImage->getHeight() ||
                    x >= _pImage->getWidth()   )
@@ -118,11 +118,11 @@ bool ImageBlockAccessorX::readBlockA16(Vec2i   vSampleOrigin,
     Int32 yMin = vSampleOrigin.y();
     Int32 yMax = vSampleOrigin.y() + iTextureSize;
 
-    for(UInt32 y = yMin; y < yMax; y++)
+    for(Int32 y = yMin; y < yMax; y++)
     {
-        for(UInt32 x = xMin; x < xMax; x++)
+        for(Int32 x = xMin; x < xMax; x++)
         {
-            for(UInt32 i = 0; i < 2; i++)
+            for(Int32 i = 0; i < 2; i++)
             {
                 if(y >= _pImage->getHeight() ||
                    x >= _pImage->getWidth()   )
@@ -162,11 +162,11 @@ bool ImageBlockAccessorX::readBlockA16(Vec2i   vSampleOrigin,
     Int32 yMin = vSampleOrigin.y();
     Int32 yMax = vSampleOrigin.y() + iTextureSize;
 
-    for(UInt32 y = yMin; y < yMax; y++)
+    for(Int32 y = yMin; y < yMax; y++)
     {
-        for(UInt32 x = xMin; x < xMax; x++)
+        for(Int32 x = xMin; x < xMax; x++)
         {
-            for(UInt32 i = 0; i < 2; i++)
+            for(Int32 i = 0; i < 2; i++)
             {
                 if(y >= _pImage->getHeight() ||
                    x >= _pImage->getWidth()   )

@@ -1140,25 +1140,35 @@ void BbqTerrainRenderer<HeightType,
         const float fovY = options.fovy;
         const float screenResolution = float( options.screenSize.y() ) / fovY;
         
+#if 0 //Unused
         const float nodeError = screenResolution * 
             ( ( nodeSize / float( _oDatabaseInfo.heightTileSize ) ) / distance );
-
+#endif
+#if 0 //Unused
         const float objectSpaceHeightError = 
             float( node->maxHeightError ) / 
             65535.0f * _oDatabaseInfo.heightScale + _oDatabaseInfo.heightOffset;
+#endif
 
+#if 0 //Unused
         const float screenSpaceHeightError = 
             ( objectSpaceHeightError / distance ) * screenResolution;
+#endif
 
+#if 0 //Unused
         const float screenFactor = 
             float( options.screenSize.y() ) / ( 2.0f * tanf( fovY / 2.0f ) );
+#endif
 
+#if 0 //Unused
         const float screenSpaceHeightError2 = 
             ( objectSpaceHeightError / distance ) * screenFactor;
+#endif
         
+#if 0 //Unused
         const float switchDistance2 =
             ( objectSpaceHeightError / detailFactor ) * screenFactor;
-
+#endif
         // todo: geomorphing geht noch nicht richtig...
         
         Vec3f disp = options.viewerpos - bboxCenter;
