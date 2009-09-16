@@ -560,7 +560,7 @@ void CpuClipmapRenderer::onBuildVertices( GeometryClipmapLevel& level, const Geo
     if( levelRenderData.vertexBuffer.isValid() )
     {
         // todo: upload only the changed data rect:
-        const int vertexCount = levelRenderData.vertices.size();
+//        const int vertexCount = levelRenderData.vertices.size();
         
         //std::cerr << "Uploading Vbo Data " << blockRect << std::endl;
         
@@ -1039,6 +1039,7 @@ void CpuClipmapRenderer::drawBlendLines( const GeometryClipmapLevel& level, cons
             
             const OpenGLTerrainVertex& vertex = renderData.vertices[ y * levelSampleCount + x ];
             
+#if 0
             const float sampleValue = level.heightmap.getSample( x, y );
             
             if( ( fabsf( sampleWorldPos[ 0 ] - vertex.pos[ 0 ] ) > 0.1f ) ||
@@ -1047,6 +1048,7 @@ void CpuClipmapRenderer::drawBlendLines( const GeometryClipmapLevel& level, cons
             {
                 int i = 43;
             }
+#endif
             
             glVertex3f( vertex.pos[ 0 ], vertex.pos[ 1 ], vertex.pos[ 2 ] );
             glVertex3f( vertex.pos[ 0 ], vertex.pos[ 3 ], vertex.pos[ 2 ] );

@@ -88,9 +88,11 @@ namespace OSG
 	{
 		// check validity of the input data:
 
+#if 0
 		const int levelSampleCount = level.heightmap.size;
 		const int blockOriginX = level.blockOrigin[ 0 ];
 		const int blockOriginY = level.blockOrigin[ 1 ];
+#endif
 
 		// todo: clip data to the existing data: (saves per pixel clipping)
 

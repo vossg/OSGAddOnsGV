@@ -46,7 +46,7 @@ OSG_BEGIN_NAMESPACE
 
 void GeometryClipmaps::dumpIt(void)
 {
-    fprintf(stderr, "Got %d levels\n", levels_.size());
+    fprintf(stderr, "Got %zd levels\n", levels_.size());
 
     for(UInt32 i = 0; i < levels_.size(); ++i)
     {
@@ -494,10 +494,12 @@ int GeometryClipmaps::updateBigLevelBlock( GeometryClipmapLevel& level, const Ge
     Rectangle2i subRects[ 4 ];
     int subRectCount = 0;
     
+#if 0
     int midY = 0;
     int maxY = 0;
     int midX = 0;
     int maxX = 0;
+#endif
     
     subRects[ 0 ] = targetRect;
     subRectCount++;

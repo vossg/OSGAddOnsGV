@@ -100,10 +100,12 @@ Pnt2i GeometryClipmapLevel::samplePosToBlockPos( const Pnt2i& samplePos ) const
     assert( containsSample( samplePos ) );
     
     // for testing:
+#if 0
     const int sampleOriginX = sampleOrigin[ 0 ];
     const int sampleOriginY = sampleOrigin[ 1 ];
     const int blockOriginX = blockOrigin[ 0 ];
     const int blockOriginY = blockOrigin[ 1 ];
+#endif
     
     Pnt2i blockPos = componentDivide( samplePos - sampleOrigin, sampleSpacing );
     

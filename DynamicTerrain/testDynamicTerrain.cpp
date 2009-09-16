@@ -223,7 +223,7 @@ void display()
 	{
 		if( currentTime - lastLogTime > logTimeDelta )
 		{
-			float fps = float(frameCount / logTimeDelta);
+//			float fps = float(frameCount / logTimeDelta);
 
 			//std::cout << "Current FPS = " << fps << " !\n";
 
@@ -322,7 +322,7 @@ bool reloadShader()
 // react to keys
 void keyboard(unsigned char k, int x, int y)
 {
-	GLint current = GL_LINE;
+//	GLint current = GL_LINE;
 
 	switch( k )
 	{
