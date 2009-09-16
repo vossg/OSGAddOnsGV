@@ -12,7 +12,8 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${OpenSG_DIR}/share/OpenSG/cmake")
 INCLUDE(ExternalProjectHelper)
 
 SET(OSG_COMPONENTS OSGBase OSGSystem OSGState OSGGroup OSGDrawable OSGWindow
-                   OSGText OSGUtil OSGWindowGLUT)
+                   OSGText OSGUtil OSGWindowGLUT OSGFileIO OSGImageFileIO
+                   OSGDynamics)
 
 IF(UNIX)
   IF(APPLE)
