@@ -14,9 +14,9 @@
 
 //-------------------------------------------------------------------------------------------------
 
-#include <OSGFrustumVolume.h>
-#include <OSGTextureChunkFields.h>
-#include <OSGWindow.h>
+#include "OSGFrustumVolume.h"
+#include "OSGTextureChunkFields.h"
+#include "OSGWindow.h"
 #include "OSGTerrainTypes.h"
 #include "OSGRectangle.h"
 

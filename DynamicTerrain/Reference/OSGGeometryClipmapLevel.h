@@ -14,9 +14,9 @@
 
 //-------------------------------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGLine.h>
-#include <OSGImage.h>
+#include "OSGBaseTypes.h"
+#include "OSGLine.h"
+#include "OSGImage.h"
 #include "OSGTerrainTypes.h"
 #include "OSGHeightmap.h"
 

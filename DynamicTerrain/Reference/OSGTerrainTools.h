@@ -15,9 +15,9 @@
 //-------------------------------------------------------------------------------------------------
 
 #include <string>
-#include <OSGVector.h>
-#include <OSGMatrix.h>
-#include <OSGColor.h>
+#include "OSGVector.h"
+#include "OSGMatrix.h"
+#include "OSGColor.h"
 #include "OSGTerrainTypes.h"
 
 //-------------------------------------------------------------------------------------------------

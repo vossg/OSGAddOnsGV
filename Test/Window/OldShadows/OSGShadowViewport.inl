@@ -39,11 +39,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGConfig.h>
-
 OSG_BEGIN_NAMESPACE
 
 OSG_END_NAMESPACE
-
-#define OSGSHADOWVIEWPORT_INLINE_CVSID "@(#)$Id: OSGShadowViewport.inl,v 1.5 2006/06/07 15:12:37 yjung Exp $"
 

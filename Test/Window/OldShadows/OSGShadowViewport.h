@@ -45,23 +45,23 @@
 #include <vector>
 #include <utility>
 
-#include <OSGConfig.h>
-#include <OSGAction.h>
-#include <OSGRenderActionBase.h>
-#include <OSGSpotLight.h>
-#include <OSGDirectionalLight.h>
-#include <OSGNode.h>
+#include "OSGConfig.h"
+#include "OSGAction.h"
+#include "OSGRenderActionBase.h"
+#include "OSGSpotLight.h"
+#include "OSGDirectionalLight.h"
+#include "OSGNode.h"
 #include "OSGShadowViewportBase.h"
-#include <OSGPerspectiveCamera.h>
-#include <OSGMatrixCamera.h>
-#include <OSGTransform.h>
-#include <OSGTextureChunk.h>
-#include <OSGPassiveBackground.h>
-#include <OSGTexGenChunk.h>
-#include <OSGTextureTransformChunk.h>
-#include <OSGPolygonChunk.h>
-#include <OSGBlendChunk.h>
-#include <OSGTileCameraDecorator.h>
+#include "OSGPerspectiveCamera.h"
+#include "OSGMatrixCamera.h"
+#include "OSGTransform.h"
+#include "OSGTextureChunk.h"
+#include "OSGPassiveBackground.h"
+#include "OSGTexGenChunk.h"
+#include "OSGTextureTransformChunk.h"
+#include "OSGPolygonChunk.h"
+#include "OSGBlendChunk.h"
+#include "OSGTileCameraDecorator.h"
 #include "OSGTreeRenderer.h"
 
 OSG_BEGIN_NAMESPACE
@@ -204,7 +204,7 @@ typedef ShadowViewport *ShadowViewportP;
 
 OSG_END_NAMESPACE
 
-#include <OSGShadowViewportBase.inl>
-#include <OSGShadowViewport.inl>
+#include "OSGShadowViewportBase.inl"
+#include "OSGShadowViewport.inl"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */

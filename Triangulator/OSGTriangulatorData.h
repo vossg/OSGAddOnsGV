@@ -1,9 +1,9 @@
 #ifndef _Contrib_Triangulator_h_
 #define _Contrib_Triangulator_h_
 
-#include <OSGContribTriangulator.h>
-#include <OSGMemoryObject.h>
-#include <OSGVector.h>
+#include "OSGContribTriangulator.h"
+#include "OSGMemoryObject.h"
+#include "OSGVector.h"
 #include <map>
 
 struct triangulateio;

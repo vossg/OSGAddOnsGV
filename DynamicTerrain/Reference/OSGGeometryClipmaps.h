@@ -14,7 +14,7 @@
 
 //-------------------------------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 #include "OSGTerrainTypes.h"
 #include "OSGCpuClipmapRenderer.h"
 #include "OSGHeightmap.h"

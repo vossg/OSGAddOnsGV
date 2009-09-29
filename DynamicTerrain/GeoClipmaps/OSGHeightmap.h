@@ -41,7 +41,7 @@
 
 #include "OSGTerrainTypes.h"
 #include <vector>
-#include <OSGLine.h>
+#include "OSGLine.h"
 
 OSG_BEGIN_NAMESPACE
 

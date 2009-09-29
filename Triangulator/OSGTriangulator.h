@@ -1,10 +1,10 @@
 #ifndef __Contrib_OSGTriangulator_h__
 #define __Contrib_OSGTriangulator_h__
 
-#include <OSGContribTriangulator.h>
-#include <OSGMemoryObject.h>
-#include <OSGVector.h>
-#include <OSGTriangulatorData.h>
+#include "OSGContribTriangulator.h"
+#include "OSGMemoryObject.h"
+#include "OSGVector.h"
+#include "OSGTriangulatorData.h"
 #include <string>
 
 /* ************************************************************************* *

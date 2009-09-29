@@ -46,8 +46,8 @@
 
 //-------------------------------------------------------------------------------------------------
 
-#include <OSGConfig.h>
-#include <OSGDynamicTerrainBase.h>
+#include "OSGConfig.h"
+#include "OSGDynamicTerrainBase.h"
 #include "OSGRectangle.h"
 #include "OSGGeometryClipmaps.h"
 #include "OSGImageHeightDataSource.h"
@@ -158,10 +158,8 @@ namespace OSG
 
 //-------------------------------------------------------------------------------------------------
 
-#include <OSGDynamicTerrainBase.inl>
-#include <OSGDynamicTerrain.inl>
-
-#define OSGTERRAIN_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.23 2005/03/05 11:27:26 dirk Exp $"
+#include "OSGDynamicTerrainBase.inl"
+#include "OSGDynamicTerrain.inl"
 
 //-------------------------------------------------------------------------------------------------
 

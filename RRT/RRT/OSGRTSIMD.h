@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
 #include <vector>
 
