@@ -61,11 +61,11 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGRTTarget.h" // Parent
 
-#include "OSGTextureObjChunkFields.h" // TexObjChunk type
+#include "OSGTextureObjChunkFields.h"   // TexObjChunk type
 
 #include "OSGRTTextureTargetFields.h"
 

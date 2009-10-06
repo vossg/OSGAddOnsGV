@@ -54,16 +54,16 @@
 #include <cstdio>
 #include <boost/assign/list_of.hpp>
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 
 
-#include <OSGTextureObjChunk.h> // TextureObject Class
+#include "OSGTextureObjChunk.h"         // TextureObject Class
 
 #include "OSGLabelBase.h"
 #include "OSGLabel.h"
 
-#include "boost/bind.hpp"
+#include <boost/bind.hpp>
 
 #ifdef WIN32 // turn off 'this' : used in base member initializer list warning
 #pragma warning(disable:4355)

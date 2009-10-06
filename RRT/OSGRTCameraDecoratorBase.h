@@ -61,7 +61,7 @@
 #include "OSGConfig.h"
 #include "OSGContribRRTDef.h"
 
-#include "OSGBaseTypes.h"
+//#include "OSGBaseTypes.h"
 
 #include "OSGCameraDecorator.h" // Parent
 

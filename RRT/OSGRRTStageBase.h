@@ -65,9 +65,9 @@
 
 #include "OSGStage.h" // Parent
 
-#include "OSGNodeFields.h" // BackgroundRoot type
-#include "OSGTextureObjChunkFields.h" // TextureTarget type
-#include "OSGSysFields.h" // Width type
+#include "OSGNodeFields.h"              // BackgroundRoot type
+#include "OSGTextureObjChunkFields.h"   // TextureTarget type
+#include "OSGSysFields.h"               // Width type
 #include "OSGRTCameraDecoratorFields.h" // RTCamera type
 
 #include "OSGRRTStageFields.h"

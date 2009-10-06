@@ -54,17 +54,16 @@
 #include <cstdio>
 #include <boost/assign/list_of.hpp>
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 
 
-#include <OSGNode.h> // RayTracingRoot Class
-#include <OSGNode.h> // BackgroundRoot Class
+#include "OSGNode.h"                    // RayTracingRoot Class
 
 #include "OSGRayTracerBase.h"
 #include "OSGRayTracer.h"
 
-#include "boost/bind.hpp"
+#include <boost/bind.hpp>
 
 #ifdef WIN32 // turn off 'this' : used in base member initializer list warning
 #pragma warning(disable:4355)

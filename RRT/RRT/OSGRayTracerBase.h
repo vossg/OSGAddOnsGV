@@ -65,8 +65,8 @@
 
 #include "OSGFieldContainer.h" // Parent
 
-#include "OSGNodeFields.h" // RayTracingRoot type
-#include "OSGSysFields.h" // Width type
+#include "OSGNodeFields.h"              // RayTracingRoot type
+#include "OSGSysFields.h"               // Width type
 
 #include "OSGRayTracerFields.h"
 

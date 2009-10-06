@@ -65,10 +65,10 @@
 
 #include "OSGGroup.h" // Parent
 
-#include "OSGVecFields.h" // Position type
-#include "OSGSysFields.h" // Orientation type
-#include "OSGBaseFields.h" // Color type
-#include "OSGTextureObjChunkFields.h" // TextureObject type
+#include "OSGVecFields.h"               // Position type
+#include "OSGSysFields.h"               // Orientation type
+#include "OSGBaseFields.h"              // Color type
+#include "OSGTextureObjChunkFields.h"   // TextureObject type
 
 #include "OSGLabelFields.h"
 

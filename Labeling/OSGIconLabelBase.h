@@ -65,9 +65,9 @@
 
 #include "OSGLabel.h" // Parent
 
-#include "OSGBaseFields.h" // Filename type
-#include "OSGImage.h" // Image type
-#include "OSGVecFields.h" // Size type
+#include "OSGBaseFields.h"              // Filename type
+#include "OSGImageFields.h"             // Image type
+#include "OSGVecFields.h"               // Size type
 
 #include "OSGIconLabelFields.h"
 

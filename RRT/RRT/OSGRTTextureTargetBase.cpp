@@ -54,16 +54,16 @@
 #include <cstdio>
 #include <boost/assign/list_of.hpp>
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 
 
-#include <OSGTextureObjChunk.h> // TexObjChunk Class
+#include "OSGTextureObjChunk.h"         // TexObjChunk Class
 
 #include "OSGRTTextureTargetBase.h"
 #include "OSGRTTextureTarget.h"
 
-#include "boost/bind.hpp"
+#include <boost/bind.hpp>
 
 #ifdef WIN32 // turn off 'this' : used in base member initializer list warning
 #pragma warning(disable:4355)
@@ -80,13 +80,32 @@ OSG_BEGIN_NAMESPACE
  */
 
 /***************************************************************************\
- *                         Field Description                               *
+ *                        Field Documentation                              *
 \***************************************************************************/
 
 /*! \var TextureObjChunk * RTTextureTargetBase::_sfTexObjChunk
     
 */
 
+
+/***************************************************************************\
+ *                      FieldType/FieldTrait Instantiation                 *
+\***************************************************************************/
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
+DataType FieldTraits<RTTextureTarget *>::_type("RTTextureTargetPtr", "RTTargetPtr");
+#endif
+
+OSG_FIELDTRAITS_GETTYPE(RTTextureTarget *)
+
+OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
+                           RTTextureTarget *,
+                           0);
+
+
+/***************************************************************************\
+ *                         Field Description                               *
+\***************************************************************************/
 
 void RTTextureTargetBase::classDescInserter(TypeObject &oType)
 {
@@ -439,17 +458,6 @@ void RTTextureTargetBase::resolveLinks(void)
 
 
 }
-
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTTextureTarget *>::_type("RTTextureTargetPtr", "RTTargetPtr");
-#endif
-
-OSG_FIELDTRAITS_GETTYPE(RTTextureTarget *)
-
-OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
-                           RTTextureTarget *,
-                           0);
 
 
 OSG_END_NAMESPACE

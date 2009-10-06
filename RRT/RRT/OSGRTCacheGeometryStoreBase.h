@@ -65,9 +65,9 @@
 
 #include "OSGFieldContainer.h" // Parent
 
-#include "OSGGeometryFields.h" // Geo type
-#include "OSGMathFields.h" // Matrix type
-#include "OSGStateFields.h" // State type
+#include "OSGGeometryFields.h"          // Geo type
+#include "OSGMathFields.h"              // Matrix type
+#include "OSGStateFields.h"             // State type
 
 #include "OSGRTCacheGeometryStoreFields.h"
 

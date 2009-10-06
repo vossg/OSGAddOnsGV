@@ -65,8 +65,8 @@
 
 #include "OSGLabel.h" // Parent
 
-#include "OSGBaseFields.h" // Text type
-#include "OSGSysFields.h" // Size type
+#include "OSGBaseFields.h"              // Text type
+#include "OSGSysFields.h"               // Size type
 
 #include "OSGTextLabelFields.h"
 

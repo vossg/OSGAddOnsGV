@@ -65,8 +65,8 @@
 
 #include "OSGForeground.h" // Parent
 
-#include "OSGSysFields.h" // ImportanceThreshold type
-#include "OSGTextureEnvChunkFields.h" // TextureEnvironment type
+#include "OSGSysFields.h"               // ImportanceThreshold type
+#include "OSGTextureEnvChunkFields.h"   // TextureEnvironment type
 
 #include "OSGLabelForegroundFields.h"
 
