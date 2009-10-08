@@ -46,6 +46,7 @@
 #ifndef _OSGBBQTERRAINCREATOR_H_
 #define _OSGBBQTERRAINCREATOR_H_
 
+#include "OSGContribBbqTerrainDef.h"
 #include "OSGImageFileType.h"
 #include "OSGBbqFile.h"
 #include "OSGBbqNodeIterator.h"
@@ -56,7 +57,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class BbqCreateEngineBase
+class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqCreateEngineBase
 {
     /*==========================  PUBLIC  =================================*/
 
@@ -293,7 +294,7 @@ class BbqCreateEngine : public BbqCreateEngineBase
 };
 
 
-class BbqTerrainCreator
+class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqTerrainCreator
 {
     /*==========================  PUBLIC  =================================*/
 

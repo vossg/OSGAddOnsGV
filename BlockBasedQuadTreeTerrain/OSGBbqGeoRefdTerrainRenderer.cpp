@@ -44,7 +44,12 @@
 
 #define GL_GLEXT_PROTOTYPES
 
-#include "GL/gl.h"
+#ifdef WIN32
+#include "OSGConfig.h"
+#include <GL/glew.h>
+#endif
+
+#include "OSGGL.h"
 #include "OSGGLU.h"
 
 #include "OSGBbqTerrainRenderer.h"

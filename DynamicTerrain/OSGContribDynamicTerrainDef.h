@@ -48,7 +48,7 @@
 //---------------------------------------------------------------------------
 
 #if defined(WIN32)
-#   ifdef OSG_COMPILECONTRIBDYNAMICTERRAINLIB
+#   ifdef OSG_COMPILECONTRIBDYNTERRAINLIB
 #       define OSG_CONTRIBDYNAMICTERRAIN_DLLMAPPING     __declspec(dllexport)
 #       define OSG_CONTRIBDYNAMICTERRAIN_DLLTMPLMAPPING __declspec(dllexport)
 #   else

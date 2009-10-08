@@ -444,8 +444,10 @@ void backProjectPnt(Vec3f &result,
 #define PI           3.14159265358979323846
 #define AD_C       1.0026000
 
+#ifndef WIN32
     static const int FALSE = 0;
-    static const int TRUE = 0;
+    static const int TRUE = 1;
+#endif
 
     Real32 a = 6378.137;
     Real32 b = 6356.7523142;

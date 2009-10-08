@@ -44,12 +44,14 @@
 #include "OSGMatrix.h"
 #include "OSGColor.h"
 #include "OSGTerrainTypes.h"
+#include "OSGContribDynamicTerrainDef.h"
 
 OSG_BEGIN_NAMESPACE
 
 
 unsigned int		getNextPowerOf2( unsigned int x );
 void				drawBox( const Pnt3f& min, const Pnt3f& max );
+OSG_CONTRIBDYNAMICTERRAIN_DLLMAPPING
 bool				loadTextFile( const char* filename, std::string& text );
 
 

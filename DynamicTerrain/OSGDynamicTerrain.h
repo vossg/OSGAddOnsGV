@@ -66,7 +66,8 @@ class TextureDataSource;
 
 //----------------------------------------------------------------------------
 
-class DynamicTerrain : public DynamicTerrainBase
+class OSG_CONTRIBDYNAMICTERRAIN_DLLMAPPING DynamicTerrain : 
+    public DynamicTerrainBase
 {
   private:
     

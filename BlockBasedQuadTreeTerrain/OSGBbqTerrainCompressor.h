@@ -49,6 +49,7 @@
 
 //-----------------------------------------------------------------------------
 
+#include "OSGContribBbqTerrainDef.h"
 #include "OSGTerrainHelper.h"
 #include "OSGBbqFile.h"
 #include "OSGBbqNodeIterator.h"
@@ -58,7 +59,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class BbqTerrainCompressor
+class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqTerrainCompressor
 {
     /*==========================  PUBLIC  =================================*/
 

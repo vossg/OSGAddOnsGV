@@ -80,9 +80,16 @@ Int32 getQuadtreeLeafNodeCount(Int32 iSamplesX,
 
 Int32 getQuadtreeDepth(Int32 iSamplesX, Int32 iSamplesY, Int32 iTileSize)
 {
+#ifdef WIN32
+    return Int32(log(Real32(getQuadtreeLeafNodeCount(iSamplesX, 
+                                                     iSamplesY, 
+                                                     iTileSize)))/log(2.f) +
+                 1.f);
+#else
     return Int32(log2(Real32(getQuadtreeLeafNodeCount(iSamplesX, 
                                                       iSamplesY, 
                                                       iTileSize))) + 1.f);
+#endif
 }
 
 
