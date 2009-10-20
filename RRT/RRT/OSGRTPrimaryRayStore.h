@@ -175,7 +175,7 @@ class RTPrimaryRayStore : public RTStore
     UInt32        _uiCurrentRay;
     RayStore      _vRays;
     RayInfoStore  _vRayInfos;
-    Lock         *_pStoreLock;
+    LockRefPtr    _pStoreLock;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

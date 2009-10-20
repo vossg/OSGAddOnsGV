@@ -65,7 +65,7 @@ RTLocalPacketManager<DescT>::~RTLocalPacketManager(void)
     OSG::subRef(_pPrimaryRayTiledStore);
     OSG::subRef(_pHitTiledStore       );
 
-    OSG::subRef(_pSyncBarrier         );
+    _pSyncBarrier = NULL;
 
 }
 
@@ -78,7 +78,7 @@ void RTLocalPacketManager<DescT>::resolveLinks(void)
     for(; tIt != tEnd; ++tIt)
     {
         RTCombinedThread<Desc> *cThread = 
-            dynamic_cast<RTCombinedThread<Desc> *>(*tIt);
+            dynamic_cast<RTCombinedThread<Desc> *>((*tIt).get());
 
         if(cThread != NULL)
         {
@@ -88,7 +88,7 @@ void RTLocalPacketManager<DescT>::resolveLinks(void)
         }
 
         RTPrimaryRayThread<Desc> *prThread = 
-            dynamic_cast<RTPrimaryRayThread<Desc> *>(*tIt);
+            dynamic_cast<RTPrimaryRayThread<Desc> *>((*tIt).get());
 
         if(prThread != NULL)
         {
@@ -98,7 +98,7 @@ void RTLocalPacketManager<DescT>::resolveLinks(void)
         }
 
         RTShadingThread<Desc> *shThread = 
-            dynamic_cast<RTShadingThread<Desc> *>(*tIt);
+            dynamic_cast<RTShadingThread<Desc> *>((*tIt).get());
 
         if(shThread != NULL)
         {
@@ -117,7 +117,7 @@ void RTLocalPacketManager<DescT>::resolveLinks(void)
     {
         Thread::join(*tIt);
 
-        OSG::subRef(*tIt);
+        *tIt = NULL;
     }
 
     _vThreads.clear();
@@ -144,9 +144,7 @@ void RTLocalPacketManager<DescT>::resolveLinks(void)
 
     _pHitTiledStore = NULL;
 
-    OSG::subRef(_pSyncBarrier         );
-
-    _pSyncBarrier = NULL;
+    _pSyncBarrier   = NULL;
 }
 
 template<typename DescT> inline
@@ -208,12 +206,10 @@ void RTLocalPacketManager<DescT>::setup(bool bTiled)
 {
     UInt32 uiNumThreads = 1;
 
-//    _pSyncBarrier = Barrier::get("RRT-Shading-DisplaySync");
-    _pSyncBarrier = Barrier::get(NULL);
+    _pSyncBarrier = Barrier::get(NULL, false);
 
     _pSyncBarrier->setNumWaitFor(uiNumThreads + 1);
     
-    OSG::addRef(_pSyncBarrier);
     
     if(bTiled == true)
     {
@@ -238,9 +234,9 @@ void RTLocalPacketManager<DescT>::setup(bool bTiled)
 
     for(UInt32 i = 0; i < uiNumThreads; ++i)
     {
-        RTCombinedThread<Desc> *prThread;
+        typename RTCombinedThread<Desc>::ObjRefPtr prThread;
             
-        prThread = RTCombinedThread<Desc>::get(NULL);
+        prThread = RTCombinedThread<Desc>::get(NULL, false);
   
         _vThreads.push_back(prThread);
 
@@ -276,12 +272,10 @@ void RTLocalPacketManager<DescT>::setupSplitThreads(bool bTiled)
 {
     UInt32 uiNumThreads = 1;
 
-//    _pSyncBarrier = Barrier::get("RRT-Shading-DisplaySync");
-    _pSyncBarrier = Barrier::get(NULL);
+    _pSyncBarrier = Barrier::get(NULL, false);
 
     _pSyncBarrier->setNumWaitFor(2 * uiNumThreads + 1);
     
-    OSG::addRef(_pSyncBarrier);
 
     if(bTiled == true)
     {
@@ -306,9 +300,9 @@ void RTLocalPacketManager<DescT>::setupSplitThreads(bool bTiled)
 
     for(UInt32 i = 0; i < uiNumThreads; ++i)
     {
-        RTPrimaryRayThread<Desc> *prThread;
+        typename RTPrimaryRayThread<Desc>::ObjRefPtr prThread;
             
-        prThread = RTPrimaryRayThread<Desc>::get(NULL);
+        prThread = RTPrimaryRayThread<Desc>::get(NULL, false);
   
         _vThreads.push_back(prThread);
 
@@ -332,9 +326,9 @@ void RTLocalPacketManager<DescT>::setupSplitThreads(bool bTiled)
         prThread->run();
 
 
-        RTShadingThread<Desc> *shThread;
+        typename RTShadingThread<Desc>::ObjRefPtr shThread;
 
-        shThread = RTShadingThread<Desc>::get(NULL);
+        shThread = RTShadingThread<Desc>::get(NULL, false);
   
         _vThreads.push_back(shThread);
 

@@ -48,9 +48,11 @@ OSG::MPThreadType RTThread::_type(
     NULL);
 
 RTThread::RTThread(const OSG::Char8  *szName, 
-                         OSG::UInt32  uiId  ) :
+                         OSG::UInt32  uiId, 
+                              bool    bGlobal  ) :
     Inherited    (szName, 
-                  uiId  )
+                  uiId,
+                  bGlobal)
 {
 }
 

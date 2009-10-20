@@ -82,12 +82,15 @@ class RTShadingThread : public RTThread
 
     typedef typename Desc::ColorPacket      ColorPacket;
 
+    OSG_GEN_INTERNAL_MEMOBJPTR(Self);
+
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    static RTShadingThread *get (OSG::Char8 *szName);
-    static RTShadingThread *find(OSG::Char8 *szName);
+    static ObjTransitPtr    get (OSG::Char8 *szName,
+                                      bool   bGlobal);
+    static RTShadingThread *find(OSG::Char8 *szName );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -127,14 +130,15 @@ class RTShadingThread : public RTThread
     /*! \{                                                                 */
 
     static OSG::BaseThread *create(const OSG::Char8  *szName, 
-                                         OSG::UInt32  uiId  );
+                                         OSG::UInt32  uiId,
+                                         bool         bGlobal = false);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
  
-    RTShadingThread(const OSG::Char8 *szName, OSG::UInt32 uiId);
+    RTShadingThread(const OSG::Char8 *szName, OSG::UInt32 uiId, bool bGlobal);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -187,13 +191,16 @@ OSG::MPThreadType RTShadingThread< DESC >::_type(                          \
     NULL);                                                                 \
                                                                            \
 template<> OSG_DLL_EXPORT                                                  \
-RTShadingThread< DESC > *RTShadingThread< DESC >::get(OSG::Char8 *szName)  \
+RTShadingThread< DESC >::ObjTransitPtr                                     \
+    RTShadingThread< DESC >::get(OSG::Char8 *szName,                       \
+                                      bool   bGlobal)                      \
 {                                                                          \
-    OSG::BaseThread *pThread =                                             \
+    OSG::BaseThreadTransitPtr pThread =                                    \
         OSG::ThreadManager::the()->getThread(szName,                       \
+                                             bGlobal,                      \
                                              NAME);                        \
                                                                            \
-    return dynamic_cast<RTShadingThread *>(pThread);                       \
+    return dynamic_pointer_cast<RTShadingThread>(pThread);                 \
 }
 
 #include "OSGRTShadingThread.inl"

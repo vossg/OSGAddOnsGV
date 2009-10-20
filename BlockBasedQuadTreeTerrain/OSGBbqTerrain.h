@@ -174,7 +174,7 @@ class BbqTerrainEngineBase
     BbqPriorityQueue                   _qUnloadQueue;
     
     //motor3d::Mutex                  treeAccessMutex_;
-    Lock                              *_pTreeAccessMutex;
+    LockRefPtr                         _pTreeAccessMutex;
 
     // some statistics:
     BbqDataStatistics                  _oDataStatistics;

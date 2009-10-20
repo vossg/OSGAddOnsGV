@@ -120,9 +120,9 @@ class RTLocalPacketManager : public MemoryObject
 
   protected:
 
-    typedef MemoryObject            Inherited;
+    typedef MemoryObject                Inherited;
 
-    typedef std::vector<RTThread *> ThreadStore;
+    typedef std::vector<RTThreadRefPtr> ThreadStore;
 
 
     /*---------------------------------------------------------------------*/
@@ -138,7 +138,7 @@ class RTLocalPacketManager : public MemoryObject
     PrimaryRayTiledStore   *_pPrimaryRayTiledStore;
     HitTiledStore          *_pHitTiledStore;
 
-    Barrier                *_pSyncBarrier;
+    BarrierRefPtr           _pSyncBarrier;
 
     ThreadStore             _vThreads;
 

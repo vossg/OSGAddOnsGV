@@ -82,15 +82,13 @@ RTPrimaryRayStore<DescT>::RTPrimaryRayStore(void) :
 
     _pStoreLock  (NULL)
 {
-    _pStoreLock = Lock::get(NULL);
-
-    OSG::addRef(_pStoreLock);
+    _pStoreLock = Lock::get(NULL, false);
 }
 
 template<typename DescT> inline
 RTPrimaryRayStore<DescT>::~RTPrimaryRayStore(void)
 {
-    OSG::subRef(_pStoreLock);
+    _pStoreLock = NULL;
 }
 
 template<typename DescT> inline

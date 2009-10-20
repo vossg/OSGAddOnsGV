@@ -128,8 +128,8 @@ class RTHitStore : public RTStore
     HitStore       _vHits;
     HitIndexStore  _vAvailableHits;
  
-    Lock          *_pStoreLock;
-    CondVar       *_pCond;
+    LockRefPtr     _pStoreLock;
+    CondVarRefPtr  _pCond;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

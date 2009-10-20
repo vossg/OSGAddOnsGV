@@ -59,6 +59,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTThread : public OSG::BaseThread
 
   public:
 
+    OSG_GEN_INTERNAL_MEMOBJPTR(RTThread);
+
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
@@ -86,7 +88,7 @@ class OSG_CONTRIBRRT_DLLMAPPING RTThread : public OSG::BaseThread
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
  
-    RTThread(const OSG::Char8 *szName, OSG::UInt32 uiId);
+    RTThread(const OSG::Char8 *szName, OSG::UInt32 uiId, bool bGlobal);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -114,6 +116,8 @@ class OSG_CONTRIBRRT_DLLMAPPING RTThread : public OSG::BaseThread
     RTThread(const RTThread &source);
     void operator =(const RTThread &source);
 };
+
+OSG_GEN_MEMOBJPTR(RTThread);
 
 typedef RTThread *       RTThreadP;
 typedef RTThread * const RTThreadPConst;

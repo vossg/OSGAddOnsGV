@@ -161,10 +161,10 @@ class RTPrimaryRayTiledStore : public RTStore
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    UInt32   _uiCurrentTile;
-    RayStore _vTiles;
+    UInt32     _uiCurrentTile;
+    RayStore   _vTiles;
 
-    Lock    *_pStoreLock;
+    LockRefPtr _pStoreLock;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

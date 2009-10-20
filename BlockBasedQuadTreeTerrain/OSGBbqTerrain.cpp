@@ -85,7 +85,7 @@ const BbqDataStatistics &BbqTerrainEngineBase::getDataStatistics(void) const
 
 void BbqTerrainEngineBase::shutdown(void)
 {
-    OSG::subRef(_pTreeAccessMutex);
+    _pTreeAccessMutex = NULL;
   
     _qUnloadQueue   .clear  ( );
     _qLoadQueue     .clear  ( );

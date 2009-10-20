@@ -2,7 +2,7 @@
 
 <FieldContainer
     name="DynamicTerrain"
-    parent="ContribDynamicTerrain"
+    parent="MaterialDrawable"
     pointerfieldtypes="none"
     structure="concrete"
     systemcomponent="true"

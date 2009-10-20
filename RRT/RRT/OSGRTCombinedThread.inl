@@ -86,25 +86,28 @@ void RTCombinedThread<DescT>::setup(Scene                  *pScene,
 
 template<class DescT> inline
 OSG::BaseThread *RTCombinedThread<DescT>::create(const OSG::Char8  *szName, 
-                                                       OSG::UInt32  uiId)
+                                                       OSG::UInt32  uiId,
+                                                       bool         bGlobal)
 {
-    return new RTCombinedThread(szName, uiId);
+    return new RTCombinedThread(szName, uiId, bGlobal);
 }
 
 template<class DescT> inline
 RTCombinedThread<DescT>::RTCombinedThread(const OSG::Char8  *szName, 
-                                                OSG::UInt32  uiId  ) :
+                                                OSG::UInt32  uiId,
+                                                bool         bGlobal) :
      Inherited     (szName, 
-                    uiId  ),
-    _pScene        (NULL  ),
-    _pTarget       (NULL  ),
-    _pRayStore     (NULL  ),
-    _pHitStore     (NULL  ),
-    _pRayTiledStore(NULL  ),
-    _pHitTiledStore(NULL  ),
-    _pSyncBarrier  (NULL  ),
-    _iID           (  -1  ),
-    _bRunning      (false )
+                    uiId,
+                    bGlobal),
+    _pScene        (NULL   ),
+    _pTarget       (NULL   ),
+    _pRayStore     (NULL   ),
+    _pHitStore     (NULL   ),
+    _pRayTiledStore(NULL   ),
+    _pHitTiledStore(NULL   ),
+    _pSyncBarrier  (NULL   ),
+    _iID           (  -1   ),
+    _bRunning      (false  )
 {
 }
 

@@ -133,18 +133,15 @@ RTHitTiledStore<DescT>::RTHitTiledStore(void) :
     _pStoreLock     (NULL),
     _pCond          (NULL)
 {
-    _pStoreLock = Lock   ::get(NULL);
-    _pCond      = CondVar::get(NULL);
-
-    OSG::addRef(_pStoreLock);
-    OSG::addRef(_pCond     );
+    _pStoreLock = Lock   ::get(NULL, false);
+    _pCond      = CondVar::get(NULL, false);
 }
 
 template<typename DescT> inline
 RTHitTiledStore<DescT>::~RTHitTiledStore(void)
 {
-    OSG::subRef(_pStoreLock);
-    OSG::subRef(_pCond     );
+    _pStoreLock = NULL;
+    _pCond      = NULL;
 }
 
 template<typename DescT> inline

@@ -86,23 +86,26 @@ void RTShadingThread<DescT>::setRunning(bool bVal)
 
 template<typename DescT> inline
 OSG::BaseThread *RTShadingThread<DescT>::create(const OSG::Char8  *szName, 
-                                                      OSG::UInt32  uiId)
+                                                      OSG::UInt32  uiId,
+                                                      bool         bGlobal)
 {
-    return new RTShadingThread(szName, uiId);
+    return new RTShadingThread(szName, uiId, bGlobal);
 }
 
 template<typename DescT> inline
 RTShadingThread<DescT>::RTShadingThread(const OSG::Char8  *szName, 
-                                              OSG::UInt32  uiId  ) :
+                                              OSG::UInt32  uiId,
+                                              bool         bGlobal) :
     Inherited     (szName, 
-                   uiId  ),
-   _pTarget       (NULL  ),
-   _pScene        (NULL  ),
-   _pHitStore     (NULL  ),
-   _pHitTiledStore(NULL  ),
-   _pSyncBarrier  (NULL  ),
-   _iID           (-1    ),
-   _bRunning      (false )
+                   uiId,
+                   bGlobal),
+   _pTarget       (NULL   ),
+   _pScene        (NULL   ),
+   _pHitStore     (NULL   ),
+   _pHitTiledStore(NULL   ),
+   _pSyncBarrier  (NULL   ),
+   _iID           (-1     ),
+   _bRunning      (false  )
 {
 }
 

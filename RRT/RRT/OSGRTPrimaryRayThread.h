@@ -83,12 +83,15 @@ class RTPrimaryRayThread : public RTThread
     typedef typename Desc::HitPacket            HitPacket;
     typedef typename Desc::RayPacket            RayPacket;
 
+    OSG_GEN_INTERNAL_MEMOBJPTR(Self);
+
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    static RTPrimaryRayThread *get (OSG::Char8 *szName);
-    static RTPrimaryRayThread *find(OSG::Char8 *szName);
+    static ObjTransitPtr       get (OSG::Char8 *szName,
+                                         bool   bGlobal);
+    static RTPrimaryRayThread *find(OSG::Char8 *szName );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -128,14 +131,17 @@ class RTPrimaryRayThread : public RTThread
     /*! \{                                                                 */
 
     static OSG::BaseThread *create(const OSG::Char8  *szName, 
-                                         OSG::UInt32  uiId);
+                                         OSG::UInt32  uiId,
+                                         bool         bGlobal = false);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
  
-    RTPrimaryRayThread(const OSG::Char8 *szName, OSG::UInt32 uiId);
+    RTPrimaryRayThread(const OSG::Char8 *szName, 
+                             OSG::UInt32 uiId, 
+                             bool        bGlobal);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -187,14 +193,16 @@ OSG::MPThreadType RTPrimaryRayThread< DESC >::_type(                   \
     NULL);                                                             \
                                                                        \
 template<> OSG_DLL_EXPORT                                              \
-RTPrimaryRayThread< DESC > *                                           \
-    RTPrimaryRayThread< DESC >::get(OSG::Char8 *szName)                \
+RTPrimaryRayThread< DESC >::ObjTransitPtr                              \
+    RTPrimaryRayThread< DESC >::get(OSG::Char8 *szName,                \
+                                         bool   bGlobal)               \
 {                                                                      \
-    OSG::BaseThread *pThread =                                         \
+    OSG::BaseThreadTransitPtr pThread =                                \
         OSG::ThreadManager::the()->getThread(szName,                   \
+                                             bGlobal,                  \
                                              NAME);                    \
                                                                        \
-    return dynamic_cast<RTPrimaryRayThread *>(pThread);                \
+    return dynamic_pointer_cast<RTPrimaryRayThread>(pThread);          \
 }
 
 #include "OSGRTPrimaryRayThread.inl"

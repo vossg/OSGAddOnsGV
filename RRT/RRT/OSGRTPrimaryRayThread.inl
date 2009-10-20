@@ -48,9 +48,10 @@ RTPrimaryRayThread<DescT> *RTPrimaryRayThread<DescT>::find(OSG::Char8 *szName)
 
 template<typename DescT> inline
 OSG::BaseThread *RTPrimaryRayThread<DescT>::create(const OSG::Char8  *szName, 
-                                                         OSG::UInt32  uiId)
+                                                         OSG::UInt32  uiId,
+                                                         bool         bGlobal)
 {
-    return new RTPrimaryRayThread(szName, uiId);
+    return new RTPrimaryRayThread(szName, uiId, bGlobal);
 }
 
 template<typename DescT> inline
@@ -91,17 +92,19 @@ void RTPrimaryRayThread<DescT>::setRunning(bool bVal)
 
 template<typename DescT> inline
 RTPrimaryRayThread<DescT>::RTPrimaryRayThread(const OSG::Char8  *szName, 
-                                                    OSG::UInt32  uiId  ) :
+                                                    OSG::UInt32  uiId,
+                                                    bool         bGlobal) :
      Inherited     (szName, 
-                    uiId  ),
-    _pScene        (NULL  ),
-    _pRayStore     (NULL  ),
-    _pHitStore     (NULL  ),
-    _pRayTiledStore(NULL  ),
-    _pHitTiledStore(NULL  ),
-    _pSyncBarrier  (NULL  ),
-    _iID           (   -1 ),
-    _bRunning      (false )
+                    uiId,
+                    bGlobal),
+    _pScene        (NULL   ),
+    _pRayStore     (NULL   ),
+    _pHitStore     (NULL   ),
+    _pRayTiledStore(NULL   ),
+    _pHitTiledStore(NULL   ),
+    _pSyncBarrier  (NULL   ),
+    _iID           (   -1  ),
+    _bRunning      (false  )
 {
 }
 

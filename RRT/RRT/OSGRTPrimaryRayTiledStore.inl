@@ -78,15 +78,13 @@ RTPrimaryRayTiledStore<DescT>::RTPrimaryRayTiledStore(void) :
     _vTiles       (    ),
     _pStoreLock   (NULL)
 {
-    _pStoreLock = Lock::get(NULL);
-
-    OSG::addRef(_pStoreLock);
+    _pStoreLock = Lock::get(NULL, false);
 }
 
 template<class DescT> inline
 RTPrimaryRayTiledStore<DescT>::~RTPrimaryRayTiledStore(void)
 {
-    OSG::subRef(_pStoreLock);
+    _pStoreLock = NULL;
 }
 
 template<class DescT> inline

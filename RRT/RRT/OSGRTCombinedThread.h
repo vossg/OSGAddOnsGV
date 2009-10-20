@@ -144,11 +144,14 @@ class RTCombinedThread : public RTThread
 
     typedef typename Desc::MathTag              MathTag;
 
+    OSG_GEN_INTERNAL_MEMOBJPTR(Self);
+
     /*---------------------------------------------------------------------*/
     /*! \name                 Reference Counting                           */
     /*! \{                                                                 */
 
-    static RTCombinedThread *get (OSG::Char8 *szName);
+    static ObjTransitPtr     get (OSG::Char8 *szName,
+                                       bool   bGlobal);
     static RTCombinedThread *find(OSG::Char8 *szName);
 
     /*! \}                                                                 */
@@ -192,14 +195,15 @@ class RTCombinedThread : public RTThread
     /*! \{                                                                 */
 
     static OSG::BaseThread *create(const OSG::Char8  *szName, 
-                                         OSG::UInt32  uiId);
+                                         OSG::UInt32  uiId,
+                                         bool         bGlobal = false);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
  
-    RTCombinedThread(const OSG::Char8 *szName, OSG::UInt32 uiId);
+    RTCombinedThread(const OSG::Char8 *szName, OSG::UInt32 uiId, bool bGlobal);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -255,13 +259,16 @@ OSG::MPThreadType RTCombinedThread< DESC >::_type(                          \
     NULL);                                                                  \
                                                                             \
 template<> OSG_DLL_EXPORT                                                   \
-RTCombinedThread< DESC > *RTCombinedThread< DESC >::get(OSG::Char8 *szName) \
+RTCombinedThread< DESC >::ObjTransitPtr                                     \
+    RTCombinedThread< DESC >::get(OSG::Char8 *szName,                       \
+                                       bool   bGlobal)                      \
 {                                                                           \
-    OSG::BaseThread *pThread =                                              \
+    OSG::BaseThreadTransitPtr pThread =                                     \
         OSG::ThreadManager::the()->getThread(szName,                        \
+                                             bGlobal,                       \
                                              NAME);                         \
                                                                             \
-    return dynamic_cast<RTCombinedThread *>(pThread);                       \
+    return dynamic_pointer_cast<RTCombinedThread>(pThread);                 \
 }
 
 #include "OSGRTCombinedThread.inl"
