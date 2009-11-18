@@ -46,7 +46,7 @@ OSG_BEGIN_NAMESPACE
 
 void GeometryClipmaps::dumpIt(void)
 {
-    fprintf(stderr, "Got %zd levels\n", levels_.size());
+    fprintf(stderr, "Got %"PRISize" levels\n", levels_.size());
 
     for(UInt32 i = 0; i < levels_.size(); ++i)
     {
