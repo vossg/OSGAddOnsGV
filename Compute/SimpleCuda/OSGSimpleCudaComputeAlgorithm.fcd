@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="SimpleCudaComputeAlgorithm"
+	parent="ComputeAlgorithm"
+	library="ContribCompute"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
+    isNodeCore="false"
+>
+  <Field
+     name="mode"
+     type="UInt32"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="(SimpleCudaComputeAlgorithm::UpdateOSG)"
+     >
+  </Field>
+
+  <Field
+     name="intensity"
+     type="Real32"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="0.02f"
+     >
+  </Field>
+  <Field
+     name="scale"
+     type="Real32"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="4.5f"
+     >
+  </Field>
+  <Field
+     name="scaleStep"
+     type="Real32"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="0.1f"
+     >
+  </Field>
+  <Field
+     name="scaleMax"
+     type="Real32"
+     cardinality="single"
+     visibility="external"
+     access="public"
+     defaultValue="50.f"
+     >
+  </Field>
+
+  <Field
+	 name="target"
+	 type="Geometry"
+     category="pointer"
+	 cardinality="single"
+	 visibility="external"
+	 access="public"
+	 >
+  </Field>
+</FieldContainer>

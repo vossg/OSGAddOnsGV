@@ -495,7 +495,9 @@ void CpuClipmapRenderer::onBuildVertices( GeometryClipmapLevel& level, const Geo
     {
         // todo: fill in the interpolated positions of the coarser level:
         const int coarserLevelSpacing = coarserLevel->sampleSpacing;
+#ifdef OSG_DEBUG
         const int coarserLevelSampleCount = coarserLevel->heightmap.size;
+#endif
         
         // todo: make this faster
         for( int y = blockRect.y0; y < blockRect.y1; ++y )
