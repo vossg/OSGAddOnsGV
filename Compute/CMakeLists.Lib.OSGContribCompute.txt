@@ -71,4 +71,4 @@ OSG_ADD_DIRECTORY("${CMAKE_CURRENT_SOURCE_DIR}/BufferInterpolator")
 # setup build
 ##############################################################################
 
-OSG_SETUP_PROJECT("OSG_COMPILECONTRIBCOMPUTE")
+OSG_SETUP_PROJECT("OSG_COMPILECONTRIBCOMPUTELIB")

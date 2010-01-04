@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGCONTRIBCOMPUTEBASE_H_
-#define _OSGCONTRIBCOMPUTEBASE_H_
+#ifndef _OSGCONTRIBCOMPUTEDEF_H_
+#define _OSGCONTRIBCOMPUTEDEF_H_
 #ifdef __sgi
 #pragma once
 #endif
