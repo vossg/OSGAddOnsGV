@@ -233,6 +233,9 @@ void CudaBufferPnt3fInterpolator::changed(ConstFieldMaskArg whichField,
                         _2));
 
         Window::queueGlobalTask(_pTask);
+
+        // hack to signal change
+        _sfOutValue.getValue()->editSFUsage();
     }
 
     BufferPnt3fInterpolatorBase::changed(whichField, origin, details);
@@ -253,6 +256,8 @@ void CudaBufferPnt3fInterpolator::computeCuda(HardwareContext *pContext,
                                               DrawEnv         *pEnv    )
 {
 #ifdef OSG_WITH_CUDA
+//    fprintf(stderr, "computeCuda\n");
+
     cudaError_t cRes;
 
     if(_mfKey.size() == 0 || _mfKeyValue.size() == 0)
@@ -362,11 +367,6 @@ void CudaBufferPnt3fInterpolator::computeCuda(HardwareContext *pContext,
     {
         fprintf(stderr, "UnRegisterRes %d\n", UInt32(cRes));
     }
-
-    // hack to signal change
-    pProp->editSFUsage();
-
-    commitChangesAndClear();
 #endif
 }
 
