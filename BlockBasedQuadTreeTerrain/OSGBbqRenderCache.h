@@ -189,14 +189,14 @@ class BbqRenderCache
             {
                 if(nextEntry->pPrev != entry)
                 {
-                    FLOG("invalid render cache back link!\n");
+                    FLOG(("invalid render cache back link!\n"));
                 }
             }
             else
             {
                 if(_pLastEntry != entry)
                 {
-                    FLOG("invalid render cache end!\n");
+                    FLOG(("invalid render cache end!\n"));
                 }
             }
             
@@ -211,11 +211,11 @@ class BbqRenderCache
             entry = nextEntry;
         }
         
-        if(entryCount != (Int32) _vEntries.size())
+        if(entryCount != Int32(_vEntries.size()))
         {
-            FLOG("invalid render cache entry count = %i instead of %i!\n", 
-                 entryCount, 
-                 _vEntries.size());
+            FLOG(("invalid render cache entry count = %i instead of %i!\n", 
+                  entryCount, 
+                  _vEntries.size()));
         }
 #endif
     }
