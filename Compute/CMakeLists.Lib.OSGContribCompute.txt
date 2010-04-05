@@ -18,7 +18,7 @@ IF(${OSG_CMAKE_PASS} STREQUAL "OSGSETUP")
   
     CUDA_ADD_LIBRARY(${_OSG_INTERNAL_CUDA_LIB} STATIC ${_ComputeCuda_Src})
 
-    ADD_DEPENDENCIES(OSGLibs ${_OSG_INTERNAL_CUDA_LIB})
+    ADD_DEPENDENCIES(OSGAllLibs ${_OSG_INTERNAL_CUDA_LIB})
   
     TARGET_LINK_LIBRARIES(${_OSG_INTERNAL_CUDA_LIB} 
                           ${CUDA_CUDART_LIBRARY})
@@ -64,6 +64,8 @@ OSG_STORE_PROJECT_DEPENDENCIES()
 ##############################################################################
 # collect sources
 ##############################################################################
+
+SET(${PROJECT_NAME}_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 OSG_ADD_DIRECTORY("${CMAKE_CURRENT_SOURCE_DIR}")
 OSG_ADD_DIRECTORY("${CMAKE_CURRENT_SOURCE_DIR}/SimpleCuda")
