@@ -414,9 +414,10 @@ Action::ResultE BbqTerrain::renderEnter(Action* action)
 
 
 
-    a->pushPartition((RenderPartition::CopyViewing |
-                      RenderPartition::CopyViewportSize), 
-                     RenderPartition::SimpleCallback);
+    this->pushPartition(a,
+                        (RenderPartition::CopyViewing |
+                         RenderPartition::CopyViewportSize), 
+                        RenderPartition::SimpleCallback);
     {
         RenderPartition *pPart  = a->getActivePartition();
 
@@ -430,7 +431,7 @@ Action::ResultE BbqTerrain::renderEnter(Action* action)
         
         pPart->dropFunctor(f);
     }
-    a->popPartition();
+    this->popPartition(a);
 
     return Action::Skip;
 }

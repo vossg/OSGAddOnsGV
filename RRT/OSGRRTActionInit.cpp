@@ -71,7 +71,7 @@ ActionBase::ResultE RRTStageRenderEnter(NodeCore * const pCore,
     RRTStage     *pStage = dynamic_cast<RRTStage *>(pCore);
 
 
-    a->pushPartition(0, RenderPartition::SimpleCallback);
+    pStage->pushPartition(a, 0, RenderPartition::SimpleCallback);
     {
         Viewport          *pPort    = a->getViewport();
         RenderPartition   *pPart    = a->getActivePartition();
@@ -120,7 +120,7 @@ ActionBase::ResultE RRTStageRenderEnter(NodeCore * const pCore,
             pPart->dropFunctor(f);
         }
     }
-    a->popPartition();
+    pStage->popPartition(a);
 
     return Action::Skip;
 }
