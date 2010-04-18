@@ -291,6 +291,8 @@ void CudaBufferPnt3fInterpolator::computeCuda(HardwareContext *pContext,
 
             pData->_vCudaValues[i] = pCVals;
         }
+
+        pContext->setCudaInit();
     }
 
     Window            *pWin  = pEnv->getWindow();
@@ -426,16 +428,23 @@ void CudaBufferPnt3fInterpolator::resubmitCuda(HardwareContext *pContext,
 
 void CudaBufferPnt3fInterpolator::resolveLinks(void)
 {
-    CallbackDrawTaskRefPtr pShutdownTask = 
-        new CallbackDrawTask(CallbackDrawTask::Callback);
+    if(_pTask != NULL)
+    {
+        CallbackDrawTaskRefPtr pShutdownTask = 
+            new CallbackDrawTask(CallbackDrawTask::CallbackWithBarrier);
 
-    pShutdownTask->setCallback(
-        boost::bind(&CudaBufferPnt3fInterpolator::shutdownCuda, 
-                    this,
-                    _1,
-                    _2));
+        pShutdownTask->setCallback(
+            boost::bind(&CudaBufferPnt3fInterpolator::shutdownCuda, 
+                        this,
+                        _1,
+                        _2));
     
-    Window::queueGlobalTask(pShutdownTask);
+        Window::queueGlobalTask(pShutdownTask);
+
+        pShutdownTask->waitForBarrier();
+    }
+
+    _pTask = NULL;
 
     Inherited::resolveLinks();
 }
