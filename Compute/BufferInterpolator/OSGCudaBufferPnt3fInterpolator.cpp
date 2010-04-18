@@ -94,16 +94,16 @@ void CudaBufferPnt3fInterpolator::initMethod(InitPhase ePhase)
 /*----------------------- constructors & destructors ----------------------*/
 
 CudaBufferPnt3fInterpolator::CudaBufferPnt3fInterpolator(void) :
-     Inherited  (    ),
-    _pTask      (NULL)
+     Inherited(    ),
+    _pTask    (NULL)
 {
 }
 
 CudaBufferPnt3fInterpolator::CudaBufferPnt3fInterpolator(
     const CudaBufferPnt3fInterpolator &source) :
 
-     Inherited  (source),
-    _pTask      (NULL  )
+     Inherited(source),
+    _pTask    (NULL  )
 {
 }
 
@@ -267,9 +267,15 @@ void CudaBufferPnt3fInterpolator::computeCuda(HardwareContext *pContext,
 
     SizeT uiNumRes = _mfKeyValue.size() / _mfKey.size();
 
-    if(_vCudaValues.size() == 0)
+    ContextData *pData = pContext->getData<ContextData *>(this->_iDataSlotId);
+
+    if(pData == NULL)
     {
-        _vCudaValues.resize(_mfKey.size(), NULL);
+        pData = new ContextData;
+
+        this->setData(pData, this->_iDataSlotId, pContext);
+
+        pData->_vCudaValues.resize(_mfKey.size(), NULL);
         
         for(UInt32 i = 0; i < _mfKey.size(); ++i)
         {
@@ -283,7 +289,7 @@ void CudaBufferPnt3fInterpolator::computeCuda(HardwareContext *pContext,
                         uiNumRes * 3 * 4, 
                         cudaMemcpyHostToDevice);
 
-            _vCudaValues[i] = pCVals;
+            pData->_vCudaValues[i] = pCVals;
         }
     }
 
@@ -325,10 +331,10 @@ void CudaBufferPnt3fInterpolator::computeCuda(HardwareContext *pContext,
     {
         if(keyIt == _mfKey.begin())
         {
-            cudaMemcpy( pMappedBuff,
-                       _vCudaValues[0],
-                        uiNumRes * 3 * 4,
-                        cudaMemcpyDeviceToDevice);
+            cudaMemcpy(pMappedBuff,
+                       pData->_vCudaValues[0],
+                       uiNumRes * 3 * 4,
+                       cudaMemcpyDeviceToDevice);
         }
         else
         {
@@ -339,8 +345,8 @@ void CudaBufferPnt3fInterpolator::computeCuda(HardwareContext *pContext,
                 (_sfInValue.getValue() - _mfKey[uiStartIndex]) /
                 (_mfKey[uiStopIndex]   - _mfKey[uiStartIndex]);
 
-            OSGCUDA::lerpFloat(_vCudaValues[uiStartIndex],
-                               _vCudaValues[uiStopIndex ],
+            OSGCUDA::lerpFloat(pData->_vCudaValues[uiStartIndex],
+                               pData->_vCudaValues[uiStopIndex ],
                                t,
                                uiNumRes * 3,
                                static_cast<float *>(pMappedBuff));
@@ -348,10 +354,10 @@ void CudaBufferPnt3fInterpolator::computeCuda(HardwareContext *pContext,
     }
     else
     {
-        cudaMemcpy( pMappedBuff,
-                   _vCudaValues[_mfKey.size() - 1],
-                    uiNumRes * 3 * 4,
-                    cudaMemcpyDeviceToDevice);
+        cudaMemcpy(pMappedBuff,
+                   pData->_vCudaValues[_mfKey.size() - 1],
+                   uiNumRes * 3 * 4,
+                   cudaMemcpyDeviceToDevice);
     }
 
     cRes = cudaGLUnmapBufferObject(uiPropVBOId);
@@ -376,14 +382,16 @@ void CudaBufferPnt3fInterpolator::shutdownCuda(HardwareContext *pContext,
 #ifdef OSG_WITH_CUDA
     fprintf(stderr, "shutdownCuda\n");
 
-    if(_vCudaValues.size() != 0)
+    ContextData *pData = pContext->getData<ContextData *>(this->_iDataSlotId);
+
+    if(pData != NULL)
     {
-        for(UInt32 i = 0; i < _vCudaValues.size(); ++i)
+        for(UInt32 i = 0; i < pData->_vCudaValues.size(); ++i)
         {
-            cudaFree(_vCudaValues[i]);
+            cudaFree(pData->_vCudaValues[i]);
         }
 
-        _vCudaValues.clear();
+        pData->_vCudaValues.clear();
     }
 #endif
 }
@@ -394,13 +402,15 @@ void CudaBufferPnt3fInterpolator::resubmitCuda(HardwareContext *pContext,
 #ifdef OSG_WITH_CUDA
     fprintf(stderr, "resubmitCuda\n");
 
-    if(_vCudaValues.size() != 0)
+    ContextData *pData = pContext->getData<ContextData *>(this->_iDataSlotId);
+
+    if(pData != NULL)
     {
         SizeT uiNumRes = _mfKeyValue.size() / _mfKey.size();
 
         for(UInt32 i = 0; i < _mfKey.size(); ++i)
         {
-            float *pCVals = _vCudaValues[i];
+            float *pCVals = pData->_vCudaValues[i];
 
             cudaMemcpy( pCVals, 
                        _mfKeyValue[i * uiNumRes].getValues(),

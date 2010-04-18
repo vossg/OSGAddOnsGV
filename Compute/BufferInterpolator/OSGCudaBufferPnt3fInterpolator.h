@@ -83,11 +83,15 @@ class OSG_CONTRIBCOMPUTE_DLLMAPPING CudaBufferPnt3fInterpolator :
 
   protected:
 
+    class ContextData : public MemoryObject
+    {
+      public:
+        std::vector<float *> _vCudaValues;
+    };
+
     // Variables should all be in CoordinateInterpolatorBase.
 
     CallbackDrawTaskRefPtr _pTask;
-
-    std::vector<float *> _vCudaValues;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */

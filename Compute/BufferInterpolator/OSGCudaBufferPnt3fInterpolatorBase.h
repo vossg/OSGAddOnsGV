@@ -68,17 +68,19 @@
 
 #include "OSGCudaBufferPnt3fInterpolatorFields.h"
 
+#include "OSGCudaBufferPnt3fInterpolatorParent.h"
+
 OSG_BEGIN_NAMESPACE
 
 class CudaBufferPnt3fInterpolator;
 
 //! \brief CudaBufferPnt3fInterpolator Base Class.
 
-class OSG_CONTRIBCOMPUTE_DLLMAPPING CudaBufferPnt3fInterpolatorBase : public BufferPnt3fInterpolator
+class OSG_CONTRIBCOMPUTE_DLLMAPPING CudaBufferPnt3fInterpolatorBase : public CudaBufferPnt3fInterpolatorParent
 {
   public:
 
-    typedef BufferPnt3fInterpolator Inherited;
+    typedef CudaBufferPnt3fInterpolatorParent Inherited;
     typedef BufferPnt3fInterpolator ParentContainer;
 
     typedef Inherited::TypeObject TypeObject;
