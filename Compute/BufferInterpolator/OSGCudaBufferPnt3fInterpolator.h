@@ -83,10 +83,14 @@ class OSG_CONTRIBCOMPUTE_DLLMAPPING CudaBufferPnt3fInterpolator :
 
   protected:
 
-    class ContextData : public MemoryObject
+    class ContextData : public HardwareContextData
     {
       public:
         std::vector<float *> _vCudaValues;
+
+        virtual void releaseResources(HardwareContext *pContext);
+
+                void shutdownCuda    (void                     );
     };
 
     // Variables should all be in CoordinateInterpolatorBase.
@@ -114,9 +118,13 @@ class OSG_CONTRIBCOMPUTE_DLLMAPPING CudaBufferPnt3fInterpolator :
 
     void setupCuda   (HardwareContext *pContext, DrawEnv *pEnv);
     void computeCuda (HardwareContext *pContext, DrawEnv *pEnv);
-    void shutdownCuda(HardwareContext *pContext, DrawEnv *pEnv);
 
     void resubmitCuda(HardwareContext *pContext, DrawEnv *pEnv);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

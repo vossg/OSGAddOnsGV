@@ -69,6 +69,31 @@ OSG_BEGIN_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
+void CudaBufferPnt3fInterpolator::ContextData::releaseResources(
+    HardwareContext *pContext)
+{
+    CallbackTaskRefPtr pShutdownTask = 
+        new CallbackTask(CallbackTask::Callback);
+
+    pShutdownTask->setCallback(
+        boost::bind(&CudaBufferPnt3fInterpolator::ContextData::shutdownCuda,
+                    this));
+    
+    pContext->submitTaskAndWait(pShutdownTask);
+}
+
+void CudaBufferPnt3fInterpolator::ContextData::shutdownCuda(void)
+{
+#ifdef OSG_WITH_CUDA
+    for(UInt32 i = 0; i < this->_vCudaValues.size(); ++i)
+    {
+        cudaFree(this->_vCudaValues[i]);
+    }
+
+    this->_vCudaValues.clear();
+#endif
+}
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -378,26 +403,6 @@ void CudaBufferPnt3fInterpolator::computeCuda(HardwareContext *pContext,
 #endif
 }
 
-void CudaBufferPnt3fInterpolator::shutdownCuda(HardwareContext *pContext, 
-                                               DrawEnv         *pEnv    )
-{
-#ifdef OSG_WITH_CUDA
-    fprintf(stderr, "shutdownCuda\n");
-
-    ContextData *pData = pContext->getData<ContextData *>(this->_iDataSlotId);
-
-    if(pData != NULL)
-    {
-        for(UInt32 i = 0; i < pData->_vCudaValues.size(); ++i)
-        {
-            cudaFree(pData->_vCudaValues[i]);
-        }
-
-        pData->_vCudaValues.clear();
-    }
-#endif
-}
-
 void CudaBufferPnt3fInterpolator::resubmitCuda(HardwareContext *pContext, 
                                                DrawEnv         *pEnv    )
 {
@@ -428,22 +433,6 @@ void CudaBufferPnt3fInterpolator::resubmitCuda(HardwareContext *pContext,
 
 void CudaBufferPnt3fInterpolator::resolveLinks(void)
 {
-    if(_pTask != NULL)
-    {
-        CallbackDrawTaskRefPtr pShutdownTask = 
-            new CallbackDrawTask(CallbackDrawTask::CallbackWithBarrier);
-
-        pShutdownTask->setCallback(
-            boost::bind(&CudaBufferPnt3fInterpolator::shutdownCuda, 
-                        this,
-                        _1,
-                        _2));
-    
-        Window::queueGlobalTask(pShutdownTask);
-
-        pShutdownTask->waitForBarrier();
-    }
-
     _pTask = NULL;
 
     Inherited::resolveLinks();
