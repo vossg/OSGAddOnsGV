@@ -232,7 +232,7 @@ TextureDataSource *DynamicTerrain::getTextureSource(void)
 
 
 /// \brief Drawing the DynamicTerrain
-Action::ResultE DynamicTerrain::drawPrimitives( DrawEnv *pEnv )
+void DynamicTerrain::drawPrimitives( DrawEnv *pEnv )
 {
     // do frustum culling here.. extract frustum from the current camera:
 #if 0
@@ -263,7 +263,7 @@ Action::ResultE DynamicTerrain::drawPrimitives( DrawEnv *pEnv )
     if( !geoClipmaps_.isValid() )
     {
         // no valid data yet
-        return Action::Continue;
+        return;
     }
     
     // todo: get the viewport of the RenderAction, check if the camera 
@@ -361,7 +361,7 @@ Action::ResultE DynamicTerrain::drawPrimitives( DrawEnv *pEnv )
         SLOG << "Test\n";
     }
     
-    return Action::Continue;
+    return;
 }
 
 
