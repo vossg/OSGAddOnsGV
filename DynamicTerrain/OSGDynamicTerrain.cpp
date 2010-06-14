@@ -81,11 +81,17 @@ void DynamicTerrain::initMethod(InitPhase ePhase)
     
     if(ePhase == TypeObject::SystemPost)
     {
-#if 0       // register intersection handler
         RenderAction::registerEnterDefault( 
             getClassType(),
             reinterpret_cast<Action::Callback>(
-                &MaterialDrawable::renderActionHandler));
+                &MaterialDrawable::renderActionEnterHandler));
+
+        RenderAction::registerLeaveDefault( 
+            getClassType(),
+            reinterpret_cast<Action::Callback>(
+                &MaterialDrawable::renderActionLeaveHandler));
+
+#if 0       // register intersection handler
         
         IntersectAction::registerEnterDefault( 
             getClassType(),

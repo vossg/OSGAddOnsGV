@@ -11,8 +11,10 @@
 #define __GPUBUFFER_H__
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
-#include "OSGWindow.h"
+#include <OSGWindow.h>
 
 //-------------------------------------------------------------------------------------------------
 
@@ -46,7 +48,7 @@ namespace OSG
 
 	struct VboFunctions;
 
-	class GpuBuffer
+	class OSG_CONTRIBLIB_DLLMAPPING GpuBuffer
 	{
 	public:
 		GpuBuffer();

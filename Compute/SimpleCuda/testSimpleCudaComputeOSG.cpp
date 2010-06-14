@@ -198,6 +198,8 @@ void updateGeoOSGCudaCallback(OSG::HardwareContext *pContext,
 
     }
 
+    pContext->setCudaInit();
+
     OSGCUDA::simpleComputeUpdateGeo(rScale,
                                     rIntensity,
                                     pnts->size(),
@@ -405,6 +407,8 @@ void updateGeoOSGCuda(OSG::HardwareContext *pContext,
 
     }
 
+    pContext->setCudaInit();
+
     OSGCUDA::simpleComputeUpdateGeo(rScale,
                                     rIntensity,
                                     pnts->size(),
@@ -458,7 +462,7 @@ void display(void)
     }
     else if(uiUpdateMode == OSG::SimpleCudaComputeAlgorithm::UpdateOSGMappedExt)
     {
-#ifdef PAR_DRAWER
+#ifdef PAR_DRAWERX
 # ifndef WIN32
 		glXMakeCurrent(static_cast<OSG::XWindow *>(pWin.get())->getDisplay(),
                        None, 
@@ -478,7 +482,7 @@ void display(void)
     }
     else if(uiUpdateMode == OSG::SimpleCudaComputeAlgorithm::UpdateOSGCudaExt)
     {
-#ifdef PAR_DRAWER
+#ifdef PAR_DRAWERX
 # ifndef WIN32
 		glXMakeCurrent(static_cast<OSG::XWindow *>(pWin.get())->getDisplay(),
                        None, 
@@ -605,8 +609,7 @@ void key(unsigned char key, int x, int y)
     switch(key)
     {
         case 27:    
-
-            pWin                   = NULL;
+            
             pCamTrans              = NULL;
             pPoly                  = NULL;
             pCOver                 = NULL;
@@ -627,6 +630,11 @@ void key(unsigned char key, int x, int y)
 
             pMultiCore             = NULL;
             
+            pWin->clearPorts();
+            pWin->terminate ();
+
+            pWin                   = NULL;
+
             delete pRenAct;
 
             OSG::osgExit(); 
@@ -1035,7 +1043,7 @@ int init(int argc, char **argv)
 
 #ifdef PAR_DRAWER
     pWin->setPartitionDrawMode(OSG::Window::ParallelPartitionDraw);
-    pWin->setKeepContextActive(false                             );
+//    pWin->setKeepContextActive(false                             );
 #endif
 
     pWin->init();

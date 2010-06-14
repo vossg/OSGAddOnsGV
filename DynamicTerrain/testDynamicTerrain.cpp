@@ -194,7 +194,7 @@ int main( int argc, char**argv )
 	walker.setGroundDistance( 30 );
 	walker.setPersonDimensions( 3, 1, 1 );
 
-	mgr->setNavigationMode( Navigator::WALK );
+	mgr->setNavigationMode( Navigator::TRACKBALL );
 	mgr->getNavigator()->setMotionFactor( 1.0f );
 	mgr->getNavigator()->set( Pnt3f( 20, 10, 20 ), Pnt3f( 510, 8, 500 ), Vec3f( 0, 1, 0 ) );
 	mgr->getCamera()->setFar( 6000.0f );
@@ -454,6 +454,8 @@ int setupGLUT(int *argc, char *argv[])
 	glutMotionFunc(motion);
 	glutKeyboardFunc(keyboard);
 	glutIdleFunc(display);
+
+    glDisable(GL_CULL_FACE);
 
 	return winid;
 }

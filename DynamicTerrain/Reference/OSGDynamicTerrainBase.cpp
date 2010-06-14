@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -50,1132 +50,341 @@
  *****************************************************************************
 \*****************************************************************************/
 
-#include <cstdlib>
-#include <cstdio>
-#include <boost/assign/list_of.hpp>
+
+#define OSG_COMPILEDYNAMICTERRAININST
+
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <OSGConfig.h>
-
-
-
-#include <OSGImage.h> // HeightData Class
-#include <OSGImage.h> // TextureData Class
-#include <OSGTextureChunk.h> // HeightColorTexture Class
 
 #include "OSGDynamicTerrainBase.h"
 #include "OSGDynamicTerrain.h"
 
-#include "boost/bind.hpp"
-
-#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
-#pragma warning(disable:4355)
-#endif
 
 OSG_BEGIN_NAMESPACE
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+const OSG::BitVector  DynamicTerrainBase::LevelSizeFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::LevelSizeFieldId);
 
-/*! \class OSG::DynamicTerrain
-    
- */
+const OSG::BitVector  DynamicTerrainBase::HeightDataFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::HeightDataFieldId);
 
-/***************************************************************************\
- *                         Field Description                               *
-\***************************************************************************/
+const OSG::BitVector  DynamicTerrainBase::HeightDataScaleFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::HeightDataScaleFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::HeightDataOffsetFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::HeightDataOffsetFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::SampleDistanceFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::SampleDistanceFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::TextureDataFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::TextureDataFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::HeightColorTextureFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::HeightColorTextureFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::SampleUpdateBudgetFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::SampleUpdateBudgetFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::EnableFrustumCullingFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::EnableFrustumCullingFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::UseGpuRendererFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::UseGpuRendererFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::UseVboExtensionFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::UseVboExtensionFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::EnableSmoothTransitionFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::EnableSmoothTransitionFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::ShowBoundingBoxesFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::ShowBoundingBoxesFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::ShowTransitionRegionsFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::ShowTransitionRegionsFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::DisableUpdateFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::DisableUpdateFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::CpuVertexProgramFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::CpuVertexProgramFieldId);
+
+const OSG::BitVector  DynamicTerrainBase::CpuFragmentProgramFieldMask = 
+    (TypeTraits<BitVector>::One << DynamicTerrainBase::CpuFragmentProgramFieldId);
+
+const OSG::BitVector DynamicTerrainBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
+
+
+// Field descriptions
 
 /*! \var Int32           DynamicTerrainBase::_sfLevelSize
     
 */
-
-/*! \var Image *         DynamicTerrainBase::_sfHeightData
+/*! \var ImagePtr        DynamicTerrainBase::_sfHeightData
     
 */
-
 /*! \var Real32          DynamicTerrainBase::_sfHeightDataScale
     
 */
-
 /*! \var Real32          DynamicTerrainBase::_sfHeightDataOffset
     
 */
-
 /*! \var Real32          DynamicTerrainBase::_sfSampleDistance
     
 */
-
-/*! \var Image *         DynamicTerrainBase::_sfTextureData
+/*! \var ImagePtr        DynamicTerrainBase::_sfTextureData
     
 */
-
-/*! \var TextureChunk *  DynamicTerrainBase::_sfHeightColorTexture
+/*! \var TextureChunkPtr DynamicTerrainBase::_sfHeightColorTexture
     
 */
-
 /*! \var Int32           DynamicTerrainBase::_sfSampleUpdateBudget
     
 */
-
 /*! \var bool            DynamicTerrainBase::_sfEnableFrustumCulling
     
 */
-
 /*! \var bool            DynamicTerrainBase::_sfUseGpuRenderer
     
 */
-
 /*! \var bool            DynamicTerrainBase::_sfUseVboExtension
     
 */
-
 /*! \var bool            DynamicTerrainBase::_sfEnableSmoothTransition
     
 */
-
 /*! \var bool            DynamicTerrainBase::_sfShowBoundingBoxes
     
 */
-
 /*! \var bool            DynamicTerrainBase::_sfShowTransitionRegions
     
 */
-
 /*! \var bool            DynamicTerrainBase::_sfDisableUpdate
     
 */
-
 /*! \var std::string     DynamicTerrainBase::_sfCpuVertexProgram
     
 */
-
 /*! \var std::string     DynamicTerrainBase::_sfCpuFragmentProgram
     
 */
 
+//! DynamicTerrain description
 
-void DynamicTerrainBase::classDescInserter(TypeObject &oType)
+FieldDescription *DynamicTerrainBase::_desc[] = 
 {
-    FieldDescriptionBase *pDesc = NULL;
+    new FieldDescription(SFInt32::getClassType(), 
+                     "levelSize", 
+                     LevelSizeFieldId, LevelSizeFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFLevelSize)),
+    new FieldDescription(SFImagePtr::getClassType(), 
+                     "heightData", 
+                     HeightDataFieldId, HeightDataFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFHeightData)),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "heightDataScale", 
+                     HeightDataScaleFieldId, HeightDataScaleFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFHeightDataScale)),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "heightDataOffset", 
+                     HeightDataOffsetFieldId, HeightDataOffsetFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFHeightDataOffset)),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "sampleDistance", 
+                     SampleDistanceFieldId, SampleDistanceFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFSampleDistance)),
+    new FieldDescription(SFImagePtr::getClassType(), 
+                     "textureData", 
+                     TextureDataFieldId, TextureDataFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFTextureData)),
+    new FieldDescription(SFTextureChunkPtr::getClassType(), 
+                     "heightColorTexture", 
+                     HeightColorTextureFieldId, HeightColorTextureFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFHeightColorTexture)),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "sampleUpdateBudget", 
+                     SampleUpdateBudgetFieldId, SampleUpdateBudgetFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFSampleUpdateBudget)),
+    new FieldDescription(SFBool::getClassType(), 
+                     "enableFrustumCulling", 
+                     EnableFrustumCullingFieldId, EnableFrustumCullingFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFEnableFrustumCulling)),
+    new FieldDescription(SFBool::getClassType(), 
+                     "useGpuRenderer", 
+                     UseGpuRendererFieldId, UseGpuRendererFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFUseGpuRenderer)),
+    new FieldDescription(SFBool::getClassType(), 
+                     "useVboExtension", 
+                     UseVboExtensionFieldId, UseVboExtensionFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFUseVboExtension)),
+    new FieldDescription(SFBool::getClassType(), 
+                     "enableSmoothTransition", 
+                     EnableSmoothTransitionFieldId, EnableSmoothTransitionFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFEnableSmoothTransition)),
+    new FieldDescription(SFBool::getClassType(), 
+                     "showBoundingBoxes", 
+                     ShowBoundingBoxesFieldId, ShowBoundingBoxesFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFShowBoundingBoxes)),
+    new FieldDescription(SFBool::getClassType(), 
+                     "showTransitionRegions", 
+                     ShowTransitionRegionsFieldId, ShowTransitionRegionsFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFShowTransitionRegions)),
+    new FieldDescription(SFBool::getClassType(), 
+                     "disableUpdate", 
+                     DisableUpdateFieldId, DisableUpdateFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFDisableUpdate)),
+    new FieldDescription(SFString::getClassType(), 
+                     "cpuVertexProgram", 
+                     CpuVertexProgramFieldId, CpuVertexProgramFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFCpuVertexProgram)),
+    new FieldDescription(SFString::getClassType(), 
+                     "cpuFragmentProgram", 
+                     CpuFragmentProgramFieldId, CpuFragmentProgramFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DynamicTerrainBase::editSFCpuFragmentProgram))
+};
 
 
-    pDesc = new SFInt32::Description(
-        SFInt32::getClassType(),
-        "levelSize",
-        "",
-        LevelSizeFieldId, LevelSizeFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleLevelSize),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleLevelSize));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFUnrecImagePtr::Description(
-        SFUnrecImagePtr::getClassType(),
-        "heightData",
-        "",
-        HeightDataFieldId, HeightDataFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleHeightData),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleHeightData));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFReal32::Description(
-        SFReal32::getClassType(),
-        "heightDataScale",
-        "",
-        HeightDataScaleFieldId, HeightDataScaleFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleHeightDataScale),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleHeightDataScale));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFReal32::Description(
-        SFReal32::getClassType(),
-        "heightDataOffset",
-        "",
-        HeightDataOffsetFieldId, HeightDataOffsetFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleHeightDataOffset),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleHeightDataOffset));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFReal32::Description(
-        SFReal32::getClassType(),
-        "sampleDistance",
-        "",
-        SampleDistanceFieldId, SampleDistanceFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleSampleDistance),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleSampleDistance));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFUnrecImagePtr::Description(
-        SFUnrecImagePtr::getClassType(),
-        "textureData",
-        "",
-        TextureDataFieldId, TextureDataFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleTextureData),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleTextureData));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFUnrecTextureChunkPtr::Description(
-        SFUnrecTextureChunkPtr::getClassType(),
-        "heightColorTexture",
-        "",
-        HeightColorTextureFieldId, HeightColorTextureFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleHeightColorTexture),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleHeightColorTexture));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFInt32::Description(
-        SFInt32::getClassType(),
-        "sampleUpdateBudget",
-        "",
-        SampleUpdateBudgetFieldId, SampleUpdateBudgetFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleSampleUpdateBudget),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleSampleUpdateBudget));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFBool::Description(
-        SFBool::getClassType(),
-        "enableFrustumCulling",
-        "",
-        EnableFrustumCullingFieldId, EnableFrustumCullingFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleEnableFrustumCulling),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleEnableFrustumCulling));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFBool::Description(
-        SFBool::getClassType(),
-        "useGpuRenderer",
-        "",
-        UseGpuRendererFieldId, UseGpuRendererFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleUseGpuRenderer),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleUseGpuRenderer));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFBool::Description(
-        SFBool::getClassType(),
-        "useVboExtension",
-        "",
-        UseVboExtensionFieldId, UseVboExtensionFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleUseVboExtension),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleUseVboExtension));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFBool::Description(
-        SFBool::getClassType(),
-        "enableSmoothTransition",
-        "",
-        EnableSmoothTransitionFieldId, EnableSmoothTransitionFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleEnableSmoothTransition),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleEnableSmoothTransition));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFBool::Description(
-        SFBool::getClassType(),
-        "showBoundingBoxes",
-        "",
-        ShowBoundingBoxesFieldId, ShowBoundingBoxesFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleShowBoundingBoxes),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleShowBoundingBoxes));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFBool::Description(
-        SFBool::getClassType(),
-        "showTransitionRegions",
-        "",
-        ShowTransitionRegionsFieldId, ShowTransitionRegionsFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleShowTransitionRegions),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleShowTransitionRegions));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFBool::Description(
-        SFBool::getClassType(),
-        "disableUpdate",
-        "",
-        DisableUpdateFieldId, DisableUpdateFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleDisableUpdate),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleDisableUpdate));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFString::Description(
-        SFString::getClassType(),
-        "cpuVertexProgram",
-        "",
-        CpuVertexProgramFieldId, CpuVertexProgramFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleCpuVertexProgram),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleCpuVertexProgram));
-
-    oType.addInitialDesc(pDesc);
-
-    pDesc = new SFString::Description(
-        SFString::getClassType(),
-        "cpuFragmentProgram",
-        "",
-        CpuFragmentProgramFieldId, CpuFragmentProgramFieldMask,
-        false,
-        (Field::SFDefaultFlags | Field::FStdAccess),
-        static_cast<FieldEditMethodSig>(&DynamicTerrain::editHandleCpuFragmentProgram),
-        static_cast<FieldGetMethodSig >(&DynamicTerrain::getHandleCpuFragmentProgram));
-
-    oType.addInitialDesc(pDesc);
-}
-
-
-DynamicTerrainBase::TypeObject DynamicTerrainBase::_type(
-    DynamicTerrainBase::getClassname(),
-    Inherited::getClassname(),
-    "NULL",
-    0,
-    reinterpret_cast<PrototypeCreateF>(&DynamicTerrainBase::createEmptyLocal),
+FieldContainerType DynamicTerrainBase::_type(
+    "DynamicTerrain",
+    "MaterialDrawable",
+    NULL,
+    reinterpret_cast<PrototypeCreateF>(&DynamicTerrainBase::createEmpty),
     DynamicTerrain::initMethod,
-    DynamicTerrain::exitMethod,
-    reinterpret_cast<InitalInsertDescFunc>(&DynamicTerrainBase::classDescInserter),
-    false,
-    0,
-    "<?xml version=\"1.0\"?>\n"
-    "\n"
-    "<FieldContainer\n"
-    "\tname=\"DynamicTerrain\"\n"
-    "\tparent=\"MaterialDrawable\"\n"
-    "\tpointerfieldtypes=\"none\"\n"
-    "\tstructure=\"concrete\"\n"
-    "\tsystemcomponent=\"true\"\n"
-    "\tparentsystemcomponent=\"true\"\n"
-    "\tdecoratable=\"false\"\n"
-    "\tuseLocalIncludes=\"false\"\n"
-    ">\n"
-    "  <Field\n"
-    "\t\tname=\"levelSize\"\n"
-    "\t\ttype=\"Int32\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "    defaultValue=\"63\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"heightData\"\n"
-    "\t\ttype=\"ImagePtr\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"heightDataScale\"\n"
-    "\t\ttype=\"Real32\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "    defaultValue=\"1.0\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"heightDataOffset\"\n"
-    "\t\ttype=\"Real32\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "    defaultValue=\"0\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"sampleDistance\"\n"
-    "\t\ttype=\"Real32\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "    defaultValue=\"1.0\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"textureData\"\n"
-    "\t\ttype=\"ImagePtr\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "\t>\n"
-    "  </Field>  \n"
-    "  <Field\n"
-    "\t\tname=\"heightColorTexture\"\n"
-    "\t\ttype=\"TextureChunkPtr\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"sampleUpdateBudget\"\n"
-    "\t\ttype=\"Int32\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"enableFrustumCulling\"\n"
-    "\t\ttype=\"bool\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"useGpuRenderer\"\n"
-    "\t\ttype=\"bool\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "    defaultValue=\"false\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"useVboExtension\"\n"
-    "\t\ttype=\"bool\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "    defaultValue=\"true\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"enableSmoothTransition\"\n"
-    "\t\ttype=\"bool\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"showBoundingBoxes\"\n"
-    "\t\ttype=\"bool\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"showTransitionRegions\"\n"
-    "\t\ttype=\"bool\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "    defaultValue=\"false\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"disableUpdate\"\n"
-    "\t\ttype=\"bool\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "    defaultValue=\"false\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"cpuVertexProgram\"\n"
-    "\t\ttype=\"std::string\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "    defaultValue=\"\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "  <Field\n"
-    "\t\tname=\"cpuFragmentProgram\"\n"
-    "\t\ttype=\"std::string\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\taccess=\"public\"\n"
-    "    defaultValue=\"\"\n"
-    "\t>\n"
-    "  </Field>\n"
-    "</FieldContainer>\n",
-    ""
-    );
+    _desc,
+    sizeof(_desc));
+
+//OSG_FIELD_CONTAINER_DEF(DynamicTerrainBase, DynamicTerrainPtr)
 
 /*------------------------------ get -----------------------------------*/
 
-FieldContainerType &DynamicTerrainBase::getType(void)
+FieldContainerType &DynamicTerrainBase::getType(void) 
+{
+    return _type; 
+} 
+
+const FieldContainerType &DynamicTerrainBase::getType(void) const 
 {
     return _type;
+} 
+
+
+FieldContainerPtr DynamicTerrainBase::shallowCopy(void) const 
+{ 
+    DynamicTerrainPtr returnValue; 
+
+    newPtr(returnValue, dynamic_cast<const DynamicTerrain *>(this)); 
+
+    return returnValue; 
 }
 
-const FieldContainerType &DynamicTerrainBase::getType(void) const
+UInt32 DynamicTerrainBase::getContainerSize(void) const 
+{ 
+    return sizeof(DynamicTerrain); 
+}
+
+
+#if !defined(OSG_FIXED_MFIELDSYNC)
+void DynamicTerrainBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField)
 {
-    return _type;
+    this->executeSyncImpl(static_cast<DynamicTerrainBase *>(&other),
+                          whichField);
 }
-
-UInt32 DynamicTerrainBase::getContainerSize(void) const
+#else
+void DynamicTerrainBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
 {
-    return sizeof(DynamicTerrain);
+    this->executeSyncImpl((DynamicTerrainBase *) &other, whichField, sInfo);
 }
-
-/*------------------------- decorator get ------------------------------*/
-
-
-SFInt32 *DynamicTerrainBase::editSFLevelSize(void)
+void DynamicTerrainBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
 {
-    editSField(LevelSizeFieldMask);
-
-    return &_sfLevelSize;
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
-const SFInt32 *DynamicTerrainBase::getSFLevelSize(void) const
+void DynamicTerrainBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 {
-    return &_sfLevelSize;
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
 }
-
-
-//! Get the DynamicTerrain::_sfHeightData field.
-const SFUnrecImagePtr *DynamicTerrainBase::getSFHeightData(void) const
-{
-    return &_sfHeightData;
-}
-
-SFUnrecImagePtr     *DynamicTerrainBase::editSFHeightData     (void)
-{
-    editSField(HeightDataFieldMask);
-
-    return &_sfHeightData;
-}
-
-SFReal32 *DynamicTerrainBase::editSFHeightDataScale(void)
-{
-    editSField(HeightDataScaleFieldMask);
-
-    return &_sfHeightDataScale;
-}
-
-const SFReal32 *DynamicTerrainBase::getSFHeightDataScale(void) const
-{
-    return &_sfHeightDataScale;
-}
-
-
-SFReal32 *DynamicTerrainBase::editSFHeightDataOffset(void)
-{
-    editSField(HeightDataOffsetFieldMask);
-
-    return &_sfHeightDataOffset;
-}
-
-const SFReal32 *DynamicTerrainBase::getSFHeightDataOffset(void) const
-{
-    return &_sfHeightDataOffset;
-}
-
-
-SFReal32 *DynamicTerrainBase::editSFSampleDistance(void)
-{
-    editSField(SampleDistanceFieldMask);
-
-    return &_sfSampleDistance;
-}
-
-const SFReal32 *DynamicTerrainBase::getSFSampleDistance(void) const
-{
-    return &_sfSampleDistance;
-}
-
-
-//! Get the DynamicTerrain::_sfTextureData field.
-const SFUnrecImagePtr *DynamicTerrainBase::getSFTextureData(void) const
-{
-    return &_sfTextureData;
-}
-
-SFUnrecImagePtr     *DynamicTerrainBase::editSFTextureData    (void)
-{
-    editSField(TextureDataFieldMask);
-
-    return &_sfTextureData;
-}
-
-//! Get the DynamicTerrain::_sfHeightColorTexture field.
-const SFUnrecTextureChunkPtr *DynamicTerrainBase::getSFHeightColorTexture(void) const
-{
-    return &_sfHeightColorTexture;
-}
-
-SFUnrecTextureChunkPtr *DynamicTerrainBase::editSFHeightColorTexture(void)
-{
-    editSField(HeightColorTextureFieldMask);
-
-    return &_sfHeightColorTexture;
-}
-
-SFInt32 *DynamicTerrainBase::editSFSampleUpdateBudget(void)
-{
-    editSField(SampleUpdateBudgetFieldMask);
-
-    return &_sfSampleUpdateBudget;
-}
-
-const SFInt32 *DynamicTerrainBase::getSFSampleUpdateBudget(void) const
-{
-    return &_sfSampleUpdateBudget;
-}
-
-
-SFBool *DynamicTerrainBase::editSFEnableFrustumCulling(void)
-{
-    editSField(EnableFrustumCullingFieldMask);
-
-    return &_sfEnableFrustumCulling;
-}
-
-const SFBool *DynamicTerrainBase::getSFEnableFrustumCulling(void) const
-{
-    return &_sfEnableFrustumCulling;
-}
-
-
-SFBool *DynamicTerrainBase::editSFUseGpuRenderer(void)
-{
-    editSField(UseGpuRendererFieldMask);
-
-    return &_sfUseGpuRenderer;
-}
-
-const SFBool *DynamicTerrainBase::getSFUseGpuRenderer(void) const
-{
-    return &_sfUseGpuRenderer;
-}
-
-
-SFBool *DynamicTerrainBase::editSFUseVboExtension(void)
-{
-    editSField(UseVboExtensionFieldMask);
-
-    return &_sfUseVboExtension;
-}
-
-const SFBool *DynamicTerrainBase::getSFUseVboExtension(void) const
-{
-    return &_sfUseVboExtension;
-}
-
-
-SFBool *DynamicTerrainBase::editSFEnableSmoothTransition(void)
-{
-    editSField(EnableSmoothTransitionFieldMask);
-
-    return &_sfEnableSmoothTransition;
-}
-
-const SFBool *DynamicTerrainBase::getSFEnableSmoothTransition(void) const
-{
-    return &_sfEnableSmoothTransition;
-}
-
-
-SFBool *DynamicTerrainBase::editSFShowBoundingBoxes(void)
-{
-    editSField(ShowBoundingBoxesFieldMask);
-
-    return &_sfShowBoundingBoxes;
-}
-
-const SFBool *DynamicTerrainBase::getSFShowBoundingBoxes(void) const
-{
-    return &_sfShowBoundingBoxes;
-}
-
-
-SFBool *DynamicTerrainBase::editSFShowTransitionRegions(void)
-{
-    editSField(ShowTransitionRegionsFieldMask);
-
-    return &_sfShowTransitionRegions;
-}
-
-const SFBool *DynamicTerrainBase::getSFShowTransitionRegions(void) const
-{
-    return &_sfShowTransitionRegions;
-}
-
-
-SFBool *DynamicTerrainBase::editSFDisableUpdate(void)
-{
-    editSField(DisableUpdateFieldMask);
-
-    return &_sfDisableUpdate;
-}
-
-const SFBool *DynamicTerrainBase::getSFDisableUpdate(void) const
-{
-    return &_sfDisableUpdate;
-}
-
-
-SFString *DynamicTerrainBase::editSFCpuVertexProgram(void)
-{
-    editSField(CpuVertexProgramFieldMask);
-
-    return &_sfCpuVertexProgram;
-}
-
-const SFString *DynamicTerrainBase::getSFCpuVertexProgram(void) const
-{
-    return &_sfCpuVertexProgram;
-}
-
-
-SFString *DynamicTerrainBase::editSFCpuFragmentProgram(void)
-{
-    editSField(CpuFragmentProgramFieldMask);
-
-    return &_sfCpuFragmentProgram;
-}
-
-const SFString *DynamicTerrainBase::getSFCpuFragmentProgram(void) const
-{
-    return &_sfCpuFragmentProgram;
-}
-
-
-
-
-
-
-/*------------------------------ access -----------------------------------*/
-
-UInt32 DynamicTerrainBase::getBinSize(ConstFieldMaskArg whichField)
-{
-    UInt32 returnValue = Inherited::getBinSize(whichField);
-
-    if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
-    {
-        returnValue += _sfLevelSize.getBinSize();
-    }
-    if(FieldBits::NoField != (HeightDataFieldMask & whichField))
-    {
-        returnValue += _sfHeightData.getBinSize();
-    }
-    if(FieldBits::NoField != (HeightDataScaleFieldMask & whichField))
-    {
-        returnValue += _sfHeightDataScale.getBinSize();
-    }
-    if(FieldBits::NoField != (HeightDataOffsetFieldMask & whichField))
-    {
-        returnValue += _sfHeightDataOffset.getBinSize();
-    }
-    if(FieldBits::NoField != (SampleDistanceFieldMask & whichField))
-    {
-        returnValue += _sfSampleDistance.getBinSize();
-    }
-    if(FieldBits::NoField != (TextureDataFieldMask & whichField))
-    {
-        returnValue += _sfTextureData.getBinSize();
-    }
-    if(FieldBits::NoField != (HeightColorTextureFieldMask & whichField))
-    {
-        returnValue += _sfHeightColorTexture.getBinSize();
-    }
-    if(FieldBits::NoField != (SampleUpdateBudgetFieldMask & whichField))
-    {
-        returnValue += _sfSampleUpdateBudget.getBinSize();
-    }
-    if(FieldBits::NoField != (EnableFrustumCullingFieldMask & whichField))
-    {
-        returnValue += _sfEnableFrustumCulling.getBinSize();
-    }
-    if(FieldBits::NoField != (UseGpuRendererFieldMask & whichField))
-    {
-        returnValue += _sfUseGpuRenderer.getBinSize();
-    }
-    if(FieldBits::NoField != (UseVboExtensionFieldMask & whichField))
-    {
-        returnValue += _sfUseVboExtension.getBinSize();
-    }
-    if(FieldBits::NoField != (EnableSmoothTransitionFieldMask & whichField))
-    {
-        returnValue += _sfEnableSmoothTransition.getBinSize();
-    }
-    if(FieldBits::NoField != (ShowBoundingBoxesFieldMask & whichField))
-    {
-        returnValue += _sfShowBoundingBoxes.getBinSize();
-    }
-    if(FieldBits::NoField != (ShowTransitionRegionsFieldMask & whichField))
-    {
-        returnValue += _sfShowTransitionRegions.getBinSize();
-    }
-    if(FieldBits::NoField != (DisableUpdateFieldMask & whichField))
-    {
-        returnValue += _sfDisableUpdate.getBinSize();
-    }
-    if(FieldBits::NoField != (CpuVertexProgramFieldMask & whichField))
-    {
-        returnValue += _sfCpuVertexProgram.getBinSize();
-    }
-    if(FieldBits::NoField != (CpuFragmentProgramFieldMask & whichField))
-    {
-        returnValue += _sfCpuFragmentProgram.getBinSize();
-    }
-
-    return returnValue;
-}
-
-void DynamicTerrainBase::copyToBin(BinaryDataHandler &pMem,
-                                  ConstFieldMaskArg  whichField)
-{
-    Inherited::copyToBin(pMem, whichField);
-
-    if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
-    {
-        _sfLevelSize.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (HeightDataFieldMask & whichField))
-    {
-        _sfHeightData.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (HeightDataScaleFieldMask & whichField))
-    {
-        _sfHeightDataScale.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (HeightDataOffsetFieldMask & whichField))
-    {
-        _sfHeightDataOffset.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (SampleDistanceFieldMask & whichField))
-    {
-        _sfSampleDistance.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (TextureDataFieldMask & whichField))
-    {
-        _sfTextureData.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (HeightColorTextureFieldMask & whichField))
-    {
-        _sfHeightColorTexture.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (SampleUpdateBudgetFieldMask & whichField))
-    {
-        _sfSampleUpdateBudget.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (EnableFrustumCullingFieldMask & whichField))
-    {
-        _sfEnableFrustumCulling.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (UseGpuRendererFieldMask & whichField))
-    {
-        _sfUseGpuRenderer.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (UseVboExtensionFieldMask & whichField))
-    {
-        _sfUseVboExtension.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (EnableSmoothTransitionFieldMask & whichField))
-    {
-        _sfEnableSmoothTransition.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (ShowBoundingBoxesFieldMask & whichField))
-    {
-        _sfShowBoundingBoxes.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (ShowTransitionRegionsFieldMask & whichField))
-    {
-        _sfShowTransitionRegions.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (DisableUpdateFieldMask & whichField))
-    {
-        _sfDisableUpdate.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (CpuVertexProgramFieldMask & whichField))
-    {
-        _sfCpuVertexProgram.copyToBin(pMem);
-    }
-    if(FieldBits::NoField != (CpuFragmentProgramFieldMask & whichField))
-    {
-        _sfCpuFragmentProgram.copyToBin(pMem);
-    }
-}
-
-void DynamicTerrainBase::copyFromBin(BinaryDataHandler &pMem,
-                                    ConstFieldMaskArg  whichField)
-{
-    Inherited::copyFromBin(pMem, whichField);
-
-    if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
-    {
-        _sfLevelSize.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (HeightDataFieldMask & whichField))
-    {
-        _sfHeightData.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (HeightDataScaleFieldMask & whichField))
-    {
-        _sfHeightDataScale.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (HeightDataOffsetFieldMask & whichField))
-    {
-        _sfHeightDataOffset.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (SampleDistanceFieldMask & whichField))
-    {
-        _sfSampleDistance.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (TextureDataFieldMask & whichField))
-    {
-        _sfTextureData.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (HeightColorTextureFieldMask & whichField))
-    {
-        _sfHeightColorTexture.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (SampleUpdateBudgetFieldMask & whichField))
-    {
-        _sfSampleUpdateBudget.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (EnableFrustumCullingFieldMask & whichField))
-    {
-        _sfEnableFrustumCulling.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (UseGpuRendererFieldMask & whichField))
-    {
-        _sfUseGpuRenderer.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (UseVboExtensionFieldMask & whichField))
-    {
-        _sfUseVboExtension.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (EnableSmoothTransitionFieldMask & whichField))
-    {
-        _sfEnableSmoothTransition.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (ShowBoundingBoxesFieldMask & whichField))
-    {
-        _sfShowBoundingBoxes.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (ShowTransitionRegionsFieldMask & whichField))
-    {
-        _sfShowTransitionRegions.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (DisableUpdateFieldMask & whichField))
-    {
-        _sfDisableUpdate.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (CpuVertexProgramFieldMask & whichField))
-    {
-        _sfCpuVertexProgram.copyFromBin(pMem);
-    }
-    if(FieldBits::NoField != (CpuFragmentProgramFieldMask & whichField))
-    {
-        _sfCpuFragmentProgram.copyFromBin(pMem);
-    }
-}
-
-//! create a new instance of the class
-DynamicTerrainTransitPtr DynamicTerrainBase::createLocal(BitVector bFlags)
-{
-    DynamicTerrainTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopyLocal(bFlags);
-
-        fc = dynamic_pointer_cast<DynamicTerrain>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class, copy the container flags
-DynamicTerrainTransitPtr DynamicTerrainBase::createDependent(BitVector bFlags)
-{
-    DynamicTerrainTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopyDependent(bFlags);
-
-        fc = dynamic_pointer_cast<DynamicTerrain>(tmpPtr);
-    }
-
-    return fc;
-}
-
-//! create a new instance of the class
-DynamicTerrainTransitPtr DynamicTerrainBase::create(void)
-{
-    DynamicTerrainTransitPtr fc;
-
-    if(getClassType().getPrototype() != NULL)
-    {
-        FieldContainerTransitPtr tmpPtr =
-            getClassType().getPrototype()-> shallowCopy();
-
-        fc = dynamic_pointer_cast<DynamicTerrain>(tmpPtr);
-    }
-
-    return fc;
-}
-
-DynamicTerrain *DynamicTerrainBase::createEmptyLocal(BitVector bFlags)
-{
-    DynamicTerrain *returnValue;
-
-    newPtr<DynamicTerrain>(returnValue, bFlags);
-
-    returnValue->_pFieldFlags->_bNamespaceMask &= ~bFlags;
-
-    return returnValue;
-}
-
-//! create an empty new instance of the class, do not copy the prototype
-DynamicTerrain *DynamicTerrainBase::createEmpty(void)
-{
-    DynamicTerrain *returnValue;
-
-    newPtr<DynamicTerrain>(returnValue, Thread::getCurrentLocalFlags());
-
-    returnValue->_pFieldFlags->_bNamespaceMask &=
-        ~Thread::getCurrentLocalFlags();
-
-    return returnValue;
-}
-
-
-FieldContainerTransitPtr DynamicTerrainBase::shallowCopyLocal(
-    BitVector bFlags) const
-{
-    DynamicTerrain *tmpPtr;
-
-    newPtr(tmpPtr, dynamic_cast<const DynamicTerrain *>(this), bFlags);
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
-
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~bFlags;
-
-    return returnValue;
-}
-
-FieldContainerTransitPtr DynamicTerrainBase::shallowCopyDependent(
-    BitVector bFlags) const
-{
-    DynamicTerrain *tmpPtr;
-
-    newPtr(tmpPtr, dynamic_cast<const DynamicTerrain *>(this), ~bFlags);
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
-
-    tmpPtr->_pFieldFlags->_bNamespaceMask = bFlags;
-
-    return returnValue;
-}
-
-FieldContainerTransitPtr DynamicTerrainBase::shallowCopy(void) const
-{
-    DynamicTerrain *tmpPtr;
-
-    newPtr(tmpPtr,
-           dynamic_cast<const DynamicTerrain *>(this),
-           Thread::getCurrentLocalFlags());
-
-    tmpPtr->_pFieldFlags->_bNamespaceMask &= ~Thread::getCurrentLocalFlags();
-
-    FieldContainerTransitPtr returnValue(tmpPtr);
-
-    return returnValue;
-}
-
-
-
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
+#ifdef OSG_WIN32_ICL
+#pragma warning (disable : 383)
+#endif
+
 DynamicTerrainBase::DynamicTerrainBase(void) :
-    Inherited(),
-    _sfLevelSize              (Int32(63)),
-    _sfHeightData             (NULL),
-    _sfHeightDataScale        (Real32(1.0)),
-    _sfHeightDataOffset       (Real32(0)),
-    _sfSampleDistance         (Real32(1.0)),
-    _sfTextureData            (NULL),
-    _sfHeightColorTexture     (NULL),
-    _sfSampleUpdateBudget     (),
-    _sfEnableFrustumCulling   (),
-    _sfUseGpuRenderer         (bool(false)),
-    _sfUseVboExtension        (bool(true)),
-    _sfEnableSmoothTransition (),
-    _sfShowBoundingBoxes      (),
-    _sfShowTransitionRegions  (bool(false)),
-    _sfDisableUpdate          (bool(false)),
-    _sfCpuVertexProgram       (),
-    _sfCpuFragmentProgram     ()
+    _sfLevelSize              (Int32(63)), 
+    _sfHeightData             (), 
+    _sfHeightDataScale        (Real32(1.0)), 
+    _sfHeightDataOffset       (Real32(0)), 
+    _sfSampleDistance         (Real32(1.0)), 
+    _sfTextureData            (), 
+    _sfHeightColorTexture     (), 
+    _sfSampleUpdateBudget     (), 
+    _sfEnableFrustumCulling   (), 
+    _sfUseGpuRenderer         (bool(false)), 
+    _sfUseVboExtension        (bool(true)), 
+    _sfEnableSmoothTransition (), 
+    _sfShowBoundingBoxes      (), 
+    _sfShowTransitionRegions  (bool(false)), 
+    _sfDisableUpdate          (bool(false)), 
+    _sfCpuVertexProgram       (), 
+    _sfCpuFragmentProgram     (), 
+    Inherited() 
 {
 }
+
+#ifdef OSG_WIN32_ICL
+#pragma warning (default : 383)
+#endif
 
 DynamicTerrainBase::DynamicTerrainBase(const DynamicTerrainBase &source) :
-    Inherited(source),
-    _sfLevelSize              (source._sfLevelSize              ),
-    _sfHeightData             (NULL),
-    _sfHeightDataScale        (source._sfHeightDataScale        ),
-    _sfHeightDataOffset       (source._sfHeightDataOffset       ),
-    _sfSampleDistance         (source._sfSampleDistance         ),
-    _sfTextureData            (NULL),
-    _sfHeightColorTexture     (NULL),
-    _sfSampleUpdateBudget     (source._sfSampleUpdateBudget     ),
-    _sfEnableFrustumCulling   (source._sfEnableFrustumCulling   ),
-    _sfUseGpuRenderer         (source._sfUseGpuRenderer         ),
-    _sfUseVboExtension        (source._sfUseVboExtension        ),
-    _sfEnableSmoothTransition (source._sfEnableSmoothTransition ),
-    _sfShowBoundingBoxes      (source._sfShowBoundingBoxes      ),
-    _sfShowTransitionRegions  (source._sfShowTransitionRegions  ),
-    _sfDisableUpdate          (source._sfDisableUpdate          ),
-    _sfCpuVertexProgram       (source._sfCpuVertexProgram       ),
-    _sfCpuFragmentProgram     (source._sfCpuFragmentProgram     )
+    _sfLevelSize              (source._sfLevelSize              ), 
+    _sfHeightData             (source._sfHeightData             ), 
+    _sfHeightDataScale        (source._sfHeightDataScale        ), 
+    _sfHeightDataOffset       (source._sfHeightDataOffset       ), 
+    _sfSampleDistance         (source._sfSampleDistance         ), 
+    _sfTextureData            (source._sfTextureData            ), 
+    _sfHeightColorTexture     (source._sfHeightColorTexture     ), 
+    _sfSampleUpdateBudget     (source._sfSampleUpdateBudget     ), 
+    _sfEnableFrustumCulling   (source._sfEnableFrustumCulling   ), 
+    _sfUseGpuRenderer         (source._sfUseGpuRenderer         ), 
+    _sfUseVboExtension        (source._sfUseVboExtension        ), 
+    _sfEnableSmoothTransition (source._sfEnableSmoothTransition ), 
+    _sfShowBoundingBoxes      (source._sfShowBoundingBoxes      ), 
+    _sfShowTransitionRegions  (source._sfShowTransitionRegions  ), 
+    _sfDisableUpdate          (source._sfDisableUpdate          ), 
+    _sfCpuVertexProgram       (source._sfCpuVertexProgram       ), 
+    _sfCpuFragmentProgram     (source._sfCpuFragmentProgram     ), 
+    Inherited                 (source)
 {
 }
-
 
 /*-------------------------- destructors ----------------------------------*/
 
@@ -1183,472 +392,446 @@ DynamicTerrainBase::~DynamicTerrainBase(void)
 {
 }
 
-void DynamicTerrainBase::onCreate(const DynamicTerrain *source)
-{
-    Inherited::onCreate(source);
+/*------------------------------ access -----------------------------------*/
 
-    if(source != NULL)
+UInt32 DynamicTerrainBase::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
     {
-        DynamicTerrain *pThis = static_cast<DynamicTerrain *>(this);
-
-        pThis->setHeightData(source->getHeightData());
-
-        pThis->setTextureData(source->getTextureData());
-
-        pThis->setHeightColorTexture(source->getHeightColorTexture());
+        returnValue += _sfLevelSize.getBinSize();
     }
-}
 
-GetFieldHandlePtr DynamicTerrainBase::getHandleLevelSize       (void) const
-{
-    SFInt32::GetHandlePtr returnValue(
-        new  SFInt32::GetHandle(
-             &_sfLevelSize,
-             this->getType().getFieldDesc(LevelSizeFieldId)));
+    if(FieldBits::NoField != (HeightDataFieldMask & whichField))
+    {
+        returnValue += _sfHeightData.getBinSize();
+    }
+
+    if(FieldBits::NoField != (HeightDataScaleFieldMask & whichField))
+    {
+        returnValue += _sfHeightDataScale.getBinSize();
+    }
+
+    if(FieldBits::NoField != (HeightDataOffsetFieldMask & whichField))
+    {
+        returnValue += _sfHeightDataOffset.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SampleDistanceFieldMask & whichField))
+    {
+        returnValue += _sfSampleDistance.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TextureDataFieldMask & whichField))
+    {
+        returnValue += _sfTextureData.getBinSize();
+    }
+
+    if(FieldBits::NoField != (HeightColorTextureFieldMask & whichField))
+    {
+        returnValue += _sfHeightColorTexture.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SampleUpdateBudgetFieldMask & whichField))
+    {
+        returnValue += _sfSampleUpdateBudget.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnableFrustumCullingFieldMask & whichField))
+    {
+        returnValue += _sfEnableFrustumCulling.getBinSize();
+    }
+
+    if(FieldBits::NoField != (UseGpuRendererFieldMask & whichField))
+    {
+        returnValue += _sfUseGpuRenderer.getBinSize();
+    }
+
+    if(FieldBits::NoField != (UseVboExtensionFieldMask & whichField))
+    {
+        returnValue += _sfUseVboExtension.getBinSize();
+    }
+
+    if(FieldBits::NoField != (EnableSmoothTransitionFieldMask & whichField))
+    {
+        returnValue += _sfEnableSmoothTransition.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShowBoundingBoxesFieldMask & whichField))
+    {
+        returnValue += _sfShowBoundingBoxes.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShowTransitionRegionsFieldMask & whichField))
+    {
+        returnValue += _sfShowTransitionRegions.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DisableUpdateFieldMask & whichField))
+    {
+        returnValue += _sfDisableUpdate.getBinSize();
+    }
+
+    if(FieldBits::NoField != (CpuVertexProgramFieldMask & whichField))
+    {
+        returnValue += _sfCpuVertexProgram.getBinSize();
+    }
+
+    if(FieldBits::NoField != (CpuFragmentProgramFieldMask & whichField))
+    {
+        returnValue += _sfCpuFragmentProgram.getBinSize();
+    }
+
 
     return returnValue;
 }
 
-EditFieldHandlePtr DynamicTerrainBase::editHandleLevelSize      (void)
+void DynamicTerrainBase::copyToBin(      BinaryDataHandler &pMem,
+                                  const BitVector         &whichField)
 {
-    SFInt32::EditHandlePtr returnValue(
-        new  SFInt32::EditHandle(
-             &_sfLevelSize,
-             this->getType().getFieldDesc(LevelSizeFieldId)));
+    Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
+    {
+        _sfLevelSize.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightDataFieldMask & whichField))
+    {
+        _sfHeightData.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightDataScaleFieldMask & whichField))
+    {
+        _sfHeightDataScale.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightDataOffsetFieldMask & whichField))
+    {
+        _sfHeightDataOffset.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SampleDistanceFieldMask & whichField))
+    {
+        _sfSampleDistance.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TextureDataFieldMask & whichField))
+    {
+        _sfTextureData.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightColorTextureFieldMask & whichField))
+    {
+        _sfHeightColorTexture.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SampleUpdateBudgetFieldMask & whichField))
+    {
+        _sfSampleUpdateBudget.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnableFrustumCullingFieldMask & whichField))
+    {
+        _sfEnableFrustumCulling.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (UseGpuRendererFieldMask & whichField))
+    {
+        _sfUseGpuRenderer.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (UseVboExtensionFieldMask & whichField))
+    {
+        _sfUseVboExtension.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnableSmoothTransitionFieldMask & whichField))
+    {
+        _sfEnableSmoothTransition.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShowBoundingBoxesFieldMask & whichField))
+    {
+        _sfShowBoundingBoxes.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShowTransitionRegionsFieldMask & whichField))
+    {
+        _sfShowTransitionRegions.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DisableUpdateFieldMask & whichField))
+    {
+        _sfDisableUpdate.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CpuVertexProgramFieldMask & whichField))
+    {
+        _sfCpuVertexProgram.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CpuFragmentProgramFieldMask & whichField))
+    {
+        _sfCpuFragmentProgram.copyToBin(pMem);
+    }
 
 
-    editSField(LevelSizeFieldMask);
-
-    return returnValue;
 }
 
-GetFieldHandlePtr DynamicTerrainBase::getHandleHeightData      (void) const
+void DynamicTerrainBase::copyFromBin(      BinaryDataHandler &pMem,
+                                    const BitVector    &whichField)
 {
-    SFUnrecImagePtr::GetHandlePtr returnValue(
-        new  SFUnrecImagePtr::GetHandle(
-             &_sfHeightData,
-             this->getType().getFieldDesc(HeightDataFieldId)));
+    Inherited::copyFromBin(pMem, whichField);
 
-    return returnValue;
+    if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
+    {
+        _sfLevelSize.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightDataFieldMask & whichField))
+    {
+        _sfHeightData.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightDataScaleFieldMask & whichField))
+    {
+        _sfHeightDataScale.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightDataOffsetFieldMask & whichField))
+    {
+        _sfHeightDataOffset.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SampleDistanceFieldMask & whichField))
+    {
+        _sfSampleDistance.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TextureDataFieldMask & whichField))
+    {
+        _sfTextureData.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightColorTextureFieldMask & whichField))
+    {
+        _sfHeightColorTexture.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SampleUpdateBudgetFieldMask & whichField))
+    {
+        _sfSampleUpdateBudget.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnableFrustumCullingFieldMask & whichField))
+    {
+        _sfEnableFrustumCulling.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (UseGpuRendererFieldMask & whichField))
+    {
+        _sfUseGpuRenderer.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (UseVboExtensionFieldMask & whichField))
+    {
+        _sfUseVboExtension.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (EnableSmoothTransitionFieldMask & whichField))
+    {
+        _sfEnableSmoothTransition.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShowBoundingBoxesFieldMask & whichField))
+    {
+        _sfShowBoundingBoxes.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShowTransitionRegionsFieldMask & whichField))
+    {
+        _sfShowTransitionRegions.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DisableUpdateFieldMask & whichField))
+    {
+        _sfDisableUpdate.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CpuVertexProgramFieldMask & whichField))
+    {
+        _sfCpuVertexProgram.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CpuFragmentProgramFieldMask & whichField))
+    {
+        _sfCpuFragmentProgram.copyFromBin(pMem);
+    }
+
+
 }
 
-EditFieldHandlePtr DynamicTerrainBase::editHandleHeightData     (void)
+#if !defined(OSG_FIXED_MFIELDSYNC)
+void DynamicTerrainBase::executeSyncImpl(      DynamicTerrainBase *pOther,
+                                        const BitVector         &whichField)
 {
-    SFUnrecImagePtr::EditHandlePtr returnValue(
-        new  SFUnrecImagePtr::EditHandle(
-             &_sfHeightData,
-             this->getType().getFieldDesc(HeightDataFieldId)));
 
-    returnValue->setSetMethod(
-        boost::bind(&DynamicTerrain::setHeightData,
-                    static_cast<DynamicTerrain *>(this), _1));
+    Inherited::executeSyncImpl(pOther, whichField);
 
-    editSField(HeightDataFieldMask);
+    if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
+        _sfLevelSize.syncWith(pOther->_sfLevelSize);
 
-    return returnValue;
+    if(FieldBits::NoField != (HeightDataFieldMask & whichField))
+        _sfHeightData.syncWith(pOther->_sfHeightData);
+
+    if(FieldBits::NoField != (HeightDataScaleFieldMask & whichField))
+        _sfHeightDataScale.syncWith(pOther->_sfHeightDataScale);
+
+    if(FieldBits::NoField != (HeightDataOffsetFieldMask & whichField))
+        _sfHeightDataOffset.syncWith(pOther->_sfHeightDataOffset);
+
+    if(FieldBits::NoField != (SampleDistanceFieldMask & whichField))
+        _sfSampleDistance.syncWith(pOther->_sfSampleDistance);
+
+    if(FieldBits::NoField != (TextureDataFieldMask & whichField))
+        _sfTextureData.syncWith(pOther->_sfTextureData);
+
+    if(FieldBits::NoField != (HeightColorTextureFieldMask & whichField))
+        _sfHeightColorTexture.syncWith(pOther->_sfHeightColorTexture);
+
+    if(FieldBits::NoField != (SampleUpdateBudgetFieldMask & whichField))
+        _sfSampleUpdateBudget.syncWith(pOther->_sfSampleUpdateBudget);
+
+    if(FieldBits::NoField != (EnableFrustumCullingFieldMask & whichField))
+        _sfEnableFrustumCulling.syncWith(pOther->_sfEnableFrustumCulling);
+
+    if(FieldBits::NoField != (UseGpuRendererFieldMask & whichField))
+        _sfUseGpuRenderer.syncWith(pOther->_sfUseGpuRenderer);
+
+    if(FieldBits::NoField != (UseVboExtensionFieldMask & whichField))
+        _sfUseVboExtension.syncWith(pOther->_sfUseVboExtension);
+
+    if(FieldBits::NoField != (EnableSmoothTransitionFieldMask & whichField))
+        _sfEnableSmoothTransition.syncWith(pOther->_sfEnableSmoothTransition);
+
+    if(FieldBits::NoField != (ShowBoundingBoxesFieldMask & whichField))
+        _sfShowBoundingBoxes.syncWith(pOther->_sfShowBoundingBoxes);
+
+    if(FieldBits::NoField != (ShowTransitionRegionsFieldMask & whichField))
+        _sfShowTransitionRegions.syncWith(pOther->_sfShowTransitionRegions);
+
+    if(FieldBits::NoField != (DisableUpdateFieldMask & whichField))
+        _sfDisableUpdate.syncWith(pOther->_sfDisableUpdate);
+
+    if(FieldBits::NoField != (CpuVertexProgramFieldMask & whichField))
+        _sfCpuVertexProgram.syncWith(pOther->_sfCpuVertexProgram);
+
+    if(FieldBits::NoField != (CpuFragmentProgramFieldMask & whichField))
+        _sfCpuFragmentProgram.syncWith(pOther->_sfCpuFragmentProgram);
+
+
+}
+#else
+void DynamicTerrainBase::executeSyncImpl(      DynamicTerrainBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
+        _sfLevelSize.syncWith(pOther->_sfLevelSize);
+
+    if(FieldBits::NoField != (HeightDataFieldMask & whichField))
+        _sfHeightData.syncWith(pOther->_sfHeightData);
+
+    if(FieldBits::NoField != (HeightDataScaleFieldMask & whichField))
+        _sfHeightDataScale.syncWith(pOther->_sfHeightDataScale);
+
+    if(FieldBits::NoField != (HeightDataOffsetFieldMask & whichField))
+        _sfHeightDataOffset.syncWith(pOther->_sfHeightDataOffset);
+
+    if(FieldBits::NoField != (SampleDistanceFieldMask & whichField))
+        _sfSampleDistance.syncWith(pOther->_sfSampleDistance);
+
+    if(FieldBits::NoField != (TextureDataFieldMask & whichField))
+        _sfTextureData.syncWith(pOther->_sfTextureData);
+
+    if(FieldBits::NoField != (HeightColorTextureFieldMask & whichField))
+        _sfHeightColorTexture.syncWith(pOther->_sfHeightColorTexture);
+
+    if(FieldBits::NoField != (SampleUpdateBudgetFieldMask & whichField))
+        _sfSampleUpdateBudget.syncWith(pOther->_sfSampleUpdateBudget);
+
+    if(FieldBits::NoField != (EnableFrustumCullingFieldMask & whichField))
+        _sfEnableFrustumCulling.syncWith(pOther->_sfEnableFrustumCulling);
+
+    if(FieldBits::NoField != (UseGpuRendererFieldMask & whichField))
+        _sfUseGpuRenderer.syncWith(pOther->_sfUseGpuRenderer);
+
+    if(FieldBits::NoField != (UseVboExtensionFieldMask & whichField))
+        _sfUseVboExtension.syncWith(pOther->_sfUseVboExtension);
+
+    if(FieldBits::NoField != (EnableSmoothTransitionFieldMask & whichField))
+        _sfEnableSmoothTransition.syncWith(pOther->_sfEnableSmoothTransition);
+
+    if(FieldBits::NoField != (ShowBoundingBoxesFieldMask & whichField))
+        _sfShowBoundingBoxes.syncWith(pOther->_sfShowBoundingBoxes);
+
+    if(FieldBits::NoField != (ShowTransitionRegionsFieldMask & whichField))
+        _sfShowTransitionRegions.syncWith(pOther->_sfShowTransitionRegions);
+
+    if(FieldBits::NoField != (DisableUpdateFieldMask & whichField))
+        _sfDisableUpdate.syncWith(pOther->_sfDisableUpdate);
+
+    if(FieldBits::NoField != (CpuVertexProgramFieldMask & whichField))
+        _sfCpuVertexProgram.syncWith(pOther->_sfCpuVertexProgram);
+
+    if(FieldBits::NoField != (CpuFragmentProgramFieldMask & whichField))
+        _sfCpuFragmentProgram.syncWith(pOther->_sfCpuFragmentProgram);
+
+
+
 }
 
-GetFieldHandlePtr DynamicTerrainBase::getHandleHeightDataScale (void) const
+void DynamicTerrainBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
 {
-    SFReal32::GetHandlePtr returnValue(
-        new  SFReal32::GetHandle(
-             &_sfHeightDataScale,
-             this->getType().getFieldDesc(HeightDataScaleFieldId)));
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleHeightDataScale(void)
-{
-    SFReal32::EditHandlePtr returnValue(
-        new  SFReal32::EditHandle(
-             &_sfHeightDataScale,
-             this->getType().getFieldDesc(HeightDataScaleFieldId)));
-
-
-    editSField(HeightDataScaleFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleHeightDataOffset (void) const
-{
-    SFReal32::GetHandlePtr returnValue(
-        new  SFReal32::GetHandle(
-             &_sfHeightDataOffset,
-             this->getType().getFieldDesc(HeightDataOffsetFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleHeightDataOffset(void)
-{
-    SFReal32::EditHandlePtr returnValue(
-        new  SFReal32::EditHandle(
-             &_sfHeightDataOffset,
-             this->getType().getFieldDesc(HeightDataOffsetFieldId)));
-
-
-    editSField(HeightDataOffsetFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleSampleDistance  (void) const
-{
-    SFReal32::GetHandlePtr returnValue(
-        new  SFReal32::GetHandle(
-             &_sfSampleDistance,
-             this->getType().getFieldDesc(SampleDistanceFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleSampleDistance (void)
-{
-    SFReal32::EditHandlePtr returnValue(
-        new  SFReal32::EditHandle(
-             &_sfSampleDistance,
-             this->getType().getFieldDesc(SampleDistanceFieldId)));
-
-
-    editSField(SampleDistanceFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleTextureData     (void) const
-{
-    SFUnrecImagePtr::GetHandlePtr returnValue(
-        new  SFUnrecImagePtr::GetHandle(
-             &_sfTextureData,
-             this->getType().getFieldDesc(TextureDataFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleTextureData    (void)
-{
-    SFUnrecImagePtr::EditHandlePtr returnValue(
-        new  SFUnrecImagePtr::EditHandle(
-             &_sfTextureData,
-             this->getType().getFieldDesc(TextureDataFieldId)));
-
-    returnValue->setSetMethod(
-        boost::bind(&DynamicTerrain::setTextureData,
-                    static_cast<DynamicTerrain *>(this), _1));
-
-    editSField(TextureDataFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleHeightColorTexture (void) const
-{
-    SFUnrecTextureChunkPtr::GetHandlePtr returnValue(
-        new  SFUnrecTextureChunkPtr::GetHandle(
-             &_sfHeightColorTexture,
-             this->getType().getFieldDesc(HeightColorTextureFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleHeightColorTexture(void)
-{
-    SFUnrecTextureChunkPtr::EditHandlePtr returnValue(
-        new  SFUnrecTextureChunkPtr::EditHandle(
-             &_sfHeightColorTexture,
-             this->getType().getFieldDesc(HeightColorTextureFieldId)));
-
-    returnValue->setSetMethod(
-        boost::bind(&DynamicTerrain::setHeightColorTexture,
-                    static_cast<DynamicTerrain *>(this), _1));
-
-    editSField(HeightColorTextureFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleSampleUpdateBudget (void) const
-{
-    SFInt32::GetHandlePtr returnValue(
-        new  SFInt32::GetHandle(
-             &_sfSampleUpdateBudget,
-             this->getType().getFieldDesc(SampleUpdateBudgetFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleSampleUpdateBudget(void)
-{
-    SFInt32::EditHandlePtr returnValue(
-        new  SFInt32::EditHandle(
-             &_sfSampleUpdateBudget,
-             this->getType().getFieldDesc(SampleUpdateBudgetFieldId)));
-
-
-    editSField(SampleUpdateBudgetFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleEnableFrustumCulling (void) const
-{
-    SFBool::GetHandlePtr returnValue(
-        new  SFBool::GetHandle(
-             &_sfEnableFrustumCulling,
-             this->getType().getFieldDesc(EnableFrustumCullingFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleEnableFrustumCulling(void)
-{
-    SFBool::EditHandlePtr returnValue(
-        new  SFBool::EditHandle(
-             &_sfEnableFrustumCulling,
-             this->getType().getFieldDesc(EnableFrustumCullingFieldId)));
-
-
-    editSField(EnableFrustumCullingFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleUseGpuRenderer  (void) const
-{
-    SFBool::GetHandlePtr returnValue(
-        new  SFBool::GetHandle(
-             &_sfUseGpuRenderer,
-             this->getType().getFieldDesc(UseGpuRendererFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleUseGpuRenderer (void)
-{
-    SFBool::EditHandlePtr returnValue(
-        new  SFBool::EditHandle(
-             &_sfUseGpuRenderer,
-             this->getType().getFieldDesc(UseGpuRendererFieldId)));
-
-
-    editSField(UseGpuRendererFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleUseVboExtension (void) const
-{
-    SFBool::GetHandlePtr returnValue(
-        new  SFBool::GetHandle(
-             &_sfUseVboExtension,
-             this->getType().getFieldDesc(UseVboExtensionFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleUseVboExtension(void)
-{
-    SFBool::EditHandlePtr returnValue(
-        new  SFBool::EditHandle(
-             &_sfUseVboExtension,
-             this->getType().getFieldDesc(UseVboExtensionFieldId)));
-
-
-    editSField(UseVboExtensionFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleEnableSmoothTransition (void) const
-{
-    SFBool::GetHandlePtr returnValue(
-        new  SFBool::GetHandle(
-             &_sfEnableSmoothTransition,
-             this->getType().getFieldDesc(EnableSmoothTransitionFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleEnableSmoothTransition(void)
-{
-    SFBool::EditHandlePtr returnValue(
-        new  SFBool::EditHandle(
-             &_sfEnableSmoothTransition,
-             this->getType().getFieldDesc(EnableSmoothTransitionFieldId)));
-
-
-    editSField(EnableSmoothTransitionFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleShowBoundingBoxes (void) const
-{
-    SFBool::GetHandlePtr returnValue(
-        new  SFBool::GetHandle(
-             &_sfShowBoundingBoxes,
-             this->getType().getFieldDesc(ShowBoundingBoxesFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleShowBoundingBoxes(void)
-{
-    SFBool::EditHandlePtr returnValue(
-        new  SFBool::EditHandle(
-             &_sfShowBoundingBoxes,
-             this->getType().getFieldDesc(ShowBoundingBoxesFieldId)));
-
-
-    editSField(ShowBoundingBoxesFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleShowTransitionRegions (void) const
-{
-    SFBool::GetHandlePtr returnValue(
-        new  SFBool::GetHandle(
-             &_sfShowTransitionRegions,
-             this->getType().getFieldDesc(ShowTransitionRegionsFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleShowTransitionRegions(void)
-{
-    SFBool::EditHandlePtr returnValue(
-        new  SFBool::EditHandle(
-             &_sfShowTransitionRegions,
-             this->getType().getFieldDesc(ShowTransitionRegionsFieldId)));
-
-
-    editSField(ShowTransitionRegionsFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleDisableUpdate   (void) const
-{
-    SFBool::GetHandlePtr returnValue(
-        new  SFBool::GetHandle(
-             &_sfDisableUpdate,
-             this->getType().getFieldDesc(DisableUpdateFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleDisableUpdate  (void)
-{
-    SFBool::EditHandlePtr returnValue(
-        new  SFBool::EditHandle(
-             &_sfDisableUpdate,
-             this->getType().getFieldDesc(DisableUpdateFieldId)));
-
-
-    editSField(DisableUpdateFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleCpuVertexProgram (void) const
-{
-    SFString::GetHandlePtr returnValue(
-        new  SFString::GetHandle(
-             &_sfCpuVertexProgram,
-             this->getType().getFieldDesc(CpuVertexProgramFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleCpuVertexProgram(void)
-{
-    SFString::EditHandlePtr returnValue(
-        new  SFString::EditHandle(
-             &_sfCpuVertexProgram,
-             this->getType().getFieldDesc(CpuVertexProgramFieldId)));
-
-
-    editSField(CpuVertexProgramFieldMask);
-
-    return returnValue;
-}
-
-GetFieldHandlePtr DynamicTerrainBase::getHandleCpuFragmentProgram (void) const
-{
-    SFString::GetHandlePtr returnValue(
-        new  SFString::GetHandle(
-             &_sfCpuFragmentProgram,
-             this->getType().getFieldDesc(CpuFragmentProgramFieldId)));
-
-    return returnValue;
-}
-
-EditFieldHandlePtr DynamicTerrainBase::editHandleCpuFragmentProgram(void)
-{
-    SFString::EditHandlePtr returnValue(
-        new  SFString::EditHandle(
-             &_sfCpuFragmentProgram,
-             this->getType().getFieldDesc(CpuFragmentProgramFieldId)));
-
-
-    editSField(CpuFragmentProgramFieldMask);
-
-    return returnValue;
-}
-
-
-#ifdef OSG_MT_CPTR_ASPECT
-void DynamicTerrainBase::execSyncV(      FieldContainer    &oFrom,
-                                        ConstFieldMaskArg  whichField,
-                                        AspectOffsetStore &oOffsets,
-                                        ConstFieldMaskArg  syncMode,
-                                  const UInt32             uiSyncInfo)
-{
-    DynamicTerrain *pThis = static_cast<DynamicTerrain *>(this);
-
-    pThis->execSync(static_cast<DynamicTerrain *>(&oFrom),
-                    whichField,
-                    oOffsets,
-                    syncMode,
-                    uiSyncInfo);
 }
 #endif
 
-
-#ifdef OSG_MT_CPTR_ASPECT
-FieldContainer *DynamicTerrainBase::createAspectCopy(
-    const FieldContainer *pRefAspect) const
-{
-    DynamicTerrain *returnValue;
-
-    newAspectCopy(returnValue,
-                  dynamic_cast<const DynamicTerrain *>(pRefAspect),
-                  dynamic_cast<const DynamicTerrain *>(this));
-
-    return returnValue;
-}
-#endif
-
-void DynamicTerrainBase::resolveLinks(void)
-{
-    Inherited::resolveLinks();
-
-    static_cast<DynamicTerrain *>(this)->setHeightData(NULL);
-
-    static_cast<DynamicTerrain *>(this)->setTextureData(NULL);
-
-    static_cast<DynamicTerrain *>(this)->setHeightColorTexture(NULL);
-
-
-}
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<DynamicTerrain *>::_type("DynamicTerrainPtr", "MaterialDrawablePtr");
+DataType FieldDataTraits<DynamicTerrainPtr>::_type("DynamicTerrainPtr", "MaterialDrawablePtr");
 #endif
 
 
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.49 2008/06/09 07:30:44 vossg Exp $";
+    static Char8 cvsid_hpp       [] = OSGDYNAMICTERRAINBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGDYNAMICTERRAINBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGDYNAMICTERRAINFIELDS_HEADER_CVSID;
+}
+
 OSG_END_NAMESPACE
+

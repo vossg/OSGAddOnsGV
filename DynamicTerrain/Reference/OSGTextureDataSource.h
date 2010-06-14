@@ -13,6 +13,8 @@
 #define TEXTURE_DATA_SOURCE_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
 #include "OSGRectangle.h"
 #include "OSGTerrainTypes.h"
@@ -28,7 +30,7 @@ namespace OSG
 
 	//-------------------------------------------------------------------------------------------------
 
-	class TextureDataSource
+	class OSG_CONTRIBLIB_DLLMAPPING TextureDataSource
 	{
 	public:		
 		virtual						~TextureDataSource() = 0;

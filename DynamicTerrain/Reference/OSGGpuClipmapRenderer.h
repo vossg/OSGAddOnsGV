@@ -15,6 +15,8 @@
 #define GPU_CLIPMAP_RENDERER_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
 #include "ClipmapRenderer.h"
 #include "OSGGpuBuffer.h"
@@ -33,7 +35,7 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 
-	class GpuClipmapRenderer : public ClipmapRenderer
+	class OSG_CONTRIBLIB_DLLMAPPING GpuClipmapRenderer : public ClipmapRenderer
 	{
 	public:		
 		GpuClipmapRenderer();

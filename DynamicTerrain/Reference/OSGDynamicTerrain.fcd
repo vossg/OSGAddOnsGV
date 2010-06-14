@@ -3,6 +3,7 @@
 <FieldContainer
 	name="DynamicTerrain"
 	parent="MaterialDrawable"
+	library="Contrib"
 	pointerfieldtypes="none"
 	structure="concrete"
 	systemcomponent="true"

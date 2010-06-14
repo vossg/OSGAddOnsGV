@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -58,147 +58,110 @@
 #endif
 
 
-#include "OSGConfig.h"
-#include "OSG<UNDEF>Def.h"
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
-#include "OSGBaseTypes.h"
+#include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
+#include <OSGCoredNodePtr.h>
 
-#include "OSGMaterialDrawable.h" // Parent
+#include <OSGMaterialDrawable.h> // Parent
 
-#include "OSGInt32Fields.h" // LevelSize type
-#include "OSGImageFields.h" // HeightData type
-#include "OSGReal32Fields.h" // HeightDataScale type
-#include "OSGReal32Fields.h" // HeightDataOffset type
-#include "OSGReal32Fields.h" // SampleDistance type
-#include "OSGImageFields.h" // TextureData type
-#include "OSGTextureChunkFields.h" // HeightColorTexture type
-#include "OSGInt32Fields.h" // SampleUpdateBudget type
-#include "OSGBoolFields.h" // EnableFrustumCulling type
-#include "OSGBoolFields.h" // UseGpuRenderer type
-#include "OSGBoolFields.h" // UseVboExtension type
-#include "OSGBoolFields.h" // EnableSmoothTransition type
-#include "OSGBoolFields.h" // ShowBoundingBoxes type
-#include "OSGBoolFields.h" // ShowTransitionRegions type
-#include "OSGBoolFields.h" // DisableUpdate type
-#include "OSGStringFields.h" // CpuVertexProgram type
-#include "OSGStringFields.h" // CpuFragmentProgram type
+#include <OSGInt32Fields.h> // LevelSize type
+#include <OSGImageFields.h> // HeightData type
+#include <OSGReal32Fields.h> // HeightDataScale type
+#include <OSGReal32Fields.h> // HeightDataOffset type
+#include <OSGReal32Fields.h> // SampleDistance type
+#include <OSGImageFields.h> // TextureData type
+#include <OSGTextureChunkFields.h> // HeightColorTexture type
+#include <OSGInt32Fields.h> // SampleUpdateBudget type
+#include <OSGBoolFields.h> // EnableFrustumCulling type
+#include <OSGBoolFields.h> // UseGpuRenderer type
+#include <OSGBoolFields.h> // UseVboExtension type
+#include <OSGBoolFields.h> // EnableSmoothTransition type
+#include <OSGBoolFields.h> // ShowBoundingBoxes type
+#include <OSGBoolFields.h> // ShowTransitionRegions type
+#include <OSGBoolFields.h> // DisableUpdate type
+#include <OSGStringFields.h> // CpuVertexProgram type
+#include <OSGStringFields.h> // CpuFragmentProgram type
 
-#include "OSGDynamicTerrainFields.h"
+#include <OSGDynamicTerrainFields.h>
 
 OSG_BEGIN_NAMESPACE
 
 class DynamicTerrain;
+class BinaryDataHandler;
 
 //! \brief DynamicTerrain Base Class.
 
-class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
+class OSG_CONTRIBLIB_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
 {
-  public:
+  private:
 
-    typedef MaterialDrawable Inherited;
-    typedef MaterialDrawable ParentContainer;
-
-    typedef Inherited::TypeObject TypeObject;
-    typedef TypeObject::InitPhase InitPhase;
-
-    OSG_GEN_INTERNALPTR(DynamicTerrain);
+    typedef MaterialDrawable    Inherited;
 
     /*==========================  PUBLIC  =================================*/
-
   public:
+
+    typedef DynamicTerrainPtr  Ptr;
 
     enum
     {
-        LevelSizeFieldId = Inherited::NextFieldId,
-        HeightDataFieldId = LevelSizeFieldId + 1,
-        HeightDataScaleFieldId = HeightDataFieldId + 1,
-        HeightDataOffsetFieldId = HeightDataScaleFieldId + 1,
-        SampleDistanceFieldId = HeightDataOffsetFieldId + 1,
-        TextureDataFieldId = SampleDistanceFieldId + 1,
-        HeightColorTextureFieldId = TextureDataFieldId + 1,
-        SampleUpdateBudgetFieldId = HeightColorTextureFieldId + 1,
-        EnableFrustumCullingFieldId = SampleUpdateBudgetFieldId + 1,
-        UseGpuRendererFieldId = EnableFrustumCullingFieldId + 1,
-        UseVboExtensionFieldId = UseGpuRendererFieldId + 1,
-        EnableSmoothTransitionFieldId = UseVboExtensionFieldId + 1,
-        ShowBoundingBoxesFieldId = EnableSmoothTransitionFieldId + 1,
-        ShowTransitionRegionsFieldId = ShowBoundingBoxesFieldId + 1,
-        DisableUpdateFieldId = ShowTransitionRegionsFieldId + 1,
-        CpuVertexProgramFieldId = DisableUpdateFieldId + 1,
-        CpuFragmentProgramFieldId = CpuVertexProgramFieldId + 1,
-        NextFieldId = CpuFragmentProgramFieldId + 1
+        LevelSizeFieldId              = Inherited::NextFieldId,
+        HeightDataFieldId             = LevelSizeFieldId              + 1,
+        HeightDataScaleFieldId        = HeightDataFieldId             + 1,
+        HeightDataOffsetFieldId       = HeightDataScaleFieldId        + 1,
+        SampleDistanceFieldId         = HeightDataOffsetFieldId       + 1,
+        TextureDataFieldId            = SampleDistanceFieldId         + 1,
+        HeightColorTextureFieldId     = TextureDataFieldId            + 1,
+        SampleUpdateBudgetFieldId     = HeightColorTextureFieldId     + 1,
+        EnableFrustumCullingFieldId   = SampleUpdateBudgetFieldId     + 1,
+        UseGpuRendererFieldId         = EnableFrustumCullingFieldId   + 1,
+        UseVboExtensionFieldId        = UseGpuRendererFieldId         + 1,
+        EnableSmoothTransitionFieldId = UseVboExtensionFieldId        + 1,
+        ShowBoundingBoxesFieldId      = EnableSmoothTransitionFieldId + 1,
+        ShowTransitionRegionsFieldId  = ShowBoundingBoxesFieldId      + 1,
+        DisableUpdateFieldId          = ShowTransitionRegionsFieldId  + 1,
+        CpuVertexProgramFieldId       = DisableUpdateFieldId          + 1,
+        CpuFragmentProgramFieldId     = CpuVertexProgramFieldId       + 1,
+        NextFieldId                   = CpuFragmentProgramFieldId     + 1
     };
 
-    static const OSG::BitVector LevelSizeFieldMask =
-        (TypeTraits<BitVector>::One << LevelSizeFieldId);
-    static const OSG::BitVector HeightDataFieldMask =
-        (TypeTraits<BitVector>::One << HeightDataFieldId);
-    static const OSG::BitVector HeightDataScaleFieldMask =
-        (TypeTraits<BitVector>::One << HeightDataScaleFieldId);
-    static const OSG::BitVector HeightDataOffsetFieldMask =
-        (TypeTraits<BitVector>::One << HeightDataOffsetFieldId);
-    static const OSG::BitVector SampleDistanceFieldMask =
-        (TypeTraits<BitVector>::One << SampleDistanceFieldId);
-    static const OSG::BitVector TextureDataFieldMask =
-        (TypeTraits<BitVector>::One << TextureDataFieldId);
-    static const OSG::BitVector HeightColorTextureFieldMask =
-        (TypeTraits<BitVector>::One << HeightColorTextureFieldId);
-    static const OSG::BitVector SampleUpdateBudgetFieldMask =
-        (TypeTraits<BitVector>::One << SampleUpdateBudgetFieldId);
-    static const OSG::BitVector EnableFrustumCullingFieldMask =
-        (TypeTraits<BitVector>::One << EnableFrustumCullingFieldId);
-    static const OSG::BitVector UseGpuRendererFieldMask =
-        (TypeTraits<BitVector>::One << UseGpuRendererFieldId);
-    static const OSG::BitVector UseVboExtensionFieldMask =
-        (TypeTraits<BitVector>::One << UseVboExtensionFieldId);
-    static const OSG::BitVector EnableSmoothTransitionFieldMask =
-        (TypeTraits<BitVector>::One << EnableSmoothTransitionFieldId);
-    static const OSG::BitVector ShowBoundingBoxesFieldMask =
-        (TypeTraits<BitVector>::One << ShowBoundingBoxesFieldId);
-    static const OSG::BitVector ShowTransitionRegionsFieldMask =
-        (TypeTraits<BitVector>::One << ShowTransitionRegionsFieldId);
-    static const OSG::BitVector DisableUpdateFieldMask =
-        (TypeTraits<BitVector>::One << DisableUpdateFieldId);
-    static const OSG::BitVector CpuVertexProgramFieldMask =
-        (TypeTraits<BitVector>::One << CpuVertexProgramFieldId);
-    static const OSG::BitVector CpuFragmentProgramFieldMask =
-        (TypeTraits<BitVector>::One << CpuFragmentProgramFieldId);
-    static const OSG::BitVector NextFieldMask =
-        (TypeTraits<BitVector>::One << NextFieldId);
-        
-    typedef SFInt32           SFLevelSizeType;
-    typedef SFUnrecImagePtr   SFHeightDataType;
-    typedef SFReal32          SFHeightDataScaleType;
-    typedef SFReal32          SFHeightDataOffsetType;
-    typedef SFReal32          SFSampleDistanceType;
-    typedef SFUnrecImagePtr   SFTextureDataType;
-    typedef SFUnrecTextureChunkPtr SFHeightColorTextureType;
-    typedef SFInt32           SFSampleUpdateBudgetType;
-    typedef SFBool            SFEnableFrustumCullingType;
-    typedef SFBool            SFUseGpuRendererType;
-    typedef SFBool            SFUseVboExtensionType;
-    typedef SFBool            SFEnableSmoothTransitionType;
-    typedef SFBool            SFShowBoundingBoxesType;
-    typedef SFBool            SFShowTransitionRegionsType;
-    typedef SFBool            SFDisableUpdateType;
-    typedef SFString          SFCpuVertexProgramType;
-    typedef SFString          SFCpuFragmentProgramType;
+    static const OSG::BitVector LevelSizeFieldMask;
+    static const OSG::BitVector HeightDataFieldMask;
+    static const OSG::BitVector HeightDataScaleFieldMask;
+    static const OSG::BitVector HeightDataOffsetFieldMask;
+    static const OSG::BitVector SampleDistanceFieldMask;
+    static const OSG::BitVector TextureDataFieldMask;
+    static const OSG::BitVector HeightColorTextureFieldMask;
+    static const OSG::BitVector SampleUpdateBudgetFieldMask;
+    static const OSG::BitVector EnableFrustumCullingFieldMask;
+    static const OSG::BitVector UseGpuRendererFieldMask;
+    static const OSG::BitVector UseVboExtensionFieldMask;
+    static const OSG::BitVector EnableSmoothTransitionFieldMask;
+    static const OSG::BitVector ShowBoundingBoxesFieldMask;
+    static const OSG::BitVector ShowTransitionRegionsFieldMask;
+    static const OSG::BitVector DisableUpdateFieldMask;
+    static const OSG::BitVector CpuVertexProgramFieldMask;
+    static const OSG::BitVector CpuFragmentProgramFieldMask;
+
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 
-    static FieldContainerType &getClassType   (void);
-    static UInt32              getClassTypeId (void);
-    static UInt16              getClassGroupId(void);
+    static        FieldContainerType &getClassType    (void); 
+    static        UInt32              getClassTypeId  (void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                FieldContainer Get                            */
     /*! \{                                                                 */
 
-    virtual       FieldContainerType &getType         (void);
-    virtual const FieldContainerType &getType         (void) const;
+    virtual       FieldContainerType &getType  (void); 
+    virtual const FieldContainerType &getType  (void) const; 
 
     virtual       UInt32              getContainerSize(void) const;
 
@@ -208,134 +171,237 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*! \{                                                                 */
 
 
-                  SFInt32             *editSFLevelSize      (void);
-            const SFInt32             *getSFLevelSize       (void) const;
-            const SFUnrecImagePtr     *getSFHeightData     (void) const;
-                  SFUnrecImagePtr     *editSFHeightData     (void);
+           SFInt32             *editSFLevelSize      (void);
+     const SFInt32             *getSFLevelSize      (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFLevelSize      (void);
+#endif
 
-                  SFReal32            *editSFHeightDataScale(void);
-            const SFReal32            *getSFHeightDataScale (void) const;
+           SFImagePtr          *editSFHeightData     (void);
+     const SFImagePtr          *getSFHeightData     (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFHeightData     (void);
+#endif
 
-                  SFReal32            *editSFHeightDataOffset(void);
-            const SFReal32            *getSFHeightDataOffset (void) const;
+           SFReal32            *editSFHeightDataScale(void);
+     const SFReal32            *getSFHeightDataScale(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFHeightDataScale(void);
+#endif
 
-                  SFReal32            *editSFSampleDistance (void);
-            const SFReal32            *getSFSampleDistance  (void) const;
-            const SFUnrecImagePtr     *getSFTextureData    (void) const;
-                  SFUnrecImagePtr     *editSFTextureData    (void);
-            const SFUnrecTextureChunkPtr *getSFHeightColorTexture(void) const;
-                  SFUnrecTextureChunkPtr *editSFHeightColorTexture(void);
+           SFReal32            *editSFHeightDataOffset(void);
+     const SFReal32            *getSFHeightDataOffset(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFHeightDataOffset(void);
+#endif
 
-                  SFInt32             *editSFSampleUpdateBudget(void);
-            const SFInt32             *getSFSampleUpdateBudget (void) const;
+           SFReal32            *editSFSampleDistance (void);
+     const SFReal32            *getSFSampleDistance (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFSampleDistance (void);
+#endif
 
-                  SFBool              *editSFEnableFrustumCulling(void);
-            const SFBool              *getSFEnableFrustumCulling (void) const;
+           SFImagePtr          *editSFTextureData    (void);
+     const SFImagePtr          *getSFTextureData    (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFTextureData    (void);
+#endif
 
-                  SFBool              *editSFUseGpuRenderer (void);
-            const SFBool              *getSFUseGpuRenderer  (void) const;
+           SFTextureChunkPtr   *editSFHeightColorTexture(void);
+     const SFTextureChunkPtr   *getSFHeightColorTexture(void) const;
+#ifndef OSG_2_PREP
+           SFTextureChunkPtr   *getSFHeightColorTexture(void);
+#endif
 
-                  SFBool              *editSFUseVboExtension(void);
-            const SFBool              *getSFUseVboExtension (void) const;
+           SFInt32             *editSFSampleUpdateBudget(void);
+     const SFInt32             *getSFSampleUpdateBudget(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFSampleUpdateBudget(void);
+#endif
 
-                  SFBool              *editSFEnableSmoothTransition(void);
-            const SFBool              *getSFEnableSmoothTransition (void) const;
+           SFBool              *editSFEnableFrustumCulling(void);
+     const SFBool              *getSFEnableFrustumCulling(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnableFrustumCulling(void);
+#endif
 
-                  SFBool              *editSFShowBoundingBoxes(void);
-            const SFBool              *getSFShowBoundingBoxes (void) const;
+           SFBool              *editSFUseGpuRenderer (void);
+     const SFBool              *getSFUseGpuRenderer (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFUseGpuRenderer (void);
+#endif
 
-                  SFBool              *editSFShowTransitionRegions(void);
-            const SFBool              *getSFShowTransitionRegions (void) const;
+           SFBool              *editSFUseVboExtension(void);
+     const SFBool              *getSFUseVboExtension(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFUseVboExtension(void);
+#endif
 
-                  SFBool              *editSFDisableUpdate  (void);
-            const SFBool              *getSFDisableUpdate   (void) const;
+           SFBool              *editSFEnableSmoothTransition(void);
+     const SFBool              *getSFEnableSmoothTransition(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnableSmoothTransition(void);
+#endif
 
-                  SFString            *editSFCpuVertexProgram(void);
-            const SFString            *getSFCpuVertexProgram (void) const;
+           SFBool              *editSFShowBoundingBoxes(void);
+     const SFBool              *getSFShowBoundingBoxes(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFShowBoundingBoxes(void);
+#endif
 
-                  SFString            *editSFCpuFragmentProgram(void);
-            const SFString            *getSFCpuFragmentProgram (void) const;
+           SFBool              *editSFShowTransitionRegions(void);
+     const SFBool              *getSFShowTransitionRegions(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFShowTransitionRegions(void);
+#endif
+
+           SFBool              *editSFDisableUpdate  (void);
+     const SFBool              *getSFDisableUpdate  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFDisableUpdate  (void);
+#endif
+
+           SFString            *editSFCpuVertexProgram(void);
+     const SFString            *getSFCpuVertexProgram(void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFCpuVertexProgram(void);
+#endif
+
+           SFString            *editSFCpuFragmentProgram(void);
+     const SFString            *getSFCpuFragmentProgram(void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFCpuFragmentProgram(void);
+#endif
 
 
-                  Int32               &editLevelSize      (void);
-                  Int32                getLevelSize       (void) const;
+           Int32               &editLevelSize      (void);
+     const Int32               &getLevelSize      (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getLevelSize      (void);
+#endif
 
-                  Image * getHeightData     (void) const;
+           ImagePtr            &editHeightData     (void);
+     const ImagePtr            &getHeightData     (void) const;
+#ifndef OSG_2_PREP
+           ImagePtr            &getHeightData     (void);
+#endif
 
-                  Real32              &editHeightDataScale(void);
-                  Real32               getHeightDataScale (void) const;
+           Real32              &editHeightDataScale(void);
+     const Real32              &getHeightDataScale(void) const;
+#ifndef OSG_2_PREP
+           Real32              &getHeightDataScale(void);
+#endif
 
-                  Real32              &editHeightDataOffset(void);
-                  Real32               getHeightDataOffset (void) const;
+           Real32              &editHeightDataOffset(void);
+     const Real32              &getHeightDataOffset(void) const;
+#ifndef OSG_2_PREP
+           Real32              &getHeightDataOffset(void);
+#endif
 
-                  Real32              &editSampleDistance (void);
-                  Real32               getSampleDistance  (void) const;
+           Real32              &editSampleDistance (void);
+     const Real32              &getSampleDistance (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getSampleDistance (void);
+#endif
 
-                  Image * getTextureData    (void) const;
+           ImagePtr            &editTextureData    (void);
+     const ImagePtr            &getTextureData    (void) const;
+#ifndef OSG_2_PREP
+           ImagePtr            &getTextureData    (void);
+#endif
 
-                  TextureChunk * getHeightColorTexture(void) const;
+           TextureChunkPtr     &editHeightColorTexture(void);
+     const TextureChunkPtr     &getHeightColorTexture(void) const;
+#ifndef OSG_2_PREP
+           TextureChunkPtr     &getHeightColorTexture(void);
+#endif
 
-                  Int32               &editSampleUpdateBudget(void);
-                  Int32                getSampleUpdateBudget (void) const;
+           Int32               &editSampleUpdateBudget(void);
+     const Int32               &getSampleUpdateBudget(void) const;
+#ifndef OSG_2_PREP
+           Int32               &getSampleUpdateBudget(void);
+#endif
 
-                  bool                &editEnableFrustumCulling(void);
-                  bool                 getEnableFrustumCulling (void) const;
+           bool                &editEnableFrustumCulling(void);
+     const bool                &getEnableFrustumCulling(void) const;
+#ifndef OSG_2_PREP
+           bool                &getEnableFrustumCulling(void);
+#endif
 
-                  bool                &editUseGpuRenderer (void);
-                  bool                 getUseGpuRenderer  (void) const;
+           bool                &editUseGpuRenderer (void);
+     const bool                &getUseGpuRenderer (void) const;
+#ifndef OSG_2_PREP
+           bool                &getUseGpuRenderer (void);
+#endif
 
-                  bool                &editUseVboExtension(void);
-                  bool                 getUseVboExtension (void) const;
+           bool                &editUseVboExtension(void);
+     const bool                &getUseVboExtension(void) const;
+#ifndef OSG_2_PREP
+           bool                &getUseVboExtension(void);
+#endif
 
-                  bool                &editEnableSmoothTransition(void);
-                  bool                 getEnableSmoothTransition (void) const;
+           bool                &editEnableSmoothTransition(void);
+     const bool                &getEnableSmoothTransition(void) const;
+#ifndef OSG_2_PREP
+           bool                &getEnableSmoothTransition(void);
+#endif
 
-                  bool                &editShowBoundingBoxes(void);
-                  bool                 getShowBoundingBoxes (void) const;
+           bool                &editShowBoundingBoxes(void);
+     const bool                &getShowBoundingBoxes(void) const;
+#ifndef OSG_2_PREP
+           bool                &getShowBoundingBoxes(void);
+#endif
 
-                  bool                &editShowTransitionRegions(void);
-                  bool                 getShowTransitionRegions (void) const;
+           bool                &editShowTransitionRegions(void);
+     const bool                &getShowTransitionRegions(void) const;
+#ifndef OSG_2_PREP
+           bool                &getShowTransitionRegions(void);
+#endif
 
-                  bool                &editDisableUpdate  (void);
-                  bool                 getDisableUpdate   (void) const;
+           bool                &editDisableUpdate  (void);
+     const bool                &getDisableUpdate  (void) const;
+#ifndef OSG_2_PREP
+           bool                &getDisableUpdate  (void);
+#endif
 
-                  std::string         &editCpuVertexProgram(void);
-            const std::string         &getCpuVertexProgram (void) const;
+           std::string         &editCpuVertexProgram(void);
+     const std::string         &getCpuVertexProgram(void) const;
+#ifndef OSG_2_PREP
+           std::string         &getCpuVertexProgram(void);
+#endif
 
-                  std::string         &editCpuFragmentProgram(void);
-            const std::string         &getCpuFragmentProgram (void) const;
+           std::string         &editCpuFragmentProgram(void);
+     const std::string         &getCpuFragmentProgram(void) const;
+#ifndef OSG_2_PREP
+           std::string         &getCpuFragmentProgram(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-            void setLevelSize      (const Int32 value);
-            void setHeightData     (Image * const value);
-            void setHeightDataScale(const Real32 value);
-            void setHeightDataOffset(const Real32 value);
-            void setSampleDistance (const Real32 value);
-            void setTextureData    (Image * const value);
-            void setHeightColorTexture(TextureChunk * const value);
-            void setSampleUpdateBudget(const Int32 value);
-            void setEnableFrustumCulling(const bool value);
-            void setUseGpuRenderer (const bool value);
-            void setUseVboExtension(const bool value);
-            void setEnableSmoothTransition(const bool value);
-            void setShowBoundingBoxes(const bool value);
-            void setShowTransitionRegions(const bool value);
-            void setDisableUpdate  (const bool value);
-            void setCpuVertexProgram(const std::string &value);
-            void setCpuFragmentProgram(const std::string &value);
+     void setLevelSize      ( const Int32 &value );
+     void setHeightData     ( const ImagePtr &value );
+     void setHeightDataScale( const Real32 &value );
+     void setHeightDataOffset( const Real32 &value );
+     void setSampleDistance ( const Real32 &value );
+     void setTextureData    ( const ImagePtr &value );
+     void setHeightColorTexture( const TextureChunkPtr &value );
+     void setSampleUpdateBudget( const Int32 &value );
+     void setEnableFrustumCulling( const bool &value );
+     void setUseGpuRenderer ( const bool &value );
+     void setUseVboExtension( const bool &value );
+     void setEnableSmoothTransition( const bool &value );
+     void setShowBoundingBoxes( const bool &value );
+     void setShowTransitionRegions( const bool &value );
+     void setDisableUpdate  ( const bool &value );
+     void setCpuVertexProgram( const std::string &value );
+     void setCpuFragmentProgram( const std::string &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                Ptr Field Set                                 */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                Ptr MField Set                                */
+    /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
     /*! \}                                                                 */
@@ -343,11 +409,11 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual UInt32 getBinSize (ConstFieldMaskArg  whichField);
-    virtual void   copyToBin  (BinaryDataHandler &pMem,
-                               ConstFieldMaskArg  whichField);
-    virtual void   copyFromBin(BinaryDataHandler &pMem,
-                               ConstFieldMaskArg  whichField);
+    virtual UInt32 getBinSize (const BitVector         &whichField);
+    virtual void   copyToBin  (      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
+    virtual void   copyFromBin(      BinaryDataHandler &pMem,
+                               const BitVector         &whichField);
 
 
     /*! \}                                                                 */
@@ -355,59 +421,42 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  DynamicTerrainTransitPtr  create          (void);
-    static  DynamicTerrain           *createEmpty     (void);
-
-    static  DynamicTerrainTransitPtr  createLocal     (
-                                               BitVector bFlags = FCLocal::All);
-
-    static  DynamicTerrain            *createEmptyLocal(
-                                              BitVector bFlags = FCLocal::All);
-
-    static  DynamicTerrainTransitPtr  createDependent  (BitVector bFlags);
+    static  DynamicTerrainPtr      create          (void); 
+    static  DynamicTerrainPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
+
     /*---------------------------------------------------------------------*/
     /*! \name                       Copy                                   */
     /*! \{                                                                 */
 
-    virtual FieldContainerTransitPtr shallowCopy     (void) const;
-    virtual FieldContainerTransitPtr shallowCopyLocal(
-                                       BitVector bFlags = FCLocal::All) const;
-    virtual FieldContainerTransitPtr shallowCopyDependent(
-                                                      BitVector bFlags) const;
+    virtual FieldContainerPtr     shallowCopy     (void) const; 
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
-
   protected:
-
-    static TypeObject _type;
-
-    static       void   classDescInserter(TypeObject &oType);
-    static const Char8 *getClassname     (void             );
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFInt32           _sfLevelSize;
-    SFUnrecImagePtr   _sfHeightData;
-    SFReal32          _sfHeightDataScale;
-    SFReal32          _sfHeightDataOffset;
-    SFReal32          _sfSampleDistance;
-    SFUnrecImagePtr   _sfTextureData;
-    SFUnrecTextureChunkPtr _sfHeightColorTexture;
-    SFInt32           _sfSampleUpdateBudget;
-    SFBool            _sfEnableFrustumCulling;
-    SFBool            _sfUseGpuRenderer;
-    SFBool            _sfUseVboExtension;
-    SFBool            _sfEnableSmoothTransition;
-    SFBool            _sfShowBoundingBoxes;
-    SFBool            _sfShowTransitionRegions;
-    SFBool            _sfDisableUpdate;
-    SFString          _sfCpuVertexProgram;
-    SFString          _sfCpuFragmentProgram;
+    SFInt32             _sfLevelSize;
+    SFImagePtr          _sfHeightData;
+    SFReal32            _sfHeightDataScale;
+    SFReal32            _sfHeightDataOffset;
+    SFReal32            _sfSampleDistance;
+    SFImagePtr          _sfTextureData;
+    SFTextureChunkPtr   _sfHeightColorTexture;
+    SFInt32             _sfSampleUpdateBudget;
+    SFBool              _sfEnableFrustumCulling;
+    SFBool              _sfUseGpuRenderer;
+    SFBool              _sfUseVboExtension;
+    SFBool              _sfEnableSmoothTransition;
+    SFBool              _sfShowBoundingBoxes;
+    SFBool              _sfShowTransitionRegions;
+    SFBool              _sfDisableUpdate;
+    SFString            _sfCpuVertexProgram;
+    SFString            _sfCpuFragmentProgram;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -422,112 +471,69 @@ class OSG_<UNDEF>_DLLMAPPING DynamicTerrainBase : public MaterialDrawable
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~DynamicTerrainBase(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     onCreate                                */
-    /*! \{                                                                 */
-
-    void onCreate(const DynamicTerrain *source = NULL);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Generic Field Access                      */
-    /*! \{                                                                 */
-
-    GetFieldHandlePtr  getHandleLevelSize       (void) const;
-    EditFieldHandlePtr editHandleLevelSize      (void);
-    GetFieldHandlePtr  getHandleHeightData      (void) const;
-    EditFieldHandlePtr editHandleHeightData     (void);
-    GetFieldHandlePtr  getHandleHeightDataScale (void) const;
-    EditFieldHandlePtr editHandleHeightDataScale(void);
-    GetFieldHandlePtr  getHandleHeightDataOffset (void) const;
-    EditFieldHandlePtr editHandleHeightDataOffset(void);
-    GetFieldHandlePtr  getHandleSampleDistance  (void) const;
-    EditFieldHandlePtr editHandleSampleDistance (void);
-    GetFieldHandlePtr  getHandleTextureData     (void) const;
-    EditFieldHandlePtr editHandleTextureData    (void);
-    GetFieldHandlePtr  getHandleHeightColorTexture (void) const;
-    EditFieldHandlePtr editHandleHeightColorTexture(void);
-    GetFieldHandlePtr  getHandleSampleUpdateBudget (void) const;
-    EditFieldHandlePtr editHandleSampleUpdateBudget(void);
-    GetFieldHandlePtr  getHandleEnableFrustumCulling (void) const;
-    EditFieldHandlePtr editHandleEnableFrustumCulling(void);
-    GetFieldHandlePtr  getHandleUseGpuRenderer  (void) const;
-    EditFieldHandlePtr editHandleUseGpuRenderer (void);
-    GetFieldHandlePtr  getHandleUseVboExtension (void) const;
-    EditFieldHandlePtr editHandleUseVboExtension(void);
-    GetFieldHandlePtr  getHandleEnableSmoothTransition (void) const;
-    EditFieldHandlePtr editHandleEnableSmoothTransition(void);
-    GetFieldHandlePtr  getHandleShowBoundingBoxes (void) const;
-    EditFieldHandlePtr editHandleShowBoundingBoxes(void);
-    GetFieldHandlePtr  getHandleShowTransitionRegions (void) const;
-    EditFieldHandlePtr editHandleShowTransitionRegions(void);
-    GetFieldHandlePtr  getHandleDisableUpdate   (void) const;
-    EditFieldHandlePtr editHandleDisableUpdate  (void);
-    GetFieldHandlePtr  getHandleCpuVertexProgram (void) const;
-    EditFieldHandlePtr editHandleCpuVertexProgram(void);
-    GetFieldHandlePtr  getHandleCpuFragmentProgram (void) const;
-    EditFieldHandlePtr editHandleCpuFragmentProgram(void);
+    virtual ~DynamicTerrainBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-#ifdef OSG_MT_CPTR_ASPECT
-    virtual void execSyncV(      FieldContainer    &oFrom,
-                                 ConstFieldMaskArg  whichField,
-                                 AspectOffsetStore &oOffsets,
-                                 ConstFieldMaskArg  syncMode  ,
-                           const UInt32             uiSyncInfo);
+#if !defined(OSG_FIXED_MFIELDSYNC)
+    void executeSyncImpl(      DynamicTerrainBase *pOther,
+                         const BitVector         &whichField);
 
-            void execSync (      DynamicTerrainBase *pFrom,
-                                 ConstFieldMaskArg  whichField,
-                                 AspectOffsetStore &oOffsets,
-                                 ConstFieldMaskArg  syncMode  ,
-                           const UInt32             uiSyncInfo);
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      DynamicTerrainBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Edit                                   */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Aspect Create                            */
-    /*! \{                                                                 */
-
-#ifdef OSG_MT_CPTR_ASPECT
-    virtual FieldContainer *createAspectCopy(
-                                    const FieldContainer *pRefAspect) const;
-#endif
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Edit                                   */
-    /*! \{                                                                 */
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Sync                                   */
-    /*! \{                                                                 */
-
-    virtual void resolveLinks(void);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
-
   private:
-    /*---------------------------------------------------------------------*/
+
+    friend class FieldContainer;
+
+    static FieldDescription   *_desc[];
+    static FieldContainerType  _type;
+
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const DynamicTerrainBase &source);
 };
 
+//---------------------------------------------------------------------------
+//   Exported Types
+//---------------------------------------------------------------------------
+
+
 typedef DynamicTerrainBase *DynamicTerrainBaseP;
 
+typedef osgIF<DynamicTerrainBase::isNodeCore,
+              CoredNodePtr<DynamicTerrain>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet DynamicTerrainNodePtr;
+
+typedef RefPtr<DynamicTerrainPtr> DynamicTerrainRefPtr;
+
 OSG_END_NAMESPACE
+
+#define OSGDYNAMICTERRAINBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.42 2008/06/09 12:26:59 vossg Exp $"
 
 #endif /* _OSGDYNAMICTERRAINBASE_H_ */

@@ -1,0 +1,5 @@
+# Add our directory to the Contrib Lib
+
+ac_gdz_package_dirs_Contrib="${ac_gdz_package_dirs_Contrib} Contrib/DynamicTerrain@"
+#ac_gdz_package_inc_dep_Contrib="WindowSystem/@WINDOWSYSTEM@ ${ac_gdz_package_inc_dep_Contrib} " 
+#ac_gdz_package_link_dep_Contrib="Window@WINDOWSYSTEM@Lib ${ac_gdz_package_link_dep_Contrib}" 

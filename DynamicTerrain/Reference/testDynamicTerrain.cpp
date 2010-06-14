@@ -388,11 +388,11 @@ void keyboard(unsigned char k, int x, int y)
 		break;
 
 	case '1':
-		mgr->getCamera()->setFar( 4000.0f );		
+		mgr->getCamera()->setFar( 20000.0f );		
 		break;
 
 	case '2':
-		mgr->getNavigator()->setMotionFactor( 10.0f );
+		mgr->getNavigator()->setMotionFactor( 1000.0f );
 		break;
 
 	case 'x':  

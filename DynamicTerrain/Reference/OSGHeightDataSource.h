@@ -13,6 +13,8 @@
 #define HEIGHT_DATA_SOURCE_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
 #include "OSGRectangle.h"
 #include "OSGTerrainTypes.h"
@@ -27,7 +29,7 @@ namespace OSG
 
 	//-------------------------------------------------------------------------------------------------
 
-	class HeightDataSource
+	class OSG_CONTRIBLIB_DLLMAPPING HeightDataSource
 	{
 	public:		
 		virtual						~HeightDataSource() = 0;

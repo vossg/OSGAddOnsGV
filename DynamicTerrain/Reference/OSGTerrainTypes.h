@@ -13,10 +13,12 @@
 #define OSG_TYPES_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
-#include "OSGVector.h"
-#include "OSGMatrix.h"
-#include "OSGColor.h"
+#include <OSGVector.h>
+#include <OSGMatrix.h>
+#include <OSGColor.h>
 #include "OSGRectangle.h"
 
 //-------------------------------------------------------------------------------------------------
@@ -26,10 +28,10 @@ namespace OSG
 
 	//-------------------------------------------------------------------------------------------------
 
-	typedef OSG::PointInterface< OSG::Real32, OSG::VecStorage2< OSG::Real32 > > Pnt2f;	
-	typedef OSG::PointInterface< OSG::Real32, OSG::VecStorage3< OSG::Real32 > > Pnt3f;	
-	typedef OSG::PointInterface< OSG::Real32, OSG::VecStorage4< OSG::Real32 > > Pnt4f;
-	typedef OSG::PointInterface< OSG::Int32, OSG::VecStorage2< OSG::Int32 > >	Pnt2i;
+	typedef OSG::Point< OSG::Real32, 2 > Pnt2f;	
+	typedef OSG::Point< OSG::Real32, 3 > Pnt3f;	
+	typedef OSG::Point< OSG::Real32, 4 > Pnt4f;
+	typedef OSG::Point< OSG::Int32, 2 >	Pnt2i;
 	typedef OSG::TransformationMatrix< OSG::Real32 >							TransformMatrix;	
 
 	Vec3f			colorToVector( Color3f color );
@@ -53,15 +55,15 @@ namespace OSG
 	Int32			getAlignedInt( Int32 x, Int32 n, bool roundUp );
 	Pnt2i			alignPoint( const Pnt2i& p, Int32 n, bool roundUp );
 
-	template< typename T, typename VS > struct BoundingBox
+	template< typename T, UInt32 SizeI > struct BoundingBox
 	{
-		typedef OSG::PointInterface< T, VS >	PntType;
+		typedef OSG::Point< T, SizeI >	PntType;
 
 		PntType	min;
 		PntType	max;
 	};
 
-	typedef BoundingBox< OSG::Real32, OSG::VecStorage3< OSG::Real32 > > BoundingBox3f;
+	typedef BoundingBox< OSG::Real32, 3 > BoundingBox3f;
 
 	//-------------------------------------------------------------------------------------------------
 }

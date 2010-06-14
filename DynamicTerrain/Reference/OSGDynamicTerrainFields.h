@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -54,51 +54,44 @@
 #pragma once
 #endif
 
-#include "OSGConfig.h"
-#include "OSG<UNDEF>Def.h"
+#include <OSGConfig.h>
 
-#include "OSGFieldContainerFields.h"
-#include "OSGPointerSField.h"
-#include "OSGPointerMField.h"
+#include <OSGFieldContainerPtr.h>
+#include <OSGNodeCoreFieldDataType.h>
+#include <OSGContribDef.h>
 
+#include <OSGMaterialDrawableFields.h>
 
 OSG_BEGIN_NAMESPACE
 
 class DynamicTerrain;
 
-#if !defined(OSG_DO_DOC) // created as a dummy class, remove to prevent doubles
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! DynamicTerrainPtr
 
-OSG_GEN_CONTAINERPTR(DynamicTerrain);
+typedef FCPtr<MaterialDrawablePtr, DynamicTerrain> DynamicTerrainPtr;
 
 #endif
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
-/*! \ingroup Grp<UNDEF>FieldTraits
+/*! \ingroup GrpContribFieldTraits
  */
 #if !defined(OSG_DOC_DEV_TRAITS)
 /*! \hideinhierarchy */
 #endif
 
 template <>
-struct FieldTraits<DynamicTerrain *> :
-    public FieldTraitsFCPtrBase<DynamicTerrain *>
+struct FieldDataTraits<DynamicTerrainPtr> : 
+    public FieldTraitsRecurseMapper<DynamicTerrainPtr, true>
 {
-  private:
+    static DataType             _type;                       
 
-    static DataType             _type;
-
-  public:
-
-    typedef FieldTraits<DynamicTerrain *>  Self;
-
-    enum                        { Convertible = NotConvertible };
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
 };
 
-
-
 #if !defined(OSG_DOC_DEV_TRAITS)
-/*! \class  FieldTraitsTemplateBase<DynamicTerrainPtr, 0>
+/*! \class  FieldTraitsRecurseMapper<DynamicTerrainPtr, true>
     \hideinhierarchy
  */
 #endif
@@ -108,5 +101,7 @@ struct FieldTraits<DynamicTerrain *> :
 
 
 OSG_END_NAMESPACE
+
+#define OSGDYNAMICTERRAINFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.26 2006/02/20 16:55:35 dirk Exp $"
 
 #endif /* _OSGDYNAMICTERRAINFIELDS_H_ */

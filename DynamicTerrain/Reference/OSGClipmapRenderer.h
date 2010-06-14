@@ -13,10 +13,12 @@
 #define CLIPMAP_RENDERER_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
-#include "OSGFrustumVolume.h"
-#include "OSGTextureChunkFields.h"
-#include "OSGWindow.h"
+#include <OSGFrustumVolume.h>
+#include <OSGTextureChunkFields.h>
+#include <OSGWindow.h>
 #include "OSGTerrainTypes.h"
 #include "OSGRectangle.h"
 
@@ -82,7 +84,7 @@ namespace OSG
 
 	//-------------------------------------------------------------------------------------------------
 
-	class ClipmapRenderer
+	class OSG_CONTRIBLIB_DLLMAPPING ClipmapRenderer
 	{
 	public:
 		bool							initialize( GeometryClipmaps* geoClipmaps );

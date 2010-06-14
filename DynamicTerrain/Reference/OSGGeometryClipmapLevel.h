@@ -13,10 +13,12 @@
 #define GEOMETRY_CLIPMAP_LEVEL_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
-#include "OSGBaseTypes.h"
-#include "OSGLine.h"
-#include "OSGImage.h"
+#include <OSGBaseTypes.h>
+#include <OSGLine.h>
+#include <OSGImage.h>
 #include "OSGTerrainTypes.h"
 #include "OSGHeightmap.h"
 
@@ -33,7 +35,7 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 
-	struct GeometryClipmapLevel
+	struct OSG_CONTRIBLIB_DLLMAPPING GeometryClipmapLevel
 	{
 		GeometryClipmapLevel();
 

@@ -13,8 +13,10 @@
 #define OSG_TEXTURE_DATA_SOURCE_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
-#include "OSGImage.h"
+#include <OSGImage.h>
 #include "OSGTextureDataSource.h"
 
 //-------------------------------------------------------------------------------------------------
@@ -25,7 +27,7 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 
-	class ImageTextureDataSource : public TextureDataSource
+	class OSG_CONTRIBLIB_DLLMAPPING ImageTextureDataSource : public TextureDataSource
 	{
 	public:		
 		explicit					ImageTextureDataSource( ImagePtr image = NullFC );

@@ -15,10 +15,12 @@
 #define QAEB_RENDERER_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
-#include "OSGFrustumVolume.h"
-#include "OSGTextureChunkFields.h"
-#include "OSGSHLChunk.h"
+#include <OSGFrustumVolume.h>
+#include <OSGTextureChunkFields.h>
+#include <OSGSHLChunk.h>
 #include "OSGRectangle.h"
 #include "OSGTypes.h"
 #include "OSGGlslShader.h"
@@ -35,11 +37,11 @@ namespace OSG
 
 	//-------------------------------------------------------------------------------------------------
 
-	typedef PointInterface< Int32, VecStorage2<Int32> > Pnt2i;	
+	typedef Point< Int32, 2 > Pnt2i;	
 
 	//-------------------------------------------------------------------------------------------------
 
-	class QaebRenderer
+	class OSG_CONTRIBLIB_DLLMAPPING QaebRenderer
 	{
 	public:		
 		QaebRenderer();

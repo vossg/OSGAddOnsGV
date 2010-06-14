@@ -91,7 +91,7 @@ namespace OSG
 		}
 
 		// check validity of the input data:
-		UInt8* imageData = level.textureData->getData();
+		UInt8* imageData = level.textureData->editData();
 		int imageStride = 4 * level.textureData->getWidth();
 
 		if( !imageData )

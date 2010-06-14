@@ -13,8 +13,10 @@
 #define GLSL_SHADER_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
-#include "OSGWindow.h"
+#include <OSGWindow.h>
 #include <string>
 
 //-------------------------------------------------------------------------------------------------
@@ -28,7 +30,7 @@ namespace OSG
 
 	struct GlslFunctions;
 
-	class GlslShader
+	class OSG_CONTRIBLIB_DLLMAPPING GlslShader
 	{
 	public:
 		GlslShader();

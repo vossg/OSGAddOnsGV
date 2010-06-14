@@ -13,10 +13,12 @@
 #define HEIGHTMAP_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
 #include "OSGTerrainTypes.h"
 #include <vector>
-#include "OSGLine.h"
+#include <OSGLine.h>
 
 //-------------------------------------------------------------------------------------------------
 
@@ -25,7 +27,7 @@ namespace OSG
 
 	//-------------------------------------------------------------------------------------------------
 
-	class Heightmap
+	class OSG_CONTRIBLIB_DLLMAPPING Heightmap
 	{
 	public:		
 		Heightmap();

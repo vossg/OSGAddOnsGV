@@ -15,6 +15,8 @@
 #define OSG_HEIGHT_DATA_SOURCE_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
 #include <OpenSG/OSGImage.h>
 #include "OSGHeightDataSource.h"
@@ -28,7 +30,7 @@ namespace OSG
 
 	struct GeometryClipmapLevel;
 
-	class ImageHeightDataSource : public HeightDataSource
+	class OSG_CONTRIBLIB_DLLMAPPING ImageHeightDataSource : public HeightDataSource
 	{
 	public:		
 		explicit					ImageHeightDataSource( ImagePtr image = NullFC );

@@ -13,11 +13,13 @@
 #define OSG_TOOLS_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
 #include <string>
-#include "OSGVector.h"
-#include "OSGMatrix.h"
-#include "OSGColor.h"
+#include <OSGVector.h>
+#include <OSGMatrix.h>
+#include <OSGColor.h>
 #include "OSGTerrainTypes.h"
 
 //-------------------------------------------------------------------------------------------------

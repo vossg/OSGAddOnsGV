@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -48,6 +48,8 @@
  *****************************************************************************
 \*****************************************************************************/
 
+#include <OSGConfig.h>
+
 OSG_BEGIN_NAMESPACE
 
 
@@ -55,379 +57,891 @@ OSG_BEGIN_NAMESPACE
 inline
 OSG::FieldContainerType &DynamicTerrainBase::getClassType(void)
 {
-    return _type;
-}
+    return _type; 
+} 
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 DynamicTerrainBase::getClassTypeId(void)
+OSG::UInt32 DynamicTerrainBase::getClassTypeId(void) 
 {
-    return _type.getId();
+    return _type.getId(); 
+} 
+
+//! create a new instance of the class
+inline
+DynamicTerrainPtr DynamicTerrainBase::create(void) 
+{
+    DynamicTerrainPtr fc; 
+
+    if(getClassType().getPrototype() != OSG::NullFC) 
+    {
+        fc = DynamicTerrainPtr::dcast(
+            getClassType().getPrototype()-> shallowCopy()); 
+    }
+    
+    return fc; 
 }
 
+//! create an empty new instance of the class, do not copy the prototype
 inline
-OSG::UInt16 DynamicTerrainBase::getClassGroupId(void)
-{
-    return _type.getGroupId();
+DynamicTerrainPtr DynamicTerrainBase::createEmpty(void) 
+{ 
+    DynamicTerrainPtr returnValue; 
+    
+    newPtr(returnValue); 
+
+    return returnValue; 
 }
+
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the value of the DynamicTerrain::_sfLevelSize field.
+//! Get the DynamicTerrain::_sfLevelSize field.
+inline
+const SFInt32 *DynamicTerrainBase::getSFLevelSize(void) const
+{
+    return &_sfLevelSize;
+}
 
+//! Get the DynamicTerrain::_sfLevelSize field.
+inline
+SFInt32 *DynamicTerrainBase::editSFLevelSize(void)
+{
+    return &_sfLevelSize;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfLevelSize field.
+inline
+SFInt32 *DynamicTerrainBase::getSFLevelSize(void)
+{
+    return &_sfLevelSize;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfHeightData field.
+inline
+const SFImagePtr *DynamicTerrainBase::getSFHeightData(void) const
+{
+    return &_sfHeightData;
+}
+
+//! Get the DynamicTerrain::_sfHeightData field.
+inline
+SFImagePtr *DynamicTerrainBase::editSFHeightData(void)
+{
+    return &_sfHeightData;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfHeightData field.
+inline
+SFImagePtr *DynamicTerrainBase::getSFHeightData(void)
+{
+    return &_sfHeightData;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfHeightDataScale field.
+inline
+const SFReal32 *DynamicTerrainBase::getSFHeightDataScale(void) const
+{
+    return &_sfHeightDataScale;
+}
+
+//! Get the DynamicTerrain::_sfHeightDataScale field.
+inline
+SFReal32 *DynamicTerrainBase::editSFHeightDataScale(void)
+{
+    return &_sfHeightDataScale;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfHeightDataScale field.
+inline
+SFReal32 *DynamicTerrainBase::getSFHeightDataScale(void)
+{
+    return &_sfHeightDataScale;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfHeightDataOffset field.
+inline
+const SFReal32 *DynamicTerrainBase::getSFHeightDataOffset(void) const
+{
+    return &_sfHeightDataOffset;
+}
+
+//! Get the DynamicTerrain::_sfHeightDataOffset field.
+inline
+SFReal32 *DynamicTerrainBase::editSFHeightDataOffset(void)
+{
+    return &_sfHeightDataOffset;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfHeightDataOffset field.
+inline
+SFReal32 *DynamicTerrainBase::getSFHeightDataOffset(void)
+{
+    return &_sfHeightDataOffset;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfSampleDistance field.
+inline
+const SFReal32 *DynamicTerrainBase::getSFSampleDistance(void) const
+{
+    return &_sfSampleDistance;
+}
+
+//! Get the DynamicTerrain::_sfSampleDistance field.
+inline
+SFReal32 *DynamicTerrainBase::editSFSampleDistance(void)
+{
+    return &_sfSampleDistance;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfSampleDistance field.
+inline
+SFReal32 *DynamicTerrainBase::getSFSampleDistance(void)
+{
+    return &_sfSampleDistance;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfTextureData field.
+inline
+const SFImagePtr *DynamicTerrainBase::getSFTextureData(void) const
+{
+    return &_sfTextureData;
+}
+
+//! Get the DynamicTerrain::_sfTextureData field.
+inline
+SFImagePtr *DynamicTerrainBase::editSFTextureData(void)
+{
+    return &_sfTextureData;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfTextureData field.
+inline
+SFImagePtr *DynamicTerrainBase::getSFTextureData(void)
+{
+    return &_sfTextureData;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfHeightColorTexture field.
+inline
+const SFTextureChunkPtr *DynamicTerrainBase::getSFHeightColorTexture(void) const
+{
+    return &_sfHeightColorTexture;
+}
+
+//! Get the DynamicTerrain::_sfHeightColorTexture field.
+inline
+SFTextureChunkPtr *DynamicTerrainBase::editSFHeightColorTexture(void)
+{
+    return &_sfHeightColorTexture;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfHeightColorTexture field.
+inline
+SFTextureChunkPtr *DynamicTerrainBase::getSFHeightColorTexture(void)
+{
+    return &_sfHeightColorTexture;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfSampleUpdateBudget field.
+inline
+const SFInt32 *DynamicTerrainBase::getSFSampleUpdateBudget(void) const
+{
+    return &_sfSampleUpdateBudget;
+}
+
+//! Get the DynamicTerrain::_sfSampleUpdateBudget field.
+inline
+SFInt32 *DynamicTerrainBase::editSFSampleUpdateBudget(void)
+{
+    return &_sfSampleUpdateBudget;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfSampleUpdateBudget field.
+inline
+SFInt32 *DynamicTerrainBase::getSFSampleUpdateBudget(void)
+{
+    return &_sfSampleUpdateBudget;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfEnableFrustumCulling field.
+inline
+const SFBool *DynamicTerrainBase::getSFEnableFrustumCulling(void) const
+{
+    return &_sfEnableFrustumCulling;
+}
+
+//! Get the DynamicTerrain::_sfEnableFrustumCulling field.
+inline
+SFBool *DynamicTerrainBase::editSFEnableFrustumCulling(void)
+{
+    return &_sfEnableFrustumCulling;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfEnableFrustumCulling field.
+inline
+SFBool *DynamicTerrainBase::getSFEnableFrustumCulling(void)
+{
+    return &_sfEnableFrustumCulling;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfUseGpuRenderer field.
+inline
+const SFBool *DynamicTerrainBase::getSFUseGpuRenderer(void) const
+{
+    return &_sfUseGpuRenderer;
+}
+
+//! Get the DynamicTerrain::_sfUseGpuRenderer field.
+inline
+SFBool *DynamicTerrainBase::editSFUseGpuRenderer(void)
+{
+    return &_sfUseGpuRenderer;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfUseGpuRenderer field.
+inline
+SFBool *DynamicTerrainBase::getSFUseGpuRenderer(void)
+{
+    return &_sfUseGpuRenderer;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfUseVboExtension field.
+inline
+const SFBool *DynamicTerrainBase::getSFUseVboExtension(void) const
+{
+    return &_sfUseVboExtension;
+}
+
+//! Get the DynamicTerrain::_sfUseVboExtension field.
+inline
+SFBool *DynamicTerrainBase::editSFUseVboExtension(void)
+{
+    return &_sfUseVboExtension;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfUseVboExtension field.
+inline
+SFBool *DynamicTerrainBase::getSFUseVboExtension(void)
+{
+    return &_sfUseVboExtension;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfEnableSmoothTransition field.
+inline
+const SFBool *DynamicTerrainBase::getSFEnableSmoothTransition(void) const
+{
+    return &_sfEnableSmoothTransition;
+}
+
+//! Get the DynamicTerrain::_sfEnableSmoothTransition field.
+inline
+SFBool *DynamicTerrainBase::editSFEnableSmoothTransition(void)
+{
+    return &_sfEnableSmoothTransition;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfEnableSmoothTransition field.
+inline
+SFBool *DynamicTerrainBase::getSFEnableSmoothTransition(void)
+{
+    return &_sfEnableSmoothTransition;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfShowBoundingBoxes field.
+inline
+const SFBool *DynamicTerrainBase::getSFShowBoundingBoxes(void) const
+{
+    return &_sfShowBoundingBoxes;
+}
+
+//! Get the DynamicTerrain::_sfShowBoundingBoxes field.
+inline
+SFBool *DynamicTerrainBase::editSFShowBoundingBoxes(void)
+{
+    return &_sfShowBoundingBoxes;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfShowBoundingBoxes field.
+inline
+SFBool *DynamicTerrainBase::getSFShowBoundingBoxes(void)
+{
+    return &_sfShowBoundingBoxes;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfShowTransitionRegions field.
+inline
+const SFBool *DynamicTerrainBase::getSFShowTransitionRegions(void) const
+{
+    return &_sfShowTransitionRegions;
+}
+
+//! Get the DynamicTerrain::_sfShowTransitionRegions field.
+inline
+SFBool *DynamicTerrainBase::editSFShowTransitionRegions(void)
+{
+    return &_sfShowTransitionRegions;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfShowTransitionRegions field.
+inline
+SFBool *DynamicTerrainBase::getSFShowTransitionRegions(void)
+{
+    return &_sfShowTransitionRegions;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfDisableUpdate field.
+inline
+const SFBool *DynamicTerrainBase::getSFDisableUpdate(void) const
+{
+    return &_sfDisableUpdate;
+}
+
+//! Get the DynamicTerrain::_sfDisableUpdate field.
+inline
+SFBool *DynamicTerrainBase::editSFDisableUpdate(void)
+{
+    return &_sfDisableUpdate;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfDisableUpdate field.
+inline
+SFBool *DynamicTerrainBase::getSFDisableUpdate(void)
+{
+    return &_sfDisableUpdate;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfCpuVertexProgram field.
+inline
+const SFString *DynamicTerrainBase::getSFCpuVertexProgram(void) const
+{
+    return &_sfCpuVertexProgram;
+}
+
+//! Get the DynamicTerrain::_sfCpuVertexProgram field.
+inline
+SFString *DynamicTerrainBase::editSFCpuVertexProgram(void)
+{
+    return &_sfCpuVertexProgram;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfCpuVertexProgram field.
+inline
+SFString *DynamicTerrainBase::getSFCpuVertexProgram(void)
+{
+    return &_sfCpuVertexProgram;
+}
+#endif
+
+//! Get the DynamicTerrain::_sfCpuFragmentProgram field.
+inline
+const SFString *DynamicTerrainBase::getSFCpuFragmentProgram(void) const
+{
+    return &_sfCpuFragmentProgram;
+}
+
+//! Get the DynamicTerrain::_sfCpuFragmentProgram field.
+inline
+SFString *DynamicTerrainBase::editSFCpuFragmentProgram(void)
+{
+    return &_sfCpuFragmentProgram;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DynamicTerrain::_sfCpuFragmentProgram field.
+inline
+SFString *DynamicTerrainBase::getSFCpuFragmentProgram(void)
+{
+    return &_sfCpuFragmentProgram;
+}
+#endif
+
+
+//! Get the value of the DynamicTerrain::_sfLevelSize field.
 inline
 Int32 &DynamicTerrainBase::editLevelSize(void)
 {
-    editSField(LevelSizeFieldMask);
-
     return _sfLevelSize.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfLevelSize field.
 inline
-      Int32  DynamicTerrainBase::getLevelSize(void) const
+const Int32 &DynamicTerrainBase::getLevelSize(void) const
 {
     return _sfLevelSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfLevelSize field.
+inline
+Int32 &DynamicTerrainBase::getLevelSize(void)
+{
+    return _sfLevelSize.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfLevelSize field.
 inline
-void DynamicTerrainBase::setLevelSize(const Int32 value)
+void DynamicTerrainBase::setLevelSize(const Int32 &value)
 {
-    editSField(LevelSizeFieldMask);
-
     _sfLevelSize.setValue(value);
 }
 
 //! Get the value of the DynamicTerrain::_sfHeightData field.
 inline
-Image * DynamicTerrainBase::getHeightData(void) const
+ImagePtr &DynamicTerrainBase::editHeightData(void)
 {
     return _sfHeightData.getValue();
 }
 
+//! Get the value of the DynamicTerrain::_sfHeightData field.
+inline
+const ImagePtr &DynamicTerrainBase::getHeightData(void) const
+{
+    return _sfHeightData.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfHeightData field.
+inline
+ImagePtr &DynamicTerrainBase::getHeightData(void)
+{
+    return _sfHeightData.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfHeightData field.
 inline
-void DynamicTerrainBase::setHeightData(Image * const value)
+void DynamicTerrainBase::setHeightData(const ImagePtr &value)
 {
-    editSField(HeightDataFieldMask);
-
     _sfHeightData.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfHeightDataScale field.
 
+//! Get the value of the DynamicTerrain::_sfHeightDataScale field.
 inline
 Real32 &DynamicTerrainBase::editHeightDataScale(void)
 {
-    editSField(HeightDataScaleFieldMask);
-
     return _sfHeightDataScale.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfHeightDataScale field.
 inline
-      Real32  DynamicTerrainBase::getHeightDataScale(void) const
+const Real32 &DynamicTerrainBase::getHeightDataScale(void) const
 {
     return _sfHeightDataScale.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfHeightDataScale field.
+inline
+Real32 &DynamicTerrainBase::getHeightDataScale(void)
+{
+    return _sfHeightDataScale.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfHeightDataScale field.
 inline
-void DynamicTerrainBase::setHeightDataScale(const Real32 value)
+void DynamicTerrainBase::setHeightDataScale(const Real32 &value)
 {
-    editSField(HeightDataScaleFieldMask);
-
     _sfHeightDataScale.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfHeightDataOffset field.
 
+//! Get the value of the DynamicTerrain::_sfHeightDataOffset field.
 inline
 Real32 &DynamicTerrainBase::editHeightDataOffset(void)
 {
-    editSField(HeightDataOffsetFieldMask);
-
     return _sfHeightDataOffset.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfHeightDataOffset field.
 inline
-      Real32  DynamicTerrainBase::getHeightDataOffset(void) const
+const Real32 &DynamicTerrainBase::getHeightDataOffset(void) const
 {
     return _sfHeightDataOffset.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfHeightDataOffset field.
+inline
+Real32 &DynamicTerrainBase::getHeightDataOffset(void)
+{
+    return _sfHeightDataOffset.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfHeightDataOffset field.
 inline
-void DynamicTerrainBase::setHeightDataOffset(const Real32 value)
+void DynamicTerrainBase::setHeightDataOffset(const Real32 &value)
 {
-    editSField(HeightDataOffsetFieldMask);
-
     _sfHeightDataOffset.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfSampleDistance field.
 
+//! Get the value of the DynamicTerrain::_sfSampleDistance field.
 inline
 Real32 &DynamicTerrainBase::editSampleDistance(void)
 {
-    editSField(SampleDistanceFieldMask);
-
     return _sfSampleDistance.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfSampleDistance field.
 inline
-      Real32  DynamicTerrainBase::getSampleDistance(void) const
+const Real32 &DynamicTerrainBase::getSampleDistance(void) const
 {
     return _sfSampleDistance.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfSampleDistance field.
+inline
+Real32 &DynamicTerrainBase::getSampleDistance(void)
+{
+    return _sfSampleDistance.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfSampleDistance field.
 inline
-void DynamicTerrainBase::setSampleDistance(const Real32 value)
+void DynamicTerrainBase::setSampleDistance(const Real32 &value)
 {
-    editSField(SampleDistanceFieldMask);
-
     _sfSampleDistance.setValue(value);
 }
 
 //! Get the value of the DynamicTerrain::_sfTextureData field.
 inline
-Image * DynamicTerrainBase::getTextureData(void) const
+ImagePtr &DynamicTerrainBase::editTextureData(void)
 {
     return _sfTextureData.getValue();
 }
 
+//! Get the value of the DynamicTerrain::_sfTextureData field.
+inline
+const ImagePtr &DynamicTerrainBase::getTextureData(void) const
+{
+    return _sfTextureData.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfTextureData field.
+inline
+ImagePtr &DynamicTerrainBase::getTextureData(void)
+{
+    return _sfTextureData.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfTextureData field.
 inline
-void DynamicTerrainBase::setTextureData(Image * const value)
+void DynamicTerrainBase::setTextureData(const ImagePtr &value)
 {
-    editSField(TextureDataFieldMask);
-
     _sfTextureData.setValue(value);
 }
 
 //! Get the value of the DynamicTerrain::_sfHeightColorTexture field.
 inline
-TextureChunk * DynamicTerrainBase::getHeightColorTexture(void) const
+TextureChunkPtr &DynamicTerrainBase::editHeightColorTexture(void)
 {
     return _sfHeightColorTexture.getValue();
 }
 
+//! Get the value of the DynamicTerrain::_sfHeightColorTexture field.
+inline
+const TextureChunkPtr &DynamicTerrainBase::getHeightColorTexture(void) const
+{
+    return _sfHeightColorTexture.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfHeightColorTexture field.
+inline
+TextureChunkPtr &DynamicTerrainBase::getHeightColorTexture(void)
+{
+    return _sfHeightColorTexture.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfHeightColorTexture field.
 inline
-void DynamicTerrainBase::setHeightColorTexture(TextureChunk * const value)
+void DynamicTerrainBase::setHeightColorTexture(const TextureChunkPtr &value)
 {
-    editSField(HeightColorTextureFieldMask);
-
     _sfHeightColorTexture.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfSampleUpdateBudget field.
 
+//! Get the value of the DynamicTerrain::_sfSampleUpdateBudget field.
 inline
 Int32 &DynamicTerrainBase::editSampleUpdateBudget(void)
 {
-    editSField(SampleUpdateBudgetFieldMask);
-
     return _sfSampleUpdateBudget.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfSampleUpdateBudget field.
 inline
-      Int32  DynamicTerrainBase::getSampleUpdateBudget(void) const
+const Int32 &DynamicTerrainBase::getSampleUpdateBudget(void) const
 {
     return _sfSampleUpdateBudget.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfSampleUpdateBudget field.
+inline
+Int32 &DynamicTerrainBase::getSampleUpdateBudget(void)
+{
+    return _sfSampleUpdateBudget.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfSampleUpdateBudget field.
 inline
-void DynamicTerrainBase::setSampleUpdateBudget(const Int32 value)
+void DynamicTerrainBase::setSampleUpdateBudget(const Int32 &value)
 {
-    editSField(SampleUpdateBudgetFieldMask);
-
     _sfSampleUpdateBudget.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfEnableFrustumCulling field.
 
+//! Get the value of the DynamicTerrain::_sfEnableFrustumCulling field.
 inline
 bool &DynamicTerrainBase::editEnableFrustumCulling(void)
 {
-    editSField(EnableFrustumCullingFieldMask);
-
     return _sfEnableFrustumCulling.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfEnableFrustumCulling field.
 inline
-      bool  DynamicTerrainBase::getEnableFrustumCulling(void) const
+const bool &DynamicTerrainBase::getEnableFrustumCulling(void) const
 {
     return _sfEnableFrustumCulling.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfEnableFrustumCulling field.
+inline
+bool &DynamicTerrainBase::getEnableFrustumCulling(void)
+{
+    return _sfEnableFrustumCulling.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfEnableFrustumCulling field.
 inline
-void DynamicTerrainBase::setEnableFrustumCulling(const bool value)
+void DynamicTerrainBase::setEnableFrustumCulling(const bool &value)
 {
-    editSField(EnableFrustumCullingFieldMask);
-
     _sfEnableFrustumCulling.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfUseGpuRenderer field.
 
+//! Get the value of the DynamicTerrain::_sfUseGpuRenderer field.
 inline
 bool &DynamicTerrainBase::editUseGpuRenderer(void)
 {
-    editSField(UseGpuRendererFieldMask);
-
     return _sfUseGpuRenderer.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfUseGpuRenderer field.
 inline
-      bool  DynamicTerrainBase::getUseGpuRenderer(void) const
+const bool &DynamicTerrainBase::getUseGpuRenderer(void) const
 {
     return _sfUseGpuRenderer.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfUseGpuRenderer field.
+inline
+bool &DynamicTerrainBase::getUseGpuRenderer(void)
+{
+    return _sfUseGpuRenderer.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfUseGpuRenderer field.
 inline
-void DynamicTerrainBase::setUseGpuRenderer(const bool value)
+void DynamicTerrainBase::setUseGpuRenderer(const bool &value)
 {
-    editSField(UseGpuRendererFieldMask);
-
     _sfUseGpuRenderer.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfUseVboExtension field.
 
+//! Get the value of the DynamicTerrain::_sfUseVboExtension field.
 inline
 bool &DynamicTerrainBase::editUseVboExtension(void)
 {
-    editSField(UseVboExtensionFieldMask);
-
     return _sfUseVboExtension.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfUseVboExtension field.
 inline
-      bool  DynamicTerrainBase::getUseVboExtension(void) const
+const bool &DynamicTerrainBase::getUseVboExtension(void) const
 {
     return _sfUseVboExtension.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfUseVboExtension field.
+inline
+bool &DynamicTerrainBase::getUseVboExtension(void)
+{
+    return _sfUseVboExtension.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfUseVboExtension field.
 inline
-void DynamicTerrainBase::setUseVboExtension(const bool value)
+void DynamicTerrainBase::setUseVboExtension(const bool &value)
 {
-    editSField(UseVboExtensionFieldMask);
-
     _sfUseVboExtension.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfEnableSmoothTransition field.
 
+//! Get the value of the DynamicTerrain::_sfEnableSmoothTransition field.
 inline
 bool &DynamicTerrainBase::editEnableSmoothTransition(void)
 {
-    editSField(EnableSmoothTransitionFieldMask);
-
     return _sfEnableSmoothTransition.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfEnableSmoothTransition field.
 inline
-      bool  DynamicTerrainBase::getEnableSmoothTransition(void) const
+const bool &DynamicTerrainBase::getEnableSmoothTransition(void) const
 {
     return _sfEnableSmoothTransition.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfEnableSmoothTransition field.
+inline
+bool &DynamicTerrainBase::getEnableSmoothTransition(void)
+{
+    return _sfEnableSmoothTransition.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfEnableSmoothTransition field.
 inline
-void DynamicTerrainBase::setEnableSmoothTransition(const bool value)
+void DynamicTerrainBase::setEnableSmoothTransition(const bool &value)
 {
-    editSField(EnableSmoothTransitionFieldMask);
-
     _sfEnableSmoothTransition.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfShowBoundingBoxes field.
 
+//! Get the value of the DynamicTerrain::_sfShowBoundingBoxes field.
 inline
 bool &DynamicTerrainBase::editShowBoundingBoxes(void)
 {
-    editSField(ShowBoundingBoxesFieldMask);
-
     return _sfShowBoundingBoxes.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfShowBoundingBoxes field.
 inline
-      bool  DynamicTerrainBase::getShowBoundingBoxes(void) const
+const bool &DynamicTerrainBase::getShowBoundingBoxes(void) const
 {
     return _sfShowBoundingBoxes.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfShowBoundingBoxes field.
+inline
+bool &DynamicTerrainBase::getShowBoundingBoxes(void)
+{
+    return _sfShowBoundingBoxes.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfShowBoundingBoxes field.
 inline
-void DynamicTerrainBase::setShowBoundingBoxes(const bool value)
+void DynamicTerrainBase::setShowBoundingBoxes(const bool &value)
 {
-    editSField(ShowBoundingBoxesFieldMask);
-
     _sfShowBoundingBoxes.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfShowTransitionRegions field.
 
+//! Get the value of the DynamicTerrain::_sfShowTransitionRegions field.
 inline
 bool &DynamicTerrainBase::editShowTransitionRegions(void)
 {
-    editSField(ShowTransitionRegionsFieldMask);
-
     return _sfShowTransitionRegions.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfShowTransitionRegions field.
 inline
-      bool  DynamicTerrainBase::getShowTransitionRegions(void) const
+const bool &DynamicTerrainBase::getShowTransitionRegions(void) const
 {
     return _sfShowTransitionRegions.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfShowTransitionRegions field.
+inline
+bool &DynamicTerrainBase::getShowTransitionRegions(void)
+{
+    return _sfShowTransitionRegions.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfShowTransitionRegions field.
 inline
-void DynamicTerrainBase::setShowTransitionRegions(const bool value)
+void DynamicTerrainBase::setShowTransitionRegions(const bool &value)
 {
-    editSField(ShowTransitionRegionsFieldMask);
-
     _sfShowTransitionRegions.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfDisableUpdate field.
 
+//! Get the value of the DynamicTerrain::_sfDisableUpdate field.
 inline
 bool &DynamicTerrainBase::editDisableUpdate(void)
 {
-    editSField(DisableUpdateFieldMask);
-
     return _sfDisableUpdate.getValue();
 }
 
 //! Get the value of the DynamicTerrain::_sfDisableUpdate field.
 inline
-      bool  DynamicTerrainBase::getDisableUpdate(void) const
+const bool &DynamicTerrainBase::getDisableUpdate(void) const
 {
     return _sfDisableUpdate.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfDisableUpdate field.
+inline
+bool &DynamicTerrainBase::getDisableUpdate(void)
+{
+    return _sfDisableUpdate.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfDisableUpdate field.
 inline
-void DynamicTerrainBase::setDisableUpdate(const bool value)
+void DynamicTerrainBase::setDisableUpdate(const bool &value)
 {
-    editSField(DisableUpdateFieldMask);
-
     _sfDisableUpdate.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfCpuVertexProgram field.
 
+//! Get the value of the DynamicTerrain::_sfCpuVertexProgram field.
 inline
 std::string &DynamicTerrainBase::editCpuVertexProgram(void)
 {
-    editSField(CpuVertexProgramFieldMask);
-
     return _sfCpuVertexProgram.getValue();
 }
 
@@ -438,21 +952,26 @@ const std::string &DynamicTerrainBase::getCpuVertexProgram(void) const
     return _sfCpuVertexProgram.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfCpuVertexProgram field.
+inline
+std::string &DynamicTerrainBase::getCpuVertexProgram(void)
+{
+    return _sfCpuVertexProgram.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfCpuVertexProgram field.
 inline
 void DynamicTerrainBase::setCpuVertexProgram(const std::string &value)
 {
-    editSField(CpuVertexProgramFieldMask);
-
     _sfCpuVertexProgram.setValue(value);
 }
-//! Get the value of the DynamicTerrain::_sfCpuFragmentProgram field.
 
+//! Get the value of the DynamicTerrain::_sfCpuFragmentProgram field.
 inline
 std::string &DynamicTerrainBase::editCpuFragmentProgram(void)
 {
-    editSField(CpuFragmentProgramFieldMask);
-
     return _sfCpuFragmentProgram.getValue();
 }
 
@@ -463,86 +982,24 @@ const std::string &DynamicTerrainBase::getCpuFragmentProgram(void) const
     return _sfCpuFragmentProgram.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DynamicTerrain::_sfCpuFragmentProgram field.
+inline
+std::string &DynamicTerrainBase::getCpuFragmentProgram(void)
+{
+    return _sfCpuFragmentProgram.getValue();
+}
+#endif
+
 //! Set the value of the DynamicTerrain::_sfCpuFragmentProgram field.
 inline
 void DynamicTerrainBase::setCpuFragmentProgram(const std::string &value)
 {
-    editSField(CpuFragmentProgramFieldMask);
-
     _sfCpuFragmentProgram.setValue(value);
 }
 
 
-#ifdef OSG_MT_CPTR_ASPECT
-inline
-void DynamicTerrainBase::execSync (      DynamicTerrainBase *pFrom,
-                                        ConstFieldMaskArg  whichField,
-                                        AspectOffsetStore &oOffsets,
-                                        ConstFieldMaskArg  syncMode,
-                                  const UInt32             uiSyncInfo)
-{
-    Inherited::execSync(pFrom, whichField, oOffsets, syncMode, uiSyncInfo);
-
-    if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
-        _sfLevelSize.syncWith(pFrom->_sfLevelSize);
-
-    if(FieldBits::NoField != (HeightDataFieldMask & whichField))
-        _sfHeightData.syncWith(pFrom->_sfHeightData);
-
-    if(FieldBits::NoField != (HeightDataScaleFieldMask & whichField))
-        _sfHeightDataScale.syncWith(pFrom->_sfHeightDataScale);
-
-    if(FieldBits::NoField != (HeightDataOffsetFieldMask & whichField))
-        _sfHeightDataOffset.syncWith(pFrom->_sfHeightDataOffset);
-
-    if(FieldBits::NoField != (SampleDistanceFieldMask & whichField))
-        _sfSampleDistance.syncWith(pFrom->_sfSampleDistance);
-
-    if(FieldBits::NoField != (TextureDataFieldMask & whichField))
-        _sfTextureData.syncWith(pFrom->_sfTextureData);
-
-    if(FieldBits::NoField != (HeightColorTextureFieldMask & whichField))
-        _sfHeightColorTexture.syncWith(pFrom->_sfHeightColorTexture);
-
-    if(FieldBits::NoField != (SampleUpdateBudgetFieldMask & whichField))
-        _sfSampleUpdateBudget.syncWith(pFrom->_sfSampleUpdateBudget);
-
-    if(FieldBits::NoField != (EnableFrustumCullingFieldMask & whichField))
-        _sfEnableFrustumCulling.syncWith(pFrom->_sfEnableFrustumCulling);
-
-    if(FieldBits::NoField != (UseGpuRendererFieldMask & whichField))
-        _sfUseGpuRenderer.syncWith(pFrom->_sfUseGpuRenderer);
-
-    if(FieldBits::NoField != (UseVboExtensionFieldMask & whichField))
-        _sfUseVboExtension.syncWith(pFrom->_sfUseVboExtension);
-
-    if(FieldBits::NoField != (EnableSmoothTransitionFieldMask & whichField))
-        _sfEnableSmoothTransition.syncWith(pFrom->_sfEnableSmoothTransition);
-
-    if(FieldBits::NoField != (ShowBoundingBoxesFieldMask & whichField))
-        _sfShowBoundingBoxes.syncWith(pFrom->_sfShowBoundingBoxes);
-
-    if(FieldBits::NoField != (ShowTransitionRegionsFieldMask & whichField))
-        _sfShowTransitionRegions.syncWith(pFrom->_sfShowTransitionRegions);
-
-    if(FieldBits::NoField != (DisableUpdateFieldMask & whichField))
-        _sfDisableUpdate.syncWith(pFrom->_sfDisableUpdate);
-
-    if(FieldBits::NoField != (CpuVertexProgramFieldMask & whichField))
-        _sfCpuVertexProgram.syncWith(pFrom->_sfCpuVertexProgram);
-
-    if(FieldBits::NoField != (CpuFragmentProgramFieldMask & whichField))
-        _sfCpuFragmentProgram.syncWith(pFrom->_sfCpuFragmentProgram);
-}
-#endif
-
-
-inline
-const Char8 *DynamicTerrainBase::getClassname(void)
-{
-    return "DynamicTerrain";
-}
-OSG_GEN_CONTAINERPTR(DynamicTerrain);
-
 OSG_END_NAMESPACE
+
+#define OSGDYNAMICTERRAINBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.22 2008/06/09 12:26:59 vossg Exp $"
 

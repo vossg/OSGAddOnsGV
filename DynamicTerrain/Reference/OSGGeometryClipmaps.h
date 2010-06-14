@@ -13,8 +13,10 @@
 #define GEOMETRY_CLIPMAPS_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
-#include "OSGBaseTypes.h"
+#include <OSGBaseTypes.h>
 #include "OSGTerrainTypes.h"
 #include "OSGCpuClipmapRenderer.h"
 #include "OSGHeightmap.h"
@@ -33,7 +35,7 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 	
 
-	class GeometryClipmaps
+	class OSG_CONTRIBLIB_DLLMAPPING GeometryClipmaps
 	{
 	public:
 		GeometryClipmaps();

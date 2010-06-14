@@ -13,8 +13,10 @@
 #define MATH_RECT_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
-#include "OSGVector.h"
+#include <OSGVector.h>
 #include <ostream>
 
 //-------------------------------------------------------------------------------------------------
@@ -27,7 +29,7 @@ namespace OSG
 	template< typename T > class Rectangle2
 	{
 	public:
-		typedef OSG::PointInterface< T, OSG::VecStorage2< T > > PointType;
+		typedef OSG::Point< T, 2 > PointType;
 
 		explicit				Rectangle2( T x0 = 0, T y0 = 0, T x1 = 0, T y1 = 0 );
 		explicit				Rectangle2( const PointType& p, T width, T height );

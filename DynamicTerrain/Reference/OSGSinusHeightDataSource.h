@@ -13,8 +13,10 @@
 #define OSG_SINUS_HEIGHT_DATA_SOURCE_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
-#include "OSGImage.h"
+#include <OSGImage.h>
 #include "OSGHeightDataSource.h"
 
 //-------------------------------------------------------------------------------------------------
@@ -25,7 +27,7 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 
-	class SinusHeightDataSource : public HeightDataSource
+	class OSG_CONTRIBLIB_DLLMAPPING SinusHeightDataSource : public HeightDataSource
 	{
 	public:		
 		explicit					SinusHeightDataSource( const Pnt2i& size );

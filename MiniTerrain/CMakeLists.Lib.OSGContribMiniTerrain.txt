@@ -1,0 +1,45 @@
+
+IF(NOT OSG_WITH_LIBMINI)
+  RETURN()
+ENDIF(NOT OSG_WITH_LIBMINI)
+
+OSG_ADD_PROJECT("OSGContribMiniTerrain")
+OSG_SELECT_PROJECT()
+
+##############################################################################
+# dependencies
+##############################################################################
+
+# dependencies - OpenSG
+SET(${PROJECT_NAME}_DEP_OSG_LIB OSGBase)
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGUtil OSGWindowGLUT)
+
+# dependencies - External
+# SET(${PROJECT_NAME}_DEP_LIB)
+# SET(${PROJECT_NAME}_DEP_LIBDIR)
+# SET(${PROJECT_NAME}_DEP_INCDIR)
+
+SET(${PROJECT_NAME}_DEP_TEST_LIB OSG_LIBMINI_LIBRARIES)
+# SET(${PROJECT_NAME}_DEP_TEST_LIBDIR)
+SET(${PROJECT_NAME}_DEP_TEST_INCDIR OSG_LIBMINI_INCLUDE_DIR)
+
+# dependencies - Additional
+# SET(${PROJECT_NAME}_DEP_ADD_INCDIR)
+
+SET(${PROJECT_NAME}_CXXFLAGS ${OSG_ADD_CXX_FLAGS})
+
+SET(${PROJECT_NAME}_NO_LIB TRUE)
+
+OSG_STORE_PROJECT_DEPENDENCIES()
+
+##############################################################################
+# collect sources
+##############################################################################
+
+OSG_ADD_DIRECTORY("${CMAKE_CURRENT_SOURCE_DIR}")
+
+##############################################################################
+# setup build
+##############################################################################
+
+OSG_SETUP_PROJECT("OSG_COMPILECONTRIBMINITERRAINLIB")

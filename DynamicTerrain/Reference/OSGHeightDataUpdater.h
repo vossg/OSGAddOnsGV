@@ -17,6 +17,8 @@
 #define HEIGHT_DATA_UPDATER_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
+#include <OSGConfig.h>
+#include <OSGContribDef.h>
 
 #include "OSGTypes.h"
 
@@ -36,7 +38,7 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 
-	class HeightDataUpdater
+	class OSG_CONTRIBLIB_DLLMAPPING HeightDataUpdater
 	{
 	public:		
 		HeightDataUpdater();

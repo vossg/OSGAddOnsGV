@@ -78,12 +78,20 @@ namespace OSG
 		// register draw action handler
 		DrawAction::registerEnterDefault( getClassType(),
 			osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
-			CNodePtr, Action *>(&MaterialDrawable::drawActionHandler));
+			CNodePtr, Action *>(&MaterialDrawable::drawActionEnterHandler));
+
+		DrawAction::registerLeaveDefault( getClassType(),
+			osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
+			CNodePtr, Action *>(&MaterialDrawable::drawActionLeaveHandler));
 
 		// register renderaction handler
 		RenderAction::registerEnterDefault( getClassType(),
 			osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
-			CNodePtr, Action *>(&MaterialDrawable::renderActionHandler));
+			CNodePtr, Action *>(&MaterialDrawable::renderActionEnterHandler));
+
+		RenderAction::registerLeaveDefault( getClassType(),
+			osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
+			CNodePtr, Action *>(&MaterialDrawable::renderActionLeaveHandler));
 
 		// register intersection handler
 		IntersectAction::registerEnterDefault( getClassType(),
@@ -368,26 +376,32 @@ namespace OSG
 
 	Action::ResultE DynamicTerrain::intersect(Action* action )
 	{
-		IntersectAction* intersectAction = dynamic_cast< IntersectAction* >( action );
-
-		if( !intersectAction )
+		IntersectAction       *ia = dynamic_cast< IntersectAction* >( action );
+	#ifndef OSG_2_PREP
+		const DynamicVolume  &vol = ia->getActNode()->editVolume(true);
+	#else
+		const BoxVolume      &vol = ia->getActNode()->editVolume(true);
+	#endif
+		Real32 enter = 0, exit = 0;
+	
+		if(vol.isValid() && !vol.intersect(ia->getLine(), enter, exit))
 		{
-			return Action::Continue;
+			return Action::Skip; //bv missed -> can not hit children
 		}
 
-		Real32 t;
-		Vec3f normal;
+		Real32 t = enter;
+		Vec3f normal(0,0,0);
+		Int32 index = -1;
 
-		if( geoClipmaps_.findFirstIntersection( intersectAction->getLine(), t, normal ) )
+		//if( geoClipmaps_.findFirstIntersection( ia->getLine(), t, normal ) )
 		{
-			intersectAction->setHit( t, intersectAction->getActNode(), 0, normal );
+			ia->setHit( t, ia->getActNode(), index, normal );
 		}
 
 		return Action::Continue;
 	}
 
 
-	//-------------------------------------------------------------------------------------------------
 	//-------------------------------------------------------------------------------------------------
 
 
