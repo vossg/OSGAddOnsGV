@@ -108,16 +108,16 @@ NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
         Pnt3f vPos;
         Vec3f vNormal;
 
-        GeoPnt3rPropertyUnrecPtr coordPtr       = GeoPnt3rProperty::create();
-        GeoVec3rPropertyUnrecPtr normalPtr      = GeoVec3rProperty::create();
+        GeoPnt3fPropertyUnrecPtr  coordPtr       = GeoPnt3fProperty ::create();
+        GeoVec3fPropertyUnrecPtr  normalPtr      = GeoVec3fProperty ::create();
 
-        GeoPnt3rPropertyUnrecPtr oCoordPtr      = GeoPnt3rProperty::create();
-        GeoVec3rPropertyUnrecPtr oNormalPtr     = GeoVec3rProperty::create();
+        GeoPnt3fPropertyUnrecPtr  oCoordPtr      = GeoPnt3fProperty ::create();
+        GeoVec3fPropertyUnrecPtr  oNormalPtr     = GeoVec3fProperty ::create();
 
-        GeoUIntPropertyUnrecPtr  indexPtr       = GeoUIntProperty::create();
+        GeoUInt32PropertyUnrecPtr indexPtr       = GeoUInt32Property::create();
 
-        GeoUIntPropertyUnrecPtr  lensPtr        = GeoUIntProperty::create();
-        GeoUInt8PropertyUnrecPtr typePtr        = GeoUInt8Property::create();
+        GeoUInt32PropertyUnrecPtr lensPtr        = GeoUInt32Property::create();
+        GeoUInt8PropertyUnrecPtr  typePtr        = GeoUInt8Property ::create();
 
         bool   onlyTris   = true;
         UInt32 uiTriCount = 0;
@@ -355,9 +355,9 @@ NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
     NodePtr rootPtr, nodePtr;
     std::string elem;
     std::map<std::string, DataElem>::const_iterator elemI;
-    Vec3r vec3r;
-    Pnt3r pnt3r;
-    Vec2r vec2r;
+    Vec3f vec3r;
+    Pnt3f pnt3r;
+    Vec2f vec2r;
     Real32 x,y,z;
     GeoPnt3rPropertyPtr coordPtr    = GeoPnt3rProperty::create();
     GeoVec2rPropertyPtr texCoordPtr = GeoVec2rProperty::create();

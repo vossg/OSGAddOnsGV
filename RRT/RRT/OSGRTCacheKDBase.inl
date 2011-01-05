@@ -416,7 +416,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
         }
     }
 
-    Real tsplit = vEdgeStore[iBestAxis][iBestOffset]._rT;
+    Real32 tsplit = vEdgeStore[iBestAxis][iBestOffset]._rT;
 
     returnValue = new RTKDNode;
 

@@ -43,6 +43,7 @@
 #endif
 
 #include "OSGContribRRTDef.h"
+#include "OSGColor.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -251,7 +251,7 @@ GetFieldHandlePtr  RTCacheBase<DescT>::getHandleBoundingVolume(void) const
 
 template<typename DescT> inline
 void RTCacheBase<DescT>::addGeometry(Geometry      *pGeo,
-                                     Matrixr       &oMatrix,
+                                     Matrix        &oMatrix,
                                      State         *pState,
                                      StateOverride *pStateOverride)
 {
@@ -285,7 +285,7 @@ void RTCacheBase<DescT>::initAccel(BBoxStore &vBounds)
         Pnt3f         b;
         Pnt3f         c;
 
-        const Matrixr &mToWorld = _mfGeos[i]->getMatrix();
+        const Matrix &mToWorld = _mfGeos[i]->getMatrix();
 
         for(TriangleIterator tI  = pGeo->beginTriangles(); 
                              tI != pGeo->endTriangles  ();

@@ -93,7 +93,7 @@ class  RTCacheAttachmentInst : public RTCacheAttachment
     /*! \{                                                                 */
 
     void     addGeometry(Geometry      *pGeo,
-                         Matrixr       &oMatrix,
+                         Matrix        &oMatrix,
                          State         *pState,
                          StateOverride *pStateOverride);
     

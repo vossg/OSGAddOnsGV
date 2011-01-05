@@ -115,7 +115,7 @@ class RTCacheBase : public FieldContainer
     /*! \{                                                                 */
 
     void addGeometry(Geometry      *pGeo,
-                     Matrixr       &oMatrix,
+                     Matrix        &oMatrix,
                      State         *pState,
                      StateOverride *pStateOverride);
     

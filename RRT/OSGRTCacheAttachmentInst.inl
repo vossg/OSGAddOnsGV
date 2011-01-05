@@ -43,7 +43,7 @@ OSG_BEGIN_NAMESPACE
 
 template<typename DescT> inline
 void RTCacheAttachmentInst<DescT>::addGeometry(Geometry      *pGeo,
-                                               Matrixr       &oMatrix,
+                                               Matrix        &oMatrix,
                                                State         *pState,
                                                StateOverride *pStateOverride)
 {
