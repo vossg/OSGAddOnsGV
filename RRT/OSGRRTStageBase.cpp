@@ -506,30 +506,37 @@ void RRTStageBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (BackgroundRootFieldMask & whichField))
     {
+        editSField(BackgroundRootFieldMask);
         _sfBackgroundRoot.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (TextureTargetFieldMask & whichField))
     {
+        editSField(TextureTargetFieldMask);
         _sfTextureTarget.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (WidthFieldMask & whichField))
     {
+        editSField(WidthFieldMask);
         _sfWidth.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (HeightFieldMask & whichField))
     {
+        editSField(HeightFieldMask);
         _sfHeight.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (SplitThreadsFieldMask & whichField))
     {
+        editSField(SplitThreadsFieldMask);
         _sfSplitThreads.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (TiledFieldMask & whichField))
     {
+        editSField(TiledFieldMask);
         _sfTiled.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (RTCameraFieldMask & whichField))
     {
+        editSField(RTCameraFieldMask);
         _sfRTCamera.copyFromBin(pMem);
     }
 }

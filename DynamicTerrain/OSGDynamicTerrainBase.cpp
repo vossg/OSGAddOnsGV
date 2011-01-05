@@ -957,70 +957,87 @@ void DynamicTerrainBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
     {
+        editSField(LevelSizeFieldMask);
         _sfLevelSize.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (HeightDataFieldMask & whichField))
     {
+        editSField(HeightDataFieldMask);
         _sfHeightData.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (HeightDataScaleFieldMask & whichField))
     {
+        editSField(HeightDataScaleFieldMask);
         _sfHeightDataScale.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (HeightDataOffsetFieldMask & whichField))
     {
+        editSField(HeightDataOffsetFieldMask);
         _sfHeightDataOffset.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (SampleDistanceFieldMask & whichField))
     {
+        editSField(SampleDistanceFieldMask);
         _sfSampleDistance.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (TextureDataFieldMask & whichField))
     {
+        editSField(TextureDataFieldMask);
         _sfTextureData.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (HeightColorTextureFieldMask & whichField))
     {
+        editSField(HeightColorTextureFieldMask);
         _sfHeightColorTexture.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (SampleUpdateBudgetFieldMask & whichField))
     {
+        editSField(SampleUpdateBudgetFieldMask);
         _sfSampleUpdateBudget.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (EnableFrustumCullingFieldMask & whichField))
     {
+        editSField(EnableFrustumCullingFieldMask);
         _sfEnableFrustumCulling.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (UseGpuRendererFieldMask & whichField))
     {
+        editSField(UseGpuRendererFieldMask);
         _sfUseGpuRenderer.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (UseVboExtensionFieldMask & whichField))
     {
+        editSField(UseVboExtensionFieldMask);
         _sfUseVboExtension.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (EnableSmoothTransitionFieldMask & whichField))
     {
+        editSField(EnableSmoothTransitionFieldMask);
         _sfEnableSmoothTransition.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (ShowBoundingBoxesFieldMask & whichField))
     {
+        editSField(ShowBoundingBoxesFieldMask);
         _sfShowBoundingBoxes.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (ShowTransitionRegionsFieldMask & whichField))
     {
+        editSField(ShowTransitionRegionsFieldMask);
         _sfShowTransitionRegions.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (DisableUpdateFieldMask & whichField))
     {
+        editSField(DisableUpdateFieldMask);
         _sfDisableUpdate.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (CpuVertexProgramFieldMask & whichField))
     {
+        editSField(CpuVertexProgramFieldMask);
         _sfCpuVertexProgram.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (CpuFragmentProgramFieldMask & whichField))
     {
+        editSField(CpuFragmentProgramFieldMask);
         _sfCpuFragmentProgram.copyFromBin(pMem);
     }
 }

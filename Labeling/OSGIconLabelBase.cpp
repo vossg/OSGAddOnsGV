@@ -334,14 +334,17 @@ void IconLabelBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (FilenameFieldMask & whichField))
     {
+        editSField(FilenameFieldMask);
         _sfFilename.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (ImageFieldMask & whichField))
     {
+        editSField(ImageFieldMask);
         _sfImage.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (SizeFieldMask & whichField))
     {
+        editSField(SizeFieldMask);
         _sfSize.copyFromBin(pMem);
     }
 }

@@ -277,10 +277,12 @@ void RTTargetBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (WidthFieldMask & whichField))
     {
+        editSField(WidthFieldMask);
         _sfWidth.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (HeightFieldMask & whichField))
     {
+        editSField(HeightFieldMask);
         _sfHeight.copyFromBin(pMem);
     }
 }

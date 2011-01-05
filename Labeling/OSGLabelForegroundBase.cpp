@@ -307,10 +307,12 @@ void LabelForegroundBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (ImportanceThresholdFieldMask & whichField))
     {
+        editSField(ImportanceThresholdFieldMask);
         _sfImportanceThreshold.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (TextureEnvironmentFieldMask & whichField))
     {
+        editSField(TextureEnvironmentFieldMask);
         _sfTextureEnvironment.copyFromBin(pMem);
     }
 }

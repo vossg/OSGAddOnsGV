@@ -468,26 +468,32 @@ void SimpleCudaComputeAlgorithmBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (ModeFieldMask & whichField))
     {
+        editSField(ModeFieldMask);
         _sfMode.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (IntensityFieldMask & whichField))
     {
+        editSField(IntensityFieldMask);
         _sfIntensity.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
     {
+        editSField(ScaleFieldMask);
         _sfScale.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (ScaleStepFieldMask & whichField))
     {
+        editSField(ScaleStepFieldMask);
         _sfScaleStep.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (ScaleMaxFieldMask & whichField))
     {
+        editSField(ScaleMaxFieldMask);
         _sfScaleMax.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (TargetFieldMask & whichField))
     {
+        editSField(TargetFieldMask);
         _sfTarget.copyFromBin(pMem);
     }
 }

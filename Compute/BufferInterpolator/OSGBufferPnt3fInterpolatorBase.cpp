@@ -423,22 +423,27 @@ void BufferPnt3fInterpolatorBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (InValueFieldMask & whichField))
     {
+        editSField(InValueFieldMask);
         _sfInValue.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (KeyFieldMask & whichField))
     {
+        editMField(KeyFieldMask, _mfKey);
         _mfKey.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (KeyValueFieldMask & whichField))
     {
+        editMField(KeyValueFieldMask, _mfKeyValue);
         _mfKeyValue.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (OutValueFieldMask & whichField))
     {
+        editSField(OutValueFieldMask);
         _sfOutValue.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (ResortIndexFieldMask & whichField))
     {
+        editMField(ResortIndexFieldMask, _mfResortIndex);
         _mfResortIndex.copyFromBin(pMem);
     }
 }

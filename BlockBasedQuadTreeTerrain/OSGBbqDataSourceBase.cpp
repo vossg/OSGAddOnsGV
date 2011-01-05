@@ -234,6 +234,7 @@ void BbqDataSourceBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (IgnoreGeoRefFieldMask & whichField))
     {
+        editSField(IgnoreGeoRefFieldMask);
         _sfIgnoreGeoRef.copyFromBin(pMem);
     }
 }

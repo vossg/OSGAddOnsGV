@@ -331,14 +331,17 @@ void TextLabelBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (TextFieldMask & whichField))
     {
+        editSField(TextFieldMask);
         _sfText.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (SizeFieldMask & whichField))
     {
+        editSField(SizeFieldMask);
         _sfSize.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (FamilyFieldMask & whichField))
     {
+        editSField(FamilyFieldMask);
         _sfFamily.copyFromBin(pMem);
     }
 }

@@ -364,18 +364,22 @@ void RayTracerBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (RayTracingRootFieldMask & whichField))
     {
+        editSField(RayTracingRootFieldMask);
         _sfRayTracingRoot.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (BackgroundRootFieldMask & whichField))
     {
+        editSField(BackgroundRootFieldMask);
         _sfBackgroundRoot.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (WidthFieldMask & whichField))
     {
+        editSField(WidthFieldMask);
         _sfWidth.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (HeightFieldMask & whichField))
     {
+        editSField(HeightFieldMask);
         _sfHeight.copyFromBin(pMem);
     }
 }

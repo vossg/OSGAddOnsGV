@@ -329,14 +329,17 @@ void RTCacheGeometryStoreBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (GeoFieldMask & whichField))
     {
+        editSField(GeoFieldMask);
         _sfGeo.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (MatrixFieldMask & whichField))
     {
+        editSField(MatrixFieldMask);
         _sfMatrix.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (StateFieldMask & whichField))
     {
+        editSField(StateFieldMask);
         _sfState.copyFromBin(pMem);
     }
 }

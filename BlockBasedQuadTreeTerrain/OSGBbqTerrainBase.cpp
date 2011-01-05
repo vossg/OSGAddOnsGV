@@ -458,26 +458,32 @@ void BbqTerrainBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
     {
+        editSField(BeaconFieldMask);
         _sfBeacon.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (DataSourceFieldMask & whichField))
     {
+        editSField(DataSourceFieldMask);
         _sfDataSource.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (MaxNumResidentNodesFieldMask & whichField))
     {
+        editSField(MaxNumResidentNodesFieldMask);
         _sfMaxNumResidentNodes.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (ScreenSpaceErrorFieldMask & whichField))
     {
+        editSField(ScreenSpaceErrorFieldMask);
         _sfScreenSpaceError.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (EnableSkirtsFieldMask & whichField))
     {
+        editSField(EnableSkirtsFieldMask);
         _sfEnableSkirts.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (ShowSwitchDistanceFieldMask & whichField))
     {
+        editSField(ShowSwitchDistanceFieldMask);
         _sfShowSwitchDistance.copyFromBin(pMem);
     }
 }

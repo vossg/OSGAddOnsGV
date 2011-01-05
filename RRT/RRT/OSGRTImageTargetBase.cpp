@@ -233,6 +233,7 @@ void RTImageTargetBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (ImageFieldMask & whichField))
     {
+        editSField(ImageFieldMask);
         _sfImage.copyFromBin(pMem);
     }
 }

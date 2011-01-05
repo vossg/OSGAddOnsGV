@@ -233,6 +233,7 @@ void RTTextureTargetBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (TexObjChunkFieldMask & whichField))
     {
+        editSField(TexObjChunkFieldMask);
         _sfTexObjChunk.copyFromBin(pMem);
     }
 }

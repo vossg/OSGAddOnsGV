@@ -367,18 +367,22 @@ void BbqOutOfCoreDataSourceBase::copyFromBin(BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (FilenameFieldMask & whichField))
     {
+        editSField(FilenameFieldMask);
         _sfFilename.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (HeightScaleFieldMask & whichField))
     {
+        editSField(HeightScaleFieldMask);
         _sfHeightScale.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (HeightOffsetFieldMask & whichField))
     {
+        editSField(HeightOffsetFieldMask);
         _sfHeightOffset.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (SampleSpacingFieldMask & whichField))
     {
+        editSField(SampleSpacingFieldMask);
         _sfSampleSpacing.copyFromBin(pMem);
     }
 }
