@@ -84,8 +84,10 @@ class OSG_CONTRIBMFILE_DLLMAPPING MSceneFileType : public SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodeTransitPtr read(      std::istream &is,
-                                const Char8        *fileNameOrExtension) const;
+    virtual 
+    NodeTransitPtr read(      std::istream &is,
+                        const Char8        *fileNameOrExtension,
+                              Resolver      resolver  = NULL   ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

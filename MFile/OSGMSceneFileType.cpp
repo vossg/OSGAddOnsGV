@@ -95,7 +95,9 @@ MSceneFileType  MSceneFileType::_the(_suffixA,
                                      (SceneFileType::OSG_READ_SUPPORTED |
                                       SceneFileType::OSG_WRITE_SUPPORTED));
 
-NodeTransitPtr MSceneFileType::read(std::istream &is, const Char8 *) const
+NodeTransitPtr MSceneFileType::read(      std::istream &is, 
+                                    const Char8        *,
+                                          Resolver      resolver) const
 {
     NodeTransitPtr rootPtr(NULL);
 
