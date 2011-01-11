@@ -533,8 +533,7 @@ void CpuClipmapRenderer::onBuildVertices( GeometryClipmapLevel& level, const Geo
                 Pnt2i coarserBlockPos = coarserLevel->samplePosToBlockPos( coarserSamplePos );
                 
 #ifdef OSG_DEBUG
-                assert( coarserBlockPos[ 0 ] < coarserLevelSampleCount && coarse
-rBlockPos[ 1 ] < coarserLevelSampleCount );
+                assert( coarserBlockPos[ 0 ] < coarserLevelSampleCount && coarserBlockPos[ 1 ] < coarserLevelSampleCount );
 #endif
                 
                 Pnt2i coarserBlockPos10 = coarserLevel->samplePosToBlockPos( coarserSamplePos10 );
