@@ -1,0 +1,14 @@
+VRMLInterpolatorBase
+VRMLCoordinateInterpolatorBase
+VRMLOrientationInterpolatorBase
+VRMLPositionInterpolator
+VRMLPositionInterpolatorBase
+TimeSensorBase
+VRMLOrientationInterpolator
+FrameHandlerBase
+VRMLCoordinateInterpolator
+VRMLScalarInterpolatorBase
+TimeSensor
+VRMLScalarInterpolator
+VRMLInterpolator
+FrameHandler
