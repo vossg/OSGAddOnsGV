@@ -80,7 +80,7 @@ void register_ProgramChunk_class(){
         }
         { //::OSG::ProgramChunk::findParameter
         
-            typedef ::OSG::Int16 ( ::OSG::ProgramChunk::*findParameter_function_type )( char const * ) ;
+            typedef ::OSG::Int16 ( ::OSG::ProgramChunk::*findParameter_function_type )( ::std::string const & ) ;
             
             ProgramChunk_exposer.def( 
                 "findParameter"
@@ -90,7 +90,7 @@ void register_ProgramChunk_class(){
         }
         { //::OSG::ProgramChunk::findParameter
         
-            typedef ::OSG::Int16 ( ::OSG::ProgramChunk::*findParameter_function_type )( ::std::string const & ) ;
+            typedef ::OSG::Int16 ( ::OSG::ProgramChunk::*findParameter_function_type )( char const * ) ;
             
             ProgramChunk_exposer.def( 
                 "findParameter"

@@ -51,7 +51,7 @@ void register_Vec2ub_class(){
         { //::OSG::Vector< unsigned char, 2u >::addToZero
         
             typedef OSG::Vector< unsigned char, 2u > exported_class_t;
-            typedef ::OSG::Point< unsigned char, 2u > & ( exported_class_t::*addToZero_function_type )(  ) ;
+            typedef ::OSG::Point< unsigned char, 2u > const & ( exported_class_t::*addToZero_function_type )(  ) const;
             
             Vec2ub_exposer.def( 
                 "addToZero"
@@ -62,7 +62,7 @@ void register_Vec2ub_class(){
         { //::OSG::Vector< unsigned char, 2u >::addToZero
         
             typedef OSG::Vector< unsigned char, 2u > exported_class_t;
-            typedef ::OSG::Point< unsigned char, 2u > const & ( exported_class_t::*addToZero_function_type )(  ) const;
+            typedef ::OSG::Point< unsigned char, 2u > & ( exported_class_t::*addToZero_function_type )(  ) ;
             
             Vec2ub_exposer.def( 
                 "addToZero"

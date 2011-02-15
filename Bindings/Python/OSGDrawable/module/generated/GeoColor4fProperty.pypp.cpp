@@ -245,18 +245,6 @@ void register_GeoColor4fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoColor4fPropertyDesc >::operator[]
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoColor4fPropertyDesc > exported_class_t;
-            typedef ::OSG::Color4< float > & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
-            
-            GeoColor4fProperty_exposer.def( 
-                "__getitem__"
-                , __getitem___function_type( &::OSG::TypedGeoVectorProperty< OSG::GeoColor4fPropertyDesc >::operator[] )
-                , ( bp::arg("index") )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::TypedGeoVectorProperty< OSG::GeoColor4fPropertyDesc >::operator[]
-        
-            typedef OSG::TypedGeoVectorProperty< OSG::GeoColor4fPropertyDesc > exported_class_t;
             typedef ::OSG::Color4< float > const & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) const;
             
             GeoColor4fProperty_exposer.def( 
@@ -264,6 +252,18 @@ void register_GeoColor4fProperty_class(){
                 , __getitem___function_type( &::OSG::TypedGeoVectorProperty< OSG::GeoColor4fPropertyDesc >::operator[] )
                 , ( bp::arg("index") )
                 , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::TypedGeoVectorProperty< OSG::GeoColor4fPropertyDesc >::operator[]
+        
+            typedef OSG::TypedGeoVectorProperty< OSG::GeoColor4fPropertyDesc > exported_class_t;
+            typedef ::OSG::Color4< float > & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
+            
+            GeoColor4fProperty_exposer.def( 
+                "__getitem__"
+                , __getitem___function_type( &::OSG::TypedGeoVectorProperty< OSG::GeoColor4fPropertyDesc >::operator[] )
+                , ( bp::arg("index") )
+                , bp::return_internal_reference< >() );
         
         }
         GeoColor4fProperty_exposer.staticmethod( "create" );

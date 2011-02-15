@@ -245,18 +245,6 @@ void register_GeoPnt4dProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc >::operator[]
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc > exported_class_t;
-            typedef ::OSG::Point< double, 4u > & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
-            
-            GeoPnt4dProperty_exposer.def( 
-                "__getitem__"
-                , __getitem___function_type( &::OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc >::operator[] )
-                , ( bp::arg("index") )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc >::operator[]
-        
-            typedef OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc > exported_class_t;
             typedef ::OSG::Point< double, 4u > const & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) const;
             
             GeoPnt4dProperty_exposer.def( 
@@ -264,6 +252,18 @@ void register_GeoPnt4dProperty_class(){
                 , __getitem___function_type( &::OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc >::operator[] )
                 , ( bp::arg("index") )
                 , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc >::operator[]
+        
+            typedef OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc > exported_class_t;
+            typedef ::OSG::Point< double, 4u > & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
+            
+            GeoPnt4dProperty_exposer.def( 
+                "__getitem__"
+                , __getitem___function_type( &::OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc >::operator[] )
+                , ( bp::arg("index") )
+                , bp::return_internal_reference< >() );
         
         }
         GeoPnt4dProperty_exposer.staticmethod( "create" );

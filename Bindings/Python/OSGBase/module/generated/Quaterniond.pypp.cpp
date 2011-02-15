@@ -577,23 +577,23 @@ void register_Quaterniond_class(){
         { //::OSG::QuaternionBase< double >::squad
         
             typedef OSG::QuaternionBase< double > exported_class_t;
-            typedef void ( *squad_function_type )( ::std::vector< OSG::QuaternionBase<double> > const &,::std::vector< float > const &,::OSG::Real32 const &,::OSG::QuaternionBase< double > & );
-            
-            Quaterniond_exposer.def( 
-                "squad"
-                , squad_function_type( &::OSG::QuaternionBase< double >::squad )
-                , ( bp::arg("Q"), bp::arg("t"), bp::arg("s"), bp::arg("Result") ) );
-        
-        }
-        { //::OSG::QuaternionBase< double >::squad
-        
-            typedef OSG::QuaternionBase< double > exported_class_t;
             typedef ::OSG::QuaternionBase< double > ( *squad_function_type )( ::std::vector< OSG::QuaternionBase<double> > const &,::std::vector< float > const &,::OSG::Real32 const & );
             
             Quaterniond_exposer.def( 
                 "squad"
                 , squad_function_type( &::OSG::QuaternionBase< double >::squad )
                 , ( bp::arg("Q"), bp::arg("t"), bp::arg("s") ) );
+        
+        }
+        { //::OSG::QuaternionBase< double >::squad
+        
+            typedef OSG::QuaternionBase< double > exported_class_t;
+            typedef void ( *squad_function_type )( ::std::vector< OSG::QuaternionBase<double> > const &,::std::vector< float > const &,::OSG::Real32 const &,::OSG::QuaternionBase< double > & );
+            
+            Quaterniond_exposer.def( 
+                "squad"
+                , squad_function_type( &::OSG::QuaternionBase< double >::squad )
+                , ( bp::arg("Q"), bp::arg("t"), bp::arg("s"), bp::arg("Result") ) );
         
         }
         { //::OSG::QuaternionBase< double >::w

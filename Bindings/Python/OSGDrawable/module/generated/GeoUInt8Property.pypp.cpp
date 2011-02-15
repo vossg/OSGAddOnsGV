@@ -235,7 +235,7 @@ void register_GeoUInt8Property_class(){
         { //::OSG::TypedGeoIntegralProperty< OSG::GeoUInt8PropertyDesc >::operator[]
         
             typedef OSG::TypedGeoIntegralProperty< OSG::GeoUInt8PropertyDesc > exported_class_t;
-            typedef unsigned char & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
+            typedef unsigned char const & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) const;
             
             GeoUInt8Property_exposer.def( 
                 "__getitem__"
@@ -247,7 +247,7 @@ void register_GeoUInt8Property_class(){
         { //::OSG::TypedGeoIntegralProperty< OSG::GeoUInt8PropertyDesc >::operator[]
         
             typedef OSG::TypedGeoIntegralProperty< OSG::GeoUInt8PropertyDesc > exported_class_t;
-            typedef unsigned char const & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) const;
+            typedef unsigned char & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
             
             GeoUInt8Property_exposer.def( 
                 "__getitem__"

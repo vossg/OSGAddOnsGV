@@ -302,22 +302,22 @@ void register_Window_class(){
         }
         { //::OSG::Window::hasExtension
         
-            typedef bool ( ::OSG::Window::*hasExtension_function_type )( ::OSG::UInt32 ) ;
-            
-            Window_exposer.def( 
-                "hasExtension"
-                , hasExtension_function_type( &::OSG::Window::hasExtension )
-                , ( bp::arg("extId") ) );
-        
-        }
-        { //::OSG::Window::hasExtension
-        
             typedef bool ( ::OSG::Window::*hasExtension_function_type )( ::OSG::Char8 const * ) ;
             
             Window_exposer.def( 
                 "hasExtension"
                 , hasExtension_function_type( &::OSG::Window::hasExtension )
                 , ( bp::arg("s") ) );
+        
+        }
+        { //::OSG::Window::hasExtension
+        
+            typedef bool ( ::OSG::Window::*hasExtension_function_type )( ::OSG::UInt32 ) ;
+            
+            Window_exposer.def( 
+                "hasExtension"
+                , hasExtension_function_type( &::OSG::Window::hasExtension )
+                , ( bp::arg("extId") ) );
         
         }
         { //::OSG::Window::ignoreExtensions

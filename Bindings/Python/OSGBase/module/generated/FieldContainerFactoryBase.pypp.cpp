@@ -48,15 +48,6 @@ void register_FieldContainerFactoryBase_class(){
                 , ( bp::arg("oRef") ) );
         
         }
-        { //::OSG::FieldContainerFactoryBase::beginStore
-        
-            typedef ::__gnu_cxx::_Hashtable_const_iterator< std::pair< unsigned int const, OSG::AspectStore* >, unsigned int, __gnu_cxx::hash< unsigned int >, std::_Select1st< std::pair< unsigned int const, OSG::AspectStore* > >, std::equal_to< unsigned int >, std::allocator< OSG::AspectStore* > > ( ::OSG::FieldContainerFactoryBase::*beginStore_function_type )(  ) const;
-            
-            FieldContainerFactoryBase_exposer.def( 
-                "beginStore"
-                , beginStore_function_type( &::OSG::FieldContainerFactoryBase::beginStore ) );
-        
-        }
         { //::OSG::FieldContainerFactoryBase::deregisterContainer
         
             typedef bool ( ::OSG::FieldContainerFactoryBase::*deregisterContainer_function_type )( ::OSG::UInt32 const ) ;
@@ -83,15 +74,6 @@ void register_FieldContainerFactoryBase_class(){
             FieldContainerFactoryBase_exposer.def( 
                 "end"
                 , end_function_type( &::OSG::FieldContainerFactoryBase::end ) );
-        
-        }
-        { //::OSG::FieldContainerFactoryBase::endStore
-        
-            typedef ::__gnu_cxx::_Hashtable_const_iterator< std::pair< unsigned int const, OSG::AspectStore* >, unsigned int, __gnu_cxx::hash< unsigned int >, std::_Select1st< std::pair< unsigned int const, OSG::AspectStore* > >, std::equal_to< unsigned int >, std::allocator< OSG::AspectStore* > > ( ::OSG::FieldContainerFactoryBase::*endStore_function_type )(  ) const;
-            
-            FieldContainerFactoryBase_exposer.def( 
-                "endStore"
-                , endStore_function_type( &::OSG::FieldContainerFactoryBase::endStore ) );
         
         }
         { //::OSG::FieldContainerFactoryBase::findContainer

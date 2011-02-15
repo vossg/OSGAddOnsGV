@@ -92,22 +92,22 @@ void register_SphereVolume_class(){
         }
         { //::OSG::SphereVolume::getCenter
         
-            typedef ::OSG::Pnt3f const & ( ::OSG::SphereVolume::*getCenter_function_type )(  ) const;
-            
-            SphereVolume_exposer.def( 
-                "getCenter"
-                , getCenter_function_type( &::OSG::SphereVolume::getCenter )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::OSG::SphereVolume::getCenter
-        
             typedef void ( ::OSG::SphereVolume::*getCenter_function_type )( ::OSG::Pnt3f & ) const;
             
             SphereVolume_exposer.def( 
                 "getCenter"
                 , getCenter_function_type( &::OSG::SphereVolume::getCenter )
                 , ( bp::arg("center") ) );
+        
+        }
+        { //::OSG::SphereVolume::getCenter
+        
+            typedef ::OSG::Pnt3f const & ( ::OSG::SphereVolume::*getCenter_function_type )(  ) const;
+            
+            SphereVolume_exposer.def( 
+                "getCenter"
+                , getCenter_function_type( &::OSG::SphereVolume::getCenter )
+                , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
         { //::OSG::SphereVolume::getRadius

@@ -866,7 +866,7 @@
 ~@typedef_t@PFNGLCOMPRESSEDTEXIMAGE1DPROC@::PFNGLCOMPRESSEDTEXIMAGE1DPROC
 ~@typedef_t@PFNGLCLAMPCOLORPROC@::PFNGLCLAMPCOLORPROC
 ~@typedef_t@PFNGLUNIFORM4FVPROC@::PFNGLUNIFORM4FVPROC
-~@typedef_t@__caddr_t@::__caddr_t
+~@typedef_t@PFNGLCOLOR4UBVERTEX3FSUNPROC@::PFNGLCOLOR4UBVERTEX3FSUNPROC
 ~@typedef_t@uintptr_t@::uintptr_t
 ~@typedef_t@PFNGLDELETESYNCPROC@::PFNGLDELETESYNCPROC
 ~@typedef_t@__io_seek_fn@::__io_seek_fn
@@ -1541,7 +1541,7 @@
 ~@typedef_t@PFNGLVERTEXSTREAM4FATIPROC@::PFNGLVERTEXSTREAM4FATIPROC
 ~@typedef_t@__u_char@::__u_char
 ~@typedef_t@GLint64EXT@::GLint64EXT
-~@typedef_t@PFNGLCOLOR4UBVERTEX3FSUNPROC@::PFNGLCOLOR4UBVERTEX3FSUNPROC
+~@typedef_t@__caddr_t@::__caddr_t
 ~@typedef_t@PFNGLSEPARABLEFILTER2DPROC@::PFNGLSEPARABLEFILTER2DPROC
 ~@typedef_t@PFNGLPROGRAMPARAMETERIEXTPROC@::PFNGLPROGRAMPARAMETERIEXTPROC
 ~@typedef_t@PFNGLCOPYTEXIMAGE2DEXTPROC@::PFNGLCOPYTEXIMAGE2DEXTPROC
@@ -1801,13 +1801,13 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
+~@namespace_t@mpl_@::mpl_
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
-~@namespace_t@__cxxabiv1@::__cxxabiv1
+~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
-~@namespace_t@mpl_@::mpl_
-~@namespace_t@boost@::boost
+~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@OSG@::OSG
 ~@class_declaration_t@locale_data@::locale_data
 ~@class_declaration_t@_IO_FILE_plus@::_IO_FILE_plus

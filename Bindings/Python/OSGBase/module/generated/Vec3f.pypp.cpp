@@ -51,7 +51,7 @@ void register_Vec3f_class(){
         { //::OSG::Vector< float, 3u >::addToZero
         
             typedef OSG::Vector< float, 3u > exported_class_t;
-            typedef ::OSG::Point< float, 3u > & ( exported_class_t::*addToZero_function_type )(  ) ;
+            typedef ::OSG::Point< float, 3u > const & ( exported_class_t::*addToZero_function_type )(  ) const;
             
             Vec3f_exposer.def( 
                 "addToZero"
@@ -62,7 +62,7 @@ void register_Vec3f_class(){
         { //::OSG::Vector< float, 3u >::addToZero
         
             typedef OSG::Vector< float, 3u > exported_class_t;
-            typedef ::OSG::Point< float, 3u > const & ( exported_class_t::*addToZero_function_type )(  ) const;
+            typedef ::OSG::Point< float, 3u > & ( exported_class_t::*addToZero_function_type )(  ) ;
             
             Vec3f_exposer.def( 
                 "addToZero"

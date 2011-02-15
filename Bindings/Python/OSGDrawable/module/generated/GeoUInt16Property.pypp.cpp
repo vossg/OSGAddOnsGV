@@ -235,7 +235,7 @@ void register_GeoUInt16Property_class(){
         { //::OSG::TypedGeoIntegralProperty< OSG::GeoUInt16PropertyDesc >::operator[]
         
             typedef OSG::TypedGeoIntegralProperty< OSG::GeoUInt16PropertyDesc > exported_class_t;
-            typedef short unsigned int & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
+            typedef short unsigned int const & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) const;
             
             GeoUInt16Property_exposer.def( 
                 "__getitem__"
@@ -247,7 +247,7 @@ void register_GeoUInt16Property_class(){
         { //::OSG::TypedGeoIntegralProperty< OSG::GeoUInt16PropertyDesc >::operator[]
         
             typedef OSG::TypedGeoIntegralProperty< OSG::GeoUInt16PropertyDesc > exported_class_t;
-            typedef short unsigned int const & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) const;
+            typedef short unsigned int & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
             
             GeoUInt16Property_exposer.def( 
                 "__getitem__"
