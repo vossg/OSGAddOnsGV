@@ -108,7 +108,7 @@
 
 #include "generated/TransStore.pypp.hpp"
 
-#include "generated/vector_less__bool__greater_.pypp.hpp"
+#include "generated/bool_vector_t.pypp.hpp"
 
 #include "generated/vector_less__unsigned_int__greater_.pypp.hpp"
 
@@ -121,7 +121,7 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     register_LightStore_class();
 
-    register_vector_less__bool__greater__class();
+    register_bool_vector_t_class();
 
     register_ShadowMapStore_class();
 

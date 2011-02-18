@@ -22,9 +22,9 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
 
-#ifndef vector_less__bool__greater__hpp__pyplusplus_wrapper
-#define vector_less__bool__greater__hpp__pyplusplus_wrapper
+#ifndef bool_vector_t_hpp__pyplusplus_wrapper
+#define bool_vector_t_hpp__pyplusplus_wrapper
 
-void register_vector_less__bool__greater__class();
+void register_bool_vector_t_class();
 
-#endif//vector_less__bool__greater__hpp__pyplusplus_wrapper
+#endif//bool_vector_t_hpp__pyplusplus_wrapper

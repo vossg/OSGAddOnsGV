@@ -28,18 +28,18 @@
 #include "OsgPtrHelpers.h"
 #include "boost/python/suite/indexing/map_indexing_suite.hpp"
 #include "boost/python/suite/indexing/vector_indexing_suite.hpp"
-#include "vector_less__bool__greater_.pypp.hpp"
+#include "bool_vector_t.pypp.hpp"
 
 using namespace std;
 namespace bp = boost::python;
 
-void register_vector_less__bool__greater__class(){
+void register_bool_vector_t_class(){
 
     { //::std::vector< bool >
-        typedef bp::class_< std::vector< bool > > vector_less__bool__greater__exposer_t;
-        vector_less__bool__greater__exposer_t vector_less__bool__greater__exposer = vector_less__bool__greater__exposer_t( "vector_less__bool__greater_" );
-        bp::scope vector_less__bool__greater__scope( vector_less__bool__greater__exposer );
-        vector_less__bool__greater__exposer.def( bp::vector_indexing_suite< ::std::vector< bool >, true >() );
+        typedef bp::class_< std::vector< bool > > bool_vector_t_exposer_t;
+        bool_vector_t_exposer_t bool_vector_t_exposer = bool_vector_t_exposer_t( "bool_vector_t" );
+        bp::scope bool_vector_t_scope( bool_vector_t_exposer );
+        bool_vector_t_exposer.def( bp::vector_indexing_suite< ::std::vector< bool >, true >() );
     }
 
 }
