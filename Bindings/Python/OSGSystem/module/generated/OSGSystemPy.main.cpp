@@ -404,19 +404,11 @@
 
 #include "generated/WindowBase.pypp.hpp"
 
-#include "generated/string_vector_t.pypp.hpp"
-
-#include "generated/ushort_vector_t.pypp.hpp"
-
 using namespace std;
 
 namespace bp = boost::python;
 
 BOOST_PYTHON_MODULE(OSGSystemPy){
-    register_ushort_vector_t_class();
-
-    register_string_vector_t_class();
-
     register_ProgramVarChunkStore_class();
 
     register_ProgramChunkStore_class();

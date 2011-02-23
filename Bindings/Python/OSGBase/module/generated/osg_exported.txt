@@ -95,3 +95,6 @@ GroupConnection
 Volume
 GlobalsAttachmentBase
 StatCollector
+vector<unsigned short>
+vector<float>
+vector<std::string>
