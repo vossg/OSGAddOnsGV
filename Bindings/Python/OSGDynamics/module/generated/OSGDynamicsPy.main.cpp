@@ -32,13 +32,125 @@
 
 #include "boost/python/suite/indexing/vector_indexing_suite.hpp"
 
+#include "generated/AnimBlender.pypp.hpp"
+
+#include "generated/AnimBlenderBase.pypp.hpp"
+
+#include "generated/AnimChannel.pypp.hpp"
+
+#include "generated/AnimChannelBase.pypp.hpp"
+
+#include "generated/AnimDataSource.pypp.hpp"
+
+#include "generated/AnimDataSourceBase.pypp.hpp"
+
+#include "generated/AnimKeyFrameDataSource.pypp.hpp"
+
+#include "generated/AnimKeyFrameDataSourceBase.pypp.hpp"
+
+#include "generated/AnimKeyFrameTemplate.pypp.hpp"
+
+#include "generated/AnimKeyFrameTemplateBase.pypp.hpp"
+
+#include "generated/AnimMatrixBlender.pypp.hpp"
+
+#include "generated/AnimMatrixBlenderBase.pypp.hpp"
+
+#include "generated/AnimMatrixChannel.pypp.hpp"
+
+#include "generated/AnimMatrixChannelBase.pypp.hpp"
+
+#include "generated/AnimMatrixDataSource.pypp.hpp"
+
+#include "generated/AnimMatrixDataSourceBase.pypp.hpp"
+
+#include "generated/AnimQuaternionBlender.pypp.hpp"
+
+#include "generated/AnimQuaternionBlenderBase.pypp.hpp"
+
+#include "generated/AnimQuaternionChannel.pypp.hpp"
+
+#include "generated/AnimQuaternionChannelBase.pypp.hpp"
+
+#include "generated/AnimQuaternionDataSource.pypp.hpp"
+
+#include "generated/AnimQuaternionDataSourceBase.pypp.hpp"
+
+#include "generated/AnimTargetAttachment.pypp.hpp"
+
+#include "generated/AnimTargetAttachmentBase.pypp.hpp"
+
+#include "generated/AnimTemplate.pypp.hpp"
+
+#include "generated/AnimTemplateBase.pypp.hpp"
+
+#include "generated/AnimTimeSensor.pypp.hpp"
+
+#include "generated/AnimTimeSensorBase.pypp.hpp"
+
+#include "generated/AnimVec3fBlender.pypp.hpp"
+
+#include "generated/AnimVec3fBlenderBase.pypp.hpp"
+
+#include "generated/AnimVec3fChannel.pypp.hpp"
+
+#include "generated/AnimVec3fChannelBase.pypp.hpp"
+
+#include "generated/AnimVec3fDataSource.pypp.hpp"
+
+#include "generated/AnimVec3fDataSourceBase.pypp.hpp"
+
+#include "generated/Animation.pypp.hpp"
+
+#include "generated/AnimationBase.pypp.hpp"
+
+#include "generated/BaseSkeletonJoint.pypp.hpp"
+
+#include "generated/BaseSkeletonJointBase.pypp.hpp"
+
 #include "generated/FrameHandler.pypp.hpp"
 
 #include "generated/FrameHandlerBase.pypp.hpp"
 
+#include "generated/HardwareSkinningAlgorithm.pypp.hpp"
+
+#include "generated/HardwareSkinningAlgorithmBase.pypp.hpp"
+
+#include "generated/HardwareSkinningDataAttachment.pypp.hpp"
+
+#include "generated/HardwareSkinningDataAttachmentBase.pypp.hpp"
+
+#include "generated/Skeleton.pypp.hpp"
+
+#include "generated/SkeletonBase.pypp.hpp"
+
+#include "generated/SkeletonJoint.pypp.hpp"
+
+#include "generated/SkeletonJointBase.pypp.hpp"
+
+#include "generated/SkeletonOgreJoint.pypp.hpp"
+
+#include "generated/SkeletonOgreJointBase.pypp.hpp"
+
+#include "generated/SkeletonSkinningAlgorithm.pypp.hpp"
+
+#include "generated/SkeletonSkinningAlgorithmBase.pypp.hpp"
+
+#include "generated/SkinnedGeometry.pypp.hpp"
+
+#include "generated/SkinnedGeometryBase.pypp.hpp"
+
+#include "generated/SkinningAlgorithm.pypp.hpp"
+
+#include "generated/SkinningAlgorithmBase.pypp.hpp"
+
 #include "generated/TimeSensor.pypp.hpp"
 
 #include "generated/TimeSensorBase.pypp.hpp"
+
+#include "generated/UnskinnedSkinningAlgorithm.pypp.hpp"
+
+#include "generated/UnskinnedSkinningAlgorithmBase.pypp.hpp"
 
 #include "generated/VRMLCoordinateInterpolator.pypp.hpp"
 
@@ -65,13 +177,125 @@ using namespace std;
 namespace bp = boost::python;
 
 BOOST_PYTHON_MODULE(OSGDynamicsPy){
+    register_AnimBlenderBase_class();
+
+    register_AnimBlender_class();
+
+    register_AnimChannelBase_class();
+
+    register_AnimChannel_class();
+
+    register_AnimDataSourceBase_class();
+
+    register_AnimDataSource_class();
+
+    register_AnimKeyFrameDataSourceBase_class();
+
+    register_AnimKeyFrameDataSource_class();
+
+    register_AnimTemplateBase_class();
+
+    register_AnimTemplate_class();
+
+    register_AnimKeyFrameTemplateBase_class();
+
+    register_AnimKeyFrameTemplate_class();
+
+    register_AnimMatrixBlenderBase_class();
+
+    register_AnimMatrixBlender_class();
+
+    register_AnimMatrixChannelBase_class();
+
+    register_AnimMatrixChannel_class();
+
+    register_AnimMatrixDataSourceBase_class();
+
+    register_AnimMatrixDataSource_class();
+
+    register_AnimQuaternionBlenderBase_class();
+
+    register_AnimQuaternionBlender_class();
+
+    register_AnimQuaternionChannelBase_class();
+
+    register_AnimQuaternionChannel_class();
+
+    register_AnimQuaternionDataSourceBase_class();
+
+    register_AnimQuaternionDataSource_class();
+
+    register_AnimTargetAttachmentBase_class();
+
+    register_AnimTargetAttachment_class();
+
+    register_AnimTimeSensorBase_class();
+
+    register_AnimTimeSensor_class();
+
+    register_AnimVec3fBlenderBase_class();
+
+    register_AnimVec3fBlender_class();
+
+    register_AnimVec3fChannelBase_class();
+
+    register_AnimVec3fChannel_class();
+
+    register_AnimVec3fDataSourceBase_class();
+
+    register_AnimVec3fDataSource_class();
+
+    register_AnimationBase_class();
+
+    register_Animation_class();
+
+    register_BaseSkeletonJointBase_class();
+
+    register_BaseSkeletonJoint_class();
+
     register_FrameHandlerBase_class();
 
     register_FrameHandler_class();
 
+    register_SkinningAlgorithmBase_class();
+
+    register_SkinningAlgorithm_class();
+
+    register_HardwareSkinningAlgorithmBase_class();
+
+    register_HardwareSkinningAlgorithm_class();
+
+    register_HardwareSkinningDataAttachmentBase_class();
+
+    register_HardwareSkinningDataAttachment_class();
+
+    register_SkeletonBase_class();
+
+    register_Skeleton_class();
+
+    register_SkeletonJointBase_class();
+
+    register_SkeletonJoint_class();
+
+    register_SkeletonOgreJointBase_class();
+
+    register_SkeletonOgreJoint_class();
+
+    register_SkeletonSkinningAlgorithmBase_class();
+
+    register_SkeletonSkinningAlgorithm_class();
+
+    register_SkinnedGeometryBase_class();
+
+    register_SkinnedGeometry_class();
+
     register_TimeSensorBase_class();
 
     register_TimeSensor_class();
+
+    register_UnskinnedSkinningAlgorithmBase_class();
+
+    register_UnskinnedSkinningAlgorithm_class();
 
     register_VRMLInterpolatorBase_class();
 
@@ -91,23 +315,53 @@ BOOST_PYTHON_MODULE(OSGDynamicsPy){
 
     register_VRMLScalarInterpolatorBase_class();
 
-    /** Helpers for OSG::VRMLInterpolator */
+    /** Helpers for OSG::AnimTimeSensor */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VRMLInterpolator, OSG::VRMLInterpolator::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimTimeSensor, OSG::AnimTimeSensor::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimTimeSensor::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::VRMLPositionInterpolator */
+    /** Helpers for OSG::AnimChannel */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VRMLPositionInterpolator, OSG::VRMLPositionInterpolator::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimChannel, OSG::AnimChannel::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLPositionInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimChannel::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::VRMLCoordinateInterpolator */
+    /** Helpers for OSG::AnimQuaternionBlender */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VRMLCoordinateInterpolator, OSG::VRMLCoordinateInterpolator::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimQuaternionBlender, OSG::AnimQuaternionBlender::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLCoordinateInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimQuaternionBlender::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::HardwareSkinningAlgorithm */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::HardwareSkinningAlgorithm, OSG::HardwareSkinningAlgorithm::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::HardwareSkinningAlgorithm::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::SkinnedGeometry */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SkinnedGeometry, OSG::SkinnedGeometry::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::SkinnedGeometry::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::SkeletonJoint */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SkeletonJoint, OSG::SkeletonJoint::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::SkeletonJoint::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimMatrixDataSource */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimMatrixDataSource, OSG::AnimMatrixDataSource::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimMatrixDataSource::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::Animation */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Animation, OSG::Animation::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Animation::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::FrameHandler */
 
@@ -115,11 +369,71 @@ BOOST_PYTHON_MODULE(OSGDynamicsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::FrameHandler::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::TimeSensor */
+    /** Helpers for OSG::VRMLPositionInterpolator */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TimeSensor, OSG::TimeSensor::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VRMLPositionInterpolator, OSG::VRMLPositionInterpolator::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TimeSensor::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLPositionInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimMatrixBlender */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimMatrixBlender, OSG::AnimMatrixBlender::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimMatrixBlender::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::VRMLOrientationInterpolator */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VRMLOrientationInterpolator, OSG::VRMLOrientationInterpolator::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLOrientationInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimKeyFrameTemplate */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimKeyFrameTemplate, OSG::AnimKeyFrameTemplate::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimKeyFrameTemplate::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimTargetAttachment */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimTargetAttachment, OSG::AnimTargetAttachment::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimTargetAttachment::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::SkinningAlgorithm */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SkinningAlgorithm, OSG::SkinningAlgorithm::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::SkinningAlgorithm::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::UnskinnedSkinningAlgorithm */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::UnskinnedSkinningAlgorithm, OSG::UnskinnedSkinningAlgorithm::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::UnskinnedSkinningAlgorithm::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::VRMLCoordinateInterpolator */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VRMLCoordinateInterpolator, OSG::VRMLCoordinateInterpolator::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLCoordinateInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimVec3fDataSource */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimVec3fDataSource, OSG::AnimVec3fDataSource::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimVec3fDataSource::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimKeyFrameDataSource */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimKeyFrameDataSource, OSG::AnimKeyFrameDataSource::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimKeyFrameDataSource::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::SkeletonOgreJoint */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SkeletonOgreJoint, OSG::SkeletonOgreJoint::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::SkeletonOgreJoint::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::VRMLScalarInterpolator */
 
@@ -127,11 +441,89 @@ BOOST_PYTHON_MODULE(OSGDynamicsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLScalarInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::VRMLOrientationInterpolator */
+    /** Helpers for OSG::AnimVec3fBlender */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VRMLOrientationInterpolator, OSG::VRMLOrientationInterpolator::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimVec3fBlender, OSG::AnimVec3fBlender::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLOrientationInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimVec3fBlender::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::HardwareSkinningDataAttachment */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::HardwareSkinningDataAttachment, OSG::HardwareSkinningDataAttachment::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::HardwareSkinningDataAttachment::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::SkeletonSkinningAlgorithm */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SkeletonSkinningAlgorithm, OSG::SkeletonSkinningAlgorithm::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::SkeletonSkinningAlgorithm::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimMatrixChannel */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimMatrixChannel, OSG::AnimMatrixChannel::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimMatrixChannel::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimDataSource */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimDataSource, OSG::AnimDataSource::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimDataSource::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::BaseSkeletonJoint */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::BaseSkeletonJoint, OSG::BaseSkeletonJoint::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::BaseSkeletonJoint::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimQuaternionChannel */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimQuaternionChannel, OSG::AnimQuaternionChannel::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimQuaternionChannel::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimVec3fChannel */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimVec3fChannel, OSG::AnimVec3fChannel::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimVec3fChannel::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::VRMLInterpolator */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VRMLInterpolator, OSG::VRMLInterpolator::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::Skeleton */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Skeleton, OSG::Skeleton::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Skeleton::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimTemplate */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimTemplate, OSG::AnimTemplate::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimTemplate::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::TimeSensor */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TimeSensor, OSG::TimeSensor::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TimeSensor::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimQuaternionDataSource */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimQuaternionDataSource, OSG::AnimQuaternionDataSource::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimQuaternionDataSource::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::AnimBlender */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimBlender, OSG::AnimBlender::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimBlender::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     register_VRMLScalarInterpolator_class();
 }

@@ -35,7 +35,7 @@ namespace bp = boost::python;
 void register_Pnt4f_class(){
 
     { //::OSG::Point< float, 4u >
-        typedef bp::class_< OSG::Point< float, 4u >, bp::bases< OSG::SelectVecStorage< float, 4u > > > Pnt4f_exposer_t;
+        typedef bp::class_< OSG::Point< float, 4u >, bp::bases< OSG::VecStorage4< float > > > Pnt4f_exposer_t;
         Pnt4f_exposer_t Pnt4f_exposer = Pnt4f_exposer_t( "Pnt4f", bp::init< >() );
         bp::scope Pnt4f_scope( Pnt4f_exposer );
         Pnt4f_exposer.def( bp::init< float const * >(( bp::arg("pVals") )) );

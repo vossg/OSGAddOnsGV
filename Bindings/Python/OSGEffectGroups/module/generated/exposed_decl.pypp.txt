@@ -2008,7 +2008,7 @@
 ~@variable_t@_ZTIN3OSG12MaterialBaseE@::_ZTIN3OSG12MaterialBaseE
 ~@variable_t@_ZTIN3OSG20FieldDescFactoryBaseE@::_ZTIN3OSG20FieldDescFactoryBaseE
 ~@variable_t@_ZTIN3OSG23GeoIntegralPropertyBaseE@::_ZTIN3OSG23GeoIntegralPropertyBaseE
-~@variable_t@_ZTIN3OSG16FishEyeProjectorE@::_ZTIN3OSG16FishEyeProjectorE
+~@variable_t@_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTIN3OSG10MPLockTypeE@::_ZTIN3OSG10MPLockTypeE
 ~@variable_t@stderr@::stderr
 ~@variable_t@_ZTISt9exception@::_ZTISt9exception
@@ -2105,7 +2105,7 @@
 ~@variable_t@_ZTIN3OSG14ShaderVariableE@::_ZTIN3OSG14ShaderVariableE
 ~@variable_t@_ZTIN5boost9exceptionE@::_ZTIN5boost9exceptionE
 ~@variable_t@_ZTIN3OSG10ChangeListE@::_ZTIN3OSG10ChangeListE
-~@variable_t@_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
+~@variable_t@_ZTIN3OSG16FishEyeProjectorE@::_ZTIN3OSG16FishEyeProjectorE
 ~@variable_t@_ZTIN3OSG16ThreadCommonBaseE@::_ZTIN3OSG16ThreadCommonBaseE
 ~@variable_t@_ZTIN3OSG5LightE@::_ZTIN3OSG5LightE
 ~@variable_t@_ZTISt15basic_streambufIwSt11char_traitsIwEE@::_ZTISt15basic_streambufIwSt11char_traitsIwEE
@@ -2834,6 +2834,7 @@
 ~@free_function_t@glMultiTexCoord4fvARB@void (*)( ::GLenum,::GLfloat const * )void (*)( ::GLenum,::GLfloat const * )
 ~@free_function_t@XQLength@int (*)( ::Display * )int (*)( ::Display * )
 ~@free_function_t@__gthrw_pthread_cond_wait@int (*)( ::pthread_cond_t *,::pthread_mutex_t * )int (*)( ::pthread_cond_t *,::pthread_mutex_t * )
+~@free_function_t@glTexCoord3i@void (*)( ::GLint,::GLint,::GLint )void (*)( ::GLint,::GLint,::GLint )
 ~@free_function_t@isfdtype@int (*)( int,int )int (*)( int,int )
 ~@free_function_t@pthread_once@int (*)( ::pthread_once_t *,void (*)(  ) * )int (*)( ::pthread_once_t *,void (*)(  ) * )
 ~@free_function_t@pthread_atfork@int (*)( void (*)(  ) *,void (*)(  ) *,void (*)(  ) * )int (*)( void (*)(  ) *,void (*)(  ) *,void (*)(  ) * )
@@ -3453,7 +3454,7 @@
 ~@free_function_t@XFreeFontNames@int (*)( char * * )int (*)( char * * )
 ~@free_function_t@glCallLists@void (*)( ::GLsizei,::GLenum,::GLvoid const * )void (*)( ::GLsizei,::GLenum,::GLvoid const * )
 ~@free_function_t@fma@double (*)( double,double,double )double (*)( double,double,double )
-~@free_function_t@glTexCoord3i@void (*)( ::GLint,::GLint,::GLint )void (*)( ::GLint,::GLint,::GLint )
+~@free_function_t@__significandl@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@confstr@::size_t (*)( int,char *,::size_t )::size_t (*)( int,char *,::size_t )
 ~@free_function_t@j0@double (*)( double )double (*)( double )
 ~@free_function_t@glTexCoord3f@void (*)( ::GLfloat,::GLfloat,::GLfloat )void (*)( ::GLfloat,::GLfloat,::GLfloat )
@@ -4236,7 +4237,7 @@
 ~@free_function_t@__builtin_ctanl@complex long double (*)( complex long double )complex long double (*)( complex long double )
 ~@free_function_t@glPushClientAttrib@void (*)( ::GLbitfield )void (*)( ::GLbitfield )
 ~@free_function_t@wcscoll_l@int (*)( wchar_t const *,wchar_t const *,::__locale_t )int (*)( wchar_t const *,wchar_t const *,::__locale_t )
-~@free_function_t@dup@int (*)( int )int (*)( int )
+~@free_function_t@XGetAtomNames@int (*)( ::Display *,::Atom *,int,char * * )int (*)( ::Display *,::Atom *,int,char * * )
 ~@free_function_t@glCopyConvolutionFilter2D@void (*)( ::GLenum,::GLenum,::GLint,::GLint,::GLsizei,::GLsizei )void (*)( ::GLenum,::GLenum,::GLint,::GLint,::GLsizei,::GLsizei )
 ~@free_function_t@strtoumax@::uintmax_t (*)( __restrict__ char const *,__restrict__ char * *,int )::uintmax_t (*)( __restrict__ char const *,__restrict__ char * *,int )
 ~@free_function_t@__remainder@double (*)( double,double )double (*)( double,double )
@@ -4982,7 +4983,7 @@
 ~@free_function_t@glVertex4f@void (*)( ::GLfloat,::GLfloat,::GLfloat,::GLfloat )void (*)( ::GLfloat,::GLfloat,::GLfloat,::GLfloat )
 ~@free_function_t@XDrawText16@int (*)( ::Display *,::Drawable,::GC,int,int,::XTextItem16 *,int )int (*)( ::Display *,::Drawable,::GC,int,int,::XTextItem16 *,int )
 ~@free_function_t@getenv@char * (*)( char const * )char * (*)( char const * )
-~@free_function_t@XGetAtomNames@int (*)( ::Display *,::Atom *,int,char * * )int (*)( ::Display *,::Atom *,int,char * * )
+~@free_function_t@dup@int (*)( int )int (*)( int )
 ~@free_function_t@glMultiTexCoord2fv@void (*)( ::GLenum,::GLfloat const * )void (*)( ::GLenum,::GLfloat const * )
 ~@free_function_t@wcstof_l@float (*)( __restrict__ wchar_t const *,__restrict__ wchar_t * *,::__locale_t )float (*)( __restrict__ wchar_t const *,__restrict__ wchar_t * *,::__locale_t )
 ~@free_function_t@_IO_getc@int (*)( ::_IO_FILE * )int (*)( ::_IO_FILE * )
@@ -5010,7 +5011,6 @@
 ~@free_function_t@XMaskEvent@int (*)( ::Display *,long int,::XEvent * )int (*)( ::Display *,long int,::XEvent * )
 ~@free_function_t@XDisplayHeight@int (*)( ::Display *,int )int (*)( ::Display *,int )
 ~@free_function_t@glXFreeMemoryNV@void (*)( ::GLvoid * )void (*)( ::GLvoid * )
-~@free_function_t@__significandl@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@glNormal3i@void (*)( ::GLint,::GLint,::GLint )void (*)( ::GLint,::GLint,::GLint )
 ~@free_function_t@glNormal3f@void (*)( ::GLfloat,::GLfloat,::GLfloat )void (*)( ::GLfloat,::GLfloat,::GLfloat )
 ~@free_function_t@inet6_rth_segments@int (*)( void const * )int (*)( void const * )

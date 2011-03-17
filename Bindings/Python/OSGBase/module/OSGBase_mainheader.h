@@ -91,42 +91,6 @@
             inline unsigned __instantiate_alias_VecStorage4ub()
             { return unsigned(sizeof(alias_VecStorage4ub)); }
          
-            typedef OSG::SelectVecStorage<OSG::Real32, 2> alias_SelectVecStorage2f;
-            inline unsigned __instantiate_alias_SelectVecStorage2f()
-            { return unsigned(sizeof(alias_SelectVecStorage2f)); }
-         
-            typedef OSG::SelectVecStorage<OSG::Real64, 2> alias_SelectVecStorage2d;
-            inline unsigned __instantiate_alias_SelectVecStorage2d()
-            { return unsigned(sizeof(alias_SelectVecStorage2d)); }
-         
-            typedef OSG::SelectVecStorage<OSG::UInt8, 2> alias_SelectVecStorage2ub;
-            inline unsigned __instantiate_alias_SelectVecStorage2ub()
-            { return unsigned(sizeof(alias_SelectVecStorage2ub)); }
-         
-            typedef OSG::SelectVecStorage<OSG::Real32, 3> alias_SelectVecStorage3f;
-            inline unsigned __instantiate_alias_SelectVecStorage3f()
-            { return unsigned(sizeof(alias_SelectVecStorage3f)); }
-         
-            typedef OSG::SelectVecStorage<OSG::Real64, 3> alias_SelectVecStorage3d;
-            inline unsigned __instantiate_alias_SelectVecStorage3d()
-            { return unsigned(sizeof(alias_SelectVecStorage3d)); }
-         
-            typedef OSG::SelectVecStorage<OSG::UInt8, 3> alias_SelectVecStorage3ub;
-            inline unsigned __instantiate_alias_SelectVecStorage3ub()
-            { return unsigned(sizeof(alias_SelectVecStorage3ub)); }
-         
-            typedef OSG::SelectVecStorage<OSG::Real32, 4> alias_SelectVecStorage4f;
-            inline unsigned __instantiate_alias_SelectVecStorage4f()
-            { return unsigned(sizeof(alias_SelectVecStorage4f)); }
-         
-            typedef OSG::SelectVecStorage<OSG::Real64, 4> alias_SelectVecStorage4d;
-            inline unsigned __instantiate_alias_SelectVecStorage4d()
-            { return unsigned(sizeof(alias_SelectVecStorage4d)); }
-         
-            typedef OSG::SelectVecStorage<OSG::UInt8, 4> alias_SelectVecStorage4ub;
-            inline unsigned __instantiate_alias_SelectVecStorage4ub()
-            { return unsigned(sizeof(alias_SelectVecStorage4ub)); }
-         
             typedef OSG::Vec2f alias_Vec2f;
             inline unsigned __instantiate_alias_Vec2f()
             { return unsigned(sizeof(alias_Vec2f)); }

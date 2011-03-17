@@ -58,6 +58,15 @@ void register_VRMLScalarInterpolator_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::VRMLScalarInterpolator::evaluate
+        
+            typedef void ( ::OSG::VRMLScalarInterpolator::*evaluate_function_type )(  ) ;
+            
+            VRMLScalarInterpolator_exposer.def( 
+                "evaluate"
+                , evaluate_function_type( &::OSG::VRMLScalarInterpolator::evaluate ) );
+        
+        }
         pyopensg::register_transit< OSG::VRMLScalarInterpolator >::execute();
         bp::implicitly_convertible< OSG::VRMLScalarInterpolator::ObjRecPtr, OSG::VRMLScalarInterpolator* >();
         bp::implicitly_convertible< OSG::VRMLScalarInterpolator::ObjRecPtr, OSG::VRMLScalarInterpolator::ObjCPtr >();

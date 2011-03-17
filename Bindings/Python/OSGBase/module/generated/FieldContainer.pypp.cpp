@@ -59,7 +59,7 @@ void register_FieldContainer_class(){
         bp::class_< OSG::FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC >( "attempt_to_create_CoredNodePtr_on_non_NodeCore_FC" );
         { //::OSG::FieldContainer::addChangedFunctor
         
-            typedef void ( ::OSG::FieldContainer::*addChangedFunctor_function_type )( ::OSG::ChangedFunctor,::std::string ) ;
+            typedef void ( ::OSG::FieldContainer::*addChangedFunctor_function_type )( ::OSG::ChangedFunctor,::std::string const & ) ;
             
             FieldContainer_exposer.def( 
                 "addChangedFunctor"
@@ -181,6 +181,16 @@ void register_FieldContainer_class(){
                 , getWeakRefCount_function_type( &::OSG::FieldContainer::getWeakRefCount ) );
         
         }
+        { //::OSG::FieldContainer::hasChangedFunctor
+        
+            typedef bool ( ::OSG::FieldContainer::*hasChangedFunctor_function_type )( ::std::string const & ) ;
+            
+            FieldContainer_exposer.def( 
+                "hasChangedFunctor"
+                , hasChangedFunctor_function_type( &::OSG::FieldContainer::hasChangedFunctor )
+                , ( bp::arg("createSymbol") ) );
+        
+        }
         { //::OSG::FieldContainer::invalidateVolume
         
             typedef void ( ::OSG::FieldContainer::*invalidateVolume_function_type )(  ) ;
@@ -227,6 +237,16 @@ void register_FieldContainer_class(){
                 "shallowCopyDependent"
                 , shallowCopyDependent_function_type( &::OSG::FieldContainer::shallowCopyDependent )
                 , ( bp::arg("uiFlags") ) );
+        
+        }
+        { //::OSG::FieldContainer::subChangedFunctor
+        
+            typedef void ( ::OSG::FieldContainer::*subChangedFunctor_function_type )( ::std::string const & ) ;
+            
+            FieldContainer_exposer.def( 
+                "subChangedFunctor"
+                , subChangedFunctor_function_type( &::OSG::FieldContainer::subChangedFunctor )
+                , ( bp::arg("createSymbol") ) );
         
         }
         { //::OSG::FieldContainer::unlinkChild

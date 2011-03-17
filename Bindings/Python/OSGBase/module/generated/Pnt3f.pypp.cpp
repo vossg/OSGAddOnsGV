@@ -35,7 +35,7 @@ namespace bp = boost::python;
 void register_Pnt3f_class(){
 
     { //::OSG::Point< float, 3u >
-        typedef bp::class_< OSG::Point< float, 3u >, bp::bases< OSG::SelectVecStorage< float, 3u > > > Pnt3f_exposer_t;
+        typedef bp::class_< OSG::Point< float, 3u >, bp::bases< OSG::VecStorage3< float > > > Pnt3f_exposer_t;
         Pnt3f_exposer_t Pnt3f_exposer = Pnt3f_exposer_t( "Pnt3f", bp::init< >() );
         bp::scope Pnt3f_scope( Pnt3f_exposer );
         Pnt3f_exposer.def( bp::init< float const * >(( bp::arg("pVals") )) );

@@ -160,24 +160,6 @@
 
 #include "generated/ReflexiveContainerType.pypp.hpp"
 
-#include "generated/SelectVecStorage2d.pypp.hpp"
-
-#include "generated/SelectVecStorage2f.pypp.hpp"
-
-#include "generated/SelectVecStorage2ub.pypp.hpp"
-
-#include "generated/SelectVecStorage3d.pypp.hpp"
-
-#include "generated/SelectVecStorage3f.pypp.hpp"
-
-#include "generated/SelectVecStorage3ub.pypp.hpp"
-
-#include "generated/SelectVecStorage4d.pypp.hpp"
-
-#include "generated/SelectVecStorage4f.pypp.hpp"
-
-#include "generated/SelectVecStorage4ub.pypp.hpp"
-
 #include "generated/SocketException.pypp.hpp"
 
 #include "generated/SphereVolume.pypp.hpp"
@@ -285,8 +267,6 @@ BOOST_PYTHON_MODULE(OSGBasePy){
 
     register_VecStorage3f_class();
 
-    register_SelectVecStorage3f_class();
-
     register_Pnt3f_class();
 
     register_Vec3f_class();
@@ -298,8 +278,6 @@ BOOST_PYTHON_MODULE(OSGBasePy){
     register_Color3ub_class();
 
     register_VecStorage4f_class();
-
-    register_SelectVecStorage4f_class();
 
     register_Pnt4f_class();
 
@@ -377,25 +355,17 @@ BOOST_PYTHON_MODULE(OSGBasePy){
 
     register_VecStorage2d_class();
 
-    register_SelectVecStorage2d_class();
-
     register_Pnt2d_class();
 
     register_VecStorage3d_class();
-
-    register_SelectVecStorage3d_class();
 
     register_Pnt3d_class();
 
     register_VecStorage4d_class();
 
-    register_SelectVecStorage4d_class();
-
     register_Pnt4d_class();
 
     register_VecStorage2f_class();
-
-    register_SelectVecStorage2f_class();
 
     register_Pnt2f_class();
 
@@ -406,18 +376,6 @@ BOOST_PYTHON_MODULE(OSGBasePy){
     register_Quaterniond_class();
 
     register_Quaternion_class();
-
-    register_VecStorage2ub_class();
-
-    register_SelectVecStorage2ub_class();
-
-    register_VecStorage3ub_class();
-
-    register_SelectVecStorage3ub_class();
-
-    register_VecStorage4ub_class();
-
-    register_SelectVecStorage4ub_class();
 
     register_ConnectionFactory_class();
 
@@ -446,6 +404,12 @@ BOOST_PYTHON_MODULE(OSGBasePy){
     register_Matrix4d_class();
 
     register_Matrix_class();
+
+    register_VecStorage2ub_class();
+
+    register_VecStorage3ub_class();
+
+    register_VecStorage4ub_class();
 
     register_Vec2d_class();
 

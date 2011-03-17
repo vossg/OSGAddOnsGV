@@ -147,7 +147,7 @@
 ~@typedef_t@PFNGLBLENDFUNCIPROC@::PFNGLBLENDFUNCIPROC
 ~@typedef_t@PFNGLMAPNAMEDBUFFEREXTPROC@::PFNGLMAPNAMEDBUFFEREXTPROC
 ~@typedef_t@PFNGLUNIFORM2IVPROC@::PFNGLUNIFORM2IVPROC
-~@typedef_t@PFNGLREPLACEMENTCODEUBVSUNPROC@::PFNGLREPLACEMENTCODEUBVSUNPROC
+~@typedef_t@PFNGLMAPVERTEXATTRIB1FAPPLEPROC@::PFNGLMAPVERTEXATTRIB1FAPPLEPROC
 ~@typedef_t@PFNGLGETVERTEXATTRIBIVARBPROC@::PFNGLGETVERTEXATTRIBIVARBPROC
 ~@typedef_t@PFNGLGETHISTOGRAMPARAMETERIVEXTPROC@::PFNGLGETHISTOGRAMPARAMETERIVEXTPROC
 ~@typedef_t@PFNGLSECONDARYCOLOR3BVEXTPROC@::PFNGLSECONDARYCOLOR3BVEXTPROC
@@ -554,7 +554,7 @@
 ~@typedef_t@PFNGLCOLORTABLEPARAMETERIVSGIPROC@::PFNGLCOLORTABLEPARAMETERIVSGIPROC
 ~@typedef_t@PFNGLELEMENTPOINTERATIPROC@::PFNGLELEMENTPOINTERATIPROC
 ~@typedef_t@PFNGLCLAMPCOLORARBPROC@::PFNGLCLAMPCOLORARBPROC
-~@typedef_t@PFNGLMULTITEXCOORD2SVARBPROC@::PFNGLMULTITEXCOORD2SVARBPROC
+~@typedef_t@PFNGLXWAITFORSBCOMLPROC@::PFNGLXWAITFORSBCOMLPROC
 ~@typedef_t@PFNGLVERTEXSTREAM2IATIPROC@::PFNGLVERTEXSTREAM2IATIPROC
 ~@typedef_t@PFNGLBINORMAL3FVEXTPROC@::PFNGLBINORMAL3FVEXTPROC
 ~@typedef_t@__off_t@::__off_t
@@ -806,7 +806,7 @@
 ~@typedef_t@PFNGLNAMEDFRAMEBUFFERTEXTURE1DEXTPROC@::PFNGLNAMEDFRAMEBUFFERTEXTURE1DEXTPROC
 ~@typedef_t@PFNGLVERTEXATTRIB4UBVPROC@::PFNGLVERTEXATTRIB4UBVPROC
 ~@typedef_t@PFNGLCOLORMASKINDEXEDEXTPROC@::PFNGLCOLORMASKINDEXEDEXTPROC
-~@typedef_t@blkcnt_t@::blkcnt_t
+~@typedef_t@PFNGLREPLACEMENTCODEUBVSUNPROC@::PFNGLREPLACEMENTCODEUBVSUNPROC
 ~@typedef_t@PFNGLMULTITEXSUBIMAGE3DEXTPROC@::PFNGLMULTITEXSUBIMAGE3DEXTPROC
 ~@typedef_t@PFNGLVERTEXATTRIB3SVNVPROC@::PFNGLVERTEXATTRIB3SVNVPROC
 ~@typedef_t@uint_least16_t@::uint_least16_t
@@ -816,7 +816,7 @@
 ~@typedef_t@PFNGLCOPYBUFFERSUBDATAPROC@::PFNGLCOPYBUFFERSUBDATAPROC
 ~@typedef_t@PFNGLCREATEPROGRAMOBJECTARBPROC@::PFNGLCREATEPROGRAMOBJECTARBPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI4IEXTPROC@::PFNGLVERTEXATTRIBI4IEXTPROC
-~@typedef_t@PFNGLGETMULTISAMPLEFVNVPROC@::PFNGLGETMULTISAMPLEFVNVPROC
+~@typedef_t@PFNGLDEPTHBOUNDSEXTPROC@::PFNGLDEPTHBOUNDSEXTPROC
 ~@typedef_t@PFNGLMULTITEXCOORD3FVARBPROC@::PFNGLMULTITEXCOORD3FVARBPROC
 ~@typedef_t@PFNGLGETVIDEOIVNVPROC@::PFNGLGETVIDEOIVNVPROC
 ~@typedef_t@PFNGLTEXCOORD2FCOLOR3FVERTEX3FSUNPROC@::PFNGLTEXCOORD2FCOLOR3FVERTEX3FSUNPROC
@@ -1346,7 +1346,7 @@
 ~@typedef_t@PFNGLWINDOWPOS3SVPROC@::PFNGLWINDOWPOS3SVPROC
 ~@typedef_t@PFNGLUNIFORMMATRIX2X3FVPROC@::PFNGLUNIFORMMATRIX2X3FVPROC
 ~@typedef_t@PFNGLPROGRAMUNIFORM4UIEXTPROC@::PFNGLPROGRAMUNIFORM4UIEXTPROC
-~@typedef_t@PFNGLXWAITFORSBCOMLPROC@::PFNGLXWAITFORSBCOMLPROC
+~@typedef_t@PFNGLMULTITEXCOORD2SVARBPROC@::PFNGLMULTITEXCOORD2SVARBPROC
 ~@typedef_t@PFNGLMULTITEXRENDERBUFFEREXTPROC@::PFNGLMULTITEXRENDERBUFFEREXTPROC
 ~@typedef_t@PFNGLGETMINMAXEXTPROC@::PFNGLGETMINMAXEXTPROC
 ~@typedef_t@PFNGLIMAGETRANSFORMPARAMETERFHPPROC@::PFNGLIMAGETRANSFORMPARAMETERFHPPROC
@@ -1599,7 +1599,6 @@
 ~@typedef_t@PFNGLMULTITEXCOORD1DVPROC@::PFNGLMULTITEXCOORD1DVPROC
 ~@typedef_t@wctype_t@::wctype_t
 ~@typedef_t@PFNGLGETHISTOGRAMPARAMETERFVPROC@::PFNGLGETHISTOGRAMPARAMETERFVPROC
-~@typedef_t@PFNGLMAPVERTEXATTRIB1FAPPLEPROC@::PFNGLMAPVERTEXATTRIB1FAPPLEPROC
 ~@typedef_t@PFNGLCOPYTEXTUREIMAGE2DEXTPROC@::PFNGLCOPYTEXTUREIMAGE2DEXTPROC
 ~@typedef_t@PFNGLTEXCOORD2FVERTEX3FVSUNPROC@::PFNGLTEXCOORD2FVERTEX3FVSUNPROC
 ~@typedef_t@ssize_t@::ssize_t
@@ -1693,6 +1692,7 @@
 ~@typedef_t@PFNGLSETFENCEAPPLEPROC@::PFNGLSETFENCEAPPLEPROC
 ~@typedef_t@GLXDrawable@::GLXDrawable
 ~@typedef_t@PFNGLGETDOUBLEINDEXEDVEXTPROC@::PFNGLGETDOUBLEINDEXEDVEXTPROC
+~@typedef_t@blkcnt_t@::blkcnt_t
 ~@typedef_t@GLXPbuffer@::GLXPbuffer
 ~@typedef_t@PFNGLMULTITEXCOORD2SVPROC@::PFNGLMULTITEXCOORD2SVPROC
 ~@typedef_t@PFNGLVERTEXATTRIB2DNVPROC@::PFNGLVERTEXATTRIB2DNVPROC
@@ -1759,7 +1759,7 @@
 ~@typedef_t@PFNGLDELETEPROGRAMSNVPROC@::PFNGLDELETEPROGRAMSNVPROC
 ~@typedef_t@PFNGLWINDOWPOS2FPROC@::PFNGLWINDOWPOS2FPROC
 ~@typedef_t@PFNGLISFENCENVPROC@::PFNGLISFENCENVPROC
-~@typedef_t@PFNGLDEPTHBOUNDSEXTPROC@::PFNGLDEPTHBOUNDSEXTPROC
+~@typedef_t@PFNGLGETMULTISAMPLEFVNVPROC@::PFNGLGETMULTISAMPLEFVNVPROC
 ~@typedef_t@PFNGLMATRIXLOADIDENTITYEXTPROC@::PFNGLMATRIXLOADIDENTITYEXTPROC
 ~@typedef_t@ushort@::ushort
 ~@typedef_t@PFNGLCOLOR4UBVERTEX3FVSUNPROC@::PFNGLCOLOR4UBVERTEX3FVSUNPROC
@@ -3603,7 +3603,6 @@
 ~@free_function_t@nanl@long double (*)( char const * )long double (*)( char const * )
 ~@free_function_t@XFreeGC@int (*)( ::_XDisplay *,::GC )int (*)( ::_XDisplay *,::GC )
 ~@free_function_t@__fminf@float (*)( float,float )float (*)( float,float )
-~@free_function_t@wctrans@::wctrans_t (*)( char const * )::wctrans_t (*)( char const * )
 ~@free_function_t@glXGetFBConfigs@::GLXFBConfig * (*)( ::_XDisplay *,int,int * )::GLXFBConfig * (*)( ::_XDisplay *,int,int * )
 ~@free_function_t@XDestroyOC@void (*)( ::XOC )void (*)( ::XOC )
 ~@free_function_t@glDeleteLists@void (*)( ::GLuint,::GLsizei )void (*)( ::GLuint,::GLsizei )
@@ -3711,7 +3710,6 @@
 ~@free_function_t@glXQueryFrameTrackingMESA@int (*)( ::_XDisplay *,::GLXDrawable,::int64_t *,::int64_t *,float * )int (*)( ::_XDisplay *,::GLXDrawable,::int64_t *,::int64_t *,float * )
 ~@free_function_t@srandom_r@int (*)( unsigned int,::random_data * )int (*)( unsigned int,::random_data * )
 ~@free_function_t@XDrawPoints@int (*)( ::_XDisplay *,::Drawable,::GC,::XPoint *,int,int )int (*)( ::_XDisplay *,::Drawable,::GC,::XPoint *,int,int )
-~@free_function_t@__acoshl@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@memmove@void * (*)( void *,void const *,::size_t )void * (*)( void *,void const *,::size_t )
 ~@free_function_t@XSetIMValues@char * (*)( ::XIM,... )char * (*)( ::XIM,... )
 ~@free_function_t@glDepthFunc@void (*)( ::GLenum )void (*)( ::GLenum )
@@ -4205,6 +4203,7 @@
 ~@free_function_t@iswupper_l@int (*)( ::wint_t,::__locale_t )int (*)( ::wint_t,::__locale_t )
 ~@free_function_t@fputws_unlocked@int (*)( __restrict__ wchar_t const *,__restrict__ ::__FILE * )int (*)( __restrict__ wchar_t const *,__restrict__ ::__FILE * )
 ~@free_function_t@XDrawArc@int (*)( ::_XDisplay *,::Drawable,::GC,int,int,unsigned int,unsigned int,int,int )int (*)( ::_XDisplay *,::Drawable,::GC,int,int,unsigned int,unsigned int,int,int )
+~@free_function_t@__isnanl@int (*)( long double )int (*)( long double )
 ~@free_function_t@tgamma@double (*)( double )double (*)( double )
 ~@free_function_t@glInitNames@void (*)(  )void (*)(  )
 ~@free_function_t@__isinfl@int (*)( long double )int (*)( long double )
@@ -4354,7 +4353,7 @@
 ~@free_function_t@XWindowEvent@int (*)( ::_XDisplay *,::Window,long int,::XEvent * )int (*)( ::_XDisplay *,::Window,long int,::XEvent * )
 ~@free_function_t@XEmptyRegion@int (*)( ::Region )int (*)( ::Region )
 ~@free_function_t@mkstemps64@int (*)( char *,int )int (*)( char *,int )
-~@free_function_t@dremf@float (*)( float,float )float (*)( float,float )
+~@free_function_t@wctrans@::wctrans_t (*)( char const * )::wctrans_t (*)( char const * )
 ~@free_function_t@pthread_mutexattr_getpshared@int (*)( __restrict__ ::pthread_mutexattr_t const *,__restrict__ int * )int (*)( __restrict__ ::pthread_mutexattr_t const *,__restrict__ int * )
 ~@free_function_t@dreml@long double (*)( long double,long double )long double (*)( long double,long double )
 ~@free_function_t@fflush@int (*)( ::FILE * )int (*)( ::FILE * )
@@ -4430,6 +4429,7 @@
 ~@free_function_t@mkfifoat@int (*)( int,char const *,::__mode_t )int (*)( int,char const *,::__mode_t )
 ~@free_function_t@__gthrw_pthread_mutexattr_init@int (*)( ::pthread_mutexattr_t * )int (*)( ::pthread_mutexattr_t * )
 ~@free_function_t@XEnableAccessControl@int (*)( ::_XDisplay * )int (*)( ::_XDisplay * )
+~@free_function_t@dremf@float (*)( float,float )float (*)( float,float )
 ~@free_function_t@bsearch@void * (*)( void const *,void const *,::size_t,::size_t,::__compar_fn_t )void * (*)( void const *,void const *,::size_t,::size_t,::__compar_fn_t )
 ~@free_function_t@fmin@double (*)( double,double )double (*)( double,double )
 ~@free_function_t@XPending@int (*)( ::_XDisplay * )int (*)( ::_XDisplay * )
@@ -4557,7 +4557,7 @@
 ~@free_function_t@glRasterPos2f@void (*)( ::GLfloat,::GLfloat )void (*)( ::GLfloat,::GLfloat )
 ~@free_function_t@XFillRectangles@int (*)( ::_XDisplay *,::Drawable,::GC,::XRectangle *,int )int (*)( ::_XDisplay *,::Drawable,::GC,::XRectangle *,int )
 ~@free_function_t@glRasterPos2d@void (*)( ::GLdouble,::GLdouble )void (*)( ::GLdouble,::GLdouble )
-~@free_function_t@XGetTransientForHint@int (*)( ::_XDisplay *,::Window,::Window * )int (*)( ::_XDisplay *,::Window,::Window * )
+~@free_function_t@__acoshl@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@glLoadIdentity@void (*)(  )void (*)(  )
 ~@free_function_t@glRasterPos2i@void (*)( ::GLint,::GLint )void (*)( ::GLint,::GLint )
 ~@free_function_t@Xutf8SetWMProperties@void (*)( ::_XDisplay *,::Window,char const *,char const *,char * *,int,::XSizeHints *,::XWMHints *,::XClassHint * )void (*)( ::_XDisplay *,::Window,char const *,char const *,char * *,int,::XSizeHints *,::XWMHints *,::XClassHint * )
@@ -4897,7 +4897,7 @@
 ~@free_function_t@glMultiTexCoord3sv@void (*)( ::GLenum,::GLshort const * )void (*)( ::GLenum,::GLshort const * )
 ~@free_function_t@__sched_cpufree@void (*)( ::cpu_set_t * )void (*)( ::cpu_set_t * )
 ~@free_function_t@vmsplice@::ssize_t (*)( int,::iovec const *,::size_t,unsigned int )::ssize_t (*)( int,::iovec const *,::size_t,unsigned int )
-~@free_function_t@__isnanl@int (*)( long double )int (*)( long double )
+~@free_function_t@XGetTransientForHint@int (*)( ::_XDisplay *,::Window,::Window * )int (*)( ::_XDisplay *,::Window,::Window * )
 ~@free_function_t@XSendEvent@int (*)( ::_XDisplay *,::Window,int,long int,::XEvent * )int (*)( ::_XDisplay *,::Window,int,long int,::XEvent * )
 ~@free_function_t@XDrawLine@int (*)( ::_XDisplay *,::Drawable,::GC,int,int,int,int )int (*)( ::_XDisplay *,::Drawable,::GC,int,int,int,int )
 ~@free_function_t@drand48@double (*)(  )double (*)(  )

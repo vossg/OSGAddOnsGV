@@ -127,7 +127,7 @@
 ~@typedef_t@PFNGLVERTEXATTRIB4DPROC@::PFNGLVERTEXATTRIB4DPROC
 ~@typedef_t@PFNGLVERTEXATTRIB1FPROC@::PFNGLVERTEXATTRIB1FPROC
 ~@typedef_t@PFNGLVERTEXATTRIB4SVPROC@::PFNGLVERTEXATTRIB4SVPROC
-~@typedef_t@alias_SelectVecStorage2ub@::alias_SelectVecStorage2ub
+~@typedef_t@PFNGLVERTEXATTRIBI2UIVPROC@::PFNGLVERTEXATTRIBI2UIVPROC
 ~@typedef_t@PFNGLDELETERENDERBUFFERSPROC@::PFNGLDELETERENDERBUFFERSPROC
 ~@typedef_t@PFNGLWINDOWPOS4SVMESAPROC@::PFNGLWINDOWPOS4SVMESAPROC
 ~@typedef_t@PFNGLNORMAL3FVERTEX3FSUNPROC@::PFNGLNORMAL3FVERTEX3FSUNPROC
@@ -197,7 +197,6 @@
 ~@typedef_t@alias_Pnt3f@::alias_Pnt3f
 ~@typedef_t@PFNGLFRAMEBUFFERTEXTURELAYERPROC@::PFNGLFRAMEBUFFERTEXTURELAYERPROC
 ~@typedef_t@PFNGLUNIFORMMATRIX2FVARBPROC@::PFNGLUNIFORMMATRIX2FVARBPROC
-~@typedef_t@alias_SelectVecStorage4ub@::alias_SelectVecStorage4ub
 ~@typedef_t@GLubyte@::GLubyte
 ~@typedef_t@fsblkcnt_t@::fsblkcnt_t
 ~@typedef_t@PFNGLGETMULTITEXPARAMETERIVEXTPROC@::PFNGLGETMULTITEXPARAMETERIVEXTPROC
@@ -735,7 +734,6 @@
 ~@typedef_t@PFNGLVERTEXSTREAM3DVATIPROC@::PFNGLVERTEXSTREAM3DVATIPROC
 ~@typedef_t@fsfilcnt_t@::fsfilcnt_t
 ~@typedef_t@__swblk_t@::__swblk_t
-~@typedef_t@PFNGLVERTEXATTRIBI2UIVPROC@::PFNGLVERTEXATTRIBI2UIVPROC
 ~@typedef_t@PFNGLBINDFRAGMENTSHADERATIPROC@::PFNGLBINDFRAGMENTSHADERATIPROC
 ~@typedef_t@PFNGLVERTEX3HVNVPROC@::PFNGLVERTEX3HVNVPROC
 ~@typedef_t@PFNGLCOPYCOLORTABLEPROC@::PFNGLCOPYCOLORTABLEPROC
@@ -1033,7 +1031,6 @@
 ~@typedef_t@PFNGLPROGRAMUNIFORMMATRIX3X2FVEXTPROC@::PFNGLPROGRAMUNIFORMMATRIX3X2FVEXTPROC
 ~@typedef_t@PFNGLGETINTEGER64VPROC@::PFNGLGETINTEGER64VPROC
 ~@typedef_t@coercion@::coercion
-~@typedef_t@alias_SelectVecStorage2f@::alias_SelectVecStorage2f
 ~@typedef_t@PFNGLPROGRAMNAMEDPARAMETER4FNVPROC@::PFNGLPROGRAMNAMEDPARAMETER4FNVPROC
 ~@typedef_t@PFNGLPASSTEXCOORDATIPROC@::PFNGLPASSTEXCOORDATIPROC
 ~@typedef_t@PFNGLGETQUERYOBJECTIVARBPROC@::PFNGLGETQUERYOBJECTIVARBPROC
@@ -1202,9 +1199,7 @@
 ~@typedef_t@PFNGLVERTEXSTREAM3IVATIPROC@::PFNGLVERTEXSTREAM3IVATIPROC
 ~@typedef_t@PFNGLVERTEXSTREAM2SVATIPROC@::PFNGLVERTEXSTREAM2SVATIPROC
 ~@typedef_t@PFNGLBINDBUFFERPROC@::PFNGLBINDBUFFERPROC
-~@typedef_t@alias_SelectVecStorage3f@::alias_SelectVecStorage3f
 ~@typedef_t@PFNGLVERTEXATTRIB3SPROC@::PFNGLVERTEXATTRIB3SPROC
-~@typedef_t@alias_SelectVecStorage3d@::alias_SelectVecStorage3d
 ~@typedef_t@PFNGLPROGRAMLOCALPARAMETERS4FVEXTPROC@::PFNGLPROGRAMLOCALPARAMETERS4FVEXTPROC
 ~@typedef_t@PFNGLPROGRAMLOCALPARAMETERI4IVNVPROC@::PFNGLPROGRAMLOCALPARAMETERI4IVNVPROC
 ~@typedef_t@PFNGLGENTEXTURESEXTPROC@::PFNGLGENTEXTURESEXTPROC
@@ -1442,7 +1437,6 @@
 ~@typedef_t@PFNGLGETCOLORTABLEPARAMETERFVPROC@::PFNGLGETCOLORTABLEPARAMETERFVPROC
 ~@typedef_t@PFNGLENDTRANSFORMFEEDBACKNVPROC@::PFNGLENDTRANSFORMFEEDBACKNVPROC
 ~@typedef_t@PFNGLGETVERTEXATTRIBFVNVPROC@::PFNGLGETVERTEXATTRIBFVNVPROC
-~@typedef_t@alias_SelectVecStorage4f@::alias_SelectVecStorage4f
 ~@typedef_t@PFNGLGETMULTITEXIMAGEEXTPROC@::PFNGLGETMULTITEXIMAGEEXTPROC
 ~@typedef_t@PFNGLVERTEXSTREAM3SATIPROC@::PFNGLVERTEXSTREAM3SATIPROC
 ~@typedef_t@PFNGLVERTEXATTRIB2DVNVPROC@::PFNGLVERTEXATTRIB2DVNVPROC
@@ -1678,7 +1672,6 @@
 ~@typedef_t@ssize_t@::ssize_t
 ~@typedef_t@PFNGLSECONDARYCOLORPOINTERPROC@::PFNGLSECONDARYCOLORPOINTERPROC
 ~@typedef_t@PFNGLGETBUFFERPARAMETERIVPROC@::PFNGLGETBUFFERPARAMETERIVPROC
-~@typedef_t@alias_SelectVecStorage2d@::alias_SelectVecStorage2d
 ~@typedef_t@PFNGLVERTEX3HNVPROC@::PFNGLVERTEX3HNVPROC
 ~@typedef_t@PFNGLMULTITEXCOORD1SVPROC@::PFNGLMULTITEXCOORD1SVPROC
 ~@typedef_t@PFNGLUNIFORM4UIVPROC@::PFNGLUNIFORM4UIVPROC
@@ -1767,7 +1760,6 @@
 ~@typedef_t@PFNGLINSERTCOMPONENTEXTPROC@::PFNGLINSERTCOMPONENTEXTPROC
 ~@typedef_t@PFNGLBLENDFUNCSEPARATEEXTPROC@::PFNGLBLENDFUNCSEPARATEEXTPROC
 ~@typedef_t@PFNGLGETCOMBINEROUTPUTPARAMETERFVNVPROC@::PFNGLGETCOMBINEROUTPUTPARAMETERFVNVPROC
-~@typedef_t@alias_SelectVecStorage3ub@::alias_SelectVecStorage3ub
 ~@typedef_t@PFNGLTANGENT3SEXTPROC@::PFNGLTANGENT3SEXTPROC
 ~@typedef_t@PFNGLTEXTUREPARAMETERIUIVEXTPROC@::PFNGLTEXTUREPARAMETERIUIVEXTPROC
 ~@typedef_t@PFNGLVERTEXATTRIB3DVNVPROC@::PFNGLVERTEXATTRIB3DVNVPROC
@@ -1842,7 +1834,6 @@
 ~@typedef_t@PFNGLMULTITEXCOORD4IVPROC@::PFNGLMULTITEXCOORD4IVPROC
 ~@typedef_t@allocfunc@::allocfunc
 ~@typedef_t@PFNGLSTENCILCLEARTAGEXTPROC@::PFNGLSTENCILCLEARTAGEXTPROC
-~@typedef_t@alias_SelectVecStorage4d@::alias_SelectVecStorage4d
 ~@typedef_t@PFNGLSECONDARYCOLOR3UIPROC@::PFNGLSECONDARYCOLOR3UIPROC
 ~@typedef_t@ssizeargfunc@::ssizeargfunc
 ~@typedef_t@PFNGLTEXTURERENDERBUFFEREXTPROC@::PFNGLTEXTURERENDERBUFFEREXTPROC
@@ -2580,8 +2571,6 @@
 ~@free_function_t@__lrintf@long int (*)( float )long int (*)( float )
 ~@free_function_t@__lrintl@long int (*)( long double )long int (*)( long double )
 ~@free_function_t@PyOS_ascii_formatd@char * (*)( char *,::size_t,char const *,double )char * (*)( char *,::size_t,char const *,double )
-~@free_function_t@__instantiate_alias_SelectVecStorage3d@unsigned int (*)(  )unsigned int (*)(  )
-~@free_function_t@__instantiate_alias_SelectVecStorage3f@unsigned int (*)(  )unsigned int (*)(  )
 ~@free_function_t@__fxstatat64@int (*)( int,int,char const *,::stat64 *,int )int (*)( int,int,char const *,::stat64 *,int )
 ~@free_function_t@glPopAttrib@void (*)(  )void (*)(  )
 ~@free_function_t@glGetHistogramParameterfv@void (*)( ::GLenum,::GLenum,::GLfloat * )void (*)( ::GLenum,::GLenum,::GLfloat * )
@@ -2824,7 +2813,7 @@
 ~@free_function_t@dprintf@int (*)( int,__restrict__ char const *,... )int (*)( int,__restrict__ char const *,... )
 ~@free_function_t@ecvt_r@int (*)( double,int,__restrict__ int *,__restrict__ int *,__restrict__ char *,::size_t )int (*)( double,int,__restrict__ int *,__restrict__ int *,__restrict__ char *,::size_t )
 ~@free_function_t@_PyObject_CallMethod_SizeT@::PyObject * (*)( ::PyObject *,char *,char *,... )::PyObject * (*)( ::PyObject *,char *,char *,... )
-~@free_function_t@__instantiate_alias_SelectVecStorage4ub@unsigned int (*)(  )unsigned int (*)(  )
+~@free_function_t@setbuffer@void (*)( __restrict__ ::FILE *,__restrict__ char *,::size_t )void (*)( __restrict__ ::FILE *,__restrict__ char *,::size_t )
 ~@free_function_t@wcschr@wchar_t const * (*)( wchar_t const *,wchar_t )wchar_t const * (*)( wchar_t const *,wchar_t )
 ~@free_function_t@wcschr@wchar_t * (*)( wchar_t *,wchar_t )wchar_t * (*)( wchar_t *,wchar_t )
 ~@free_function_t@mkostemp@int (*)( char *,int )int (*)( char *,int )
@@ -2838,7 +2827,6 @@
 ~@free_function_t@fstat64@int (*)( int,::stat64 * )int (*)( int,::stat64 * )
 ~@free_function_t@mknod@int (*)( char const *,::__mode_t,::__dev_t )int (*)( char const *,::__mode_t,::__dev_t )
 ~@free_function_t@__frexpl@long double (*)( long double,int * )long double (*)( long double,int * )
-~@free_function_t@__instantiate_alias_SelectVecStorage2f@unsigned int (*)(  )unsigned int (*)(  )
 ~@free_function_t@__j1l@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@expl@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@__j1f@float (*)( float )float (*)( float )
@@ -3114,7 +3102,6 @@
 ~@free_function_t@PyOS_mystricmp@int (*)( char const *,char const * )int (*)( char const *,char const * )
 ~@free_function_t@PyErr_Print@void (*)(  )void (*)(  )
 ~@free_function_t@gnu_dev_minor@unsigned int (*)( long long unsigned int )unsigned int (*)( long long unsigned int )
-~@free_function_t@__instantiate_alias_SelectVecStorage3ub@unsigned int (*)(  )unsigned int (*)(  )
 ~@free_function_t@daemon@int (*)( int,int )int (*)( int,int )
 ~@free_function_t@glColor3uiv@void (*)( ::GLuint const * )void (*)( ::GLuint const * )
 ~@free_function_t@ctime@char * (*)( ::time_t const * )char * (*)( ::time_t const * )
@@ -3443,7 +3430,6 @@
 ~@free_function_t@roundl@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@glRasterPos3sv@void (*)( ::GLshort const * )void (*)( ::GLshort const * )
 ~@free_function_t@PyList_Append@int (*)( ::PyObject *,::PyObject * )int (*)( ::PyObject *,::PyObject * )
-~@free_function_t@__instantiate_alias_SelectVecStorage2d@unsigned int (*)(  )unsigned int (*)(  )
 ~@free_function_t@lseek@::__off_t (*)( int,::__off_t,int )::__off_t (*)( int,::__off_t,int )
 ~@free_function_t@PyOS_strtoul@long unsigned int (*)( char *,char * *,int )long unsigned int (*)( char *,char * *,int )
 ~@free_function_t@wcsnrtombs@::size_t (*)( __restrict__ char *,__restrict__ wchar_t const * *,::size_t,::size_t,__restrict__ ::mbstate_t * )::size_t (*)( __restrict__ char *,__restrict__ wchar_t const * *,::size_t,::size_t,__restrict__ ::mbstate_t * )
@@ -4255,7 +4241,6 @@
 ~@free_function_t@PyTuple_Fini@void (*)(  )void (*)(  )
 ~@free_function_t@PyGen_NeedsFinalizing@int (*)( ::PyGenObject * )int (*)( ::PyGenObject * )
 ~@free_function_t@geteuid@::__uid_t (*)(  )::__uid_t (*)(  )
-~@free_function_t@setbuffer@void (*)( __restrict__ ::FILE *,__restrict__ char *,::size_t )void (*)( __restrict__ ::FILE *,__restrict__ char *,::size_t )
 ~@free_function_t@__jn@double (*)( int,double )double (*)( int,double )
 ~@free_function_t@glTexCoord4sv@void (*)( ::GLshort const * )void (*)( ::GLshort const * )
 ~@free_function_t@PyErr_WriteUnraisable@void (*)( ::PyObject * )void (*)( ::PyObject * )
@@ -4459,9 +4444,7 @@
 ~@free_function_t@clock_getcpuclockid@int (*)( ::pid_t,::clockid_t * )int (*)( ::pid_t,::clockid_t * )
 ~@free_function_t@PyParser_SimpleParseStringFlags@::_node * (*)( char const *,int,int )::_node * (*)( char const *,int,int )
 ~@free_function_t@__fabsl@long double (*)( long double )long double (*)( long double )
-~@free_function_t@__instantiate_alias_SelectVecStorage4d@unsigned int (*)(  )unsigned int (*)(  )
 ~@free_function_t@ttyslot@int (*)(  )int (*)(  )
-~@free_function_t@__instantiate_alias_SelectVecStorage4f@unsigned int (*)(  )unsigned int (*)(  )
 ~@free_function_t@PyNumber_InPlacePower@::PyObject * (*)( ::PyObject *,::PyObject *,::PyObject * )::PyObject * (*)( ::PyObject *,::PyObject *,::PyObject * )
 ~@free_function_t@iswprint@int (*)( ::wint_t )int (*)( ::wint_t )
 ~@free_function_t@setitimer@int (*)( ::__itimer_which_t,__restrict__ ::itimerval const *,__restrict__ ::itimerval * )int (*)( ::__itimer_which_t,__restrict__ ::itimerval const *,__restrict__ ::itimerval * )
@@ -4776,7 +4759,6 @@
 ~@free_function_t@PyInt_AsSsize_t@::Py_ssize_t (*)( ::PyObject * )::Py_ssize_t (*)( ::PyObject * )
 ~@free_function_t@PyLong_AsDouble@double (*)( ::PyObject * )double (*)( ::PyObject * )
 ~@free_function_t@__gthrw_pthread_mutex_trylock@int (*)( ::pthread_mutex_t * )int (*)( ::pthread_mutex_t * )
-~@free_function_t@__instantiate_alias_SelectVecStorage2ub@unsigned int (*)(  )unsigned int (*)(  )
 ~@free_function_t@wprintf@int (*)( __restrict__ wchar_t const *,... )int (*)( __restrict__ wchar_t const *,... )
 ~@free_function_t@glRasterPos2s@void (*)( ::GLshort,::GLshort )void (*)( ::GLshort,::GLshort )
 ~@free_function_t@PyUnicodeDecodeError_GetStart@int (*)( ::PyObject *,::Py_ssize_t * )int (*)( ::PyObject *,::Py_ssize_t * )

@@ -58,6 +58,15 @@ void register_VRMLPositionInterpolator_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::VRMLPositionInterpolator::evaluate
+        
+            typedef void ( ::OSG::VRMLPositionInterpolator::*evaluate_function_type )(  ) ;
+            
+            VRMLPositionInterpolator_exposer.def( 
+                "evaluate"
+                , evaluate_function_type( &::OSG::VRMLPositionInterpolator::evaluate ) );
+        
+        }
         pyopensg::register_transit< OSG::VRMLPositionInterpolator >::execute();
         bp::implicitly_convertible< OSG::VRMLPositionInterpolator::ObjRecPtr, OSG::VRMLPositionInterpolator* >();
         bp::implicitly_convertible< OSG::VRMLPositionInterpolator::ObjRecPtr, OSG::VRMLPositionInterpolator::ObjCPtr >();

@@ -35,7 +35,7 @@ namespace bp = boost::python;
 void register_Pnt2d_class(){
 
     { //::OSG::Point< double, 2u >
-        typedef bp::class_< OSG::Point< double, 2u >, bp::bases< OSG::SelectVecStorage< double, 2u > > > Pnt2d_exposer_t;
+        typedef bp::class_< OSG::Point< double, 2u >, bp::bases< OSG::VecStorage2< double > > > Pnt2d_exposer_t;
         Pnt2d_exposer_t Pnt2d_exposer = Pnt2d_exposer_t( "Pnt2d", bp::init< >() );
         bp::scope Pnt2d_scope( Pnt2d_exposer );
         Pnt2d_exposer.def( bp::init< double const * >(( bp::arg("pVals") )) );

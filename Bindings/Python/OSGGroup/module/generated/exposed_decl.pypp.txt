@@ -1806,11 +1806,11 @@
 ~@namespace_t@std@::std
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
-~@namespace_t@boost@::boost
+~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
 ~@namespace_t@mpl_@::mpl_
-~@namespace_t@__cxxabiv1@::__cxxabiv1
+~@namespace_t@boost@::boost
 ~@namespace_t@OSG@::OSG
 ~@class_declaration_t@locale_data@::locale_data
 ~@class_declaration_t@_IO_FILE_plus@::_IO_FILE_plus
@@ -1837,7 +1837,7 @@
 ~@variable_t@_ZTIN3OSG8RangeLODE@::_ZTIN3OSG8RangeLODE
 ~@variable_t@_ZTIN3OSG12MaterialBaseE@::_ZTIN3OSG12MaterialBaseE
 ~@variable_t@_ZTIN3OSG20FieldDescFactoryBaseE@::_ZTIN3OSG20FieldDescFactoryBaseE
-~@variable_t@_ZTIN3OSG13BillboardBaseE@::_ZTIN3OSG13BillboardBaseE
+~@variable_t@_ZTIN3OSG11LightEngineE@::_ZTIN3OSG11LightEngineE
 ~@variable_t@_ZTIN3OSG20DirectionalLightBaseE@::_ZTIN3OSG20DirectionalLightBaseE
 ~@variable_t@_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTIN3OSG10MPLockTypeE@::_ZTIN3OSG10MPLockTypeE
@@ -2075,7 +2075,7 @@
 ~@variable_t@_ZTISt18basic_stringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt18basic_stringstreamIcSt11char_traitsIcESaIcEE
 ~@variable_t@_ZTIN3OSG3LogE@::_ZTIN3OSG3LogE
 ~@variable_t@_ZTIN3OSG14ProxyGroupBaseE@::_ZTIN3OSG14ProxyGroupBaseE
-~@variable_t@_ZTIN3OSG18TransformChunkBaseE@::_ZTIN3OSG18TransformChunkBaseE
+~@variable_t@_ZTIN3OSG13RenderOptionsE@::_ZTIN3OSG13RenderOptionsE
 ~@variable_t@_ZTIN3OSG15GetSFieldHandleINS_6SFieldISt3mapIjPNS_10AttachmentESt4lessIjESaISt4pairIKjS4_EEELi0EEEEE@::_ZTIN3OSG15GetSFieldHandleINS_6SFieldISt3mapIjPNS_10AttachmentESt4lessIjESaISt4pairIKjS4_EEELi0EEEEE
 ~@variable_t@_ZTIN3OSG8ViewportE@::_ZTIN3OSG8ViewportE
 ~@variable_t@_ZTIN3OSG15ScreenGroupBaseE@::_ZTIN3OSG15ScreenGroupBaseE
@@ -2097,7 +2097,7 @@
 ~@variable_t@_ZTIN3OSG9TransformE@::_ZTIN3OSG9TransformE
 ~@variable_t@_ZTIN3OSG15StatIntOnceElemE@::_ZTIN3OSG15StatIntOnceElemE
 ~@variable_t@_ZTIN3OSG12ViewportBaseE@::_ZTIN3OSG12ViewportBaseE
-~@variable_t@_ZTIN3OSG11LightEngineE@::_ZTIN3OSG11LightEngineE
+~@variable_t@_ZTIN3OSG13BillboardBaseE@::_ZTIN3OSG13BillboardBaseE
 ~@variable_t@_ZTIN3OSG3Log6nilbufE@::_ZTIN3OSG3Log6nilbufE
 ~@variable_t@_ZTIN3OSG10ProxyGroupE@::_ZTIN3OSG10ProxyGroupE
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_7BarrierEEE@::_ZTIN3OSG12MPFieldStoreINS_7BarrierEEE
@@ -2188,7 +2188,7 @@
 ~@variable_t@_ZTIN3OSG13AlgorithmBaseE@::_ZTIN3OSG13AlgorithmBaseE
 ~@variable_t@_ZTIN3OSG25DynamicStateGeneratorBaseE@::_ZTIN3OSG25DynamicStateGeneratorBaseE
 ~@variable_t@_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE@::_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE
-~@variable_t@_ZTIN3OSG13RenderOptionsE@::_ZTIN3OSG13RenderOptionsE
+~@variable_t@_ZTIN3OSG18TransformChunkBaseE@::_ZTIN3OSG18TransformChunkBaseE
 ~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
 ~@variable_t@_IO_2_1_stderr_@::_IO_2_1_stderr_
 ~@variable_t@_ZTIN3OSG10AttachmentE@::_ZTIN3OSG10AttachmentE

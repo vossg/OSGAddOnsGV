@@ -59,6 +59,7 @@ void register_CSMViewportBase_class(){
         bp::scope().attr("RenderOptionsFieldId") = (int)OSG::CSMViewportBase::RenderOptionsFieldId;
         bp::scope().attr("StereoModeFieldId") = (int)OSG::CSMViewportBase::StereoModeFieldId;
         bp::scope().attr("PassiveFieldId") = (int)OSG::CSMViewportBase::PassiveFieldId;
+        bp::scope().attr("ServerIdFieldId") = (int)OSG::CSMViewportBase::ServerIdFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::CSMViewportBase::NextFieldId;
         { //::OSG::CSMViewportBase::assignForegrounds
         
@@ -325,6 +326,16 @@ void register_CSMViewportBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::CSMViewportBase::getSFServerId
+        
+            typedef ::OSG::SFInt32 const * ( ::OSG::CSMViewportBase::*getSFServerId_function_type )(  ) const;
+            
+            CSMViewportBase_exposer.def( 
+                "getSFServerId"
+                , getSFServerId_function_type( &::OSG::CSMViewportBase::getSFServerId )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::CSMViewportBase::getSFStereoMode
         
             typedef ::OSG::SFString const * ( ::OSG::CSMViewportBase::*getSFStereoMode_function_type )(  ) const;
@@ -333,6 +344,15 @@ void register_CSMViewportBase_class(){
                 "getSFStereoMode"
                 , getSFStereoMode_function_type( &::OSG::CSMViewportBase::getSFStereoMode )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMViewportBase::getServerId
+        
+            typedef ::OSG::Int32 ( ::OSG::CSMViewportBase::*getServerId_function_type )(  ) const;
+            
+            CSMViewportBase_exposer.def( 
+                "getServerId"
+                , getServerId_function_type( &::OSG::CSMViewportBase::getServerId ) );
         
         }
         { //::OSG::CSMViewportBase::getStereoMode
@@ -462,6 +482,16 @@ void register_CSMViewportBase_class(){
             CSMViewportBase_exposer.def( 
                 "setRoot"
                 , setRoot_function_type( &::OSG::CSMViewportBase::setRoot )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMViewportBase::setServerId
+        
+            typedef void ( ::OSG::CSMViewportBase::*setServerId_function_type )( ::OSG::Int32 const ) ;
+            
+            CSMViewportBase_exposer.def( 
+                "setServerId"
+                , setServerId_function_type( &::OSG::CSMViewportBase::setServerId )
                 , ( bp::arg("value") ) );
         
         }

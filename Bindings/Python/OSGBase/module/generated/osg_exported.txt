@@ -3,7 +3,6 @@ Pnt3f
 Pnt4d
 Pnt4f
 Color3f
-SelectVecStorage2ub
 Color3ub
 Pnt2f
 Vec2ub
@@ -13,12 +12,7 @@ Pnt3d
 VecStorage2f
 VecStorage3f
 VecStorage4f
-SelectVecStorage3ub
 VecStorage3d
-SelectVecStorage2d
-SelectVecStorage2f
-SelectVecStorage3d
-SelectVecStorage4f
 PerfMonitor
 VecStorage3ub
 Color4f
@@ -27,7 +21,6 @@ Vec2f
 Vec3f
 Vec4d
 Matrix
-SelectVecStorage3f
 VecStorage2ub
 Quaterniond
 Color4ub
@@ -41,12 +34,10 @@ StatElemDesc_StatIntOnceElem
 Vec3d
 StatElemDesc_StatIntElem
 Vec4f
-SelectVecStorage4ub
 Vec3ub
 Matrix4d
 VecStorage2d
 Vec4ub
-SelectVecStorage4d
 VecStorage4d
 StatElemDescBase
 PerfMonitorBase
