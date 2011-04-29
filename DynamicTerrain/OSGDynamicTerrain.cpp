@@ -285,7 +285,7 @@ void DynamicTerrain::drawPrimitives( DrawEnv *pEnv )
         //getProjectionTranslation(prt, p.getPixelWidth(),
         //p.getPixelHeight());
 
-        Matrix pr = pEnv->getCameraFullProjection();
+        Matrix pr = pEnv->_openGLState.getProjection();
         Matrix mv = pEnv->getCameraViewing();
 
         pr.mult(mv );
