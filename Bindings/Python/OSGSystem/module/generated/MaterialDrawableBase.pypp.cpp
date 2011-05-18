@@ -32,10 +32,16 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct MaterialDrawableBase_wrapper : OSG::MaterialDrawableBase, bp::wrapper< OSG::MaterialDrawableBase > {
+
+
+
+};
+
 void register_MaterialDrawableBase_class(){
 
     { //::OSG::MaterialDrawableBase
-        typedef bp::class_< OSG::MaterialDrawableBase, bp::bases< OSG::Drawable >, boost::noncopyable > MaterialDrawableBase_exposer_t;
+        typedef bp::class_< MaterialDrawableBase_wrapper, bp::bases< OSG::Drawable >, boost::noncopyable > MaterialDrawableBase_exposer_t;
         MaterialDrawableBase_exposer_t MaterialDrawableBase_exposer = MaterialDrawableBase_exposer_t( "MaterialDrawableBase", bp::no_init );
         bp::scope MaterialDrawableBase_scope( MaterialDrawableBase_exposer );
         bp::scope().attr("MaterialFieldId") = (int)OSG::MaterialDrawableBase::MaterialFieldId;
@@ -155,6 +161,16 @@ void register_MaterialDrawableBase_class(){
                 "setMaterial"
                 , setMaterial_function_type( &::OSG::MaterialDrawableBase::setMaterial )
                 , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::Drawable::fill
+        
+            typedef void ( ::OSG::Drawable::*fill_function_type )( ::OSG::DrawableStatsAttachment * ) ;
+            
+            MaterialDrawableBase_exposer.def( 
+                "fill"
+                , fill_function_type( &::OSG::Drawable::fill )
+                , ( bp::arg("pStat") ) );
         
         }
         MaterialDrawableBase_exposer.staticmethod( "getClassGroupId" );

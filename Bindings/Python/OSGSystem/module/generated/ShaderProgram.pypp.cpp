@@ -114,6 +114,14 @@ void proceduralCallback(bp::object callable, OSG::DrawEnv* env, int i)
    callable(env, i);
 }
 
+void proceduralNodeCallback(bp::object    callable, 
+                            OSG::DrawEnv *env, 
+                            int           i,
+                            OSG::Node    *node)
+{
+    callable(env, i, node);
+}
+
 bool
 wrapAddProceduralVariable(
    OSG::ShaderProgram* self, const OSG::Char8* name, bp::object pFunc,
@@ -135,6 +143,32 @@ wrapUpdateProceduralVariable(
    return self->updateProceduralVariable(name,
                                          boost::bind(proceduralCallback, pFunc,
                                                      _1, _2),
+                                         uiDependency);
+}
+
+bool
+wrapAddNodeProceduralVariable(
+   OSG::ShaderProgram* self, const OSG::Char8* name, bp::object pFunc,
+   OSG::UInt32 uiDependency = OSG::ShaderProcVariable::SHDObject
+)
+{
+   return self->addNodeProceduralVariable(name,
+                                          boost::bind(proceduralNodeCallback, 
+                                                      pFunc,
+                                                      _1, _2, _3),
+                                      uiDependency);
+}
+
+bool
+wrapUpdateNodeProceduralVariable(
+   OSG::ShaderProgram* self, const OSG::Char8* name, bp::object pFunc,
+   OSG::UInt32 uiDependency = OSG::ShaderProcVariable::SHDObject
+)
+{
+   return self->updateNodeProceduralVariable(name,
+                                         boost::bind(proceduralNodeCallback, 
+                                                     pFunc,
+                                                     _1, _2, _3),
                                          uiDependency);
 }
 
@@ -284,6 +318,15 @@ void register_ShaderProgram_class(){
                 , clearUniformVariables_function_type( &::OSG::ShaderProgram::clearUniformVariables ) );
         
         }
+        { //::OSG::ShaderProgram::createDefaulAttribMapping
+        
+            typedef void ( ::OSG::ShaderProgram::*createDefaulAttribMapping_function_type )(  ) ;
+            
+            ShaderProgram_exposer.def( 
+                "createDefaulAttribMapping"
+                , createDefaulAttribMapping_function_type( &::OSG::ShaderProgram::createDefaulAttribMapping ) );
+        
+        }
         { //::OSG::ShaderProgram::createFragmentShader
         
             typedef ::OSG::ShaderProgramTransitPtr ( *createFragmentShader_function_type )(  );
@@ -304,11 +347,12 @@ void register_ShaderProgram_class(){
         }
         { //::OSG::ShaderProgram::createVertexShader
         
-            typedef ::OSG::ShaderProgramTransitPtr ( *createVertexShader_function_type )(  );
+            typedef ::OSG::ShaderProgramTransitPtr ( *createVertexShader_function_type )( bool );
             
             ShaderProgram_exposer.def( 
                 "createVertexShader"
-                , createVertexShader_function_type( &::OSG::ShaderProgram::createVertexShader ) );
+                , createVertexShader_function_type( &::OSG::ShaderProgram::createVertexShader )
+                , ( bp::arg("bCreateDefAttribMap")=(bool)(false) ) );
         
         }
         { //::OSG::ShaderProgram::dump
@@ -328,6 +372,15 @@ void register_ShaderProgram_class(){
             ShaderProgram_exposer.def( 
                 "getFuncIdAttachShader"
                 , getFuncIdAttachShader_function_type( &::OSG::ShaderProgram::getFuncIdAttachShader ) );
+        
+        }
+        { //::OSG::ShaderProgram::getFuncIdBindAttribLocation
+        
+            typedef ::OSG::UInt32 ( *getFuncIdBindAttribLocation_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdBindAttribLocation"
+                , getFuncIdBindAttribLocation_function_type( &::OSG::ShaderProgram::getFuncIdBindAttribLocation ) );
         
         }
         { //::OSG::ShaderProgram::getFuncIdCompileShader
@@ -753,6 +806,15 @@ void register_ShaderProgram_class(){
                 , ( bp::arg("inst"), bp::arg("name") ) );
         
         }
+        { //::OSG::ShaderProgram::hasAttributes
+        
+            typedef bool ( ::OSG::ShaderProgram::*hasAttributes_function_type )(  ) ;
+            
+            ShaderProgram_exposer.def( 
+                "hasAttributes"
+                , hasAttributes_function_type( &::OSG::ShaderProgram::hasAttributes ) );
+        
+        }
         { //::OSG::ShaderProgram::hasParameter
         
             typedef bool ( ::OSG::ShaderProgram::*hasParameter_function_type )(  ) ;
@@ -770,6 +832,16 @@ void register_ShaderProgram_class(){
                 "readProgram"
                 , readProgram_function_type( &::OSG::ShaderProgram::readProgram )
                 , ( bp::arg("file") ) );
+        
+        }
+        { //::OSG::ShaderProgram::setProgramAttribute
+        
+            typedef void ( ::OSG::ShaderProgram::*setProgramAttribute_function_type )( ::OSG::UInt16,::std::string ) ;
+            
+            ShaderProgram_exposer.def( 
+                "setProgramAttribute"
+                , setProgramAttribute_function_type( &::OSG::ShaderProgram::setProgramAttribute )
+                , ( bp::arg("uiIndex"), bp::arg("szName") ) );
         
         }
         { //::OSG::ShaderProgram::setProgramParameter
@@ -790,6 +862,16 @@ void register_ShaderProgram_class(){
                 "subParent"
                 , subParent_function_type( &::OSG::ShaderProgram::subParent )
                 , ( bp::arg("pParent") ) );
+        
+        }
+        { //::OSG::ShaderProgram::subProgramAttribute
+        
+            typedef void ( ::OSG::ShaderProgram::*subProgramAttribute_function_type )( ::OSG::UInt16 ) ;
+            
+            ShaderProgram_exposer.def( 
+                "subProgramAttribute"
+                , subProgramAttribute_function_type( &::OSG::ShaderProgram::subProgramAttribute )
+                , ( bp::arg("uiIndex") ) );
         
         }
         { //::OSG::ShaderProgram::subProgramParameter
@@ -916,6 +998,7 @@ void register_ShaderProgram_class(){
         ShaderProgram_exposer.staticmethod( "createGeometryShader" );
         ShaderProgram_exposer.staticmethod( "createVertexShader" );
         ShaderProgram_exposer.staticmethod( "getFuncIdAttachShader" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdBindAttribLocation" );
         ShaderProgram_exposer.staticmethod( "getFuncIdCompileShader" );
         ShaderProgram_exposer.staticmethod( "getFuncIdCreateProgram" );
         ShaderProgram_exposer.staticmethod( "getFuncIdCreateShader" );
@@ -963,6 +1046,12 @@ void register_ShaderProgram_class(){
                      (bp::arg("name"), bp::arg("pFunc"),
                       bp::arg("uiDependency") = OSG::ShaderProcVariable::SHDObject));
         ShaderProgram_exposer.def("updateProceduralVariable", wrapUpdateProceduralVariable,
+                     (bp::arg("name"), bp::arg("pFunc"),
+                      bp::arg("uiDependency") = OSG::ShaderProcVariable::SHDObject));
+        ShaderProgram_exposer.def("addNodeProceduralVariable", wrapAddNodeProceduralVariable,
+                     (bp::arg("name"), bp::arg("pFunc"),
+                      bp::arg("uiDependency") = OSG::ShaderProcVariable::SHDObject));
+        ShaderProgram_exposer.def("updateNodeProceduralVariable", wrapUpdateNodeProceduralVariable,
                      (bp::arg("name"), bp::arg("pFunc"),
                       bp::arg("uiDependency") = OSG::ShaderProcVariable::SHDObject));
     }

@@ -22,9 +22,9 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
 
-#ifndef HardwareSkinningDataAttachment_hpp__pyplusplus_wrapper
-#define HardwareSkinningDataAttachment_hpp__pyplusplus_wrapper
+#ifndef CalibrationPatternFilter_hpp__pyplusplus_wrapper
+#define CalibrationPatternFilter_hpp__pyplusplus_wrapper
 
-void register_HardwareSkinningDataAttachment_class();
+void register_CalibrationPatternFilter_class();
 
-#endif//HardwareSkinningDataAttachment_hpp__pyplusplus_wrapper
+#endif//CalibrationPatternFilter_hpp__pyplusplus_wrapper

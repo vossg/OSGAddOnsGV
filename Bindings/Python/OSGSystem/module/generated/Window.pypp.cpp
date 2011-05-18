@@ -192,13 +192,13 @@ void register_Window_class(){
                 , getDrawerType_function_type( &::OSG::Window::getDrawerType ) );
         
         }
-        { //::OSG::Window::getExtensionId
+        { //::OSG::Window::getExtensionIdX
         
-            typedef ::OSG::Int32 ( *getExtensionId_function_type )( ::OSG::Char8 const * );
+            typedef ::OSG::Int32 ( *getExtensionIdX_function_type )( ::OSG::Char8 const * );
             
             Window_exposer.def( 
-                "getExtensionId"
-                , getExtensionId_function_type( &::OSG::Window::getExtensionId )
+                "getExtensionIdX"
+                , getExtensionIdX_function_type( &::OSG::Window::getExtensionIdX )
                 , ( bp::arg("s") ) );
         
         }
@@ -298,6 +298,16 @@ void register_Window_class(){
                 "hasCommonExtension"
                 , hasCommonExtension_function_type( &::OSG::Window::hasCommonExtension )
                 , ( bp::arg("extId") ) );
+        
+        }
+        { //::OSG::Window::hasExtOrVersion
+        
+            typedef bool ( ::OSG::Window::*hasExtOrVersion_function_type )( ::OSG::UInt32,::OSG::UInt32,::OSG::UInt32 ) ;
+            
+            Window_exposer.def( 
+                "hasExtOrVersion"
+                , hasExtOrVersion_function_type( &::OSG::Window::hasExtOrVersion )
+                , ( bp::arg("extId"), bp::arg("uiGLVersion")=(::OSG::UInt32)(65535), bp::arg("uiGLESVersion")=(::OSG::UInt32)(65535) ) );
         
         }
         { //::OSG::Window::hasExtension
@@ -554,7 +564,7 @@ void register_Window_class(){
                 , ( bp::arg("osgId"), bp::arg("pEnv"), bp::arg("uiOptions")=(::OSG::UInt32)(0) ) );
         
         }
-        Window_exposer.staticmethod( "getExtensionId" );
+        Window_exposer.staticmethod( "getExtensionIdX" );
         Window_exposer.staticmethod( "getRegisteredExtensions" );
         Window_exposer.staticmethod( "hasCommonExtension" );
         Window_exposer.staticmethod( "ignoreExtensions" );

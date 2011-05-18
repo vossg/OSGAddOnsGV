@@ -32,6 +32,18 @@
 using namespace std;
 namespace bp = boost::python;
 
+boost::python::list ShaderExecutableChunkBase_getMFAttributes(OSG::ShaderExecutableChunkBase *self)
+{
+   boost::python::list result;
+   OSG::MFShaderAttribute const * mf_data = self->getMFAttributes();
+   const OSG::UInt32 size(mf_data->size());
+   for ( OSG::UInt32 i = 0; i < size; ++i )
+   {
+      result.append((*mf_data)[i]);
+   }
+   return result;
+}
+
 void register_ShaderExecutableChunkBase_class(){
 
     { //::OSG::ShaderExecutableChunkBase
@@ -47,6 +59,7 @@ void register_ShaderExecutableChunkBase_class(){
         bp::scope().attr("GeometryVerticesOutFieldId") = (int)OSG::ShaderExecutableChunkBase::GeometryVerticesOutFieldId;
         bp::scope().attr("GeometryInputTypeFieldId") = (int)OSG::ShaderExecutableChunkBase::GeometryInputTypeFieldId;
         bp::scope().attr("GeometryOutputTypeFieldId") = (int)OSG::ShaderExecutableChunkBase::GeometryOutputTypeFieldId;
+        bp::scope().attr("AttributesFieldId") = (int)OSG::ShaderExecutableChunkBase::AttributesFieldId;
         bp::scope().attr("GLIdFieldId") = (int)OSG::ShaderExecutableChunkBase::GLIdFieldId;
         bp::scope().attr("PointSizeFieldId") = (int)OSG::ShaderExecutableChunkBase::PointSizeFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ShaderExecutableChunkBase::NextFieldId;
@@ -97,6 +110,17 @@ void register_ShaderExecutableChunkBase_class(){
                 "createLocal"
                 , createLocal_function_type( &::OSG::ShaderExecutableChunkBase::createLocal )
                 , ( bp::arg("bFlags")=(::OSG::BitVector)(OSG::FCLocal::All) ) );
+        
+        }
+        { //::OSG::ShaderExecutableChunkBase::getAttributes
+        
+            typedef ::OSG::ShaderAttribute const & ( ::OSG::ShaderExecutableChunkBase::*getAttributes_function_type )( ::OSG::UInt32 const ) const;
+            
+            ShaderExecutableChunkBase_exposer.def( 
+                "getAttributes"
+                , getAttributes_function_type( &::OSG::ShaderExecutableChunkBase::getAttributes )
+                , ( bp::arg("index") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
         { //::OSG::ShaderExecutableChunkBase::getBinSize
@@ -349,6 +373,7 @@ void register_ShaderExecutableChunkBase_class(){
         ShaderExecutableChunkBase_exposer.staticmethod( "getClassGroupId" );
         ShaderExecutableChunkBase_exposer.staticmethod( "getClassType" );
         ShaderExecutableChunkBase_exposer.staticmethod( "getClassTypeId" );
+        ShaderExecutableChunkBase_exposer.def("getMFAttributes",ShaderExecutableChunkBase_getMFAttributes);
     }
 
 }

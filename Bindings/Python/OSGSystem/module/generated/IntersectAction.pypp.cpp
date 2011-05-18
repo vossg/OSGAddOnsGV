@@ -128,11 +128,12 @@ void register_IntersectAction_class(){
         }
         { //::OSG::IntersectAction::getHitNormal
         
-            typedef ::OSG::Vec3f ( ::OSG::IntersectAction::*getHitNormal_function_type )(  ) const;
+            typedef ::OSG::Vec3f const & ( ::OSG::IntersectAction::*getHitNormal_function_type )(  ) const;
             
             IntersectAction_exposer.def( 
                 "getHitNormal"
-                , getHitNormal_function_type( &::OSG::IntersectAction::getHitNormal ) );
+                , getHitNormal_function_type( &::OSG::IntersectAction::getHitNormal )
+                , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
         { //::OSG::IntersectAction::getHitObject
@@ -241,7 +242,7 @@ void register_IntersectAction_class(){
         }
         { //::OSG::IntersectAction::setHit
         
-            typedef void ( ::OSG::IntersectAction::*setHit_function_type )( ::OSG::Real32,::OSG::Node *,::OSG::Int32,::OSG::Vec3f &,::OSG::Int32 ) ;
+            typedef void ( ::OSG::IntersectAction::*setHit_function_type )( ::OSG::Real32,::OSG::Node *,::OSG::Int32,::OSG::Vec3f const &,::OSG::Int32 ) ;
             
             IntersectAction_exposer.def( 
                 "setHit"

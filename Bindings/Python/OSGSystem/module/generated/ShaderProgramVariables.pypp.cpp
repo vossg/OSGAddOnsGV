@@ -64,6 +64,14 @@ void proceduralCallback(bp::object callable, OSG::DrawEnv* env, int i)
    callable(env, i);
 }
 
+void proceduralNodeCallback(bp::object    callable, 
+                            OSG::DrawEnv *env, 
+                            int           i,
+                            OSG::Node    *node)
+{
+  callable(env, i, node);
+}
+
 bool wrapAddProceduralVariable(OSG::ShaderProgramVariables* self,
                                const OSG::Char8* name, bp::object pFunc,
                                OSG::UInt32 uiDependency,
@@ -83,6 +91,29 @@ bool wrapUpdateProceduralVariable(OSG::ShaderProgramVariables* self,
                                          boost::bind(proceduralCallback, pFunc,
                                                      _1, _2),
                                          uiDependency);
+}
+
+bool wrapAddNodeProceduralVariable(OSG::ShaderProgramVariables* self,
+                                   const OSG::Char8* name, bp::object pFunc,
+                                   OSG::UInt32 uiDependency,
+                                   OSG::MFInt32* pProcVarLoc)
+{
+   return self->addNodeProceduralVariable(name,
+                                      boost::bind(proceduralNodeCallback, 
+                                                  pFunc,
+                                                  _1, _2, _3),
+                                      uiDependency, pProcVarLoc);
+}
+
+bool wrapUpdateNodeProceduralVariable(OSG::ShaderProgramVariables* self,
+                                      const OSG::Char8* name, bp::object pFunc,
+                                      OSG::UInt32 uiDependency)
+{
+   return self->updateNodeProceduralVariable(name,
+                                             boost::bind(proceduralNodeCallback, 
+                                                         pFunc,
+                                                         _1, _2, _3),
+                                             uiDependency);
 }
 
 }
@@ -692,6 +723,11 @@ void register_ShaderProgramVariables_class(){
                   (bp::arg("name"), bp::arg("pFunc"), bp::arg("uiDependency"),
                    bp::arg("pProcVarLoc")));
         ShaderProgramVariables_exposer.def("updateProceduralVariable", wrapUpdateProceduralVariable,
+                  (bp::arg("name"), bp::arg("pFunc"), bp::arg("uiDependency")));
+        ShaderProgramVariables_exposer.def("addNodeProceduralVariable", wrapAddNodeProceduralVariable,
+                  (bp::arg("name"), bp::arg("pFunc"), bp::arg("uiDependency"),
+                   bp::arg("pProcVarLoc")));
+        ShaderProgramVariables_exposer.def("updateNodeProceduralVariable", wrapUpdateNodeProceduralVariable,
                   (bp::arg("name"), bp::arg("pFunc"), bp::arg("uiDependency")));
     }
 

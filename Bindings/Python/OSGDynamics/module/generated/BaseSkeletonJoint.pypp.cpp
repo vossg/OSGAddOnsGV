@@ -35,9 +35,64 @@ namespace bp = boost::python;
 void register_BaseSkeletonJoint_class(){
 
     { //::OSG::BaseSkeletonJoint
-        typedef bp::class_< OSG::BaseSkeletonJoint, bp::bases< OSG::BaseSkeletonJointBase >, OSG::BaseSkeletonJoint::ObjRecPtr, boost::noncopyable > BaseSkeletonJoint_exposer_t;
+        typedef bp::class_< OSG::BaseSkeletonJoint, bp::bases< OSG::BaseSkeletonJointBase >, boost::noncopyable > BaseSkeletonJoint_exposer_t;
         BaseSkeletonJoint_exposer_t BaseSkeletonJoint_exposer = BaseSkeletonJoint_exposer_t( "BaseSkeletonJoint", bp::no_init );
         bp::scope BaseSkeletonJoint_scope( BaseSkeletonJoint_exposer );
+        { //::OSG::BaseSkeletonJoint::JointTraverser
+            typedef bp::class_< OSG::BaseSkeletonJoint::JointTraverser, boost::noncopyable > JointTraverser_exposer_t;
+            JointTraverser_exposer_t JointTraverser_exposer = JointTraverser_exposer_t( "JointTraverser", bp::init< OSG::Skeleton * >(( bp::arg("skel") )) );
+            bp::scope JointTraverser_scope( JointTraverser_exposer );
+            bp::implicitly_convertible< OSG::Skeleton *, OSG::BaseSkeletonJoint::JointTraverser >();
+            { //::OSG::BaseSkeletonJoint::JointTraverser::enter
+            
+                typedef ::OSG::ActionBase::ResultE ( ::OSG::BaseSkeletonJoint::JointTraverser::*enter_function_type )( ::OSG::Node * const ) ;
+                
+                JointTraverser_exposer.def( 
+                    "enter"
+                    , enter_function_type( &::OSG::BaseSkeletonJoint::JointTraverser::enter )
+                    , ( bp::arg("node") ) );
+            
+            }
+            { //::OSG::BaseSkeletonJoint::JointTraverser::leave
+            
+                typedef ::OSG::ActionBase::ResultE ( ::OSG::BaseSkeletonJoint::JointTraverser::*leave_function_type )( ::OSG::Node * const,::OSG::ActionBase::ResultE ) ;
+                
+                JointTraverser_exposer.def( 
+                    "leave"
+                    , leave_function_type( &::OSG::BaseSkeletonJoint::JointTraverser::leave )
+                    , ( bp::arg("node"), bp::arg("res") ) );
+            
+            }
+            { //::OSG::BaseSkeletonJoint::JointTraverser::popMatrix
+            
+                typedef void ( ::OSG::BaseSkeletonJoint::JointTraverser::*popMatrix_function_type )(  ) ;
+                
+                JointTraverser_exposer.def( 
+                    "popMatrix"
+                    , popMatrix_function_type( &::OSG::BaseSkeletonJoint::JointTraverser::popMatrix ) );
+            
+            }
+            { //::OSG::BaseSkeletonJoint::JointTraverser::pushMatrix
+            
+                typedef void ( ::OSG::BaseSkeletonJoint::JointTraverser::*pushMatrix_function_type )( ::OSG::Matrix const & ) ;
+                
+                JointTraverser_exposer.def( 
+                    "pushMatrix"
+                    , pushMatrix_function_type( &::OSG::BaseSkeletonJoint::JointTraverser::pushMatrix )
+                    , ( bp::arg("m") ) );
+            
+            }
+            { //::OSG::BaseSkeletonJoint::JointTraverser::topMatrix
+            
+                typedef ::OSG::Matrix const & ( ::OSG::BaseSkeletonJoint::JointTraverser::*topMatrix_function_type )(  ) const;
+                
+                JointTraverser_exposer.def( 
+                    "topMatrix"
+                    , topMatrix_function_type( &::OSG::BaseSkeletonJoint::JointTraverser::topMatrix )
+                    , bp::return_value_policy< bp::copy_const_reference >() );
+            
+            }
+        }
         { //::OSG::BaseSkeletonJoint::changed
         
             typedef void ( ::OSG::BaseSkeletonJoint::*changed_function_type )( ::OSG::ConstFieldMaskArg,::OSG::UInt32,::OSG::BitVector ) ;
@@ -78,7 +133,28 @@ void register_BaseSkeletonJoint_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::BaseSkeletonJoint::jointUpdateEnter
+        
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::BaseSkeletonJoint::*jointUpdateEnter_function_type )( ::OSG::BaseSkeletonJoint::JointTraverser * ) ;
+            
+            BaseSkeletonJoint_exposer.def( 
+                "jointUpdateEnter"
+                , jointUpdateEnter_function_type( &::OSG::BaseSkeletonJoint::jointUpdateEnter )
+                , ( bp::arg("jt") ) );
+        
+        }
+        { //::OSG::BaseSkeletonJoint::jointUpdateLeave
+        
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::BaseSkeletonJoint::*jointUpdateLeave_function_type )( ::OSG::BaseSkeletonJoint::JointTraverser * ) ;
+            
+            BaseSkeletonJoint_exposer.def( 
+                "jointUpdateLeave"
+                , jointUpdateLeave_function_type( &::OSG::BaseSkeletonJoint::jointUpdateLeave )
+                , ( bp::arg("jt") ) );
+        
+        }
         pyopensg::register_transit< OSG::BaseSkeletonJoint >::execute();
+        bp::register_ptr_to_python< OSG::BaseSkeletonJoint::ObjRecPtr >();
         bp::implicitly_convertible< OSG::BaseSkeletonJoint::ObjRecPtr, OSG::BaseSkeletonJoint* >();
         bp::implicitly_convertible< OSG::BaseSkeletonJoint::ObjRecPtr, OSG::BaseSkeletonJoint::ObjCPtr >();
         bp::implicitly_convertible< OSG::BaseSkeletonJoint::ObjRecPtr, OSG::Group* >();

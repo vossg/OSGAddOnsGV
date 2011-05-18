@@ -32,10 +32,16 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct SkeletonOgreJointBase_wrapper : OSG::SkeletonOgreJointBase, bp::wrapper< OSG::SkeletonOgreJointBase > {
+
+
+
+};
+
 void register_SkeletonOgreJointBase_class(){
 
     { //::OSG::SkeletonOgreJointBase
-        typedef bp::class_< OSG::SkeletonOgreJointBase, bp::bases< OSG::BaseSkeletonJoint >, boost::noncopyable > SkeletonOgreJointBase_exposer_t;
+        typedef bp::class_< SkeletonOgreJointBase_wrapper, bp::bases< OSG::BaseSkeletonJoint >, boost::noncopyable > SkeletonOgreJointBase_exposer_t;
         SkeletonOgreJointBase_exposer_t SkeletonOgreJointBase_exposer = SkeletonOgreJointBase_exposer_t( "SkeletonOgreJointBase", bp::no_init );
         bp::scope SkeletonOgreJointBase_scope( SkeletonOgreJointBase_exposer );
         bp::scope().attr("TranslateFieldId") = (int)OSG::SkeletonOgreJointBase::TranslateFieldId;
@@ -432,6 +438,26 @@ void register_SkeletonOgreJointBase_class(){
                 "setTranslate"
                 , setTranslate_function_type( &::OSG::SkeletonOgreJointBase::setTranslate )
                 , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::BaseSkeletonJoint::jointUpdateEnter
+        
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::BaseSkeletonJoint::*jointUpdateEnter_function_type )( ::OSG::BaseSkeletonJoint::JointTraverser * ) ;
+            
+            SkeletonOgreJointBase_exposer.def( 
+                "jointUpdateEnter"
+                , jointUpdateEnter_function_type( &::OSG::BaseSkeletonJoint::jointUpdateEnter )
+                , ( bp::arg("jt") ) );
+        
+        }
+        { //::OSG::BaseSkeletonJoint::jointUpdateLeave
+        
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::BaseSkeletonJoint::*jointUpdateLeave_function_type )( ::OSG::BaseSkeletonJoint::JointTraverser * ) ;
+            
+            SkeletonOgreJointBase_exposer.def( 
+                "jointUpdateLeave"
+                , jointUpdateLeave_function_type( &::OSG::BaseSkeletonJoint::jointUpdateLeave )
+                , ( bp::arg("jt") ) );
         
         }
         SkeletonOgreJointBase_exposer.staticmethod( "create" );

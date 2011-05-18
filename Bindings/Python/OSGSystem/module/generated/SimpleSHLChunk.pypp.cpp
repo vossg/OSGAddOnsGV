@@ -96,6 +96,14 @@ void proceduralCallback(bp::object callable, OSG::DrawEnv* env, int i)
    callable(env, i);
 }
 
+void proceduralNodeCallback(bp::object    callable, 
+                            OSG::DrawEnv *env, 
+                            int           i,
+                            OSG::Node    *node)
+{
+    callable(env, i, node);
+}
+
 bool
 wrapAddProceduralVariable(
    OSG::SimpleSHLChunk* self, const OSG::Char8* name, bp::object pFunc,
@@ -117,6 +125,32 @@ wrapUpdateProceduralVariable(
    return self->updateProceduralVariable(name,
                                          boost::bind(proceduralCallback, pFunc,
                                                      _1, _2),
+                                         uiDependency);
+}
+
+bool
+wrapAddNodeProceduralVariable(
+   OSG::SimpleSHLChunk* self, const OSG::Char8* name, bp::object pFunc,
+   OSG::UInt32 uiDependency = OSG::ShaderProcVariable::SHDObject
+)
+{
+   return self->addNodeProceduralVariable(name,
+                                          boost::bind(proceduralNodeCallback, 
+                                                      pFunc,
+                                                      _1, _2, _3),
+                                      uiDependency);
+}
+
+bool
+wrapUpdateNodeProceduralVariable(
+   OSG::SimpleSHLChunk* self, const OSG::Char8* name, bp::object pFunc,
+   OSG::UInt32 uiDependency = OSG::ShaderProcVariable::SHDObject
+)
+{
+   return self->updateNodeProceduralVariable(name,
+                                         boost::bind(proceduralNodeCallback, 
+                                                     pFunc,
+                                                     _1, _2, _3),
                                          uiDependency);
 }
 
@@ -576,6 +610,12 @@ void register_SimpleSHLChunk_class(){
                      (bp::arg("name"), bp::arg("pFunc"),
                       bp::arg("uiDependency") = OSG::ShaderProcVariable::SHDObject));
         SimpleSHLChunk_exposer.def("updateProceduralVariable", wrapUpdateProceduralVariable,
+                     (bp::arg("name"), bp::arg("pFunc"),
+                      bp::arg("uiDependency") = OSG::ShaderProcVariable::SHDObject));
+        SimpleSHLChunk_exposer.def("addNodeProceduralVariable", wrapAddNodeProceduralVariable,
+                     (bp::arg("name"), bp::arg("pFunc"),
+                      bp::arg("uiDependency") = OSG::ShaderProcVariable::SHDObject));
+        SimpleSHLChunk_exposer.def("updateNodeProceduralVariable", wrapUpdateNodeProceduralVariable,
                      (bp::arg("name"), bp::arg("pFunc"),
                       bp::arg("uiDependency") = OSG::ShaderProcVariable::SHDObject));
     }

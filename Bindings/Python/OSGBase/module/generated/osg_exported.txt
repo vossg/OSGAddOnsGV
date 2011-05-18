@@ -25,12 +25,12 @@ VecStorage2ub
 Quaterniond
 Color4ub
 Pnt2d
+StatElemDesc_StatIntOnceElem
 StatElemDesc_StatTimeElem
 FieldContainerFactory
 ConnectionFactory
 Quaternion
 Vec2d
-StatElemDesc_StatIntOnceElem
 Vec3d
 StatElemDesc_StatIntElem
 Vec4f
@@ -61,7 +61,6 @@ Thread
 HardwareContextBase
 ConnectorAttachment
 ChangeList
-ExceptionBinaryDataHandler
 Connection
 TypeBase
 FieldType
@@ -75,6 +74,7 @@ MemoryObject
 BoxVolume
 DataType
 Exception
+ExceptionBinaryDataHandler
 AttachmentBase
 ExternalThread
 NestedSampleInfo

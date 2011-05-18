@@ -13,12 +13,15 @@ DeferredShadingStage
 HDRStage
 HDRStageDataBase
 HDRStageBase
+CalibrationPatternFilter
+CheckerboardCalibFilter
 DSLightChunk
 DisplayFilterStageDataBase
 ShadowStageDataBase
 DisplayFilter
 FishEyeProjectorDataBase
 DisplayFilterBase
+CheckerboardCalibFilterBase
 DisplayFilterStageData
 DisplayFilterStage
 DisplayFilterGroup
@@ -27,6 +30,7 @@ ColorDisplayFilter
 ResolutionDisplayFilter
 FishEyeProjectorBase
 DistortionDisplayFilterBase
+CalibrationPatternFilterBase
 ShadowStageData
 DistortionDisplayFilter
 ColorDisplayFilterBase

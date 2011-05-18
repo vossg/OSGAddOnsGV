@@ -113,12 +113,11 @@ void register_VerifyGeoGraphOp_class(){
         }
         { //::OSG::VerifyGeoGraphOp::create
         
-            typedef ::OSG::TransitPtr< OSG::VerifyGeoGraphOp > ( *create_function_type )( bool );
+            typedef ::OSG::TransitPtr< OSG::VerifyGeoGraphOp > ( *create_function_type )(  );
             
             VerifyGeoGraphOp_exposer.def( 
                 "create"
-                , create_function_type( &::OSG::VerifyGeoGraphOp::create )
-                , ( bp::arg("repair")=(bool)(true) ) );
+                , create_function_type( &::OSG::VerifyGeoGraphOp::create ) );
         
         }
         { //::OSG::VerifyGeoGraphOp::getClassname
@@ -140,16 +139,6 @@ void register_VerifyGeoGraphOp_class(){
                 , setParams_function_type(&::OSG::VerifyGeoGraphOp::setParams)
                 , default_setParams_function_type(&VerifyGeoGraphOp_wrapper::default_setParams)
                 , ( bp::arg("params") ) );
-        
-        }
-        { //::OSG::VerifyGeoGraphOp::setRepair
-        
-            typedef void ( ::OSG::VerifyGeoGraphOp::*setRepair_function_type )( bool ) ;
-            
-            VerifyGeoGraphOp_exposer.def( 
-                "setRepair"
-                , setRepair_function_type( &::OSG::VerifyGeoGraphOp::setRepair )
-                , ( bp::arg("repair") ) );
         
         }
         { //::OSG::VerifyGeoGraphOp::traverse

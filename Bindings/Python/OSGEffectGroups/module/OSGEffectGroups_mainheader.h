@@ -10,7 +10,9 @@
 #include <OSGDisplayFilter.h>
 #include <OSGDisplayFilterStageData.h>
 #include <OSGColorDisplayFilter.h>
+#include <OSGCalibrationPatternFilter.h>
 #include <OSGDisplayFilterGroup.h>
+#include <OSGCheckerboardCalibFilter.h>
 #include <OSGFishEyeProjector.h>
 #include <OSGFishEyeProjectorData.h>
 #include <OSGShadowStage.h>

@@ -138,6 +138,10 @@
 
 #include "generated/IntersectAction.pypp.hpp"
 
+#include "generated/IntersectProxyAttachment.pypp.hpp"
+
+#include "generated/IntersectProxyAttachmentBase.pypp.hpp"
+
 #include "generated/Light.pypp.hpp"
 
 #include "generated/LightBase.pypp.hpp"
@@ -219,6 +223,10 @@
 #include "generated/RenderTreeNode.pypp.hpp"
 
 #include "generated/RenderTreeNodePool.pypp.hpp"
+
+#include "generated/RootGroup.pypp.hpp"
+
+#include "generated/RootGroupBase.pypp.hpp"
 
 #include "generated/SceneFileHandler.pypp.hpp"
 
@@ -533,6 +541,10 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     register_IntersectAction_class();
 
+    register_IntersectProxyAttachmentBase_class();
+
+    register_IntersectProxyAttachment_class();
+
     register_LightBase_class();
 
     register_LightEngineBase_class();
@@ -600,6 +612,10 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     register_RenderPartition_class();
 
     register_RenderTreeNode_class();
+
+    register_RootGroupBase_class();
+
+    register_RootGroup_class();
 
     register_SceneFileHandlerBase_class();
 
@@ -781,6 +797,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     boost::python::def("traverse",&osgwrap::traverseWrapper4);
 
+    /** Helpers for OSG::IntersectProxyAttachment */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::IntersectProxyAttachment, OSG::IntersectProxyAttachment::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::IntersectProxyAttachment::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::Group */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Group, OSG::Group::ObjRecPtr>);
@@ -877,11 +899,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::StateChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::Drawable */
+    /** Helpers for OSG::MultiPassMaterial */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Drawable, OSG::Drawable::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::MultiPassMaterial, OSG::MultiPassMaterial::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Drawable::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiPassMaterial::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ShaderVariableInt */
 
@@ -978,6 +1000,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Background, OSG::Background::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::Background::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::TextureObjChunk */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TextureObjChunk, OSG::TextureObjChunk::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TextureObjChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::SimpleMaterial */
 
@@ -1117,11 +1145,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::LightEnv::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::MultiPassMaterial */
+    /** Helpers for OSG::Drawable */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::MultiPassMaterial, OSG::MultiPassMaterial::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Drawable, OSG::Drawable::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiPassMaterial::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Drawable::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::VariantMaterial */
 
@@ -1147,11 +1175,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderProgramVariables::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::TextureObjChunk */
+    /** Helpers for OSG::RootGroup */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TextureObjChunk, OSG::TextureObjChunk::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::RootGroup, OSG::RootGroup::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TextureObjChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::RootGroup::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ShaderProgramVariableChunk */
 

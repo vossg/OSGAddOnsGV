@@ -38,6 +38,7 @@ void register_DisplayFilterGroupBase_class(){
         typedef bp::class_< OSG::DisplayFilterGroupBase, bp::bases< ::OSG::AttachmentContainer >, boost::noncopyable > DisplayFilterGroupBase_exposer_t;
         DisplayFilterGroupBase_exposer_t DisplayFilterGroupBase_exposer = DisplayFilterGroupBase_exposer_t( "DisplayFilterGroupBase", bp::no_init );
         bp::scope DisplayFilterGroupBase_scope( DisplayFilterGroupBase_exposer );
+        bp::scope().attr("CalibrationPatternFilterFieldId") = (int)OSG::DisplayFilterGroupBase::CalibrationPatternFilterFieldId;
         bp::scope().attr("ResolutionFilterFieldId") = (int)OSG::DisplayFilterGroupBase::ResolutionFilterFieldId;
         bp::scope().attr("ColorFilterFieldId") = (int)OSG::DisplayFilterGroupBase::ColorFilterFieldId;
         bp::scope().attr("DistortionFilterFieldId") = (int)OSG::DisplayFilterGroupBase::DistortionFilterFieldId;
@@ -101,6 +102,16 @@ void register_DisplayFilterGroupBase_class(){
                 "getBinSize"
                 , getBinSize_function_type( &::OSG::DisplayFilterGroupBase::getBinSize )
                 , ( bp::arg("whichField") ) );
+        
+        }
+        { //::OSG::DisplayFilterGroupBase::getCalibrationPatternFilter
+        
+            typedef ::OSG::CalibrationPatternFilter * ( ::OSG::DisplayFilterGroupBase::*getCalibrationPatternFilter_function_type )(  ) const;
+            
+            DisplayFilterGroupBase_exposer.def( 
+                "getCalibrationPatternFilter"
+                , getCalibrationPatternFilter_function_type( &::OSG::DisplayFilterGroupBase::getCalibrationPatternFilter )
+                , bp::return_internal_reference< >() );
         
         }
         { //::OSG::DisplayFilterGroupBase::getClassGroupId
@@ -188,6 +199,16 @@ void register_DisplayFilterGroupBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::DisplayFilterGroupBase::getSFCalibrationPatternFilter
+        
+            typedef ::OSG::SFUnrecCalibrationPatternFilterPtr const * ( ::OSG::DisplayFilterGroupBase::*getSFCalibrationPatternFilter_function_type )(  ) const;
+            
+            DisplayFilterGroupBase_exposer.def( 
+                "getSFCalibrationPatternFilter"
+                , getSFCalibrationPatternFilter_function_type( &::OSG::DisplayFilterGroupBase::getSFCalibrationPatternFilter )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::DisplayFilterGroupBase::getSFColorFilter
         
             typedef ::OSG::SFUnrecColorDisplayFilterPtr const * ( ::OSG::DisplayFilterGroupBase::*getSFColorFilter_function_type )(  ) const;
@@ -256,6 +277,16 @@ void register_DisplayFilterGroupBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::DisplayFilterGroupBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::DisplayFilterGroupBase::setCalibrationPatternFilter
+        
+            typedef void ( ::OSG::DisplayFilterGroupBase::*setCalibrationPatternFilter_function_type )( ::OSG::CalibrationPatternFilter * const ) ;
+            
+            DisplayFilterGroupBase_exposer.def( 
+                "setCalibrationPatternFilter"
+                , setCalibrationPatternFilter_function_type( &::OSG::DisplayFilterGroupBase::setCalibrationPatternFilter )
+                , ( bp::arg("value") ) );
         
         }
         { //::OSG::DisplayFilterGroupBase::setColorFilter

@@ -58,6 +58,16 @@ void register_DisplayFilterStageData_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::DisplayFilterStageData::getCalibFilter
+        
+            typedef ::OSG::CalibrationPatternFilter * ( ::OSG::DisplayFilterStageData::*getCalibFilter_function_type )(  ) ;
+            
+            DisplayFilterStageData_exposer.def( 
+                "getCalibFilter"
+                , getCalibFilter_function_type( &::OSG::DisplayFilterStageData::getCalibFilter )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::DisplayFilterStageData::getColFilter
         
             typedef ::OSG::ColorDisplayFilter * ( ::OSG::DisplayFilterStageData::*getColFilter_function_type )(  ) ;
@@ -88,6 +98,16 @@ void register_DisplayFilterStageData_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::DisplayFilterStageData::setCalibFilter
+        
+            typedef void ( ::OSG::DisplayFilterStageData::*setCalibFilter_function_type )( ::OSG::CalibrationPatternFilter * ) ;
+            
+            DisplayFilterStageData_exposer.def( 
+                "setCalibFilter"
+                , setCalibFilter_function_type( &::OSG::DisplayFilterStageData::setCalibFilter )
+                , ( bp::arg("pFilt") ) );
+        
+        }
         { //::OSG::DisplayFilterStageData::setColFilter
         
             typedef void ( ::OSG::DisplayFilterStageData::*setColFilter_function_type )( ::OSG::ColorDisplayFilter * ) ;
@@ -95,7 +115,7 @@ void register_DisplayFilterStageData_class(){
             DisplayFilterStageData_exposer.def( 
                 "setColFilter"
                 , setColFilter_function_type( &::OSG::DisplayFilterStageData::setColFilter )
-                , ( bp::arg("pFilter") ) );
+                , ( bp::arg("pFilt") ) );
         
         }
         { //::OSG::DisplayFilterStageData::setDistFilter
@@ -105,7 +125,7 @@ void register_DisplayFilterStageData_class(){
             DisplayFilterStageData_exposer.def( 
                 "setDistFilter"
                 , setDistFilter_function_type( &::OSG::DisplayFilterStageData::setDistFilter )
-                , ( bp::arg("pFilter") ) );
+                , ( bp::arg("pFilt") ) );
         
         }
         { //::OSG::DisplayFilterStageData::setInitColTableFrom

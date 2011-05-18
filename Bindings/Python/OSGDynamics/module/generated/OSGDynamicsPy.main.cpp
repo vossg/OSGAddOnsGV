@@ -108,17 +108,25 @@
 
 #include "generated/BaseSkeletonJointBase.pypp.hpp"
 
+#include "generated/CPUSkinningAlgorithm.pypp.hpp"
+
+#include "generated/CPUSkinningAlgorithmBase.pypp.hpp"
+
+#include "generated/CPUSkinningDataAttachment.pypp.hpp"
+
+#include "generated/CPUSkinningDataAttachmentBase.pypp.hpp"
+
 #include "generated/FrameHandler.pypp.hpp"
 
 #include "generated/FrameHandlerBase.pypp.hpp"
 
-#include "generated/HardwareSkinningAlgorithm.pypp.hpp"
+#include "generated/GPUSkinningAlgorithm.pypp.hpp"
 
-#include "generated/HardwareSkinningAlgorithmBase.pypp.hpp"
+#include "generated/GPUSkinningAlgorithmBase.pypp.hpp"
 
-#include "generated/HardwareSkinningDataAttachment.pypp.hpp"
+#include "generated/GPUSkinningDataAttachment.pypp.hpp"
 
-#include "generated/HardwareSkinningDataAttachmentBase.pypp.hpp"
+#include "generated/GPUSkinningDataAttachmentBase.pypp.hpp"
 
 #include "generated/Skeleton.pypp.hpp"
 
@@ -253,21 +261,29 @@ BOOST_PYTHON_MODULE(OSGDynamicsPy){
 
     register_BaseSkeletonJoint_class();
 
-    register_FrameHandlerBase_class();
-
-    register_FrameHandler_class();
-
     register_SkinningAlgorithmBase_class();
 
     register_SkinningAlgorithm_class();
 
-    register_HardwareSkinningAlgorithmBase_class();
+    register_CPUSkinningAlgorithmBase_class();
 
-    register_HardwareSkinningAlgorithm_class();
+    register_CPUSkinningAlgorithm_class();
 
-    register_HardwareSkinningDataAttachmentBase_class();
+    register_CPUSkinningDataAttachmentBase_class();
 
-    register_HardwareSkinningDataAttachment_class();
+    register_CPUSkinningDataAttachment_class();
+
+    register_FrameHandlerBase_class();
+
+    register_FrameHandler_class();
+
+    register_GPUSkinningAlgorithmBase_class();
+
+    register_GPUSkinningAlgorithm_class();
+
+    register_GPUSkinningDataAttachmentBase_class();
+
+    register_GPUSkinningDataAttachment_class();
 
     register_SkeletonBase_class();
 
@@ -333,12 +349,6 @@ BOOST_PYTHON_MODULE(OSGDynamicsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimQuaternionBlender::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::HardwareSkinningAlgorithm */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::HardwareSkinningAlgorithm, OSG::HardwareSkinningAlgorithm::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::HardwareSkinningAlgorithm::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
     /** Helpers for OSG::SkinnedGeometry */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SkinnedGeometry, OSG::SkinnedGeometry::ObjRecPtr>);
@@ -368,12 +378,6 @@ BOOST_PYTHON_MODULE(OSGDynamicsPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FrameHandler, OSG::FrameHandler::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::FrameHandler::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
-    /** Helpers for OSG::VRMLPositionInterpolator */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VRMLPositionInterpolator, OSG::VRMLPositionInterpolator::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLPositionInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::AnimMatrixBlender */
 
@@ -441,23 +445,35 @@ BOOST_PYTHON_MODULE(OSGDynamicsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLScalarInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::CPUSkinningDataAttachment */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CPUSkinningDataAttachment, OSG::CPUSkinningDataAttachment::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CPUSkinningDataAttachment::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::Skeleton */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Skeleton, OSG::Skeleton::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Skeleton::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::AnimVec3fBlender */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimVec3fBlender, OSG::AnimVec3fBlender::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimVec3fBlender::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::HardwareSkinningDataAttachment */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::HardwareSkinningDataAttachment, OSG::HardwareSkinningDataAttachment::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::HardwareSkinningDataAttachment::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
     /** Helpers for OSG::SkeletonSkinningAlgorithm */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SkeletonSkinningAlgorithm, OSG::SkeletonSkinningAlgorithm::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::SkeletonSkinningAlgorithm::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::GPUSkinningAlgorithm */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::GPUSkinningAlgorithm, OSG::GPUSkinningAlgorithm::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::GPUSkinningAlgorithm::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::AnimMatrixChannel */
 
@@ -495,11 +511,11 @@ BOOST_PYTHON_MODULE(OSGDynamicsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::Skeleton */
+    /** Helpers for OSG::VRMLPositionInterpolator */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Skeleton, OSG::Skeleton::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VRMLPositionInterpolator, OSG::VRMLPositionInterpolator::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Skeleton::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLPositionInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::AnimTemplate */
 
@@ -518,6 +534,18 @@ BOOST_PYTHON_MODULE(OSGDynamicsPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimQuaternionDataSource, OSG::AnimQuaternionDataSource::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimQuaternionDataSource::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::CPUSkinningAlgorithm */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CPUSkinningAlgorithm, OSG::CPUSkinningAlgorithm::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CPUSkinningAlgorithm::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::GPUSkinningDataAttachment */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::GPUSkinningDataAttachment, OSG::GPUSkinningDataAttachment::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::GPUSkinningDataAttachment::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::AnimBlender */
 

@@ -47,7 +47,7 @@ boost::python::list InlineBase_getMFUrl(OSG::InlineBase *self)
 void register_InlineBase_class(){
 
     { //::OSG::InlineBase
-        typedef bp::class_< OSG::InlineBase, bp::bases< ::OSG::NodeCore >, boost::noncopyable > InlineBase_exposer_t;
+        typedef bp::class_< OSG::InlineBase, bp::bases< ::OSG::RootGroup >, boost::noncopyable > InlineBase_exposer_t;
         InlineBase_exposer_t InlineBase_exposer = InlineBase_exposer_t( "InlineBase", bp::no_init );
         bp::scope InlineBase_scope( InlineBase_exposer );
         bp::scope().attr("UrlFieldId") = (int)OSG::InlineBase::UrlFieldId;

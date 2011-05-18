@@ -41,8 +41,8 @@ void register_SkinnedGeometry_class(){
         bp::enum_< OSG::SkinnedGeometry::RenderModeE>("RenderModeE")
             .value("RMUnskinned", OSG::SkinnedGeometry::RMUnskinned)
             .value("RMSkeleton", OSG::SkinnedGeometry::RMSkeleton)
-            .value("RMSkinnedHardware", OSG::SkinnedGeometry::RMSkinnedHardware)
-            .value("RMSkinnedSoftware", OSG::SkinnedGeometry::RMSkinnedSoftware)
+            .value("RMSkinnedCPU", OSG::SkinnedGeometry::RMSkinnedCPU)
+            .value("RMSkinnedGPU", OSG::SkinnedGeometry::RMSkinnedGPU)
             .export_values()
             ;
         { //::OSG::SkinnedGeometry::adjustVolume
@@ -93,6 +93,16 @@ void register_SkinnedGeometry_class(){
                 "fill"
                 , fill_function_type( &::OSG::SkinnedGeometry::fill )
                 , ( bp::arg("drawStats") ) );
+        
+        }
+        { //::OSG::SkinnedGeometry::intersectEnter
+        
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::SkinnedGeometry::*intersectEnter_function_type )( ::OSG::Action * ) ;
+            
+            SkinnedGeometry_exposer.def( 
+                "intersectEnter"
+                , intersectEnter_function_type( &::OSG::SkinnedGeometry::intersectEnter )
+                , ( bp::arg("action") ) );
         
         }
         { //::OSG::SkinnedGeometry::renderEnter

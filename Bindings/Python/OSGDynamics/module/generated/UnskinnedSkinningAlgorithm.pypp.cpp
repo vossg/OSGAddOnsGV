@@ -68,6 +68,25 @@ void register_UnskinnedSkinningAlgorithm_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::UnskinnedSkinningAlgorithm::getRenderMode
+        
+            typedef ::OSG::SkinnedGeometry::RenderModeE ( ::OSG::UnskinnedSkinningAlgorithm::*getRenderMode_function_type )(  ) const;
+            
+            UnskinnedSkinningAlgorithm_exposer.def( 
+                "getRenderMode"
+                , getRenderMode_function_type( &::OSG::UnskinnedSkinningAlgorithm::getRenderMode ) );
+        
+        }
+        { //::OSG::UnskinnedSkinningAlgorithm::intersectEnter
+        
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::UnskinnedSkinningAlgorithm::*intersectEnter_function_type )( ::OSG::Action * ) ;
+            
+            UnskinnedSkinningAlgorithm_exposer.def( 
+                "intersectEnter"
+                , intersectEnter_function_type( &::OSG::UnskinnedSkinningAlgorithm::intersectEnter )
+                , ( bp::arg("action") ) );
+        
+        }
         { //::OSG::UnskinnedSkinningAlgorithm::renderEnter
         
             typedef ::OSG::ActionBase::ResultE ( ::OSG::UnskinnedSkinningAlgorithm::*renderEnter_function_type )( ::OSG::Action * ) ;

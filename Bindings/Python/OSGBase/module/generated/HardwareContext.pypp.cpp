@@ -44,6 +44,10 @@ void register_HardwareContext_class(){
             .value("OpenCLInitialized", OSG::HardwareContext::OpenCLInitialized)
             .export_values()
             ;
+        bp::enum_< OSG::HardwareContext::OpenGLFeatures>("OpenGLFeatures")
+            .value("HasAttribAliasing", OSG::HardwareContext::HasAttribAliasing)
+            .export_values()
+            ;
         { //::OSG::HardwareContext::changed
         
             typedef void ( ::OSG::HardwareContext::*changed_function_type )( ::OSG::ConstFieldMaskArg,::OSG::UInt32,::OSG::BitVector ) ;
@@ -62,6 +66,24 @@ void register_HardwareContext_class(){
                 "dump"
                 , dump_function_type( &::OSG::HardwareContext::dump )
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
+        
+        }
+        { //::OSG::HardwareContext::getOGLFeatures
+        
+            typedef ::OSG::UInt32 ( ::OSG::HardwareContext::*getOGLFeatures_function_type )(  ) const;
+            
+            HardwareContext_exposer.def( 
+                "getOGLFeatures"
+                , getOGLFeatures_function_type( &::OSG::HardwareContext::getOGLFeatures ) );
+        
+        }
+        { //::OSG::HardwareContext::hasAttribAliasing
+        
+            typedef bool ( ::OSG::HardwareContext::*hasAttribAliasing_function_type )(  ) const;
+            
+            HardwareContext_exposer.def( 
+                "hasAttribAliasing"
+                , hasAttribAliasing_function_type( &::OSG::HardwareContext::hasAttribAliasing ) );
         
         }
         { //::OSG::HardwareContext::setCudaInit

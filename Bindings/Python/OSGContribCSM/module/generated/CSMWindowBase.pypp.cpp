@@ -73,6 +73,7 @@ void register_CSMWindowBase_class(){
         bp::scope().attr("EnableForwardCompatContextFieldId") = (int)OSG::CSMWindowBase::EnableForwardCompatContextFieldId;
         bp::scope().attr("EnableDebugContextFieldId") = (int)OSG::CSMWindowBase::EnableDebugContextFieldId;
         bp::scope().attr("IgnoreExtensionsFieldId") = (int)OSG::CSMWindowBase::IgnoreExtensionsFieldId;
+        bp::scope().attr("IgnoreAllExtensionsFieldId") = (int)OSG::CSMWindowBase::IgnoreAllExtensionsFieldId;
         bp::scope().attr("RequestSamplesFieldId") = (int)OSG::CSMWindowBase::RequestSamplesFieldId;
         bp::scope().attr("EnableFSAAFieldId") = (int)OSG::CSMWindowBase::EnableFSAAFieldId;
         bp::scope().attr("FsaaHintFieldId") = (int)OSG::CSMWindowBase::FsaaHintFieldId;
@@ -220,6 +221,15 @@ void register_CSMWindowBase_class(){
                 , getFsaaHint_function_type( &::OSG::CSMWindowBase::getFsaaHint ) );
         
         }
+        { //::OSG::CSMWindowBase::getIgnoreAllExtensions
+        
+            typedef bool ( ::OSG::CSMWindowBase::*getIgnoreAllExtensions_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getIgnoreAllExtensions"
+                , getIgnoreAllExtensions_function_type( &::OSG::CSMWindowBase::getIgnoreAllExtensions ) );
+        
+        }
         { //::OSG::CSMWindowBase::getIgnoreExtensions
         
             typedef ::std::string const & ( ::OSG::CSMWindowBase::*getIgnoreExtensions_function_type )( ::OSG::UInt32 const ) const;
@@ -354,6 +364,16 @@ void register_CSMWindowBase_class(){
             CSMWindowBase_exposer.def( 
                 "getSFFsaaHint"
                 , getSFFsaaHint_function_type( &::OSG::CSMWindowBase::getSFFsaaHint )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMWindowBase::getSFIgnoreAllExtensions
+        
+            typedef ::OSG::SFBool const * ( ::OSG::CSMWindowBase::*getSFIgnoreAllExtensions_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getSFIgnoreAllExtensions"
+                , getSFIgnoreAllExtensions_function_type( &::OSG::CSMWindowBase::getSFIgnoreAllExtensions )
                 , bp::return_internal_reference< >() );
         
         }
@@ -565,6 +585,16 @@ void register_CSMWindowBase_class(){
             CSMWindowBase_exposer.def( 
                 "setFsaaHint"
                 , setFsaaHint_function_type( &::OSG::CSMWindowBase::setFsaaHint )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMWindowBase::setIgnoreAllExtensions
+        
+            typedef void ( ::OSG::CSMWindowBase::*setIgnoreAllExtensions_function_type )( bool const ) ;
+            
+            CSMWindowBase_exposer.def( 
+                "setIgnoreAllExtensions"
+                , setIgnoreAllExtensions_function_type( &::OSG::CSMWindowBase::setIgnoreAllExtensions )
                 , ( bp::arg("value") ) );
         
         }

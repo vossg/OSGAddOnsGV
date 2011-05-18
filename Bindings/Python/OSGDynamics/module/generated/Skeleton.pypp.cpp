@@ -78,6 +78,16 @@ void register_Skeleton_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::Skeleton::intersectEnter
+        
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::Skeleton::*intersectEnter_function_type )( ::OSG::Action *,::OSG::NodeCore * ) ;
+            
+            Skeleton_exposer.def( 
+                "intersectEnter"
+                , intersectEnter_function_type( &::OSG::Skeleton::intersectEnter )
+                , ( bp::arg("action"), bp::arg("parent") ) );
+        
+        }
         { //::OSG::Skeleton::renderEnter
         
             typedef ::OSG::ActionBase::ResultE ( ::OSG::Skeleton::*renderEnter_function_type )( ::OSG::Action *,::OSG::NodeCore * ) ;

@@ -6,6 +6,7 @@ CSMViewportBase
 CSMClusterWindow
 KeySensor
 CSMDrawer
+TransformationInterfaceSensor
 KeySensorBase
 MouseDataInterfaceSensorBase
 ImageFileBase
@@ -30,7 +31,6 @@ CSMWindow
 CSMTrackball
 InterfaceOptionsBase
 SimpleSHLChunkFile
-TransformationInterfaceSensor
 CSMSortFirstWinOptionsBase
 CSMMultiWinOptionsBase
 MouseDataInterfaceSensor

@@ -70,9 +70,9 @@ void register_Inline_class(){
         pyopensg::register_transit< OSG::Inline >::execute();
         bp::implicitly_convertible< OSG::Inline::ObjRecPtr, OSG::Inline* >();
         bp::implicitly_convertible< OSG::Inline::ObjRecPtr, OSG::Inline::ObjCPtr >();
-        bp::implicitly_convertible< OSG::Inline::ObjRecPtr, OSG::NodeCore* >();
-        bp::implicitly_convertible< OSG::Inline::ObjRecPtr, OSG::NodeCore::ObjRecPtr >();
-        bp::implicitly_convertible<OSG::Inline::ObjRecPtr, OSG::NodeCore::ObjCPtr>();
+        bp::implicitly_convertible< OSG::Inline::ObjRecPtr, OSG::RootGroup* >();
+        bp::implicitly_convertible< OSG::Inline::ObjRecPtr, OSG::RootGroup::ObjRecPtr >();
+        bp::implicitly_convertible<OSG::Inline::ObjRecPtr, OSG::RootGroup::ObjCPtr>();
     }
 
 }

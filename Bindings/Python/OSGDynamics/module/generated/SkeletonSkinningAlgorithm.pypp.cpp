@@ -68,6 +68,25 @@ void register_SkeletonSkinningAlgorithm_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::SkeletonSkinningAlgorithm::getRenderMode
+        
+            typedef ::OSG::SkinnedGeometry::RenderModeE ( ::OSG::SkeletonSkinningAlgorithm::*getRenderMode_function_type )(  ) const;
+            
+            SkeletonSkinningAlgorithm_exposer.def( 
+                "getRenderMode"
+                , getRenderMode_function_type( &::OSG::SkeletonSkinningAlgorithm::getRenderMode ) );
+        
+        }
+        { //::OSG::SkeletonSkinningAlgorithm::intersectEnter
+        
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::SkeletonSkinningAlgorithm::*intersectEnter_function_type )( ::OSG::Action * ) ;
+            
+            SkeletonSkinningAlgorithm_exposer.def( 
+                "intersectEnter"
+                , intersectEnter_function_type( &::OSG::SkeletonSkinningAlgorithm::intersectEnter )
+                , ( bp::arg("action") ) );
+        
+        }
         { //::OSG::SkeletonSkinningAlgorithm::renderEnter
         
             typedef ::OSG::ActionBase::ResultE ( ::OSG::SkeletonSkinningAlgorithm::*renderEnter_function_type )( ::OSG::Action * ) ;

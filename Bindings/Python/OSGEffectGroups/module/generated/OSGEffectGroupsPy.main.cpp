@@ -34,7 +34,15 @@
 
 #include "boost/python/suite/indexing/vector_indexing_suite.hpp"
 
+#include "generated/CalibrationPatternFilter.pypp.hpp"
+
+#include "generated/CalibrationPatternFilterBase.pypp.hpp"
+
 #include "generated/CamStore.pypp.hpp"
+
+#include "generated/CheckerboardCalibFilter.pypp.hpp"
+
+#include "generated/CheckerboardCalibFilterBase.pypp.hpp"
 
 #include "generated/ColorDisplayFilter.pypp.hpp"
 
@@ -131,6 +139,14 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     register_CamStore_class();
 
+    register_CalibrationPatternFilterBase_class();
+
+    register_CalibrationPatternFilter_class();
+
+    register_CheckerboardCalibFilterBase_class();
+
+    register_CheckerboardCalibFilter_class();
+
     register_DisplayFilterBase_class();
 
     register_DisplayFilter_class();
@@ -211,6 +227,12 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::DisplayFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::CalibrationPatternFilter */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CalibrationPatternFilter, OSG::CalibrationPatternFilter::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CalibrationPatternFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::DSLightChunk */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DSLightChunk, OSG::DSLightChunk::ObjRecPtr>);
@@ -228,6 +250,12 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShadowStageData, OSG::ShadowStageData::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShadowStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::FishEyeProjector */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FishEyeProjector, OSG::FishEyeProjector::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FishEyeProjector::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::DistortionDisplayFilter */
 
@@ -265,11 +293,11 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::FishEyeProjectorData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::FishEyeProjector */
+    /** Helpers for OSG::CheckerboardCalibFilter */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FishEyeProjector, OSG::FishEyeProjector::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CheckerboardCalibFilter, OSG::CheckerboardCalibFilter::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FishEyeProjector::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CheckerboardCalibFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ResolutionDisplayFilter */
 

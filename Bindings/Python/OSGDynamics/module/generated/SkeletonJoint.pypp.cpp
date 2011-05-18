@@ -88,24 +88,24 @@ void register_SkeletonJoint_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
-        { //::OSG::SkeletonJoint::renderEnter
+        { //::OSG::SkeletonJoint::jointUpdateEnter
         
-            typedef ::OSG::ActionBase::ResultE ( ::OSG::SkeletonJoint::*renderEnter_function_type )( ::OSG::Action * ) ;
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::SkeletonJoint::*jointUpdateEnter_function_type )( ::OSG::BaseSkeletonJoint::JointTraverser * ) ;
             
             SkeletonJoint_exposer.def( 
-                "renderEnter"
-                , renderEnter_function_type( &::OSG::SkeletonJoint::renderEnter )
-                , ( bp::arg("action") ) );
+                "jointUpdateEnter"
+                , jointUpdateEnter_function_type( &::OSG::SkeletonJoint::jointUpdateEnter )
+                , ( bp::arg("jt") ) );
         
         }
-        { //::OSG::SkeletonJoint::renderLeave
+        { //::OSG::SkeletonJoint::jointUpdateLeave
         
-            typedef ::OSG::ActionBase::ResultE ( ::OSG::SkeletonJoint::*renderLeave_function_type )( ::OSG::Action * ) ;
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::SkeletonJoint::*jointUpdateLeave_function_type )( ::OSG::BaseSkeletonJoint::JointTraverser * ) ;
             
             SkeletonJoint_exposer.def( 
-                "renderLeave"
-                , renderLeave_function_type( &::OSG::SkeletonJoint::renderLeave )
-                , ( bp::arg("action") ) );
+                "jointUpdateLeave"
+                , jointUpdateLeave_function_type( &::OSG::SkeletonJoint::jointUpdateLeave )
+                , ( bp::arg("jt") ) );
         
         }
         pyopensg::register_transit< OSG::SkeletonJoint >::execute();

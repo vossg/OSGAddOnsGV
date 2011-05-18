@@ -122,24 +122,6 @@ void register_RenderActionBase_class(){
                 , getDrawPartPar_function_type( &::OSG::RenderActionBase::getDrawPartPar ) );
         
         }
-        { //::OSG::RenderActionBase::getDrawableId
-        
-            typedef ::OSG::Int32 ( ::OSG::RenderActionBase::*getDrawableId_function_type )(  ) ;
-            
-            RenderActionBase_exposer.def( 
-                "getDrawableId"
-                , getDrawableId_function_type( &::OSG::RenderActionBase::getDrawableId ) );
-        
-        }
-        { //::OSG::RenderActionBase::getDrawerId
-        
-            typedef ::OSG::Int32 ( ::OSG::RenderActionBase::*getDrawerId_function_type )(  ) ;
-            
-            RenderActionBase_exposer.def( 
-                "getDrawerId"
-                , getDrawerId_function_type( &::OSG::RenderActionBase::getDrawerId ) );
-        
-        }
         { //::OSG::RenderActionBase::getFrameTravCount
         
             typedef ::OSG::UInt16 ( ::OSG::RenderActionBase::*getFrameTravCount_function_type )(  ) ;

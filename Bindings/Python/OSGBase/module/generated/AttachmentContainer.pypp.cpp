@@ -189,6 +189,16 @@ void register_AttachmentContainer_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::AttachmentContainer::replaceAttachmentByObj
+        
+            typedef void ( ::OSG::AttachmentContainer::*replaceAttachmentByObj_function_type )( ::OSG::Attachment * const,::OSG::Attachment * const ) ;
+            
+            AttachmentContainer_exposer.def( 
+                "replaceAttachmentByObj"
+                , replaceAttachmentByObj_function_type( &::OSG::AttachmentContainer::replaceAttachmentByObj )
+                , ( bp::arg("pOld"), bp::arg("pNew") ) );
+        
+        }
         { //::OSG::AttachmentContainer::subAttachment
         
             typedef void ( ::OSG::AttachmentContainer::*subAttachment_function_type )( ::OSG::Attachment * const,::OSG::UInt16 ) ;

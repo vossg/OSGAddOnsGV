@@ -75,6 +75,7 @@ void register_WindowBase_class(){
         bp::scope().attr("RequestMinorFieldId") = (int)OSG::WindowBase::RequestMinorFieldId;
         bp::scope().attr("ContextFlagsFieldId") = (int)OSG::WindowBase::ContextFlagsFieldId;
         bp::scope().attr("RenderOptionsFieldId") = (int)OSG::WindowBase::RenderOptionsFieldId;
+        bp::scope().attr("IgnoreAllExtensionsFieldId") = (int)OSG::WindowBase::IgnoreAllExtensionsFieldId;
         bp::scope().attr("DrawModeFieldId") = (int)OSG::WindowBase::DrawModeFieldId;
         bp::scope().attr("RendererInfoFieldId") = (int)OSG::WindowBase::RendererInfoFieldId;
         bp::scope().attr("DrawTasksFieldId") = (int)OSG::WindowBase::DrawTasksFieldId;
@@ -211,6 +212,15 @@ void register_WindowBase_class(){
                 , getHeight_function_type( &::OSG::WindowBase::getHeight ) );
         
         }
+        { //::OSG::WindowBase::getIgnoreAllExtensions
+        
+            typedef bool ( ::OSG::WindowBase::*getIgnoreAllExtensions_function_type )(  ) const;
+            
+            WindowBase_exposer.def( 
+                "getIgnoreAllExtensions"
+                , getIgnoreAllExtensions_function_type( &::OSG::WindowBase::getIgnoreAllExtensions ) );
+        
+        }
         { //::OSG::WindowBase::getPort
         
             typedef ::OSG::Viewport * ( ::OSG::WindowBase::*getPort_function_type )( ::OSG::UInt32 const ) const;
@@ -297,6 +307,16 @@ void register_WindowBase_class(){
             WindowBase_exposer.def( 
                 "getSFHeight"
                 , getSFHeight_function_type( &::OSG::WindowBase::getSFHeight )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::WindowBase::getSFIgnoreAllExtensions
+        
+            typedef ::OSG::SFBool const * ( ::OSG::WindowBase::*getSFIgnoreAllExtensions_function_type )(  ) const;
+            
+            WindowBase_exposer.def( 
+                "getSFIgnoreAllExtensions"
+                , getSFIgnoreAllExtensions_function_type( &::OSG::WindowBase::getSFIgnoreAllExtensions )
                 , bp::return_internal_reference< >() );
         
         }
@@ -446,6 +466,16 @@ void register_WindowBase_class(){
             WindowBase_exposer.def( 
                 "setHeight"
                 , setHeight_function_type( &::OSG::WindowBase::setHeight )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::WindowBase::setIgnoreAllExtensions
+        
+            typedef void ( ::OSG::WindowBase::*setIgnoreAllExtensions_function_type )( bool const ) ;
+            
+            WindowBase_exposer.def( 
+                "setIgnoreAllExtensions"
+                , setIgnoreAllExtensions_function_type( &::OSG::WindowBase::setIgnoreAllExtensions )
                 , ( bp::arg("value") ) );
         
         }

@@ -32,10 +32,16 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct SkeletonJointBase_wrapper : OSG::SkeletonJointBase, bp::wrapper< OSG::SkeletonJointBase > {
+
+
+
+};
+
 void register_SkeletonJointBase_class(){
 
     { //::OSG::SkeletonJointBase
-        typedef bp::class_< OSG::SkeletonJointBase, bp::bases< OSG::BaseSkeletonJoint >, boost::noncopyable > SkeletonJointBase_exposer_t;
+        typedef bp::class_< SkeletonJointBase_wrapper, bp::bases< OSG::BaseSkeletonJoint >, boost::noncopyable > SkeletonJointBase_exposer_t;
         SkeletonJointBase_exposer_t SkeletonJointBase_exposer = SkeletonJointBase_exposer_t( "SkeletonJointBase", bp::no_init );
         bp::scope SkeletonJointBase_scope( SkeletonJointBase_exposer );
         bp::scope().attr("InvBindMatrixFieldId") = (int)OSG::SkeletonJointBase::InvBindMatrixFieldId;
@@ -246,6 +252,26 @@ void register_SkeletonJointBase_class(){
                 "setOffsetMatrix"
                 , setOffsetMatrix_function_type( &::OSG::SkeletonJointBase::setOffsetMatrix )
                 , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::BaseSkeletonJoint::jointUpdateEnter
+        
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::BaseSkeletonJoint::*jointUpdateEnter_function_type )( ::OSG::BaseSkeletonJoint::JointTraverser * ) ;
+            
+            SkeletonJointBase_exposer.def( 
+                "jointUpdateEnter"
+                , jointUpdateEnter_function_type( &::OSG::BaseSkeletonJoint::jointUpdateEnter )
+                , ( bp::arg("jt") ) );
+        
+        }
+        { //::OSG::BaseSkeletonJoint::jointUpdateLeave
+        
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::BaseSkeletonJoint::*jointUpdateLeave_function_type )( ::OSG::BaseSkeletonJoint::JointTraverser * ) ;
+            
+            SkeletonJointBase_exposer.def( 
+                "jointUpdateLeave"
+                , jointUpdateLeave_function_type( &::OSG::BaseSkeletonJoint::jointUpdateLeave )
+                , ( bp::arg("jt") ) );
         
         }
         SkeletonJointBase_exposer.staticmethod( "create" );

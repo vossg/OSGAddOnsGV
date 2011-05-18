@@ -42,7 +42,9 @@ void functorCallback(bp::object callable, OSG::DrawEnv* env, int i)
 
 void wrapSetFunctor(OSG::ShaderVariableFunctor* svf, bp::object pFunc)
 {
-   svf->setFunctor(boost::bind(functorCallback, pFunc, _1, _2));
+    OSG::ShaderVariableFunctor::ProcVarFunctor pvf = boost::bind(functorCallback, pFunc, _1, _2);
+
+    svf->setFunctor(pvf);
 }
 
 }

@@ -92,6 +92,15 @@ void register_SkinningAlgorithm_class(){
                 , ( bp::arg("drawEnv") ) );
         
         }
+        { //::OSG::SkinningAlgorithm::getRenderMode
+        
+            typedef ::OSG::SkinnedGeometry::RenderModeE ( ::OSG::SkinningAlgorithm::*getRenderMode_function_type )(  ) const;
+            
+            SkinningAlgorithm_exposer.def( 
+                "getRenderMode"
+                , getRenderMode_function_type( &::OSG::SkinningAlgorithm::getRenderMode ) );
+        
+        }
         { //::OSG::SkinningAlgorithm::getSkin
         
             typedef ::OSG::SkinnedGeometry * ( ::OSG::SkinningAlgorithm::*getSkin_function_type )(  ) const;
@@ -100,6 +109,16 @@ void register_SkinningAlgorithm_class(){
                 "getSkin"
                 , getSkin_function_type( &::OSG::SkinningAlgorithm::getSkin )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::SkinningAlgorithm::intersectEnter
+        
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::SkinningAlgorithm::*intersectEnter_function_type )( ::OSG::Action * ) ;
+            
+            SkinningAlgorithm_exposer.def( 
+                "intersectEnter"
+                , intersectEnter_function_type( &::OSG::SkinningAlgorithm::intersectEnter )
+                , ( bp::arg("action") ) );
         
         }
         { //::OSG::Algorithm::renderEnter

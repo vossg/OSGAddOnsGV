@@ -24,6 +24,7 @@
 #include <OSGIntersectAction.h>
 #include <OSGStateOverride.h>
 #include <OSGStringAttributeMap.h>
+#include <OSGIntersectProxyAttachment.h>
 #include <OSGContainerCollection.h>
 #include <OSGGeoReferenceAttachment.h>
 #include <OSGImage.h>
@@ -40,6 +41,7 @@
 #include <OSGMaterialDrawable.h>
 #include <OSGStatsAttachment.h>
 #include <OSGGroup.h>
+#include <OSGRootGroup.h>
 #include <OSGMultiCore.h>
 #include <OSGLightEnv.h>
 #include <OSGLightEngine.h>

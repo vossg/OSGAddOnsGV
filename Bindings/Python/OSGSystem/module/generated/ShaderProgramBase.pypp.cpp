@@ -44,6 +44,18 @@ boost::python::list ShaderProgramBase_getMFParameter(OSG::ShaderProgramBase *sel
    return result;
 }
 
+boost::python::list ShaderProgramBase_getMFAttributes(OSG::ShaderProgramBase *self)
+{
+   boost::python::list result;
+   OSG::MFShaderAttribute const * mf_data = self->getMFAttributes();
+   const OSG::UInt32 size(mf_data->size());
+   for ( OSG::UInt32 i = 0; i < size; ++i )
+   {
+      result.append((*mf_data)[i]);
+   }
+   return result;
+}
+
 void register_ShaderProgramBase_class(){
 
     { //::OSG::ShaderProgramBase
@@ -55,6 +67,7 @@ void register_ShaderProgramBase_class(){
         bp::scope().attr("GLIdFieldId") = (int)OSG::ShaderProgramBase::GLIdFieldId;
         bp::scope().attr("VariablesFieldId") = (int)OSG::ShaderProgramBase::VariablesFieldId;
         bp::scope().attr("ParameterFieldId") = (int)OSG::ShaderProgramBase::ParameterFieldId;
+        bp::scope().attr("AttributesFieldId") = (int)OSG::ShaderProgramBase::AttributesFieldId;
         bp::scope().attr("CgFrontEndFieldId") = (int)OSG::ShaderProgramBase::CgFrontEndFieldId;
         bp::scope().attr("PointSizeFieldId") = (int)OSG::ShaderProgramBase::PointSizeFieldId;
         bp::scope().attr("ParentsFieldId") = (int)OSG::ShaderProgramBase::ParentsFieldId;
@@ -107,6 +120,17 @@ void register_ShaderProgramBase_class(){
                 "createLocal"
                 , createLocal_function_type( &::OSG::ShaderProgramBase::createLocal )
                 , ( bp::arg("bFlags")=(::OSG::BitVector)(OSG::FCLocal::All) ) );
+        
+        }
+        { //::OSG::ShaderProgramBase::getAttributes
+        
+            typedef ::OSG::ShaderAttribute const & ( ::OSG::ShaderProgramBase::*getAttributes_function_type )( ::OSG::UInt32 const ) const;
+            
+            ShaderProgramBase_exposer.def( 
+                "getAttributes"
+                , getAttributes_function_type( &::OSG::ShaderProgramBase::getAttributes )
+                , ( bp::arg("index") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
         { //::OSG::ShaderProgramBase::getBinSize
@@ -371,6 +395,7 @@ void register_ShaderProgramBase_class(){
         ShaderProgramBase_exposer.staticmethod( "getClassType" );
         ShaderProgramBase_exposer.staticmethod( "getClassTypeId" );
         ShaderProgramBase_exposer.def("getMFParameter",ShaderProgramBase_getMFParameter);
+        ShaderProgramBase_exposer.def("getMFAttributes",ShaderProgramBase_getMFAttributes);
     }
 
 }
