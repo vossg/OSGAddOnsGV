@@ -39,6 +39,8 @@
 #include "OSGGpuBuffer.h"
 #include <OSGGLEXT.h>
 
+#include "OSGGLFuncProtos.h"
+
 OSG_BEGIN_NAMESPACE
 
 typedef ptrdiff_t	GLsizeiptrARB;
@@ -137,19 +139,84 @@ VboFunctions::VboFunctions()
 bool VboFunctions::initFunctionPointers( Window* window )
 {
     assert( window );
+
+    OSGGETGLFUNCBYID_GL3_ES(glBindBuffer, 
+                            osgGlBindBuffer,
+                            bindBufferId_ , 
+                            window);
+
+    bindBuffer = osgGlBindBuffer;
+
+    OSGGETGLFUNCBYID_GL3_ES(glBufferData, 
+                            osgGlBufferData,
+                            bufferDataId_, 
+                            window);
     
-    bindBuffer				= reinterpret_cast<OSGGLBINDBUFFERARBPROC>(window->getFunction( bindBufferId_ ));
-    bufferData				= reinterpret_cast<OSGGLBUFFERDATAARBPROC>( window->getFunction( bufferDataId_ ));
-    bufferSubData			= reinterpret_cast<OSGGLBUFFERSUBDATAARBPROC>( window->getFunction( bufferSubDataId_ ));
-    deleteBuffers			= reinterpret_cast<OSGGLDELETEBUFFERSARBPROC>( window->getFunction( deleteBuffersId_ ));
-    genBuffers				= reinterpret_cast<OSGGLGENBUFFERSARBPROC>( window->getFunction( genBuffersId_ ));
-    getBufferParameteriv	= reinterpret_cast<OSGGLGETBUFFERPARAMETERIVARBPROC>( window->getFunction( getBufferParameterivId_ ));
-    getBufferPointerv		= reinterpret_cast<OSGGLGETBUFFERPOINTERVARBPROC>( window->getFunction( getBufferPointervId_ ));
-    getBufferSubData		= reinterpret_cast<OSGGLGETBUFFERSUBDATAARBPROC>( window->getFunction( getBufferSubDataId_ ));
-    isBuffer				= reinterpret_cast<OSGGLISBUFFERARBPROC>( window->getFunction( isBufferId_ ));
-    mapBuffer				= reinterpret_cast<OSGGLMAPBUFFERARBPROC>( window->getFunction( mapBufferId_ ));
-    unmapBuffer				= reinterpret_cast<OSGGLUNMAPBUFFERARBPROC>( window->getFunction( unmapBufferId_ ));
+    bufferData = osgGlBufferData;
+
+    OSGGETGLFUNCBYID_GL3_ES(glBufferSubData, 
+                            osgGlBufferSubData,
+                            bufferSubDataId_, 
+                            window);
+
+    bufferSubData = osgGlBufferSubData;
+
+    OSGGETGLFUNCBYID_GL3_ES(glDeleteBuffers, 
+                            osgGlDeleteBuffers,
+                            deleteBuffersId_, 
+                            window);
+
+    deleteBuffers = osgGlDeleteBuffers;
+
+    OSGGETGLFUNCBYID_GL3_ES(glGenBuffers, 
+                            osgGlGenBuffers,
+                            genBuffersId_, 
+                            window);
     
+    genBuffers = osgGlGenBuffers;
+
+    OSGGETGLFUNCBYID_GL3_ES(glGetBufferParameteriv,
+                            osgGlGetBufferParameteriv,
+                            getBufferParameterivId_,
+                            window);
+    
+    getBufferParameteriv = osgGlGetBufferParameteriv;
+
+    OSGGETGLFUNCBYID_GL3(glGetBufferPointerv,
+                         osgGlGetBufferPointerv,
+                         getBufferPointervId_,
+                         window);
+
+    getBufferPointerv = osgGlGetBufferPointerv;
+
+    OSGGETGLFUNCBYID_GL3(glGetBufferSubData,
+                         osgGlGetBufferSubData,
+                         getBufferSubDataId_,
+                         window);
+
+    getBufferSubData = osgGlGetBufferSubData;
+
+    OSGGETGLFUNCBYID_GL3_ES(glIsBuffer,
+                            osgGlIsBuffer,
+                            isBufferId_,
+                            window);
+    
+    isBuffer = osgGlIsBuffer;
+
+    OSGGETGLFUNCBYID_GL3_ES(glMapBuffer, 
+                            osgGlMapBuffer,
+                            mapBufferId_, 
+                            window);
+
+    mapBuffer = osgGlMapBuffer;
+
+    OSGGETGLFUNCBYID_GL3_ES(glUnmapBuffer, 
+                            osgGlUnmapBuffer,
+                            unmapBufferId_, 
+                            window);
+
+    unmapBuffer = osgGlUnmapBuffer;
+
     return ( bindBuffer != 0 ) && ( bufferData != 0 ) && ( bufferSubData != 0 ) && ( deleteBuffers != 0 ) &&
         ( genBuffers != 0 ) && ( getBufferPointerv != 0 ) && ( getBufferSubData != 0 ) && ( isBuffer != 0 ) &&
         ( mapBuffer != 0 ) && ( unmapBuffer != 0 );
@@ -213,7 +280,8 @@ bool GpuBuffer::create( Window* window, GLenum type, int size, BufferUsage usage
         destroy();
     }
     
-    if( !window->hasExtension( VboFunctions::getExtensionId() ) )
+    if( !window->hasExtOrVersion(VboFunctions::getExtensionId(),
+                                 0x0105, 0x0200) )
     {
         FWARNING( ( "OpenGL Shading Language is not supported, couldn't find extension 'GL_ARB_vertex_buffer_object'!\n"));			
         return false;
