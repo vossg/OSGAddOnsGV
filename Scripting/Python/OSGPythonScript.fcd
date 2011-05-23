@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+   name="PythonScript"
+   parent="Script"
+   library="Scripting"
+   structure="concrete"
+   pointerfieldtypes="both"
+   systemcomponent="true"
+   parentsystemcomponent="true"
+   isNodeCore="true"
+   docGroupBase="GrpScripting"
+   >
+</FieldContainer>

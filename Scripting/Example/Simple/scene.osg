@@ -1,0 +1,25 @@
+#OSG V1.0 
+
+Node
+{
+  core DEF TestScript PythonScript
+  {
+    field SFVec3f pos  0 0 0
+    field SFVec3f pos1 0 0 0
+    field SFVec3f pos2 0 0 0
+    field SFVec3f pos  0 0 0
+  }
+
+  children
+  [
+    Node
+    {
+      core Inline
+      {
+        url "../Models/tie.wrl"
+      }
+    }
+  ]
+}
+
+#ROUTE TestScript.pos TO TestScript.pos1

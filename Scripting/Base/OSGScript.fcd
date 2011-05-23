@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+   name="Script"
+   parent="NodeCore"
+   library="Scripting"
+   mixinparent="ScriptParent"
+   structure="abstract"
+   pointerfieldtypes="both"
+   systemcomponent="true"
+   parentsystemcomponent="true"
+   isNodeCore="true"
+   docGroupBase="GrpScripting"
+   >
+  <Field
+     name="priority"
+     type="Int32"
+     cardinality="single"
+     visibility="internal"
+     access="public"
+     defaultValue="10"
+     fieldFlags="FStdAccess, FThreadLocal"
+     >
+  </Field>
+</FieldContainer>
