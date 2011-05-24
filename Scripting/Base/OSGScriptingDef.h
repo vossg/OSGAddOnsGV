@@ -47,7 +47,7 @@
 //---------------------------------------------------------------------------
 
 #if defined(WIN32)
-#   ifdef OSG_COMPILESCRIPTING
+#   ifdef OSG_COMPILESCRIPTINGLIB
 #       define OSG_SCRIPTING_DLLMAPPING     __declspec(dllexport)
 #       define OSG_SCRIPTING_DLLTMPLMAPPING __declspec(dllexport)
 #   else
