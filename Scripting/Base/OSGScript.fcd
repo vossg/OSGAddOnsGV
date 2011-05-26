@@ -22,4 +22,13 @@
      fieldFlags="FStdAccess, FThreadLocal"
      >
   </Field>
+  <Field
+     name="script"
+     type="std::string"
+     cardinality="single"
+     visibility="internal"
+     access="public"
+     fieldFlags="FStdAccess, FThreadLocal"
+     >
+  </Field>
 </FieldContainer>

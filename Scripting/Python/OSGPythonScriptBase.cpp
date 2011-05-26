@@ -118,7 +118,7 @@ PythonScriptBase::TypeObject PythonScriptBase::_type(
     PythonScript::initMethod,
     PythonScript::exitMethod,
     reinterpret_cast<InitalInsertDescFunc>(&PythonScript::classDescInserter),
-    false,
+    true,
     0,
     "<?xml version=\"1.0\" ?>\n"
     "\n"
@@ -132,6 +132,7 @@ PythonScriptBase::TypeObject PythonScriptBase::_type(
     "   parentsystemcomponent=\"true\"\n"
     "   isNodeCore=\"true\"\n"
     "   docGroupBase=\"GrpScripting\"\n"
+    "   typeDescAddable=\"true\"\n"
     "   >\n"
     "</FieldContainer>\n",
     ""

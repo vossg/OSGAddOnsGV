@@ -10,5 +10,6 @@
    parentsystemcomponent="true"
    isNodeCore="true"
    docGroupBase="GrpScripting"
+   typeDescAddable="true"
    >
 </FieldContainer>

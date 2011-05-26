@@ -203,6 +203,8 @@ class DynFieldContainer : public ParentT,
     /*! \name                       Edit                                   */
     /*! \{                                                                 */
 
+    virtual       TypeObject &getFinalType(void)       = 0;
+    virtual const TypeObject &getFinalType(void) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

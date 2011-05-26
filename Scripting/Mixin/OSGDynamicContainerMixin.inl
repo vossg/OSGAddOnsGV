@@ -65,6 +65,9 @@ UInt32 DynFieldContainer<ParentT>::addField(
     Field                *fieldP      = NULL;
     FieldDescriptionBase *descP       = NULL;
 
+    fprintf(stderr, "add field %s\n", fieldDesc.getCName());
+            
+
     // do some basic sanity checking
     if(fieldDesc.getFieldType().getClass() != FieldType::ValueField)
     {
@@ -304,7 +307,9 @@ void DynFieldContainer<ParentT>::dump(
     const BitVector bvFlags ) const
 {
     indentLog(uiIndent, PLOG);
-    PLOG << "DynFieldContainer"
+    PLOG << "DynFieldContainer ("
+         << _dynFieldsV.size()
+         << ")"
          << std::endl;
 
     indentLog(uiIndent, PLOG);
@@ -350,9 +355,9 @@ template <class ParentT> inline
 DynFieldContainer<ParentT>::DynFieldContainer(
     const DynFieldContainer &source) :
 
-     Inherited ( source            ),
-    _localType (Self::_type        ),
-    _dynFieldsV( source._dynFieldsV) // Do a real copy soon ;-)
+     Inherited (source               ),
+    _localType (source.getFinalType()),
+    _dynFieldsV(source._dynFieldsV   ) // Do a real copy soon ;-)
 {
     if(GlobalSystemState == Running)
         _localType.initialize();

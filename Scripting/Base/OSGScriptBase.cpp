@@ -85,6 +85,10 @@ OSG_BEGIN_NAMESPACE
     
 */
 
+/*! \var std::string     ScriptBase::_sfScript
+    
+*/
+
 
 /***************************************************************************\
  *                      FieldType/FieldTrait Instantiation                 *
@@ -126,6 +130,18 @@ void ScriptBase::classDescInserter(TypeObject &oType)
         static_cast<FieldGetMethodSig >(&Script::getHandlePriority));
 
     oType.addInitialDesc(pDesc);
+
+    pDesc = new SFString::Description(
+        SFString::getClassType(),
+        "script",
+        "",
+        ScriptFieldId, ScriptFieldMask,
+        true,
+        (Field::FStdAccess | Field::FThreadLocal),
+        static_cast<FieldEditMethodSig>(&Script::editHandleScript),
+        static_cast<FieldGetMethodSig >(&Script::getHandleScript));
+
+    oType.addInitialDesc(pDesc);
 }
 
 
@@ -161,6 +177,15 @@ ScriptBase::TypeObject ScriptBase::_type(
     "     visibility=\"internal\"\n"
     "     access=\"public\"\n"
     "     defaultValue=\"10\"\n"
+    "     fieldFlags=\"FStdAccess, FThreadLocal\"\n"
+    "     >\n"
+    "  </Field>\n"
+    "  <Field\n"
+    "     name=\"script\"\n"
+    "     type=\"std::string\"\n"
+    "     cardinality=\"single\"\n"
+    "     visibility=\"internal\"\n"
+    "     access=\"public\"\n"
     "     fieldFlags=\"FStdAccess, FThreadLocal\"\n"
     "     >\n"
     "  </Field>\n"
@@ -201,6 +226,19 @@ const SFInt32 *ScriptBase::getSFPriority(void) const
 }
 
 
+SFString *ScriptBase::editSFScript(void)
+{
+    editSField(ScriptFieldMask);
+
+    return &_sfScript;
+}
+
+const SFString *ScriptBase::getSFScript(void) const
+{
+    return &_sfScript;
+}
+
+
 
 
 
@@ -215,6 +253,10 @@ UInt32 ScriptBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfPriority.getBinSize();
     }
+    if(FieldBits::NoField != (ScriptFieldMask & whichField))
+    {
+        returnValue += _sfScript.getBinSize();
+    }
 
     return returnValue;
 }
@@ -228,6 +270,10 @@ void ScriptBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfPriority.copyToBin(pMem);
     }
+    if(FieldBits::NoField != (ScriptFieldMask & whichField))
+    {
+        _sfScript.copyToBin(pMem);
+    }
 }
 
 void ScriptBase::copyFromBin(BinaryDataHandler &pMem,
@@ -240,6 +286,11 @@ void ScriptBase::copyFromBin(BinaryDataHandler &pMem,
         editSField(PriorityFieldMask);
         _sfPriority.copyFromBin(pMem);
     }
+    if(FieldBits::NoField != (ScriptFieldMask & whichField))
+    {
+        editSField(ScriptFieldMask);
+        _sfScript.copyFromBin(pMem);
+    }
 }
 
 
@@ -249,13 +300,15 @@ void ScriptBase::copyFromBin(BinaryDataHandler &pMem,
 
 ScriptBase::ScriptBase(void) :
     Inherited(),
-    _sfPriority               (Int32(10))
+    _sfPriority               (Int32(10)),
+    _sfScript                 ()
 {
 }
 
 ScriptBase::ScriptBase(const ScriptBase &source) :
     Inherited(source),
-    _sfPriority               (source._sfPriority               )
+    _sfPriority               (source._sfPriority               ),
+    _sfScript                 (source._sfScript                 )
 {
 }
 
@@ -288,6 +341,31 @@ EditFieldHandlePtr ScriptBase::editHandlePriority       (void)
 
 
     editSField(PriorityFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr ScriptBase::getHandleScript          (void) const
+{
+    SFString::GetHandlePtr returnValue(
+        new  SFString::GetHandle(
+             &_sfScript,
+             this->getType().getFieldDesc(ScriptFieldId),
+             const_cast<ScriptBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr ScriptBase::editHandleScript         (void)
+{
+    SFString::EditHandlePtr returnValue(
+        new  SFString::EditHandle(
+             &_sfScript,
+             this->getType().getFieldDesc(ScriptFieldId),
+             this));
+
+
+    editSField(ScriptFieldMask);
 
     return returnValue;
 }

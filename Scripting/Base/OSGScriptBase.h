@@ -66,6 +66,7 @@
 #include "OSGNodeCore.h" // Parent
 
 #include "OSGSysFields.h"               // Priority type
+#include "OSGBaseFields.h"              // Script type
 
 #include "OSGScriptFields.h"
 
@@ -96,15 +97,19 @@ class OSG_SCRIPTING_DLLMAPPING ScriptBase : public ScriptParent
     enum
     {
         PriorityFieldId = Inherited::NextFieldId,
-        NextFieldId = PriorityFieldId + 1
+        ScriptFieldId = PriorityFieldId + 1,
+        NextFieldId = ScriptFieldId + 1
     };
 
     static const OSG::BitVector PriorityFieldMask =
         (TypeTraits<BitVector>::One << PriorityFieldId);
+    static const OSG::BitVector ScriptFieldMask =
+        (TypeTraits<BitVector>::One << ScriptFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
     typedef SFInt32           SFPriorityType;
+    typedef SFString          SFScriptType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -133,9 +138,15 @@ class OSG_SCRIPTING_DLLMAPPING ScriptBase : public ScriptParent
                   SFInt32             *editSFPriority       (void);
             const SFInt32             *getSFPriority        (void) const;
 
+                  SFString            *editSFScript         (void);
+            const SFString            *getSFScript          (void) const;
+
 
                   Int32               &editPriority       (void);
                   Int32                getPriority        (void) const;
+
+                  std::string         &editScript         (void);
+            const std::string         &getScript          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -143,6 +154,7 @@ class OSG_SCRIPTING_DLLMAPPING ScriptBase : public ScriptParent
     /*! \{                                                                 */
 
             void setPriority       (const Int32 value);
+            void setScript         (const std::string &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -176,6 +188,7 @@ class OSG_SCRIPTING_DLLMAPPING ScriptBase : public ScriptParent
     /*! \{                                                                 */
 
     SFInt32           _sfPriority;
+    SFString          _sfScript;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -205,6 +218,8 @@ class OSG_SCRIPTING_DLLMAPPING ScriptBase : public ScriptParent
 
     GetFieldHandlePtr  getHandlePriority        (void) const;
     EditFieldHandlePtr editHandlePriority       (void);
+    GetFieldHandlePtr  getHandleScript          (void) const;
+    EditFieldHandlePtr editHandleScript         (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

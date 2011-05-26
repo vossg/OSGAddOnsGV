@@ -98,6 +98,31 @@ void ScriptBase::setPriority(const Int32 value)
 
     _sfPriority.setValue(value);
 }
+//! Get the value of the Script::_sfScript field.
+
+inline
+std::string &ScriptBase::editScript(void)
+{
+    editSField(ScriptFieldMask);
+
+    return _sfScript.getValue();
+}
+
+//! Get the value of the Script::_sfScript field.
+inline
+const std::string &ScriptBase::getScript(void) const
+{
+    return _sfScript.getValue();
+}
+
+//! Set the value of the Script::_sfScript field.
+inline
+void ScriptBase::setScript(const std::string &value)
+{
+    editSField(ScriptFieldMask);
+
+    _sfScript.setValue(value);
+}
 
 
 #ifdef OSG_MT_CPTR_ASPECT
@@ -112,6 +137,9 @@ void ScriptBase::execSync (      ScriptBase *pFrom,
 
     if(FieldBits::NoField != (PriorityFieldMask & whichField))
         _sfPriority.syncWith(pFrom->_sfPriority);
+
+    if(FieldBits::NoField != (ScriptFieldMask & whichField))
+        _sfScript.syncWith(pFrom->_sfScript);
 }
 #endif
 

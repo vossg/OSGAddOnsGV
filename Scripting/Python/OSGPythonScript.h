@@ -78,6 +78,15 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                       Action Callbacks                       */
+    /*! \{                                                                 */
+
+    virtual bool init    (void                  );
+    virtual void frame   (OSG::Time, OSG::UInt32);
+    virtual void shutdown(void                  );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
@@ -110,14 +119,20 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     /*! \name                        Init                                  */
     /*! \{                                                                 */
 
+    virtual       TypeObject &getFinalType(void);
+    virtual const TypeObject &getFinalType(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Init                                  */
+    /*! \{                                                                 */
+
     static void initMethod(InitPhase ePhase);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
-
-    virtual void frame(OSG::Time, OSG::UInt32);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

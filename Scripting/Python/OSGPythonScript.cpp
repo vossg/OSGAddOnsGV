@@ -62,7 +62,7 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
 {
     Inherited::changed(whichField, origin, details);
 
-    fprintf(stderr, "PS : dump\n");
+    fprintf(stderr, "PythonScript::changed : dump\n");
 
     this->dump(0, 0);
 }
@@ -112,6 +112,16 @@ PythonScript::~PythonScript(void)
 /*-------------------------------------------------------------------------*/
 /*                              Render                                     */
 
+PythonScript::TypeObject &PythonScript::getFinalType(void)
+{
+    return _type;
+}
+
+const PythonScript::TypeObject &PythonScript::getFinalType(void) const
+{
+    return _type;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                             Intersect                                   */
 
@@ -128,7 +138,26 @@ void PythonScript::initMethod(InitPhase ePhase)
     }
 }
 
+bool PythonScript::init(void)
+{
+    fprintf(stderr, "PythonScript : init\n");
+
+    return true;
+}
+
 void PythonScript::frame(OSG::Time, OSG::UInt32)
 {
-    fprintf(stderr, "PS : frame\n");
+    static UInt32 uiFCount = 0;
+
+    if(uiFCount % 100 == 0)
+    {
+        fprintf(stderr, "PythonScript : frame %d\n", uiFCount);
+    }
+
+    ++uiFCount;
+}
+
+void PythonScript::shutdown(void)
+{
+    fprintf(stderr, "PythonScript : shutdown\n");   
 }
