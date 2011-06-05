@@ -124,7 +124,7 @@ void ScriptBase::classDescInserter(TypeObject &oType)
         "priority",
         "",
         PriorityFieldId, PriorityFieldMask,
-        true,
+        false,
         (Field::FStdAccess | Field::FThreadLocal),
         static_cast<FieldEditMethodSig>(&Script::editHandlePriority),
         static_cast<FieldGetMethodSig >(&Script::getHandlePriority));
@@ -136,7 +136,7 @@ void ScriptBase::classDescInserter(TypeObject &oType)
         "script",
         "",
         ScriptFieldId, ScriptFieldMask,
-        true,
+        false,
         (Field::FStdAccess | Field::FThreadLocal),
         static_cast<FieldEditMethodSig>(&Script::editHandleScript),
         static_cast<FieldGetMethodSig >(&Script::getHandleScript));
@@ -174,7 +174,7 @@ ScriptBase::TypeObject ScriptBase::_type(
     "     name=\"priority\"\n"
     "     type=\"Int32\"\n"
     "     cardinality=\"single\"\n"
-    "     visibility=\"internal\"\n"
+    "     visibility=\"external\"\n"
     "     access=\"public\"\n"
     "     defaultValue=\"10\"\n"
     "     fieldFlags=\"FStdAccess, FThreadLocal\"\n"
@@ -184,7 +184,7 @@ ScriptBase::TypeObject ScriptBase::_type(
     "     name=\"script\"\n"
     "     type=\"std::string\"\n"
     "     cardinality=\"single\"\n"
-    "     visibility=\"internal\"\n"
+    "     visibility=\"external\"\n"
     "     access=\"public\"\n"
     "     fieldFlags=\"FStdAccess, FThreadLocal\"\n"
     "     >\n"

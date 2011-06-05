@@ -4,10 +4,13 @@ Node
 {
   core DEF TestScript PythonScript
   {
-    field SFVec3f pos  0 0 0
-    field SFVec3f pos1 0 0 0
-    field SFVec3f pos2 0 0 0
-    field SFVec3f pos  0 0 0
+    field SFVec3f pos  0  1  2
+    field SFVec3f pos1 3  4  5
+    field SFVec2f pos2 6  7  
+    field SFVec3f pos  9 10 11
+
+    script "def foo"
+    priority 42
   }
 
   children

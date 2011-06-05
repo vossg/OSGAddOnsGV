@@ -53,6 +53,45 @@ OSG_USING_NAMESPACE
 // To modify it, please change the .fcd file (OSGPythonScript.fcd) and
 // regenerate the base file.
 
+namespace
+{
+    PyThreadState *pMainstate = NULL;
+
+    bool initializPython(void)
+    {
+        Py_Initialize();
+
+        pMainstate = PyEval_SaveThread();
+
+        fprintf(stderr, "python initialized\n");
+        
+        return true;
+    }
+
+    bool finalizePython(void)
+    {
+        PyEval_RestoreThread(pMainstate);
+
+        Py_Finalize();
+
+        fprintf(stderr, "python finalized\n");
+        
+        return true;
+    }
+    
+    bool registerPython(void)
+    {
+        addPreFactoryInitFunction (&initializPython);
+        addPostFactoryExitFunction(&finalizePython );
+
+        return true;
+    }
+
+    OSG::StaticInitFuncWrapper registerOpWrapper(registerPython);
+
+} // namespace
+
+
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
@@ -93,12 +132,14 @@ void PythonScript::dump(      UInt32    uiIndent,
 /*                            Constructors                                 */
 
 PythonScript::PythonScript(void) :
-    Inherited()
+     Inherited     (    ),
+    _pPyInterpreter(NULL)
 {
 }
 
 PythonScript::PythonScript(const PythonScript &source) :
-    Inherited(source)
+     Inherited     (source),
+    _pPyInterpreter(NULL  )
 {
 }
 
@@ -142,6 +183,8 @@ bool PythonScript::init(void)
 {
     fprintf(stderr, "PythonScript : init\n");
 
+    _pPyInterpreter = Py_NewInterpreter();
+
     return true;
 }
 
@@ -155,9 +198,22 @@ void PythonScript::frame(OSG::Time, OSG::UInt32)
     }
 
     ++uiFCount;
+
+    if(_pPyInterpreter != NULL)
+    {
+        PyEval_RestoreThread(_pPyInterpreter);
+    }
 }
 
 void PythonScript::shutdown(void)
 {
     fprintf(stderr, "PythonScript : shutdown\n");   
+
+    if(_pPyInterpreter != NULL)
+    {
+        PyEval_RestoreThread(_pPyInterpreter);
+        Py_EndInterpreter   (_pPyInterpreter);
+
+        _pPyInterpreter = NULL;
+    }
 }

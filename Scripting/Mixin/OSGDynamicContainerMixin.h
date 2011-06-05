@@ -47,7 +47,7 @@
 #include "OSGFieldContainerSFields.h"
 #include "OSGFieldContainerMFields.h"
 #include "OSGContainerDefines.h"
-#include "OSGDynamicAttachmentMixin.h"
+#include "OSGDynFieldContainerInterface.h"
 
 #include "boost/bind.hpp"
 
@@ -103,10 +103,13 @@ class DynFieldContainer : public ParentT,
     /*! \name              Dynamic Field Access                            */
     /*! \{                                                                 */
 
-    UInt32 addField(const FieldDescriptionBase &fieldDesc    );
-    UInt32 addField(const UInt32                uiFieldTypeId,
-                    const Char8                *szFieldName  );
-    void   subField(      UInt32                fieldId  );
+            UInt32 addField(const FieldDescriptionBase &fieldDesc    );
+    virtual UInt32 addField(const UInt32                uiFieldTypeId,
+                            const Char8                *szFieldName  );
+
+    virtual UInt32 addField(const Char8                *szFieldType,
+                            const Char8                *szFieldName  );
+            void   subField(      UInt32                fieldId      );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -138,6 +141,17 @@ class DynFieldContainer : public ParentT,
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Binary Access                              */
+    /*! \{                                                                 */
+
+    virtual UInt32 getBinSize (ConstFieldMaskArg  whichField);
+    virtual void   copyToBin  (BinaryDataHandler &pMem,
+                               ConstFieldMaskArg  whichField);
+    virtual void   copyFromBin(BinaryDataHandler &pMem,
+                               ConstFieldMaskArg  whichField);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
@@ -150,6 +164,7 @@ class DynFieldContainer : public ParentT,
 
     TypeObject           _localType;
 
+    UInt32               _uiDescStartIdx;
     std::vector<Field *> _dynFieldsV;
 
     /*! \}                                                                 */

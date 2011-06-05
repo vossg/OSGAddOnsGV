@@ -46,6 +46,8 @@
 #include "OSGPythonScriptBase.h"
 #include "OSGAction.h"
 
+#include <boost/python/object.hpp>
+
 OSG_BEGIN_NAMESPACE
 
 /*! \brief PythonScript is the basic NodeCore for inner nodes in the tree.
@@ -99,6 +101,8 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
   protected:
 
     typedef PythonScriptBase Inherited;
+
+    PyThreadState *_pPyInterpreter;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

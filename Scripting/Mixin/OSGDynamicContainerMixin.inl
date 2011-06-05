@@ -65,9 +65,6 @@ UInt32 DynFieldContainer<ParentT>::addField(
     Field                *fieldP      = NULL;
     FieldDescriptionBase *descP       = NULL;
 
-    fprintf(stderr, "add field %s\n", fieldDesc.getCName());
-            
-
     // do some basic sanity checking
     if(fieldDesc.getFieldType().getClass() != FieldType::ValueField)
     {
@@ -88,12 +85,21 @@ UInt32 DynFieldContainer<ParentT>::addField(
     
     returnValue = _localType.addDescription(fieldDesc);
 
+    fprintf(stderr, "add field %s | %d | %d | %d | %d | %d\n", 
+            fieldDesc.getCName(),
+            returnValue,
+            Inherited::NextFieldId,
+            _uiDescStartIdx,
+            returnValue - Inherited::NextFieldId,
+            returnValue - _uiDescStartIdx);
+
     if(returnValue != 0)
     {
         descP = _localType.getFieldDesc(returnValue);
 
         if(descP != NULL)
         {
+            descP->setDynamic  (true       );
             descP->setFieldId  (returnValue);
             descP->setFieldMask(
                         TypeTraits<BitVector>::One << returnValue);
@@ -101,13 +107,12 @@ UInt32 DynFieldContainer<ParentT>::addField(
             fieldP = fieldDesc.createField();
 
             if(_dynFieldsV.size() <=
-               returnValue - Inherited::NextFieldId)
+               returnValue - _uiDescStartIdx)
             {
-                _dynFieldsV.resize((returnValue -
-                                    Inherited::NextFieldId) + 1);
+                _dynFieldsV.resize((returnValue - _uiDescStartIdx) + 1);
             }
 
-            _dynFieldsV[returnValue - Inherited::NextFieldId] = fieldP;
+            _dynFieldsV[returnValue - _uiDescStartIdx] = fieldP;
         }
     }
 
@@ -135,6 +140,26 @@ UInt32 DynFieldContainer<ParentT>::addField(const UInt32  uiFieldTypeId,
 }
 
 template <class ParentT> inline
+UInt32 DynFieldContainer<ParentT>::addField(const Char8 *szFieldType,
+                                            const Char8 *szFieldName)
+{
+    FieldDescriptionBase *pDesc = 
+        FieldDescFactory::the()->createByNameIdx(
+            szFieldType,
+            szFieldName,
+            static_cast<OSG::FieldIndexEditMethodSig>(
+                &Self::editDynamicField),
+            static_cast<OSG::FieldIndexGetMethodSig >(
+                &Self::getDynamicField));
+
+    UInt32 returnValue = this->addField(*pDesc);
+
+    delete pDesc;
+
+    return returnValue;
+}
+
+template <class ParentT> inline
 void DynFieldContainer<ParentT>::subField(UInt32 fieldId)
 {
     FieldDescriptionBase *descP = _localType.getFieldDesc(fieldId);
@@ -143,7 +168,7 @@ void DynFieldContainer<ParentT>::subField(UInt32 fieldId)
     {
         std::vector<Field *>::iterator vIt = _dynFieldsV.begin();
 
-        vIt += fieldId - Inherited::NextFieldId;
+        vIt += fieldId - _uiDescStartIdx;
 
         if(vIt != _dynFieldsV.end())
         {
@@ -167,7 +192,7 @@ GetFieldHandlePtr DynFieldContainer<ParentT>::getDynamicField(
 
     if(pDesc != NULL)
     {
-        pField = _dynFieldsV[index - Inherited::NextFieldId];
+        pField = _dynFieldsV[index - _uiDescStartIdx];
 
         returnValue = pDesc->createGetHandler(pField, const_cast<Self *>(this));
     }
@@ -186,7 +211,7 @@ EditFieldHandlePtr DynFieldContainer<ParentT>::editDynamicField(
 
     if(pDesc != NULL)
     {
-        pField = _dynFieldsV[index - Inherited::NextFieldId];
+        pField = _dynFieldsV[index - _uiDescStartIdx];
 
         returnValue = pDesc->createEditHandler(pField, this);
 
@@ -248,13 +273,88 @@ EditFieldHandlePtr DynFieldContainer<ParentT>::editDynamicFieldByName(
 }
 
 
+template <class ParentT> inline
+UInt32 DynFieldContainer<ParentT>::getBinSize (ConstFieldMaskArg whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+#if 0
+    for(UInt32 i = _uiDescStartIdx; i <= getType().getNumFieldDescs(); i++)
+    {
+        BitVector bvDynMask = TypeTraits<BitVector>::One << i;
+
+        if(FieldBits::NoField != (whichField & bvDynMask))
+        {
+
+            FieldDescriptionBase *pDesc = this->getType().getFieldDesc(i);
+
+            if(pDesc != NULL)
+            {
+                returnValue += 
+                    pDesc->getBinSize(_dynFieldsV[i - _uiDescStartIdx]);
+            }
+        }
+    }
+#endif
+
+    return returnValue;
+}
+
+template <class ParentT> inline
+void DynFieldContainer<ParentT>::copyToBin  (BinaryDataHandler &pMem,
+                                             ConstFieldMaskArg  whichField)
+{
+    Inherited::copyToBin(pMem, whichField);
+
+#if 0
+    for(UInt32 i = _uiDescStartIdx; i <= getType().getNumFieldDescs(); i++)
+    {
+        BitVector bvDynMask = TypeTraits<BitVector>::One << i;
+
+        if(FieldBits::NoField != (whichField & bvDynMask))
+        {
+            FieldDescriptionBase *pDesc = this->getType().getFieldDesc(i);
+
+            if(pDesc != NULL)
+            {
+                pDesc->copyToBin(pMem, _dynFieldsV[i - _uiDescStartIdx]);
+            }
+        }
+    }
+#endif
+}
+
+template <class ParentT> inline
+void DynFieldContainer<ParentT>::copyFromBin(BinaryDataHandler &pMem,
+                                             ConstFieldMaskArg  whichField)
+{
+    Inherited::copyFromBin(pMem, whichField);
+
+#if 0
+    for(UInt32 i = _uiDescStartIdx; i <= getType().getNumFieldDescs(); i++)
+    {
+        BitVector bvDynMask = TypeTraits<BitVector>::One << i;
+
+        if(FieldBits::NoField != (whichField & bvDynMask))
+        {
+            FieldDescriptionBase *pDesc = this->getType().getFieldDesc(i);
+
+            if(pDesc != NULL)
+            {
+                pDesc->copyFromBin(pMem, _dynFieldsV[i - _uiDescStartIdx]);
+            }
+        }
+    }
+#endif
+}
+
 #if 0
 template <class ParentT> inline
 FieldContainer *DynFieldContainer<ParentT>::emptyCopy(void)
 {
     ObjCPtr returnValue = DynFieldContainer<ParentT>::createEmpty();
 
-    for(UInt32 i  = Inherited::NextFieldId;
+    for(UInt32 i  = _uiDescStartIdx;
                i <= _localType.getNumFieldDescs();
              ++i)
     {
@@ -271,14 +371,14 @@ FieldContainer *DynFieldContainer<ParentT>::clone(void)
         DynFieldContainer<ParentT>::createEmptyLocal(
             ~this->getFieldFlags()->_bNamespaceMask);
 
-    for(UInt32 i  = Inherited::NextFieldId;
+    for(UInt32 i  = _uiDescStartIdx;
                i <= _localType.getNumFieldDescs();
              ++i)
     {
         returnValue->addField(*(_localType.getFieldDesc(i)));
     }
 
-    for(UInt32 i  = Inherited::NextFieldId;
+    for(UInt32 i  = _uiDescStartIdx;
                i <= _localType.getNumFieldDescs();
              ++i)
     {
@@ -309,6 +409,8 @@ void DynFieldContainer<ParentT>::dump(
     indentLog(uiIndent, PLOG);
     PLOG << "DynFieldContainer ("
          << _dynFieldsV.size()
+         << " | "
+         << getType().getNumFieldDescs()
          << ")"
          << std::endl;
 
@@ -320,12 +422,40 @@ void DynFieldContainer<ParentT>::dump(
     for(UInt32 i = 1; i <= getType().getNumFieldDescs(); i++)
     {
         indentLog(uiIndent, PLOG);
-        PLOG <<      getType().getFieldDesc(i)->getCName ()
-             << " ("
-             << const_cast<Self *>(this)->getField(
+
+        if(getType().getFieldDesc(i) != NULL)
+        {
+            PLOG << getType().getFieldDesc(i)->getCName ()
+                 << " "
+                 << getType().getFieldDesc(i)->getFieldType().getCName()
+                 << " ("
+                 << getType().getFieldDesc(i)->getFieldType().getId()
+                 << ")"
+                 << " ("
+                 << i
+                 << ")"
+                 << " ("
+                 << const_cast<Self *>(this)->getField(
                      getType().getFieldDesc(i)->getFieldId())
-             << ")"
-             << std::endl;
+                 << ")"
+                 << std::endl;
+        }
+        else
+        {
+            PLOG << "(null)"
+                 << " ("
+                 << i
+                 << ")"
+                 << " (null)"
+                 << std::endl;
+        }
+    }
+
+    for(UInt32 i = 0; i < _dynFieldsV.size(); ++i)
+    {
+        fprintf(stderr, "[%d] : %p\n",
+                i,
+                _dynFieldsV[i]);
     }
 
     uiIndent -= 4;
@@ -343,9 +473,10 @@ OSG_RC_GET_STATIC_TYPE_ID_INL_TMPL_DEF(DynFieldContainer, ParentT)
 
 template <class ParentT> inline
 DynFieldContainer<ParentT>::DynFieldContainer(void) :
-     Inherited (           ),
-    _localType (Self::_type),
-    _dynFieldsV(           )
+     Inherited     (           ),
+    _localType     (Self::_type),
+    _uiDescStartIdx(          0),
+    _dynFieldsV    (           )
 {
     if(GlobalSystemState == Running)
         _localType.initialize();
@@ -355,12 +486,18 @@ template <class ParentT> inline
 DynFieldContainer<ParentT>::DynFieldContainer(
     const DynFieldContainer &source) :
 
-     Inherited (source               ),
-    _localType (source.getFinalType()),
-    _dynFieldsV(source._dynFieldsV   ) // Do a real copy soon ;-)
+     Inherited     (source               ),
+    _localType     (source.getFinalType()),
+    _uiDescStartIdx(                    0),
+    _dynFieldsV    (source._dynFieldsV   ) // Do a real copy soon ;-)
 {
     if(GlobalSystemState == Running)
         _localType.initialize();
+
+    _uiDescStartIdx = _localType.getNumFieldDescs() + 1;
+
+    fprintf(stderr, "uiStartIdx : %d\n", 
+            _uiDescStartIdx);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -369,7 +506,7 @@ DynFieldContainer<ParentT>::DynFieldContainer(
 template <class ParentT> inline
 DynFieldContainer<ParentT>::~DynFieldContainer(void)
 {
-    for(UInt32 i  = Inherited::NextFieldId;
+    for(UInt32 i  = _uiDescStartIdx;
                i <= _localType.getNumFieldDescs();
              ++i)
     {
@@ -434,7 +571,7 @@ void DynFieldContainer<ParentT>::addPointerValue(
 {
 #if 0
     MFFieldContainerPtr *pField = static_cast<MFFieldContainerPtr *>(
-        _dynFieldsV[uiFieldId - Inherited::NextFieldId]);
+        _dynFieldsV[uiFieldId - _uiDescStartIdx]);
     
     OSG::addRef(pVal);
 
@@ -449,7 +586,7 @@ void DynFieldContainer<ParentT>::setPointerValue(
 {
 #if 0
     SFFieldContainerPtr *pField = static_cast<SFFieldContainerPtr *>(
-        _dynFieldsV[uiFieldId - Inherited::NextFieldId]);
+        _dynFieldsV[uiFieldId - _uiDescStartIdx]);
 
     OSG::setRefd(pField->getValue(), pVal);
 #endif
