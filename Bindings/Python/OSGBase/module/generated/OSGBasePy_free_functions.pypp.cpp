@@ -139,7 +139,7 @@ void register_free_functions(){
 
     { //::OSG::getName
     
-        typedef ::OSG::Char8 const * ( *getName_function_type )( ::OSG::AttachmentContainer * const );
+        typedef ::OSG::Char8 const * ( *getName_function_type )( ::OSG::AttachmentContainer const * const );
         
         bp::def( 
             "getName"

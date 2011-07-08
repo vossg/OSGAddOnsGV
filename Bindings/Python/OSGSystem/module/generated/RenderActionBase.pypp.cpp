@@ -178,6 +178,15 @@ void register_RenderActionBase_class(){
                 , getRenderProperties_function_type( &::OSG::RenderActionBase::getRenderProperties ) );
         
         }
+        { //::OSG::RenderActionBase::getResetStatistics
+        
+            typedef bool ( ::OSG::RenderActionBase::*getResetStatistics_function_type )(  ) const;
+            
+            RenderActionBase_exposer.def( 
+                "getResetStatistics"
+                , getResetStatistics_function_type( &::OSG::RenderActionBase::getResetStatistics ) );
+        
+        }
         { //::OSG::RenderActionBase::getStatCollector
         
             typedef ::OSG::StatCollector * ( ::OSG::RenderActionBase::*getStatCollector_function_type )(  ) const;
@@ -372,6 +381,16 @@ void register_RenderActionBase_class(){
                 "setRenderProperties"
                 , setRenderProperties_function_type( &::OSG::RenderActionBase::setRenderProperties )
                 , ( bp::arg("oProp") ) );
+        
+        }
+        { //::OSG::RenderActionBase::setResetStatistics
+        
+            typedef void ( ::OSG::RenderActionBase::*setResetStatistics_function_type )( bool ) ;
+            
+            RenderActionBase_exposer.def( 
+                "setResetStatistics"
+                , setResetStatistics_function_type( &::OSG::RenderActionBase::setResetStatistics )
+                , ( bp::arg("value") ) );
         
         }
         { //::OSG::RenderActionBase::setStatCollector

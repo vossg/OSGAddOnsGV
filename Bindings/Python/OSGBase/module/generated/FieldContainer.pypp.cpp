@@ -69,12 +69,12 @@ void register_FieldContainer_class(){
         }
         { //::OSG::FieldContainer::callChangedFunctors
         
-            typedef void ( ::OSG::FieldContainer::*callChangedFunctors_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef void ( ::OSG::FieldContainer::*callChangedFunctors_function_type )( ::OSG::ConstFieldMaskArg,::OSG::UInt32 ) ;
             
             FieldContainer_exposer.def( 
                 "callChangedFunctors"
                 , callChangedFunctors_function_type( &::OSG::FieldContainer::callChangedFunctors )
-                , ( bp::arg("whichField") ) );
+                , ( bp::arg("whichField"), bp::arg("origin") ) );
         
         }
         { //::OSG::FieldContainer::changed
@@ -84,7 +84,7 @@ void register_FieldContainer_class(){
             FieldContainer_exposer.def( 
                 "changed"
                 , changed_function_type( &::OSG::FieldContainer::changed )
-                , ( bp::arg("whichField"), bp::arg("arg1"), bp::arg("arg2") ) );
+                , ( bp::arg("whichField"), bp::arg("origin"), bp::arg("details") ) );
         
         }
         { //::OSG::FieldContainer::clearChangedFunctors

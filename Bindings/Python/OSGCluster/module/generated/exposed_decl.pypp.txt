@@ -1761,12 +1761,12 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
+~@namespace_t@mpl_@::mpl_
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
-~@namespace_t@mpl_@::mpl_
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@OSG@::OSG
 ~@class_declaration_t@locale_data@::locale_data
@@ -1786,6 +1786,7 @@
 ~@variable_t@_ZTIN3OSG13DataSlotMixinINS_18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEEEE@::_ZTIN3OSG13DataSlotMixinINS_18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEEEE
 ~@variable_t@_ZTIN3OSG15GroupConnectionE@::_ZTIN3OSG15GroupConnectionE
 ~@variable_t@_ZTIN3OSG12NoLockPolicyE@::_ZTIN3OSG12NoLockPolicyE
+~@variable_t@_ZTIN3OSG32RemoteAspectFieldContainerMapperE@::_ZTIN3OSG32RemoteAspectFieldContainerMapperE
 ~@variable_t@_ZTIN3OSG26SingleStaticInitLockPolicyE@::_ZTIN3OSG26SingleStaticInitLockPolicyE
 ~@variable_t@_ZTIN3OSG17BarrierCommonBaseE@::_ZTIN3OSG17BarrierCommonBaseE
 ~@variable_t@_IO_2_1_stdin_@::_IO_2_1_stdin_
@@ -1963,7 +1964,7 @@
 ~@variable_t@_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE@::_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE
 ~@variable_t@__tzname@::__tzname
 ~@variable_t@_ZTIN3OSG14MPLockPoolTypeE@::_ZTIN3OSG14MPLockPoolTypeE
-~@variable_t@_ZTIN3OSG32RemoteAspectFieldContainerMapperE@::_ZTIN3OSG32RemoteAspectFieldContainerMapperE
+~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
 ~@variable_t@_ZTISt5ctypeIwE@::_ZTISt5ctypeIwE
 ~@variable_t@_ZTIN3OSG13ClusterWindow11AsyncCancelE@::_ZTIN3OSG13ClusterWindow11AsyncCancelE
 ~@variable_t@stdout@::stdout

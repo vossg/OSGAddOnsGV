@@ -1763,12 +1763,12 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
+~@namespace_t@mpl_@::mpl_
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
-~@namespace_t@mpl_@::mpl_
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@OSG@::OSG
 ~@class_declaration_t@_XDisplay@::_XDisplay
@@ -1821,6 +1821,7 @@
 ~@variable_t@_ZTIN3OSG18GLDefineMapperBaseE@::_ZTIN3OSG18GLDefineMapperBaseE
 ~@variable_t@_ZTIv@::_ZTIv
 ~@variable_t@_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
+~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
 ~@variable_t@_ZTIN3OSG6CameraE@::_ZTIN3OSG6CameraE
 ~@variable_t@_ZTIN3OSG10MPLockTypeE@::_ZTIN3OSG10MPLockTypeE
 ~@variable_t@stderr@::stderr
@@ -1952,7 +1953,7 @@
 ~@variable_t@_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE@::_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE
 ~@variable_t@__tzname@::__tzname
 ~@variable_t@_ZTIN3OSG14MPLockPoolTypeE@::_ZTIN3OSG14MPLockPoolTypeE
-~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
+~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
 ~@variable_t@stdin@::stdin
 ~@variable_t@stdout@::stdout
 ~@variable_t@_IO_2_1_stderr_@::_IO_2_1_stderr_

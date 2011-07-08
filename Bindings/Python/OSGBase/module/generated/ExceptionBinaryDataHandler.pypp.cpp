@@ -103,6 +103,12 @@ struct ExceptionBinaryDataHandler_wrapper : OSG::ExceptionBinaryDataHandler, bp:
         return bp::object( value2 );
     }
 
+    static boost::python::object getValue_9d3f662c74136f6fb45d12dcd60147cc( ::OSG::ExceptionBinaryDataHandler & inst ){
+        long double value2;
+        inst.getValue(value2);
+        return bp::object( value2 );
+    }
+
 };
 
 void translate_ReadError( const OSG::ExceptionBinaryDataHandler::ReadError& exc ){
@@ -234,6 +240,16 @@ void register_ExceptionBinaryDataHandler_class(){
                 , ( bp::arg("inst") ) );
         
         }
+        { //::OSG::ExceptionBinaryDataHandler::getValue
+        
+            typedef boost::python::object ( *getReal128_function_type )( ::OSG::ExceptionBinaryDataHandler & );
+            
+            ExceptionBinaryDataHandler_exposer.def( 
+                "getReal128"
+                , getReal128_function_type( &ExceptionBinaryDataHandler_wrapper::getValue_9d3f662c74136f6fb45d12dcd60147cc )
+                , ( bp::arg("inst") ) );
+        
+        }
         { //::OSG::ExceptionBinaryDataHandler::putValue
         
             typedef void ( ::OSG::ExceptionBinaryDataHandler::*putBool_function_type )( bool const & ) ;
@@ -291,6 +307,16 @@ void register_ExceptionBinaryDataHandler_class(){
             ExceptionBinaryDataHandler_exposer.def( 
                 "putReal64"
                 , putReal64_function_type( &::OSG::ExceptionBinaryDataHandler::putValue )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ExceptionBinaryDataHandler::putValue
+        
+            typedef void ( ::OSG::ExceptionBinaryDataHandler::*putReal128_function_type )( ::OSG::Real128 const & ) ;
+            
+            ExceptionBinaryDataHandler_exposer.def( 
+                "putReal128"
+                , putReal128_function_type( &::OSG::ExceptionBinaryDataHandler::putValue )
                 , ( bp::arg("value") ) );
         
         }

@@ -7,6 +7,7 @@ DeferredShadingStageBase
 ShadowStageBase
 DisplayFilterGroupBase
 ShadowStage
+ResolutionDisplayFilter
 FishEyeProjectorData
 DeferredShadingStageDataBase
 DeferredShadingStage
@@ -27,7 +28,6 @@ DisplayFilterStage
 DisplayFilterGroup
 DeferredShadingStageData
 ColorDisplayFilter
-ResolutionDisplayFilter
 FishEyeProjectorBase
 DistortionDisplayFilterBase
 CalibrationPatternFilterBase

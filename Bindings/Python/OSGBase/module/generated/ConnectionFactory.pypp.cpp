@@ -32,10 +32,18 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct SingletonHolder_less__OSG_scope_ConnectionFactoryBase__greater__wrapper : OSG::SingletonHolder< OSG::ConnectionFactoryBase >, bp::wrapper< OSG::SingletonHolder< OSG::ConnectionFactoryBase > > {
+
+    static void init(  ){
+        OSG::SingletonHolder< OSG::ConnectionFactoryBase >::init(  );
+    }
+
+};
+
 void register_ConnectionFactory_class(){
 
     { //::OSG::SingletonHolder< OSG::ConnectionFactoryBase >
-        typedef bp::class_< OSG::SingletonHolder< OSG::ConnectionFactoryBase >, boost::noncopyable > ConnectionFactory_exposer_t;
+        typedef bp::class_< SingletonHolder_less__OSG_scope_ConnectionFactoryBase__greater__wrapper, boost::noncopyable > ConnectionFactory_exposer_t;
         ConnectionFactory_exposer_t ConnectionFactory_exposer = ConnectionFactory_exposer_t( "ConnectionFactory", bp::no_init );
         bp::scope ConnectionFactory_scope( ConnectionFactory_exposer );
         { //::OSG::SingletonHolder< OSG::ConnectionFactoryBase >::destroy
@@ -46,6 +54,16 @@ void register_ConnectionFactory_class(){
             ConnectionFactory_exposer.def( 
                 "destroy"
                 , destroy_function_type( &::OSG::SingletonHolder< OSG::ConnectionFactoryBase >::destroy ) );
+        
+        }
+        { //::OSG::SingletonHolder< OSG::ConnectionFactoryBase >::init
+        
+            typedef OSG::SingletonHolder< OSG::ConnectionFactoryBase > exported_class_t;
+            typedef void ( *init_function_type )(  );
+            
+            ConnectionFactory_exposer.def( 
+                "init"
+                , init_function_type( &SingletonHolder_less__OSG_scope_ConnectionFactoryBase__greater__wrapper::init ) );
         
         }
         { //::OSG::SingletonHolder< OSG::ConnectionFactoryBase >::the
@@ -60,6 +78,7 @@ void register_ConnectionFactory_class(){
         
         }
         ConnectionFactory_exposer.staticmethod( "destroy" );
+        ConnectionFactory_exposer.staticmethod( "init" );
         ConnectionFactory_exposer.staticmethod( "the" );
     }
 

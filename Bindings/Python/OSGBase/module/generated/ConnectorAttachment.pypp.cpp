@@ -80,12 +80,12 @@ void register_ConnectorAttachment_class(){
         }
         { //::OSG::ConnectorAttachment::processChanged
         
-            typedef void ( ::OSG::ConnectorAttachment::*processChanged_function_type )( ::OSG::FieldContainer *,::OSG::BitVector ) ;
+            typedef void ( ::OSG::ConnectorAttachment::*processChanged_function_type )( ::OSG::FieldContainer *,::OSG::BitVector,::OSG::UInt32 ) ;
             
             ConnectorAttachment_exposer.def( 
                 "processChanged"
                 , processChanged_function_type( &::OSG::ConnectorAttachment::processChanged )
-                , ( bp::arg("pObj"), bp::arg("whichField") ) );
+                , ( bp::arg("pObj"), bp::arg("whichField"), bp::arg("origin") ) );
         
         }
         { //::OSG::ConnectorAttachment::removeConnectionTo
@@ -110,12 +110,12 @@ void register_ConnectorAttachment_class(){
         }
         { //::OSG::ConnectorAttachment::targetDestroyed
         
-            typedef void ( ::OSG::ConnectorAttachment::*targetDestroyed_function_type )( ::OSG::FieldContainer *,::OSG::BitVector ) ;
+            typedef void ( ::OSG::ConnectorAttachment::*targetDestroyed_function_type )( ::OSG::FieldContainer *,::OSG::BitVector,::OSG::UInt32 ) ;
             
             ConnectorAttachment_exposer.def( 
                 "targetDestroyed"
                 , targetDestroyed_function_type( &::OSG::ConnectorAttachment::targetDestroyed )
-                , ( bp::arg("pObj"), bp::arg("whichField") ) );
+                , ( bp::arg("pObj"), bp::arg("whichField"), bp::arg("origin") ) );
         
         }
         pyopensg::register_transit< OSG::ConnectorAttachment >::execute();

@@ -2156,6 +2156,7 @@
 ~@variable_t@PyExc_ValueError@::PyExc_ValueError
 ~@variable_t@PyExc_MemoryErrorInst@::PyExc_MemoryErrorInst
 ~@variable_t@_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
+~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
 ~@variable_t@_ZTIN3OSG23ConnectorAttachmentBaseE@::_ZTIN3OSG23ConnectorAttachmentBaseE
 ~@variable_t@PyEnum_Type@::PyEnum_Type
 ~@variable_t@sys_nerr@::sys_nerr
@@ -2287,7 +2288,7 @@
 ~@variable_t@PyCallIter_Type@::PyCallIter_Type
 ~@variable_t@PyExc_UserWarning@::PyExc_UserWarning
 ~@variable_t@_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE@::_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE
-~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
+~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
 ~@variable_t@PyFloat_Type@::PyFloat_Type
 ~@variable_t@PyDict_Type@::PyDict_Type
 ~@variable_t@_IO_2_1_stderr_@::_IO_2_1_stderr_
@@ -4088,7 +4089,7 @@
 ~@free_function_t@strftime_l@::size_t (*)( __restrict__ char *,::size_t,__restrict__ char const *,__restrict__ ::tm const *,::__locale_t )::size_t (*)( __restrict__ char *,::size_t,__restrict__ char const *,__restrict__ ::tm const *,::__locale_t )
 ~@free_function_t@llrint@long long int (*)( double )long long int (*)( double )
 ~@free_function_t@PyOS_FiniInterrupts@void (*)(  )void (*)(  )
-~@free_function_t@_Exit@void (*)( int )void (*)( int )
+~@free_function_t@_PyFloat_Digits@int (*)( char *,double,int * )int (*)( char *,double,int * )
 ~@free_function_t@PyDict_SetItemString@int (*)( ::PyObject *,char const *,::PyObject * )int (*)( ::PyObject *,char const *,::PyObject * )
 ~@free_function_t@PyBuffer_FromMemory@::PyObject * (*)( void *,::Py_ssize_t )::PyObject * (*)( void *,::Py_ssize_t )
 ~@free_function_t@PyComplex_RealAsDouble@double (*)( ::PyObject * )double (*)( ::PyObject * )
@@ -4155,7 +4156,7 @@
 ~@free_function_t@PyNumber_Absolute@::PyObject * (*)( ::PyObject * )::PyObject * (*)( ::PyObject * )
 ~@free_function_t@__builtin_cpowf@complex float (*)( complex float,complex float )complex float (*)( complex float,complex float )
 ~@free_function_t@PyNumber_InPlaceAdd@::PyObject * (*)( ::PyObject *,::PyObject * )::PyObject * (*)( ::PyObject *,::PyObject * )
-~@free_function_t@_PyFloat_Digits@int (*)( char *,double,int * )int (*)( char *,double,int * )
+~@free_function_t@_Exit@void (*)( int )void (*)( int )
 ~@free_function_t@glRasterPos4iv@void (*)( ::GLint const * )void (*)( ::GLint const * )
 ~@free_function_t@fputc@int (*)( int,::FILE * )int (*)( int,::FILE * )
 ~@free_function_t@PyMapping_Length@::Py_ssize_t (*)( ::PyObject * )::Py_ssize_t (*)( ::PyObject * )

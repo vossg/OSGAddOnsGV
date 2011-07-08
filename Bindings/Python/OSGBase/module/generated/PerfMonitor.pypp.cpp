@@ -32,10 +32,18 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct SingletonHolder_less__OSG_scope_PerfMonitorBase__greater__wrapper : OSG::SingletonHolder< OSG::PerfMonitorBase >, bp::wrapper< OSG::SingletonHolder< OSG::PerfMonitorBase > > {
+
+    static void init(  ){
+        OSG::SingletonHolder< OSG::PerfMonitorBase >::init(  );
+    }
+
+};
+
 void register_PerfMonitor_class(){
 
     { //::OSG::SingletonHolder< OSG::PerfMonitorBase >
-        typedef bp::class_< OSG::SingletonHolder< OSG::PerfMonitorBase >, boost::noncopyable > PerfMonitor_exposer_t;
+        typedef bp::class_< SingletonHolder_less__OSG_scope_PerfMonitorBase__greater__wrapper, boost::noncopyable > PerfMonitor_exposer_t;
         PerfMonitor_exposer_t PerfMonitor_exposer = PerfMonitor_exposer_t( "PerfMonitor", bp::no_init );
         bp::scope PerfMonitor_scope( PerfMonitor_exposer );
         { //::OSG::SingletonHolder< OSG::PerfMonitorBase >::destroy
@@ -46,6 +54,16 @@ void register_PerfMonitor_class(){
             PerfMonitor_exposer.def( 
                 "destroy"
                 , destroy_function_type( &::OSG::SingletonHolder< OSG::PerfMonitorBase >::destroy ) );
+        
+        }
+        { //::OSG::SingletonHolder< OSG::PerfMonitorBase >::init
+        
+            typedef OSG::SingletonHolder< OSG::PerfMonitorBase > exported_class_t;
+            typedef void ( *init_function_type )(  );
+            
+            PerfMonitor_exposer.def( 
+                "init"
+                , init_function_type( &SingletonHolder_less__OSG_scope_PerfMonitorBase__greater__wrapper::init ) );
         
         }
         { //::OSG::SingletonHolder< OSG::PerfMonitorBase >::the
@@ -60,6 +78,7 @@ void register_PerfMonitor_class(){
         
         }
         PerfMonitor_exposer.staticmethod( "destroy" );
+        PerfMonitor_exposer.staticmethod( "init" );
         PerfMonitor_exposer.staticmethod( "the" );
     }
 

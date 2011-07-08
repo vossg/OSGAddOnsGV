@@ -32,10 +32,18 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct SingletonHolder_less__OSG_scope_FieldContainerFactoryBase__greater__wrapper : OSG::SingletonHolder< OSG::FieldContainerFactoryBase >, bp::wrapper< OSG::SingletonHolder< OSG::FieldContainerFactoryBase > > {
+
+    static void init(  ){
+        OSG::SingletonHolder< OSG::FieldContainerFactoryBase >::init(  );
+    }
+
+};
+
 void register_FieldContainerFactory_class(){
 
     { //::OSG::SingletonHolder< OSG::FieldContainerFactoryBase >
-        typedef bp::class_< OSG::SingletonHolder< OSG::FieldContainerFactoryBase >, boost::noncopyable > FieldContainerFactory_exposer_t;
+        typedef bp::class_< SingletonHolder_less__OSG_scope_FieldContainerFactoryBase__greater__wrapper, boost::noncopyable > FieldContainerFactory_exposer_t;
         FieldContainerFactory_exposer_t FieldContainerFactory_exposer = FieldContainerFactory_exposer_t( "FieldContainerFactory", bp::no_init );
         bp::scope FieldContainerFactory_scope( FieldContainerFactory_exposer );
         { //::OSG::SingletonHolder< OSG::FieldContainerFactoryBase >::destroy
@@ -46,6 +54,16 @@ void register_FieldContainerFactory_class(){
             FieldContainerFactory_exposer.def( 
                 "destroy"
                 , destroy_function_type( &::OSG::SingletonHolder< OSG::FieldContainerFactoryBase >::destroy ) );
+        
+        }
+        { //::OSG::SingletonHolder< OSG::FieldContainerFactoryBase >::init
+        
+            typedef OSG::SingletonHolder< OSG::FieldContainerFactoryBase > exported_class_t;
+            typedef void ( *init_function_type )(  );
+            
+            FieldContainerFactory_exposer.def( 
+                "init"
+                , init_function_type( &SingletonHolder_less__OSG_scope_FieldContainerFactoryBase__greater__wrapper::init ) );
         
         }
         { //::OSG::SingletonHolder< OSG::FieldContainerFactoryBase >::the
@@ -60,6 +78,7 @@ void register_FieldContainerFactory_class(){
         
         }
         FieldContainerFactory_exposer.staticmethod( "destroy" );
+        FieldContainerFactory_exposer.staticmethod( "init" );
         FieldContainerFactory_exposer.staticmethod( "the" );
     }
 

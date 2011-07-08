@@ -32,10 +32,18 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct SingletonHolder_less__OSG_scope_SceneFileHandlerBase__greater__wrapper : OSG::SingletonHolder< OSG::SceneFileHandlerBase >, bp::wrapper< OSG::SingletonHolder< OSG::SceneFileHandlerBase > > {
+
+    static void init(  ){
+        OSG::SingletonHolder< OSG::SceneFileHandlerBase >::init(  );
+    }
+
+};
+
 void register_SceneFileHandler_class(){
 
     { //::OSG::SingletonHolder< OSG::SceneFileHandlerBase >
-        typedef bp::class_< OSG::SingletonHolder< OSG::SceneFileHandlerBase >, boost::noncopyable > SceneFileHandler_exposer_t;
+        typedef bp::class_< SingletonHolder_less__OSG_scope_SceneFileHandlerBase__greater__wrapper, boost::noncopyable > SceneFileHandler_exposer_t;
         SceneFileHandler_exposer_t SceneFileHandler_exposer = SceneFileHandler_exposer_t( "SceneFileHandler", bp::no_init );
         bp::scope SceneFileHandler_scope( SceneFileHandler_exposer );
         { //::OSG::SingletonHolder< OSG::SceneFileHandlerBase >::destroy
@@ -46,6 +54,16 @@ void register_SceneFileHandler_class(){
             SceneFileHandler_exposer.def( 
                 "destroy"
                 , destroy_function_type( &::OSG::SingletonHolder< OSG::SceneFileHandlerBase >::destroy ) );
+        
+        }
+        { //::OSG::SingletonHolder< OSG::SceneFileHandlerBase >::init
+        
+            typedef OSG::SingletonHolder< OSG::SceneFileHandlerBase > exported_class_t;
+            typedef void ( *init_function_type )(  );
+            
+            SceneFileHandler_exposer.def( 
+                "init"
+                , init_function_type( &SingletonHolder_less__OSG_scope_SceneFileHandlerBase__greater__wrapper::init ) );
         
         }
         { //::OSG::SingletonHolder< OSG::SceneFileHandlerBase >::the
@@ -60,6 +78,7 @@ void register_SceneFileHandler_class(){
         
         }
         SceneFileHandler_exposer.staticmethod( "destroy" );
+        SceneFileHandler_exposer.staticmethod( "init" );
         SceneFileHandler_exposer.staticmethod( "the" );
     }
 

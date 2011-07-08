@@ -32,10 +32,18 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct SingletonHolder_less__OSG_scope_GraphOpFactoryBase__greater__wrapper : OSG::SingletonHolder< OSG::GraphOpFactoryBase >, bp::wrapper< OSG::SingletonHolder< OSG::GraphOpFactoryBase > > {
+
+    static void init(  ){
+        OSG::SingletonHolder< OSG::GraphOpFactoryBase >::init(  );
+    }
+
+};
+
 void register_GraphOpFactory_class(){
 
     { //::OSG::SingletonHolder< OSG::GraphOpFactoryBase >
-        typedef bp::class_< OSG::SingletonHolder< OSG::GraphOpFactoryBase >, boost::noncopyable > GraphOpFactory_exposer_t;
+        typedef bp::class_< SingletonHolder_less__OSG_scope_GraphOpFactoryBase__greater__wrapper, boost::noncopyable > GraphOpFactory_exposer_t;
         GraphOpFactory_exposer_t GraphOpFactory_exposer = GraphOpFactory_exposer_t( "GraphOpFactory", bp::no_init );
         bp::scope GraphOpFactory_scope( GraphOpFactory_exposer );
         { //::OSG::SingletonHolder< OSG::GraphOpFactoryBase >::destroy
@@ -46,6 +54,16 @@ void register_GraphOpFactory_class(){
             GraphOpFactory_exposer.def( 
                 "destroy"
                 , destroy_function_type( &::OSG::SingletonHolder< OSG::GraphOpFactoryBase >::destroy ) );
+        
+        }
+        { //::OSG::SingletonHolder< OSG::GraphOpFactoryBase >::init
+        
+            typedef OSG::SingletonHolder< OSG::GraphOpFactoryBase > exported_class_t;
+            typedef void ( *init_function_type )(  );
+            
+            GraphOpFactory_exposer.def( 
+                "init"
+                , init_function_type( &SingletonHolder_less__OSG_scope_GraphOpFactoryBase__greater__wrapper::init ) );
         
         }
         { //::OSG::SingletonHolder< OSG::GraphOpFactoryBase >::the
@@ -60,6 +78,7 @@ void register_GraphOpFactory_class(){
         
         }
         GraphOpFactory_exposer.staticmethod( "destroy" );
+        GraphOpFactory_exposer.staticmethod( "init" );
         GraphOpFactory_exposer.staticmethod( "the" );
     }
 

@@ -52,8 +52,6 @@ void register_GPUSkinningAlgorithmBase_class(){
         typedef bp::class_< GPUSkinningAlgorithmBase_wrapper, bp::bases< OSG::SkinningAlgorithm >, boost::noncopyable > GPUSkinningAlgorithmBase_exposer_t;
         GPUSkinningAlgorithmBase_exposer_t GPUSkinningAlgorithmBase_exposer = GPUSkinningAlgorithmBase_exposer_t( "GPUSkinningAlgorithmBase", bp::no_init );
         bp::scope GPUSkinningAlgorithmBase_scope( GPUSkinningAlgorithmBase_exposer );
-        bp::scope().attr("ShaderDataFieldId") = (int)OSG::GPUSkinningAlgorithmBase::ShaderDataFieldId;
-        bp::scope().attr("NextFieldId") = (int)OSG::GPUSkinningAlgorithmBase::NextFieldId;
         { //::OSG::GPUSkinningAlgorithmBase::copyFromBin
         
             typedef void ( ::OSG::GPUSkinningAlgorithmBase::*copyFromBin_function_type )( ::OSG::BinaryDataHandler &,::OSG::ConstFieldMaskArg ) ;
@@ -150,26 +148,6 @@ void register_GPUSkinningAlgorithmBase_class(){
                 , getContainerSize_function_type( &::OSG::GPUSkinningAlgorithmBase::getContainerSize ) );
         
         }
-        { //::OSG::GPUSkinningAlgorithmBase::getSFShaderData
-        
-            typedef ::OSG::SFUnrecShaderProgramVariableChunkPtr const * ( ::OSG::GPUSkinningAlgorithmBase::*getSFShaderData_function_type )(  ) const;
-            
-            GPUSkinningAlgorithmBase_exposer.def( 
-                "getSFShaderData"
-                , getSFShaderData_function_type( &::OSG::GPUSkinningAlgorithmBase::getSFShaderData )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::GPUSkinningAlgorithmBase::getShaderData
-        
-            typedef ::OSG::ShaderProgramVariableChunk * ( ::OSG::GPUSkinningAlgorithmBase::*getShaderData_function_type )(  ) const;
-            
-            GPUSkinningAlgorithmBase_exposer.def( 
-                "getShaderData"
-                , getShaderData_function_type( &::OSG::GPUSkinningAlgorithmBase::getShaderData )
-                , bp::return_internal_reference< >() );
-        
-        }
         { //::OSG::GPUSkinningAlgorithmBase::getType
         
             typedef ::OSG::FieldContainerType & ( ::OSG::GPUSkinningAlgorithmBase::*getType_function_type )(  ) ;
@@ -188,16 +166,6 @@ void register_GPUSkinningAlgorithmBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::GPUSkinningAlgorithmBase::getType )
                 , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::GPUSkinningAlgorithmBase::setShaderData
-        
-            typedef void ( ::OSG::GPUSkinningAlgorithmBase::*setShaderData_function_type )( ::OSG::ShaderProgramVariableChunk * const ) ;
-            
-            GPUSkinningAlgorithmBase_exposer.def( 
-                "setShaderData"
-                , setShaderData_function_type( &::OSG::GPUSkinningAlgorithmBase::setShaderData )
-                , ( bp::arg("value") ) );
         
         }
         { //::OSG::Algorithm::renderEnter

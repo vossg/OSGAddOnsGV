@@ -42,6 +42,7 @@ void register_CSMTrackballBase_class(){
         bp::scope().attr("ProcessingFieldId") = (int)OSG::CSMTrackballBase::ProcessingFieldId;
         bp::scope().attr("TranslationScaleFactorFieldId") = (int)OSG::CSMTrackballBase::TranslationScaleFactorFieldId;
         bp::scope().attr("MatrixResultFieldId") = (int)OSG::CSMTrackballBase::MatrixResultFieldId;
+        bp::scope().attr("RotationMatrixResultFieldId") = (int)OSG::CSMTrackballBase::RotationMatrixResultFieldId;
         bp::scope().attr("ReferencePositionFieldId") = (int)OSG::CSMTrackballBase::ReferencePositionFieldId;
         bp::scope().attr("ReferenceMatrixFieldId") = (int)OSG::CSMTrackballBase::ReferenceMatrixFieldId;
         bp::scope().attr("TransformCenterFieldId") = (int)OSG::CSMTrackballBase::TransformCenterFieldId;
@@ -193,6 +194,16 @@ void register_CSMTrackballBase_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
+        { //::OSG::CSMTrackballBase::getRotationMatrixResult
+        
+            typedef ::OSG::Matrix const & ( ::OSG::CSMTrackballBase::*getRotationMatrixResult_function_type )(  ) const;
+            
+            CSMTrackballBase_exposer.def( 
+                "getRotationMatrixResult"
+                , getRotationMatrixResult_function_type( &::OSG::CSMTrackballBase::getRotationMatrixResult )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
         { //::OSG::CSMTrackballBase::getSFMatrixResult
         
             typedef ::OSG::SFMatrix const * ( ::OSG::CSMTrackballBase::*getSFMatrixResult_function_type )(  ) const;
@@ -240,6 +251,16 @@ void register_CSMTrackballBase_class(){
             CSMTrackballBase_exposer.def( 
                 "getSFReferencePosition"
                 , getSFReferencePosition_function_type( &::OSG::CSMTrackballBase::getSFReferencePosition )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMTrackballBase::getSFRotationMatrixResult
+        
+            typedef ::OSG::SFMatrix const * ( ::OSG::CSMTrackballBase::*getSFRotationMatrixResult_function_type )(  ) const;
+            
+            CSMTrackballBase_exposer.def( 
+                "getSFRotationMatrixResult"
+                , getSFRotationMatrixResult_function_type( &::OSG::CSMTrackballBase::getSFRotationMatrixResult )
                 , bp::return_internal_reference< >() );
         
         }
@@ -369,6 +390,16 @@ void register_CSMTrackballBase_class(){
             CSMTrackballBase_exposer.def( 
                 "setReferencePosition"
                 , setReferencePosition_function_type( &::OSG::CSMTrackballBase::setReferencePosition )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMTrackballBase::setRotationMatrixResult
+        
+            typedef void ( ::OSG::CSMTrackballBase::*setRotationMatrixResult_function_type )( ::OSG::Matrix const & ) ;
+            
+            CSMTrackballBase_exposer.def( 
+                "setRotationMatrixResult"
+                , setRotationMatrixResult_function_type( &::OSG::CSMTrackballBase::setRotationMatrixResult )
                 , ( bp::arg("value") ) );
         
         }

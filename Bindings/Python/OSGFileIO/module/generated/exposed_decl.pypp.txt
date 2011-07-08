@@ -1804,6 +1804,7 @@
 ~@variable_t@_ZTIN3OSG18GLDefineMapperBaseE@::_ZTIN3OSG18GLDefineMapperBaseE
 ~@variable_t@_ZTIv@::_ZTIv
 ~@variable_t@_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
+~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
 ~@variable_t@_ZTIN3OSG10MPLockTypeE@::_ZTIN3OSG10MPLockTypeE
 ~@variable_t@stderr@::stderr
 ~@variable_t@_ZTISt9exception@::_ZTISt9exception
@@ -1913,7 +1914,7 @@
 ~@variable_t@_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE@::_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE
 ~@variable_t@__tzname@::__tzname
 ~@variable_t@_ZTIN3OSG14MPLockPoolTypeE@::_ZTIN3OSG14MPLockPoolTypeE
-~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
+~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
 ~@variable_t@_ZTIN3OSG18VRMLAttachmentBaseE@::_ZTIN3OSG18VRMLAttachmentBaseE
 ~@variable_t@stdout@::stdout
 ~@variable_t@_IO_2_1_stderr_@::_IO_2_1_stderr_

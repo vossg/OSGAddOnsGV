@@ -51,6 +51,16 @@ struct FieldDescriptionBase_wrapper : OSG::FieldDescriptionBase, bp::wrapper< OS
         return func_clone(  );
     }
 
+    virtual void copyFromBin( ::OSG::BinaryDataHandler & pMem, ::OSG::Field * pField ){
+        bp::override func_copyFromBin = this->get_override( "copyFromBin" );
+        func_copyFromBin( boost::ref(pMem), boost::python::ptr(pField) );
+    }
+
+    virtual void copyToBin( ::OSG::BinaryDataHandler & pMem, ::OSG::Field * pField ) const {
+        bp::override func_copyToBin = this->get_override( "copyToBin" );
+        func_copyToBin( boost::ref(pMem), boost::python::ptr(pField) );
+    }
+
     virtual ::OSG::BasicFieldConnector * createConnector( ::OSG::Field const * pSrc, ::OSG::FieldDescriptionBase const * pDstDesc, ::OSG::Field * pDst ) const {
         bp::override func_createConnector = this->get_override( "createConnector" );
         return func_createConnector( boost::python::ptr(pSrc), boost::python::ptr(pDstDesc), boost::python::ptr(pDst) );
@@ -76,9 +86,18 @@ struct FieldDescriptionBase_wrapper : OSG::FieldDescriptionBase, bp::wrapper< OS
         func_destroyField( boost::python::ptr(pField) );
     }
 
+    virtual ::OSG::UInt32 getBinSize( ::OSG::Field * pField ) const {
+        bp::override func_getBinSize = this->get_override( "getBinSize" );
+        return func_getBinSize( boost::python::ptr(pField) );
+    }
+
     virtual bool isShared( ::OSG::Field * pField ){
         bp::override func_isShared = this->get_override( "isShared" );
         return func_isShared( boost::python::ptr(pField) );
+    }
+
+    void setDynamic( bool bDynamic ){
+        OSG::FieldDescriptionBase::setDynamic( bDynamic );
     }
 
 };
@@ -108,6 +127,26 @@ void register_FieldDescriptionBase_class(){
                 "clone"
                 , bp::pure_virtual( clone_function_type(&::OSG::FieldDescriptionBase::clone) )
                 , bp::return_value_policy< bp::manage_new_object >() );
+        
+        }
+        { //::OSG::FieldDescriptionBase::copyFromBin
+        
+            typedef void ( ::OSG::FieldDescriptionBase::*copyFromBin_function_type )( ::OSG::BinaryDataHandler &,::OSG::Field * ) ;
+            
+            FieldDescriptionBase_exposer.def( 
+                "copyFromBin"
+                , bp::pure_virtual( copyFromBin_function_type(&::OSG::FieldDescriptionBase::copyFromBin) )
+                , ( bp::arg("pMem"), bp::arg("pField") ) );
+        
+        }
+        { //::OSG::FieldDescriptionBase::copyToBin
+        
+            typedef void ( ::OSG::FieldDescriptionBase::*copyToBin_function_type )( ::OSG::BinaryDataHandler &,::OSG::Field * ) const;
+            
+            FieldDescriptionBase_exposer.def( 
+                "copyToBin"
+                , bp::pure_virtual( copyToBin_function_type(&::OSG::FieldDescriptionBase::copyToBin) )
+                , ( bp::arg("pMem"), bp::arg("pField") ) );
         
         }
         { //::OSG::FieldDescriptionBase::createConnector
@@ -169,6 +208,16 @@ void register_FieldDescriptionBase_class(){
                 "editField"
                 , editField_function_type( &::OSG::FieldDescriptionBase::editField )
                 , ( bp::arg("oContainer") ) );
+        
+        }
+        { //::OSG::FieldDescriptionBase::getBinSize
+        
+            typedef ::OSG::UInt32 ( ::OSG::FieldDescriptionBase::*getBinSize_function_type )( ::OSG::Field * ) const;
+            
+            FieldDescriptionBase_exposer.def( 
+                "getBinSize"
+                , bp::pure_virtual( getBinSize_function_type(&::OSG::FieldDescriptionBase::getBinSize) )
+                , ( bp::arg("pField") ) );
         
         }
         { //::OSG::FieldDescriptionBase::getCName
@@ -254,6 +303,15 @@ void register_FieldDescriptionBase_class(){
                 , getTypeId_function_type( &::OSG::FieldDescriptionBase::getTypeId ) );
         
         }
+        { //::OSG::FieldDescriptionBase::isDynamic
+        
+            typedef bool ( ::OSG::FieldDescriptionBase::*isDynamic_function_type )(  ) const;
+            
+            FieldDescriptionBase_exposer.def( 
+                "isDynamic"
+                , isDynamic_function_type( &::OSG::FieldDescriptionBase::isDynamic ) );
+        
+        }
         { //::OSG::FieldDescriptionBase::isInternal
         
             typedef bool ( ::OSG::FieldDescriptionBase::*isInternal_function_type )(  ) const;
@@ -298,6 +356,16 @@ void register_FieldDescriptionBase_class(){
             FieldDescriptionBase_exposer.def( 
                 "isValid"
                 , isValid_function_type( &::OSG::FieldDescriptionBase::isValid ) );
+        
+        }
+        { //::OSG::FieldDescriptionBase::setDynamic
+        
+            typedef void ( FieldDescriptionBase_wrapper::*setDynamic_function_type )( bool ) ;
+            
+            FieldDescriptionBase_exposer.def( 
+                "setDynamic"
+                , setDynamic_function_type( &FieldDescriptionBase_wrapper::setDynamic )
+                , ( bp::arg("bDynamic") ) );
         
         }
         { //::OSG::FieldDescriptionBase::setFieldId
