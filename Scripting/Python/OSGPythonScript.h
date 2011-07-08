@@ -46,7 +46,20 @@
 #include "OSGPythonScriptBase.h"
 #include "OSGAction.h"
 
+#define WITH_BOOST_PYTHON
+
+#ifdef WITH_BOOST_PYTHON
 #include <boost/python/object.hpp>
+#endif
+
+namespace boost
+{
+    namespace python
+    {
+        class object;
+    }
+}
+namespace bp = boost::python;
 
 OSG_BEGIN_NAMESPACE
 
@@ -72,7 +85,7 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
+    /*! \name                        Type                                  */
     /*! \{                                                                 */
 
     virtual       FieldContainerType &getType         (void);
@@ -96,13 +109,52 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
 
-  protected:
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Field Access                          */
+    /*! \{                                                                 */
+
+    template<class T>
+    void     setSField(const std::string& name,
+                       const T& value          );
+    template<class T>
+    const T& getSField(const std::string& name,
+                       const T& type           );
+
+    template<class T, Int32 iNamespace>
+    void     setSFieldNS(const std::string& name,
+                         const T& value          );
+    template<class T, Int32 iNamespace>
+    const T& getSFieldNS(const std::string& name,
+                         const T& type           );
+
+    // TODO: add multi field equivalent. I have to figure out the best way
+    //       to access multi fields from python
+
+    virtual UInt32 addField(const UInt32  uiFieldTypeId,
+                            const Char8  *szFieldName   );
+    virtual UInt32 addField(const Char8  *szFieldType,
+                            const Char8  *szFieldName   );
+
+    // TODO: add code for removing a field
+
+    // Temporary test method:
+    UInt32 myId();
+
+
+    typedef std::map<std::string, std::string> OSG2PyTypeMap;
+
+    /*=========================  PROTECTED  ===============================*/
+    protected:
 
     typedef PythonScriptBase Inherited;
 
-    PyThreadState *_pPyInterpreter;
+    PyThreadState         *_pPyInterpreter;
+
+#ifdef WITH_BOOST_PYTHON
+    boost::python::object  _pyMainDict;
+#endif
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -120,7 +172,7 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Init                                  */
+    /*! \name                        Type                                  */
     /*! \{                                                                 */
 
     virtual       TypeObject &getFinalType(void);
@@ -148,8 +200,68 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     /*---------------------------------------------------------------------*/
 
-    /*!\brief prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed)       */
     void operator =(const PythonScript &source);
+
+    UInt32 _uiFCount;
+    UInt32 _uiFrameFreq;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Python Related                         */
+    /*! \{                                                                 */
+
+    static OSG2PyTypeMap _osg2pyTypeM;
+
+    /*!\brief Sets up the Python environment, loads global functions and   */
+    /*        and exposes the PythonScript core as Python variable.        */
+    /* \see   exposeContainer                                              */
+    bool setupPython(void);
+
+    /*!\brief Exposes the core and its fields to Python                    */
+    /* \see   exposeContainer                                              */
+    /* \see   exposeField                                                  */
+    void exposeToPython(void);
+
+    /*!\brief Makes this PythonScript core available within the Python     */
+    /*        interpreter as global variable with the given varName        */
+    /* \param varName Name of the variable as which the container is       */
+    /*        exposed to  Python                                           */
+    bool exposeContainer(const std::string& varName);
+
+    /*!\brief Mapping a field adds a Python property to the to the Python  */
+    /*        representation of this core. The field is then accessible    */
+    /*        via this property.                                           */
+    /* \param fieldName Name of the field to be exposed                    */
+    /* \param propName  Name of the property                               */
+    void exposeField(const std::string& fieldName,
+                     const std::string& propName);
+
+    /*!\brief Generates a getter/setter function pair to access the field  */
+    /*        \emph{fieldName} from python. The functions are not used     */
+    /*        directly but are decorated with a \emph{property}.           */
+    /* \param fieldName Name of the field for which the access functions   */
+    /*        are generated                                                */
+    /* \return A string pair with the names of the setter and getter       */
+    /*         python functions.                                           */
+    /* \see   exposeField                                                  */
+    std::pair<std::string, std::string>
+            generatePythonFieldAccessFunctions(const std::string &fieldName);
+
+    /*!\brief Fetches the current error from Python and fills the type,    */
+    /*        value and traceback (if available) objects.                  */
+    /* \param type      Type of the error                                  */
+    /* \param value     Error value                                        */
+    /* \param traceback Error traceback, if available                      */
+    void fetchInterpreterError(bp::object &type,
+                               bp::object &value,
+                               bp::object &traceback);
+
+    /*!\brief Registers type mappings between OSG field types and Python   */
+    /*        instances, necessary for the getter function that retrieves  */
+    /*        an OSG field value with an Python property .                 */
+    /* \todo  Better explanation!                                          */
+    static void registerTypeMappings();
 };
 
 typedef PythonScript *PythonScriptP;

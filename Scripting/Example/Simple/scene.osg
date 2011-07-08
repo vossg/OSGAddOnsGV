@@ -2,27 +2,113 @@
 
 Node
 {
-  core DEF TestScript PythonScript
+  core DEF TieController1 PythonScript
   {
-    field SFVec3f pos  0  1  2
-    field SFVec3f pos1 3  4  5
-    field SFVec2f pos2 6  7  
-    field SFVec3f pos  9 10 11
+    field SFVec3f  pos    0  1  2
+    field SFVec3f  phase  0  0  0
+    field SFString name  "TieController1_name"
+    field SFVec2f  vec2   1  1 
 
-    script "def foo"
+    script "import time
+from math import sin
+
+def calcPosition():
+    radius = 2
+    # temporary until field access works:
+    phase  = osg.Vec3f(45,0,0)
+    speed  = 7
+    offset = osg.Vec3f(-4,0,0)
+
+    base = time.clock() * speed + phase.x() 
+    p    = osg.Vec3f(0, radius * sin(base), 0)
+
+    return offset + p
+
+self.pos = calcPosition()
+
+#print '----------------------\n'
+#print self.name
+#print self.pos
+#print self.vec2
+#print '----------------------\n'"
+
     priority 42
   }
 
   children
   [
-    Node
-    {
-      core Inline
-      {
-        url "../Models/tie.wrl"
-      }
+        Node
+        {
+          core DEF TransCore1 ComponentTransform
+          {
+          }
+      
+          children
+          [
+            Node
+            {
+              core Inline
+              {
+	        url "../Models/tie.wrl"
+              }
+            }
+          ]
+        }
+
+        Node
+        {
+          core DEF TieController2 PythonScript
+          {
+            field SFVec3f  pos    0  0  0
+            field SFVec3f  phase 45  0  0
+            field SFString name  "TieController2_name"
+            field SFVec2f  vec2   2  2
+
+            script "import time
+from math import sin, floor
+
+def calcPosition():
+    if(floor(time.clock()) % 2 == 0):
+	return osg.Vec3f(2,-2,0)
+    else:
+	return osg.Vec3f(3,2,0)
+
+    return offset + p
+
+self.pos = calcPosition()
+
+#print '----------------------\n'
+#print self.name
+#print self.pos
+#print self.vec2
+#print '----------------------\n'"
+
+            priority 42
+          }
+
+      children
+      [
+            Node
+            {
+              core DEF TransCore2 ComponentTransform
+              {
+              }
+
+              children
+              [
+                Node
+                {
+                  core Inline
+                  {
+                    url "../Models/tie.wrl"
+                  }
+                }
+              ]
+            }
+      ]
     }
   ]
 }
 
-#ROUTE TestScript.pos TO TestScript.pos1
+ROUTE TieController1.pos TO TransCore1.translation
+ROUTE TieController2.pos TO TransCore2.translation

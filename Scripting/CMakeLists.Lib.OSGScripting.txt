@@ -14,8 +14,10 @@ SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGGroup OSGUtil OSGWindowGLUT)
 
 IF(PYTHONLIBS_FOUND)
   SET(${PROJECT_NAME}_DEP_LIB PYTHON_LIBRARY)
-#   SET(${PROJECT_NAME}_DEP_LIBDIR)
+  LIST(APPEND ${PROJECT_NAME}_DEP_LIB OSG_BOOST_PYTHON_LIBS)
   SET(${PROJECT_NAME}_DEP_INCDIR PYTHON_INCLUDE_PATH)
+
+  #MESSAGE(WARNING "OSG_BOOST_PYTHON_LIBS: " ${OSG_BOOST_PYTHON_LIBS})
 ENDIF(PYTHONLIBS_FOUND)
 
 # SET(${PROJECT_NAME}_DEP_TEST_LIB)
@@ -50,7 +52,7 @@ ENDIF(PYTHONLIBS_FOUND)
 # setup python bindings
 ##############################################################################
 
-SET(${PROJECT_NAME}_NO_PYTHON TRUE)
+SET(${PROJECT_NAME}_NO_PYTHON FALSE)
 
 ##############################################################################
 # setup build
