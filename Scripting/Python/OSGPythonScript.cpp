@@ -246,6 +246,8 @@ bool PythonScript::exposeContainer(const std::string& varName)
         assert(false);
         return false;
     }
+
+    return true;
 }
 
 void PythonScript::frame(OSG::Time, OSG::UInt32)
@@ -466,7 +468,7 @@ PythonScript::generatePythonFieldAccessFunctions(const std::string& fieldName)
 UInt32 PythonScript::addField(const UInt32  uiFieldTypeId,
                               const Char8  *szFieldName  )
 {
-    DynFieldContainer::addField(uiFieldTypeId, szFieldName);
+    UInt32 returnValue = Inherited::addField(uiFieldTypeId, szFieldName);
 
     // The initial dynamic fields are exposed in setupPython(). Only fields
     // at runtime are handled here:
@@ -479,12 +481,14 @@ UInt32 PythonScript::addField(const UInt32  uiFieldTypeId,
                      << szFieldName << "' to Python object" << std::endl;
 #endif
     }
+
+    return returnValue;
 }
 
 UInt32 PythonScript::addField(const Char8  *szFieldType,
                               const Char8  *szFieldName)
 {
-    DynFieldContainer::addField(szFieldType, szFieldName);
+    UInt32 returnValue = Inherited::addField(szFieldType, szFieldName);
 
     // The initial dynamic fields are exposed in setupPython(). Only fields
     // at runtime are handled here:
@@ -497,6 +501,8 @@ UInt32 PythonScript::addField(const Char8  *szFieldType,
                      << szFieldName << "' to Python object" << std::endl;
 #endif
     }
+
+    return returnValue;
 }
 
 void PythonScript::registerTypeMappings()

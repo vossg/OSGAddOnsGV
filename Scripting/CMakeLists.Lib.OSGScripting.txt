@@ -33,6 +33,18 @@ OSG_ADD_GLUTPACKAGE(TRUE)
 
 SET(${PROJECT_NAME}_NO_DOC TRUE)
 
+
+##############################################################################
+# setup python bindings
+##############################################################################
+
+SET(${PROJECT_NAME}_NO_PYTHON FALSE)
+SET(${PROJECT_NAME}_ENABLE_WRITE_PYTHON_TO_SOURCE TRUE)
+
+##############################################################################
+# store dependencies
+##############################################################################
+
 OSG_STORE_PROJECT_DEPENDENCIES()
 
 ##############################################################################
@@ -47,12 +59,6 @@ OSG_ADD_DIRECTORY("${CMAKE_CURRENT_SOURCE_DIR}/Mixin")
 IF(PYTHONLIBS_FOUND)
   OSG_ADD_DIRECTORY("${CMAKE_CURRENT_SOURCE_DIR}/Python")
 ENDIF(PYTHONLIBS_FOUND)
-
-##############################################################################
-# setup python bindings
-##############################################################################
-
-SET(${PROJECT_NAME}_NO_PYTHON FALSE)
 
 ##############################################################################
 # setup build

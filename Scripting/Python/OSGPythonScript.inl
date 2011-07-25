@@ -42,15 +42,17 @@
 
 OSG_BEGIN_NAMESPACE
 
-//#define OSGPY_GENERATE_ACCESS_METHODS(FieldT, iNameSpace)            \
-//    template const FieldT& PythonScript::getSField<FieldT,         \
-//                                                   iNameSpace>     \
-//                                         (const std::string& name, \
-//                                          const FieldT& value);    \
-//    template void          PythonScript::setSField<FieldT,         \
-//                                                   iNameSpace>     \
-//                                         (const std::string& name, \
-//                                          const FieldT& value);
+#if 0
+#define OSGPY_GENERATE_ACCESS_METHODS(FieldT, iNameSpace)            \
+    template const FieldT& PythonScript::getSField<FieldT,         \
+                                                   iNameSpace>     \
+                                         (const std::string& name, \
+                                          const FieldT& value);    \
+    template void          PythonScript::setSField<FieldT,         \
+                                                   iNameSpace>     \
+                                         (const std::string& name, \
+                                          const FieldT& value);
+#endif
 
 #define OSGPY_GENERATE_ACCESS_METHODS(FieldT)            \
     template const FieldT& PythonScript::getSField<FieldT>   \
