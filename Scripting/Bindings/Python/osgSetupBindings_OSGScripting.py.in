@@ -1,0 +1,108 @@
+# PyOpenSG is (C) Copyright 2005-2009 by Allen Bierbaum
+#
+# This file is part of PyOpenSG.
+#
+# PyOpenSG is free software; you can redistribute it and/or modify it under
+# the terms of the GNU Lesser General Public License as published by the Free
+# Software Foundation; either version 2 of the License, or (at your option)
+# any later version.
+#
+# PyOpenSG is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for
+# more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+# This script is derived from gen_bindings.py, it contains all class specific 
+# tasks for the OSGBaseLib for the integration with the OpenSG CMake system
+# (GV)
+#
+
+from goodies import *
+
+import pygccxml.declarations as pd
+
+import pyplusplus.function_transformers as FT
+
+import osggen
+import settings
+import splitGenHelper
+
+def preScanSetup(gen_classes, fc_infos, core_mods, free_funcs, free_func_mods, exc_types):
+
+  return
+
+def excludeFCDSetup(opensg_src_dir, fc_ignore_list, skip_fcds):
+
+  return
+
+
+cmh_ncsd_temp         = None
+ftm_cmh_ncsd_temp     = None
+dfc_ftm_cmh_ncsd_temp = None
+sp_temp               = None
+
+def genTemplatesSetup(template_builder, tbuilder, non_fc_template_instances):
+
+  global cmh_ncsd_temp
+  global ftm_cmh_ncsd_temp
+  global dfc_ftm_cmh_ncsd_temp
+  global sp_temp
+
+  cmh_ncsd_temp         = tbuilder.Template("OSG::ContainerMixinHead<OSG::NodeCoreScriptDesc>",
+                                            "ContainerMixinHeadNodeCoreScriptDesc")
+  ftm_cmh_ncsd_temp     = tbuilder.Template("OSG::FrameTaskMixin<OSG::ContainerMixinHead<OSG::NodeCoreScriptDesc> >",
+                                            "FrameTaskMixinContainerMixinHeadNodeCoreScriptDesc")
+  dfc_ftm_cmh_ncsd_temp = tbuilder.Template("OSG::DynFieldContainer<OSG::FrameTaskMixin<OSG::ContainerMixinHead<OSG::NodeCoreScriptDesc> > >",
+                                            "DynFieldContainerFrameTaskMixinContainerMixinHeadNodeCoreScriptDesc")
+  sp_temp               = tbuilder.Template("OSG::ScriptParent", "ScriptParent")
+
+  return
+
+
+
+def postScanSetup(osg, template_alias_db):
+  
+  splitGenHelper.exposeTemplateType(cmh_ncsd_temp)
+  splitGenHelper.exposeTemplateType(ftm_cmh_ncsd_temp)
+  splitGenHelper.exposeTemplateType(dfc_ftm_cmh_ncsd_temp)
+  splitGenHelper.exposeTemplateType(sp_temp)
+
+  sc = osg.class_("PythonScript") 
+
+  print "bar ", sc
+
+  for decl in sc["getFinalType"]:
+    print "foo ", decl
+    if is_const_ref(decl.return_type):
+      decl.exclude()
+    else:
+      decl.call_policies = return_internal_reference()
+
+  for decl in dfc_ftm_cmh_ncsd_temp.decl["getFinalType"]:
+    print "foobar ", decl
+    if is_const_ref(decl.return_type):
+      decl.exclude()
+    else:
+      decl.call_policies = return_internal_reference()
+
+
+  return
+
+
+def tempLookatPostScanSetup(osg):
+
+  return
+
+
+def postGenClassesSetup(osg, mb):
+
+  return
+
+
+def postFCDInfoSetup(osg, mb, adddition_exp):
+
+  return
