@@ -286,7 +286,7 @@ void CpuClipmapRenderer::onRender( const ClipmapRenderParameters& renderParamete
     _pTerrainShader->activate(renderParameters.drawEnv);
 #endif
     
-    bool useDependentTextureLookup = false;
+//    bool useDependentTextureLookup = false;
     
     if( renderParameters.globalTextureObj != NULL )
     {
@@ -296,7 +296,7 @@ void CpuClipmapRenderer::onRender( const ClipmapRenderParameters& renderParamete
     else if( renderParameters.heightColorTexture != NULL )
     {
         // todo: use a different pixel shader here
-        useDependentTextureLookup = true;
+//        useDependentTextureLookup = true;
         renderParameters.heightColorTexture->activate( renderParameters.drawEnv );
     }
     

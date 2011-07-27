@@ -72,7 +72,7 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
-        defaultValue="false"
+        defaultValue="NULL"
 	>
 	</Field>
 </FieldContainer>

@@ -1193,9 +1193,10 @@ void BbqTerrainRenderer<HeightType,
         
         //  disp.y = 0; // for debugging
         
-        float d = 0;
+//        float d = 0;
 //        d = osgSqrt( dot( disp, disp ) );
-        d = osgSqrt( disp.dot(disp) );
+//        d = 
+              osgSqrt( disp.dot(disp) );
         
         //  float 
         //      const float tan_half_FOV = tanf(0.5f * horizontal_FOV_degrees

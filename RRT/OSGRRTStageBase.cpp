@@ -303,7 +303,7 @@ RRTStageBase::TypeObject RRTStageBase::_type(
     "\t\tcardinality=\"single\"\n"
     "\t\tvisibility=\"external\"\n"
     "\t\taccess=\"public\"\n"
-    "        defaultValue=\"false\"\n"
+    "        defaultValue=\"NULL\"\n"
     "\t>\n"
     "\t</Field>\n"
     "</FieldContainer>\n",
@@ -669,7 +669,7 @@ RRTStageBase::RRTStageBase(void) :
     _sfHeight                 (UInt32(16)),
     _sfSplitThreads           (bool(false)),
     _sfTiled                  (bool(false)),
-    _sfRTCamera               (false)
+    _sfRTCamera               (NULL)
 {
 }
 
