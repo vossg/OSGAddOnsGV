@@ -54,8 +54,10 @@
 
 #include "OSGSimpleCompute.cuh"
 
+#ifdef OSG_WITH_CUDA
 #include <cuda_runtime_api.h>
 #include <cuda_gl_interop.h>
+#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -336,6 +338,7 @@ void SimpleCudaComputeAlgorithm::updateGeoOSGCuda(
         return;
     }
 
+#ifdef OSG_WITH_CUDA
     GeoPnt3fProperty *pnts  = dynamic_cast<GeoPnt3fProperty *>(
         _sfTarget.getValue()->getProperty(Geometry::PositionsIndex));
 
@@ -447,6 +450,7 @@ void SimpleCudaComputeAlgorithm::updateGeoOSGCuda(
     {
         fprintf(stderr, "UnRegisterRes %d\n", OSG::UInt32(cRes));
     }
+#endif
 }
 
 OSG_END_NAMESPACE

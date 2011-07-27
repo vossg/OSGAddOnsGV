@@ -36,8 +36,10 @@
 #include <GL/glx.h>
 #endif
 
+#ifdef OSG_WITH_CUDA
 #include <cuda_runtime_api.h>
 #include <cuda_gl_interop.h>
+#endif
 
 #ifndef WIN32
 #define PAR_DRAWER
@@ -136,6 +138,7 @@ void updateGeoOSGMappedCallback(OSG::HardwareContext *pContext,
 void updateGeoOSGCudaCallback(OSG::HardwareContext *pContext, 
                               OSG::DrawEnv         *pEnv)
 {
+#ifdef OSG_WITH_CUDA
     rScale += rScaleStep;
 
     if(rScale > rScaleMax)
@@ -234,6 +237,7 @@ void updateGeoOSGCudaCallback(OSG::HardwareContext *pContext,
     {
         fprintf(stderr, "UnRegisterRes %d\n", OSG::UInt32(cRes));
     }
+#endif
 }
 
 void updateGeoCallback(OSG::HardwareContext *pContext, OSG::DrawEnv *pEnv)
@@ -345,6 +349,7 @@ void updateGeoOSGMapped(OSG::HardwareContext *pContext,
 void updateGeoOSGCuda(OSG::HardwareContext *pContext, 
                       OSG::DrawEnv         *pEnv)
 {
+#ifdef OSG_WITH_CUDA
     rScale += rScaleStep;
 
     if(rScale > rScaleMax)
@@ -443,6 +448,7 @@ void updateGeoOSGCuda(OSG::HardwareContext *pContext,
     {
         fprintf(stderr, "UnRegisterRes %d\n", OSG::UInt32(cRes));
     }
+#endif
 }
 
 void display(void)
