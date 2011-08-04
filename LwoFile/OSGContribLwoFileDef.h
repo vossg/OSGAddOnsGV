@@ -50,9 +50,11 @@
 #   ifdef OSG_COMPILECONTRIBLWOFILELIB
 #       define OSG_CONTRIBLWOFILE_DLLMAPPING     __declspec(dllexport)
 #       define OSG_CONTRIBLWOFILE_DLLTMPLMAPPING __declspec(dllexport)
+#       define OSG_CONTRIBLWOFILE_EXPIMP_TMPL      
 #   else
 #       define OSG_CONTRIBLWOFILE_DLLMAPPING     __declspec(dllimport)
 #       define OSG_CONTRIBLWOFILE_DLLTMPLMAPPING __declspec(dllimport)
+#       define OSG_CONTRIBLWOFILE_EXPIMP_TMPL      extern
 #   endif
 #else
 #define OSG_CONTRIBLWOFILE_DLLMAPPING

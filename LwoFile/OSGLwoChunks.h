@@ -273,6 +273,12 @@ class OSG_CONTRIBLWOFILE_DLLMAPPING LwoChunkFactoryBase
     void operator =(const LwoChunkFactoryBase &source);
 };
 
+#if defined(WIN32)
+OSG_CONTRIBLWOFILE_EXPIMP_TMPL 
+template class 
+OSG_CONTRIBLWOFILE_DLLMAPPING SingletonHolder<LwoChunkFactoryBase>;
+#endif
+
 typedef SingletonHolder<LwoChunkFactoryBase> LwoChunkFactory;
 
 
