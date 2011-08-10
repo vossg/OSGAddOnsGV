@@ -1,0 +1,177 @@
+/*---------------------------------------------------------------------------*/
+/* FAQ document for OpenSG's Python Bindings and the PythonScript core       */
+/* (This file will most likely be split into two documents when finished)    */
+/*                                                                           */
+/* Author: Martin Hecher                                                     */
+/* E-Mail: martin.hecher@fraunhofer.sg                                       */
+/*---------------------------------------------------------------------------*/
+
+
+/*---------------------------------------------------------------------------*/
+/* SECTION: USAGE                                                            */
+/*---------------------------------------------------------------------------*/
+
+
+-------------------------------------------------------------------------------
+Q: Which environment variables have to be set to coorectly start the "appCSM"
+   application in combination with the PythonScript component?
+
+A: There are 2 things to take care of when starting the "appCSM" application:
+   1. Set the environmnet variable OSG_LOAD_LIBS="OSGScripting" to tell appCSM
+      to load the OSGScripting library holding the PythonScript component.
+   2. Set PYTHONPATH=<install>/lib[64]/python2.7/site-packages/{debug|opt} to
+      make the python bindings accessible for the Python interpreter.
+
+   On Linux the command to start the appCSM would be:
+   "OSG_LOAD_LIBS="OSGScripting"
+    PYTHONPATH=<install>/lib[64]/python2.7/site-packages/{debug|opt}
+    ./appCSM <path/to/params.csm>"
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Q: Starting my CSM application quits with the error "ImportError: No module
+   named osg2.osg". What is going wrong?
+
+A: Python cannot find the OpenSG bindings needed to use the PythonScript core.
+   You have to add the bindings location to your PYTHONPATH before starting the 
+   application. You have to create the PYTHONPATH environment variable (if it
+   is not present yet) and add the path to the OpenSG bindings. For a default
+   installation of OpenSG the path is
+
+   Linux:   <install>/lib[64]/{debug|opt}
+   Windows: TODO: where?
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Q: The import of the OpenSG bindings within the python interpreter quits with
+   the error "ImportError: libOSGBase.so.2.0.0: cannot open shared object file:
+   No such file or directory". What is going wrong? (TODO: windows error)
+
+A: Python cannot find the OpenSG libraries. You have to add the library 
+   location to a path the system searches for libraries. On Linux you can use
+   the LD_LIBRARY_PATH environment variable, on Windows use environment
+   variables. For a default installation of OpenSG the path is
+
+   Linux:   <install>/lib[64]/{debug|opt}
+   Windows:
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Q: Starting my CSM application quits with the error "ImportError: No module
+   named osg2.osg". What is going wrong?
+
+A: Python cannot find the OpenSG bindings needed to use the PythonScript core.
+   You have to add the bindings location to your PYTHONPATH before starting the 
+   application. You have to create the PYTHONPATH environment variable (if it
+   is not present yet) and add the path to the OpenSG bindings. For a default
+   installation of OpenSG the path is
+
+   Linux:   <install>/lib[64]/{debug|opt}
+   Windows: TODO: where?
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Q: The import of the OpenSG bindings within the python interpreter quits with
+   the error "ImportError: No module named osg2.osg". What is going wrong?
+
+A: Python cannot find the OpenSG bindings. You have to add the bindings 
+   location to your PYTHONPATH before starting the application. You have to
+   create the PYTHONPATH environment variable (if it is not present yet) and
+   add the path to the OpenSG bindings. For a default installation of OpenSG
+   the path is 
+
+   Linux:   <install>/lib[64]/{debug|opt}
+   Windows: TODO: where?
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Q: Why do I have to "import osg2.osg as osg" instead of "import osg"?
+
+A: With the additional "osg2" namespace it is possible to import single OpenSG
+   packages. So you can do for instance an "import osg2.OSGBase as osgbase", if
+   you need to.  However, when importing single packages you have to manually 
+   take care of the correct import sequence. The dependencies of the packages 
+   are listed in the file ${OPENSG_ROOT}/Bindings/Python/module/__init__.py in
+   the variable "osg2ModuleList" (For the curious: The file is automatically 
+   generated by CMake. The responsible macro is located in 
+   ${OPENSG_ROOT}/CMakeLists.txt at about line 1661 in section "Global Python").
+
+   The "import osg2.osg as osg" statement automatically takes care of importing
+   all known modules in the correct order.
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Q: How do I use the OpenSG bindings in my Python scripts? (notwendig hier?)
+
+A: TODO
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Q: I can do a "import osg2.osg as osg" and initializing OpenSG with
+   "osg.osgInit([])" successfully returns true. However, instanciating e.g.
+   a core with "transC = osg.Transform.create()" does not create a valid
+   Transform object. Why is that?
+
+A: One possibility is that you build your OpenSG libraries static. In this case
+   the Python bindings do not work.
+-------------------------------------------------------------------------------
+
+
+/*---------------------------------------------------------------------------*/
+/* SECTION: BINDINGS INSTALLATION                                            */
+/*---------------------------------------------------------------------------*/
+
+
+-------------------------------------------------------------------------------
+Q: How do I install the OpenSG Python bindings from source?
+
+A: TODO
+-------------------------------------------------------------------------------
+
+
+/*---------------------------------------------------------------------------*/
+/* SECTION: BINDINGS GENERATION                                              */
+/*---------------------------------------------------------------------------*/
+
+
+-------------------------------------------------------------------------------
+Q: Generating the bindings e.g. with "make OSGBasePyGen" results in the error
+   "ImportError: No module named pygccxml". What is wrong?
+
+A: When you downloaded the trunk version of pygccxml bindings (which is most 
+   probably the case as of this time pygccxml version bundled e.g. with Ubuntu 
+   11.04 are not recent enough) you have to make sure that the python 
+   interpreter finds them. The easiest way is to include the correct path in
+   the PYTHONPATH. The path points to the directory containing the pygccxml
+   sources. When you downloaded pygccxml from the subversion repository 
+   described in the installation docs the path is 
+   "<pygccxml-svn>/pygccxml_dev". On Linux you can start the generation step
+   with "PYTHONPATH=<pygccxml-svn>/pygccxml_dev make OSGPyGen".
+-------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

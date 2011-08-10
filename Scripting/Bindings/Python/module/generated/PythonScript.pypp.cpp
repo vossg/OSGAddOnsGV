@@ -85,7 +85,7 @@ void register_PythonScript_class(){
             PythonScript_exposer.def( 
                 "frame"
                 , frame_function_type( &::OSG::PythonScript::frame )
-                , ( bp::arg("arg0"), bp::arg("arg1") ) );
+                , ( bp::arg("timeStamp"), bp::arg("frameCount") ) );
         
         }
         { //::OSG::PythonScript::getSField

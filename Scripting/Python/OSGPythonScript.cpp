@@ -43,16 +43,15 @@
 
 #include "OSGPythonScript.h"
 
-#ifdef WITH_BOOST_PYTHON
 #include <boost/python.hpp>
-#else
-#include <Python.h>
-#endif
 
 // Temporary includes. Remove later!
-#include "OSGNameAttachment.h"
+//#include "OSGNameAttachment.h"
+#include "OSGLog.h"
 
 OSG_USING_NAMESPACE
+
+#define OSGPY_DEBUG
 
 // Documentation for this class is emited in the
 // OSGPythonScriptBase.cpp file.
@@ -127,8 +126,35 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
 {
     Inherited::changed(whichField, origin, details);
 
-    //fprintf(stderr, "PythonScript::changed : dump\n");
-    //this->dump(0, 0);
+    if(whichField & ScriptFieldMask)
+    {
+        //std::cout << "[PythonScript::changed::ScriptFieldMask]" << std::endl;
+
+        if(_pPyInterpreter != NULL) // true in init phase
+        {
+            PyEval_RestoreThread(_pPyInterpreter);
+            compileScript();
+            PyEval_SaveThread();
+        }
+    }
+
+    if(_pyChangedFunc.isValid())
+    {
+        PyEval_RestoreThread(_pPyInterpreter);
+
+        try
+        {
+            _pyChangedFunc.get()(whichField, origin, details);
+        }
+        catch(bp::error_already_set)
+        {
+            dumpAndClearError(std::cout);
+            FFATAL(("[PythonScript::frame] Error calling frame() function. Aborting...\n"));
+            assert(false);
+        }
+
+        PyEval_SaveThread();
+    }
 }
 
 /*-------------------------------------------------------------------------*/
@@ -157,19 +183,18 @@ void PythonScript::dump(      UInt32    uiIndent,
 /*                            Constructors                                 */
 
 PythonScript::PythonScript(void) :
-    Inherited       (     ),
-    _pPyInterpreter (NULL ),
-    _uiFCount       (    0),
-    _uiFrameFreq    (    1)
-
+    Inherited       (    ),
+    _pPyInterpreter (NULL),
+    _uiFCount       (   0),
+    _uiFrameFreq    (   1)
 {
 }
 
 PythonScript::PythonScript(const PythonScript &source) :
-    Inherited       (source             ),
-    _pPyInterpreter (NULL               ),
-    _uiFCount       (source._uiFCount   ),
-    _uiFrameFreq    (source._uiFrameFreq)
+    Inherited      (source             ),
+    _pPyInterpreter(NULL               ),
+    _uiFCount      (source._uiFCount   ),
+    _uiFrameFreq   (source._uiFrameFreq)
 {
 }
 
@@ -184,7 +209,6 @@ PythonScript::~PythonScript(void)
 
 PythonScript::TypeObject &PythonScript::getFinalType(void)
 {
-
     return _type;
 }
 
@@ -213,44 +237,31 @@ bool PythonScript::init(void)
 {
     fprintf(stderr, "PythonScript : init\n");
 
-    return(setupPython());
-}
+    bool flag = setupPython();
 
-bool PythonScript::exposeContainer(const std::string& varName)
-{
-    try
+    if(_pyInitFunc.isValid())
     {
-        // Py++ generates registration code for the recorded, reference counted
-        // pointer of the actual (raw) pointer type, in this case here the
-        // PythonScript type. To bring the "this" pointer into the Python world
-        // it has therefore to be converted to its RecPtr representation.
-        // Otherwise a "No to_python (by-value) converter found for C++ type:
-        // OSG::PythonScript" error occurs. This took me some time to figure
-        // out...
-        // Note: only RecPtr and TransitPtr are supported
-        _pyMainDict[varName] = PythonScriptRecPtr(this);
-    } catch( bp::error_already_set )
-    {
-        std::cout << "Python to C++ conversion failed" << std::endl;
-        bp::object type, value, traceback;
-        fetchInterpreterError(type, value, traceback);
+        PyEval_RestoreThread(_pPyInterpreter);
 
-        std::cout << PyString_AsString(PyObject_Str(type.ptr())) << std::endl;
-        std::cout << PyString_AsString(PyObject_Str(value.ptr())) << std::endl;
-        //std::cout << PyString_AsString(PyObject_Str(traceback.ptr()))
-        //<< std::endl;
+        try
+        {
+            _pyInitFunc.get()();
+        }
+        catch(bp::error_already_set)
+        {
+            dumpAndClearError(std::cout);
+            FFATAL(("[PythonScript::init] Error calling init() function. Aborting...\n"));
+            assert(false);
+        }
 
-        PyErr_Print();
-        PyErr_Clear();
-
-        assert(false);
-        return false;
+        PyEval_SaveThread();
     }
 
-    return true;
+
+    return(flag);
 }
 
-void PythonScript::frame(OSG::Time, OSG::UInt32)
+void PythonScript::frame(OSG::Time timeStamp, OSG::UInt32 frameCount)
 {
     ++_uiFCount;
 
@@ -263,10 +274,19 @@ void PythonScript::frame(OSG::Time, OSG::UInt32)
 
         if(_uiFCount % _uiFrameFreq == 0)
         {
-            PyRun_SimpleString(getScript().c_str());
-            // Console output from the script needs some time to print:
-            // TODO: make this a field variable, e.g. enableDebugOutput:SFBool
-            osgSleep(2);
+            if(_pyFrameFunc.isValid())
+            {
+                try
+                {
+                    _pyFrameFunc.get()(timeStamp, frameCount);
+                }
+                catch(bp::error_already_set)
+                {
+                    dumpAndClearError(std::cout);
+                    FFATAL(("[PythonScript::frame] Error calling frame() function. Aborting...\n"));
+                    assert(false);
+                }
+            }
         }
 
         PyEval_SaveThread();
@@ -280,7 +300,22 @@ void PythonScript::shutdown(void)
     if(_pPyInterpreter != NULL)
     {
         PyEval_RestoreThread(_pPyInterpreter);
-        Py_EndInterpreter   (_pPyInterpreter);
+
+        if(_pyShutdownFunc.isValid())
+        {
+            try
+            {
+                _pyShutdownFunc.get()();
+            }
+            catch(...)
+            {
+                dumpAndClearError(std::cout);
+                FFATAL(("[PythonScript::frame] Error calling frame() function. Aborting...\n"));
+                assert(false);
+            }
+        }
+
+        Py_EndInterpreter(_pPyInterpreter);
 
         _pPyInterpreter = NULL;
     }
@@ -290,81 +325,34 @@ bool PythonScript::setupPython(void)
 {
     _pPyInterpreter = Py_NewInterpreter();
 
-    // Activate new interpreter to retrieve its __main__ dictionary below
     PyEval_RestoreThread(_pPyInterpreter);
 
-#ifdef WITH_BOOST_PYTHON
-    bp::object module(bp::handle<>(
-                          bp::borrowed(PyImport_AddModule("__main__"))));
-    _pyMainDict = module.attr("__dict__");
-#else
-    PyObject *module = PyImport_AddModule("__main__");
-    assert(module);
-    PyObject *dict = PyModule_GetDict(module);
-    assert(dict);
-#endif
+    bp::object main = bp::import("__main__");
+    _pyGlobalDict   = main.attr ("__dict__");
 
-
-#if 1
-    // TODO: add to documentation that the osg2.osg packages do have to be
-    //       in the python path for the PythonScript core to work correctly.
-    //       For now the path is added manually to the sys.path list.
-    std::string initPythonBindings(
-                "import sys\n"
-                "sys.path.append('/home/hecher/Libs/OpenSG/lib64/python2.7/site-packages/debug')\n"
-                "import osg2.osg as osg\n"
-                );
-
-    PyRun_SimpleString(initPythonBindings.c_str());
-#else // TODO: Nachfolgende Variante is schneller,
-      // funktioniert aber noch nicht, warum?
-    PyObject *main = PyImport_AddModule("__main__");
-    assert(main);
-    PyObject* osg2Module = PyImport_AddModule("osg2.osg");
-    assert(osg2Module);
-    PyObject_SetAttrString(main, "osg", osg2Module);
-#endif
-
-#if 0 // manual test if bindings work
     try
     {
-        _pyMainDict["vectest"] = OSG::Vec3f(1,2,3);
-        PyRun_SimpleString("print vectest");
-        PyRun_SimpleString("print ('Python bindings are working correctly')");
-        _pyMainDict["vectest"].del();
-    } catch (bp::error_already_set) {
-        PyErr_Print();
-        std::cout << "PythonScript: [FATAL_ERROR] Python bindings not "
-                     "initialized correctly. Aborting..." << std::endl;
+        PyRun_SimpleString("import osg2.osg as osg\n");
+    }
+    catch(...)
+    {
+        dumpAndClearError(std::cout);
+        FFATAL(("[PythonScript::setupPython] Python bindings are not initialized "
+               "correctly. Aborting...\n"));
         assert(false);
     }
-#endif
 
-    exposeToPython();
+    exposeContainerToPython();
+    compileScript();
 
     PyEval_SaveThread();
 
     return true;
 }
 
-void PythonScript::fetchInterpreterError(bp::object &type,
-                                         bp::object &value,
-                                         bp::object &traceback)
+void PythonScript::exposeContainerToPython(void)
 {
-    PyObject *t, *v, *b;
-    PyErr_Fetch(&t, &v, &b);
-    type      = bp::object(bp::handle<>(bp::allow_null(t)));
-    value     = bp::object(bp::handle<>(bp::allow_null(v)));
-    //traceback = bp::object(bp::handle<>(bp::allow_null(b)));
-}
-
-UInt32 PythonScript::myId()
-{
-    return this->getId();
-}
-
-void PythonScript::exposeToPython(void)
-{
+    // TODO: create separate method for loading helper functions?
     std::string addPropFunction(
                 "def addprop(inst, name, getter, setter):\n"
                 "   cls = type(inst)\n"
@@ -386,24 +374,55 @@ void PythonScript::exposeToPython(void)
             std::string fieldName(desc->getName());
             std::string propName(fieldName);
 
-            exposeField(fieldName, propName);
+            exposeField(fieldName, propName, desc->getFieldId());
         }
     }
 }
 
+bool PythonScript::exposeContainer(const std::string& varName)
+{
+    try
+    {
+        // Py++ generates registration code for the recorded, reference counted
+        // pointer of the actual (raw) pointer type, in this case here the
+        // PythonScript type. To bring the "this" pointer into the Python world
+        // it has therefore to be converted to its RecPtr representation.
+        // Otherwise a "No to_python (by-value) converter found for C++ type:
+        // OSG::PythonScript" error occurs. This took me some time to figure
+        // out...
+        // Note: only RecPtr and TransitPtr are supported
+        _pyGlobalDict[varName] = PythonScriptRecPtr(this);
+    } catch( bp::error_already_set )
+    {
+        dumpAndClearError(std::cout);
+        FFATAL(("[PythonScript::exposeContainer] Python bindings are not initialized "
+               "correctly. Aborting...\n"));
+        dumpAndClearError(std::cout);
+        assert(false);
+    }
+
+    return true;
+}
+
 void PythonScript::exposeField(const std::string& fieldName,
-                               const std::string& propName)
+                               const std::string& propName,
+                               OSG::UInt32 fieldId)
 {
     std::pair<std::string, std::string> functions =
             generatePythonFieldAccessFunctions(fieldName);
 
-    PyRun_SimpleString(std::string("addprop(self, '" + propName + "', "
-                                   + functions.first + ", "
-                                   + functions.second + ")").c_str());
+    std::ostringstream os;
+    os << "addprop(self, '" << propName         << "', "         << std::endl
+                            << functions.first  << ", "          << std::endl
+                            << functions.second << ")"           << std::endl
+       << "self." << fieldName << "FieldMask = 1 << " << fieldId << std::endl
+       << "self." << fieldName << "FieldId   = "      << fieldId << std::endl;
+
+    PyRun_SimpleString(os.str().c_str());
 
 #ifdef OSGPY_DEBUG
-    std::cout << "[PythonScript::exposeField] exposed field '"
-                 + fieldName + "' as property '" << propName << "'"
+    std::cout << "[PythonScript::exposeField] exposed field '"    << fieldName
+              << "' as property '" << propName << "'. FieldId = " << fieldId
               << std::endl;
 #endif
 }
@@ -465,6 +484,22 @@ PythonScript::generatePythonFieldAccessFunctions(const std::string& fieldName)
     return(std::make_pair(getterName, setterName));
 }
 
+void PythonScript::fetchInterpreterError(bp::object &type,
+                                         bp::object &value,
+                                         bp::object &traceback)
+{
+    PyObject *t, *v, *b;
+    PyErr_Fetch(&t, &v, &b);
+    type      = bp::object(bp::handle<>(bp::allow_null(t)));
+    value     = bp::object(bp::handle<>(bp::allow_null(v)));
+    traceback = bp::object(bp::handle<>(bp::allow_null(b)));
+}
+
+UInt32 PythonScript::myId()
+{
+    return this->getId();
+}
+
 UInt32 PythonScript::addField(const UInt32  uiFieldTypeId,
                               const Char8  *szFieldName  )
 {
@@ -474,7 +509,7 @@ UInt32 PythonScript::addField(const UInt32  uiFieldTypeId,
     // at runtime are handled here:
     if(_pPyInterpreter != NULL)
     {
-        exposeField(szFieldName, szFieldName);
+        exposeField(szFieldName, szFieldName, returnValue);
 
 #ifdef OSGPY_DEBUG
         std::cout << "[PythonScript::addField] add dynamic property '"
@@ -494,7 +529,7 @@ UInt32 PythonScript::addField(const Char8  *szFieldType,
     // at runtime are handled here:
     if(_pPyInterpreter != NULL)
     {
-        exposeField(szFieldName, szFieldName);
+        exposeField(szFieldName, szFieldName, returnValue);
 
 #ifdef OSGPY_DEBUG
         std::cout << "[PythonScript::addField] add dynamic property '"
@@ -547,4 +582,61 @@ void PythonScript::registerTypeMappings()
                   << std::endl;
     }
 #endif
+}
+
+void PythonScript::compileScript()
+{
+    try
+    {
+        bp::exec(getScript().c_str(), _pyGlobalDict, _pyGlobalDict);
+    }
+    catch(bp::error_already_set)
+    {
+        dumpAndClearError(std::cout);
+        FFATAL(("[PythonScript::compile] Error compiling script. Aborting...\n"));
+        assert(false);
+
+        // TODO: do not abort here. the script should be changed from the
+        //       application in case of an error and recompiled
+    }
+
+    // The script is expected to contain the following functions:
+    //   - init()
+    //   - shutdown()
+    //   - frame()
+    //   - changed()
+    _pyInitFunc    .bind(_pyGlobalDict, "init");
+    _pyShutdownFunc.bind(_pyGlobalDict, "shutdown");
+    _pyFrameFunc   .bind(_pyGlobalDict, "frame");
+    _pyChangedFunc .bind(_pyGlobalDict, "changed");
+
+#if 0 // Test function calls:
+    _pyInitFunc.get()();
+    _pyShutdownFunc.get()();
+    _pyFrameFunc.get()();
+    _pyChangedFunc.get()();
+#endif
+}
+
+void PythonScript::dumpAndClearError(std::ostream &os)
+{
+    bp::object type, value, traceback;
+    fetchInterpreterError(type, value, traceback);
+
+    os << std::endl;
+    os << "--------------------- PYTHON ERROR BEGIN ---------------------" << std::endl << std::endl;
+
+    os << "TYPE:"      << std::endl;
+    os << PyString_AsString(PyObject_Str(type.ptr()))       << std::endl << std::endl;
+
+    os << "MESSAGE:"   << std::endl;
+    os << PyString_AsString(PyObject_Str(value.ptr()))      << std::endl << std::endl;
+
+    os << "BACKTRACE:" << std::endl;
+    os << PyString_AsString(PyObject_Str(traceback.ptr()))  << std::endl << std::endl;
+
+    os << "---------------------- PYTHON ERROR END ----------------------" << std::endl << std::endl;
+
+    PyErr_Print();
+    PyErr_Clear();
 }

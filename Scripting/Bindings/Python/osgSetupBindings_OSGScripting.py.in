@@ -89,6 +89,16 @@ def postScanSetup(osg, template_alias_db):
     else:
       decl.call_policies = return_internal_reference()
 
+  scbase = osg.class_("ScriptBase")
+
+  # Expose static fields as properties:
+  scbase.add_registration_code('add_property("priority", &OSG::ScriptBase::getPriority, &OSG::ScriptBase::setPriority)')
+  scbase.add_registration_code('add_property("script", bp::make_function(&OSG::ScriptBase::getScript, bp::return_value_policy<bp::copy_const_reference>()), &OSG::ScriptBase::setScript)')
+
+  # Expose static field masks. Masks for dynamically added fields are exposed
+  # at runtime in PythonScript::addField().
+  scbase.add_code('bp::scope().attr("PriorityFieldMask") = (int)OSG::TypeTraits<OSG::BitVector>::One << OSG::ScriptBase::PriorityFieldId;', False, False)
+  scbase.add_code('bp::scope().attr("ScriptFieldMask") = (int)OSG::TypeTraits<OSG::BitVector>::One << OSG::ScriptBase::ScriptFieldId;', False, False)
 
   return
 

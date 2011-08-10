@@ -46,20 +46,7 @@
 #include "OSGPythonScriptBase.h"
 #include "OSGAction.h"
 
-#define WITH_BOOST_PYTHON
-
-#ifdef WITH_BOOST_PYTHON
-#include <boost/python/object.hpp>
-#endif
-
-namespace boost
-{
-    namespace python
-    {
-        class object;
-    }
-}
-namespace bp = boost::python;
+#include "OSGPythonFunctionWrapper.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -96,9 +83,9 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     /*! \name                       Action Callbacks                       */
     /*! \{                                                                 */
 
-    virtual bool init    (void                  );
-    virtual void frame   (OSG::Time, OSG::UInt32);
-    virtual void shutdown(void                  );
+    virtual bool init    (void                                       );
+    virtual void frame   (OSG::Time timeStamp, OSG::UInt32 frameCount);
+    virtual void shutdown(void                                       );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -150,11 +137,7 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     typedef PythonScriptBase Inherited;
 
-    PyThreadState         *_pPyInterpreter;
-
-#ifdef WITH_BOOST_PYTHON
-    boost::python::object  _pyMainDict;
-#endif
+    PyThreadState *_pPyInterpreter;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -199,6 +182,13 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     friend class PythonScriptBase;
 
     /*---------------------------------------------------------------------*/
+    bp::object     _pyGlobalDict;
+
+    // Python script functions:
+    PythonFunctionWrapper _pyInitFunc;
+    PythonFunctionWrapper _pyShutdownFunc;
+    PythonFunctionWrapper _pyFrameFunc;
+    PythonFunctionWrapper _pyChangedFunc;
 
     /*!\brief prohibit default function (move to 'public' if needed)       */
     void operator =(const PythonScript &source);
@@ -221,7 +211,7 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     /*!\brief Exposes the core and its fields to Python                    */
     /* \see   exposeContainer                                              */
     /* \see   exposeField                                                  */
-    void exposeToPython(void);
+    void exposeContainerToPython(void);
 
     /*!\brief Makes this PythonScript core available within the Python     */
     /*        interpreter as global variable with the given varName        */
@@ -231,11 +221,21 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     /*!\brief Mapping a field adds a Python property to the to the Python  */
     /*        representation of this core. The field is then accessible    */
-    /*        via this property.                                           */
+    /*        via this property. Besides the FieldMask and FieldId are     */
+    /*        exposed, too in the form fieldName+"FieldMask" and           */
+    /*        fieldName+"FieldId".                                         */
     /* \param fieldName Name of the field to be exposed                    */
     /* \param propName  Name of the property                               */
+    /* \param fieldId   Id of the field                                    */
     void exposeField(const std::string& fieldName,
-                     const std::string& propName);
+                     const std::string& propName,
+                     OSG::UInt32 fieldId);
+
+
+    /*!\brief Compiles the script in the "script" field and stores the     */
+    /*        "init()", "frame()" and "onChange()" function as bp::objects */
+    /*        for fast access.                                             */
+    void compileScript();
 
     /*!\brief Generates a getter/setter function pair to access the field  */
     /*        \emph{fieldName} from python. The functions are not used     */
@@ -243,10 +243,14 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     /* \param fieldName Name of the field for which the access functions   */
     /*        are generated                                                */
     /* \return A string pair with the names of the setter and getter       */
-    /*         python functions.                                           */
+    /*         python functions                                            */
     /* \see   exposeField                                                  */
     std::pair<std::string, std::string>
             generatePythonFieldAccessFunctions(const std::string &fieldName);
+
+    /*!\brief Dumps the current Python error to the given stream.          */
+    /* \param os Stream to output the error to                             */
+    void dumpAndClearError(std::ostream& os);
 
     /*!\brief Fetches the current error from Python and fills the type,    */
     /*        value and traceback (if available) objects.                  */

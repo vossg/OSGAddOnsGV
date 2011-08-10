@@ -91,6 +91,8 @@ void register_ScriptBase_class(){
         typedef bp::class_< ScriptBase_wrapper, bp::bases< OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > > >, boost::noncopyable > ScriptBase_exposer_t;
         ScriptBase_exposer_t ScriptBase_exposer = ScriptBase_exposer_t( "ScriptBase", bp::no_init );
         bp::scope ScriptBase_scope( ScriptBase_exposer );
+        bp::scope().attr("PriorityFieldMask") = (int)OSG::TypeTraits<OSG::BitVector>::One << OSG::ScriptBase::PriorityFieldId;
+        bp::scope().attr("ScriptFieldMask") = (int)OSG::TypeTraits<OSG::BitVector>::One << OSG::ScriptBase::ScriptFieldId;
         bp::scope().attr("PriorityFieldId") = (int)OSG::ScriptBase::PriorityFieldId;
         bp::scope().attr("ScriptFieldId") = (int)OSG::ScriptBase::ScriptFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ScriptBase::NextFieldId;
@@ -325,6 +327,8 @@ void register_ScriptBase_class(){
         ScriptBase_exposer.staticmethod( "getClassGroupId" );
         ScriptBase_exposer.staticmethod( "getClassType" );
         ScriptBase_exposer.staticmethod( "getClassTypeId" );
+        ScriptBase_exposer.add_property("priority", &OSG::ScriptBase::getPriority, &OSG::ScriptBase::setPriority);
+        ScriptBase_exposer.add_property("script", bp::make_function(&OSG::ScriptBase::getScript, bp::return_value_policy<bp::copy_const_reference>()), &OSG::ScriptBase::setScript);
     }
 
 }

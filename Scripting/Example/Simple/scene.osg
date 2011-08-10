@@ -24,13 +24,16 @@ def calcPosition():
 
     return offset + p
 
-self.pos = calcPosition()
+def frame(timeStamp, frameCount):
+    self.pos = calcPosition()
+    print('timeStamp:  ' + str(timeStamp))
+    print('frameCount: ' + str(frameCount))
 
-#print '----------------------\n'
-#print self.name
-#print self.pos
-#print self.vec2
-#print '----------------------\n'"
+    #print '----------------------\n'
+    #print self.name
+    #print self.pos
+    #print self.vec2
+    #print '----------------------\n'"
 
     priority 42
   }
@@ -75,13 +78,17 @@ def calcPosition():
 
     return offset + p
 
-self.pos = calcPosition()
+def frame(timeStamp, frameCount):
+    self.pos = calcPosition()
+    print('timeStamp:  ' + str(timeStamp))
+    print('frameCount: ' + str(frameCount))
 
-#print '----------------------\n'
-#print self.name
-#print self.pos
-#print self.vec2
-#print '----------------------\n'"
+    #print '----------------------\n'
+    #print self.name
+    #print self.pos
+    #print self.vec2
+    #print '----------------------\n'
+"
 
             priority 42
           }

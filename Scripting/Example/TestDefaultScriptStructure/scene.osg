@@ -2,50 +2,25 @@
 
 Node
 {
-  core DEF Writer PythonScript
+  core DEF Test PythonScript
   {
-    field SFDouble   double   1.2
-    field SFFloat    float    1.3
-    field SFVec2f    vec2f    2.1  2.2 
-    field SFVec3f    vec3f    3.1  3.2  3.3 
-    field SFColor3f  color3f  0.5 0.5 0.5 
-    field SFColor4f  color4f  0.5 0.5 0.5 1 
-    field SFString   string   "myString"
-    #field SFPlane    plane    1 1 1 0.5
-    field SFMatrix   matrix   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
-    field SFMatrix4d matrix4d 1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1
-    #field SFBool     bool     True
+    field SFDouble   dummy   1.2
 
     script 
-"import time
-from math import sin
-
-s = sin(time.clock())
-
-self.double   = 6.6
-self.float    = 7.7
-self.vec2f    = osg.Vec2f(2,s)
-self.vec3f    = osg.Vec3f(3,3,s)
-self.color3f  = osg.Color3f(3,3,s)
-self.color4f  = osg.Color4f(4,4,4,s)
-self.string   = 'string' + str(s)
-self.plane    = osg.Plane(self.vec3f, 3)
-self.matrix   = osg.Matrix(s,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-self.matrix4d = osg.Matrix4d(s,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-
+"
 if(osg.getName(self)):
     self.name = osg.getName(self)
 else:
     self.name = 'unknown'
 
 def init():
-    print('Calling init() on ' + self.name)
+    print('PYTHON: Calling init() on ' + self.name)
 
 def shutdown():
-    print('Calling shutdown() on ' + self.name)
+    print('PYTHON: Calling shutdown() on ' + self.name)
 
 def frame(timeStamp, frameCount):
-    #print('Calling frame() on ' + self.name)
+    #print('PYTHON: Calling frame() on ' + self.name)
     #print('timeStamp: ' + str(timeStamp) + '   frameCount: ' + str(frameCount))
 
     s = timeStamp * 1000
@@ -62,7 +37,7 @@ def frame(timeStamp, frameCount):
     self.matrix4d = osg.Matrix4d(s,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 
 def changed(whichField, origin, details):
-    print('Calling changed() on ' + self.name)
+    print('PYTHON: Calling changed() on ' + self.name)
     print('whichField: ' + bin(whichField))
     print('origin:     ' + bin(origin))
     print('details:    ' + bin(details))
