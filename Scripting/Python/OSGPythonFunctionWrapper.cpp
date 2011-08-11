@@ -40,6 +40,7 @@
 
 #include "OSGConfig.h"
 
+#include <boost/version.hpp>
 #include <boost/python.hpp>
 
 #include <iostream>
@@ -51,7 +52,11 @@ PythonFunctionWrapper::PythonFunctionWrapper()
 
 void PythonFunctionWrapper::bind(const bp::object& dict, std::string funcname)
 {
+#if BOOST_VERSION >= 104100
     if(bp::extract<bool>(dict.contains(funcname)))
+#else
+    if(PyDict_Contains(dict.ptr(), bp::object(funcname).ptr()))
+#endif
     {
         _func = dict[funcname];
         _isValid = true;
