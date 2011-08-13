@@ -35,7 +35,7 @@ namespace bp = boost::python;
 boost::python::list ComplexSceneManagerBase_getMFGlobals(OSG::ComplexSceneManagerBase *self)
 {
    boost::python::list result;
-   OSG::MFUnrecFieldContainerPtr const * mf_data = self->getMFGlobals();
+   OSG::MFRecFieldContainerPtr const * mf_data = self->getMFGlobals();
    const OSG::UInt32 size(mf_data->size());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
@@ -61,7 +61,7 @@ void register_ComplexSceneManagerBase_class(){
         bp::scope().attr("NextFieldId") = (int)OSG::ComplexSceneManagerBase::NextFieldId;
         { //::OSG::ComplexSceneManagerBase::assignGlobals
         
-            typedef void ( ::OSG::ComplexSceneManagerBase::*assignGlobals_function_type )( ::OSG::MFUnrecFieldContainerPtr const & ) ;
+            typedef void ( ::OSG::ComplexSceneManagerBase::*assignGlobals_function_type )( ::OSG::MFRecFieldContainerPtr const & ) ;
             
             ComplexSceneManagerBase_exposer.def( 
                 "assignGlobals"
