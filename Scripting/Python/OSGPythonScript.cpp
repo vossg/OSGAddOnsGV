@@ -42,16 +42,15 @@
 #include "OSGConfig.h"
 
 #include "OSGPythonScript.h"
+#include "OSGComplexSceneManager.h"
+#include "OSGLog.h"
 
 #include <boost/python.hpp>
 
-// Temporary includes. Remove later!
-//#include "OSGNameAttachment.h"
-#include "OSGLog.h"
 
 OSG_USING_NAMESPACE
 
-#define OSGPY_DEBUG
+//#define OSGPY_DEBUG
 
 // Documentation for this class is emited in the
 // OSGPythonScriptBase.cpp file.
@@ -82,10 +81,8 @@ namespace
 
             fprintf(stderr, "python initialized\n");
         }
-        else
-        {
-            fprintf(stderr, "python already initialized\n");
-        }
+        // else: python is already initialized, e.g. when you load the python
+        //       bindings in an interactive python console.
 
         return true;
     }
@@ -116,6 +113,18 @@ namespace
 
 } // namespace
 
+/*-------------------------------------------------------------------------*/
+/*                               Sync                                      */
+
+FieldContainer *PythonScript::findNamedComponent(const Char8 *szName) const
+{
+    if(ComplexSceneManager::the() != NULL)
+    {
+        return(ComplexSceneManager::the()->findNamedComponent(szName);
+    }
+
+    return NULL;
+}
 
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
@@ -130,15 +139,31 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
     {
         //std::cout << "[PythonScript::changed::ScriptFieldMask]" << std::endl;
 
-        if(_pPyInterpreter != NULL) // true in init phase
+        if(_pPyInterpreter != NULL) // applies in init phase
         {
             PyEval_RestoreThread(_pPyInterpreter);
+            // TODO: cleanup interpreter variables and defs. How?
             compileScript();
+
+            if(_pyInitFunc.isValid() && !getPyErrorFlag())
+            {
+                try
+                {
+                    _pyInitFunc.get()();
+                }
+                catch(bp::error_already_set)
+                {
+                    FWARNING(("[PythonScript::frame] Error calling init() function:\n"));
+                    dumpAndClearError(std::cout);
+                    setPyErrorFlag();
+                }
+            }
+
             PyEval_SaveThread();
         }
     }
 
-    if(_pyChangedFunc.isValid())
+    if(_pyChangedFunc.isValid() && !getPyErrorFlag())
     {
         PyEval_RestoreThread(_pPyInterpreter);
 
@@ -148,9 +173,9 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
         }
         catch(bp::error_already_set)
         {
+            FFATAL(("[PythonScript::frame] Error calling frame() function:\n"));
             dumpAndClearError(std::cout);
-            FFATAL(("[PythonScript::frame] Error calling frame() function. Aborting...\n"));
-            assert(false);
+            setPyErrorFlag();
         }
 
         PyEval_SaveThread();
@@ -183,10 +208,12 @@ void PythonScript::dump(      UInt32    uiIndent,
 /*                            Constructors                                 */
 
 PythonScript::PythonScript(void) :
-    Inherited       (    ),
-    _pPyInterpreter (NULL),
-    _uiFCount       (   0),
-    _uiFrameFreq    (   1)
+    Inherited       (     ),
+    _pPyInterpreter (NULL ),
+    _uiFCount       (    0),
+    _uiFrameFreq    (    1),
+    _bScriptChanged (false),
+    _bPyErrorFlag   (false)
 {
 }
 
@@ -194,7 +221,9 @@ PythonScript::PythonScript(const PythonScript &source) :
     Inherited      (source             ),
     _pPyInterpreter(NULL               ),
     _uiFCount      (source._uiFCount   ),
-    _uiFrameFreq   (source._uiFrameFreq)
+    _uiFrameFreq   (source._uiFrameFreq),
+    _bScriptChanged(false              ),
+    _bPyErrorFlag  (false              )
 {
 }
 
@@ -202,7 +231,9 @@ PythonScript::PythonScript(const PythonScript &source) :
 /*                             Destructor                                  */
 
 PythonScript::~PythonScript(void)
-{}
+{
+    fprintf(stderr, "PythonScript : Destructor\n");
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              Render                                     */
@@ -239,7 +270,7 @@ bool PythonScript::init(void)
 
     bool flag = setupPython();
 
-    if(_pyInitFunc.isValid())
+    if(_pyInitFunc.isValid() && !getPyErrorFlag())
     {
         PyEval_RestoreThread(_pPyInterpreter);
 
@@ -249,14 +280,14 @@ bool PythonScript::init(void)
         }
         catch(bp::error_already_set)
         {
+            FFATAL(("[PythonScript::init] Error calling init() function:\n"));
             dumpAndClearError(std::cout);
-            FFATAL(("[PythonScript::init] Error calling init() function. Aborting...\n"));
-            assert(false);
+            setPyErrorFlag();
+            //flag = false; that is not an error case
         }
 
         PyEval_SaveThread();
     }
-
 
     return(flag);
 }
@@ -264,6 +295,15 @@ bool PythonScript::init(void)
 void PythonScript::frame(OSG::Time timeStamp, OSG::UInt32 frameCount)
 {
     ++_uiFCount;
+
+    // Temporary code to allow OSGSidebar to change the script from an external
+    // thread:
+    if(_bScriptChanged == true)
+    {
+        fprintf(stderr, "PythonScript : triggered external script change\n");
+        changed(ScriptFieldMask, 0, 0);
+        _bScriptChanged = false;
+    }
 
     // TODO: make this a field variable
     //_uiFrameFreq = 200;
@@ -274,17 +314,20 @@ void PythonScript::frame(OSG::Time timeStamp, OSG::UInt32 frameCount)
 
         if(_uiFCount % _uiFrameFreq == 0)
         {
-            if(_pyFrameFunc.isValid())
+            if(_pyFrameFunc.isValid() && !getPyErrorFlag())
             {
                 try
                 {
                     _pyFrameFunc.get()(timeStamp, frameCount);
+                    // Console output from the script needs some time to print:
+                    // TODO: make this a field variable, e.g. enableDebugOutput:SFBool
+                    //osgSleep(10);
                 }
                 catch(bp::error_already_set)
                 {
+                    FWARNING(("[PythonScript::frame] Error calling frame() function:\n"));
                     dumpAndClearError(std::cout);
-                    FFATAL(("[PythonScript::frame] Error calling frame() function. Aborting...\n"));
-                    assert(false);
+                    setPyErrorFlag();
                 }
             }
         }
@@ -301,7 +344,7 @@ void PythonScript::shutdown(void)
     {
         PyEval_RestoreThread(_pPyInterpreter);
 
-        if(_pyShutdownFunc.isValid())
+        if(_pyShutdownFunc.isValid() && !getPyErrorFlag())
         {
             try
             {
@@ -309,9 +352,9 @@ void PythonScript::shutdown(void)
             }
             catch(...)
             {
+                FWARNING(("[PythonScript::frame] Error calling frame() function. Aborting...\n"));
                 dumpAndClearError(std::cout);
-                FFATAL(("[PythonScript::frame] Error calling frame() function. Aborting...\n"));
-                assert(false);
+                setPyErrorFlag();
             }
         }
 
@@ -323,29 +366,38 @@ void PythonScript::shutdown(void)
 
 bool PythonScript::setupPython(void)
 {
-    _pPyInterpreter = Py_NewInterpreter();
+    bool flag = false;
+    if(_pPyInterpreter == NULL)
+    {
+        _pPyInterpreter = Py_NewInterpreter();
 
-    PyEval_RestoreThread(_pPyInterpreter);
+        PyEval_RestoreThread(_pPyInterpreter);
+
+        try
+        {
+            PyRun_SimpleString("import osg2.osg as osg\n");
+        }
+        catch(...)
+        {
+            FFATAL(("[PythonScript::setupPython] Python bindings are not initialized "
+                    "correctly. Aborting with:\n"));
+            dumpAndClearError(std::cout);
+            assert(false);
+        }
+
+        flag = true;
+    }
 
     bp::object main = bp::import("__main__");
     _pyGlobalDict   = main.attr ("__dict__");
 
-    try
-    {
-        PyRun_SimpleString("import osg2.osg as osg\n");
-    }
-    catch(...)
-    {
-        dumpAndClearError(std::cout);
-        FFATAL(("[PythonScript::setupPython] Python bindings are not initialized "
-               "correctly. Aborting...\n"));
-        assert(false);
-    }
-
     exposeContainerToPython();
     compileScript();
 
-    PyEval_SaveThread();
+    if(flag == true)
+    {
+        PyEval_SaveThread();
+    }
 
     return true;
 }
@@ -394,10 +446,10 @@ bool PythonScript::exposeContainer(const std::string& varName)
         _pyGlobalDict[varName] = PythonScriptRecPtr(this);
     } catch( bp::error_already_set )
     {
-        dumpAndClearError(std::cout);
         FFATAL(("[PythonScript::exposeContainer] Python bindings are not initialized "
-               "correctly. Aborting...\n"));
+                "correctly. Aborting with:\n"));
         dumpAndClearError(std::cout);
+
         assert(false);
     }
 
@@ -413,8 +465,8 @@ void PythonScript::exposeField(const std::string& fieldName,
 
     std::ostringstream os;
     os << "addprop(self, '" << propName         << "', "         << std::endl
-                            << functions.first  << ", "          << std::endl
-                            << functions.second << ")"           << std::endl
+       << functions.first  << ", "          << std::endl
+       << functions.second << ")"           << std::endl
        << "self." << fieldName << "FieldMask = 1 << " << fieldId << std::endl
        << "self." << fieldName << "FieldId   = "      << fieldId << std::endl;
 
@@ -451,10 +503,10 @@ PythonScript::generatePythonFieldAccessFunctions(const std::string& fieldName)
     {
         privTypeInstance = (*it).second;
 #ifdef DEBUG
-            std::cout << "[PythonScript::generatePythonFieldAccessFunctions] "
-                         " generating getter/setter pair for type: '" << typeName << "'"
-                      << " with Python instance '" << privTypeInstance << "'"
-                      <<std::endl;
+        std::cout << "[PythonScript::generatePythonFieldAccessFunctions] "
+                     " generating getter/setter pair for type: '" << typeName << "'"
+                  << " with Python instance '" << privTypeInstance << "'"
+                  <<std::endl;
 #endif
     }
     else
@@ -472,14 +524,13 @@ PythonScript::generatePythonFieldAccessFunctions(const std::string& fieldName)
                 "def " + getterName + "(self):\n"
                 "   if not hasattr(self, '" + privTypeVar + "'):\n"
                 "      self." + privTypeLine + "\n"
-                "   return self.getSField('" + fieldName + "', self." + privTypeVar + ")");
+                "   return self.getSField('" + fieldName + "', self." + privTypeVar + ")\n");
 
     std::string setterFunction(
                 "def " + setterName + "(self,value):\n"
-                "   return self.setSField('" + fieldName + "', value)");
+                "   return self.setSField('" + fieldName + "', value)\n");
 
-    PyRun_SimpleString(getterFunction.c_str());
-    PyRun_SimpleString(setterFunction.c_str());
+    PyRun_SimpleString((getterFunction + setterFunction).c_str());
 
     return(std::make_pair(getterName, setterName));
 }
@@ -492,7 +543,10 @@ void PythonScript::fetchInterpreterError(bp::object &type,
     PyErr_Fetch(&t, &v, &b);
     type      = bp::object(bp::handle<>(bp::allow_null(t)));
     value     = bp::object(bp::handle<>(bp::allow_null(v)));
-    traceback = bp::object(bp::handle<>(bp::allow_null(b)));
+    if(b != NULL)
+    {
+        traceback = bp::object(bp::handle<>(bp::allow_null(b)));
+    }
 }
 
 UInt32 PythonScript::myId()
@@ -513,7 +567,7 @@ UInt32 PythonScript::addField(const UInt32  uiFieldTypeId,
 
 #ifdef OSGPY_DEBUG
         std::cout << "[PythonScript::addField] add dynamic property '"
-                     << szFieldName << "' to Python object" << std::endl;
+                  << szFieldName << "' to Python object" << std::endl;
 #endif
     }
 
@@ -533,7 +587,7 @@ UInt32 PythonScript::addField(const Char8  *szFieldType,
 
 #ifdef OSGPY_DEBUG
         std::cout << "[PythonScript::addField] add dynamic property '"
-                     << szFieldName << "' to Python object" << std::endl;
+                  << szFieldName << "' to Python object" << std::endl;
 #endif
     }
 
@@ -544,35 +598,35 @@ void PythonScript::registerTypeMappings()
 {
     //OSGPY_REGISTER_MAPPING("SFBool"      , "True"              );
     OSGPY_REGISTER_MAPPING("SFVec2f"      , "osg.Vec2f()"      )
-    OSGPY_REGISTER_MAPPING("SFVec3f"      , "osg.Vec3f()"      )
-    OSGPY_REGISTER_MAPPING("SFColor3f"    , "osg.Color3f()"    )
-    OSGPY_REGISTER_MAPPING("SFColor3ub"   , "osg.Color3ub()"   )
-    OSGPY_REGISTER_MAPPING("SFColor4f"    , "osg.Color4f()"    )
-    OSGPY_REGISTER_MAPPING("SFColor4ub"   , "osg.Color4ub()"   )
-    OSGPY_REGISTER_MAPPING("SFString"     , "'dummystring'"    )
-    OSGPY_REGISTER_MAPPING("SFBoxVolume"  , "osg.BoxVolume()"  )
-    OSGPY_REGISTER_MAPPING("SFPlane"      , "osg.Plane()"      )
-    OSGPY_REGISTER_MAPPING("SFMatrix"     , "osg.Matrix()"     )
-    OSGPY_REGISTER_MAPPING("SFReal64"     , "1.1"              ); // for SFDouble in CSM
+            OSGPY_REGISTER_MAPPING("SFVec3f"      , "osg.Vec3f()"      )
+            OSGPY_REGISTER_MAPPING("SFColor3f"    , "osg.Color3f()"    )
+            OSGPY_REGISTER_MAPPING("SFColor3ub"   , "osg.Color3ub()"   )
+            OSGPY_REGISTER_MAPPING("SFColor4f"    , "osg.Color4f()"    )
+            OSGPY_REGISTER_MAPPING("SFColor4ub"   , "osg.Color4ub()"   )
+            OSGPY_REGISTER_MAPPING("SFString"     , "'dummystring'"    )
+            OSGPY_REGISTER_MAPPING("SFBoxVolume"  , "osg.BoxVolume()"  )
+            OSGPY_REGISTER_MAPPING("SFPlane"      , "osg.Plane()"      )
+            OSGPY_REGISTER_MAPPING("SFMatrix"     , "osg.Matrix()"     )
+            OSGPY_REGISTER_MAPPING("SFReal64"     , "1.1"              ); // for SFDouble in CSM
     OSGPY_REGISTER_MAPPING("SFMatrix4d"   , "osg.Matrix4d()"   )
 
-    // there is no CSM support for following types (or they have other names):
-    //SFUInt32
-    //SFReal32
-    //SFQuaternion
-    //SFQuaterniond
+            // there is no CSM support for following types (or they have other names):
+            //SFUInt32
+            //SFReal32
+            //SFQuaternion
+            //SFQuaterniond
 
-    // there are no python bindings for the following types:
-    //SFColor3fx
-    //SFColor4fx
-    //SFTime
-    //SFBitVector
-    //SFGLenum
-    //SFMatrix4fx
-    //SFQuaternionfx
+            // there are no python bindings for the following types:
+            //SFColor3fx
+            //SFColor4fx
+            //SFTime
+            //SFBitVector
+            //SFGLenum
+            //SFMatrix4fx
+            //SFQuaternionfx
 
 #ifdef OSGPY_DEBUG
-    OSG2PyTypeMap::const_iterator iter(_osg2pyTypeM.begin());
+            OSG2PyTypeMap::const_iterator iter(_osg2pyTypeM.begin());
     OSG2PyTypeMap::const_iterator end (_osg2pyTypeM.end());
 
     std::cout << "PythonScript: registered type mappings:" << std::endl;
@@ -588,17 +642,28 @@ void PythonScript::compileScript()
 {
     try
     {
+        std::cout << "PythonScript: compiling script" << std::endl;
         bp::exec(getScript().c_str(), _pyGlobalDict, _pyGlobalDict);
     }
     catch(bp::error_already_set)
     {
+        FWARNING(("[PythonScript::compile] Error compiling script:\n"));
         dumpAndClearError(std::cout);
-        FFATAL(("[PythonScript::compile] Error compiling script. Aborting...\n"));
-        assert(false);
 
-        // TODO: do not abort here. the script should be changed from the
-        //       application in case of an error and recompiled
+        // Give the chance to fix the script but prevent the python
+        // functions from being called...
+        setPyErrorFlag();
+
+        // ... and to be sure also reset the function wrapper:
+        _pyInitFunc    .reset();
+        _pyShutdownFunc.reset();
+        _pyFrameFunc   .reset();
+        _pyChangedFunc .reset();
+
+        return;
     }
+
+    clearPyErrorFlag();
 
     // The script is expected to contain the following functions:
     //   - init()
@@ -610,7 +675,7 @@ void PythonScript::compileScript()
     _pyFrameFunc   .bind(_pyGlobalDict, "frame");
     _pyChangedFunc .bind(_pyGlobalDict, "changed");
 
-#if 0 // Test function calls:
+#if 0
     _pyInitFunc.get()();
     _pyShutdownFunc.get()();
     _pyFrameFunc.get()();
@@ -639,4 +704,19 @@ void PythonScript::dumpAndClearError(std::ostream &os)
 
     PyErr_Print();
     PyErr_Clear();
+}
+
+void PythonScript::setPyErrorFlag()
+{
+    _bPyErrorFlag = true;
+}
+
+bool PythonScript::getPyErrorFlag()
+{
+    return _bPyErrorFlag;
+}
+
+bool PythonScript::clearPyErrorFlag()
+{
+    _bPyErrorFlag = false;
 }

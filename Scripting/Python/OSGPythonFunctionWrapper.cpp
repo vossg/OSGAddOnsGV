@@ -75,3 +75,8 @@ bp::object& PythonFunctionWrapper::get()
 {
     return _func;
 }
+
+void PythonFunctionWrapper::reset()
+{
+    _isValid = false;
+}

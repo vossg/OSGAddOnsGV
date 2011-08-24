@@ -63,6 +63,9 @@ public:
     /*        it.                                                          */
     bp::object& get();
 
+    /*!\brief Invalidates the wrapper.                                     */
+    void reset();
+
 private:
     bp::object     _func;
     bool           _isValid;

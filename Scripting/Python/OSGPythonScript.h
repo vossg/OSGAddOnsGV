@@ -62,6 +62,12 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
   public:
 
+   /*! \}                                                                 */
+   /*---------------------------------------------------------------------*/
+   /*! \name                  Container Access                            */
+   /*! \{                                                                 */
+   FieldContainer *findNamedComponent(const Char8 *szName) const;
+
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
@@ -126,13 +132,23 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     // TODO: add code for removing a field
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Temporary/Testing                           */
+    /*! \{                                                                 */
+
+    /*! Temporary flag to allow an external thread (in this case OSGSidebar)
+        to trigger a commitChanges() within the OpenSG thread.
+     */
+    void setScriptChanged() { _bScriptChanged = true; }
+
     // Temporary test method:
     UInt32 myId();
-
 
     typedef std::map<std::string, std::string> OSG2PyTypeMap;
 
     /*=========================  PROTECTED  ===============================*/
+
     protected:
 
     typedef PythonScriptBase Inherited;
@@ -168,10 +184,6 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     static void initMethod(InitPhase ePhase);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Action Callbacks                       */
-    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -195,6 +207,9 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     UInt32 _uiFCount;
     UInt32 _uiFrameFreq;
+
+    bool   _bScriptChanged;
+    bool   _bPyErrorFlag;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -233,8 +248,10 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
 
     /*!\brief Compiles the script in the "script" field and stores the     */
-    /*        "init()", "frame()" and "onChange()" function as bp::objects */
-    /*        for fast access.                                             */
+    /*        "init()", "frame()", "onChange()" and "shutdown()" functions */
+    /*        as bp::objects for fast access. A successful execution of    */
+    /*        the script clears the internal Python error flag.            */
+    /* \see setPyErrorFlag, getPyErrorFlag                                 */
     void compileScript();
 
     /*!\brief Generates a getter/setter function pair to access the field  */
@@ -266,6 +283,21 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     /*        an OSG field value with an Python property .                 */
     /* \todo  Better explanation!                                          */
     static void registerTypeMappings();
+
+    /*!\brief Sets an internal error flag to indicate an Python error      */
+    /*        occured during the compilation of the script or the          */
+    /*        execution of the init(), frame(), changed() or shutdown()    */
+    /*        funtion. If the flag is set the execution of either of these */
+    /*        functions is prevented.                                      */
+    /*        The flag is reset if compileScript() is successful.          */
+    /* \see getPyErrorFlag, compileScript                                  */
+    void setPyErrorFlag();
+
+    /*!\brief Gets the internal Python error flag.                         */
+    bool getPyErrorFlag();
+
+    /*!\brief Clears the internal Python error flag.                       */
+    bool clearPyErrorFlag();
 };
 
 typedef PythonScript *PythonScriptP;
