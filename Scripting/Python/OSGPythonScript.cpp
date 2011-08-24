@@ -120,7 +120,7 @@ FieldContainer *PythonScript::findNamedComponent(const Char8 *szName) const
 {
     if(ComplexSceneManager::the() != NULL)
     {
-        return(ComplexSceneManager::the()->findNamedComponent(szName);
+        return(ComplexSceneManager::the()->findNamedComponent(szName));
     }
 
     return NULL;
