@@ -329,6 +329,12 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiSwitch::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::Billboard */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Billboard, OSG::Billboard::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Billboard::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::ComponentTransform */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ComponentTransform, OSG::ComponentTransform::ObjRecPtr>);
@@ -455,12 +461,6 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::DynamicStateGenerator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::InverseTransform */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::InverseTransform, OSG::InverseTransform::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::InverseTransform::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
     /** Helpers for OSG::VisitSubTree */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VisitSubTree, OSG::VisitSubTree::ObjRecPtr>);
@@ -491,11 +491,11 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::SimpleStage::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::Billboard */
+    /** Helpers for OSG::InverseTransform */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Billboard, OSG::Billboard::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::InverseTransform, OSG::InverseTransform::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Billboard::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::InverseTransform::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ProxyGroup */
 

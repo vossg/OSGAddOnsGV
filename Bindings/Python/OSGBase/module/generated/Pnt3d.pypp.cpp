@@ -91,6 +91,16 @@ void register_Pnt3d_class(){
                 , isZero_function_type( &::OSG::Point< double, 3u >::isZero ) );
         
         }
+        { //::OSG::Point< double, 3u >::maxDim
+        
+            typedef OSG::Point< double, 3u > exported_class_t;
+            typedef ::OSG::UInt32 ( exported_class_t::*maxDim_function_type )(  ) const;
+            
+            Pnt3d_exposer.def( 
+                "maxDim"
+                , maxDim_function_type( &::OSG::Point< double, 3u >::maxDim ) );
+        
+        }
         { //::OSG::Point< double, 3u >::maxValue
         
             typedef OSG::Point< double, 3u > exported_class_t;

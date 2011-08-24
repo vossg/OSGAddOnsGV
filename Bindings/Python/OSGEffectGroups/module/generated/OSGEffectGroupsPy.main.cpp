@@ -227,11 +227,11 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::DisplayFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::CalibrationPatternFilter */
+    /** Helpers for OSG::ColorDisplayFilter */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CalibrationPatternFilter, OSG::CalibrationPatternFilter::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ColorDisplayFilter, OSG::ColorDisplayFilter::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CalibrationPatternFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ColorDisplayFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::DSLightChunk */
 
@@ -281,11 +281,11 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::HDRStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::ColorDisplayFilter */
+    /** Helpers for OSG::CalibrationPatternFilter */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ColorDisplayFilter, OSG::ColorDisplayFilter::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CalibrationPatternFilter, OSG::CalibrationPatternFilter::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ColorDisplayFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CalibrationPatternFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::FishEyeProjectorData */
 

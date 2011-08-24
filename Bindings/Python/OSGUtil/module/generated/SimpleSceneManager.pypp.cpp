@@ -53,6 +53,18 @@ struct SimpleSceneManager_wrapper : OSG::SimpleSceneManager, bp::wrapper< OSG::S
         OSG::SimpleSceneManager::addForeground( fg );
     }
 
+    virtual ::OSG::Background * getBackground(  ) {
+        if( bp::override func_getBackground = this->get_override( "getBackground" ) )
+            return func_getBackground(  );
+        else{
+            return this->OSG::SimpleSceneManager::getBackground(  );
+        }
+    }
+    
+    ::OSG::Background * default_getBackground(  ) {
+        return OSG::SimpleSceneManager::getBackground( );
+    }
+
     virtual ::OSG::Camera * getCamera(  ) {
         if( bp::override func_getCamera = this->get_override( "getCamera" ) )
             return func_getCamera(  );
@@ -171,6 +183,18 @@ struct SimpleSceneManager_wrapper : OSG::SimpleSceneManager, bp::wrapper< OSG::S
     
     void default_setAction( ::OSG::RenderAction * action ) {
         OSG::SimpleSceneManager::setAction( boost::python::ptr(action) );
+    }
+
+    virtual void setBackground( ::OSG::Background * bg ) {
+        if( bp::override func_setBackground = this->get_override( "setBackground" ) )
+            func_setBackground( boost::python::ptr(bg) );
+        else{
+            this->OSG::SimpleSceneManager::setBackground( boost::python::ptr(bg) );
+        }
+    }
+    
+    void default_setBackground( ::OSG::Background * bg ) {
+        OSG::SimpleSceneManager::setBackground( boost::python::ptr(bg) );
     }
 
     virtual void setCamera( ::OSG::Camera * camera ) {
@@ -465,6 +489,18 @@ void register_SimpleSceneManager_class(){
                 , bp::return_value_policy< bp::manage_new_object >() );
         
         }
+        { //::OSG::SimpleSceneManager::getBackground
+        
+            typedef ::OSG::Background * ( ::OSG::SimpleSceneManager::*getBackground_function_type )(  ) ;
+            typedef ::OSG::Background * ( SimpleSceneManager_wrapper::*default_getBackground_function_type )(  ) ;
+            
+            SimpleSceneManager_exposer.def( 
+                "getBackground"
+                , getBackground_function_type(&::OSG::SimpleSceneManager::getBackground)
+                , default_getBackground_function_type(&SimpleSceneManager_wrapper::default_getBackground)
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::SimpleSceneManager::getCamera
         
             typedef ::OSG::Camera * ( ::OSG::SimpleSceneManager::*getCamera_function_type )(  ) ;
@@ -589,6 +625,18 @@ void register_SimpleSceneManager_class(){
                 , setAction_function_type(&::OSG::SimpleSceneManager::setAction)
                 , default_setAction_function_type(&SimpleSceneManager_wrapper::default_setAction)
                 , ( bp::arg("action") ) );
+        
+        }
+        { //::OSG::SimpleSceneManager::setBackground
+        
+            typedef void ( ::OSG::SimpleSceneManager::*setBackground_function_type )( ::OSG::Background * ) ;
+            typedef void ( SimpleSceneManager_wrapper::*default_setBackground_function_type )( ::OSG::Background * ) ;
+            
+            SimpleSceneManager_exposer.def( 
+                "setBackground"
+                , setBackground_function_type(&::OSG::SimpleSceneManager::setBackground)
+                , default_setBackground_function_type(&SimpleSceneManager_wrapper::default_setBackground)
+                , ( bp::arg("bg") ) );
         
         }
         { //::OSG::SimpleSceneManager::setCamera

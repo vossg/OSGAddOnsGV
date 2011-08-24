@@ -13,13 +13,13 @@ CSMTrackball
 CSMClusterWindow
 CSMWindow
 InterfaceOptionsBase
+ImageFile
 CSMDrawer
 MouseDataInterfaceSensorBase
 ImageFileBase
 CSMGLUTWindowBase
 TransformationInterfaceSensor
 Counter
-CSMSortFirstWinOptionsBase
 CSMSceneParameterBase
 CSMSortFirstWinOptions
 CSMGLUTWindow
@@ -27,7 +27,6 @@ CSMMultiWinOptions
 ComplexSceneManager
 CSMMultiWinOptionsBase
 CSMNativeWindowBase
-ImageFile
 CSMClusterWinOptionsBase
 CSMDrawerBase
 MouseDataInterfaceSensor
@@ -41,8 +40,9 @@ CSMSceneParameter
 KeySensorBase
 ComplexSceneManagerBase
 ShaderProgramFile
+CSMSortFirstWinOptionsBase
 DeviceInterfaceSensorBase
 CSMDrawManagerBase
 SimpleSHLChunkFileBase
-CSMDrawManager
 ShaderProgramFileBase
+CSMDrawManager

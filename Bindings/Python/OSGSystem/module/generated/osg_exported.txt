@@ -18,7 +18,6 @@ ShaderProcVariableBase
 GeoReferenceAttachmentBase
 ShaderProgramChunkBase
 TextureObjChunkBase
-ShaderVariablePnt3f
 PrimeMaterialBase
 DrawableStatsAttachment
 LightBase
@@ -28,20 +27,20 @@ Group
 ShaderVariableVec2fBase
 ChunkOverrideGroup
 ShaderVariableMReal
-RenderOptionsBase
+ShaderVariableStringBase
 ShaderProgramVariableChunkBase
-ShaderVariableMVec2fBase
 ShaderProgramVariableChunk
 BlendChunk
 RootGroup
 RenderTreeNode
+ShaderVariableMVec2fBase
 IntersectProxyAttachmentBase
 MatrixCameraBase
 Window
 GraphOpFactoryBase
 SimpleSHLChunk
-ShaderVariableReal
 ShaderProgram
+FrameBufferObject
 RenderAction
 Drawable
 FrameBufferObjectBase
@@ -49,6 +48,7 @@ Camera
 MaterialBase
 MultiPassMaterial
 ForegroundBase
+ShaderVariableFunctorBase
 SimpleSHLChunkBase
 ContainerCollectionBase
 TextureObjChunk
@@ -71,6 +71,7 @@ CompositeMaterial
 ShaderVariableVec4fBase
 ImageFileType
 Foreground
+ShaderVariableInt
 TextureBaseChunkBase
 ShaderVariablePnt3fBase
 ShaderVariableBool
@@ -84,6 +85,7 @@ MatrixCamera
 ShaderVariable
 LightChunk
 DepthChunk
+MaterialGroup
 FullStateChunkBase
 ShaderVariableVec2f
 ShaderVariableMatrix
@@ -92,15 +94,14 @@ ShaderVariableString
 TextureBaseChunk
 PolygonChunk
 FrameBufferAttachmentBase
+ColorMaskChunk
 RenderOptions
 ShaderExecutableVarChunk
-FrameBufferObject
 ChunkMaterialBase
 MaterialDrawable
+RenderOptionsBase
 ShaderVariableMVec4fBase
 ShaderVariablePnt2f
-MaterialGroup
-ShaderVariableStringBase
 DepthChunkBase
 ShaderVariableMMatrixBase
 GeoReferenceAttachment
@@ -112,6 +113,7 @@ ShaderProgramChunk
 StateBase
 ShaderExecutableChunkBase
 ShaderExecutableVarChunkBase
+ShaderVariablePnt3f
 Viewport
 ShaderValueVariable
 StatisticsForeground
@@ -125,7 +127,6 @@ SimpleMaterialBase
 Image
 IntersectAction
 RenderPartition
-ColorMaskChunk
 ShaderVariableMatrixBase
 ShaderExecutableChunk
 Action
@@ -147,7 +148,6 @@ StringAttributeMapBase
 StereoCameraDecorator
 ShaderVariableOSGBase
 ChunkBlockBase
-ShaderVariableInt
 TextureBuffer
 ShaderVariableMVec3fBase
 Background
@@ -166,7 +166,6 @@ ShaderVariableBase
 WindowBase
 ChunkOverrideGroupBase
 Light
-ShaderVariableFunctorBase
 MaterialChunkBase
 PolygonChunkBase
 MaterialGroupBase
@@ -179,6 +178,7 @@ RootGroupBase
 StateChunkBase
 ShaderVariableIntBase
 MultiPassMaterialBase
+ShaderVariableReal
 ShaderVariableOSG
 MultiCore
 ChunkBlock

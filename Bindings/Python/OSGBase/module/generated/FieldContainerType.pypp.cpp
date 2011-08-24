@@ -47,6 +47,16 @@ void register_FieldContainerType_class(){
                 , createContainer_function_type( &::OSG::FieldContainerType::createContainer ) );
         
         }
+        { //::OSG::FieldContainerType::createLocalContainer
+        
+            typedef ::OSG::FieldContainerTransitPtr ( ::OSG::FieldContainerType::*createLocalContainer_function_type )( long unsigned int const ) const;
+            
+            FieldContainerType_exposer.def( 
+                "createLocalContainer"
+                , createLocalContainer_function_type( &::OSG::FieldContainerType::createLocalContainer )
+                , ( bp::arg("lFlags") ) );
+        
+        }
         { //::OSG::FieldContainerType::dump
         
             typedef void ( ::OSG::FieldContainerType::*dump_function_type )( ::OSG::UInt32,long unsigned int const ) const;

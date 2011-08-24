@@ -67,6 +67,26 @@ void register_CSMNativeWindow_class(){
                 , init_function_type( &::OSG::CSMNativeWindow::init ) );
         
         }
+        { //::OSG::CSMNativeWindow::translateGlobalCoordinatesAbs
+        
+            typedef ::OSG::Vec2i ( ::OSG::CSMNativeWindow::*translateGlobalCoordinatesAbs_function_type )( ::OSG::Int32,::OSG::Int32 ) ;
+            
+            CSMNativeWindow_exposer.def( 
+                "translateGlobalCoordinatesAbs"
+                , translateGlobalCoordinatesAbs_function_type( &::OSG::CSMNativeWindow::translateGlobalCoordinatesAbs )
+                , ( bp::arg("iX"), bp::arg("iY") ) );
+        
+        }
+        { //::OSG::CSMNativeWindow::translateGlobalCoordinatesRel
+        
+            typedef ::OSG::Vec2i ( ::OSG::CSMNativeWindow::*translateGlobalCoordinatesRel_function_type )( ::OSG::Real32,::OSG::Real32 ) ;
+            
+            CSMNativeWindow_exposer.def( 
+                "translateGlobalCoordinatesRel"
+                , translateGlobalCoordinatesRel_function_type( &::OSG::CSMNativeWindow::translateGlobalCoordinatesRel )
+                , ( bp::arg("rX"), bp::arg("rY") ) );
+        
+        }
         pyopensg::register_transit< OSG::CSMNativeWindow >::execute();
         bp::implicitly_convertible< OSG::CSMNativeWindow::ObjRecPtr, OSG::CSMNativeWindow* >();
         bp::implicitly_convertible< OSG::CSMNativeWindow::ObjRecPtr, OSG::CSMNativeWindow::ObjCPtr >();

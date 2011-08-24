@@ -32,16 +32,10 @@
 using namespace std;
 namespace bp = boost::python;
 
-struct MaterialDrawable_wrapper : OSG::MaterialDrawable, bp::wrapper< OSG::MaterialDrawable > {
-
-
-
-};
-
 void register_MaterialDrawable_class(){
 
     { //::OSG::MaterialDrawable
-        typedef bp::class_< MaterialDrawable_wrapper, bp::bases< OSG::MaterialDrawableBase >, boost::noncopyable > MaterialDrawable_exposer_t;
+        typedef bp::class_< OSG::MaterialDrawable, bp::bases< OSG::MaterialDrawableBase >, boost::noncopyable > MaterialDrawable_exposer_t;
         MaterialDrawable_exposer_t MaterialDrawable_exposer = MaterialDrawable_exposer_t( "MaterialDrawable", bp::no_init );
         bp::scope MaterialDrawable_scope( MaterialDrawable_exposer );
         { //::OSG::MaterialDrawable::changed
@@ -92,16 +86,6 @@ void register_MaterialDrawable_class(){
                 "renderActionLeaveHandler"
                 , renderActionLeaveHandler_function_type( &::OSG::MaterialDrawable::renderActionLeaveHandler )
                 , ( bp::arg("action") ) );
-        
-        }
-        { //::OSG::Drawable::fill
-        
-            typedef void ( ::OSG::Drawable::*fill_function_type )( ::OSG::DrawableStatsAttachment * ) ;
-            
-            MaterialDrawable_exposer.def( 
-                "fill"
-                , fill_function_type( &::OSG::Drawable::fill )
-                , ( bp::arg("pStat") ) );
         
         }
         pyopensg::register_transit< OSG::MaterialDrawable >::execute();

@@ -114,6 +114,10 @@
 
 #include "generated/GeometryBase.pypp.hpp"
 
+#include "generated/KDTreeIntersectProxyAttachment.pypp.hpp"
+
+#include "generated/KDTreeIntersectProxyAttachmentBase.pypp.hpp"
+
 #include "generated/OSGDrawablePy_free_functions.pypp.hpp"
 
 #include "generated/Particles.pypp.hpp"
@@ -204,6 +208,10 @@ BOOST_PYTHON_MODULE(OSGDrawablePy){
     register_GeometryBase_class();
 
     register_Geometry_class();
+
+    register_KDTreeIntersectProxyAttachmentBase_class();
+
+    register_KDTreeIntersectProxyAttachment_class();
 
     register_ParticlesBase_class();
 
@@ -342,6 +350,12 @@ BOOST_PYTHON_MODULE(OSGDrawablePy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::QuadTreeTerrain, OSG::QuadTreeTerrain::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::QuadTreeTerrain::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::KDTreeIntersectProxyAttachment */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::KDTreeIntersectProxyAttachment, OSG::KDTreeIntersectProxyAttachment::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::KDTreeIntersectProxyAttachment::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::GeoMultiPropertyData */
 

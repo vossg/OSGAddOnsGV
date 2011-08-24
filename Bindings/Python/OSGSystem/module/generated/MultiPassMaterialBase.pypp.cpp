@@ -234,15 +234,6 @@ void register_MultiPassMaterialBase_class(){
                 , ( bp::arg("value") ) );
         
         }
-        { //::OSG::Material::isTransparent
-        
-            typedef bool ( ::OSG::Material::*isTransparent_function_type )(  ) const;
-            
-            MultiPassMaterialBase_exposer.def( 
-                "isTransparent"
-                , isTransparent_function_type( &::OSG::Material::isTransparent ) );
-        
-        }
         { //::OSG::PrimeMaterial::rebuildState
         
             typedef void ( ::OSG::PrimeMaterial::*rebuildState_function_type )(  ) ;

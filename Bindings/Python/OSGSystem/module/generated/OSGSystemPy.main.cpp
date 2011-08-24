@@ -899,11 +899,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::StateChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::MultiPassMaterial */
+    /** Helpers for OSG::Drawable */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::MultiPassMaterial, OSG::MultiPassMaterial::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Drawable, OSG::Drawable::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiPassMaterial::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Drawable::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ShaderVariableInt */
 
@@ -1145,11 +1145,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::LightEnv::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::Drawable */
+    /** Helpers for OSG::MultiPassMaterial */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Drawable, OSG::Drawable::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::MultiPassMaterial, OSG::MultiPassMaterial::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Drawable::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiPassMaterial::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::VariantMaterial */
 

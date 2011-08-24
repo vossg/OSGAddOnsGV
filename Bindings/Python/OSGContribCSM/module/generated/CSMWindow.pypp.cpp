@@ -144,6 +144,26 @@ void register_CSMWindow_class(){
                 , ( bp::arg("pTask") ) );
         
         }
+        { //::OSG::CSMWindow::translateGlobalCoordinatesAbs
+        
+            typedef ::OSG::Vec2i ( ::OSG::CSMWindow::*translateGlobalCoordinatesAbs_function_type )( ::OSG::Int32,::OSG::Int32 ) ;
+            
+            CSMWindow_exposer.def( 
+                "translateGlobalCoordinatesAbs"
+                , translateGlobalCoordinatesAbs_function_type( &::OSG::CSMWindow::translateGlobalCoordinatesAbs )
+                , ( bp::arg("iX"), bp::arg("iY") ) );
+        
+        }
+        { //::OSG::CSMWindow::translateGlobalCoordinatesRel
+        
+            typedef ::OSG::Vec2i ( ::OSG::CSMWindow::*translateGlobalCoordinatesRel_function_type )( ::OSG::Real32,::OSG::Real32 ) ;
+            
+            CSMWindow_exposer.def( 
+                "translateGlobalCoordinatesRel"
+                , translateGlobalCoordinatesRel_function_type( &::OSG::CSMWindow::translateGlobalCoordinatesRel )
+                , ( bp::arg("rX"), bp::arg("rY") ) );
+        
+        }
         pyopensg::register_transit< OSG::CSMWindow >::execute();
         bp::register_ptr_to_python< OSG::CSMWindow::ObjRecPtr >();
         bp::implicitly_convertible< OSG::CSMWindow::ObjRecPtr, OSG::CSMWindow* >();
