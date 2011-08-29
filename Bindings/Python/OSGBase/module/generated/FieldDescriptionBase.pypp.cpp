@@ -100,6 +100,11 @@ struct FieldDescriptionBase_wrapper : OSG::FieldDescriptionBase, bp::wrapper< OS
         OSG::FieldDescriptionBase::setDynamic( bDynamic );
     }
 
+    virtual void sync( ::OSG::Field * pTo, ::OSG::Field * pFrom, ::OSG::AspectOffsetStore & oOffsets, ::OSG::ConstFieldMaskArg syncMode, ::OSG::UInt32 const uiSyncInfo ) const {
+        bp::override func_sync = this->get_override( "sync" );
+        func_sync( boost::python::ptr(pTo), boost::python::ptr(pFrom), boost::ref(oOffsets), syncMode, uiSyncInfo );
+    }
+
 };
 
 void register_FieldDescriptionBase_class(){
@@ -396,6 +401,16 @@ void register_FieldDescriptionBase_class(){
                 "setFlags"
                 , setFlags_function_type( &::OSG::FieldDescriptionBase::setFlags )
                 , ( bp::arg("uiFlags") ) );
+        
+        }
+        { //::OSG::FieldDescriptionBase::sync
+        
+            typedef void ( ::OSG::FieldDescriptionBase::*sync_function_type )( ::OSG::Field *,::OSG::Field *,::OSG::AspectOffsetStore &,::OSG::ConstFieldMaskArg,::OSG::UInt32 const ) const;
+            
+            FieldDescriptionBase_exposer.def( 
+                "sync"
+                , bp::pure_virtual( sync_function_type(&::OSG::FieldDescriptionBase::sync) )
+                , ( bp::arg("pTo"), bp::arg("pFrom"), bp::arg("oOffsets"), bp::arg("syncMode"), bp::arg("uiSyncInfo") ) );
         
         }
     }
