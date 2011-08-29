@@ -19,7 +19,6 @@
      visibility="external"
      access="public"
      defaultValue="10"
-     fieldFlags="FStdAccess, FThreadLocal"
      >
   </Field>
   <Field
@@ -28,7 +27,6 @@
      cardinality="single"
      visibility="external"
      access="public"
-     fieldFlags="FStdAccess, FThreadLocal"
      >
   </Field>
 </FieldContainer>

@@ -37,7 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 #ifndef _OSGSCRIPTPARENT_H_
-#define _OSGSCRIPTRPARENT_H_
+#define _OSGSCRIPTPARENT_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -83,4 +83,4 @@ typedef DynFieldContainer<
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGSCRIPTSORPARENT_H_ */
+#endif /* _OSGSCRIPTPARENT_H_ */

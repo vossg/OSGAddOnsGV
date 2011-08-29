@@ -125,7 +125,7 @@ void ScriptBase::classDescInserter(TypeObject &oType)
         "",
         PriorityFieldId, PriorityFieldMask,
         false,
-        (Field::FStdAccess | Field::FThreadLocal),
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&Script::editHandlePriority),
         static_cast<FieldGetMethodSig >(&Script::getHandlePriority));
 
@@ -137,7 +137,7 @@ void ScriptBase::classDescInserter(TypeObject &oType)
         "",
         ScriptFieldId, ScriptFieldMask,
         false,
-        (Field::FStdAccess | Field::FThreadLocal),
+        (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&Script::editHandleScript),
         static_cast<FieldGetMethodSig >(&Script::getHandleScript));
 
@@ -177,7 +177,6 @@ ScriptBase::TypeObject ScriptBase::_type(
     "     visibility=\"external\"\n"
     "     access=\"public\"\n"
     "     defaultValue=\"10\"\n"
-    "     fieldFlags=\"FStdAccess, FThreadLocal\"\n"
     "     >\n"
     "  </Field>\n"
     "  <Field\n"
@@ -186,7 +185,6 @@ ScriptBase::TypeObject ScriptBase::_type(
     "     cardinality=\"single\"\n"
     "     visibility=\"external\"\n"
     "     access=\"public\"\n"
-    "     fieldFlags=\"FStdAccess, FThreadLocal\"\n"
     "     >\n"
     "  </Field>\n"
     "</FieldContainer>\n",
