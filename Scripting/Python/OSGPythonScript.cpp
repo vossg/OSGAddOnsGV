@@ -719,4 +719,6 @@ bool PythonScript::getPyErrorFlag()
 bool PythonScript::clearPyErrorFlag()
 {
     _bPyErrorFlag = false;
+
+    return true;
 }

@@ -2,6 +2,6 @@ ContainerMixinHeadNodeCoreScriptDesc
 ScriptParent
 FrameTaskMixinContainerMixinHeadNodeCoreScriptDesc
 Script
-PythonScript
 ScriptBase
+PythonScript
 PythonScriptBase

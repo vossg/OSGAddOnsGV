@@ -82,7 +82,7 @@ void register_PythonScript_class(){
         
             typedef ::OSG::FieldContainer * ( ::OSG::PythonScript::*findNamedComponent_function_type )( ::OSG::Char8 const * ) const;
             
-            PythonScript_exposer.def(
+            PythonScript_exposer.def( 
                 "findNamedComponent"
                 , findNamedComponent_function_type( &::OSG::PythonScript::findNamedComponent )
                 , ( bp::arg("szName") )

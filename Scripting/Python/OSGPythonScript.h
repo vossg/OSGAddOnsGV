@@ -66,7 +66,8 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
    /*---------------------------------------------------------------------*/
    /*! \name                  Container Access                            */
    /*! \{                                                                 */
-   FieldContainer *findNamedComponent(const Char8 *szName) const;
+   
+    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
 
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */

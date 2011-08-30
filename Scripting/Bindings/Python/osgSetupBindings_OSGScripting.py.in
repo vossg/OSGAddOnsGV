@@ -95,19 +95,6 @@ def postScanSetup(osg, template_alias_db):
     else:
       decl.call_policies = return_internal_reference()
 
-  #
-  # findNamedComponent():
-  #
-
-  # the following code is not working, for whatever reason...
-  decl = osg.class_('PythonScript')['findNamedComponent']
-  if decl:
-    print '### Found findNamedComponent(), ', decl
-    decl.call_policies = return_internal_reference()
-    #decl.exclude()
-  else:
-    print '### findNamedComponent() NOT found, ', decl
-
   #----------------------------------------------------------------------------
   # ScriptBase
   #----------------------------------------------------------------------------
@@ -137,5 +124,18 @@ def postGenClassesSetup(osg, mb):
 
 
 def postFCDInfoSetup(osg, mb, adddition_exp):
+
+  #
+  # findNamedComponent():
+  #
+
+  # the following code is not working, for whatever reason...
+  decl = osg.class_('PythonScript')['findNamedComponent']
+  if decl:
+    print '### Found findNamedComponent(), ', decl
+    decl.call_policies = return_internal_reference()
+    #decl.exclude()
+  else:
+    print '### findNamedComponent() NOT found, ', decl
 
   return
