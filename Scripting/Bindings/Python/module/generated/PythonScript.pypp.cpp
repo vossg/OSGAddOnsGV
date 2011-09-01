@@ -101,28 +101,6 @@ void register_PythonScript_class(){
         }
         { //::OSG::PythonScript::getSField
         
-            typedef ::OSG::TransformationMatrix< double > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< double > const & ) ;
-            
-            PythonScript_exposer.def( 
-                "getSField"
-                , getSField_function_type( &::OSG::PythonScript::getSField )
-                , ( bp::arg("name"), bp::arg("type") )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::OSG::PythonScript::getSField
-        
-            typedef ::OSG::TransformationMatrix< float > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< float > const & ) ;
-            
-            PythonScript_exposer.def( 
-                "getSField"
-                , getSField_function_type( &::OSG::PythonScript::getSField )
-                , ( bp::arg("name"), bp::arg("type") )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::OSG::PythonScript::getSField
-        
             typedef ::OSG::Plane const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Plane const & ) ;
             
             PythonScript_exposer.def( 
@@ -145,28 +123,6 @@ void register_PythonScript_class(){
         }
         { //::OSG::PythonScript::getSField
         
-            typedef ::std::string const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::std::string const & ) ;
-            
-            PythonScript_exposer.def( 
-                "getSField"
-                , getSField_function_type( &::OSG::PythonScript::getSField )
-                , ( bp::arg("name"), bp::arg("type") )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::OSG::PythonScript::getSField
-        
-            typedef ::OSG::Color4< unsigned char > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Color4< unsigned char > const & ) ;
-            
-            PythonScript_exposer.def( 
-                "getSField"
-                , getSField_function_type( &::OSG::PythonScript::getSField )
-                , ( bp::arg("name"), bp::arg("type") )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::OSG::PythonScript::getSField
-        
             typedef ::OSG::Color4< float > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Color4< float > const & ) ;
             
             PythonScript_exposer.def( 
@@ -178,7 +134,7 @@ void register_PythonScript_class(){
         }
         { //::OSG::PythonScript::getSField
         
-            typedef ::OSG::Color3< unsigned char > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Color3< unsigned char > const & ) ;
+            typedef ::OSG::Color3< float > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Color3< float > const & ) ;
             
             PythonScript_exposer.def( 
                 "getSField"
@@ -189,7 +145,73 @@ void register_PythonScript_class(){
         }
         { //::OSG::PythonScript::getSField
         
-            typedef ::OSG::Color3< float > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Color3< float > const & ) ;
+            typedef ::OSG::QuaternionBase< float > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::QuaternionBase< float > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::OSG::TransformationMatrix< double > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< double > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::OSG::TransformationMatrix< float > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< float > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::OSG::Vector< double, 4u > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Vector< double, 4u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::OSG::Vector< double, 3u > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Vector< double, 3u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::OSG::Vector< double, 2u > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Vector< double, 2u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::OSG::Vector< float, 4u > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Vector< float, 4u > const & ) ;
             
             PythonScript_exposer.def( 
                 "getSField"
@@ -222,6 +244,83 @@ void register_PythonScript_class(){
         }
         { //::OSG::PythonScript::getSField
         
+            typedef ::OSG::Point< double, 4u > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Point< double, 4u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::OSG::Point< double, 3u > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Point< double, 3u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::OSG::Point< double, 2u > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Point< double, 2u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::OSG::Point< float, 4u > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Point< float, 4u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::OSG::Point< float, 3u > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Point< float, 3u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::OSG::Point< float, 2u > const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::OSG::Point< float, 2u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef ::std::string const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,::std::string const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
             typedef double const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,double const & ) ;
             
             PythonScript_exposer.def( 
@@ -229,6 +328,27 @@ void register_PythonScript_class(){
                 , getSField_function_type( &::OSG::PythonScript::getSField )
                 , ( bp::arg("name"), bp::arg("type") )
                 , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
+        { //::OSG::PythonScript::getSField
+        
+            typedef int const & ( ::OSG::PythonScript::*getSField_function_type )( ::std::string const &,int const & ) ;
+            
+            PythonScript_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PythonScript::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
+        { //::OSG::PythonScript::getSFieldBool
+        
+            typedef bool ( ::OSG::PythonScript::*getSFieldBool_function_type )( ::std::string const &,bool const ) ;
+            
+            PythonScript_exposer.def( 
+                "getSFieldBool"
+                , getSFieldBool_function_type( &::OSG::PythonScript::getSFieldBool )
+                , ( bp::arg("name"), bp::arg("type") ) );
         
         }
         { //::OSG::PythonScript::getType
@@ -271,26 +391,6 @@ void register_PythonScript_class(){
         }
         { //::OSG::PythonScript::setSField
         
-            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< double > const & ) ;
-            
-            PythonScript_exposer.def( 
-                "setSField"
-                , setSField_function_type( &::OSG::PythonScript::setSField )
-                , ( bp::arg("name"), bp::arg("value") ) );
-        
-        }
-        { //::OSG::PythonScript::setSField
-        
-            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< float > const & ) ;
-            
-            PythonScript_exposer.def( 
-                "setSField"
-                , setSField_function_type( &::OSG::PythonScript::setSField )
-                , ( bp::arg("name"), bp::arg("value") ) );
-        
-        }
-        { //::OSG::PythonScript::setSField
-        
             typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Plane const & ) ;
             
             PythonScript_exposer.def( 
@@ -311,26 +411,6 @@ void register_PythonScript_class(){
         }
         { //::OSG::PythonScript::setSField
         
-            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::std::string const & ) ;
-            
-            PythonScript_exposer.def( 
-                "setSField"
-                , setSField_function_type( &::OSG::PythonScript::setSField )
-                , ( bp::arg("name"), bp::arg("value") ) );
-        
-        }
-        { //::OSG::PythonScript::setSField
-        
-            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Color4< unsigned char > const & ) ;
-            
-            PythonScript_exposer.def( 
-                "setSField"
-                , setSField_function_type( &::OSG::PythonScript::setSField )
-                , ( bp::arg("name"), bp::arg("value") ) );
-        
-        }
-        { //::OSG::PythonScript::setSField
-        
             typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Color4< float > const & ) ;
             
             PythonScript_exposer.def( 
@@ -341,7 +421,7 @@ void register_PythonScript_class(){
         }
         { //::OSG::PythonScript::setSField
         
-            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Color3< unsigned char > const & ) ;
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Color3< float > const & ) ;
             
             PythonScript_exposer.def( 
                 "setSField"
@@ -351,7 +431,67 @@ void register_PythonScript_class(){
         }
         { //::OSG::PythonScript::setSField
         
-            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Color3< float > const & ) ;
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::QuaternionBase< float > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< double > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< float > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Vector< double, 4u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Vector< double, 3u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Vector< double, 2u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Vector< float, 4u > const & ) ;
             
             PythonScript_exposer.def( 
                 "setSField"
@@ -381,12 +521,102 @@ void register_PythonScript_class(){
         }
         { //::OSG::PythonScript::setSField
         
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Point< double, 4u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Point< double, 3u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Point< double, 2u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Point< float, 4u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Point< float, 3u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Point< float, 2u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::std::string const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
             typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,double const & ) ;
             
             PythonScript_exposer.def( 
                 "setSField"
                 , setSField_function_type( &::OSG::PythonScript::setSField )
                 , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSField
+        
+            typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,int const & ) ;
+            
+            PythonScript_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PythonScript::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PythonScript::setSFieldBool
+        
+            typedef void ( ::OSG::PythonScript::*setSFieldBool_function_type )( ::std::string const &,bool const ) ;
+            
+            PythonScript_exposer.def( 
+                "setSFieldBool"
+                , setSFieldBool_function_type( &::OSG::PythonScript::setSFieldBool )
+                , ( bp::arg("name"), bp::arg("type") ) );
         
         }
         { //::OSG::PythonScript::setScriptChanged

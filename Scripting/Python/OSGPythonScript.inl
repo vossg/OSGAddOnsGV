@@ -34,31 +34,23 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include "OSGSysSFields.h"
+#include "OSGSysFields.h"
 #include "OSGVecFields.h"
-#include "OSGMathSFields.h"
+#include "OSGMathFields.h"
 
 //#define DEBUG_FIELDACCESS
 
 OSG_BEGIN_NAMESPACE
 
-#if 0
-#define OSGPY_GENERATE_ACCESS_METHODS(FieldT, iNameSpace)            \
-    template const FieldT& PythonScript::getSField<FieldT,         \
-                                                   iNameSpace>     \
-                                         (const std::string& name, \
-                                          const FieldT& value);    \
-    template void          PythonScript::setSField<FieldT,         \
-                                                   iNameSpace>     \
-                                         (const std::string& name, \
-                                          const FieldT& value);
-#endif
+//-----------------------------------------------------------------------------
+// ------------------------ DataField templates -------------------------------
+//-----------------------------------------------------------------------------
 
-#define OSGPY_GENERATE_ACCESS_METHODS(FieldT)            \
-    template const FieldT& PythonScript::getSField<FieldT>   \
+#define OSGPY_GEN_DATAFIELD_ACCESS_METHODS(FieldT)                 \
+    template const FieldT& PythonScript::getSField<FieldT>         \
                                          (const std::string& name, \
                                           const FieldT& value);    \
-    template void          PythonScript::setSField<FieldT> \
+    template void          PythonScript::setSField<FieldT>         \
                                          (const std::string& name, \
                                           const FieldT& value);
 
@@ -76,8 +68,10 @@ void PythonScript::setSField(const std::string& name, const T& value)
     sfield->setValue(value);
 
 #ifdef DEBUG_FIELDACCESS
-    std::cout << "Updated (id=" << this->getId() << "/name='" << name
-              << "') to " << sfield->getValue() << std::endl;
+    std::cerr << "setSField: type=" << typeid(value).name() << std::endl;
+    std::cerr << "sfield: " << sfield << std::endl;
+    std::cerr << "Updated (id=" << fieldDesc->getTypeId() << "/name='" << name
+              << "'/type='" << sfield->getClassType().getName() << "') to " << sfield->getValue() << std::endl;
 #endif
 }
 
@@ -95,12 +89,27 @@ const T& PythonScript::getSField(const std::string& name, const T& type)
 #ifdef DEBUG_FIELDACCESS
     std::cerr << "[" << fieldDesc->getFieldType().getName() << "] Retrieved value "
               << sfield->getValue() << " from (id="
-              << this->getId() << "/name='" << name << "') from field '"
-              << sfield->getClassType().getName() << "'" << std::endl;
+              << fieldDesc->getTypeId() << "/name='" << name << "'/type='"
+              << sfield->getClassType().getName() << "')" << std::endl;
 #endif
 
     return(sfield->getValue());
 }
+
+//-----------------------------------------------------------------------------
+// ----------------- DataField templates with Namespace -----------------------
+//-----------------------------------------------------------------------------
+
+#if 0
+#define OSGPY_GEN_DATAFIELD_ACCESS_METHODS_NS(FieldT, iNameSpace)  \
+    template const FieldT& PythonScript::getSFieldNS<FieldT,       \
+                                                   2>     \
+                                         (const std::string& name, \
+                                          const FieldT& value);    \
+    template void          PythonScript::setSFieldNS<FieldT,       \
+                                                   2>     \
+                                         (const std::string& name, \
+                                          const FieldT& value);
 
 template <class T, Int32 iNameSpace>
 void PythonScript::setSFieldNS(const std::string& name, const T& value)
@@ -114,11 +123,6 @@ void PythonScript::setSFieldNS(const std::string& name, const T& value)
     EditFieldHandlePtr editHandle = fieldDesc->editField(*this);
     SFieldT *sfield = static_cast<SFieldT*>(editHandle->getField());
     sfield->setValue(value);
-
-#ifdef DEBUG_FIELDACCESS
-    std::cout << "Updated (id=" << this->getId() << "/name='" << name
-              << "') to " << sfield->getValue() << std::endl;
-#endif
 }
 
 template<class T, Int32 iNameSpace>
@@ -132,51 +136,100 @@ const T& PythonScript::getSFieldNS(const std::string& name, const T& type)
     GetFieldHandlePtr getHandle = fieldDesc->getField(*this);
     const SFieldT *sfield = static_cast<const SFieldT*>(getHandle->getField());
 
+    return(sfield->getValue());
+}
+#endif
+
+//-----------------------------------------------------------------------------
+// ---------------------- PointerField templates ------------------------------
+//-----------------------------------------------------------------------------
+
+#if 0
+#define OSGPY_GENERATE_POINTERFIELD_ACCESS_METHODS(FieldT)         \
+    template const FieldT* PythonScript::getPointerSField<FieldT>  \
+                                         (const std::string& name, \
+                                          FieldT* value);    \
+    template void          PythonScript::setPointerSField<FieldT>  \
+                                         (const std::string& name, \
+                                          FieldT* value);
+
+template <class T>
+void PythonScript::setPointerSField(const std::string& name, T* value)
+{
+    FieldDescriptionBase *fieldDesc =
+            this->getType().getFieldDesc(name.c_str());
+    assert(fieldDesc);
+
+    typedef PointerSField<T*, UnrecordedRefCountPolicy, 0> SFieldT;
+
+    EditFieldHandlePtr editHandle = fieldDesc->editField(*this);
+    SFieldT *sfield = static_cast<SFieldT*>(editHandle->getField());
+    sfield->setValue(value);
+
 #ifdef DEBUG_FIELDACCESS
+    std::cerr << "Updated (id=" << fieldDesc->getTypeId() << "/name='" << name
+              << "'/type='" << sfield->getClassType().getName() << "') to " << sfield->getValue() << std::endl;
+#endif
+}
+
+template<class T>
+const T* PythonScript::getPointerSField(const std::string& name, T* type)
+{
+    FieldDescriptionBase *fieldDesc = this->getType().getFieldDesc(name.c_str());
+    assert(fieldDesc);
+
+    typedef PointerSField<T*, UnrecordedRefCountPolicy, 0> SFieldT;
+
+    GetFieldHandlePtr getHandle = fieldDesc->getField(*this);
+    const SFieldT *sfield = static_cast<const SFieldT*>(getHandle->getField());
+
+#ifdef DEBUG_FIELDACCESS
+    std::cerr << "getSField: type=" << typeid(type).name() << std::endl;
+    std::cerr << "sfield: " << sfield << std::endl;
     std::cerr << "[" << fieldDesc->getFieldType().getName() << "] Retrieved value "
               << sfield->getValue() << " from (id="
-              << this->getId() << "/name='" << name << "') from field '"
-              << sfield->getClassType().getName() << std::endl;
+              << fieldDesc->getTypeId() << "/name='" << name << "'/type='"
+              << sfield->getClassType().getName() << "')" << std::endl;
 #endif
 
     return(sfield->getValue());
 }
+#endif
 
-// Explicit instantiations:
-// TODO: bool, Int, Real
+//-----------------------------------------------------------------------------
+// --------------------- Template instantiations ------------------------------
+//-----------------------------------------------------------------------------
 
-//OSGPY_GENERATE_ACCESS_METHODS(bool       )
-OSGPY_GENERATE_ACCESS_METHODS(Real64     )
-OSGPY_GENERATE_ACCESS_METHODS(Vec2f      )
-OSGPY_GENERATE_ACCESS_METHODS(Vec3f      )
-OSGPY_GENERATE_ACCESS_METHODS(Color3f    )
-OSGPY_GENERATE_ACCESS_METHODS(Color3ub   )
-OSGPY_GENERATE_ACCESS_METHODS(Color4f    )
-OSGPY_GENERATE_ACCESS_METHODS(Color4ub   )
-OSGPY_GENERATE_ACCESS_METHODS(std::string)
-OSGPY_GENERATE_ACCESS_METHODS(BoxVolume  )
-OSGPY_GENERATE_ACCESS_METHODS(Plane      )
-OSGPY_GENERATE_ACCESS_METHODS(Matrix     )
-OSGPY_GENERATE_ACCESS_METHODS(Matrix4d   )
+                                                // -> CSM equivalent (taken from OSGScanParseSkelParser.cpp)
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Int32      ) // -> SFInt32
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Real64     ) // -> SFDouble
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(std::string) // -> SFString
 
-// TODO: bool, Int, Real
-//OSGPY_GENERATE_ACCESS_METHODS(bool       ,2)
-//OSGPY_GENERATE_ACCESS_METHODS(Vec2f      ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(Vec3f      ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(Color3f    ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(Color3ub   ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(Color4f    ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(Color4ub   ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(std::string,0)
-//OSGPY_GENERATE_ACCESS_METHODS(BoxVolume  ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(Plane      ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(Matrix     ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(Matrix4d   ,0)
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Pnt2f      ) // -> SFPnt2f
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Pnt3f      ) // -> SFPnt3f
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Pnt4f      ) // -> SFPnt4f
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Pnt2d      ) // -> SFPnt2d
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Pnt3d      ) // -> SFPnt4d
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Pnt4d      ) // -> SFPnt4d
 
-// not supported either by python bindings or csm:
-//OSGPY_GENERATE_ACCESS_METHODS(Int32      ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(Real32     ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(Quaternion ,0)
-//OSGPY_GENERATE_ACCESS_METHODS(Quaterniond,0)
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Vec2f      ) // -> SFVec2f
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Vec3f      ) // -> SFVec3f
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Vec4f      ) // -> SFVec4f
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Vec2d      ) // -> SFVec2d
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Vec3d      ) // -> SFVec4d
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Vec4d      ) // -> SFVec4d
+
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Matrix     ) // -> SFMatrix
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Matrix4d   ) // -> SFMatrix4d
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Quaternion ) // -> SFRotation
+
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Color3f    ) // -> SFColor
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Color4f    ) // -> SFColorRGBA
+
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(BoxVolume  ) // -> SFVolume
+OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Plane      ) // -> SFPlane
+
+//OSGPY_GENERATE_POINTERFIELD_ACCESS_METHODS(Node) // -> SFNode
 
 OSG_END_NAMESPACE
+

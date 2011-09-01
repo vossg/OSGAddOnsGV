@@ -1,37 +1,43 @@
 #OSG V1.0 
 
-Node
+DEF MainNode Node
 {
   core DEF Writer PythonScript
   {
-    field SFDouble   double   1.2
-    field SFFloat    float    1.3
-    field SFVec2f    vec2f    2.1  2.2 
-    field SFVec3f    vec3f    3.1  3.2  3.3 
-    field SFColor3f  color3f  0.5 0.5 0.5 
-    field SFColor4f  color4f  0.5 0.5 0.5 1 
-    field SFString   string   "myString"
-    #field SFPlane    plane    1 1 1 0.5
-    field SFMatrix   matrix   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
-    field SFMatrix4d matrix4d 1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1
-    #field SFBool     bool     True
+    field SFInt32     mSFInt32    1
+    field SFDouble    mSFDouble   3.3
+    field SFString    mSFString   "myString"
+    field SFBool      mSFBool     true
 
-    script 
-"import time
+    field SFPnt2f     mSFPnt2f     2.2 2.2
+    field SFPnt3f     mSFPnt3f     3.3 3.3 3.3
+    field SFPnt4f     mSFPnt4f     4.4 4.4 4.4 1
+
+    field SFVec2f     mSFVec2f     2.2 2.2
+    field SFVec2d     mSFVec2d     2.2 2.2
+    field SFVec3f     mSFVec3f     3.3 3.3 3.3
+    field SFVec3d     mSFVec3d     3.3 3.3 3.3
+    field SFVec4f     mSFVec4f     4.4 4.4 4.4 1
+    field SFVec4d     mSFVec4d     4.4 4.4 4.4 1
+
+    field SFMatrix    mSFMatrix    1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1
+    field SFMatrix4d  mSFMatrix4d  1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1
+
+    field SFRotation  mSFRotation  1 2 3 45
+
+    field SFColor     mSFColor     0.1 0.1 0.1
+    field SFColorRGBA mSFColorRGBA 0.4 0.4 0.4 1
+
+    #field SFPlane     mSFPlane     
+    field SFVolume    mSFVolume    0 0 0 1 1 1 1
+
+    field SFTime      mSFTime      0.1
+
+    #field SFImage     mSFImage     ?
+    #field SFNode      mSFNode      USE MainNode
+
+    script "import time
 from math import sin
-
-s = sin(time.clock())
-
-self.double   = 6.6
-self.float    = 7.7
-self.vec2f    = osg.Vec2f(2,s)
-self.vec3f    = osg.Vec3f(3,3,s)
-self.color3f  = osg.Color3f(3,3,s)
-self.color4f  = osg.Color4f(4,4,4,s)
-self.string   = 'string' + str(s)
-self.plane    = osg.Plane(self.vec3f, 3)
-self.matrix   = osg.Matrix(s,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-self.matrix4d = osg.Matrix4d(s,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 
 if(osg.getName(self)):
     self.name = osg.getName(self)
@@ -39,40 +45,50 @@ else:
     self.name = 'unknown'
 
 def init():
-    print('Calling init() on ' + self.name)
+    pass	
 
 def shutdown():
-    print('Calling shutdown() on ' + self.name)
+    pass
 
 def frame(timeStamp, frameCount):
-    #print('Calling frame() on ' + self.name)
-    #print('timeStamp: ' + str(timeStamp) + '   frameCount: ' + str(frameCount))
 
-    s = timeStamp * 1000
+    ts = timeStamp;
 
-    #self.double   = 6.6
-    #self.float    = 7.7
-    #self.vec2f    = osg.Vec2f(2,s)
-    #self.vec3f    = osg.Vec3f(3,3,s)
-    #self.color3f  = osg.Color3f(3,3,s)
-    #self.color4f  = osg.Color4f(4,4,4,s)
-    #self.string   = 'string' + str(s)
-    #self.plane    = osg.Plane(self.vec3f, 3)
-    #self.matrix   = osg.Matrix(s,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-    self.matrix4d = osg.Matrix4d(s,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    self.mSFInt32     = frameCount
+    self.mSFFloat     = timeStamp
+    self.mSFDouble    = timeStamp
+    self.mSFString    = 'mystring ' + str(frameCount)
+    if(frameCount%2 == 0):
+        self.mSFBool = False
+    else:
+        self.mSFBool = True
+
+    self.mSFPnt2f     = osg.Pnt2f(ts,ts)
+    self.mSFPnt3f     = osg.Pnt3f(ts,ts,ts)
+    self.mSFPnt4f     = osg.Pnt4f(ts,ts,ts,ts)
+
+    self.mSFVec2f     = osg.Vec2f(ts,ts)
+    self.mSFVec2d     = osg.Vec2d(ts,ts)
+    self.mSFVec3f     = osg.Vec3f(ts,ts,ts)
+    self.mSFVec3d     = osg.Vec3d(ts,ts,ts)
+    self.mSFVec4f     = osg.Vec4f(ts,ts,ts,ts)
+    self.mSFVec4d     = osg.Vec4d(ts,ts,ts,ts)
+
+    self.mSFMatrix    = osg.Matrix  (ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts)
+    self.mSFMatrix4d  = osg.Matrix4d(ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts,ts)
+
+    self.mSFRotation  = osg.Quaternion(osg.Vec3f(ts,ts,ts), ts)
+
+    self.mSFColor     = osg.Color3f(ts,ts,ts)
+    self.mSFColorRGBA = osg.Color4f(ts,ts,ts,1)
+
+    #self.mSFPlane     = osg.Plane(frameCount, frameCount+1, frameCount+2)
+    self.mSFVolume    = osg.BoxVolume(osg.Vec3f(ts,ts,ts), osg.Vec3f(ts,ts,ts))
+
+    self.mSFTime      = ts;
 
 def changed(whichField, origin, details):
-    print('Calling changed() on ' + self.name)
-    print('whichField: ' + bin(whichField))
-    print('origin:     ' + bin(origin))
-    print('details:    ' + bin(details))
-
-    print('priomask:    ' + bin(self.PriorityFieldMask))
-    print('scriptmask:  ' + bin(self.ScriptFieldMask))
-    
-
-def bin(s):
-    return str(s) if s<=1 else bin(s>>1) + str(s&1)
+    pass
 "
 
     priority 41
@@ -102,71 +118,80 @@ def bin(s):
         {
           core DEF Reader PythonScript
           {    
-	    field SFDouble   double    1.2
-	    field SFFloat    float     1.3
-	    field SFVec2f    vec2f     2.1  2.2 
-	    field SFVec3f    vec3f     3.1  3.2  3.3 
-	    field SFColor3f  color3f   0.5 0.5 0.5 
-	    field SFColor4f  color4f   0.5 0.5 0.5 1 
-	    field SFString   string    "myString"
-	    #field SFPlane    plane     1 1 1 0.5
-	    field SFMatrix   matrix    1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
-	    field SFMatrix4d matrix4d 1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1
-	    #field SFBool    bool      True
+            field SFInt32     mSFInt32     4
+            field SFDouble    mSFDouble    2.2  
+            field SFString    mSFString   "myString"
+            field SFBool      mSFBool     True
+    
+            field SFPnt2f     mSFPnt2f     2.2 2.2
+            field SFPnt3f     mSFPnt3f     3.3 3.3 3.3
+            field SFPnt4f     mSFPnt4f     4.4 4.4 4.4 1
 
-            script 
-"print '----------------------\n'
-print self.double
-print self.float
-print self.vec2f
-print self.vec3f
-print self.color3f
-print self.color4f
-print self.string
-#print self.plane
-print self.matrix
-print self.matrix4d
-#print self.bool
-print '----------------------\n'
+            field SFVec2f     mSFVec2f     2.2 2.2
+            field SFVec2d     mSFVec2d     2.2 2.2
+            field SFVec3f     mSFVec3f     3.3 3.3 3.3
+            field SFVec3d     mSFVec3d     3.3 3.3 3.3
+            field SFVec4f     mSFVec4f     4.4 4.4 4.4 1
+            field SFVec4d     mSFVec4d     4.4 4.4 4.4 1  
+  
+            field SFRotation  mSFRotation  0 0 0 0
 
+            field SFMatrix    mSFMatrix    1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1
+            field SFMatrix4d  mSFMatrix4d  1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1
+
+            field SFColor     mSFColor     0.1 0.1 0.1
+            field SFColorRGBA mSFColorRGBA 0.4 0.4 0.4 1
+
+            #field SFPlane     mSFPlane     ?
+            field SFVolume     mSFVolume   0 0 0 1 1 1 1
+
+            field SFTime       mSFTime     0.2
+
+            script "
 if(osg.getName(self)):
     self.name = osg.getName(self)
 else:
     self.name = 'unknown'
 
 def init():
-    print('Calling init() on ' + self.name)
+    pass
 
 def shutdown():
-    print('Calling shutdown() on ' + self.name)
+    pass
 
 def frame(timeStamp, frameCount):
-    #print('Calling frame() on ' + self.name)
-    #print('timeStamp: ' + str(timeStamp) + '   frameCount: ' + str(frameCount))
+    print('Reader: mSFInt32  = ' + str(self.mSFInt32))
+    print('Reader: mSFDouble = ' + str(self.mSFDouble))
+    print('Reader: mSFString = ' + str(self.mSFString))
+    print('Reader: mSFBool   = ' + str(self.mSFBool))
 
-    s = timeStamp * 1000
+    print('Reader: mSFPnt2f = ' + str(self.mSFPnt2f))
+    print('Reader: mSFPnt3f = ' + str(self.mSFPnt3f))
+    print('Reader: mSFPnt4f = ' + str(self.mSFPnt4f))
 
-    self.double   = 6.6
-    self.float    = 7.7
-    self.vec2f    = osg.Vec2f(2,s)
-    self.vec3f    = osg.Vec3f(3,3,s)
-    self.color3f  = osg.Color3f(3,3,s)
-    self.color4f  = osg.Color4f(4,4,4,s)
-    self.string   = 'string' + str(s)
-    self.plane    = osg.Plane(self.vec3f, 3)
-    self.matrix   = osg.Matrix(s,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-    self.matrix4d = osg.Matrix4d(s,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    print('Reader: mSFVec2f = ' + str(self.mSFVec2f))
+    print('Reader: mSFVec2d = ' + str(self.mSFVec2d))
+    print('Reader: mSFVec3f = ' + str(self.mSFVec3f))
+    print('Reader: mSFVec3d = ' + str(self.mSFVec3d))
+    print('Reader: mSFVec4f = ' + str(self.mSFVec4f))
+    print('Reader: mSFVec4d = ' + str(self.mSFVec4d))
+
+    print('Reader: mSFMatrix   = ' + str(self.mSFMatrix))
+    print('Reader: mSFMatrix4d = ' + str(self.mSFMatrix4d))
+
+    print('Reader: mSFRotation = ' + str(self.mSFRotation))
+
+    print('Reader: mSFColor = ' + str(self.mSFColor))
+    print('Reader: mSFColorRGBA = ' + str(self.mSFColorRGBA))
+
+    #print('Reader: mSFPlane  = ' + str(self.mSFPlane))
+    print('Reader: mSFVolume.getMin() = ' + str(self.mSFVolume.getMin()))
+
+    print ('Reader: mSFTime = ' + str(self.mSFTime))
 
 def changed(whichField, origin, details):
-    print('Calling changed() on ' + self.name)
-    print('whichField: ' + bin(whichField))
-    print('origin:     ' + bin(origin))
-    print('details:    ' + bin(details))
-
-def bin(s):
-    return str(s) if s<=1 else bin(s>>1) + str(s&1)
+    pass
 "
-
             priority 42
           }
 
@@ -192,16 +217,33 @@ def bin(s):
       ]
     }
   ]
+}
 
-ROUTE Writer.double   TO Reader.double
-ROUTE Writer.float    TO Reader.float
-ROUTE Writer.vec2f    TO Reader.vec2f
-ROUTE Writer.vec3f    TO Reader.vec3f
-ROUTE Writer.color3f  TO Reader.color3f
-ROUTE Writer.color4f  TO Reader.color4f
-ROUTE Writer.string   TO Reader.string
-#ROUTE Writer.plane   TO Reader.plane
-ROUTE Writer.matrix   TO Reader.matrix
-ROUTE Writer.matrix4d TO Reader.matrix4d
-#ROUTE Writer.bool    TO Reader.bool
-ROUTE Writer.vec2f    TO Reader.vec2f
+ROUTE Writer.mSFInt32  TO Reader.mSFInt32
+ROUTE Writer.mSFDouble TO Reader.mSFDouble
+ROUTE Writer.mSFString TO Reader.mSFString
+ROUTE Writer.mSFBool   TO Reader.mSFBool
+
+ROUTE Writer.mSFPnt2f TO Reader.mSFPnt2f
+ROUTE Writer.mSFPnt3f TO Reader.mSFPnt3f
+ROUTE Writer.mSFPnt4f TO Reader.mSFPnt4f
+
+ROUTE Writer.mSFVec2f TO Reader.mSFVec2f
+ROUTE Writer.mSFVec2d TO Reader.mSFVec2d
+ROUTE Writer.mSFVec3f TO Reader.mSFVec3f
+ROUTE Writer.mSFVec3d TO Reader.mSFVec3d
+ROUTE Writer.mSFVec4f TO Reader.mSFVec4f
+ROUTE Writer.mSFVec4d TO Reader.mSFVec4d
+
+ROUTE Writer.mSFMatrix    TO Reader.mSFMatrix
+ROUTE Writer.mSFMatrix4d  TO Reader.mSFMatrix4d
+
+ROUTE Writer.mSFRotation  TO Reader.mSFRotation
+
+ROUTE Writer.mSFColor     TO Reader.mSFColor
+ROUTE Writer.mSFColorRGBA TO Reader.mSFColorRGBA
+
+#ROUTE Writer.mSFPlane TO Reader.mSFPlane
+ROUTE Writer.mSFVolume TO Reader.mSFVolume
+
+ROUTE Writer.mSFTime   TO Reader.mSFTime

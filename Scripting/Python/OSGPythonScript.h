@@ -46,6 +46,8 @@
 #include "OSGPythonScriptBase.h"
 #include "OSGAction.h"
 
+#include "OSGNodeFields.h"
+
 #include "OSGPythonFunctionWrapper.h"
 
 OSG_BEGIN_NAMESPACE
@@ -116,12 +118,28 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     const T& getSField(const std::string& name,
                        const T& type           );
 
+#if 0 // TODO
+    template<class T>
+    void     setPointerSField(const std::string& name,
+                              T* value          );
+    template<class T>
+    const T* getPointerSField(const std::string& name,
+                              T* type           );
+#endif
+
+#if 0
     template<class T, Int32 iNamespace>
     void     setSFieldNS(const std::string& name,
                          const T& value          );
     template<class T, Int32 iNamespace>
     const T& getSFieldNS(const std::string& name,
                          const T& type           );
+#endif
+
+    void setSFieldBool(const std::string& name,
+                       const bool type         );
+    bool getSFieldBool(const std::string& name,
+                       const bool type         );
 
     // TODO: add multi field equivalent. I have to figure out the best way
     //       to access multi fields from python

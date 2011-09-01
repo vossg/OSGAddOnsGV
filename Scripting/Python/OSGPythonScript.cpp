@@ -50,7 +50,7 @@
 
 OSG_USING_NAMESPACE
 
-//#define OSGPY_DEBUG
+#define OSGPY_DEBUG
 
 // Documentation for this class is emited in the
 // OSGPythonScriptBase.cpp file.
@@ -70,7 +70,7 @@ namespace
 {
     PyThreadState *pMainstate = NULL;
 
-    bool initializPython(void)
+    bool initializePython(void)
     {
         // Only initialize python if it has not been done before, e.g. when
         // the OpenSG bindings are directly called by an python interpreter.
@@ -103,7 +103,7 @@ namespace
 
     bool registerPython(void)
     {
-        addPreFactoryInitFunction (&initializPython);
+        addPreFactoryInitFunction (&initializePython);
         addPostFactoryExitFunction(&finalizePython );
 
         return true;
@@ -153,7 +153,7 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
                 }
                 catch(bp::error_already_set)
                 {
-                    FWARNING(("[PythonScript::frame] Error calling init() function:\n"));
+                    FWARNING(("[PythonScript::changed] Error calling init() function:\n"));
                     dumpAndClearError(std::cout);
                     setPyErrorFlag();
                 }
@@ -173,7 +173,7 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
         }
         catch(bp::error_already_set)
         {
-            FFATAL(("[PythonScript::frame] Error calling frame() function:\n"));
+            FFATAL(("[PythonScript::changed] Error calling frame() function:\n"));
             dumpAndClearError(std::cout);
             setPyErrorFlag();
         }
@@ -319,9 +319,6 @@ void PythonScript::frame(OSG::Time timeStamp, OSG::UInt32 frameCount)
                 try
                 {
                     _pyFrameFunc.get()(timeStamp, frameCount);
-                    // Console output from the script needs some time to print:
-                    // TODO: make this a field variable, e.g. enableDebugOutput:SFBool
-                    //osgSleep(10);
                 }
                 catch(bp::error_already_set)
                 {
@@ -492,17 +489,11 @@ PythonScript::generatePythonFieldAccessFunctions(const std::string& fieldName)
 
     std::string privTypeInstance;
 
-    // Python only uses double for floating point values
-    if(typeName == "SFReal32")
-    {
-        typeName = "SFReal64";
-    }
-
     OSG2PyTypeMap::const_iterator it = _osg2pyTypeM.find(typeName);
     if(it!=_osg2pyTypeM.end())
     {
         privTypeInstance = (*it).second;
-#ifdef DEBUG
+#ifdef OSGPY_DEBUG
         std::cout << "[PythonScript::generatePythonFieldAccessFunctions] "
                      " generating getter/setter pair for type: '" << typeName << "'"
                   << " with Python instance '" << privTypeInstance << "'"
@@ -520,15 +511,33 @@ PythonScript::generatePythonFieldAccessFunctions(const std::string& fieldName)
     std::string privTypeVar("__" + fieldName);
     std::string privTypeLine(privTypeVar + " = " + privTypeInstance);
 
-    std::string getterFunction(
-                "def " + getterName + "(self):\n"
-                "   if not hasattr(self, '" + privTypeVar + "'):\n"
-                "      self." + privTypeLine + "\n"
-                "   return self.getSField('" + fieldName + "', self." + privTypeVar + ")\n");
+    std::string getterFunction;
+    std::string setterFunction;
 
-    std::string setterFunction(
-                "def " + setterName + "(self,value):\n"
-                "   return self.setSField('" + fieldName + "', value)\n");
+    if(typeName == "SFBool")
+    {
+        getterFunction = "def " + getterName + "(self):\n"
+                    "   if not hasattr(self, '" + privTypeVar + "'):\n"
+                    "      self." + privTypeLine + "\n"
+                    "   return self.getSFieldBool('" + fieldName + "', self." + privTypeVar + ")\n";
+
+        setterFunction = "def " + setterName + "(self,value):\n"
+                    "#   if not isinstance(value, int):\n"
+                    "#      raise ValueError\n"
+                    "   return self.setSFieldBool('" + fieldName + "', value)\n";
+    }
+    else
+    {
+        getterFunction = "def " + getterName + "(self):\n"
+                    "   if not hasattr(self, '" + privTypeVar + "'):\n"
+                    "      self." + privTypeLine + "\n"
+                    "   return self.getSField('" + fieldName + "', self." + privTypeVar + ")\n";
+
+        setterFunction = "def " + setterName + "(self,value):\n"
+                    "#   if not isinstance(value, int):\n"
+                    "#      raise ValueError\n"
+                    "   return self.setSField('" + fieldName + "', value)\n";
+    }
 
     PyRun_SimpleString((getterFunction + setterFunction).c_str());
 
@@ -595,38 +604,44 @@ UInt32 PythonScript::addField(const Char8  *szFieldType,
 }
 
 void PythonScript::registerTypeMappings()
-{
-    //OSGPY_REGISTER_MAPPING("SFBool"      , "True"              );
-    OSGPY_REGISTER_MAPPING("SFVec2f"      , "osg.Vec2f()"      )
-            OSGPY_REGISTER_MAPPING("SFVec3f"      , "osg.Vec3f()"      )
-            OSGPY_REGISTER_MAPPING("SFColor3f"    , "osg.Color3f()"    )
-            OSGPY_REGISTER_MAPPING("SFColor3ub"   , "osg.Color3ub()"   )
-            OSGPY_REGISTER_MAPPING("SFColor4f"    , "osg.Color4f()"    )
-            OSGPY_REGISTER_MAPPING("SFColor4ub"   , "osg.Color4ub()"   )
-            OSGPY_REGISTER_MAPPING("SFString"     , "'dummystring'"    )
-            OSGPY_REGISTER_MAPPING("SFBoxVolume"  , "osg.BoxVolume()"  )
-            OSGPY_REGISTER_MAPPING("SFPlane"      , "osg.Plane()"      )
-            OSGPY_REGISTER_MAPPING("SFMatrix"     , "osg.Matrix()"     )
-            OSGPY_REGISTER_MAPPING("SFReal64"     , "1.1"              ); // for SFDouble in CSM
-    OSGPY_REGISTER_MAPPING("SFMatrix4d"   , "osg.Matrix4d()"   )
+{                                                                // -> CSM equivalent
+    OSGPY_REGISTER_MAPPING("SFInt32"      , "0"                ) // -> SFInt32
+    OSGPY_REGISTER_MAPPING("SFReal64"     , "1.1"              ) // -> SFDouble
+    OSGPY_REGISTER_MAPPING("SFString"     , "'dummystring'"    ) // -> SFString
+    OSGPY_REGISTER_MAPPING("SFBool"       , "1"            ) // -> SFBool
 
-            // there is no CSM support for following types (or they have other names):
-            //SFUInt32
-            //SFReal32
-            //SFQuaternion
-            //SFQuaterniond
+    OSGPY_REGISTER_MAPPING("SFPnt2f"      , "osg.Pnt2f()"      ) // -> SFPnt2f
+    OSGPY_REGISTER_MAPPING("SFPnt3f"      , "osg.Pnt3f()"      ) // -> SFPnt3f
+    OSGPY_REGISTER_MAPPING("SFPnt4f"      , "osg.Pnt4f()"      ) // -> SFPnt4f
+    OSGPY_REGISTER_MAPPING("SFPnt2d"      , "osg.Pnt2d()"      ) // -> SFPnt2d
+    OSGPY_REGISTER_MAPPING("SFPnt3d"      , "osg.Pnt3d()"      ) // -> SFPnt3d
+    OSGPY_REGISTER_MAPPING("SFPnt4d"      , "osg.Pnt4d()"      ) // -> SFPnt4d
 
-            // there are no python bindings for the following types:
-            //SFColor3fx
-            //SFColor4fx
-            //SFTime
-            //SFBitVector
-            //SFGLenum
-            //SFMatrix4fx
-            //SFQuaternionfx
+    OSGPY_REGISTER_MAPPING("SFVec2f"      , "osg.Vec2f()"      ) // -> SFVec2f
+    OSGPY_REGISTER_MAPPING("SFVec3f"      , "osg.Vec3f()"      ) // -> SFVec3f
+    OSGPY_REGISTER_MAPPING("SFVec4f"      , "osg.Vec4f()"      ) // -> SFVec4f
+    OSGPY_REGISTER_MAPPING("SFVec2d"      , "osg.Vec2d()"      ) // -> SFVec2d
+    OSGPY_REGISTER_MAPPING("SFVec3d"      , "osg.Vec3d()"      ) // -> SFVec3d
+    OSGPY_REGISTER_MAPPING("SFVec4d"      , "osg.Vec4d()"      ) // -> SFVec4d
+
+    OSGPY_REGISTER_MAPPING("SFMatrix"     , "osg.Matrix()"     ) // -> SFMatrix
+    OSGPY_REGISTER_MAPPING("SFMatrix4d"   , "osg.Matrix4d()"   ) // -> SFMatrix4d
+
+    OSGPY_REGISTER_MAPPING("SFColor3f"    , "osg.Color3f()"    ) // -> SFColor
+    OSGPY_REGISTER_MAPPING("SFColor4f"    , "osg.Color4f()"    ) // -> SFColorRGBA
+
+    OSGPY_REGISTER_MAPPING("SFQuaternion" , "osg.Quaternion()" ) // -> SFRotation
+
+    OSGPY_REGISTER_MAPPING("SFBoxVolume"  , "osg.BoxVolume()"  ) // -> SFVolume
+    OSGPY_REGISTER_MAPPING("SFPlane"      , "osg.Plane()"      ) // -> SFPlane
+
+    OSGPY_REGISTER_MAPPING("SFTime"       , "1.1"              ) // -> SFTime
+
+    OSGPY_REGISTER_MAPPING("SFImage"      , "osg.Image.create()" ) // -> SFImage
+    OSGPY_REGISTER_MAPPING("SFNode"       , "osg.Node().create()") // -> SFNode
 
 #ifdef OSGPY_DEBUG
-            OSG2PyTypeMap::const_iterator iter(_osg2pyTypeM.begin());
+    OSG2PyTypeMap::const_iterator iter(_osg2pyTypeM.begin());
     OSG2PyTypeMap::const_iterator end (_osg2pyTypeM.end());
 
     std::cout << "PythonScript: registered type mappings:" << std::endl;
@@ -721,4 +736,44 @@ bool PythonScript::clearPyErrorFlag()
     _bPyErrorFlag = false;
 
     return true;
+}
+
+void PythonScript::setSFieldBool(const std::string& name, const bool value)
+{
+    FieldDescriptionBase *fieldDesc =
+            this->getType().getFieldDesc(name.c_str());
+    assert(fieldDesc);
+
+    typedef SField<bool, 2> SFieldT;
+
+    EditFieldHandlePtr editHandle = fieldDesc->editField(*this);
+    SFieldT *sfield = static_cast<SFieldT*>(editHandle->getField());
+    sfield->setValue(value);
+
+#ifdef DEBUG_FIELDACCESS
+    std::cerr << "Updated (id=" << fieldDesc->getTypeId() << "/name='" << name
+              << "'/type='" << sfield->getClassType().getName() << "') to " << sfield->getValue() << std::endl;
+#endif
+}
+
+bool PythonScript::getSFieldBool(const std::string& name, const bool type)
+{
+    FieldDescriptionBase *fieldDesc = this->getType().getFieldDesc(name.c_str());
+    assert(fieldDesc);
+
+    typedef SField<bool, 2> SFieldT;
+
+    GetFieldHandlePtr getHandle = fieldDesc->getField(*this);
+    const SFieldT *sfield = static_cast<const SFieldT*>(getHandle->getField());
+
+#ifdef DEBUG_FIELDACCESS
+    std::cerr << "getSField: type=" << typeid(type).name() << std::endl;
+    std::cerr << "sfield: " << sfield << std::endl;
+    std::cerr << "[" << fieldDesc->getFieldType().getName() << "] Retrieved value "
+              << sfield->getValue() << " from (id="
+              << fieldDesc->getTypeId() << "/name='" << name << "'/type='"
+              << sfield->getClassType().getName() << "')" << std::endl;
+#endif
+
+    return(sfield->getValue());
 }
