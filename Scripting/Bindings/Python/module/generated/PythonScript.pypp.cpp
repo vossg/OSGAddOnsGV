@@ -380,6 +380,248 @@ void register_PythonScript_class(){
                 , init_function_type( &::OSG::PythonScript::init ) );
         
         }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Plane & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Plane const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::BoxVolume & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::BoxVolume const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Color4< float > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Color4< float > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Color3< float > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Color3< float > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::QuaternionBase< float > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::QuaternionBase< float > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::TransformationMatrix< double > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< double > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::TransformationMatrix< float > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< float > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Vector< double, 4u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< double, 4u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Vector< double, 3u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< double, 3u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Vector< double, 2u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< double, 2u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Vector< float, 4u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< float, 4u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Vector< float, 3u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< float, 3u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Vector< float, 2u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< float, 2u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Point< double, 4u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Point< double, 4u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Point< double, 3u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Point< double, 3u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Point< double, 2u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Point< double, 2u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Point< float, 4u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Point< float, 4u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Point< float, 3u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Point< float, 3u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::OSG::Point< float, 2u > & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::OSG::Point< float, 2u > const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef ::std::string & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,::std::string const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_non_const_reference >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef double & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,double const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
+        { //::OSG::PythonScript::myEditSField
+        
+            typedef int & ( ::OSG::PythonScript::*myEditSField_function_type )( ::std::string const &,int const & ) ;
+            
+            PythonScript_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PythonScript::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
         { //::OSG::PythonScript::myId
         
             typedef ::OSG::UInt32 ( ::OSG::PythonScript::*myId_function_type )(  ) ;

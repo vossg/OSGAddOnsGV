@@ -1,0 +1,202 @@
+#OSG V1.0 
+
+Node
+{
+  core DEF Server PythonScript
+  {
+    field SFString  host          "0.0.0.0"
+    field SFInt32   port          9999
+
+    field SFInt32   inputratio    50
+    field SFVec3f   offset        8 8 0
+    
+    field SFVec3f    translation  0 34 0
+    field SFRotation rotation     0 1 0 0
+
+    script 
+"
+import socket
+import sys
+import threading
+
+import websocket
+
+self.coords     = '0 0 0'
+self.hasNewData = False
+
+def frame(timeStamp, frameCount):
+    if self.hasNewData == True:
+        #print('OSG thread: new data! -> %s' % self.coords)
+        
+        items = self.coords.split(' ');
+        #print('Item list: %s' %s items)
+
+        x =      float(items[0])/self.get_inputratio() - self.get_offset().getValues()[0]
+        y = -1 * float(items[1])/self.get_inputratio() + self.get_offset().getValues()[1]
+        z = 0
+        
+        self.edit_translation().setValues(x,y,z)
+
+        #trans = self.edit_translation()
+        #trans.setValues(x,y,z)
+        #trans = osg.Vec3f(x,y,z) -> geht das in C++?
+
+        #self.set_translation(osg.Vec3f(x,y,z))
+
+        self.hasNewData = False;
+
+def shutdown():
+    print('PYTHON: Calling shutdown() on ' + self.name)
+
+def changed(whichField, origin, details):
+    if(whichField & self.translationFieldMask):
+        print('Changed translation field value to ' + str(self.get_translation()))
+    if(whichField & self.hostFieldMask):
+        print('Changed host field value to ' + str(self.get_host()))
+
+def handle_net(csock):
+    shake1 = csock.recv(1024)
+
+    print 'ClientHandshake:'
+    print shake1
+
+    shakelist = shake1.split('\r\n')
+    # The body follows a \r\n after the 'headers'
+    body = shake1.split('\r\n\r\n')[1]
+
+    # Extract key1 and key2
+    for elem in shakelist:
+        if elem.startswith('Sec-WebSocket-Key1:'):
+            key1 = elem[20:]  # Sec-WebSocket-Key1: is 20 chars
+        elif elem.startswith('Sec-WebSocket-Key2:'):
+            key2 = elem[20:]
+        else:
+            continue
+
+    # Count spaces
+    nums1 = key1.count(' ')
+    nums2 = key2.count(' ')
+    # Join digits in the key
+    num1 = ''.join([x for x in key1 if x.isdigit()])
+    num2 = ''.join([x for x in key2 if x.isdigit()])
+
+    # Divide the digits by the num of spaces
+    key1 = int(int(num1)/int(nums1))
+    key2 = int(int(num2)/int(nums2))
+
+    # Pack into Network byte ordered 32 bit ints
+    import struct
+    key1 = struct.pack('!I', key1)
+    key2 = struct.pack('!I', key2)
+
+    # Concat key1, key2, and the the body of the client handshake and take the md5 sum of it
+    key = key1 + key2 + body
+    import hashlib
+    m = hashlib.md5()
+    m.update(key)
+    d = m.digest()
+
+    serverHandshake  = 'HTTP/1.1 101 WebSocket Protocol Handshake\r\n'
+    serverHandshake += 'Upgrade: WebSocket\r\n'
+    serverHandshake += 'Connection: Upgrade\r\n'
+    serverHandshake += 'Sec-WebSocket-Origin: http://localhost:9023\r\n'
+    serverHandshake += 'Sec-WebSocket-Location: ws://localhost:9999/\r\n'
+    serverHandshake += '\r\n'
+
+    print 'ServerHandshake'
+    print serverHandshake
+
+    csock.send(serverHandshake)
+    csock.send(d)
+
+    # Send 'headers'
+    #csock.send('HTTP/1.1 101 WebSocket Protocol Handshake\r\n')
+    #csock.send('Upgrade: WebSocket\r\n')
+    #csock.send('Connection: Upgrade\r\n')
+
+    # Firefox settings localhost
+    #csock.send('Sec-WebSocket-Origin: file://\r\n')
+    #csock.send('Sec-WebSocket-Location: ws://localhost:9999/\r\n')
+
+    # iPad settings:
+    #csock.send('Sec-WebSocket-Origin: http://www3.ntu.edu.sg\r\n')
+    #csock.send('Sec-WebSocket-Location: ws://155.69.99.99:9023/\r\n')
+    #csock.send('Sec-WebSocket-Protocol: chat\r\n')
+    #csock.send('\r\n')
+    #Send digest
+    #csock.send(d)
+
+    # Message framing - 0x00 utf-8-encoded-body 0xFF
+    def send(data):
+        first_byte = chr(0x00)
+        payload = data.encode('utf-8')
+        pl = first_byte + payload + chr(0xFF)
+        csock.send(pl)
+
+
+    from time import sleep
+
+    i = 0
+    time = 1
+    while True:
+        #self.translation = osg.Vec3f(sin(time.clock()),0,0)
+        send(u'CONNECTION ALIVE %s' % (i))
+        i += 1
+        sleep(time)
+        buf = csock.recv(1024)
+        l = buf.split('\xff')
+        buf = l[0]
+        buf = buf.strip('\x00')
+        self.coords = buf
+        #self.coords = str(buf[0]) + ' ' + str(buf[1]) + ' ' + str(buf[2])
+        #print('Sending: %s' % buf)
+        self.hasNewData = True
+        time = 0.01
+
+
+def init():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    # listen for upto 50 cnxns on port gPort
+    sock.bind((self.get_host(), self.get_port()))
+    sock.listen(50)
+
+    print('Listening on %s:%s. This is a blocking call!' % (self.get_host(), self.get_port()))
+
+    csock,caddr = sock.accept()
+    print 'Connection from: ', caddr
+    # Start a thread to service each cnxn
+    t = threading.Thread(target=handle_net, args=(csock,))
+    t.start()
+    #websocket.init()
+"
+
+    priority 41
+  }
+
+  children
+  [
+        Node
+        {
+          core DEF TieTrans ComponentTransform
+          {
+            translation 0 0 0
+            rotation    0 1 0 0
+          }
+      
+          children
+          [
+            Node
+            {
+              core Inline
+              {
+	        url "../Models/tie.wrl"
+              }
+            }
+          ]
+        }
+  ]
+}
+
+ROUTE Server.rotation    TO TieTrans.rotation
+ROUTE Server.translation TO TieTrans.translation

@@ -77,19 +77,15 @@ def postScanSetup(osg, template_alias_db):
 
   sc = osg.class_("PythonScript")
 
-  #
-  # getFinalType():
-  #
-
   for decl in sc["getFinalType"]:
-    print "foo ", decl
+    print "getFinalType", decl
     if is_const_ref(decl.return_type):
       decl.exclude()
     else:
       decl.call_policies = return_internal_reference()
 
   for decl in dfc_ftm_cmh_ncsd_temp.decl["getFinalType"]:
-    print "foobar ", decl
+    print "getFinalType TEMPLATE ", decl
     if is_const_ref(decl.return_type):
       decl.exclude()
     else:
@@ -125,17 +121,33 @@ def postGenClassesSetup(osg, mb):
 
 def postFCDInfoSetup(osg, mb, adddition_exp):
 
+  sc = osg.class_("PythonScript")
+
   #
   # findNamedComponent():
   #
 
-  # the following code is not working, for whatever reason...
-  decl = osg.class_('PythonScript')['findNamedComponent']
-  if decl:
-    print '### Found findNamedComponent(), ', decl
+  for decl in sc["findNamedComponent"]:
+    print "changing return type of: ", decl
+    print "    to return_internal_reference..."
     decl.call_policies = return_internal_reference()
-    #decl.exclude()
-  else:
-    print '### findNamedComponent() NOT found, ', decl
+
+  #
+  # myEditSField():
+  #
+
+  for decl in sc["myEditSField"]:
+    print "processing ", decl
+    # TODO: know Py++ better to get rid of the str(...)
+    if str(decl.return_type) == "std::basic_string<char,std::char_traits<char>,std::allocator<char> > &":
+        decl.call_policies = return_value_policy(copy_non_const_reference)
+        print "    ... -> copy_non_const_reference"
+        continue
+    if str(decl.return_type) == "double &" or str(decl.return_type) == "int &":
+        decl.call_policies = return_value_policy(return_by_value)
+        print "    ... -> return_by_value"
+        continue
+    decl.call_policies = return_internal_reference()
+    print "    ... -> return_internal_reference"
 
   return

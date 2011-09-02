@@ -111,11 +111,23 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
+    // CAUTION: editSField, editMField members get excluded by Py++. Fix that
+    // later!
     template<class T>
     void     setSField(const std::string& name,
                        const T& value          );
     template<class T>
+          T& myEditSField(const std::string& name,
+                          const T& type           );
+    template<class T>
     const T& getSField(const std::string& name,
+                       const T& type           );
+
+    template<class T>
+    void     setMField(const std::string& name,
+                       const T& value          );
+    template<class T>
+    const T& getMField(const std::string& name,
                        const T& type           );
 
 #if 0 // TODO

@@ -51,6 +51,7 @@
 OSG_USING_NAMESPACE
 
 #define OSGPY_DEBUG
+#define OSGPY_DEBUG_CODEGENERATION
 
 // Documentation for this class is emited in the
 // OSGPythonScriptBase.cpp file.
@@ -173,7 +174,7 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
         }
         catch(bp::error_already_set)
         {
-            FFATAL(("[PythonScript::changed] Error calling frame() function:\n"));
+            FFATAL(("[PythonScript::changed] Error calling changed() function:\n"));
             dumpAndClearError(std::cout);
             setPyErrorFlag();
         }
@@ -409,7 +410,17 @@ void PythonScript::exposeContainerToPython(void)
                 "       inst.__class__ = type(cls.__name__, (cls,), {})\n"
                 "       inst.__class__.__perinstance = True\n"
                 "   setattr(inst.__class__, name, property(getter, setter))\n");
+
+    std::string addMethod(
+                "def addmethod(inst, name, func):\n"
+                "   cls = type(inst)\n"
+                "   if not hasattr(inst.__class__, '__perinstance'):\n"
+                "       inst.__class__ = type(cls.__name__, (cls,), {})\n"
+                "       inst.__class__.__perinstance = True\n"
+                "   setattr(inst.__class__, name, func)\n");
+
     PyRun_SimpleString(addPropFunction.c_str());
+    PyRun_SimpleString(addMethod.c_str());
 
     exposeContainer("self");
 
@@ -460,6 +471,7 @@ void PythonScript::exposeField(const std::string& fieldName,
     std::pair<std::string, std::string> functions =
             generatePythonFieldAccessFunctions(fieldName);
 
+#if 0
     std::ostringstream os;
     os << "addprop(self, '" << propName         << "', "         << std::endl
        << functions.first  << ", "          << std::endl
@@ -468,6 +480,22 @@ void PythonScript::exposeField(const std::string& fieldName,
        << "self." << fieldName << "FieldId   = "      << fieldId << std::endl;
 
     PyRun_SimpleString(os.str().c_str());
+#else
+    std::ostringstream os;
+    // add get<field>(), edit<field>() and set<field>() methods:
+    os << "addmethod(self, 'get_"  << fieldName << "', _get_"   << fieldName  << ")" << std::endl
+       << "addmethod(self, 'edit_" << fieldName << "', _edit_"  << fieldName  << ")" << std::endl
+       << "addmethod(self, 'set_"  << fieldName << "', _set_"   << fieldName  << ")" << std::endl
+       << "self." << fieldName << "FieldMask = 1 << " << fieldId << std::endl
+       << "self." << fieldName << "FieldId   = "      << fieldId << std::endl;
+    PyRun_SimpleString(os.str().c_str());
+
+#ifdef OSGPY_DEBUG_CODEGENERATION
+    //std::cout << "Generated python code for field '" << fieldName << "'" << std::endl;
+    std::cout << os.str() << std::endl;
+#endif
+
+#endif
 
 #ifdef OSGPY_DEBUG
     std::cout << "[PythonScript::exposeField] exposed field '"    << fieldName
@@ -508,6 +536,7 @@ PythonScript::generatePythonFieldAccessFunctions(const std::string& fieldName)
         assert(false);
     }
 
+#if 0
     std::string privTypeVar("__" + fieldName);
     std::string privTypeLine(privTypeVar + " = " + privTypeInstance);
 
@@ -531,17 +560,46 @@ PythonScript::generatePythonFieldAccessFunctions(const std::string& fieldName)
         getterFunction = "def " + getterName + "(self):\n"
                     "   if not hasattr(self, '" + privTypeVar + "'):\n"
                     "      self." + privTypeLine + "\n"
+                    "   print 'getter for " + fieldName + "'\n"
                     "   return self.getSField('" + fieldName + "', self." + privTypeVar + ")\n";
 
-        setterFunction = "def " + setterName + "(self,value):\n"
+        setterFunction = "def " + setterName + "(self, value):\n"
                     "#   if not isinstance(value, int):\n"
                     "#      raise ValueError\n"
+                    "   print 'setter for " + fieldName + "'\n"
                     "   return self.setSField('" + fieldName + "', value)\n";
     }
+#else
 
-    PyRun_SimpleString((getterFunction + setterFunction).c_str());
+    std::string privTypeVar  ("__" + fieldName);
+    std::string privTypeLine(privTypeVar + " = " + privTypeInstance);
+
+    std::string getMethodName("_get_" + fieldName);
+
+    std::string getMethod = "def " + getMethodName + "(self):\n"
+                "   if not hasattr(self, '" + privTypeVar + "'):\n"
+                "      self." + privTypeLine + "\n"
+                "   return self.getSField('" + fieldName + "', self." + privTypeVar + ")\n";
+
+    std::string editMethodName("_edit_" + fieldName);
+    std::string editMethod = "def " + editMethodName + "(self):\n"
+                "   if not hasattr(self, '" + privTypeVar + "'):\n"
+                "      self." + privTypeLine + "\n"
+                "   return self.myEditSField('" + fieldName + "', self." + privTypeVar + ")\n";
+
+    std::string setMethodName("_set_" + fieldName);
+    std::string setMethod = "def " + setMethodName + "(self, value):\n"
+                "   return self.setSField('" + fieldName + "', value)\n";
+
+    PyRun_SimpleString((getMethod + editMethod + setMethod).c_str());
+
+#ifdef OSGPY_DEBUG_CODEGENERATION
+    std::cout << "Generated python code for field '" << fieldName << "'" << std::endl;
+    std::cout << getMethod + editMethod + setMethod << std::endl;
+#endif
 
     return(std::make_pair(getterName, setterName));
+#endif
 }
 
 void PythonScript::fetchInterpreterError(bp::object &type,

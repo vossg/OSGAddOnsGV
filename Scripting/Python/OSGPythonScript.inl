@@ -46,13 +46,16 @@ OSG_BEGIN_NAMESPACE
 // ------------------------ DataField templates -------------------------------
 //-----------------------------------------------------------------------------
 
-#define OSGPY_GEN_DATAFIELD_ACCESS_METHODS(FieldT)                 \
-    template const FieldT& PythonScript::getSField<FieldT>         \
-                                         (const std::string& name, \
-                                          const FieldT& value);    \
-    template void          PythonScript::setSField<FieldT>         \
-                                         (const std::string& name, \
-                                          const FieldT& value);
+#define OSGPY_GEN_DATAFIELD_ACCESS_METHODS(FieldT)                   \
+    template void          PythonScript::setSField<FieldT>           \
+                                         (const std::string& name,   \
+                                          const FieldT& value     ); \
+    template       FieldT& PythonScript::myEditSField<FieldT>        \
+                                         (const std::string& name,   \
+                                          const FieldT& type      ); \
+    template const FieldT& PythonScript::getSField<FieldT>           \
+                                         (const std::string& name,   \
+                                          const FieldT& type      ); \
 
 template <class T>
 void PythonScript::setSField(const std::string& name, const T& value)
@@ -85,6 +88,83 @@ const T& PythonScript::getSField(const std::string& name, const T& type)
 
     GetFieldHandlePtr getHandle = fieldDesc->getField(*this);
     const SFieldT *sfield = static_cast<const SFieldT*>(getHandle->getField());
+
+#ifdef DEBUG_FIELDACCESS
+    std::cerr << "[" << fieldDesc->getFieldType().getName() << "] getSField value "
+              << sfield->getValue() << " from (id="
+              << fieldDesc->getTypeId() << "/name='" << name << "'/type='"
+              << sfield->getClassType().getName() << "')" << std::endl;
+#endif
+
+    return(sfield->getValue());
+}
+
+template<class T>
+T& PythonScript::myEditSField(const std::string& name, const T& type)
+{
+    FieldDescriptionBase *fieldDesc = this->getType().getFieldDesc(name.c_str());
+    assert(fieldDesc);
+
+    typedef SField<T> SFieldT;
+
+    EditFieldHandlePtr editHandle = fieldDesc->editField(*this);
+    SFieldT *sfield = static_cast<const SFieldT*>(editHandle->getField());
+
+#ifdef DEBUG_FIELDACCESS
+    std::cerr << "[" << fieldDesc->getFieldType().getName() << "] myEditSField value "
+              << sfield->getValue() << " from (id="
+              << fieldDesc->getTypeId() << "/name='" << name << "'/type='"
+              << sfield->getClassType().getName() << "')" << std::endl;
+#endif
+
+    return(sfield->getValue());
+}
+
+//-----------------------------------------------------------------------------
+// ------------------------ DataField templates -------------------------------
+//-----------------------------------------------------------------------------
+
+#define OSGPY_GEN_DATAMULTIFIELD_ACCESS_METHODS(FieldT)            \
+    template const FieldT& PythonScript::getMField<FieldT>         \
+                                         (const std::string& name, \
+                                          const FieldT& value);    \
+    template void          PythonScript::setMField<FieldT>         \
+                                         (const std::string& name, \
+                                          const FieldT& value);
+
+template <class T>
+void PythonScript::setMField(const std::string& name, const T& value)
+{
+    FieldDescriptionBase *fieldDesc =
+            this->getType().getFieldDesc(name.c_str());
+    assert(fieldDesc);
+
+    typedef SField<T> SFieldT;
+
+    EditFieldHandlePtr editHandle = fieldDesc->editField(*this);
+    SFieldT *sfield = static_cast<SFieldT*>(editHandle->getField());
+    sfield->setValue(value);
+
+#ifdef DEBUG_FIELDACCESS
+    std::cerr << "setSField: type=" << typeid(value).name() << std::endl;
+    std::cerr << "sfield: " << sfield << std::endl;
+    std::cerr << "Updated (id=" << fieldDesc->getTypeId() << "/name='" << name
+              << "'/type='" << sfield->getClassType().getName() << "') to " << sfield->getValue() << std::endl;
+#endif
+}
+
+template<class T>
+const T& PythonScript::getMField(const std::string& name, const T& type)
+{
+    FieldDescriptionBase *fieldDesc = this->getType().getFieldDesc(name.c_str());
+    assert(fieldDesc);
+
+    typedef SField<T> SFieldT;
+
+//    GetFieldHandlePtr getHandle = fieldDesc->getField(*this);
+//    const SFieldT *sfield = static_cast<const SFieldT*>(getHandle->getField());
+    EditFieldHandlePtr editHandle = fieldDesc->editField(*this);
+    const SFieldT *sfield = static_cast<const SFieldT*>(editHandle->getField());
 
 #ifdef DEBUG_FIELDACCESS
     std::cerr << "[" << fieldDesc->getFieldType().getName() << "] Retrieved value "
@@ -199,6 +279,10 @@ const T* PythonScript::getPointerSField(const std::string& name, T* type)
 //-----------------------------------------------------------------------------
 // --------------------- Template instantiations ------------------------------
 //-----------------------------------------------------------------------------
+
+//template const Vec3f& PythonScript::editSField<Vec3f>
+//                                     (const std::string& name,
+//                                      const Vec3f& type      );
 
                                                 // -> CSM equivalent (taken from OSGScanParseSkelParser.cpp)
 OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Int32      ) // -> SFInt32
