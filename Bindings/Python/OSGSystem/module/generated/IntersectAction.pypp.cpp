@@ -202,6 +202,25 @@ void register_IntersectAction_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::IntersectAction::getResetStatistics
+        
+            typedef bool ( ::OSG::IntersectAction::*getResetStatistics_function_type )(  ) const;
+            
+            IntersectAction_exposer.def( 
+                "getResetStatistics"
+                , getResetStatistics_function_type( &::OSG::IntersectAction::getResetStatistics ) );
+        
+        }
+        { //::OSG::IntersectAction::getStatCollector
+        
+            typedef ::OSG::StatCollector * ( ::OSG::IntersectAction::*getStatCollector_function_type )(  ) const;
+            
+            IntersectAction_exposer.def( 
+                "getStatCollector"
+                , getStatCollector_function_type( &::OSG::IntersectAction::getStatCollector )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::IntersectAction::getTestLineWidth
         
             typedef ::OSG::Real32 ( ::OSG::IntersectAction::*getTestLineWidth_function_type )(  ) const;
@@ -270,6 +289,26 @@ void register_IntersectAction_class(){
                 , ( bp::arg("proto") ) );
         
         }
+        { //::OSG::IntersectAction::setResetStatistics
+        
+            typedef void ( ::OSG::IntersectAction::*setResetStatistics_function_type )( bool ) ;
+            
+            IntersectAction_exposer.def( 
+                "setResetStatistics"
+                , setResetStatistics_function_type( &::OSG::IntersectAction::setResetStatistics )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::IntersectAction::setStatCollector
+        
+            typedef void ( ::OSG::IntersectAction::*setStatCollector_function_type )( ::OSG::StatCollector * ) ;
+            
+            IntersectAction_exposer.def( 
+                "setStatCollector"
+                , setStatCollector_function_type( &::OSG::IntersectAction::setStatCollector )
+                , ( bp::arg("sc") ) );
+        
+        }
         { //::OSG::IntersectAction::setTestLineWidth
         
             typedef void ( ::OSG::IntersectAction::*setTestLineWidth_function_type )( ::OSG::Real32 ) ;
@@ -290,6 +329,9 @@ void register_IntersectAction_class(){
                 , ( bp::arg("value") ) );
         
         }
+        IntersectAction_exposer.def_readonly( "statNNodes", OSG::IntersectAction::statNNodes );
+        IntersectAction_exposer.def_readonly( "statNTriangles", OSG::IntersectAction::statNTriangles );
+        IntersectAction_exposer.def_readonly( "statTravTime", OSG::IntersectAction::statTravTime );
         IntersectAction_exposer.staticmethod( "create" );
         IntersectAction_exposer.staticmethod( "getPrototype" );
         IntersectAction_exposer.staticmethod( "setPrototype" );
