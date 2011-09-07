@@ -40,6 +40,10 @@
 
 #include "generated/PythonScriptBase.pypp.hpp"
 
+#include "generated/PythonScriptFile.pypp.hpp"
+
+#include "generated/PythonScriptFileBase.pypp.hpp"
+
 #include "generated/Script.pypp.hpp"
 
 #include "generated/ScriptBase.pypp.hpp"
@@ -63,11 +67,21 @@ BOOST_PYTHON_MODULE(OSGScriptingPy){
 
     register_PythonScriptBase_class();
 
+    register_PythonScript_class();
+
+    register_PythonScriptFileBase_class();
+
     /** Helpers for OSG::PythonScript */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PythonScript, OSG::PythonScript::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::PythonScript::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::PythonScriptFile */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PythonScriptFile, OSG::PythonScriptFile::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PythonScriptFile::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::Script */
 
@@ -75,6 +89,6 @@ BOOST_PYTHON_MODULE(OSGScriptingPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::Script::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    register_PythonScript_class();
+    register_PythonScriptFile_class();
 }
 

@@ -3,6 +3,7 @@
 #include <pypp_aliases.h>
 #include <OSGScript.h>
 #include <OSGPythonScript.h>
+#include <OSGPythonScriptFile.h>
 
 #if defined(Bool)
 #undef Bool

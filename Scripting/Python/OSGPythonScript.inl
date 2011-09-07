@@ -108,7 +108,7 @@ T& PythonScript::myEditSField(const std::string& name, const T& type)
     typedef SField<T> SFieldT;
 
     EditFieldHandlePtr editHandle = fieldDesc->editField(*this);
-    SFieldT *sfield = static_cast<SFieldT*>(editHandle->getField());
+    SFieldT *sfield = static_cast<const SFieldT*>(editHandle->getField());
 
 #ifdef DEBUG_FIELDACCESS
     std::cerr << "[" << fieldDesc->getFieldType().getName() << "] myEditSField value "

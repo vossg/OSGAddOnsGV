@@ -50,8 +50,8 @@
 
 OSG_USING_NAMESPACE
 
-#define OSGPY_DEBUG
-#define OSGPY_DEBUG_CODEGENERATION
+//#define OSGPY_DEBUG
+//#define OSGPY_DEBUG_CODEGENERATION
 
 // Documentation for this class is emited in the
 // OSGPythonScriptBase.cpp file.
@@ -386,8 +386,7 @@ bool PythonScript::setupPython(void)
         flag = true;
     }
 
-    bp::object main = bp::import("__main__");
-    _pyGlobalDict   = main.attr ("__dict__");
+    _pyGlobalDict = bp::import("__main__").attr("__dict__");
 
     exposeContainerToPython();
     compileScript();
@@ -571,32 +570,61 @@ PythonScript::generatePythonFieldAccessFunctions(const std::string& fieldName)
     }
 #else
 
-    std::string privTypeVar  ("__" + fieldName);
-    std::string privTypeLine(privTypeVar + " = " + privTypeInstance);
+    if(typeName == "SFWeakNodePtr")
+    {
+        std::cout << "SFWeakNodePtr" << std::endl;
+        std::string privTypeVar  ("__" + fieldName);
+        std::string privTypeLine(privTypeVar + " = " + privTypeInstance);
 
-    std::string getMethodName("_get_" + fieldName);
+        std::string getMethodName("_get_" + fieldName);
 
-    std::string getMethod = "def " + getMethodName + "(self):\n"
+        std::string getMethod = "def " + getMethodName + "(self):\n"
                 "   if not hasattr(self, '" + privTypeVar + "'):\n"
                 "      self." + privTypeLine + "\n"
-                "   return self.getSField('" + fieldName + "', self." + privTypeVar + ")\n";
+                "   return self.getPointerSField('" + fieldName + "', self." + privTypeVar + ")\n";
 
-    std::string editMethodName("_edit_" + fieldName);
-    std::string editMethod = "def " + editMethodName + "(self):\n"
+        std::string editMethodName("_edit_" + fieldName);
+        std::string editMethod = "def " + editMethodName + "(self):\n"
                 "   if not hasattr(self, '" + privTypeVar + "'):\n"
                 "      self." + privTypeLine + "\n"
                 "   return self.myEditSField('" + fieldName + "', self." + privTypeVar + ")\n";
 
-    std::string setMethodName("_set_" + fieldName);
-    std::string setMethod = "def " + setMethodName + "(self, value):\n"
+        std::string setMethodName("_set_" + fieldName);
+        std::string setMethod = "def " + setMethodName + "(self, value):\n"
                 "   return self.setSField('" + fieldName + "', value)\n";
 
-    PyRun_SimpleString((getMethod + editMethod + setMethod).c_str());
+        PyRun_SimpleString((getMethod + editMethod + setMethod).c_str());
+    }
+    else
+    {
+        std::string privTypeVar  ("__" + fieldName);
+        std::string privTypeLine(privTypeVar + " = " + privTypeInstance);
+
+        std::string getMethodName("_get_" + fieldName);
+
+        std::string getMethod = "def " + getMethodName + "(self):\n"
+                "   if not hasattr(self, '" + privTypeVar + "'):\n"
+                "      self." + privTypeLine + "\n"
+                "   return self.getSField('" + fieldName + "', self." + privTypeVar + ")\n";
+
+        std::string editMethodName("_edit_" + fieldName);
+        std::string editMethod = "def " + editMethodName + "(self):\n"
+                "   if not hasattr(self, '" + privTypeVar + "'):\n"
+                "      self." + privTypeLine + "\n"
+                "   return self.myEditSField('" + fieldName + "', self." + privTypeVar + ")\n";
+
+        std::string setMethodName("_set_" + fieldName);
+        std::string setMethod = "def " + setMethodName + "(self, value):\n"
+                "   return self.setSField('" + fieldName + "', value)\n";
+
+        PyRun_SimpleString((getMethod + editMethod + setMethod).c_str());
 
 #ifdef OSGPY_DEBUG_CODEGENERATION
     std::cout << "Generated python code for field '" << fieldName << "'" << std::endl;
     std::cout << getMethod + editMethod + setMethod << std::endl;
 #endif
+    }
+
 
     return(std::make_pair(getterName, setterName));
 #endif
@@ -789,11 +817,9 @@ bool PythonScript::getPyErrorFlag()
     return _bPyErrorFlag;
 }
 
-bool PythonScript::clearPyErrorFlag()
+void PythonScript::clearPyErrorFlag()
 {
     _bPyErrorFlag = false;
-
-    return true;
 }
 
 void PythonScript::setSFieldBool(const std::string& name, const bool value)

@@ -68,8 +68,9 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
    /*---------------------------------------------------------------------*/
    /*! \name                  Container Access                            */
    /*! \{                                                                 */
-   
-    virtual FieldContainer *findNamedComponent(const Char8 *szName) const;
+
+    FieldContainer *findNamedComponent(const Char8 *szName) const;
+
 
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
@@ -328,7 +329,7 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     bool getPyErrorFlag();
 
     /*!\brief Clears the internal Python error flag.                       */
-    bool clearPyErrorFlag();
+    void clearPyErrorFlag();
 };
 
 typedef PythonScript *PythonScriptP;
