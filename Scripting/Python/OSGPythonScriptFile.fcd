@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+    name="PythonScriptFile"
+    parent="PythonScript"
+    library="ContribCSM"
+    structure="concrete"
+    pointerfieldtypes="both"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    isNodeCore="true"
+    docGroupBase="GrpScripting"
+    typeDescAddable="true"
+    dynFCDerived="true"
+    >
+    <Field
+        name="scriptUrl"
+        type="std::string"
+        cardinality="single"
+        visibility="external"
+        access="public"
+        fieldFlags="FClusterLocal"
+	>
+    </Field>
+</FieldContainer>

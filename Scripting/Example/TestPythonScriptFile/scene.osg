@@ -1,0 +1,36 @@
+#OSG V1.0 
+
+Node
+{
+  core DEF Driver PythonScriptFile
+  {
+    field SFVec3f pos   0 0 0
+
+    scriptUrl "script.py"
+
+    priority 41
+  }
+
+  children
+  [
+        Node
+        {
+          core DEF TieTrans ComponentTransform
+          {
+          }
+      
+          children
+          [
+            Node
+            {
+              core Inline
+              {
+	        url "../Models/tie.wrl"
+              }
+            }
+          ]
+        }
+  ]
+}
+
+ROUTE Driver.pos TO TieTrans.translation
