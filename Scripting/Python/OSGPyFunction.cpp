@@ -36,7 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include "OSGPythonFunctionWrapper.h"
+#include "OSGPyFunction.h"
 
 #include "OSGConfig.h"
 
@@ -45,12 +45,14 @@
 
 #include <iostream>
 
-PythonFunctionWrapper::PythonFunctionWrapper()
+OSG_USING_NAMESPACE
+
+PyFunction::PyFunction()
     : _isValid      (false)
 {
 }
 
-void PythonFunctionWrapper::bind(const bp::object& dict, std::string funcname)
+bool PyFunction::bind(const bp::object& dict, std::string funcname)
 {
 #if BOOST_VERSION >= 104100
     if(bp::extract<bool>(dict.contains(funcname)))
@@ -61,22 +63,24 @@ void PythonFunctionWrapper::bind(const bp::object& dict, std::string funcname)
         _func = dict[funcname];
         _isValid = true;
 
-        //std::cout << "[PythonFunctionWrapper] Successfully bound function '" << funcname << "'." << std::endl;
+        //std::cout << "[PyFunction] Successfully bound function '" << funcname << "'." << std::endl;
     }
     else
     {
         _isValid = false;
 
-        std::cout << "[PythonFunctionWrapper] Error binding function '" << funcname << "'." << std::endl;
+        std::cout << "[PyFunction] Error binding function '" << funcname << "'." << std::endl;
     }
+
+    return _isValid;
 }
 
-bp::object& PythonFunctionWrapper::get()
+bp::object& PyFunction::get()
 {
     return _func;
 }
 
-void PythonFunctionWrapper::reset()
+void PyFunction::invalidate()
 {
     _isValid = false;
 }

@@ -48,7 +48,7 @@
 
 #include "OSGNodeFields.h"
 
-#include "OSGPythonFunctionWrapper.h"
+#include "OSGPyFunction.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -57,6 +57,8 @@ OSG_BEGIN_NAMESPACE
     \ingroup GrpLibOSGSystem
     \includebasedoc
  */
+
+class PyInterpreter;
 
 class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 {
@@ -116,28 +118,28 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     // later!
     template<class T>
     void     setSField(const std::string& name,
-                       const T& value          );
+                       const T& value            );
     template<class T>
           T& myEditSField(const std::string& name,
-                          const T& type           );
+                          const T& type          );
     template<class T>
     const T& getSField(const std::string& name,
-                       const T& type           );
+                       const T& type             );
 
     template<class T>
     void     setMField(const std::string& name,
-                       const T& value          );
+                       const T& value            );
     template<class T>
     const T& getMField(const std::string& name,
-                       const T& type           );
+                       const T& type             );
 
 #if 0 // TODO
     template<class T>
     void     setPointerSField(const std::string& name,
-                              T* value          );
+                              T* value                );
     template<class T>
     const T* getPointerSField(const std::string& name,
-                              T* type           );
+                              T* type                 );
 #endif
 
 #if 0
@@ -185,7 +187,7 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     typedef PythonScriptBase Inherited;
 
-    PyThreadState *_pPyInterpreter;
+    PyInterpreter *_pPyInterpreter;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -226,19 +228,14 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     friend class PythonScriptBase;
 
     /*---------------------------------------------------------------------*/
-    bp::object     _pyGlobalDict;
 
-    // Python script functions:
-    PythonFunctionWrapper _pyInitFunc;
-    PythonFunctionWrapper _pyShutdownFunc;
-    PythonFunctionWrapper _pyFrameFunc;
-    PythonFunctionWrapper _pyChangedFunc;
+    PyFunction *_pyInitFunc;
+    PyFunction *_pyShutdownFunc;
+    PyFunction *_pyFrameFunc;
+    PyFunction *_pyChangedFunc;
 
     /*!\brief prohibit default function (move to 'public' if needed)       */
     void operator =(const PythonScript &source);
-
-    UInt32 _uiFCount;
-    UInt32 _uiFrameFreq;
 
     bool   _bScriptChanged;
     bool   _bPyErrorFlag;
@@ -252,19 +249,11 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     /*!\brief Sets up the Python environment, loads global functions and   */
     /*        and exposes the PythonScript core as Python variable.        */
-    /* \see   exposeContainer                                              */
-    bool setupPython(void);
+    void initPython(void);
 
     /*!\brief Exposes the core and its fields to Python                    */
-    /* \see   exposeContainer                                              */
     /* \see   exposeField                                                  */
     void exposeContainerToPython(void);
-
-    /*!\brief Makes this PythonScript core available within the Python     */
-    /*        interpreter as global variable with the given varName        */
-    /* \param varName Name of the variable as which the container is       */
-    /*        exposed to  Python                                           */
-    bool exposeContainer(const std::string& varName);
 
     /*!\brief Mapping a field adds a Python property to the to the Python  */
     /*        representation of this core. The field is then accessible    */
@@ -296,19 +285,6 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     /* \see   exposeField                                                  */
     std::pair<std::string, std::string>
             generatePythonFieldAccessFunctions(const std::string &fieldName);
-
-    /*!\brief Dumps the current Python error to the given stream.          */
-    /* \param os Stream to output the error to                             */
-    void dumpAndClearError(std::ostream& os);
-
-    /*!\brief Fetches the current error from Python and fills the type,    */
-    /*        value and traceback (if available) objects.                  */
-    /* \param type      Type of the error                                  */
-    /* \param value     Error value                                        */
-    /* \param traceback Error traceback, if available                      */
-    void fetchInterpreterError(bp::object &type,
-                               bp::object &value,
-                               bp::object &traceback);
 
     /*!\brief Registers type mappings between OSG field types and Python   */
     /*        instances, necessary for the getter function that retrieves  */

@@ -36,24 +36,31 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGPYTHONFUNCTIONWRAPPER_H_
-#define _OSGPYTHONFUNCTIONWRAPPER_H_
+#ifndef _OSGPYFUNCTION_H_
+#define _OSGPYFUNCTION_H_
 
+#include "OSGConfig.h"
 #include "OSGScriptingDef.h"
 
 #include <boost/python/object.hpp>
 
 namespace bp = boost::python;
 
-class OSG_SCRIPTING_DLLMAPPING PythonFunctionWrapper
+OSG_BEGIN_NAMESPACE
+
+class OSG_SCRIPTING_DLLMAPPING PyFunction
 {
 public:
-    PythonFunctionWrapper();
+    PyFunction();
 
-    /*!\brief Acquires a function from a given boost::python object.       */
-    /* \param dict     A boost::python object                              */
-    /* \param funcname Name of the desired function                        */
-    void bind(const bp::object& dict, std::string funcname);
+    /*!\brief  Acquires a function from a given boost::python object.      */
+    /*                                                                     */
+    /* \param  dict     A boost::python object                             */
+    /* \param  funcname Name of the desired function                       */
+    /*                                                                     */
+    /* \return True if successfull, false otherwise. _isValid is set to
+    /*         false if bind is not successfull.                           */
+    bool bind(const bp::object& dict, std::string funcname);
 
     /*!\brief Checks if the wrapper contains a valid function.             */
     bool isValid() { return _isValid; };
@@ -63,14 +70,14 @@ public:
     /*        it.                                                          */
     bp::object& get();
 
-    /*!\brief Invalidates the wrapper.                                     */
-    void reset();
+    /*!\brief Invalidates the function.                                    */
+    void invalidate();
 
 private:
     bp::object     _func;
     bool           _isValid;
-
-    PyThreadState *_pyInterpreter;
 };
 
-#endif // _OSGPYTHONFUNCTIONWRAPPER_H_
+OSG_END_NAMESPACE
+
+#endif // _OSGPYFUNCTION_H_
