@@ -48,7 +48,7 @@
 OSG_USING_NAMESPACE
 
 PyFunction::PyFunction()
-    : _isValid      (false)
+    : _isValid(false)
 {
 }
 

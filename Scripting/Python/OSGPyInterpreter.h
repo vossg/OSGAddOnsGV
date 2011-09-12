@@ -77,6 +77,9 @@ public:
     /*! \name                   Activation                                 */
     /*! \{                                                                 */
 
+    /*!\brief  Activates the Python interpreter.                           */
+    /*                                                                     */
+    /* \return True on success, false otherwise                            */
     bool activate()
     {
         if(!_pPyInterpreter)
@@ -89,6 +92,7 @@ public:
         return true;
     }
 
+    /*!\brief Deactivates the Python interpreter.                          */
     void deactivate()
     {
         PyEval_SaveThread();
@@ -109,7 +113,15 @@ public:
     /*! \name                 Error Interface                              */
     /*! \{                                                                 */
 
-    void dumpAndClearError(std::ostream& os);
+    /*!\brief Checks for an interpreter error.                             */
+    /*                                                                     */
+    /* \return true in case of an interpreter error, false otherwise       */
+    bool checkError() { return (PyErr_Occurred()!=NULL); }
+
+    /*!\brief Clears an interpreter error.                                 */
+    bool clearError() { PyErr_Clear(); }
+
+    void dumpError(std::ostream& os);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

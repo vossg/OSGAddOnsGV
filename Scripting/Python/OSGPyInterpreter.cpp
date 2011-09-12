@@ -128,7 +128,7 @@ bool PyInterpreter::run(const std::string& cmd)
 
 /*!\brief Dumps the current Python error to the given stream.                */
 /* \param os Stream to output the error to                                   */
-void PyInterpreter::dumpAndClearError(std::ostream &os)
+void PyInterpreter::dumpError(std::ostream &os)
 {
     std::string errorMessage;
     long        lineNr;
@@ -145,11 +145,16 @@ void PyInterpreter::dumpAndClearError(std::ostream &os)
 
     os << "in " << funcName << ":" << lineNr << std::endl << std::endl;
 
-    PyErr_Print();
     os << "---------------------- PYTHON ERROR END ----------------------"
        << std::endl << std::endl;
 
-    PyErr_Clear();
+    if(checkError() == true) // ensure that an error exists, otherwise
+                             // PyErr_Print() causes a fatal error
+    {
+        // TODO: how to redirect the output to the ostream?
+        std::cerr << "Traceback:" << std::endl;
+        PyErr_Print();
+    }
 }
 
 /*!\brief Fetches the current interpreter error and fills the type,          */

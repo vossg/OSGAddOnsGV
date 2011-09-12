@@ -42,13 +42,11 @@
 #include "OSGConfig.h"
 
 #include "OSGPythonScript.h"
-#include "OSGPyInterpreter.h"
 
 #include "OSGComplexSceneManager.h"
 #include "OSGLog.h"
 
 #include <boost/python.hpp>
-
 
 OSG_USING_NAMESPACE
 
@@ -92,38 +90,37 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
 {
     Inherited::changed(whichField, origin, details);
 
+    if(_pPyInterpreter == NULL) // applies in init phase
+    {
+        return;
+    }
+
+    pyActivate();
+
     if(whichField & ScriptFieldMask)
     {
         //std::cout << "[PythonScript::changed::ScriptFieldMask]" << std::endl;
 
-        if(_pPyInterpreter != NULL) // applies in init phase
+        // TODO: cleanup interpreter variables and defs. How?
+        execScript();
+
+        if(_pyInitFunc != NULL && !pyCheckError())
         {
-            _pPyInterpreter->activate();
-            // TODO: cleanup interpreter variables and defs. How?
-            compileScript();
-
-            if(_pyInitFunc->isValid() && !getPyErrorFlag())
+            try
             {
-                try
-                {
-                    _pyInitFunc->get()();
-                }
-                catch(bp::error_already_set)
-                {
-                    FWARNING(("[PythonScript::changed] Error calling init() function:\n"));
-                    _pPyInterpreter->dumpAndClearError(std::cout);
-                    setPyErrorFlag();
-                }
+                _pyInitFunc->get()();
             }
-
-            _pPyInterpreter->deactivate();
+            catch(bp::error_already_set)
+            {
+                FWARNING(("[PythonScript::changed] Error calling init() function:\n"));
+                _pPyInterpreter->dumpError(std::cout);
+                // Do not clear python error here. That is done in compileScript().
+            }
         }
     }
 
-    if(_pyChangedFunc != NULL && !getPyErrorFlag())
+    if(_pyChangedFunc != NULL && !pyCheckError())
     {
-        _pPyInterpreter->activate();
-
         try
         {
             _pyChangedFunc->get()(whichField, origin, details);
@@ -131,12 +128,12 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
         catch(bp::error_already_set)
         {
             FFATAL(("[PythonScript::changed] Error calling changed() function:\n"));
-            _pPyInterpreter->dumpAndClearError(std::cout);
-            setPyErrorFlag();
+            _pPyInterpreter->dumpError(std::cout);
+            // Do not clear python error here. That is done in compileScript().
         }
-
-        _pPyInterpreter->deactivate();
     }
+
+    pyDeactivate();
 }
 
 /*-------------------------------------------------------------------------*/
@@ -171,8 +168,7 @@ PythonScript::PythonScript(void) :
     _pyShutdownFunc (     ),
     _pyFrameFunc    (     ),
     _pyChangedFunc  (     ),
-    _bScriptChanged (false),
-    _bPyErrorFlag   (false)
+    _bScriptChanged (false)
 {
 }
 
@@ -184,8 +180,7 @@ PythonScript::PythonScript(const PythonScript &source) :
     _pyShutdownFunc(      ),
     _pyFrameFunc   (      ),
     _pyChangedFunc (      ),
-    _bScriptChanged(false ),
-    _bPyErrorFlag  (false )
+    _bScriptChanged(false )
 {
 }
 
@@ -234,24 +229,7 @@ bool PythonScript::init(void)
 
     initPython();
 
-    if(_pyInitFunc != NULL && !getPyErrorFlag())
-    {
-        _pPyInterpreter->activate();
-
-        try
-        {
-            _pyInitFunc->get()();
-        }
-        catch(bp::error_already_set)
-        {
-            FFATAL(("[PythonScript::init] Error calling init() function:\n"));
-            _pPyInterpreter->dumpAndClearError(std::cout);
-            setPyErrorFlag();
-            //flag = false; that is not an error case
-        }
-
-        _pPyInterpreter->deactivate();
-    }
+    callInitFunction();
 
     return true;
 }
@@ -267,9 +245,9 @@ void PythonScript::frame(OSG::Time timeStamp, OSG::UInt32 frameCount)
         _bScriptChanged = false;
     }
 
-    if(_pPyInterpreter->activate() == true)
+    if(pyActivate() == true)
     {
-        if(_pyFrameFunc != NULL && !getPyErrorFlag())
+        if(_pyFrameFunc != NULL && !pyCheckError())
         {
             try
             {
@@ -278,12 +256,12 @@ void PythonScript::frame(OSG::Time timeStamp, OSG::UInt32 frameCount)
             catch(bp::error_already_set)
             {
                 FWARNING(("[PythonScript::frame] Error calling frame() function:\n"));
-                _pPyInterpreter->dumpAndClearError(std::cout);
-                setPyErrorFlag();
+                _pPyInterpreter->dumpError(std::cout);
+                // Do not clear python error here. That is done in compileScript().
             }
         }
 
-        _pPyInterpreter->deactivate();
+        pyDeactivate();
     }
 }
 
@@ -291,9 +269,9 @@ void PythonScript::shutdown(void)
 {
     fprintf(stderr, "PythonScript : shutdown\n");
 
-    _pPyInterpreter->activate();
+    pyActivate();
 
-    if(_pyShutdownFunc != NULL && !getPyErrorFlag())
+    if(_pyShutdownFunc != NULL && !pyCheckError())
     {
         try
         {
@@ -301,13 +279,13 @@ void PythonScript::shutdown(void)
         }
         catch(...)
         {
-            FWARNING(("[PythonScript::frame] Error calling frame() function. Aborting...\n"));
-            _pPyInterpreter->dumpAndClearError(std::cout);
-            setPyErrorFlag();
+            FWARNING(("PythonScript: Error calling shutdown() function.\n"));
+            _pPyInterpreter->dumpError(std::cout);
         }
     }
 
-    _pPyInterpreter->deactivate();
+    pyDeactivate();
+
     delete _pPyInterpreter;
 }
 
@@ -330,7 +308,7 @@ void PythonScript::initPython(void)
     }
 
     exposeContainerToPython();
-    compileScript();
+    execScript();
 }
 
 void PythonScript::exposeContainerToPython(void)
@@ -573,6 +551,36 @@ UInt32 PythonScript::addField(const Char8  *szFieldType,
     return returnValue;
 }
 
+void PythonScript::execScript()
+{
+    if(pyCheckError() == true)
+    {
+        pyClearError();
+    }
+
+    if(_pPyInterpreter->run(getScript()) != false)
+    {
+        // The script is expected to contain the following functions:
+        //   - init()
+        //   - shutdown()
+        //   - frame()
+        //   - changed()
+        _pyInitFunc     = _pPyInterpreter->bindFunction("init");
+        _pyShutdownFunc = _pPyInterpreter->bindFunction("shutdown");
+        _pyFrameFunc    = _pPyInterpreter->bindFunction("frame");
+        _pyChangedFunc  = _pPyInterpreter->bindFunction("changed");
+
+#ifdef OSGPY_DEBUG
+    std::cout << "PythonScript: compiled script and bound functions" << std::endl;
+#endif
+    }
+    else
+    {
+        FWARNING(("Python Error compiling script:\n"));
+        pyDumpError();
+    }
+}
+
 void PythonScript::registerTypeMappings()
 {                                                                // -> CSM equivalent
     OSGPY_REGISTER_MAPPING("SFInt32"      , "0"                ) // -> SFInt32
@@ -623,52 +631,6 @@ void PythonScript::registerTypeMappings()
 #endif
 }
 
-void PythonScript::compileScript()
-{
-    if(_pPyInterpreter->run(getScript()) != false)
-    {
-        clearPyErrorFlag();
-
-        // The script is expected to contain the following functions:
-        //   - init()
-        //   - shutdown()
-        //   - frame()
-        //   - changed()
-        _pyInitFunc     = _pPyInterpreter->bindFunction("init");
-        _pyShutdownFunc = _pPyInterpreter->bindFunction("shutdown");
-        _pyFrameFunc    = _pPyInterpreter->bindFunction("frame");
-        _pyChangedFunc  = _pPyInterpreter->bindFunction("changed");
-
-#ifdef OSGPY_DEBUG
-    std::cout << "PythonScript: compiled script and bound functions" << std::endl;
-#endif
-    }
-    else
-    {
-        FWARNING(("[PythonScript::compile] Error compiling script:\n"));
-        _pPyInterpreter->dumpAndClearError(std::cerr);
-
-        // Give the chance to fix the script but prevent the python
-        // functions from being called...
-        setPyErrorFlag();
-    }
-}
-
-void PythonScript::setPyErrorFlag()
-{
-    _bPyErrorFlag = true;
-}
-
-bool PythonScript::getPyErrorFlag()
-{
-    return _bPyErrorFlag;
-}
-
-void PythonScript::clearPyErrorFlag()
-{
-    _bPyErrorFlag = false;
-}
-
 void PythonScript::setSFieldBool(const std::string& name, const bool value)
 {
     FieldDescriptionBase *fieldDesc =
@@ -707,4 +669,31 @@ bool PythonScript::getSFieldBool(const std::string& name, const bool type)
 #endif
 
     return(sfield->getValue());
+}
+
+bool PythonScript::callInitFunction()
+{
+    bool flag = false;
+
+    if(_pyInitFunc != NULL && !pyCheckError())
+    {
+        pyActivate();
+
+        try
+        {
+            _pyInitFunc->get()();
+        }
+        catch(bp::error_already_set)
+        {
+            FFATAL(("[PythonScript::init] Error calling init() function:\n"));
+            _pPyInterpreter->dumpError(std::cout);
+            // Do not clear python error here. That is done in compileScript().
+        }
+
+        flag = true;
+
+        pyDeactivate();
+    }
+
+    return flag;
 }

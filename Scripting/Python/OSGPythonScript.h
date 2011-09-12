@@ -48,6 +48,7 @@
 
 #include "OSGNodeFields.h"
 
+#include "OSGPyInterpreter.h"
 #include "OSGPyFunction.h"
 
 OSG_BEGIN_NAMESPACE
@@ -57,8 +58,6 @@ OSG_BEGIN_NAMESPACE
     \ingroup GrpLibOSGSystem
     \includebasedoc
  */
-
-class PyInterpreter;
 
 class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 {
@@ -190,6 +189,24 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     PyInterpreter *_pPyInterpreter;
 
     /*---------------------------------------------------------------------*/
+    /*! \name                Interpreter Control                           */
+    /*! \{                                                                 */
+
+    bool pyActivate  () { return _pPyInterpreter->activate();            }
+    bool pyDeactivate() {        _pPyInterpreter->deactivate();          }
+
+    /*!\brief Gets the internal Python error flag.                         */
+    bool pyCheckError() { return _pPyInterpreter->checkError();          }
+
+    /*!\brief Clears the internal Python error flag.                       */
+    void pyClearError() {        _pPyInterpreter->clearError();          }
+
+    /*!\brief Prints the error information to std::cerr                    */
+    void pyDumpError () {        _pPyInterpreter->dumpError (std::cerr); }
+
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
@@ -238,7 +255,6 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     void operator =(const PythonScript &source);
 
     bool   _bScriptChanged;
-    bool   _bPyErrorFlag;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -273,7 +289,7 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     /*        as bp::objects for fast access. A successful execution of    */
     /*        the script clears the internal Python error flag.            */
     /* \see setPyErrorFlag, getPyErrorFlag                                 */
-    void compileScript();
+    void execScript();
 
     /*!\brief Generates a getter/setter function pair to access the field  */
     /*        \emph{fieldName} from python. The functions are not used     */
@@ -292,20 +308,29 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     /* \todo  Better explanation!                                          */
     static void registerTypeMappings();
 
-    /*!\brief Sets an internal error flag to indicate an Python error      */
-    /*        occured during the compilation of the script or the          */
-    /*        execution of the init(), frame(), changed() or shutdown()    */
-    /*        funtion. If the flag is set the execution of either of these */
-    /*        functions is prevented.                                      */
-    /*        The flag is reset if compileScript() is successful.          */
-    /* \see getPyErrorFlag, compileScript                                  */
-    void setPyErrorFlag();
+    /*!\brief Calls the script's init function and checks for errors.      */
+    /*                                                                     */
+    /* \return true if the function was successfully executed, false       */
+    /*         otherwise                                                   */
+    bool callInitFunction();
 
-    /*!\brief Gets the internal Python error flag.                         */
-    bool getPyErrorFlag();
+    /*!\brief Calls the script's shutdown function and checks for errors.  */
+    /*                                                                     */
+    /* \return true if the function was successfully executed, false       */
+    /*         otherwise                                                   */
+    bool callShutdownFunction();
 
-    /*!\brief Clears the internal Python error flag.                       */
-    void clearPyErrorFlag();
+    /*!\brief Calls the script's frame function and checks for errors.     */
+    /*                                                                     */
+    /* \return true if the function was successfully executed, false       */
+    /*         otherwise                                                   */
+    bool callFrameFunction();
+
+    /*!\brief Calls the script's change function and checks for errors.    */
+    /*                                                                     */
+    /* \return true if the function was successfully executed, false       */
+    /*         otherwise                                                   */
+    bool callChangeFunction();
 };
 
 typedef PythonScript *PythonScriptP;
