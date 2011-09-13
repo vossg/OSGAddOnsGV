@@ -117,6 +117,7 @@ bool PyInterpreter::run(const std::string& cmd)
     catch(...)
     {
         flag = false;
+        //dumpError(std::cout);
     }
 
     return flag;
@@ -148,7 +149,7 @@ void PyInterpreter::dumpError(std::ostream &os)
     os << "---------------------- PYTHON ERROR END ----------------------"
        << std::endl << std::endl;
 
-    if(checkError() == true) // ensure that an error exists, otherwise
+    if(checkForError() == true) // ensure that an error exists, otherwise
                              // PyErr_Print() causes a fatal error
     {
         // TODO: how to redirect the output to the ostream?

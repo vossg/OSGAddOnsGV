@@ -622,15 +622,6 @@ void register_PythonScript_class(){
                 , bp::return_value_policy< bp::return_by_value >() );
         
         }
-        { //::OSG::PythonScript::myId
-        
-            typedef ::OSG::UInt32 ( ::OSG::PythonScript::*myId_function_type )(  ) ;
-            
-            PythonScript_exposer.def( 
-                "myId"
-                , myId_function_type( &::OSG::PythonScript::myId ) );
-        
-        }
         { //::OSG::PythonScript::setSField
         
             typedef void ( ::OSG::PythonScript::*setSField_function_type )( ::std::string const &,::OSG::Plane const & ) ;

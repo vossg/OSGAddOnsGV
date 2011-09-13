@@ -49,7 +49,7 @@
 #include "OSGNodeFields.h"
 
 #include "OSGPyInterpreter.h"
-#include "OSGPyFunction.h"
+//#include "OSGPyFieldAccessHandler.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -58,6 +58,9 @@ OSG_BEGIN_NAMESPACE
     \ingroup GrpLibOSGSystem
     \includebasedoc
  */
+
+class PyFieldAccessHandler;
+class PyFunction;
 
 class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 {
@@ -113,6 +116,18 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
+#if 0
+    /*\brief Return the FieldAccessHandler. The method is used by the      */
+    /*       Python field access methods registered in                     */
+    /*       FieldAccessHandler::exposeField().                            */
+    /*                                                                     */
+    /*\return FieldAccessHandler                                           */
+    PyFieldAccessHandler *getFieldAccessHandler() const
+    {
+        return _pPyFieldAccessHandler;
+    }
+#endif
+
     // CAUTION: editSField, editMField members get excluded by Py++. Fix that
     // later!
     template<class T>
@@ -167,18 +182,14 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                  Temporary/Testing                           */
+    /*! \name                  External Access                             */
     /*! \{                                                                 */
 
-    /*! Temporary flag to allow an external thread (in this case OSGSidebar)
-        to trigger a commitChanges() within the OpenSG thread.
-     */
-    void setScriptChanged() { _bScriptChanged = true; }
+    /*!\brief Allows an external (non-OSG) thread to trigger an            */
+    /*        of the script (used for the OSGSidebar application).         */
+     void setScriptChanged() { _bScriptChanged = true; }
 
-    // Temporary test method:
-    UInt32 myId();
-
-    typedef std::map<std::string, std::string> OSG2PyTypeMap;
+    /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
 
@@ -186,23 +197,28 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     typedef PythonScriptBase Inherited;
 
-    PyInterpreter *_pPyInterpreter;
+    PyInterpreter        *_pPyInterpreter;
+    PyFieldAccessHandler *_pPyFieldAccessHandler;
 
     /*---------------------------------------------------------------------*/
     /*! \name                Interpreter Control                           */
     /*! \{                                                                 */
 
+
     bool pyActivate  () { return _pPyInterpreter->activate();            }
     bool pyDeactivate() {        _pPyInterpreter->deactivate();          }
 
+    // pyXXX members can only be called in between pyActivate() and
+    // pyDeactivate()
+
     /*!\brief Gets the internal Python error flag.                         */
-    bool pyCheckError() { return _pPyInterpreter->checkError();          }
+    bool pyCheckError() { return _pPyInterpreter->checkForError();       }
 
     /*!\brief Clears the internal Python error flag.                       */
     void pyClearError() {        _pPyInterpreter->clearError();          }
 
     /*!\brief Prints the error information to std::cerr                    */
-    void pyDumpError () {        _pPyInterpreter->dumpError (std::cerr); }
+    void pyDumpError () {        _pPyInterpreter->dumpError(std::cerr);  }
 
 
     /*! \}                                                                 */
@@ -261,76 +277,22 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     /*! \name                       Python Related                         */
     /*! \{                                                                 */
 
-    static OSG2PyTypeMap _osg2pyTypeM;
+    bool initPython(void);
 
-    /*!\brief Sets up the Python environment, loads global functions and   */
-    /*        and exposes the PythonScript core as Python variable.        */
-    void initPython(void);
+    bool execScript();
 
-    /*!\brief Exposes the core and its fields to Python                    */
-    /* \see   exposeField                                                  */
-    void exposeContainerToPython(void);
+    // The callXXXFunction() methods can be called anytime. They setup the
+    // Python interpreter themselves and only execute if there is no Python
+    // error set.
 
-    /*!\brief Mapping a field adds a Python property to the to the Python  */
-    /*        representation of this core. The field is then accessible    */
-    /*        via this property. Besides the FieldMask and FieldId are     */
-    /*        exposed, too in the form fieldName+"FieldMask" and           */
-    /*        fieldName+"FieldId".                                         */
-    /* \param fieldName Name of the field to be exposed                    */
-    /* \param propName  Name of the property                               */
-    /* \param fieldId   Id of the field                                    */
-    void exposeField(const std::string& fieldName,
-                     const std::string& propName,
-                     OSG::UInt32 fieldId);
-
-
-    /*!\brief Compiles the script in the "script" field and stores the     */
-    /*        "init()", "frame()", "onChange()" and "shutdown()" functions */
-    /*        as bp::objects for fast access. A successful execution of    */
-    /*        the script clears the internal Python error flag.            */
-    /* \see setPyErrorFlag, getPyErrorFlag                                 */
-    void execScript();
-
-    /*!\brief Generates a getter/setter function pair to access the field  */
-    /*        \emph{fieldName} from python. The functions are not used     */
-    /*        directly but are decorated with a \emph{property}.           */
-    /* \param fieldName Name of the field for which the access functions   */
-    /*        are generated                                                */
-    /* \return A string pair with the names of the setter and getter       */
-    /*         python functions                                            */
-    /* \see   exposeField                                                  */
-    std::pair<std::string, std::string>
-            generatePythonFieldAccessFunctions(const std::string &fieldName);
-
-    /*!\brief Registers type mappings between OSG field types and Python   */
-    /*        instances, necessary for the getter function that retrieves  */
-    /*        an OSG field value with an Python property .                 */
-    /* \todo  Better explanation!                                          */
-    static void registerTypeMappings();
-
-    /*!\brief Calls the script's init function and checks for errors.      */
-    /*                                                                     */
-    /* \return true if the function was successfully executed, false       */
-    /*         otherwise                                                   */
-    bool callInitFunction();
-
-    /*!\brief Calls the script's shutdown function and checks for errors.  */
-    /*                                                                     */
-    /* \return true if the function was successfully executed, false       */
-    /*         otherwise                                                   */
+    bool callInitFunction    ();
     bool callShutdownFunction();
+    bool callFrameFunction   (OSG::Time timeStamp, OSG::UInt32 frameCount);
+    bool callChangedFunction (ConstFieldMaskArg whichField,
+                              UInt32            origin,
+                              BitVector         details);
 
-    /*!\brief Calls the script's frame function and checks for errors.     */
-    /*                                                                     */
-    /* \return true if the function was successfully executed, false       */
-    /*         otherwise                                                   */
-    bool callFrameFunction();
-
-    /*!\brief Calls the script's change function and checks for errors.    */
-    /*                                                                     */
-    /* \return true if the function was successfully executed, false       */
-    /*         otherwise                                                   */
-    bool callChangeFunction();
+    /*! \}                                                                 */
 };
 
 typedef PythonScript *PythonScriptP;

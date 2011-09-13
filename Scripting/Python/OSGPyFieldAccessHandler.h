@@ -36,124 +36,63 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGPYINTERPRETER_H_
-#define _OSGPYINTERPRETER_H_
+#ifndef _OSGPYFIELDACCESSHANDLER_H_
+#define _OSGPYFIELDACCESSHANDLER_H_
+#ifdef __sgi
+#pragma once
+#endif
 
 #include "OSGConfig.h"
-#include "OSGPyFunction.h"
-
 #include "OSGScriptingDef.h"
-
-#include <boost/python.hpp>
-#include <vector>
-
-#include <iostream>
-
-namespace bp = boost::python;
+#include "OSGPythonScript.h"
 
 OSG_BEGIN_NAMESPACE
 
-class PyFunction;
+class PyInterpreter;
 
-/*! \brief Encapsulates a Python interpreter thread and performs the initial
-           static initialization.
- */
-class OSG_SCRIPTING_DLLMAPPING PyInterpreter
+class OSG_SCRIPTING_DLLMAPPING PyFieldAccessHandler
 {
 public:
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    PyInterpreter();
+    PyFieldAccessHandler(PythonScriptWeakPtr  pythonScript,
+                         PyInterpreter       *inter);
+    ~PyFieldAccessHandler();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructors                                */
+    /*! \name                        Init                                  */
     /*! \{                                                                 */
 
-    ~PyInterpreter();
+    bool init();
+    //void reset(); // TODO: how?
+    static void registerTypeMappings();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Activation                                 */
+    /*! \name                        Field Access                          */
     /*! \{                                                                 */
 
-    /*!\brief  Activates the Python interpreter.                           */
-    /*                                                                     */
-    /* \return True on success, false otherwise                            */
-    bool activate()
-    {
-        if(!_pPyInterpreter)
-        {
-            return false;
-        }
-
-        PyEval_RestoreThread(_pPyInterpreter);
-
-        return true;
-    }
-
-    /*!\brief Deactivates the Python interpreter.                          */
-    void deactivate()
-    {
-        PyEval_SaveThread();
-    }
+    bool setupFieldAccess();
+    bool exposeField(const std::string& fieldName,
+                     OSG::UInt32 fieldId);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                Runtime Interface                             */
+    /*! \name                  Code Generation                             */
     /*! \{                                                                 */
 
-    bool run(const std::string& cmd);
-
-    template<class T>
-    bool addGlobalVariable(const T& object, const std::string& name);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Error Interface                              */
-    /*! \{                                                                 */
-
-    /*!\brief Checks for an interpreter error.                             */
-    /*                                                                     */
-    /* \return true in case of an interpreter error, false otherwise       */
-    bool checkForError() { return (PyErr_Occurred()!=NULL); }
-
-    /*!\brief Clears an interpreter error.                                 */
-    bool clearError() { PyErr_Clear(); }
-
-    void dumpError(std::ostream& os);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Function Store                               */
-    /*! \{                                                                 */
-
-    PyFunction* bindFunction      (const std::string& name);
-    void        clearFunctionStore();
-
-    /*! \}                                                                 */
+    void listTypes() const;
+    void generateSupportedFieldsList();
 
 private:
-    typedef std::vector<PyFunction*> FunctionStore;
-    typedef FunctionStore::iterator  FunctionStoreIter;
+    PyInterpreter       &_pPyInterpreter;
+    PythonScriptWeakPtr  _pPythonScript;
 
-    PyThreadState *_pPyInterpreter;
-    bp::object     _pyGlobalDict;
+    typedef std::map<std::string, std::string> OSG2PyTypeMap;
+    static OSG2PyTypeMap _osg2pyTypeMap;
 
-    FunctionStore  _funcStore;
-
-    bool containsFunction(bp::object &dict,
-                          const std::string& name);
-
-    void fetchError(std::string &errorMessage,
-                    long        &lineNo,
-                    std::string &funcName);
+    void generateFieldAccessCode(const std::string& fieldName);
 };
 
 OSG_END_NAMESPACE
 
-#include "OSGPyInterpreter.inl"
-
-#endif // _OSGPYINTERPRETER_H_
+#endif // _OSGPYFIELDACCESSHANDLER_H_
