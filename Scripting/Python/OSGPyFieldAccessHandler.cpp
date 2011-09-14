@@ -79,9 +79,7 @@ bool PyFieldAccessHandler::init()
                 "       inst.__class__.__perinstance = True\n"
                 "   setattr(inst.__class__, name, func)\n");
 
-    _pPyInterpreter.run(addMethod);
-
-    return(!_pPyInterpreter.checkForError());
+    return(_pPyInterpreter.run(addMethod));
 }
 
 /*!\brief  Generates the Python code that allows field access from     */
@@ -135,7 +133,6 @@ bool PyFieldAccessHandler::exposeField(const std::string& fieldName,
        << "self." << fieldName << "FieldMask = 1 << " << fieldId << std::endl
        << "self." << fieldName << "FieldId   = "      << fieldId << std::endl;
 
-    _pPyInterpreter.run(os.str());
 
 #ifdef OSGPY_DEBUG_CODEGENERATION
     //std::cout << "Generated python code for field '" << fieldName << "'" << std::endl;
@@ -148,7 +145,7 @@ bool PyFieldAccessHandler::exposeField(const std::string& fieldName,
               << std::endl;
 #endif
 
-    return(!_pPyInterpreter.checkForError());
+    return(_pPyInterpreter.run(os.str()));
 }
 
 /*!\brief Registers type mappings between OSG field types and Python   */

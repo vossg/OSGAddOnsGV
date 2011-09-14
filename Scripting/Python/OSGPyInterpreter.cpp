@@ -114,7 +114,7 @@ bool PyInterpreter::run(const std::string& cmd)
     {
         bp::exec(cmd.c_str(), _pyGlobalDict, _pyGlobalDict);
     }
-    catch(...)
+    catch(bp::error_already_set)
     {
         flag = false;
         //dumpError(std::cout);
@@ -135,19 +135,19 @@ void PyInterpreter::dumpError(std::ostream &os)
     long        lineNr;
     std::string funcName;
 
-    fetchError(errorMessage, lineNr, funcName);
+//    fetchError(errorMessage, lineNr, funcName);
 
-    os << std::endl;
-    os << "--------------------- PYTHON ERROR BEGIN ---------------------"
-       << std::endl << std::endl;
+//    os << std::endl;
+//    os << "--------------------- PYTHON ERROR BEGIN ---------------------"
+//       << std::endl << std::endl;
 
-    os << "Error message:" << std::endl << errorMessage << std::endl
-       << std::endl;
+//    os << "Error message:" << std::endl << errorMessage << std::endl
+//       << std::endl;
 
-    os << "in " << funcName << ":" << lineNr << std::endl << std::endl;
+//    os << "in " << funcName << ":" << lineNr << std::endl << std::endl;
 
-    os << "---------------------- PYTHON ERROR END ----------------------"
-       << std::endl << std::endl;
+//    os << "---------------------- PYTHON ERROR END ----------------------"
+//       << std::endl << std::endl;
 
     if(checkForError() == true) // ensure that an error exists, otherwise
                              // PyErr_Print() causes a fatal error
@@ -164,33 +164,72 @@ void PyInterpreter::dumpError(std::ostream &os)
 /* \param errorMessage Error string                                          */
 /* \param lineNo       Line number of error                                  */
 /* \param funcName     Name of the function the error appeared in            */
-void PyInterpreter::fetchError(std::string &errorMessage,
+void PyInterpreter::fetchError(std::string &errorType,
                                long        &lineNo,
                                std::string &funcName)
 {
-    PyObject *t, *v, *b;
-    PyErr_Fetch(&t, &v, &b);
-    bp::object type(bp::handle<>(bp::allow_null(t)));
-    bp::object value(bp::handle<>(bp::allow_null(v)));
+    PyObject *type(NULL), *value, *traceback;
+    PyErr_Fetch(&type, &value, &traceback);
 
-    errorMessage = bp::extract<std::string>(value);
+    // A NULL type means that there is no available Python exception
+    if (!type) return;
 
-    // Extract line number (top entry of call stack).
-    // If you want to extract another levels of call stack
-    // also process traceback.attr("tb_next") recurently.
-    if(b != NULL)
+    try
     {
-        bp::object traceback(bp::handle<>(bp::allow_null(b)));
+    bp::object otype(bp::handle<>(bp::allow_null(type)));
+    errorType = bp::extract<std::string>(otype);
 
-        lineNo = bp::extract<long> (traceback.attr("tb_lineno"));
-        //std::string filename = bp::extract<std::string>(traceback.attr("tb_frame").attr("f_code").attr("co_filename"));
-        funcName = bp::extract<std::string>(traceback.attr("tb_frame").attr("f_code").attr("co_name"));
+    bp::object ovalue(bp::handle<>(bp::allow_null(value)));
+    std::string errorValue = bp::extract<std::string>(ovalue);
+
+    bp::object otraceback(bp::handle<>(bp::allow_null(traceback)));
+    lineNo = bp::extract<long> (otraceback.attr("tb_lineno"));
+    //std::string filename = bp::extract<std::string>(traceback.attr("tb_frame").attr("f_code").attr("co_filename"));
+    funcName = bp::extract<std::string>(otraceback.attr("tb_frame").attr("f_code").attr("co_name"));
+
     }
-    else
+    catch(bp::error_already_set)
     {
-        lineNo = -1;
-        funcName = "unset";
+        std::cerr << "Error retrieving error" << std::endl;
     }
+//    try
+//    {
+//        bp::object exc(bp::handle<>(bp::allow_null(e)));
+//        errorMessage = bp::extract<std::string>(exc);
+//    }
+//    catch(bp::error_already_set)
+//    {
+//        errorMessage = "No error message given";
+//    }
+
+//    std::string errorType;
+//    try
+//    {
+//        bp::object value(bp::handle<>(bp::allow_null(v)));
+//        errorValue = bp::extract<std::string>(value);
+//    }
+//    catch(bp::error_already_set)
+//    {
+//        errorValue = "No value given.";
+//    }
+//    std::cout << "errorValue: " << errorValue << std::endl;
+
+//    // Extract line number (top entry of call stack).
+//    // If you want to extract another levels of call stack
+//    // also process traceback.attr("tb_next") recurently.
+//    try
+//    {
+//        bp::object traceback(bp::handle<>(bp::allow_null(t)));
+
+//        lineNo = bp::extract<long> (traceback.attr("tb_lineno"));
+//        //std::string filename = bp::extract<std::string>(traceback.attr("tb_frame").attr("f_code").attr("co_filename"));
+//        funcName = bp::extract<std::string>(traceback.attr("tb_frame").attr("f_code").attr("co_name"));
+//    }
+//    catch(bp::error_already_set)
+//    {
+//        lineNo = -1;
+//        funcName = "unset";
+//    }
 }
 
 
