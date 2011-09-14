@@ -2286,8 +2286,8 @@
 ~@typedef_t@PFNGLDELETESAMPLERSPROC@::PFNGLDELETESAMPLERSPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
+~@namespace_t@@::
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -2358,6 +2358,7 @@
 ~@variable_t@_ZTIN3OSG4LockE@::_ZTIN3OSG4LockE
 ~@variable_t@_ZTISt14codecvt_bynameIwc11__mbstate_tE@::_ZTISt14codecvt_bynameIwc11__mbstate_tE
 ~@variable_t@_ZTIN3OSG17DynFieldContainerINS_14FrameTaskMixinINS_18ContainerMixinHeadINS_18NodeCoreScriptDescEEEEEEE@::_ZTIN3OSG17DynFieldContainerINS_14FrameTaskMixinINS_18ContainerMixinHeadINS_18NodeCoreScriptDescEEEEEEE
+~@variable_t@_ZTIN3OSG20PyFieldAccessHandlerE@::_ZTIN3OSG20PyFieldAccessHandlerE
 ~@variable_t@_ZTIN3OSG16PythonScriptBaseE@::_ZTIN3OSG16PythonScriptBaseE
 ~@variable_t@PyTuple_Type@::PyTuple_Type
 ~@variable_t@PyExc_PendingDeprecationWarning@::PyExc_PendingDeprecationWarning
@@ -2380,6 +2381,7 @@
 ~@variable_t@_ZTISt13basic_fstreamIwSt11char_traitsIwEE@::_ZTISt13basic_fstreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTISt15basic_streambufIcSt11char_traitsIcEE@::_ZTISt15basic_streambufIcSt11char_traitsIcEE
 ~@variable_t@_ZTISt8numpunctIwE@::_ZTISt8numpunctIwE
+~@variable_t@_ZTIN3OSG24PyFieldAccessHandlerBaseE@::_ZTIN3OSG24PyFieldAccessHandlerBaseE
 ~@variable_t@PyExc_UnicodeWarning@::PyExc_UnicodeWarning
 ~@variable_t@PyTraceBack_Type@::PyTraceBack_Type
 ~@variable_t@_Py_QnewFlag@::_Py_QnewFlag

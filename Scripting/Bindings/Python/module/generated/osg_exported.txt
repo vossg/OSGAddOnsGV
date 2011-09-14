@@ -1,9 +1,11 @@
 ScriptParent
 FrameTaskMixinContainerMixinHeadNodeCoreScriptDesc
 ContainerMixinHeadNodeCoreScriptDesc
+PyFieldAccessHandlerBase
 PythonScript
 PythonScriptFileBase
 ScriptBase
 PythonScriptBase
 Script
 PythonScriptFile
+PyFieldAccessHandler

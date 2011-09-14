@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,6 +36,15 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <cstdlib>
+#include <cstdio>
+
+#include "OSGConfig.h"
+
 #include "OSGPyFieldAccessHandler.h"
 
 #include "OSGTypeFactory.h"
@@ -45,10 +54,7 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 
-namespace bp = boost::python;
-
-OSG_USING_NAMESPACE
-
+OSG_BEGIN_NAMESPACE
 
 PyFieldAccessHandler::OSG2PyTypeMap PyFieldAccessHandler::_osg2pyTypeMap;
 
@@ -56,21 +62,14 @@ PyFieldAccessHandler::OSG2PyTypeMap PyFieldAccessHandler::_osg2pyTypeMap;
     _osg2pyTypeMap.insert(std::make_pair(FieldT,PyInstance));
 
 
-PyFieldAccessHandler::PyFieldAccessHandler(PythonScriptWeakPtr  pythonScript,
-                                           PyInterpreter       *inter)
-    : _pPythonScript (pythonScript)
-    , _pPyInterpreter(*inter      )
+bool PyFieldAccessHandler::init(PythonScriptWeakPtr pythonScript,
+                                PyInterpreter      *inter)
 {
-}
+    _pPythonScript  = pythonScript;
+    _pPyInterpreter = inter;
 
-PyFieldAccessHandler::~PyFieldAccessHandler()
-{
-    _osg2pyTypeMap.clear();
-    _pPythonScript = 0;
-}
+    _pPyInterpreter->addGlobalVariable<PyFieldAccessHandlerRecPtr>(this, "_fieldAccessHandler");
 
-bool PyFieldAccessHandler::init()
-{
     const std::string addMethod(
                 "def addmethod(inst, name, func):\n"
                 "   cls = type(inst)\n"
@@ -79,7 +78,7 @@ bool PyFieldAccessHandler::init()
                 "       inst.__class__.__perinstance = True\n"
                 "   setattr(inst.__class__, name, func)\n");
 
-    return(_pPyInterpreter.run(addMethod));
+    return(_pPyInterpreter->run(addMethod));
 }
 
 /*!\brief  Generates the Python code that allows field access from     */
@@ -145,7 +144,7 @@ bool PyFieldAccessHandler::exposeField(const std::string& fieldName,
               << std::endl;
 #endif
 
-    return(_pPyInterpreter.run(os.str()));
+    return(_pPyInterpreter->run(os.str()));
 }
 
 /*!\brief Registers type mappings between OSG field types and Python   */
@@ -259,7 +258,7 @@ void PyFieldAccessHandler::generateFieldAccessCode(const std::string& fieldName)
     std::cout << getMethod + editMethod + setMethod << std::endl;
 #endif
 
-    _pPyInterpreter.run(getMethod + editMethod + setMethod);
+    _pPyInterpreter->run(getMethod + editMethod + setMethod);
 }
 
 void PyFieldAccessHandler::listTypes() const
@@ -312,6 +311,74 @@ void PyFieldAccessHandler::generateSupportedFieldsList()
 
     Py_EndInterpreter(_pPyInterpreter);
 }
+
+// Documentation for this class is emitted in the
+// OSGPyFieldAccessHandlerBase.cpp file.
+// To modify it, please change the .fcd file (OSGPyFieldAccessHandler.fcd) and
+// regenerate the base file.
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+void PyFieldAccessHandler::initMethod(InitPhase ePhase)
+{
+    Inherited::initMethod(ePhase);
+
+    if(ePhase == TypeObject::SystemPost)
+    {
+    }
+}
+
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*----------------------- constructors & destructors ----------------------*/
+
+PyFieldAccessHandler::PyFieldAccessHandler(void) :
+    Inherited()
+{
+}
+
+PyFieldAccessHandler::PyFieldAccessHandler(const PyFieldAccessHandler &source) :
+    Inherited(source)
+{
+}
+
+PyFieldAccessHandler::~PyFieldAccessHandler(void)
+{
+    _osg2pyTypeMap.clear();
+    _pPythonScript = 0;
+}
+
+/*----------------------------- class specific ----------------------------*/
+
+void PyFieldAccessHandler::changed(ConstFieldMaskArg whichField, 
+                            UInt32            origin,
+                            BitVector         details)
+{
+    Inherited::changed(whichField, origin, details);
+}
+
+void PyFieldAccessHandler::dump(      UInt32    ,
+                         const BitVector ) const
+{
+    SLOG << "Dump PyFieldAccessHandler NI" << std::endl;
+}
+
+OSG_END_NAMESPACE
+
+
 
 #if 0 // for lookup, remove later
 /*!\brief Generates a getter/setter function pair to access the field  */
@@ -450,27 +517,3 @@ PythonScript::generatePythonFieldAccessFunctions(const std::string& fieldName)
 #endif
 }
 #endif // for lookup, remove later
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

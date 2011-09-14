@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -42,27 +42,36 @@
 #pragma once
 #endif
 
-#include "OSGConfig.h"
-#include "OSGScriptingDef.h"
+#include "OSGPyFieldAccessHandlerBase.h"
+
 #include "OSGPythonScript.h"
 
 OSG_BEGIN_NAMESPACE
 
 class PyInterpreter;
 
-class OSG_SCRIPTING_DLLMAPPING PyFieldAccessHandler
+/*! \brief PyFieldAccessHandler class. See \ref
+           PageScriptingPyFieldAccessHandler for a description.
+*/
+
+class OSG_SCRIPTING_DLLMAPPING PyFieldAccessHandler : public PyFieldAccessHandlerBase
 {
-public:
-    PyFieldAccessHandler(PythonScriptWeakPtr  pythonScript,
-                         PyInterpreter       *inter);
-    ~PyFieldAccessHandler();
+  protected:
+
+    /*==========================  PUBLIC  =================================*/
+
+  public:
+
+    typedef PyFieldAccessHandlerBase Inherited;
+    typedef PyFieldAccessHandler     Self;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Init                                  */
     /*! \{                                                                 */
 
-    bool init();
+    bool init(PythonScriptWeakPtr  pythonScript,
+              PyInterpreter       *inter);
     //void reset(); // TODO: how?
     static void registerTypeMappings();
 
@@ -83,8 +92,63 @@ public:
     void listTypes() const;
     void generateSupportedFieldsList();
 
-private:
-    PyInterpreter       &_pPyInterpreter;
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Sync                                    */
+    /*! \{                                                                 */
+
+    virtual void changed(ConstFieldMaskArg whichField,
+                         UInt32            origin,
+                         BitVector         details    );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    virtual void dump(      UInt32     uiIndent = 0,
+                      const BitVector  bvFlags  = 0) const;
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    // Variables should all be in PyFieldAccessHandlerBase.
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    PyFieldAccessHandler(void);
+    PyFieldAccessHandler(const PyFieldAccessHandler &source);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructors                                */
+    /*! \{                                                                 */
+
+    virtual ~PyFieldAccessHandler(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Init                                    */
+    /*! \{                                                                 */
+
+    static void initMethod(InitPhase ePhase);
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+
+    friend class FieldContainer;
+    friend class PyFieldAccessHandlerBase;
+
+    // prohibit default functions (move to 'public' if you need one)
+    void operator =(const PyFieldAccessHandler &source);
+
+    PyInterpreter       *_pPyInterpreter;
     PythonScriptWeakPtr  _pPythonScript;
 
     typedef std::map<std::string, std::string> OSG2PyTypeMap;
@@ -93,6 +157,11 @@ private:
     void generateFieldAccessCode(const std::string& fieldName);
 };
 
+typedef PyFieldAccessHandler *PyFieldAccessHandlerP;
+
 OSG_END_NAMESPACE
 
-#endif // _OSGPYFIELDACCESSHANDLER_H_
+#include "OSGPyFieldAccessHandlerBase.inl"
+#include "OSGPyFieldAccessHandler.inl"
+
+#endif /* _OSGPYFIELDACCESSHANDLER_H_ */

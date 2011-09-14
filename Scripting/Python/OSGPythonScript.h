@@ -49,7 +49,7 @@
 #include "OSGNodeFields.h"
 
 #include "OSGPyInterpreter.h"
-//#include "OSGPyFieldAccessHandler.h"
+#include "OSGPyFieldAccessHandler.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -59,7 +59,7 @@ OSG_BEGIN_NAMESPACE
     \includebasedoc
  */
 
-class PyFieldAccessHandler;
+//class PyFieldAccessHandler;
 class PyFunction;
 
 class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
@@ -197,13 +197,12 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     typedef PythonScriptBase Inherited;
 
-    PyInterpreter        *_pPyInterpreter;
-    PyFieldAccessHandler *_pPyFieldAccessHandler;
+    PyInterpreter                *_pPyInterpreter;
+    PyFieldAccessHandlerUnrecPtr  _pPyFieldAccessHandler;
 
     /*---------------------------------------------------------------------*/
     /*! \name                Interpreter Control                           */
     /*! \{                                                                 */
-
 
     bool pyActivate  () { return _pPyInterpreter->activate();            }
     bool pyDeactivate() {        _pPyInterpreter->deactivate();          }

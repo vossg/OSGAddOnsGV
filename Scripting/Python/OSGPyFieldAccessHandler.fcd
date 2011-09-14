@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+
+<FieldContainer
+   name="PyFieldAccessHandler"
+   parent="FieldContainer"
+   library="Scripting"
+   structure="concrete"
+   pointerfieldtypes="both"
+   systemcomponent="true"
+   parentsystemcomponent="true"
+   isNodeCore="false"
+   docGroupBase="GrpScripting"
+   >
+   Dummy fcd to automatically include the PyFieldAccessHandler files into the Python bindings generation process.
+</FieldContainer>

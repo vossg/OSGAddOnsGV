@@ -36,6 +36,10 @@
 
 #include "generated/FrameTaskMixinContainerMixinHeadNodeCoreScriptDesc.pypp.hpp"
 
+#include "generated/PyFieldAccessHandler.pypp.hpp"
+
+#include "generated/PyFieldAccessHandlerBase.pypp.hpp"
+
 #include "generated/PythonScript.pypp.hpp"
 
 #include "generated/PythonScriptBase.pypp.hpp"
@@ -61,6 +65,10 @@ BOOST_PYTHON_MODULE(OSGScriptingPy){
 
     register_ScriptParent_class();
 
+    register_PyFieldAccessHandlerBase_class();
+
+    register_PyFieldAccessHandler_class();
+
     register_ScriptBase_class();
 
     register_Script_class();
@@ -70,6 +78,12 @@ BOOST_PYTHON_MODULE(OSGScriptingPy){
     register_PythonScript_class();
 
     register_PythonScriptFileBase_class();
+
+    /** Helpers for OSG::PyFieldAccessHandler */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PyFieldAccessHandler, OSG::PyFieldAccessHandler::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PyFieldAccessHandler::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::PythonScript */
 

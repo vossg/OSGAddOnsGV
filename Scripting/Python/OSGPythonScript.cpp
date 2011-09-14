@@ -209,7 +209,7 @@ bool PythonScript::init(void)
         pyDumpError();
         pyDeactivate();
 
-        delete _pPyFieldAccessHandler;
+        //delete _pPyFieldAccessHandler;
         delete _pPyInterpreter;
 
         OSG::osgExit();
@@ -245,7 +245,7 @@ void PythonScript::shutdown(void)
 
     callShutdownFunction();
 
-    delete _pPyFieldAccessHandler;
+    //delete _pPyFieldAccessHandler;
     delete _pPyInterpreter;
 }
 
@@ -253,9 +253,7 @@ void PythonScript::shutdown(void)
 /*        and exposes the PythonScript core as Python variable.        */
 bool PythonScript::initPython(void)
 {
-    _pPyInterpreter        = new PyInterpreter;
-    _pPyFieldAccessHandler = new PyFieldAccessHandler(this, _pPyInterpreter);
-
+    _pPyInterpreter = new PyInterpreter;
     if(_pPyInterpreter->run("import osg2.osg as osg") == false)
     {
         FFATAL(("PythonScript: Cannot load module osg2.osg. Ensure that "
@@ -265,7 +263,8 @@ bool PythonScript::initPython(void)
     }
     _pPyInterpreter->addGlobalVariable<PythonScriptRecPtr>(this, "self");
 
-    if(_pPyFieldAccessHandler->init() == false)
+    _pPyFieldAccessHandler = PyFieldAccessHandler::create();
+    if(_pPyFieldAccessHandler->init(this, _pPyInterpreter) == false)
     {
         FFATAL(("PythonScript: Error initializing the PyFieldHandler\n"));
         return false;
