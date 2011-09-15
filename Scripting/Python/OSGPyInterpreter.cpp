@@ -101,7 +101,9 @@ PyInterpreter::~PyInterpreter()
 {
     _funcStore.clear();
 
+    activate();
     Py_EndInterpreter(_pPyInterpreter);
+
     _pPyInterpreter = NULL;
 }
 
@@ -131,29 +133,30 @@ bool PyInterpreter::run(const std::string& cmd)
 /* \param os Stream to output the error to                                   */
 void PyInterpreter::dumpError(std::ostream &os)
 {
+#if 0
     std::string errorMessage;
     long        lineNr;
     std::string funcName;
 
-//    fetchError(errorMessage, lineNr, funcName);
+    fetchError(errorMessage, lineNr, funcName);
 
-//    os << std::endl;
-//    os << "--------------------- PYTHON ERROR BEGIN ---------------------"
-//       << std::endl << std::endl;
+    os << std::endl;
+    os << "--------------------- PYTHON ERROR BEGIN ---------------------"
+       << std::endl << std::endl;
 
-//    os << "Error message:" << std::endl << errorMessage << std::endl
-//       << std::endl;
+    os << "Error message:" << std::endl << errorMessage << std::endl
+       << std::endl;
 
-//    os << "in " << funcName << ":" << lineNr << std::endl << std::endl;
+    os << "in " << funcName << ":" << lineNr << std::endl << std::endl;
 
-//    os << "---------------------- PYTHON ERROR END ----------------------"
-//       << std::endl << std::endl;
+    os << "---------------------- PYTHON ERROR END ----------------------"
+       << std::endl << std::endl;
+#endif
 
     if(checkForError() == true) // ensure that an error exists, otherwise
-                             // PyErr_Print() causes a fatal error
+                                // PyErr_Print() causes a fatal error
     {
         // TODO: how to redirect the output to the ostream?
-        std::cerr << "Traceback:" << std::endl;
         PyErr_Print();
     }
 }
@@ -192,44 +195,47 @@ void PyInterpreter::fetchError(std::string &errorType,
     {
         std::cerr << "Error retrieving error" << std::endl;
     }
-//    try
-//    {
-//        bp::object exc(bp::handle<>(bp::allow_null(e)));
-//        errorMessage = bp::extract<std::string>(exc);
-//    }
-//    catch(bp::error_already_set)
-//    {
-//        errorMessage = "No error message given";
-//    }
 
-//    std::string errorType;
-//    try
-//    {
-//        bp::object value(bp::handle<>(bp::allow_null(v)));
-//        errorValue = bp::extract<std::string>(value);
-//    }
-//    catch(bp::error_already_set)
-//    {
-//        errorValue = "No value given.";
-//    }
-//    std::cout << "errorValue: " << errorValue << std::endl;
+#if 0  // TODO: provide string based error information for external application
+    try
+    {
+        bp::object exc(bp::handle<>(bp::allow_null(e)));
+        errorMessage = bp::extract<std::string>(exc);
+    }
+    catch(bp::error_already_set)
+    {
+        errorMessage = "No error message given";
+    }
 
-//    // Extract line number (top entry of call stack).
-//    // If you want to extract another levels of call stack
-//    // also process traceback.attr("tb_next") recurently.
-//    try
-//    {
-//        bp::object traceback(bp::handle<>(bp::allow_null(t)));
+    std::string errorType;
+    try
+    {
+        bp::object value(bp::handle<>(bp::allow_null(v)));
+        errorValue = bp::extract<std::string>(value);
+    }
+    catch(bp::error_already_set)
+    {
+        errorValue = "No value given.";
+    }
+    std::cout << "errorValue: " << errorValue << std::endl;
 
-//        lineNo = bp::extract<long> (traceback.attr("tb_lineno"));
-//        //std::string filename = bp::extract<std::string>(traceback.attr("tb_frame").attr("f_code").attr("co_filename"));
-//        funcName = bp::extract<std::string>(traceback.attr("tb_frame").attr("f_code").attr("co_name"));
-//    }
-//    catch(bp::error_already_set)
-//    {
-//        lineNo = -1;
-//        funcName = "unset";
-//    }
+    // Extract line number (top entry of call stack).
+    // If you want to extract another levels of call stack
+    // also process traceback.attr("tb_next") recurently.
+    try
+    {
+        bp::object traceback(bp::handle<>(bp::allow_null(t)));
+
+        lineNo = bp::extract<long> (traceback.attr("tb_lineno"));
+        //std::string filename = bp::extract<std::string>(traceback.attr("tb_frame").attr("f_code").attr("co_filename"));
+        funcName = bp::extract<std::string>(traceback.attr("tb_frame").attr("f_code").attr("co_name"));
+    }
+    catch(bp::error_already_set)
+    {
+        lineNo = -1;
+        funcName = "unset";
+    }
+#endif // 0
 }
 
 

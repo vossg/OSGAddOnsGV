@@ -45,6 +45,7 @@
 
 #include "OSGPyFieldAccessHandler.h"
 #include "OSGComplexSceneManager.h"
+#include "OSGNameAttachment.h"
 #include "OSGLog.h"
 
 #include <boost/python.hpp>
@@ -86,7 +87,7 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
 {
     Inherited::changed(whichField, origin, details);
 
-    // applies in init phase
+    // applies in init and shutdown phase
     if(_pPyInterpreter == NULL) { return; }
 
     if(whichField & ScriptFieldMask)
@@ -216,11 +217,7 @@ bool PythonScript::init(void)
         std::abort();
     };
 
-    std::cout << "PythonScript: after initPython" << std::endl;
-
     callInitFunction();
-
-    std::cout << "PythonScript: after callInitFunction" << std::endl;
 
     return true;
 }
@@ -243,10 +240,29 @@ void PythonScript::shutdown(void)
 {
     fprintf(stderr, "PythonScript : shutdown\n");
 
+    // shutdown() is calles twice per core, the first time triggered by
+    // ComplexSceneManager::shutdown() -> FrameTaskHandler::shutdown() and then
+    // on the destruction of this FieldContainer (which is a FrameTaskMixin)
+    // itself in FrameTaskMixin::onDestroyAspect() -> FrameTaskHandler::removeTask().
+    // The next line takes care of that fact:
+    if(_pPyInterpreter == NULL)
+    {
+        fprintf(stderr, "PythonScript :     ... skipped. Already shutdown.\n");
+        return;
+    }
+
     callShutdownFunction();
 
-    //delete _pPyFieldAccessHandler;
+    // Destruction of the _pPyFieldAccessHandler is done when the RecPtr
+    // exposed in _pPyFieldAccessHandler->init(...) is destroyed when the
+    // _pPyInterpreter is shutdown and the global Python variable
+    // _fieldAccessHandler gets out of scope.
+    _pPyFieldAccessHandler = NULL;
+
     delete _pPyInterpreter;
+    _pPyInterpreter = NULL;
+
+    fprintf(stderr, "PythonScript :     ... done.\n");
 }
 
 /*!\brief Sets up the Python environment, loads global functions and   */
@@ -263,7 +279,11 @@ bool PythonScript::initPython(void)
     }
     _pPyInterpreter->addGlobalVariable<PythonScriptRecPtr>(this, "self");
 
-    _pPyFieldAccessHandler = PyFieldAccessHandler::create();
+    // Working around the forward declaration issue in the header:
+    PyFieldAccessHandlerUnrecPtr tmpPtr = PyFieldAccessHandler::create();
+
+    // Refcount is incremented in init() below
+    _pPyFieldAccessHandler = tmpPtr;
     if(_pPyFieldAccessHandler->init(this, _pPyInterpreter) == false)
     {
         FFATAL(("PythonScript: Error initializing the PyFieldHandler\n"));
@@ -481,44 +501,4 @@ bool PythonScript::callChangedFunction(ConstFieldMaskArg whichField,
     pyDeactivate();
 
     return flag;
-}
-
-void PythonScript::setSFieldBool(const std::string& name, const bool value)
-{
-    FieldDescriptionBase *fieldDesc =
-            this->getType().getFieldDesc(name.c_str());
-    assert(fieldDesc);
-
-    typedef SField<bool, 2> SFieldT;
-
-    EditFieldHandlePtr editHandle = fieldDesc->editField(*this);
-    SFieldT *sfield = static_cast<SFieldT*>(editHandle->getField());
-    sfield->setValue(value);
-
-#ifdef DEBUG_FIELDACCESS
-    std::cerr << "Updated (id=" << fieldDesc->getTypeId() << "/name='" << name
-              << "'/type='" << sfield->getClassType().getName() << "') to " << sfield->getValue() << std::endl;
-#endif
-}
-
-bool PythonScript::getSFieldBool(const std::string& name, const bool type)
-{
-    FieldDescriptionBase *fieldDesc = this->getType().getFieldDesc(name.c_str());
-    assert(fieldDesc);
-
-    typedef SField<bool, 2> SFieldT;
-
-    GetFieldHandlePtr getHandle = fieldDesc->getField(*this);
-    const SFieldT *sfield = static_cast<const SFieldT*>(getHandle->getField());
-
-#ifdef DEBUG_FIELDACCESS
-    std::cerr << "getSField: type=" << typeid(type).name() << std::endl;
-    std::cerr << "sfield: " << sfield << std::endl;
-    std::cerr << "[" << fieldDesc->getFieldType().getName() << "] Retrieved value "
-              << sfield->getValue() << " from (id="
-              << fieldDesc->getTypeId() << "/name='" << name << "'/type='"
-              << sfield->getClassType().getName() << "')" << std::endl;
-#endif
-
-    return(sfield->getValue());
 }

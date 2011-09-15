@@ -49,7 +49,6 @@
 #include "OSGNodeFields.h"
 
 #include "OSGPyInterpreter.h"
-#include "OSGPyFieldAccessHandler.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -59,7 +58,7 @@ OSG_BEGIN_NAMESPACE
     \includebasedoc
  */
 
-//class PyFieldAccessHandler;
+class PyFieldAccessHandler;
 class PyFunction;
 
 class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
@@ -110,69 +109,9 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Field Access                          */
     /*! \{                                                                 */
-
-#if 0
-    /*\brief Return the FieldAccessHandler. The method is used by the      */
-    /*       Python field access methods registered in                     */
-    /*       FieldAccessHandler::exposeField().                            */
-    /*                                                                     */
-    /*\return FieldAccessHandler                                           */
-    PyFieldAccessHandler *getFieldAccessHandler() const
-    {
-        return _pPyFieldAccessHandler;
-    }
-#endif
-
-    // CAUTION: editSField, editMField members get excluded by Py++. Fix that
-    // later!
-    template<class T>
-    void     setSField(const std::string& name,
-                       const T& value            );
-    template<class T>
-          T& myEditSField(const std::string& name,
-                          const T& type          );
-    template<class T>
-    const T& getSField(const std::string& name,
-                       const T& type             );
-
-    template<class T>
-    void     setMField(const std::string& name,
-                       const T& value            );
-    template<class T>
-    const T& getMField(const std::string& name,
-                       const T& type             );
-
-#if 0 // TODO
-    template<class T>
-    void     setPointerSField(const std::string& name,
-                              T* value                );
-    template<class T>
-    const T* getPointerSField(const std::string& name,
-                              T* type                 );
-#endif
-
-#if 0
-    template<class T, Int32 iNamespace>
-    void     setSFieldNS(const std::string& name,
-                         const T& value          );
-    template<class T, Int32 iNamespace>
-    const T& getSFieldNS(const std::string& name,
-                         const T& type           );
-#endif
-
-    void setSFieldBool(const std::string& name,
-                       const bool type         );
-    bool getSFieldBool(const std::string& name,
-                       const bool type         );
-
-    // TODO: add multi field equivalent. I have to figure out the best way
-    //       to access multi fields from python
-
     virtual UInt32 addField(const UInt32  uiFieldTypeId,
                             const Char8  *szFieldName   );
     virtual UInt32 addField(const Char8  *szFieldType,
@@ -198,7 +137,7 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     typedef PythonScriptBase Inherited;
 
     PyInterpreter                *_pPyInterpreter;
-    PyFieldAccessHandlerUnrecPtr  _pPyFieldAccessHandler;
+    PyFieldAccessHandler         *_pPyFieldAccessHandler; // TODO: how to forward declare a PyFieldAccessHandlerUnrecPtr?
 
     /*---------------------------------------------------------------------*/
     /*! \name                Interpreter Control                           */

@@ -77,6 +77,258 @@ void register_PyFieldAccessHandler_class(){
                 , generateSupportedFieldsList_function_type( &::OSG::PyFieldAccessHandler::generateSupportedFieldsList ) );
         
         }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Plane const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Plane const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::BoxVolume const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::BoxVolume const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Color4< float > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Color4< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Color3< float > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Color3< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::QuaternionBase< float > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::QuaternionBase< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::TransformationMatrix< double > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< double > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::TransformationMatrix< float > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Vector< double, 4u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Vector< double, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Vector< double, 3u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Vector< double, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Vector< double, 2u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Vector< double, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Vector< float, 4u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Vector< float, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Vector< float, 3u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Vector< float, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Vector< float, 2u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Vector< float, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Point< double, 4u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Point< double, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Point< double, 3u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Point< double, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Point< double, 2u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Point< double, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Point< float, 4u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Point< float, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Point< float, 3u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Point< float, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::OSG::Point< float, 2u > const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::OSG::Point< float, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef ::std::string const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,::std::string const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef double const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,double const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSField
+        
+            typedef int const & ( ::OSG::PyFieldAccessHandler::*getSField_function_type )( ::std::string const &,int const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSField"
+                , getSField_function_type( &::OSG::PyFieldAccessHandler::getSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::getSFieldBool
+        
+            typedef bool ( ::OSG::PyFieldAccessHandler::*getSFieldBool_function_type )( ::std::string const &,bool const ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "getSFieldBool"
+                , getSFieldBool_function_type( &::OSG::PyFieldAccessHandler::getSFieldBool )
+                , ( bp::arg("name"), bp::arg("type") ) );
+        
+        }
         { //::OSG::PyFieldAccessHandler::init
         
             typedef bool ( ::OSG::PyFieldAccessHandler::*init_function_type )( ::OSG::PythonScriptWeakPtr,::OSG::PyInterpreter * ) ;
@@ -96,6 +348,248 @@ void register_PyFieldAccessHandler_class(){
                 , listTypes_function_type( &::OSG::PyFieldAccessHandler::listTypes ) );
         
         }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Plane & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Plane const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::BoxVolume & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::BoxVolume const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Color4< float > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Color4< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Color3< float > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Color3< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::QuaternionBase< float > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::QuaternionBase< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::TransformationMatrix< double > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< double > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::TransformationMatrix< float > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Vector< double, 4u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< double, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Vector< double, 3u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< double, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Vector< double, 2u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< double, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Vector< float, 4u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< float, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Vector< float, 3u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< float, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Vector< float, 2u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Vector< float, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Point< double, 4u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Point< double, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Point< double, 3u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Point< double, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Point< double, 2u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Point< double, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Point< float, 4u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Point< float, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Point< float, 3u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Point< float, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::OSG::Point< float, 2u > & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::OSG::Point< float, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef ::std::string & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,::std::string const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef double & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,double const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::myEditSField
+        
+            typedef int & ( ::OSG::PyFieldAccessHandler::*myEditSField_function_type )( ::std::string const &,int const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "myEditSField"
+                , myEditSField_function_type( &::OSG::PyFieldAccessHandler::myEditSField )
+                , ( bp::arg("name"), bp::arg("type") )
+                , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
         { //::OSG::PyFieldAccessHandler::registerTypeMappings
         
             typedef void ( *registerTypeMappings_function_type )(  );
@@ -103,6 +597,236 @@ void register_PyFieldAccessHandler_class(){
             PyFieldAccessHandler_exposer.def( 
                 "registerTypeMappings"
                 , registerTypeMappings_function_type( &::OSG::PyFieldAccessHandler::registerTypeMappings ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Plane const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::BoxVolume const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Color4< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Color3< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::QuaternionBase< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< double > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::TransformationMatrix< float > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Vector< double, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Vector< double, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Vector< double, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Vector< float, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Vector< float, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Vector< float, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Point< double, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Point< double, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Point< double, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Point< float, 4u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Point< float, 3u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::OSG::Point< float, 2u > const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,::std::string const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,double const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSField
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSField_function_type )( ::std::string const &,int const & ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSField"
+                , setSField_function_type( &::OSG::PyFieldAccessHandler::setSField )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::PyFieldAccessHandler::setSFieldBool
+        
+            typedef void ( ::OSG::PyFieldAccessHandler::*setSFieldBool_function_type )( ::std::string const &,bool const ) ;
+            
+            PyFieldAccessHandler_exposer.def( 
+                "setSFieldBool"
+                , setSFieldBool_function_type( &::OSG::PyFieldAccessHandler::setSFieldBool )
+                , ( bp::arg("name"), bp::arg("type") ) );
         
         }
         { //::OSG::PyFieldAccessHandler::setupFieldAccess

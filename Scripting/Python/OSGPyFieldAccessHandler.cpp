@@ -68,7 +68,12 @@ bool PyFieldAccessHandler::init(PythonScriptWeakPtr pythonScript,
     _pPythonScript  = pythonScript;
     _pPyInterpreter = inter;
 
-    _pPyInterpreter->addGlobalVariable<PyFieldAccessHandlerRecPtr>(this, "_fieldAccessHandler");
+    // Here the reference count of this PyFieldAccessHandler is increased as
+    // the Python bindings use XXXRecPtr when converting the C++ class into an
+    // Python object. That prevents the destruction of this class as long as
+    // the PyInterpreter is alive.
+    _pPyInterpreter->addGlobalVariable<PyFieldAccessHandlerTransitPtr>(PyFieldAccessHandlerTransitPtr(this),
+                                                                       "_fieldAccessHandler");
 
     const std::string addMethod(
                 "def addmethod(inst, name, func):\n"
@@ -79,6 +84,58 @@ bool PyFieldAccessHandler::init(PythonScriptWeakPtr pythonScript,
                 "   setattr(inst.__class__, name, func)\n");
 
     return(_pPyInterpreter->run(addMethod));
+}
+
+/*!\brief Registers type mappings between OSG field types and Python   */
+/*        instances, to generate the field access code later on.       */
+void PyFieldAccessHandler::registerTypeMappings()
+{                                                                // -> CSM equivalent
+    OSGPY_REGISTER_MAPPING("SFInt32"      , "0"                ) // -> SFInt32
+    OSGPY_REGISTER_MAPPING("SFReal64"     , "1.1"              ) // -> SFDouble
+    OSGPY_REGISTER_MAPPING("SFString"     , "'dummystring'"    ) // -> SFString
+    OSGPY_REGISTER_MAPPING("SFBool"       , "1"            ) // -> SFBool
+
+    OSGPY_REGISTER_MAPPING("SFPnt2f"      , "osg.Pnt2f()"      ) // -> SFPnt2f
+    OSGPY_REGISTER_MAPPING("SFPnt3f"      , "osg.Pnt3f()"      ) // -> SFPnt3f
+    OSGPY_REGISTER_MAPPING("SFPnt4f"      , "osg.Pnt4f()"      ) // -> SFPnt4f
+    OSGPY_REGISTER_MAPPING("SFPnt2d"      , "osg.Pnt2d()"      ) // -> SFPnt2d
+    OSGPY_REGISTER_MAPPING("SFPnt3d"      , "osg.Pnt3d()"      ) // -> SFPnt3d
+    OSGPY_REGISTER_MAPPING("SFPnt4d"      , "osg.Pnt4d()"      ) // -> SFPnt4d
+
+    OSGPY_REGISTER_MAPPING("SFVec2f"      , "osg.Vec2f()"      ) // -> SFVec2f
+    OSGPY_REGISTER_MAPPING("SFVec3f"      , "osg.Vec3f()"      ) // -> SFVec3f
+    OSGPY_REGISTER_MAPPING("SFVec4f"      , "osg.Vec4f()"      ) // -> SFVec4f
+    OSGPY_REGISTER_MAPPING("SFVec2d"      , "osg.Vec2d()"      ) // -> SFVec2d
+    OSGPY_REGISTER_MAPPING("SFVec3d"      , "osg.Vec3d()"      ) // -> SFVec3d
+    OSGPY_REGISTER_MAPPING("SFVec4d"      , "osg.Vec4d()"      ) // -> SFVec4d
+
+    OSGPY_REGISTER_MAPPING("SFMatrix"     , "osg.Matrix()"     ) // -> SFMatrix
+    OSGPY_REGISTER_MAPPING("SFMatrix4d"   , "osg.Matrix4d()"   ) // -> SFMatrix4d
+
+    OSGPY_REGISTER_MAPPING("SFColor3f"    , "osg.Color3f()"    ) // -> SFColor
+    OSGPY_REGISTER_MAPPING("SFColor4f"    , "osg.Color4f()"    ) // -> SFColorRGBA
+
+    OSGPY_REGISTER_MAPPING("SFQuaternion" , "osg.Quaternion()" ) // -> SFRotation
+
+    OSGPY_REGISTER_MAPPING("SFBoxVolume"  , "osg.BoxVolume()"  ) // -> SFVolume
+    OSGPY_REGISTER_MAPPING("SFPlane"      , "osg.Plane()"      ) // -> SFPlane
+
+    OSGPY_REGISTER_MAPPING("SFTime"       , "1.1"              ) // -> SFTime
+
+    OSGPY_REGISTER_MAPPING("SFImage"      , "osg.Image.create()" ) // -> SFImage
+    OSGPY_REGISTER_MAPPING("SFNode"       , "osg.Node().create()") // -> SFNode
+
+#ifdef OSGPY_DEBUG
+    OSG2PyTypeMap::const_iterator iter(_osg2pyTypeM.begin());
+    OSG2PyTypeMap::const_iterator end (_osg2pyTypeM.end());
+
+    std::cout << "PythonScript: registered type mappings:" << std::endl;
+    for(;iter!=end;++iter)
+    {
+        std::cout << "[" << (*iter).first << " -> " << (*iter).second << "]"
+                  << std::endl;
+    }
+#endif
 }
 
 /*!\brief  Generates the Python code that allows field access from     */
@@ -147,56 +204,44 @@ bool PyFieldAccessHandler::exposeField(const std::string& fieldName,
     return(_pPyInterpreter->run(os.str()));
 }
 
-/*!\brief Registers type mappings between OSG field types and Python   */
-/*        instances, to generate the field access code later on.       */
-void PyFieldAccessHandler::registerTypeMappings()
-{                                                                // -> CSM equivalent
-    OSGPY_REGISTER_MAPPING("SFInt32"      , "0"                ) // -> SFInt32
-    OSGPY_REGISTER_MAPPING("SFReal64"     , "1.1"              ) // -> SFDouble
-    OSGPY_REGISTER_MAPPING("SFString"     , "'dummystring'"    ) // -> SFString
-    OSGPY_REGISTER_MAPPING("SFBool"       , "1"            ) // -> SFBool
+void PyFieldAccessHandler::setSFieldBool(const std::string& name, const bool value)
+{
+    FieldDescriptionBase *fieldDesc =
+            this->getType().getFieldDesc(name.c_str());
+    assert(fieldDesc);
 
-    OSGPY_REGISTER_MAPPING("SFPnt2f"      , "osg.Pnt2f()"      ) // -> SFPnt2f
-    OSGPY_REGISTER_MAPPING("SFPnt3f"      , "osg.Pnt3f()"      ) // -> SFPnt3f
-    OSGPY_REGISTER_MAPPING("SFPnt4f"      , "osg.Pnt4f()"      ) // -> SFPnt4f
-    OSGPY_REGISTER_MAPPING("SFPnt2d"      , "osg.Pnt2d()"      ) // -> SFPnt2d
-    OSGPY_REGISTER_MAPPING("SFPnt3d"      , "osg.Pnt3d()"      ) // -> SFPnt3d
-    OSGPY_REGISTER_MAPPING("SFPnt4d"      , "osg.Pnt4d()"      ) // -> SFPnt4d
+    typedef SField<bool, 2> SFieldT;
 
-    OSGPY_REGISTER_MAPPING("SFVec2f"      , "osg.Vec2f()"      ) // -> SFVec2f
-    OSGPY_REGISTER_MAPPING("SFVec3f"      , "osg.Vec3f()"      ) // -> SFVec3f
-    OSGPY_REGISTER_MAPPING("SFVec4f"      , "osg.Vec4f()"      ) // -> SFVec4f
-    OSGPY_REGISTER_MAPPING("SFVec2d"      , "osg.Vec2d()"      ) // -> SFVec2d
-    OSGPY_REGISTER_MAPPING("SFVec3d"      , "osg.Vec3d()"      ) // -> SFVec3d
-    OSGPY_REGISTER_MAPPING("SFVec4d"      , "osg.Vec4d()"      ) // -> SFVec4d
+    EditFieldHandlePtr editHandle = fieldDesc->editField(*this);
+    SFieldT *sfield = static_cast<SFieldT*>(editHandle->getField());
+    sfield->setValue(value);
 
-    OSGPY_REGISTER_MAPPING("SFMatrix"     , "osg.Matrix()"     ) // -> SFMatrix
-    OSGPY_REGISTER_MAPPING("SFMatrix4d"   , "osg.Matrix4d()"   ) // -> SFMatrix4d
-
-    OSGPY_REGISTER_MAPPING("SFColor3f"    , "osg.Color3f()"    ) // -> SFColor
-    OSGPY_REGISTER_MAPPING("SFColor4f"    , "osg.Color4f()"    ) // -> SFColorRGBA
-
-    OSGPY_REGISTER_MAPPING("SFQuaternion" , "osg.Quaternion()" ) // -> SFRotation
-
-    OSGPY_REGISTER_MAPPING("SFBoxVolume"  , "osg.BoxVolume()"  ) // -> SFVolume
-    OSGPY_REGISTER_MAPPING("SFPlane"      , "osg.Plane()"      ) // -> SFPlane
-
-    OSGPY_REGISTER_MAPPING("SFTime"       , "1.1"              ) // -> SFTime
-
-    OSGPY_REGISTER_MAPPING("SFImage"      , "osg.Image.create()" ) // -> SFImage
-    OSGPY_REGISTER_MAPPING("SFNode"       , "osg.Node().create()") // -> SFNode
-
-#ifdef OSGPY_DEBUG
-    OSG2PyTypeMap::const_iterator iter(_osg2pyTypeM.begin());
-    OSG2PyTypeMap::const_iterator end (_osg2pyTypeM.end());
-
-    std::cout << "PythonScript: registered type mappings:" << std::endl;
-    for(;iter!=end;++iter)
-    {
-        std::cout << "[" << (*iter).first << " -> " << (*iter).second << "]"
-                  << std::endl;
-    }
+#ifdef DEBUG_FIELDACCESS
+    std::cerr << "Updated (id=" << fieldDesc->getTypeId() << "/name='" << name
+              << "'/type='" << sfield->getClassType().getName() << "') to " << sfield->getValue() << std::endl;
 #endif
+}
+
+bool PyFieldAccessHandler::getSFieldBool(const std::string& name, const bool type)
+{
+    FieldDescriptionBase *fieldDesc = this->getType().getFieldDesc(name.c_str());
+    assert(fieldDesc);
+
+    typedef SField<bool, 2> SFieldT;
+
+    GetFieldHandlePtr getHandle = fieldDesc->getField(*this);
+    const SFieldT *sfield = static_cast<const SFieldT*>(getHandle->getField());
+
+#ifdef DEBUG_FIELDACCESS
+    std::cerr << "getSField: type=" << typeid(type).name() << std::endl;
+    std::cerr << "sfield: " << sfield << std::endl;
+    std::cerr << "[" << fieldDesc->getFieldType().getName() << "] Retrieved value "
+              << sfield->getValue() << " from (id="
+              << fieldDesc->getTypeId() << "/name='" << name << "'/type='"
+              << sfield->getClassType().getName() << "')" << std::endl;
+#endif
+
+    return(sfield->getValue());
 }
 
 void PyFieldAccessHandler::generateFieldAccessCode(const std::string& fieldName)
@@ -241,17 +286,17 @@ void PyFieldAccessHandler::generateFieldAccessCode(const std::string& fieldName)
     const std::string getMethod = "def " + getMethodName + "(self):\n"
             "   if not hasattr(self, '" + pyTypeVar + "'):\n"
             "      self." + pyTypeVarAssignCode + "\n"
-            "   return self.getSField('" + fieldName + "', self." + pyTypeVar + ")\n";
+            "   return _fieldAccessHandler.getSField('" + fieldName + "', self." + pyTypeVar + ")\n";
 
     const std::string editMethodName("_edit_" + fieldName);
     const std::string editMethod = "def " + editMethodName + "(self):\n"
             "   if not hasattr(self, '" + pyTypeVar + "'):\n"
             "      self." + pyTypeVarAssignCode + "\n"
-            "   return self.myEditSField('" + fieldName + "', self." + pyTypeVar + ")\n";
+            "   return _fieldAccessHandler.myEditSField('" + fieldName + "', self." + pyTypeVar + ")\n";
 
     const std::string setMethodName("_set_" + fieldName);
     const std::string setMethod = "def " + setMethodName + "(self, value):\n"
-            "   return self.setSField('" + fieldName + "', value)\n";
+            "   return _fieldAccessHandler.setSField('" + fieldName + "', value)\n";
 
 #ifdef OSGPY_DEBUG_CODEGENERATION
     std::cout << "Generated Python code for field '" << fieldName << "'" << std::endl;
@@ -357,6 +402,8 @@ PyFieldAccessHandler::PyFieldAccessHandler(const PyFieldAccessHandler &source) :
 
 PyFieldAccessHandler::~PyFieldAccessHandler(void)
 {
+    fprintf(stderr, "PyFieldAccessHandler: Destructor\n");
+
     _osg2pyTypeMap.clear();
     _pPythonScript = 0;
 }

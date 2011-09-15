@@ -1,14 +1,3 @@
-#OSG V1.0 
-
-Node
-{
-  core DEF TestScript PythonScript
-  {
-    field SFDouble amount 10
-    field SFDouble radius 10
-
-    script 
-"
 from math import sin,cos,floor,pi
 
 if(osg.getName(self)):
@@ -28,13 +17,13 @@ def init():
         return
 
     # Populate scene:
-    for i in range(int(self.amount)):
-        i = 2*pi/self.amount * i
+    for i in range(int(self.get_amount())):
+        i = 2*pi/self.get_amount() * i
         transC = osg.Transform.create()
         transN = osg.Node.create()
         transN.setCore(transC)
         mat = osg.Matrix()
-        mat.setTranslate(self.radius*cos(i),self.radius*sin(i),0)
+        mat.setTranslate(self.get_radius()*cos(i),self.get_radius()*sin(i),0)
         transC.setMatrix(mat)
         _transCList.append(transC)
 
@@ -61,29 +50,3 @@ def frame(timeStamp, frameCount):
 
 def changed(whichField, origin, details):
     pass
-"
-
-    priority 41
-  }
-
-  children
-  [
-        Node
-        {
-          core DEF TieFighterTrans ComponentTransform
-          {
-          }
-      
-          children
-          [
-            Node
-            {
-              core Inline
-              {
-	        url "../Models/tie.wrl"
-              }
-            }
-          ]
-        }
-  ]
-}

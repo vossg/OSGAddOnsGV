@@ -72,7 +72,7 @@ def postScanSetup(osg, template_alias_db):
   splitGenHelper.exposeTemplateType(sp_temp)
 
   #----------------------------------------------------------------------------
-  # PythonScript
+  # PythonScript:
   #----------------------------------------------------------------------------
 
   sc = osg.class_("PythonScript")
@@ -92,7 +92,7 @@ def postScanSetup(osg, template_alias_db):
       decl.call_policies = return_internal_reference()
 
   #----------------------------------------------------------------------------
-  # ScriptBase
+  # ScriptBase:
   #----------------------------------------------------------------------------
 
   scbase = osg.class_("ScriptBase")
@@ -121,6 +121,10 @@ def postGenClassesSetup(osg, mb):
 
 def postFCDInfoSetup(osg, mb, adddition_exp):
 
+  #----------------------------------------------------------------------------
+  # PythonScript:
+  #----------------------------------------------------------------------------
+
   sc = osg.class_("PythonScript")
 
   #
@@ -132,6 +136,12 @@ def postFCDInfoSetup(osg, mb, adddition_exp):
     print "    to return_internal_reference..."
     decl.call_policies = return_internal_reference()
 
+  #----------------------------------------------------------------------------
+  # PyFieldAccessHandler:
+  #----------------------------------------------------------------------------
+
+  sc = osg.class_("PyFieldAccessHandler")
+
   #
   # myEditSField():
   #
@@ -139,11 +149,11 @@ def postFCDInfoSetup(osg, mb, adddition_exp):
   for decl in sc["myEditSField"]:
     print "processing ", decl
     # TODO: know Py++ better to get rid of the str(...)
-    if str(decl.return_type) == "std::basic_string<char,std::char_traits<char>,std::allocator<char> > &":
+    if decl.return_type.decl_string == "std::basic_string<char,std::char_traits<char>,std::allocator<char> > &":
         decl.call_policies = return_value_policy(copy_non_const_reference)
         print "    ... -> copy_non_const_reference"
         continue
-    if str(decl.return_type) == "double &" or str(decl.return_type) == "int &":
+    if decl.return_type.decl_string == "double &" or decl.return_type.decl_string == "int &":
         decl.call_policies = return_value_policy(return_by_value)
         print "    ... -> return_by_value"
         continue

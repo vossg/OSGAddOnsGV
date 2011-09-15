@@ -110,6 +110,40 @@ class OSG_SCRIPTING_DLLMAPPING PyFieldAccessHandler : public PyFieldAccessHandle
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Field Access                          */
+    /*! \{                                                                 */
+
+    // CAUTION: editSField, editMField members get excluded by Py++. Fix that
+    // later!
+
+    template<class T>
+    void     setSField   (const std::string& name, const T& value);
+    template<class T>
+          T& myEditSField(const std::string& name, const T& type );
+    template<class T>
+    const T& getSField   (const std::string& name, const T& type );
+
+    template<class T>
+    void     setMField   (const std::string& name, const T& value);
+    template<class T>
+    const T& getMField   (const std::string& name, const T& type );
+
+#if 0 // TODO
+    template<class T>
+    void     setPointerSField(const std::string& name, T* value  );
+    template<class T>
+    const T* getPointerSField(const std::string& name, T* type   );
+#endif
+
+    void setSFieldBool(const std::string& name, const bool type);
+    bool getSFieldBool(const std::string& name, const bool type);
+
+    // TODO: add multi field equivalent. I have to figure out the best way
+    //       to access multi fields from python
+
+    /*! \}                                                                 */
+
     /*=========================  PROTECTED  ===============================*/
 
   protected:

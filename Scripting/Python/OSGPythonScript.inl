@@ -1,3 +1,4 @@
+#if 0
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -316,4 +317,6 @@ OSGPY_GEN_DATAFIELD_ACCESS_METHODS(Plane      ) // -> SFPlane
 //OSGPY_GENERATE_POINTERFIELD_ACCESS_METHODS(Node) // -> SFNode
 
 OSG_END_NAMESPACE
+
+#endif // 0
 

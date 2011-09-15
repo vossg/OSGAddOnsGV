@@ -10,6 +10,7 @@ def shutdown():
     pass
 
 def frame(timeStamp, frameCount):
+    return
     print('Reader: mSFInt32  = ' + str(self.get_mSFInt32()))
     print('Reader: mSFDouble = ' + str(self.get_mSFDouble()))
     print('Reader: mSFString = ' + str(self.get_mSFString()))

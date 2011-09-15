@@ -1,0 +1,35 @@
+#OSG V1.0 
+
+Node
+{
+  core DEF TestScript PythonScriptFile
+  {
+    field SFDouble amount 10
+    field SFDouble radius 10
+
+    scriptUrl "testAnimation.py"
+
+    priority 41
+  }
+
+  children
+  [
+        Node
+        {
+          core DEF TieFighterTrans ComponentTransform
+          {
+          }
+      
+          children
+          [
+            Node
+            {
+              core Inline
+              {
+	        url "../Models/tie.wrl"
+              }
+            }
+          ]
+        }
+  ]
+}

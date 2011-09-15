@@ -13,6 +13,7 @@ def shutdown():
     pass
 
 def frame(timeStamp, frameCount):
+    return
 
     ts = timeStamp;
 
