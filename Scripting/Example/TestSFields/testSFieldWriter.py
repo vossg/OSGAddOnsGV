@@ -1,11 +1,6 @@
 import time
 from math import sin
 
-if(osg.getName(self)):
-    self.get_name = osg.getName(self)
-else:
-    self.get_name = 'unknown'
-
 def init():
     pass	
 
@@ -13,8 +8,6 @@ def shutdown():
     pass
 
 def frame(timeStamp, frameCount):
-    return
-
     ts = timeStamp;
 
     self.set_mSFInt32(frameCount)

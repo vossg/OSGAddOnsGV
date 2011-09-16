@@ -31,6 +31,97 @@ import osggen
 import settings
 import splitGenHelper
 
+#--------------------------------------------------------------------------------------------------
+
+gRetMF_re = re.compile('.*MF.*')
+
+def addMyMFRetListWrapper(calldef, nakedRetType, mfIsPointer, unique_id):
+   """
+   Adds a custom wrapper for methods that return data through an MField. The wrapper changes the
+   method return type to be a Python list of the field data.
+
+   @type  calldef:
+   @param calldef:      The declaration of the method that will be wrapped.
+   @type  nakedRetType:
+   @param nakedRetType: The undecorated return type. This has had cv-qualification, pointer, and
+                        reference information stripped from it.
+   @type  mfIsPointer:  boolean
+   @param mfIsPointer:  Identifies whether the MField object returned by the method is a pointer.
+   """
+   class_decl = calldef.parent
+   classname = class_decl.name
+   fullclassname = class_decl.decl_string.lstrip(":")
+   methodname = calldef.name
+
+   # We use the actual return type from the method being invoked rather than
+   # the "naked" return type. In general, this avoids copying the MField
+   # object, and it allows us to use the typedef'd MField name quite easily.
+   # This is important for portability reasons (in particular because GLenum,
+   # as used by OSG::MFGLenum) is defined differently on different platforms.
+   mftype = calldef.return_type.decl_string.lstrip(":")
+
+   # addMyMFRetListWrapper() is used to make a C++ method returning a MField<>
+   # returning a python list instead. It is used for the 'myGetMField' template
+   # members. The problem is that when assigning the generated wrapper function
+   # to the instanciated template method returning the MField<> the compiler
+   # has no information on which of the functions to take (they have the same
+   # name and different return types and arguments, but that does not matter
+   # for the way boost::python assigns the functions). So it quits with a
+   # 'address of overloaded function with no contextual type information' error.
+   # Assigning the 'unique_id' to the wrapper function's name is a quick and
+   # readable workaround for that.
+   new_methodname = "%s_%s%s"%(osggen.cleanTemplateName(classname), methodname, unique_id)
+   if mfIsPointer:
+      get_size  = "mf_data->size()"
+      get_entry = "(*mf_data)[i]"
+   else:
+      get_size  = "mf_data.size()"
+      get_entry = "mf_data[i]"
+
+   # Determine if the type contained in the multi-field derives from OSG::FieldContainer. If it
+   # does, then we need to extend the return value conversion to wrap the C pointer in an
+   # RecPtr object.
+   # TODO!
+   #value_type_typedef = nakedRetType.declarations.typedef(name ="value_type", allow_empty = True)
+   #if value_type_typedef:
+   #   field_container = OSG_MODULE.class_("FieldContainer")
+   #   value_type = value_type_typedef[0].type
+
+   #   # The actual type of value_type is probably going to be a pointer.
+   #   if is_pointer(value_type):
+   #      value_type = remove_pointer(value_type)
+
+   #   if is_class(value_type):
+   #      if is_base_and_derived(field_container, value_type.declaration):
+   #         get_entry = "OSG::%s::ObjRecPtr(%s)" % (value_type.declaration.name, get_entry)
+
+   args = calldef.arguments
+   #for arg in args:
+   #  print('Argument: ' + arg.type.decl_string)
+   mf_valuetype = args[1].type.decl_string.lstrip('::')
+
+   code = """
+boost::python::list %(new_methodname)s(%(fullclassname)s *self,
+                                       const std::string& name,
+                                       %(mf_valuetype)s type)
+{
+   boost::python::list result;
+   %(mftype)s mf_data = self->%(methodname)s(name, type);
+   const OSG::UInt32 size(%(get_size)s);
+   for ( OSG::UInt32 i = 0; i < size; ++i )
+   {
+      result.append(%(get_entry)s);
+   }
+   return result;
+}""" % vars()
+
+   class_decl.add_declaration_code(code)
+   calldef.ignore = True
+   print "Adding MFRetList wrapper for: %s %s"%(classname, methodname)
+   add_member_function(class_decl, methodname, new_methodname)
+
+#--------------------------------------------------------------------------------------------------
+
 def preScanSetup(gen_classes, fc_infos, core_mods, free_funcs, free_func_mods, exc_types):
 
   return
@@ -106,6 +197,33 @@ def postScanSetup(osg, template_alias_db):
   scbase.add_code('bp::scope().attr("PriorityFieldMask") = (int)OSG::TypeTraits<OSG::BitVector>::One << OSG::ScriptBase::PriorityFieldId;', False, False)
   scbase.add_code('bp::scope().attr("ScriptFieldMask") = (int)OSG::TypeTraits<OSG::BitVector>::One << OSG::ScriptBase::ScriptFieldId;', False, False)
 
+  #----------------------------------------------------------------------------
+  # PyFieldAccessHandler:
+  #----------------------------------------------------------------------------
+
+  fah = osg.class_("PyFieldAccessHandler")
+  id  = 0
+
+  for decl in fah["myGetMField"]:
+    ret_type = remove_alias(decl.return_type)
+    ret_naked_type = remove_cv(remove_pointer(remove_reference(ret_type)))
+    rt_is_const = \
+       is_const(ret_type) or (hasattr(ret_type, 'base') and is_const(ret_type.base))
+    rt_is_ref = \
+       is_reference(ret_type) or (hasattr(ret_type, 'base') and is_reference(ret_type.base))
+    rt_is_pointer = is_pointer(ret_type)
+    rt_is_class = is_class(ret_naked_type)
+    rt_is_mf_type = rt_is_class and gRetMF_re.match(ret_naked_type.declaration.name)
+
+    print "processing " + decl.name
+
+    #if not decl.ignore and rt_is_mf_type and rt_is_const:
+    addMyMFRetListWrapper(decl, ret_naked_type, rt_is_pointer, id)
+    id += 1
+    print("    ... adding MFWrapper")
+    #else:
+    #  print("    ... NOT adding MFWrapper")
+
   return
 
 
@@ -148,7 +266,6 @@ def postFCDInfoSetup(osg, mb, adddition_exp):
 
   for decl in sc["myEditSField"]:
     print "processing ", decl
-    # TODO: know Py++ better to get rid of the str(...)
     if decl.return_type.decl_string == "std::basic_string<char,std::char_traits<char>,std::allocator<char> > &":
         decl.call_policies = return_value_policy(copy_non_const_reference)
         print "    ... -> copy_non_const_reference"
@@ -159,5 +276,13 @@ def postFCDInfoSetup(osg, mb, adddition_exp):
         continue
     decl.call_policies = return_internal_reference()
     print "    ... -> return_internal_reference"
+
+  #
+  # getPointerSField():
+  #
+
+  #for decl in sc["getPointerSField"]:
+  #  print "processing ", decl
+  #  decl.call_policies = return_internal_reference()
 
   return

@@ -45,6 +45,10 @@
 #include "OSGPyFieldAccessHandlerBase.h"
 
 #include "OSGPythonScript.h"
+//#include "OSGPointerSField.h"
+#include "OSGPointerMField.h"
+
+#include <boost/python/list.hpp>
 
 OSG_BEGIN_NAMESPACE
 
@@ -56,8 +60,6 @@ class PyInterpreter;
 
 class OSG_SCRIPTING_DLLMAPPING PyFieldAccessHandler : public PyFieldAccessHandlerBase
 {
-  protected:
-
     /*==========================  PUBLIC  =================================*/
 
   public:
@@ -86,10 +88,10 @@ class OSG_SCRIPTING_DLLMAPPING PyFieldAccessHandler : public PyFieldAccessHandle
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                  Code Generation                             */
+    /*! \name                       Code Generation                        */
     /*! \{                                                                 */
 
-    void listTypes() const;
+    static void listSupportedFieldTypes();
     void generateSupportedFieldsList();
 
     /*! \}                                                                 */
@@ -112,7 +114,7 @@ class OSG_SCRIPTING_DLLMAPPING PyFieldAccessHandler : public PyFieldAccessHandle
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Field Access                          */
-    /*! \{                                                                 */
+    /*! \{                                                                */
 
     // CAUTION: editSField, editMField members get excluded by Py++. Fix that
     // later!
@@ -125,15 +127,26 @@ class OSG_SCRIPTING_DLLMAPPING PyFieldAccessHandler : public PyFieldAccessHandle
     const T& getSField   (const std::string& name, const T& type );
 
     template<class T>
-    void     setMField   (const std::string& name, const T& value);
+    void             setMField  (const std::string& name,
+                                 bp::list           values,
+                                 const T&           type   );
     template<class T>
-    const T& getMField   (const std::string& name, const T& type );
+    const MField<T>* myGetMField(const std::string& name,
+                                 const T& type             );
 
-#if 0 // TODO
+#if 0 // TODO: fix compile errors with PointerMFields
     template<class T>
-    void     setPointerSField(const std::string& name, T* value  );
+    void     setPointerSField(const std::string& name, T* value );
     template<class T>
-    const T* getPointerSField(const std::string& name, T* type   );
+    const T* getPointerSField(const std::string& name, T* type  );
+
+    template<class T>
+    void             setPointerMField(const std::string& name,
+                                      bp::list           values,
+                                      const T&           type   );
+    template<class T>
+    const PointerMField<T*, UnrecordedRefCountPolicy, 0>*
+    getPointerMField(const std::string& name, const T& type);
 #endif
 
     void setSFieldBool(const std::string& name, const bool type);
@@ -185,10 +198,16 @@ class OSG_SCRIPTING_DLLMAPPING PyFieldAccessHandler : public PyFieldAccessHandle
     PyInterpreter       *_pPyInterpreter;
     PythonScriptWeakPtr  _pPythonScript;
 
-    typedef std::map<std::string, std::string> OSG2PyTypeMap;
-    static OSG2PyTypeMap _osg2pyTypeMap;
+    typedef std::map<std::string, std::string> PyFieldTypeMap;
+    typedef PyFieldTypeMap::iterator           PyFieldTypeMapIterator;
+    typedef PyFieldTypeMap::const_iterator     PyFieldTypeMapConstIterator;
 
-    void generateFieldAccessCode(const std::string& fieldName);
+    static PyFieldTypeMap _pyFieldTypeMap;
+
+    bool generateFieldAccessBaseFunctions(const std::string& fieldName,
+                                          bool& getAccess,
+                                          bool& editAccess,
+                                          bool& setAccess);
 };
 
 typedef PyFieldAccessHandler *PyFieldAccessHandlerP;

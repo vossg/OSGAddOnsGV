@@ -36,7 +36,7 @@ DEF MainNode Node
     #field SFImage     mSFImage     ?
     #field SFNode      mSFNode      USE MainNode
 
-    scriptUrl "testFieldsWriter.py"
+    scriptUrl "testSFieldWriter.py"
 
     priority 41
   }
@@ -94,7 +94,7 @@ DEF MainNode Node
 
             field SFTime       mSFTime     0.2
 
-            scriptUrl "testFieldsReader.py"
+            scriptUrl "testSFieldReader.py"
 
             priority 42
           }

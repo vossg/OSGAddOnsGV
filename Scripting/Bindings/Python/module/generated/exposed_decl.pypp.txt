@@ -2286,8 +2286,8 @@
 ~@typedef_t@PFNGLDELETESAMPLERSPROC@::PFNGLDELETESAMPLERSPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
+~@namespace_t@@::
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -3761,7 +3761,7 @@
 ~@free_function_t@setregid@int (*)( ::__gid_t,::__gid_t )int (*)( ::__gid_t,::__gid_t )
 ~@free_function_t@fmaf@float (*)( float,float,float )float (*)( float,float,float )
 ~@free_function_t@putwchar_unlocked@::wint_t (*)( wchar_t )::wint_t (*)( wchar_t )
-~@free_function_t@PyUnicodeEncodeError_GetReason@::PyObject * (*)( ::PyObject * )::PyObject * (*)( ::PyObject * )
+~@free_function_t@__dreml@long double (*)( long double,long double )long double (*)( long double,long double )
 ~@free_function_t@realloc@void * (*)( void *,::size_t )void * (*)( void *,::size_t )
 ~@free_function_t@PyNumber_Divide@::PyObject * (*)( ::PyObject *,::PyObject * )::PyObject * (*)( ::PyObject *,::PyObject * )
 ~@free_function_t@PyImport_Cleanup@void (*)(  )void (*)(  )
@@ -3840,6 +3840,7 @@
 ~@free_function_t@glMultiTexCoord2sARB@void (*)( ::GLenum,::GLshort,::GLshort )void (*)( ::GLenum,::GLshort,::GLshort )
 ~@free_function_t@__builtin_isgreater@bool (*)( ... )bool (*)( ... )
 ~@free_function_t@write@::ssize_t (*)( int,void const *,::size_t )::ssize_t (*)( int,void const *,::size_t )
+~@free_function_t@PyUnicodeEncodeError_GetReason@::PyObject * (*)( ::PyObject * )::PyObject * (*)( ::PyObject * )
 ~@free_function_t@flockfile@void (*)( ::FILE * )void (*)( ::FILE * )
 ~@free_function_t@glGetMinmaxParameteriv@void (*)( ::GLenum,::GLenum,::GLint * )void (*)( ::GLenum,::GLenum,::GLint * )
 ~@free_function_t@atan@double (*)( double )double (*)( double )
@@ -3934,7 +3935,6 @@
 ~@free_function_t@_PyUnicodeUCS4_ToDecimalDigit@int (*)( ::Py_UNICODE )int (*)( ::Py_UNICODE )
 ~@free_function_t@glVertex2f@void (*)( ::GLfloat,::GLfloat )void (*)( ::GLfloat,::GLfloat )
 ~@free_function_t@_PyWeakref_ClearRef@void (*)( ::PyWeakReference * )void (*)( ::PyWeakReference * )
-~@free_function_t@__dreml@long double (*)( long double,long double )long double (*)( long double,long double )
 ~@free_function_t@_PyObject_RealIsInstance@int (*)( ::PyObject *,::PyObject * )int (*)( ::PyObject *,::PyObject * )
 ~@free_function_t@pthread_barrierattr_setpshared@int (*)( ::pthread_barrierattr_t *,int )int (*)( ::pthread_barrierattr_t *,int )
 ~@free_function_t@glTexEnvf@void (*)( ::GLenum,::GLenum,::GLfloat )void (*)( ::GLenum,::GLenum,::GLfloat )

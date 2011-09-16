@@ -1,0 +1,76 @@
+#OSG V1.0 
+
+DEF MainNode Node
+{
+  core DEF Writer PythonScriptFile
+  {   
+    field MFInt32 mMFInt32 [ 1 2 3 6 7 5 7 4 6 44 33 2 ]
+    field MFVec3f mMFVec3f [ 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5]
+    
+    field SFWeakNodePtr  mSFNode  USE MainNode
+
+    scriptUrl "testMFieldWriter.py"
+
+    priority 41
+  }
+
+  children
+  [
+        Node
+        {
+          core DEF TransCore1 ComponentTransform
+          {
+          }
+      
+          children
+          [
+            Node
+            {
+              core Inline
+              {
+	        url "../Models/tie.wrl"
+              }
+            }
+          ]
+        }
+
+        Node
+        {
+          core DEF Reader PythonScriptFile
+          {    
+	    field MFInt32 mMFInt32 [ 1 2 3 6 7 5 7 4 6 44 33 2 ]
+	    field MFVec3f mMFVec3f [ 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5]
+	    
+	    field SFWeakNodePtr  mSFNode  USE MainNode
+
+            scriptUrl "testMFieldReader.py"
+
+            priority 42
+          }
+
+      children
+      [
+            Node
+            {
+              core DEF TransCore2 ComponentTransform
+              {
+              }
+
+              children
+              [
+                Node
+                {
+                  core Inline
+                  {
+                    url "../Models/tie.wrl"
+                  }
+                }
+              ]
+            }
+      ]
+    }
+  ]
+}
+
+ROUTE Writer.mMFInt32 TO Reader.mMFInt32
+ROUTE Writer.mMFVec3f TO Reader.mMFVec3f

@@ -53,13 +53,16 @@
 #include <boost/python/import.hpp>
 
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/algorithm/string/trim.hpp>
+
+#define OSGPY_DEBUG_CODEGENERATION
 
 OSG_BEGIN_NAMESPACE
 
-PyFieldAccessHandler::OSG2PyTypeMap PyFieldAccessHandler::_osg2pyTypeMap;
+PyFieldAccessHandler::PyFieldTypeMap PyFieldAccessHandler::_pyFieldTypeMap;
 
 #define OSGPY_REGISTER_MAPPING(FieldT, PyInstance) \
-    _osg2pyTypeMap.insert(std::make_pair(FieldT,PyInstance));
+    _pyFieldTypeMap.insert(std::make_pair(FieldT,PyInstance));
 
 
 bool PyFieldAccessHandler::init(PythonScriptWeakPtr pythonScript,
@@ -123,7 +126,10 @@ void PyFieldAccessHandler::registerTypeMappings()
     OSGPY_REGISTER_MAPPING("SFTime"       , "1.1"              ) // -> SFTime
 
     OSGPY_REGISTER_MAPPING("SFImage"      , "osg.Image.create()" ) // -> SFImage
-    OSGPY_REGISTER_MAPPING("SFNode"       , "osg.Node().create()") // -> SFNode
+    OSGPY_REGISTER_MAPPING("SFWeakNodePtr", "osg.Node().create()") // -> SFNode
+
+    OSGPY_REGISTER_MAPPING("MFInt32"      , "int(0)")      // -> MFInt32
+    OSGPY_REGISTER_MAPPING("MFVec3f"      , "osg.Vec3f()") // -> MFVec3f
 
 #ifdef OSGPY_DEBUG
     OSG2PyTypeMap::const_iterator iter(_osg2pyTypeM.begin());
@@ -151,11 +157,30 @@ bool PyFieldAccessHandler::setupFieldAccess()
         FieldDescriptionBase *desc = _pPythonScript->getType().getFieldDesc(idx);
         assert(desc);
 
+#ifdef OSGPY_DEBUG_CODEGENERATION
+        std::string tmp = (desc->isDynamic()) ? "dynamic. Analyzing..." : "static. Skip...";
+        std::cout << "Processing field '" << desc->getName() << "' | "
+                  << tmp << std::endl;
+#endif
+
         if(desc->isDynamic() == true)
         {
-            if(exposeField(desc->getName(), desc->getFieldId()) == false)
+            if(exposeField(desc->getName(), desc->getFieldId()) == true)
             {
-                return false;
+                std::cout << "Successfully exposed field '" << desc->getName()
+                          << "'" << std::endl << std::endl;
+            }
+            else
+            {
+                std::cerr << "Error exposing field " << desc->getName()
+                          << std::endl;
+
+                _pPyInterpreter->activate();
+                _pPyInterpreter->dumpError(std::cerr);
+                _pPyInterpreter->deactivate();
+
+                std::cerr << "The field will not be accessible in Python!"
+                          << std::endl << std::endl;
             }
         }
     }
@@ -177,31 +202,42 @@ bool PyFieldAccessHandler::setupFieldAccess()
 /*         interface. Clearing the error is in the responsibility of   */
 /*         the developer.                                              */
 bool PyFieldAccessHandler::exposeField(const std::string& fieldName,
-                                       OSG::UInt32 fieldId)
+                                             OSG::UInt32  fieldId)
 {
-    generateFieldAccessCode(fieldName);
+    bool setAccess (false);
+    bool editAccess(false);
+    bool getAccess (false);
 
-    // add get<field>(), edit<field>() and set<field>() methods:
-    std::ostringstream os;
-    os << "addmethod(self, 'get_"  << fieldName << "', _get_"   << fieldName  << ")" << std::endl
-       << "addmethod(self, 'edit_" << fieldName << "', _edit_"  << fieldName  << ")" << std::endl
-       << "addmethod(self, 'set_"  << fieldName << "', _set_"   << fieldName  << ")" << std::endl
-       << "self." << fieldName << "FieldMask = 1 << " << fieldId << std::endl
-       << "self." << fieldName << "FieldId   = "      << fieldId << std::endl;
+    if(generateFieldAccessBaseFunctions(fieldName,
+                                        setAccess,
+                                        editAccess,
+                                        getAccess) == false)
+    {
+        return false;
+    };
 
+    std::ostringstream pyCode;
+    if(setAccess == true)
+    {
+        pyCode << "addmethod(self, 'get_"  << fieldName << "', _get_"   << fieldName  << ")" << std::endl;
+    }
+    if(editAccess == true)
+    {
+        pyCode << "addmethod(self, 'edit_" << fieldName << "', _edit_"  << fieldName  << ")" << std::endl;
+    }
+    if(getAccess == true)
+    {
+       pyCode << "addmethod(self, 'set_"  << fieldName << "', _set_"   << fieldName  << ")" << std::endl;
+    }
+
+    pyCode << "self." << fieldName << "FieldMask = 1 << " << fieldId << std::endl
+           << "self." << fieldName << "FieldId   = "      << fieldId << std::endl;
 
 #ifdef OSGPY_DEBUG_CODEGENERATION
-    //std::cout << "Generated python code for field '" << fieldName << "'" << std::endl;
-    std::cout << os.str() << std::endl;
+    std::cout << pyCode.str() << std::endl;
 #endif
 
-#ifdef OSGPY_DEBUG
-    std::cout << "[PythonScript::exposeField] exposed field '"    << fieldName
-              << "' as property '" << propName << "'. FieldId = " << fieldId
-              << std::endl;
-#endif
-
-    return(_pPyInterpreter->run(os.str()));
+    return(_pPyInterpreter->run(pyCode.str()));
 }
 
 void PyFieldAccessHandler::setSFieldBool(const std::string& name, const bool value)
@@ -244,7 +280,10 @@ bool PyFieldAccessHandler::getSFieldBool(const std::string& name, const bool typ
     return(sfield->getValue());
 }
 
-void PyFieldAccessHandler::generateFieldAccessCode(const std::string& fieldName)
+bool PyFieldAccessHandler::generateFieldAccessBaseFunctions(const std::string& fieldName,
+                                                            bool& getAccess,
+                                                            bool& editAccess,
+                                                            bool& setAccess)
 {
     // Example python code for a 'SFVec3f myField' entry in scene.osg's
     // PythonScript section:
@@ -255,106 +294,267 @@ void PyFieldAccessHandler::generateFieldAccessCode(const std::string& fieldName)
     //     return self.getSField('myField', self.__myField); -> call the getSField() method with field name
     //                                                          and the necessary template deduction hint parameter
 
-    std::string pyTemplateTypeClass;
-    std::string fieldTypeName(_pPythonScript->getType()
-                              .getFieldDesc(fieldName.c_str())->getFieldType()
-                              .getName());
+    std::string setAccessMethod ("unsupported");
+    std::string editAccessMethod("unsupported");
+    std::string getAccessMethod ("unsupported");
 
-    OSG2PyTypeMap::const_iterator it = _osg2pyTypeMap.find(fieldTypeName);
-    if(it!=_osg2pyTypeMap.end())
+    FieldDescriptionBase *desc =
+            _pPythonScript->getType().getFieldDesc(fieldName.c_str());
+    FieldType::Class classType = desc->getFieldType().getClass();
+
+    switch(classType)
+    {
+    case FieldType::ValueField:
+    {
+        if(desc->isSField())
+        {
+            setAccessMethod  = "setSField";
+            editAccessMethod = "myEditSField";
+            getAccessMethod  = "getSField";
+#ifdef OSGPY_DEBUG_CODEGENERATION
+            std::cout << "    VALUE single-field" << std::endl;
+#endif
+        }
+        else
+        {
+            setAccessMethod  = "setMField";
+            editAccessMethod = "unsupported";
+            getAccessMethod  = "myGetMField";
+#ifdef OSGPY_DEBUG_CODEGENERATION
+            std::cout << "    VALUE multi-field" << std::endl;
+#endif
+        }
+    }
+    break;
+    case FieldType::PtrField:
+    {
+        if(desc->isSField())
+        {
+            setAccessMethod  = "setPointerSField";
+            editAccessMethod = "unsupported";
+            getAccessMethod  = "getPointerSField";
+#ifdef OSGPY_DEBUG_CODEGENERATION
+            std::cout << "    pointer single-field" << std::endl;
+#endif
+        }
+        else
+        {
+            setAccessMethod  = "setPointerMField";
+            editAccessMethod = "unsupported";
+            getAccessMethod  = "getPointerMField";
+#ifdef OSGPY_DEBUG_CODEGENERATION
+            std::cout << "    pointer multi-field" << std::endl;
+#endif
+        }
+    }
+    break;
+    default:
+    {
+        std::string tmp("unknown");
+        if(classType == FieldType::ChildPtrField)
+        {
+            tmp = "ChildPtrField";
+        }
+        else if (classType == FieldType::ParentPtrField)
+        {
+            tmp = "ParentPtrField";
+        }
+
+        if(desc->isSField())
+        {
+            std::cout << "    UNSUPPORTED single-field type: " << tmp << std::endl;
+        }
+        else
+        {
+            std::cout << "    UNSUPPORTED multi-field type: " << tmp << std::endl;
+
+        }
+    }
+    }
+
+    std::string fieldTypeName(desc->getFieldType().getName());
+    std::string pyTemplateTypeClass;
+
+    PyFieldTypeMapConstIterator it = _pyFieldTypeMap.find(fieldTypeName);
+    if(it!=_pyFieldTypeMap.end())
     {
         pyTemplateTypeClass = (*it).second;
-#ifdef OSGPY_DEBUG
-        std::cout << "PyFieldAccessHandler: fieldName: " << fieldName << "  pyTemplateTypeClass: "
-                  << pyTemplateTypeClass << std::endl;
+#ifdef OSGPY_DEBUG_CODEGENERATION
+        std::cout << "    Python instance creation code: '" << pyTemplateTypeClass
+                  << "'" << std::endl;
 #endif
     }
+#ifdef OSGPY_DEBUG_CODEGENERATION
     else
     {
-        std::ostringstream os;
-        os << "PyFieldAccessHandler: Encountered unknown type: '"
-           << fieldTypeName << "' for field '" << fieldName << "'."
-           << "No access to this field will be possible via Python."
-           << std::endl;
-        FWARNING((os.str().c_str()));
+        std::cerr << "    Python instance creation: No code registered. Aborting..."
+                  << std::endl;
+        return false;
     }
-
-    const std::string pyTypeVar          ("__" + fieldName);
-    const std::string pyTypeVarAssignCode(pyTypeVar + " = " + pyTemplateTypeClass);
-
-    const std::string getMethodName("_get_" + fieldName);
-    const std::string getMethod = "def " + getMethodName + "(self):\n"
-            "   if not hasattr(self, '" + pyTypeVar + "'):\n"
-            "      self." + pyTypeVarAssignCode + "\n"
-            "   return _fieldAccessHandler.getSField('" + fieldName + "', self." + pyTypeVar + ")\n";
-
-    const std::string editMethodName("_edit_" + fieldName);
-    const std::string editMethod = "def " + editMethodName + "(self):\n"
-            "   if not hasattr(self, '" + pyTypeVar + "'):\n"
-            "      self." + pyTypeVarAssignCode + "\n"
-            "   return _fieldAccessHandler.myEditSField('" + fieldName + "', self." + pyTypeVar + ")\n";
-
-    const std::string setMethodName("_set_" + fieldName);
-    const std::string setMethod = "def " + setMethodName + "(self, value):\n"
-            "   return _fieldAccessHandler.setSField('" + fieldName + "', value)\n";
-
-#ifdef OSGPY_DEBUG_CODEGENERATION
-    std::cout << "Generated Python code for field '" << fieldName << "'" << std::endl;
-    std::cout << getMethod + editMethod + setMethod << std::endl;
 #endif
 
-    _pPyInterpreter->run(getMethod + editMethod + setMethod);
+    const std::string pyTypeVar          ("__" + fieldName);
+    const std::string pyTypeVarAssignCode(pyTypeVar + " = " + pyTemplateTypeClass);  
+
+    std::string pyCode;
+
+    if(setAccessMethod != "unsupported")
+    {
+        setAccess = true;
+
+        const std::string setMethodName("_set_" + fieldName);
+        if(desc->isSField())
+        {
+            const std::string setMethod = "def " + setMethodName + "(self, value):\n"
+                    "   return _fieldAccessHandler." + setAccessMethod + "('" + fieldName + "', value)\n";
+            pyCode += setMethod;
+        }
+        else
+        {
+            const std::string setMethod = "def " + setMethodName + "(self, value):\n"
+                    "   if not hasattr(self, '" + pyTypeVar + "'):\n"
+                    "      self." + pyTypeVarAssignCode + "\n"
+                    "   return _fieldAccessHandler." + setAccessMethod + "('" + fieldName + "', value, " + "self." + pyTypeVar + ")\n";
+            pyCode += setMethod;
+        }
+
+#ifdef OSGPY_DEBUG_CODEGENERATION
+        std::cout << "    'set'  support: yes" << std::endl;
+#endif
+    }
+#ifdef OSGPY_DEBUG_CODEGENERATION
+    else
+    {
+        std::cout << "    'set'  support: no" << std::endl;
+    }
+#endif
+    if(editAccessMethod != "unsupported")
+    {
+        editAccess = true;
+
+        const std::string editMethodName("_edit_" + fieldName);
+        const std::string editMethod = "def " + editMethodName + "(self):\n"
+                "   if not hasattr(self, '" + pyTypeVar + "'):\n"
+                "      self." + pyTypeVarAssignCode + "\n"
+                "   return _fieldAccessHandler." + editAccessMethod + "('" + fieldName + "', self." + pyTypeVar + ")\n";
+        pyCode += editMethod;
+#ifdef OSGPY_DEBUG_CODEGENERATION
+        std::cout << "    'edit' support: yes" << std::endl;
+#endif
+    }
+#ifdef OSGPY_DEBUG_CODEGENERATION
+    else
+    {
+        std::cout << "    'edit' support: no" << std::endl;
+    }
+#endif
+
+    if(getAccessMethod != "unsupported")
+    {
+        getAccess = true;
+
+        const std::string getMethodName("_get_" + fieldName);
+        const std::string getMethod = "def " + getMethodName + "(self):\n"
+                "   if not hasattr(self, '" + pyTypeVar + "'):\n"
+                "      self." + pyTypeVarAssignCode + "\n"
+                "   return _fieldAccessHandler." + getAccessMethod + "('" + fieldName + "', self." + pyTypeVar + ")\n";
+        pyCode += getMethod;
+#ifdef OSGPY_DEBUG_CODEGENERATION
+        std::cout << "    'get'  support: yes" << std::endl;
+#endif
+    }
+#ifdef OSGPY_DEBUG_CODEGENERATION
+    else
+    {
+        std::cout << "    'get'  support: no" << std::endl;
+    }
+
+
+    std::cout << std::endl << "Generating python glue code:" << std::endl;
+    std::cout << pyCode << std::endl;
+    std::cout << "Executing code..." << std::endl;
+#endif
+
+    return(_pPyInterpreter->run(pyCode));
 }
 
-void PyFieldAccessHandler::listTypes() const
+void PyFieldAccessHandler::listSupportedFieldTypes()
 {
+    std::cout << "----------- Supported field types: -----------" << std::endl;
+    PyFieldTypeMapConstIterator iter(_pyFieldTypeMap.begin());
+    PyFieldTypeMapConstIterator end (_pyFieldTypeMap.end());
+    for(;iter!=end;++iter)
+    {
+        std::cout << iter->second << std::endl;
+    }
+}
+
+void PyFieldAccessHandler::generateSupportedFieldsList()
+{
+    //PyInterpreter inter;
+
+    PyInterpreter &inter = *_pPyInterpreter;
+    inter.activate();
+
+//    if(inter.run("import osg2.osg as osg\n"))
+//    {
+//        std::cerr << "PyFieldAccessHandler: error importing "
+//                     "osg2.osg as osg. Aborting..." << std::endl;
+//        osgExit();
+//        std::abort();
+//    }
+
+    bp::object global = bp::import("__main__").attr("__dict__");
+
+    bp::object result   = bp::eval("dir(osg)", global, global);
+    bp::list osgClasses = bp::extract<bp::list>(result);
+
+    //std::cout << "Length: " << bp::len(osgClasses) << std::endl;
+
+    std::vector<std::string> classStore;
+    for(int idx = 0; idx < bp::len(osgClasses); ++idx)
+    {
+        classStore.push_back(bp::extract<std::string>(osgClasses[idx]));
+        //std::cout << "Extracted    '" << classStore.back() << "'" << std::endl;
+    }
+
     UInt32 size = TypeFactory::the()->getNumTypes();
     int nr = 0;
 
-    for(unsigned int idx=0; idx<size; ++idx)
+    for(unsigned int idx = 0; idx < size; ++idx)
     {
         TypeBase* type = TypeFactory::the()->findType(idx);
         if(type)
         {
             std::string name = type->getName();
 
-            if(!boost::starts_with(name, "MF") &&
-                    !boost::starts_with(name, "SF"))
-            {
-                std::cout << "Type: " << nr << "  " << name << std::endl;
+//            if(!boost::starts_with(name, "MF") ||
+//               !boost::starts_with(name, "SF"))
+//            {
+                std::cout << "processing field type: " << name
+                          << " (id: " << nr << ")" << std::endl;
                 ++nr;
 
-                // Open python interpreter, check if osg.name() is valid, add methods in case
-            }
+//                std::string tmp(name);
+//                boost::trim_left_if(tmp,boost::is_any_of("MF"));
+//                boost::trim_left_if(tmp,boost::is_any_of("SF"));
+
+                std::vector<std::string>::const_iterator iter =
+                        std::find(classStore.begin(), classStore.end(), name);
+                if(iter != classStore.end())
+                {
+                    std::cout << "    ... supported" << std::endl;
+                    _pyFieldTypeMap.insert(PyFieldTypeMap::value_type(name, "osg." + name + "()"));
+                }
+                else
+                {
+                    std::cout << "    ... not supported" << std::endl;
+                }
+//            }
         }
     }
-}
 
-void PyFieldAccessHandler::generateSupportedFieldsList()
-{
-    PyThreadState *_pPyInterpreter;
-
-    _pPyInterpreter = Py_NewInterpreter();
-
-    PyEval_RestoreThread(_pPyInterpreter);
-
-    try
-    {
-        PyRun_SimpleString("import osg2.osg as osg\n");
-    }
-    catch(...)
-    {
-        FFATAL(("PyExporter: Python bindings are not initialized "
-                "correctly. Aborting with:\n"));
-        //dumpAndClearError(std::cout);
-        assert(false);
-    }
-
-    bp::object _pyGlobalDict = bp::import("__main__").attr("__dict__");
-
-    PyEval_SaveThread();
-
-    Py_EndInterpreter(_pPyInterpreter);
+    //inter.deactivate();
 }
 
 // Documentation for this class is emitted in the
@@ -404,7 +604,7 @@ PyFieldAccessHandler::~PyFieldAccessHandler(void)
 {
     fprintf(stderr, "PyFieldAccessHandler: Destructor\n");
 
-    _osg2pyTypeMap.clear();
+    _pyFieldTypeMap.clear();
     _pPythonScript = 0;
 }
 
