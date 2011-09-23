@@ -37,4 +37,4 @@ ENDIF(WIN32)
 # MAIN BUILD STEPS
 ##############################################################################
 
-OSG_COLLECT_LIBS()
+OSG_COLLECT_LIBS(FALSE)
