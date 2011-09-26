@@ -121,7 +121,7 @@ public:
     bool checkForError() { return (PyErr_Occurred()!=NULL); }
 
     /*!\brief Clears an interpreter error.                                 */
-    bool clearError() { PyErr_Clear(); }
+    bool clearError() { PyErr_Clear(); return true; }
 
     void dumpError(std::ostream& os);
 

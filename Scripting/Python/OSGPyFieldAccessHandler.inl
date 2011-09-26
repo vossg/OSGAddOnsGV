@@ -50,8 +50,8 @@ OSG_BEGIN_NAMESPACE
 //-----------------------------------------------------------------------------
 
 
-#define OSGPY_DATA_FIELD_INST_GEN(FieldT)                   \
-    template void          PyFieldAccessHandler::setSField<FieldT>           \
+#define OSGPY_DATA_FIELD_INST_GEN(FieldT)                               \
+    template void          PyFieldAccessHandler::setSField<FieldT>      \
                                          (const std::string& name,   \
                                           const FieldT& value     ); \
     template       FieldT& PyFieldAccessHandler::myEditSField<FieldT>        \
@@ -120,7 +120,7 @@ T& PyFieldAccessHandler::myEditSField(const std::string& name, const T& type)
     typedef SField<T> SFieldT;
 
     EditFieldHandlePtr editHandle = fieldDesc->editField(*_pPythonScript);
-    SFieldT *sfield = static_cast<const SFieldT*>(editHandle->getField());
+    SFieldT *sfield = static_cast<SFieldT*>(editHandle->getField());
 
 #ifdef OSGPY_DEBUG_FIELDACCESS
     std::cerr << "[" << fieldDesc->getFieldType().getName() << "] myEditSField value "
