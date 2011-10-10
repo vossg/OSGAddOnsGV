@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class SimpleCudaComputeAlgorithm;
 
 OSG_GEN_CONTAINERPTR(SimpleCudaComputeAlgorithm);
-
 /*! \ingroup GrpContribComputeFieldTraits
     \ingroup GrpLibOSGContribCompute
  */
 template <>
-struct FieldTraits<SimpleCudaComputeAlgorithm *> :
-    public FieldTraitsFCPtrBase<SimpleCudaComputeAlgorithm *>
+struct FieldTraits<SimpleCudaComputeAlgorithm *, nsOSG> :
+    public FieldTraitsFCPtrBase<SimpleCudaComputeAlgorithm *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<SimpleCudaComputeAlgorithm *> :
 
   public:
 
-    typedef FieldTraits<SimpleCudaComputeAlgorithm *>  Self;
+    typedef FieldTraits<SimpleCudaComputeAlgorithm *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<SimpleCudaComputeAlgorithm *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFSimpleCudaComputeAlgorithmPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFSimpleCudaComputeAlgorithmPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecSimpleCudaComputeAlgorithmPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecSimpleCudaComputeAlgorithmPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakSimpleCudaComputeAlgorithmPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdSimpleCudaComputeAlgorithmPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecSimpleCudaComputeAlgorithmPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecSimpleCudaComputeAlgorithmPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakSimpleCudaComputeAlgorithmPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdSimpleCudaComputeAlgorithmPtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<SimpleCudaComputeAlgorithm *, 0>::getMName<NoRefCountPo
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpContribComputeFieldSFields */
 typedef PointerSField<SimpleCudaComputeAlgorithm *,
-                      RecordedRefCountPolicy  > SFRecSimpleCudaComputeAlgorithmPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecSimpleCudaComputeAlgorithmPtr;
 /*! \ingroup GrpContribComputeFieldSFields */
 typedef PointerSField<SimpleCudaComputeAlgorithm *,
-                      UnrecordedRefCountPolicy> SFUnrecSimpleCudaComputeAlgorithmPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecSimpleCudaComputeAlgorithmPtr;
 /*! \ingroup GrpContribComputeFieldSFields */
 typedef PointerSField<SimpleCudaComputeAlgorithm *,
-                      WeakRefCountPolicy      > SFWeakSimpleCudaComputeAlgorithmPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakSimpleCudaComputeAlgorithmPtr;
 /*! \ingroup GrpContribComputeFieldSFields */
 typedef PointerSField<SimpleCudaComputeAlgorithm *,
-                      NoRefCountPolicy        > SFUncountedSimpleCudaComputeAlgorithmPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedSimpleCudaComputeAlgorithmPtr;
 
 
 /*! \ingroup GrpContribComputeFieldMFields */
 typedef PointerMField<SimpleCudaComputeAlgorithm *,
-                      RecordedRefCountPolicy  > MFRecSimpleCudaComputeAlgorithmPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecSimpleCudaComputeAlgorithmPtr;
 /*! \ingroup GrpContribComputeFieldMFields */
 typedef PointerMField<SimpleCudaComputeAlgorithm *,
-                      UnrecordedRefCountPolicy> MFUnrecSimpleCudaComputeAlgorithmPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecSimpleCudaComputeAlgorithmPtr;
 /*! \ingroup GrpContribComputeFieldMFields */
 typedef PointerMField<SimpleCudaComputeAlgorithm *,
-                      WeakRefCountPolicy      > MFWeakSimpleCudaComputeAlgorithmPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakSimpleCudaComputeAlgorithmPtr;
 /*! \ingroup GrpContribComputeFieldMFields */
 typedef PointerMField<SimpleCudaComputeAlgorithm *,
-                      NoRefCountPolicy        > MFUncountedSimpleCudaComputeAlgorithmPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedSimpleCudaComputeAlgorithmPtr;
 
 
 

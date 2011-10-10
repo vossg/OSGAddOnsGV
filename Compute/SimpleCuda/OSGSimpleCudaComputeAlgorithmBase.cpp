@@ -112,18 +112,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<SimpleCudaComputeAlgorithm *>::_type("SimpleCudaComputeAlgorithmPtr", "ComputeAlgorithmPtr");
+DataType FieldTraits<SimpleCudaComputeAlgorithm *, nsOSG>::_type("SimpleCudaComputeAlgorithmPtr", "ComputeAlgorithmPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(SimpleCudaComputeAlgorithm *)
+OSG_FIELDTRAITS_GETTYPE_NS(SimpleCudaComputeAlgorithm *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            SimpleCudaComputeAlgorithm *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            SimpleCudaComputeAlgorithm *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -212,7 +212,7 @@ SimpleCudaComputeAlgorithmBase::TypeObject SimpleCudaComputeAlgorithmBase::_type
     SimpleCudaComputeAlgorithmBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&SimpleCudaComputeAlgorithmBase::createEmptyLocal),
     SimpleCudaComputeAlgorithm::initMethod,
     SimpleCudaComputeAlgorithm::exitMethod,

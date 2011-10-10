@@ -71,6 +71,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class RTTextureTarget;
 
 //! \brief RTTextureTarget Base Class.

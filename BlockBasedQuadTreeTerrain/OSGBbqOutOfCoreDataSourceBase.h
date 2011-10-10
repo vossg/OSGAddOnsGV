@@ -72,6 +72,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class BbqOutOfCoreDataSource;
 
 //! \brief BbqOutOfCoreDataSource Base Class.

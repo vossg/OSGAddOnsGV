@@ -74,6 +74,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class DynamicTerrain;
 
 //! \brief DynamicTerrain Base Class.

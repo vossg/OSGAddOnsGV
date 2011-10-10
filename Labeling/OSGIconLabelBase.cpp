@@ -100,18 +100,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<IconLabel *>::_type("IconLabelPtr", "LabelPtr");
+DataType FieldTraits<IconLabel *, nsOSG>::_type("IconLabelPtr", "LabelPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(IconLabel *)
+OSG_FIELDTRAITS_GETTYPE_NS(IconLabel *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            IconLabel *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            IconLabel *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -164,7 +164,7 @@ IconLabelBase::TypeObject IconLabelBase::_type(
     IconLabelBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&IconLabelBase::createEmptyLocal),
     IconLabel::initMethod,
     IconLabel::exitMethod,

@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class RTCacheGeometryStore;
 
 OSG_GEN_CONTAINERPTR(RTCacheGeometryStore);
-
 /*! \ingroup GrpContribRRTFieldTraits
     \ingroup GrpLibOSGContribRRT
  */
 template <>
-struct FieldTraits<RTCacheGeometryStore *> :
-    public FieldTraitsFCPtrBase<RTCacheGeometryStore *>
+struct FieldTraits<RTCacheGeometryStore *, nsOSG> :
+    public FieldTraitsFCPtrBase<RTCacheGeometryStore *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<RTCacheGeometryStore *> :
 
   public:
 
-    typedef FieldTraits<RTCacheGeometryStore *>  Self;
+    typedef FieldTraits<RTCacheGeometryStore *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<RTCacheGeometryStore *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFRTCacheGeometryStorePtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFRTCacheGeometryStorePtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<RTCacheGeometryStore *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheGeometryStore *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecRTCacheGeometryStorePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheGeometryStore *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheGeometryStore *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecRTCacheGeometryStorePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheGeometryStore *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheGeometryStore *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakRTCacheGeometryStorePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheGeometryStore *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheGeometryStore *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdRTCacheGeometryStorePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheGeometryStore *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheGeometryStore *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecRTCacheGeometryStorePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheGeometryStore *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheGeometryStore *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecRTCacheGeometryStorePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheGeometryStore *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheGeometryStore *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakRTCacheGeometryStorePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTCacheGeometryStore *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<RTCacheGeometryStore *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdRTCacheGeometryStorePtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<RTCacheGeometryStore *, 0>::getMName<NoRefCountPolicy>(
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheGeometryStore *,
-                      RecordedRefCountPolicy  > SFRecRTCacheGeometryStorePtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecRTCacheGeometryStorePtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheGeometryStore *,
-                      UnrecordedRefCountPolicy> SFUnrecRTCacheGeometryStorePtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecRTCacheGeometryStorePtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheGeometryStore *,
-                      WeakRefCountPolicy      > SFWeakRTCacheGeometryStorePtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakRTCacheGeometryStorePtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTCacheGeometryStore *,
-                      NoRefCountPolicy        > SFUncountedRTCacheGeometryStorePtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedRTCacheGeometryStorePtr;
 
 
 /*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheGeometryStore *,
-                      RecordedRefCountPolicy  > MFRecRTCacheGeometryStorePtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecRTCacheGeometryStorePtr;
 /*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheGeometryStore *,
-                      UnrecordedRefCountPolicy> MFUnrecRTCacheGeometryStorePtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecRTCacheGeometryStorePtr;
 /*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheGeometryStore *,
-                      WeakRefCountPolicy      > MFWeakRTCacheGeometryStorePtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakRTCacheGeometryStorePtr;
 /*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTCacheGeometryStore *,
-                      NoRefCountPolicy        > MFUncountedRTCacheGeometryStorePtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedRTCacheGeometryStorePtr;
 
 
 

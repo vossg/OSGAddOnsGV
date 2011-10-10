@@ -87,18 +87,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTInfoAttachment *>::_type("RTInfoAttachmentPtr", "AttachmentPtr");
+DataType FieldTraits<RTInfoAttachment *, nsOSG>::_type("RTInfoAttachmentPtr", "AttachmentPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTInfoAttachment *)
+OSG_FIELDTRAITS_GETTYPE_NS(RTInfoAttachment *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            RTInfoAttachment *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            RTInfoAttachment *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -113,7 +113,7 @@ RTInfoAttachmentBase::TypeObject RTInfoAttachmentBase::_type(
     RTInfoAttachmentBase::getClassname(),
     Inherited::getClassname(),
     "RTInfoAttachment",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&RTInfoAttachmentBase::createEmptyLocal),
     RTInfoAttachment::initMethod,
     RTInfoAttachment::exitMethod,

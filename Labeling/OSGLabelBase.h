@@ -74,6 +74,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class Label;
 
 //! \brief Label Base Class.

@@ -87,10 +87,10 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<CudaBufferPnt3fInterpolator *>::_type("CudaBufferPnt3fInterpolatorPtr", "BufferPnt3fInterpolatorPtr");
+DataType FieldTraits<CudaBufferPnt3fInterpolator *, nsOSG>::_type("CudaBufferPnt3fInterpolatorPtr", "BufferPnt3fInterpolatorPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(CudaBufferPnt3fInterpolator *)
+OSG_FIELDTRAITS_GETTYPE_NS(CudaBufferPnt3fInterpolator *, nsOSG)
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -107,7 +107,7 @@ CudaBufferPnt3fInterpolatorBase::TypeObject CudaBufferPnt3fInterpolatorBase::_ty
     CudaBufferPnt3fInterpolatorBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&CudaBufferPnt3fInterpolatorBase::createEmptyLocal),
     CudaBufferPnt3fInterpolator::initMethod,
     CudaBufferPnt3fInterpolator::exitMethod,

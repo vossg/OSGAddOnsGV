@@ -70,6 +70,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class RTInfoAttachment;
 
 //! \brief RTInfoAttachment Base Class.

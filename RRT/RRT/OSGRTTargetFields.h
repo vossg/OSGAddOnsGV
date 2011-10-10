@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class RTTarget;
 
 OSG_GEN_CONTAINERPTR(RTTarget);
-
 /*! \ingroup GrpContribRRTFieldTraits
     \ingroup GrpLibOSGContribRRT
  */
 template <>
-struct FieldTraits<RTTarget *> :
-    public FieldTraitsFCPtrBase<RTTarget *>
+struct FieldTraits<RTTarget *, nsOSG> :
+    public FieldTraitsFCPtrBase<RTTarget *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<RTTarget *> :
 
   public:
 
-    typedef FieldTraits<RTTarget *>  Self;
+    typedef FieldTraits<RTTarget *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,29 +90,28 @@ struct FieldTraits<RTTarget *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFRTTargetPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<RTTarget *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTarget *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecRTTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTarget *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTarget *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecRTTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTarget *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTarget *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakRTTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTarget *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTarget *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdRTTargetPtr"; 
 }
@@ -122,16 +121,16 @@ const Char8 *FieldTraits<RTTarget *, 0>::getSName<NoRefCountPolicy>(void)
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTarget *,
-                      RecordedRefCountPolicy  > SFRecRTTargetPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecRTTargetPtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTarget *,
-                      UnrecordedRefCountPolicy> SFUnrecRTTargetPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecRTTargetPtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTarget *,
-                      WeakRefCountPolicy      > SFWeakRTTargetPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakRTTargetPtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTarget *,
-                      NoRefCountPolicy        > SFUncountedRTTargetPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedRTTargetPtr;
 
 
 

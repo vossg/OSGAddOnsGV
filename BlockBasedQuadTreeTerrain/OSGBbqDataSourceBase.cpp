@@ -91,18 +91,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BbqDataSource *>::_type("BbqDataSourcePtr", "FieldContainerPtr");
+DataType FieldTraits<BbqDataSource *, nsOSG>::_type("BbqDataSourcePtr", "FieldContainerPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(BbqDataSource *)
+OSG_FIELDTRAITS_GETTYPE_NS(BbqDataSource *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            BbqDataSource *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            BbqDataSource *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -131,7 +131,7 @@ BbqDataSourceBase::TypeObject BbqDataSourceBase::_type(
     BbqDataSourceBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     NULL,
     BbqDataSource::initMethod,
     BbqDataSource::exitMethod,

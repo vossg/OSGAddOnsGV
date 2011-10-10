@@ -113,10 +113,10 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BbqTerrain *>::_type("BbqTerrainPtr", "StageDrawablePtr");
+DataType FieldTraits<BbqTerrain *, nsOSG>::_type("BbqTerrainPtr", "StageDrawablePtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(BbqTerrain *)
+OSG_FIELDTRAITS_GETTYPE_NS(BbqTerrain *, nsOSG)
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -205,7 +205,7 @@ BbqTerrainBase::TypeObject BbqTerrainBase::_type(
     BbqTerrainBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&BbqTerrainBase::createEmptyLocal),
     BbqTerrain::initMethod,
     BbqTerrain::exitMethod,

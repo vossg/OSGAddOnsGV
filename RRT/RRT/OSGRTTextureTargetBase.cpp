@@ -92,14 +92,14 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTTextureTarget *>::_type("RTTextureTargetPtr", "RTTargetPtr");
+DataType FieldTraits<RTTextureTarget *, nsOSG>::_type("RTTextureTargetPtr", "RTTargetPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTTextureTarget *)
+OSG_FIELDTRAITS_GETTYPE_NS(RTTextureTarget *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            RTTextureTarget *,
-                           0);
+                           nsOSG);
 
 
 /***************************************************************************\
@@ -129,7 +129,7 @@ RTTextureTargetBase::TypeObject RTTextureTargetBase::_type(
     RTTextureTargetBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&RTTextureTargetBase::createEmptyLocal),
     RTTextureTarget::initMethod,
     RTTextureTarget::exitMethod,
@@ -149,7 +149,6 @@ RTTextureTargetBase::TypeObject RTTextureTargetBase::_type(
     "    decoratable=\"false\"\n"
     "    useLocalIncludes=\"false\"\n"
     "    isNodeCore=\"false\"\n"
-    "    libnamespace=\"OSG\"\n"
     ">\n"
     "    <Field\n"
     "        name=\"TexObjChunk\"\n"

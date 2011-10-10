@@ -73,6 +73,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class BbqTerrain;
 
 //! \brief BbqTerrain Base Class.

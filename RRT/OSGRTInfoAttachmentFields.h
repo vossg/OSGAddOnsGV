@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class RTInfoAttachment;
 
 OSG_GEN_CONTAINERPTR(RTInfoAttachment);
-
 /*! \ingroup GrpContribRRTFieldTraits
     \ingroup GrpLibOSGContribRRT
  */
 template <>
-struct FieldTraits<RTInfoAttachment *> :
-    public FieldTraitsFCPtrBase<RTInfoAttachment *>
+struct FieldTraits<RTInfoAttachment *, nsOSG> :
+    public FieldTraitsFCPtrBase<RTInfoAttachment *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<RTInfoAttachment *> :
 
   public:
 
-    typedef FieldTraits<RTInfoAttachment *>  Self;
+    typedef FieldTraits<RTInfoAttachment *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<RTInfoAttachment *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFRTInfoAttachmentPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFRTInfoAttachmentPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<RTInfoAttachment *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTInfoAttachment *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecRTInfoAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTInfoAttachment *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTInfoAttachment *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecRTInfoAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTInfoAttachment *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<RTInfoAttachment *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakRTInfoAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTInfoAttachment *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<RTInfoAttachment *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdRTInfoAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTInfoAttachment *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTInfoAttachment *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecRTInfoAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTInfoAttachment *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTInfoAttachment *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecRTInfoAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTInfoAttachment *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<RTInfoAttachment *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakRTInfoAttachmentPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTInfoAttachment *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<RTInfoAttachment *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdRTInfoAttachmentPtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<RTInfoAttachment *, 0>::getMName<NoRefCountPolicy>(void
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTInfoAttachment *,
-                      RecordedRefCountPolicy  > SFRecRTInfoAttachmentPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecRTInfoAttachmentPtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTInfoAttachment *,
-                      UnrecordedRefCountPolicy> SFUnrecRTInfoAttachmentPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecRTInfoAttachmentPtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTInfoAttachment *,
-                      WeakRefCountPolicy      > SFWeakRTInfoAttachmentPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakRTInfoAttachmentPtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTInfoAttachment *,
-                      NoRefCountPolicy        > SFUncountedRTInfoAttachmentPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedRTInfoAttachmentPtr;
 
 
 /*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTInfoAttachment *,
-                      RecordedRefCountPolicy  > MFRecRTInfoAttachmentPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecRTInfoAttachmentPtr;
 /*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTInfoAttachment *,
-                      UnrecordedRefCountPolicy> MFUnrecRTInfoAttachmentPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecRTInfoAttachmentPtr;
 /*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTInfoAttachment *,
-                      WeakRefCountPolicy      > MFWeakRTInfoAttachmentPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakRTInfoAttachmentPtr;
 /*! \ingroup GrpContribRRTFieldMFields */
 typedef PointerMField<RTInfoAttachment *,
-                      NoRefCountPolicy        > MFUncountedRTInfoAttachmentPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedRTInfoAttachmentPtr;
 
 
 

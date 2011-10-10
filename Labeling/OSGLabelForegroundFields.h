@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class LabelForeground;
 
 OSG_GEN_CONTAINERPTR(LabelForeground);
-
 /*! \ingroup GrpContribLabelingFieldTraits
     \ingroup GrpLibOSGContribLabeling
  */
 template <>
-struct FieldTraits<LabelForeground *> :
-    public FieldTraitsFCPtrBase<LabelForeground *>
+struct FieldTraits<LabelForeground *, nsOSG> :
+    public FieldTraitsFCPtrBase<LabelForeground *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<LabelForeground *> :
 
   public:
 
-    typedef FieldTraits<LabelForeground *>  Self;
+    typedef FieldTraits<LabelForeground *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<LabelForeground *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFLabelForegroundPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFLabelForegroundPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<LabelForeground *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<LabelForeground *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecLabelForegroundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<LabelForeground *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<LabelForeground *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecLabelForegroundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<LabelForeground *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<LabelForeground *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakLabelForegroundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<LabelForeground *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<LabelForeground *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdLabelForegroundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<LabelForeground *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<LabelForeground *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecLabelForegroundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<LabelForeground *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<LabelForeground *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecLabelForegroundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<LabelForeground *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<LabelForeground *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakLabelForegroundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<LabelForeground *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<LabelForeground *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdLabelForegroundPtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<LabelForeground *, 0>::getMName<NoRefCountPolicy>(void)
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<LabelForeground *,
-                      RecordedRefCountPolicy  > SFRecLabelForegroundPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecLabelForegroundPtr;
 /*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<LabelForeground *,
-                      UnrecordedRefCountPolicy> SFUnrecLabelForegroundPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecLabelForegroundPtr;
 /*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<LabelForeground *,
-                      WeakRefCountPolicy      > SFWeakLabelForegroundPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakLabelForegroundPtr;
 /*! \ingroup GrpContribLabelingFieldSFields */
 typedef PointerSField<LabelForeground *,
-                      NoRefCountPolicy        > SFUncountedLabelForegroundPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedLabelForegroundPtr;
 
 
 /*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<LabelForeground *,
-                      RecordedRefCountPolicy  > MFRecLabelForegroundPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecLabelForegroundPtr;
 /*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<LabelForeground *,
-                      UnrecordedRefCountPolicy> MFUnrecLabelForegroundPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecLabelForegroundPtr;
 /*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<LabelForeground *,
-                      WeakRefCountPolicy      > MFWeakLabelForegroundPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakLabelForegroundPtr;
 /*! \ingroup GrpContribLabelingFieldMFields */
 typedef PointerMField<LabelForeground *,
-                      NoRefCountPolicy        > MFUncountedLabelForegroundPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedLabelForegroundPtr;
 
 
 

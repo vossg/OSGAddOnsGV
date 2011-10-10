@@ -70,6 +70,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class RTCacheAttachment;
 
 //! \brief RTCacheAttachment Base Class.

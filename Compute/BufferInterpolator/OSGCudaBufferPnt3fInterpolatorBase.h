@@ -72,6 +72,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class CudaBufferPnt3fInterpolator;
 
 //! \brief CudaBufferPnt3fInterpolator Base Class.

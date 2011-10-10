@@ -72,6 +72,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class SimpleCudaComputeAlgorithm;
 
 //! \brief SimpleCudaComputeAlgorithm Base Class.

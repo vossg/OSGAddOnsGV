@@ -92,14 +92,14 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTImageTarget *>::_type("RTImageTargetPtr", "RTTargetPtr");
+DataType FieldTraits<RTImageTarget *, nsOSG>::_type("RTImageTargetPtr", "RTTargetPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTImageTarget *)
+OSG_FIELDTRAITS_GETTYPE_NS(RTImageTarget *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            RTImageTarget *,
-                           0);
+                           nsOSG);
 
 
 /***************************************************************************\
@@ -129,7 +129,7 @@ RTImageTargetBase::TypeObject RTImageTargetBase::_type(
     RTImageTargetBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&RTImageTargetBase::createEmptyLocal),
     RTImageTarget::initMethod,
     RTImageTarget::exitMethod,
@@ -149,7 +149,6 @@ RTImageTargetBase::TypeObject RTImageTargetBase::_type(
     "    decoratable=\"false\"\n"
     "    useLocalIncludes=\"false\"\n"
     "    isNodeCore=\"false\"\n"
-    "    libnamespace=\"OSG\"\n"
     ">\n"
     "    <Field\n"
     "        name=\"image\"\n"

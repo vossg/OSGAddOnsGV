@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class CudaBufferPnt3fInterpolator;
 
 OSG_GEN_CONTAINERPTR(CudaBufferPnt3fInterpolator);
-
 /*! \ingroup GrpContribComputeFieldTraits
     \ingroup GrpLibOSGContribCompute
  */
 template <>
-struct FieldTraits<CudaBufferPnt3fInterpolator *> :
-    public FieldTraitsFCPtrBase<CudaBufferPnt3fInterpolator *>
+struct FieldTraits<CudaBufferPnt3fInterpolator *, nsOSG> :
+    public FieldTraitsFCPtrBase<CudaBufferPnt3fInterpolator *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<CudaBufferPnt3fInterpolator *> :
 
   public:
 
-    typedef FieldTraits<CudaBufferPnt3fInterpolator *>  Self;
+    typedef FieldTraits<CudaBufferPnt3fInterpolator *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 

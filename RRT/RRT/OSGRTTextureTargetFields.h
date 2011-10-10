@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class RTTextureTarget;
 
 OSG_GEN_CONTAINERPTR(RTTextureTarget);
-
 /*! \ingroup GrpContribRRTFieldTraits
     \ingroup GrpLibOSGContribRRT
  */
 template <>
-struct FieldTraits<RTTextureTarget *> :
-    public FieldTraitsFCPtrBase<RTTextureTarget *>
+struct FieldTraits<RTTextureTarget *, nsOSG> :
+    public FieldTraitsFCPtrBase<RTTextureTarget *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<RTTextureTarget *> :
 
   public:
 
-    typedef FieldTraits<RTTextureTarget *>  Self;
+    typedef FieldTraits<RTTextureTarget *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,29 +90,28 @@ struct FieldTraits<RTTextureTarget *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFRTTextureTargetPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<RTTextureTarget *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTextureTarget *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecRTTextureTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTextureTarget *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTextureTarget *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecRTTextureTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTextureTarget *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTextureTarget *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakRTTextureTargetPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<RTTextureTarget *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<RTTextureTarget *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdRTTextureTargetPtr"; 
 }
@@ -122,16 +121,16 @@ const Char8 *FieldTraits<RTTextureTarget *, 0>::getSName<NoRefCountPolicy>(void)
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTextureTarget *,
-                      RecordedRefCountPolicy  > SFRecRTTextureTargetPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecRTTextureTargetPtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTextureTarget *,
-                      UnrecordedRefCountPolicy> SFUnrecRTTextureTargetPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecRTTextureTargetPtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTextureTarget *,
-                      WeakRefCountPolicy      > SFWeakRTTextureTargetPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakRTTextureTargetPtr;
 /*! \ingroup GrpContribRRTFieldSFields */
 typedef PointerSField<RTTextureTarget *,
-                      NoRefCountPolicy        > SFUncountedRTTextureTargetPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedRTTextureTargetPtr;
 
 
 

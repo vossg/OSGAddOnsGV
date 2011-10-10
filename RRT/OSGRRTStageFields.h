@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class RRTStage;
 
 OSG_GEN_CONTAINERPTR(RRTStage);
-
 /*! \ingroup GrpContribRRTFieldTraits
     \ingroup GrpLibOSGContribRRT
  */
 template <>
-struct FieldTraits<RRTStage *> :
-    public FieldTraitsFCPtrBase<RRTStage *>
+struct FieldTraits<RRTStage *, nsOSG> :
+    public FieldTraitsFCPtrBase<RRTStage *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<RRTStage *> :
 
   public:
 
-    typedef FieldTraits<RRTStage *>  Self;
+    typedef FieldTraits<RRTStage *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 

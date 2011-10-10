@@ -73,6 +73,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class BufferPnt3fInterpolator;
 
 //! \brief BufferPnt3fInterpolator Base Class.

@@ -108,10 +108,10 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BufferPnt3fInterpolator *>::_type("BufferPnt3fInterpolatorPtr", "NodeCorePtr");
+DataType FieldTraits<BufferPnt3fInterpolator *, nsOSG>::_type("BufferPnt3fInterpolatorPtr", "NodeCorePtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(BufferPnt3fInterpolator *)
+OSG_FIELDTRAITS_GETTYPE_NS(BufferPnt3fInterpolator *, nsOSG)
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -188,7 +188,7 @@ BufferPnt3fInterpolatorBase::TypeObject BufferPnt3fInterpolatorBase::_type(
     BufferPnt3fInterpolatorBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&BufferPnt3fInterpolatorBase::createEmptyLocal),
     BufferPnt3fInterpolator::initMethod,
     BufferPnt3fInterpolator::exitMethod,

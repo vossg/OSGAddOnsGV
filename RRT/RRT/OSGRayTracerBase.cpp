@@ -104,10 +104,10 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RayTracer *>::_type("RayTracerPtr", "FieldContainerPtr");
+DataType FieldTraits<RayTracer *, nsOSG>::_type("RayTracerPtr", "FieldContainerPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RayTracer *)
+OSG_FIELDTRAITS_GETTYPE_NS(RayTracer *, nsOSG)
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -172,7 +172,7 @@ RayTracerBase::TypeObject RayTracerBase::_type(
     RayTracerBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&RayTracerBase::createEmptyLocal),
     RayTracer::initMethod,
     RayTracer::exitMethod,
@@ -192,7 +192,6 @@ RayTracerBase::TypeObject RayTracerBase::_type(
     "    decoratable=\"false\"\n"
     "    useLocalIncludes=\"false\"\n"
     "    isNodeCore=\"false\"\n"
-    "    libnamespace=\"OSG\"\n"
     ">\n"
     "    <Field\n"
     "        name=\"RayTracingRoot\"\n"

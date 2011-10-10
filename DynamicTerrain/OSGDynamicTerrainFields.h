@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class DynamicTerrain;
 
 OSG_GEN_CONTAINERPTR(DynamicTerrain);
-
 /*! \ingroup GrpContribDynamicTerrainFieldTraits
     \ingroup GrpLibOSGContribDynamicTerrain
  */
 template <>
-struct FieldTraits<DynamicTerrain *> :
-    public FieldTraitsFCPtrBase<DynamicTerrain *>
+struct FieldTraits<DynamicTerrain *, nsOSG> :
+    public FieldTraitsFCPtrBase<DynamicTerrain *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<DynamicTerrain *> :
 
   public:
 
-    typedef FieldTraits<DynamicTerrain *>  Self;
+    typedef FieldTraits<DynamicTerrain *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 

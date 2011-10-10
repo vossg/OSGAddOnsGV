@@ -95,14 +95,14 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTTarget *>::_type("RTTargetPtr", "FieldContainerPtr");
+DataType FieldTraits<RTTarget *, nsOSG>::_type("RTTargetPtr", "FieldContainerPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTTarget *)
+OSG_FIELDTRAITS_GETTYPE_NS(RTTarget *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            RTTarget *,
-                           0);
+                           nsOSG);
 
 
 /***************************************************************************\
@@ -144,7 +144,7 @@ RTTargetBase::TypeObject RTTargetBase::_type(
     RTTargetBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&RTTargetBase::createEmptyLocal),
     RTTarget::initMethod,
     RTTarget::exitMethod,
@@ -164,7 +164,6 @@ RTTargetBase::TypeObject RTTargetBase::_type(
     "    decoratable=\"false\"\n"
     "    useLocalIncludes=\"false\"\n"
     "    isNodeCore=\"false\"\n"
-    "    libnamespace=\"OSG\"\n"
     ">\n"
     "\t<Field\n"
     "\t\tname=\"width\"\n"

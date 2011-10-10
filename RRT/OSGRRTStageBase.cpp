@@ -118,10 +118,10 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RRTStage *>::_type("RRTStagePtr", "StagePtr");
+DataType FieldTraits<RRTStage *, nsOSG>::_type("RRTStagePtr", "StagePtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RRTStage *)
+OSG_FIELDTRAITS_GETTYPE_NS(RRTStage *, nsOSG)
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -222,7 +222,7 @@ RRTStageBase::TypeObject RRTStageBase::_type(
     RRTStageBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&RRTStageBase::createEmptyLocal),
     RRTStage::initMethod,
     RRTStage::exitMethod,

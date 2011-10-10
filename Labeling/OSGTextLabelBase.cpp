@@ -99,18 +99,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<TextLabel *>::_type("TextLabelPtr", "LabelPtr");
+DataType FieldTraits<TextLabel *, nsOSG>::_type("TextLabelPtr", "LabelPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(TextLabel *)
+OSG_FIELDTRAITS_GETTYPE_NS(TextLabel *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            TextLabel *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            TextLabel *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -163,7 +163,7 @@ TextLabelBase::TypeObject TextLabelBase::_type(
     TextLabelBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&TextLabelBase::createEmptyLocal),
     TextLabel::initMethod,
     TextLabel::exitMethod,

@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class BbqDataSource;
 
 OSG_GEN_CONTAINERPTR(BbqDataSource);
-
 /*! \ingroup GrpContribBbqTerrainFieldTraits
     \ingroup GrpLibOSGContribBbqTerrain
  */
 template <>
-struct FieldTraits<BbqDataSource *> :
-    public FieldTraitsFCPtrBase<BbqDataSource *>
+struct FieldTraits<BbqDataSource *, nsOSG> :
+    public FieldTraitsFCPtrBase<BbqDataSource *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<BbqDataSource *> :
 
   public:
 
-    typedef FieldTraits<BbqDataSource *>  Self;
+    typedef FieldTraits<BbqDataSource *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<BbqDataSource *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFBbqDataSourcePtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFBbqDataSourcePtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSource *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSource *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSource *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSource *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSource *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSource *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSource *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakBbqDataSourcePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<BbqDataSource *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<BbqDataSource *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdBbqDataSourcePtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<BbqDataSource *, 0>::getMName<NoRefCountPolicy>(void)
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpContribBbqTerrainFieldSFields */
 typedef PointerSField<BbqDataSource *,
-                      RecordedRefCountPolicy  > SFRecBbqDataSourcePtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecBbqDataSourcePtr;
 /*! \ingroup GrpContribBbqTerrainFieldSFields */
 typedef PointerSField<BbqDataSource *,
-                      UnrecordedRefCountPolicy> SFUnrecBbqDataSourcePtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecBbqDataSourcePtr;
 /*! \ingroup GrpContribBbqTerrainFieldSFields */
 typedef PointerSField<BbqDataSource *,
-                      WeakRefCountPolicy      > SFWeakBbqDataSourcePtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakBbqDataSourcePtr;
 /*! \ingroup GrpContribBbqTerrainFieldSFields */
 typedef PointerSField<BbqDataSource *,
-                      NoRefCountPolicy        > SFUncountedBbqDataSourcePtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedBbqDataSourcePtr;
 
 
 /*! \ingroup GrpContribBbqTerrainFieldMFields */
 typedef PointerMField<BbqDataSource *,
-                      RecordedRefCountPolicy  > MFRecBbqDataSourcePtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecBbqDataSourcePtr;
 /*! \ingroup GrpContribBbqTerrainFieldMFields */
 typedef PointerMField<BbqDataSource *,
-                      UnrecordedRefCountPolicy> MFUnrecBbqDataSourcePtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecBbqDataSourcePtr;
 /*! \ingroup GrpContribBbqTerrainFieldMFields */
 typedef PointerMField<BbqDataSource *,
-                      WeakRefCountPolicy      > MFWeakBbqDataSourcePtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakBbqDataSourcePtr;
 /*! \ingroup GrpContribBbqTerrainFieldMFields */
 typedef PointerMField<BbqDataSource *,
-                      NoRefCountPolicy        > MFUncountedBbqDataSourcePtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedBbqDataSourcePtr;
 
 
 

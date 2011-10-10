@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class BbqTerrain;
 
 OSG_GEN_CONTAINERPTR(BbqTerrain);
-
 /*! \ingroup GrpContribBbqTerrainFieldTraits
     \ingroup GrpLibOSGContribBbqTerrain
  */
 template <>
-struct FieldTraits<BbqTerrain *> :
-    public FieldTraitsFCPtrBase<BbqTerrain *>
+struct FieldTraits<BbqTerrain *, nsOSG> :
+    public FieldTraitsFCPtrBase<BbqTerrain *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<BbqTerrain *> :
 
   public:
 
-    typedef FieldTraits<BbqTerrain *>  Self;
+    typedef FieldTraits<BbqTerrain *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 

@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class BbqOutOfCoreDataSource;
 
 OSG_GEN_CONTAINERPTR(BbqOutOfCoreDataSource);
-
 /*! \ingroup GrpContribBbqTerrainFieldTraits
     \ingroup GrpLibOSGContribBbqTerrain
  */
 template <>
-struct FieldTraits<BbqOutOfCoreDataSource *> :
-    public FieldTraitsFCPtrBase<BbqOutOfCoreDataSource *>
+struct FieldTraits<BbqOutOfCoreDataSource *, nsOSG> :
+    public FieldTraitsFCPtrBase<BbqOutOfCoreDataSource *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<BbqOutOfCoreDataSource *> :
 
   public:
 
-    typedef FieldTraits<BbqOutOfCoreDataSource *>  Self;
+    typedef FieldTraits<BbqOutOfCoreDataSource *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 

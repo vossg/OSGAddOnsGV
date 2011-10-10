@@ -101,18 +101,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTCacheGeometryStore *>::_type("RTCacheGeometryStorePtr", "FieldContainerPtr");
+DataType FieldTraits<RTCacheGeometryStore *, nsOSG>::_type("RTCacheGeometryStorePtr", "FieldContainerPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTCacheGeometryStore *)
+OSG_FIELDTRAITS_GETTYPE_NS(RTCacheGeometryStore *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            RTCacheGeometryStore *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            RTCacheGeometryStore *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -165,7 +165,7 @@ RTCacheGeometryStoreBase::TypeObject RTCacheGeometryStoreBase::_type(
     RTCacheGeometryStoreBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&RTCacheGeometryStoreBase::createEmptyLocal),
     RTCacheGeometryStore::initMethod,
     RTCacheGeometryStore::exitMethod,

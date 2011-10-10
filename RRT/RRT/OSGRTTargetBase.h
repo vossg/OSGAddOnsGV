@@ -71,6 +71,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class RTTarget;
 
 //! \brief RTTarget Base Class.

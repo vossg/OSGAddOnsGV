@@ -87,18 +87,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<RTCameraDecorator *>::_type("RTCameraDecoratorPtr", "CameraDecoratorPtr");
+DataType FieldTraits<RTCameraDecorator *, nsOSG>::_type("RTCameraDecoratorPtr", "CameraDecoratorPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(RTCameraDecorator *)
+OSG_FIELDTRAITS_GETTYPE_NS(RTCameraDecorator *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            RTCameraDecorator *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            RTCameraDecorator *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -113,7 +113,7 @@ RTCameraDecoratorBase::TypeObject RTCameraDecoratorBase::_type(
     RTCameraDecoratorBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&RTCameraDecoratorBase::createEmptyLocal),
     RTCameraDecorator::initMethod,
     RTCameraDecorator::exitMethod,

@@ -70,6 +70,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class RTCameraDecorator;
 
 //! \brief RTCameraDecorator Base Class.

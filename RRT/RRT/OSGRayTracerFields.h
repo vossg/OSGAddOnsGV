@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class RayTracer;
 
 OSG_GEN_CONTAINERPTR(RayTracer);
-
 /*! \ingroup GrpContribRRTFieldTraits
     \ingroup GrpLibOSGContribRRT
  */
 template <>
-struct FieldTraits<RayTracer *> :
-    public FieldTraitsFCPtrBase<RayTracer *>
+struct FieldTraits<RayTracer *, nsOSG> :
+    public FieldTraitsFCPtrBase<RayTracer *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<RayTracer *> :
 
   public:
 
-    typedef FieldTraits<RayTracer *>  Self;
+    typedef FieldTraits<RayTracer *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
