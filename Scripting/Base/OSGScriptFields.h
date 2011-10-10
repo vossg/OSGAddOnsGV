@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class Script;
 
 OSG_GEN_CONTAINERPTR(Script);
-
 /*! \ingroup GrpScriptingFieldTraits
     \ingroup GrpLibOSGScripting
  */
 template <>
-struct FieldTraits<Script *> :
-    public FieldTraitsFCPtrBase<Script *>
+struct FieldTraits<Script *, nsOSG> :
+    public FieldTraitsFCPtrBase<Script *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<Script *> :
 
   public:
 
-    typedef FieldTraits<Script *>  Self;
+    typedef FieldTraits<Script *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<Script *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFScriptPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFScriptPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<Script *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<Script *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<Script *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<Script *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<Script *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<Script *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<Script *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<Script *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<Script *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<Script *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<Script *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<Script *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<Script *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<Script *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<Script *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<Script *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdScriptPtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<Script *, 0>::getMName<NoRefCountPolicy>(void)
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<Script *,
-                      RecordedRefCountPolicy  > SFRecScriptPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecScriptPtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<Script *,
-                      UnrecordedRefCountPolicy> SFUnrecScriptPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecScriptPtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<Script *,
-                      WeakRefCountPolicy      > SFWeakScriptPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakScriptPtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<Script *,
-                      NoRefCountPolicy        > SFUncountedScriptPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedScriptPtr;
 
 
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<Script *,
-                      RecordedRefCountPolicy  > MFRecScriptPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecScriptPtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<Script *,
-                      UnrecordedRefCountPolicy> MFUnrecScriptPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecScriptPtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<Script *,
-                      WeakRefCountPolicy      > MFWeakScriptPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakScriptPtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<Script *,
-                      NoRefCountPolicy        > MFUncountedScriptPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedScriptPtr;
 
 
 

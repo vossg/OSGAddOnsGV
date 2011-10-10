@@ -95,18 +95,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<Script *>::_type("ScriptPtr", "NodeCorePtr");
+DataType FieldTraits<Script *, nsOSG>::_type("ScriptPtr", "NodeCorePtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(Script *)
+OSG_FIELDTRAITS_GETTYPE_NS(Script *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            Script *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            Script *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -149,7 +149,7 @@ ScriptBase::TypeObject ScriptBase::_type(
     ScriptBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     NULL,
     Script::initMethod,
     Script::exitMethod,

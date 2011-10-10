@@ -71,6 +71,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class PythonScriptFile;
 
 //! \brief PythonScriptFile Base Class.

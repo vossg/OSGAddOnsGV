@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class PyFieldAccessHandler;
 
 OSG_GEN_CONTAINERPTR(PyFieldAccessHandler);
-
 /*! \ingroup GrpScriptingFieldTraits
     \ingroup GrpLibOSGScripting
  */
 template <>
-struct FieldTraits<PyFieldAccessHandler *> :
-    public FieldTraitsFCPtrBase<PyFieldAccessHandler *>
+struct FieldTraits<PyFieldAccessHandler *, nsOSG> :
+    public FieldTraitsFCPtrBase<PyFieldAccessHandler *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<PyFieldAccessHandler *> :
 
   public:
 
-    typedef FieldTraits<PyFieldAccessHandler *>  Self;
+    typedef FieldTraits<PyFieldAccessHandler *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<PyFieldAccessHandler *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFPyFieldAccessHandlerPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFPyFieldAccessHandlerPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<PyFieldAccessHandler *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldAccessHandler *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecPyFieldAccessHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldAccessHandler *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldAccessHandler *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecPyFieldAccessHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldAccessHandler *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldAccessHandler *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakPyFieldAccessHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldAccessHandler *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldAccessHandler *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdPyFieldAccessHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldAccessHandler *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldAccessHandler *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecPyFieldAccessHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldAccessHandler *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldAccessHandler *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecPyFieldAccessHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldAccessHandler *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldAccessHandler *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakPyFieldAccessHandlerPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldAccessHandler *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldAccessHandler *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdPyFieldAccessHandlerPtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<PyFieldAccessHandler *, 0>::getMName<NoRefCountPolicy>(
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PyFieldAccessHandler *,
-                      RecordedRefCountPolicy  > SFRecPyFieldAccessHandlerPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecPyFieldAccessHandlerPtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PyFieldAccessHandler *,
-                      UnrecordedRefCountPolicy> SFUnrecPyFieldAccessHandlerPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecPyFieldAccessHandlerPtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PyFieldAccessHandler *,
-                      WeakRefCountPolicy      > SFWeakPyFieldAccessHandlerPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakPyFieldAccessHandlerPtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PyFieldAccessHandler *,
-                      NoRefCountPolicy        > SFUncountedPyFieldAccessHandlerPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedPyFieldAccessHandlerPtr;
 
 
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PyFieldAccessHandler *,
-                      RecordedRefCountPolicy  > MFRecPyFieldAccessHandlerPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecPyFieldAccessHandlerPtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PyFieldAccessHandler *,
-                      UnrecordedRefCountPolicy> MFUnrecPyFieldAccessHandlerPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecPyFieldAccessHandlerPtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PyFieldAccessHandler *,
-                      WeakRefCountPolicy      > MFWeakPyFieldAccessHandlerPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakPyFieldAccessHandlerPtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PyFieldAccessHandler *,
-                      NoRefCountPolicy        > MFUncountedPyFieldAccessHandlerPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedPyFieldAccessHandlerPtr;
 
 
 

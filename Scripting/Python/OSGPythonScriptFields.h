@@ -64,16 +64,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class PythonScript;
 
 OSG_GEN_CONTAINERPTR(PythonScript);
-
 /*! \ingroup GrpScriptingFieldTraits
     \ingroup GrpLibOSGScripting
  */
 template <>
-struct FieldTraits<PythonScript *> :
-    public FieldTraitsFCPtrBase<PythonScript *>
+struct FieldTraits<PythonScript *, nsOSG> :
+    public FieldTraitsFCPtrBase<PythonScript *, nsOSG>
 {
   private:
 
@@ -81,7 +81,7 @@ struct FieldTraits<PythonScript *> :
 
   public:
 
-    typedef FieldTraits<PythonScript *>  Self;
+    typedef FieldTraits<PythonScript *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<PythonScript *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFPythonScriptPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFPythonScriptPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<PythonScript *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PythonScript *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecPythonScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PythonScript *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PythonScript *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecPythonScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PythonScript *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<PythonScript *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakPythonScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PythonScript *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<PythonScript *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdPythonScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PythonScript *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PythonScript *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecPythonScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PythonScript *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PythonScript *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecPythonScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PythonScript *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<PythonScript *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakPythonScriptPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PythonScript *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<PythonScript *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdPythonScriptPtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<PythonScript *, 0>::getMName<NoRefCountPolicy>(void)
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PythonScript *,
-                      RecordedRefCountPolicy  > SFRecPythonScriptPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecPythonScriptPtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PythonScript *,
-                      UnrecordedRefCountPolicy> SFUnrecPythonScriptPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecPythonScriptPtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PythonScript *,
-                      WeakRefCountPolicy      > SFWeakPythonScriptPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakPythonScriptPtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PythonScript *,
-                      NoRefCountPolicy        > SFUncountedPythonScriptPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedPythonScriptPtr;
 
 
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PythonScript *,
-                      RecordedRefCountPolicy  > MFRecPythonScriptPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecPythonScriptPtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PythonScript *,
-                      UnrecordedRefCountPolicy> MFUnrecPythonScriptPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecPythonScriptPtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PythonScript *,
-                      WeakRefCountPolicy      > MFWeakPythonScriptPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakPythonScriptPtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PythonScript *,
-                      NoRefCountPolicy        > MFUncountedPythonScriptPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedPythonScriptPtr;
 
 
 

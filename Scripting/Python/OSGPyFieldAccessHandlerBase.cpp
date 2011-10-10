@@ -87,18 +87,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<PyFieldAccessHandler *>::_type("PyFieldAccessHandlerPtr", "FieldContainerPtr");
+DataType FieldTraits<PyFieldAccessHandler *, nsOSG>::_type("PyFieldAccessHandlerPtr", "FieldContainerPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(PyFieldAccessHandler *)
+OSG_FIELDTRAITS_GETTYPE_NS(PyFieldAccessHandler *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            PyFieldAccessHandler *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            PyFieldAccessHandler *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -113,7 +113,7 @@ PyFieldAccessHandlerBase::TypeObject PyFieldAccessHandlerBase::_type(
     PyFieldAccessHandlerBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&PyFieldAccessHandlerBase::createEmptyLocal),
     PyFieldAccessHandler::initMethod,
     PyFieldAccessHandler::exitMethod,

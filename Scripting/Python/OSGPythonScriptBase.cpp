@@ -87,18 +87,18 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<PythonScript *>::_type("PythonScriptPtr", "ScriptPtr");
+DataType FieldTraits<PythonScript *, nsOSG>::_type("PythonScriptPtr", "ScriptPtr", nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(PythonScript *)
+OSG_FIELDTRAITS_GETTYPE_NS(PythonScript *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            PythonScript *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            PythonScript *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -113,7 +113,7 @@ PythonScriptBase::TypeObject PythonScriptBase::_type(
     PythonScriptBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&PythonScriptBase::createEmptyLocal),
     PythonScript::initMethod,
     PythonScript::exitMethod,
