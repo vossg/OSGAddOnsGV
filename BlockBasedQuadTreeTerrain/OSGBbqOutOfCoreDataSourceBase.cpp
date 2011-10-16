@@ -103,7 +103,11 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BbqOutOfCoreDataSource *, nsOSG>::_type("BbqOutOfCoreDataSourcePtr", "BbqDataSourcePtr", nsOSG);
+PointerType FieldTraits<BbqOutOfCoreDataSource *, nsOSG>::_type(
+    "BbqOutOfCoreDataSourcePtr", 
+    "BbqDataSourcePtr", 
+    BbqOutOfCoreDataSource::getClassType(),
+    nsOSG);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(BbqOutOfCoreDataSource *, nsOSG)

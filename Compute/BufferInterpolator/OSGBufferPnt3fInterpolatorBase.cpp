@@ -108,7 +108,11 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BufferPnt3fInterpolator *, nsOSG>::_type("BufferPnt3fInterpolatorPtr", "NodeCorePtr", nsOSG);
+PointerType FieldTraits<BufferPnt3fInterpolator *, nsOSG>::_type(
+    "BufferPnt3fInterpolatorPtr", 
+    "NodeCorePtr", 
+    BufferPnt3fInterpolator::getClassType(),
+    nsOSG);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(BufferPnt3fInterpolator *, nsOSG)

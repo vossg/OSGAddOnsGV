@@ -113,7 +113,11 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<BbqTerrain *, nsOSG>::_type("BbqTerrainPtr", "StageDrawablePtr", nsOSG);
+PointerType FieldTraits<BbqTerrain *, nsOSG>::_type(
+    "BbqTerrainPtr", 
+    "StageDrawablePtr", 
+    BbqTerrain::getClassType(),
+    nsOSG);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(BbqTerrain *, nsOSG)

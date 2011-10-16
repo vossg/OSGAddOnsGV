@@ -99,7 +99,11 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<TextLabel *, nsOSG>::_type("TextLabelPtr", "LabelPtr", nsOSG);
+PointerType FieldTraits<TextLabel *, nsOSG>::_type(
+    "TextLabelPtr", 
+    "LabelPtr", 
+    TextLabel::getClassType(),
+    nsOSG);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(TextLabel *, nsOSG)
