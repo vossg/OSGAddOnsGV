@@ -91,7 +91,11 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<PythonScriptFile *, nsOSG>::_type("PythonScriptFilePtr", "PythonScriptPtr", nsOSG);
+PointerType FieldTraits<PythonScriptFile *, nsOSG>::_type(
+    "PythonScriptFilePtr", 
+    "PythonScriptPtr", 
+    PythonScriptFile::getClassType(),
+    nsOSG);
 #endif
 
 OSG_FIELDTRAITS_GETTYPE_NS(PythonScriptFile *, nsOSG)
