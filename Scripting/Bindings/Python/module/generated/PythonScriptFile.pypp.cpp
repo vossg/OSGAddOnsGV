@@ -58,6 +58,54 @@ struct PythonScriptFile_wrapper : OSG::PythonScriptFile, bp::wrapper< OSG::Pytho
         return OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::addField( szFieldType, szFieldName );
     }
 
+    virtual void copyFromBin( ::OSG::BinaryDataHandler & pMem, ::OSG::ConstFieldMaskArg whichField ) {
+        if( bp::override func_copyFromBin = this->get_override( "copyFromBin" ) )
+            func_copyFromBin( boost::ref(pMem), whichField );
+        else{
+            this->OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::copyFromBin( boost::ref(pMem), whichField );
+        }
+    }
+    
+    void default_copyFromBin( ::OSG::BinaryDataHandler & pMem, ::OSG::ConstFieldMaskArg whichField ) {
+        OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::copyFromBin( boost::ref(pMem), whichField );
+    }
+
+    virtual void copyToBin( ::OSG::BinaryDataHandler & pMem, ::OSG::ConstFieldMaskArg whichField ) {
+        if( bp::override func_copyToBin = this->get_override( "copyToBin" ) )
+            func_copyToBin( boost::ref(pMem), whichField );
+        else{
+            this->OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::copyToBin( boost::ref(pMem), whichField );
+        }
+    }
+    
+    void default_copyToBin( ::OSG::BinaryDataHandler & pMem, ::OSG::ConstFieldMaskArg whichField ) {
+        OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::copyToBin( boost::ref(pMem), whichField );
+    }
+
+    virtual ::OSG::UInt32 getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
+        if( bp::override func_getBinSize = this->get_override( "getBinSize" ) )
+            return func_getBinSize( whichField );
+        else{
+            return this->OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getBinSize( whichField );
+        }
+    }
+    
+    ::OSG::UInt32 default_getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
+        return OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getBinSize( whichField );
+    }
+
+    virtual ::OSG::UInt32 getContainerSize(  ) const  {
+        if( bp::override func_getContainerSize = this->get_override( "getContainerSize" ) )
+            return func_getContainerSize(  );
+        else{
+            return this->OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getContainerSize(  );
+        }
+    }
+    
+    ::OSG::UInt32 default_getContainerSize(  ) const  {
+        return OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getContainerSize( );
+    }
+
 };
 
 void register_PythonScriptFile_class(){
@@ -121,6 +169,79 @@ void register_PythonScriptFile_class(){
                 , addField_function_type(&::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::addField)
                 , default_addField_function_type(&PythonScriptFile_wrapper::default_addField)
                 , ( bp::arg("szFieldType"), bp::arg("szFieldName") ) );
+        
+        }
+        { //::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::copyFromBin
+        
+            typedef OSG::PythonScriptFile exported_class_t;
+            typedef void ( exported_class_t::*copyFromBin_function_type )( ::OSG::BinaryDataHandler &,::OSG::ConstFieldMaskArg ) ;
+            typedef void ( PythonScriptFile_wrapper::*default_copyFromBin_function_type )( ::OSG::BinaryDataHandler &,::OSG::ConstFieldMaskArg ) ;
+            
+            PythonScriptFile_exposer.def( 
+                "copyFromBin"
+                , copyFromBin_function_type(&::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::copyFromBin)
+                , default_copyFromBin_function_type(&PythonScriptFile_wrapper::default_copyFromBin)
+                , ( bp::arg("pMem"), bp::arg("whichField") ) );
+        
+        }
+        { //::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::copyToBin
+        
+            typedef OSG::PythonScriptFile exported_class_t;
+            typedef void ( exported_class_t::*copyToBin_function_type )( ::OSG::BinaryDataHandler &,::OSG::ConstFieldMaskArg ) ;
+            typedef void ( PythonScriptFile_wrapper::*default_copyToBin_function_type )( ::OSG::BinaryDataHandler &,::OSG::ConstFieldMaskArg ) ;
+            
+            PythonScriptFile_exposer.def( 
+                "copyToBin"
+                , copyToBin_function_type(&::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::copyToBin)
+                , default_copyToBin_function_type(&PythonScriptFile_wrapper::default_copyToBin)
+                , ( bp::arg("pMem"), bp::arg("whichField") ) );
+        
+        }
+        { //::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getBinSize
+        
+            typedef OSG::PythonScriptFile exported_class_t;
+            typedef ::OSG::UInt32 ( exported_class_t::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::UInt32 ( PythonScriptFile_wrapper::*default_getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            
+            PythonScriptFile_exposer.def( 
+                "getBinSize"
+                , getBinSize_function_type(&::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getBinSize)
+                , default_getBinSize_function_type(&PythonScriptFile_wrapper::default_getBinSize)
+                , ( bp::arg("whichField") ) );
+        
+        }
+        { //::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getContainerSize
+        
+            typedef OSG::PythonScriptFile exported_class_t;
+            typedef ::OSG::UInt32 ( exported_class_t::*getContainerSize_function_type )(  ) const;
+            typedef ::OSG::UInt32 ( PythonScriptFile_wrapper::*default_getContainerSize_function_type )(  ) const;
+            
+            PythonScriptFile_exposer.def( 
+                "getContainerSize"
+                , getContainerSize_function_type(&::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getContainerSize)
+                , default_getContainerSize_function_type(&PythonScriptFile_wrapper::default_getContainerSize) );
+        
+        }
+        { //::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getType
+        
+            typedef OSG::PythonScriptFile exported_class_t;
+            typedef ::OSG::FieldContainerType & ( exported_class_t::*getType_function_type )(  ) ;
+            
+            PythonScriptFile_exposer.def( 
+                "getType"
+                , getType_function_type(&::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getType)
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getType
+        
+            typedef OSG::PythonScriptFile exported_class_t;
+            typedef ::OSG::FieldContainerType const & ( exported_class_t::*getType_function_type )(  ) const;
+            
+            PythonScriptFile_exposer.def( 
+                "getType"
+                , getType_function_type(&::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getType)
+                , bp::return_internal_reference< >() );
         
         }
         pyopensg::register_transit< OSG::PythonScriptFile >::execute();

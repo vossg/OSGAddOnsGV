@@ -2,12 +2,11 @@
 
 Node
 {
-  core DEF TestScript PythonScriptFile
+  core DEF Driver PythonScriptFile
   {
-    field SFDouble amount 10
-    field SFDouble radius 10
+    field SFVec3f myPosition  0 0 0
 
-    scriptUrl "testAnimation.py"
+    scriptUrl "driver.py"
 
     priority 41
   }
@@ -16,7 +15,7 @@ Node
   [
         Node
         {
-          core DEF TieFighterTrans ComponentTransform
+          core DEF TieTrans ComponentTransform
           {
           }
       
@@ -33,3 +32,5 @@ Node
         }
   ]
 }
+
+ROUTE Driver.myPosition TO TieTrans.translation

@@ -1,15 +1,11 @@
 from math import sin,cos,floor,pi
 
-if(osg.getName(self)):
-    self.name = osg.getName(self)
-else:
-    self.name = 'unknown'
-
 _transCList = []
 
 def init():
-    # Retrieve model root:
-    rootN = self.findNamedComponent('ModelRoot')
+    global _transCList
+    
+    rootN = osg.ComplexSceneManager.the().findNamedComponent('ModelRoot')
     if rootN:
         print('Found model root')
     else:
@@ -17,13 +13,13 @@ def init():
         return
 
     # Populate scene:
-    for i in range(int(self.get_amount())):
-        i = 2*pi/self.get_amount() * i
+    for i in range(int(self.amount)):
+        i = 2*pi/self.amount * i
         transC = osg.Transform.create()
         transN = osg.Node.create()
         transN.setCore(transC)
         mat = osg.Matrix()
-        mat.setTranslate(self.get_radius()*cos(i),self.get_radius()*sin(i),0)
+        mat.setTranslate(self.radius*cos(i),self.radius*sin(i),0)
         transC.setMatrix(mat)
         _transCList.append(transC)
 
@@ -31,9 +27,6 @@ def init():
         modelN = osg.SceneFileHandler.the().read(filename)
         transN.addChild(modelN)
         rootN.addChild(transN)
-    
-def shutdown():
-    pass
 
 def frame(timeStamp, frameCount):
     idx   = 0
@@ -49,4 +42,7 @@ def frame(timeStamp, frameCount):
     osg.commitChanges()
 
 def changed(whichField, origin, details):
+    pass
+    
+def shutdown():
     pass

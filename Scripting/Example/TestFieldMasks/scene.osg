@@ -2,70 +2,12 @@
 
 Node
 {
-  core DEF Test PythonScript
+  core DEF Test PythonScriptFile
   {
-    field SFDouble dummy          1.2
-    field SFDouble DummyCamelCase 0.0
+    field SFDouble Field1  1.2
+    field MFVec3f  Field2  0 0 0
 
-    script 
-"
-def toBinaryRep(s):
-    return str(s) if s<=1 else bin(s>>1) + str(s&1)
-
-if(osg.getName(self)):
-    self.name = osg.getName(self)
-else:
-    self.name = 'unknown'
-
-def init():
-    print('\n----------------------------------------------------------------')
-    print('PYTHON: Calling init() on ' + self.name)
-
-    # Test static field masks:
-    print('PriorityFieldId:       ' + str(self.PriorityFieldId)       + '   PriorityFieldMask:       ' + toBinaryRep(self.PriorityFieldMask))
-    print('ScriptFieldId:         ' + str(self.ScriptFieldId)         + '   ScriptFieldMask:         ' + toBinaryRep(self.ScriptFieldMask))
-
-    # Test dynamic field masks:
-    print('dummyFieldId:          ' + str(self.dummyFieldId)          + '   dummyFieldMask:          ' + toBinaryRep(self.dummyFieldMask))
-    print('DummyCamelCaseFieldId: ' + str(self.DummyCamelCaseFieldId) + '   DummyCamelCaseFieldMask: ' + toBinaryRep(self.DummyCamelCaseFieldMask))
-
-
-    print('----------------------------------------------------------------\n')
-
-def shutdown():
-    print('\n----------------------------------------------------------------')
-    print('PYTHON: Calling shutdown() on ' + self.name)
-    print('----------------------------------------------------------------\n')
-
-def frame(timeStamp, frameCount):
-    #print('PYTHON: Calling frame() on ' + self.name)
-
-    if( (frameCount % 200) == 0):
-	self.dummy = timeStamp;
-
-    if( (frameCount % 300) == 0):
-        self.DummyCamelCase = timeStamp;
-
-    if( (frameCount % 400) == 0):
-	self.priority = self.priority;
-
-    if( (frameCount % 7000) == 0):
-        self.script = self.script;
-
-def changed(whichField, origin, details):
-    # Test whichField:
-    if(whichField & self.PriorityFieldMask):
-        print('Changed priority field value to ' + str(self.priority))
-
-    if(whichField & self.ScriptFieldMask):
-        print('Changed script field value to ' + self.script)
-
-    if(whichField & self.dummyFieldMask):
-        print('Changed dummy field value to ' + str(self.dummy))
-
-    if(whichField & self.DummyCamelCaseFieldMask):
-        print('Changed DummyCamelCase field value to ' + str(self.DummyCamelCase))
-"
+    scriptUrl "testFieldMasks.py"
 
     priority 41
   }

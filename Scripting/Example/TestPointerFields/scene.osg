@@ -1,0 +1,52 @@
+#OSG V1.0 
+
+Node
+{
+  core Group {}
+  
+  children
+  [
+    DEF Node00 Node {}    
+    DEF Node01 Node {}
+    DEF Node02 Node {}
+    DEF Node03 Node {}
+    DEF Node04 Node {}
+    DEF Node05 Node {}
+    DEF Node06 Node {}
+    DEF Node07 Node {}
+    DEF Node08 Node {}
+    DEF Node09 Node {}
+    DEF Node10 Node {}
+    DEF Node11 Node {}
+    
+    Node
+    {
+      core Inline
+      {
+	url "../Models/tie.wrl"
+      }
+      
+      children
+      [
+	Node
+	{
+	  core DEF TestScript PythonScriptFile
+	  {   
+	    field SFRecNodePtr   mSFRecNodePtr   USE Node00
+	    field SFUnrecNodePtr mSFUnrecNodePtr USE Node01 
+	    field SFWeakNodePtr  mSFWeakNodePtr  USE Node02
+	    
+	    field MFRecNodePtr   mMFRecNodePtr   [ USE Node03 USE Node04 USE Node05 ]
+	    field MFUnrecNodePtr mMFUnrecNodePtr [ USE Node06 USE Node07 USE Node08 ]
+	    field MFWeakNodePtr  mMFWeakNodePtr  [ USE Node09 USE Node10 USE Node11 ]
+
+	    scriptUrl "testPointerFields.py"
+	
+	    priority 42
+	  }
+	}
+      ]
+    }
+
+  ]
+}

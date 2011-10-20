@@ -46,13 +46,16 @@
 #include "OSGPythonScriptBase.h"
 #include "OSGAction.h"
 
-#include "OSGNodeFields.h"
+//#include "OSGNodeFields.h"
+#include "OSGPyFieldAccessHandlerFields.h"
 
 #include "OSGPyInterpreter.h"
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief PythonScript is the basic NodeCore for inner nodes in the tree.
+/*! \brief PythonScript allows you to load a Python script and control the
+    scene graph with it. You can route in data via dynamic fields or access
+    components in using the findNamedComponent method.
     \ingroup GrpSystemNodeCoreGroupsCores
     \ingroup GrpLibOSGSystem
     \includebasedoc
@@ -65,15 +68,7 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 {
     /*==========================  PUBLIC  =================================*/
 
-  public:
-
-   /*! \}                                                                 */
-   /*---------------------------------------------------------------------*/
-   /*! \name                  Container Access                            */
-   /*! \{                                                                 */
-
-    FieldContainer *findNamedComponent(const Char8 *szName) const;
-
+public:
 
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
@@ -93,7 +88,15 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Action Callbacks                       */
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
+
+    virtual void dump(      UInt32    uiIndent = 0,
+                            const BitVector bvFlags  = 0) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Action Callbacks                            */
     /*! \{                                                                 */
 
     virtual bool init    (void                                       );
@@ -102,15 +105,7 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
-    /*! \{                                                                 */
-
-    virtual void dump(      UInt32    uiIndent = 0,
-                      const BitVector bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Field Access                          */
+    /*! \name                   Dynamic Fields                             */
     /*! \{                                                                 */
     virtual UInt32 addField(const UInt32  uiFieldTypeId,
                             const Char8  *szFieldName   );
@@ -126,38 +121,21 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     /*!\brief Allows an external (non-OSG) thread to trigger an            */
     /*        of the script (used for the OSGSidebar application).         */
-     void setScriptChanged() { _bScriptChanged = true; }
+    void setScriptChanged() { _bExternalScriptChanged = true; }
+
+    /*\brief Returns the Python interpreter.                              */
+    PyInterpreter* getInterpreter() const { return _pPyInterpreter; }
 
     /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
 
-    protected:
+protected:
 
     typedef PythonScriptBase Inherited;
 
     PyInterpreter                *_pPyInterpreter;
-    PyFieldAccessHandler         *_pPyFieldAccessHandler; // TODO: how to forward declare a PyFieldAccessHandlerUnrecPtr?
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                Interpreter Control                           */
-    /*! \{                                                                 */
-
-    bool pyActivate  () { return _pPyInterpreter->activate();                }
-    bool pyDeactivate() {        _pPyInterpreter->deactivate(); return true; }
-
-    // pyXXX members can only be called in between pyActivate() and
-    // pyDeactivate()
-
-    /*!\brief Gets the internal Python error flag.                         */
-    bool pyCheckError() { return _pPyInterpreter->checkForError();       }
-
-    /*!\brief Clears the internal Python error flag.                       */
-    void pyClearError() {        _pPyInterpreter->clearError();          }
-
-    /*!\brief Prints the error information to std::cerr                    */
-    void pyDumpError () {        _pPyInterpreter->dumpError(std::cerr);  }
-
+    PyFieldAccessHandlerUnrecPtr  _pPyFieldAccessHandler;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -189,11 +167,37 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
 
     static void initMethod(InitPhase ePhase);
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Python                                */
+    /*! \{                                                                 */
+
+    bool pyActivate  () { return _pPyInterpreter->activate();            }
+    bool pyDeactivate() {        _pPyInterpreter->deactivate();          }
+
+    // pyXXX members can only be called in between pyActivate() and
+    // pyDeactivate()
+
+    /*!\brief Returns the internal Python error flag. The interpreter  */
+    /*        needs to be active when the method is called.            */
+    bool pyCheckForError() { return _pPyInterpreter->checkForError();    }
+
+    /*!\brief Clears the internal Python error flag. The interpreter   */
+    /*        needs to be active when the method is called.            */
+    void pyClearError() {        _pPyInterpreter->clearError();          }
+
+    /*!\brief Prints the error information to std::cerr.  The          */
+    /*        interpreter needs to be active when the method is        */
+    /*        called.                                                  */
+    void pyDumpError (const std::string& description = "")
+    {
+        std::cerr << description << std::endl;
+        _pPyInterpreter->dumpError();
+    }
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
 
-  private:
+private:
 
     friend class FieldContainer;
     friend class PythonScriptBase;
@@ -205,14 +209,14 @@ class OSG_SCRIPTING_DLLMAPPING PythonScript : public PythonScriptBase
     PyFunction *_pyFrameFunc;
     PyFunction *_pyChangedFunc;
 
+    bool        _bExternalScriptChanged;
+
     /*!\brief prohibit default function (move to 'public' if needed)       */
     void operator =(const PythonScript &source);
 
-    bool   _bScriptChanged;
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Python Related                         */
+    /*! \name                    Python Related                            */
     /*! \{                                                                 */
 
     bool initPython(void);

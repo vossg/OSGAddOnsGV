@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# This script is derived from gen_bindings.py, it contains all class specific 
+# This script is derived from gen_bindings.py, it contains all class specific
 # tasks for the OSGBaseLib for the integration with the OpenSG CMake system
 # (GV)
 #
@@ -31,96 +31,76 @@ import osggen
 import settings
 import splitGenHelper
 
-#--------------------------------------------------------------------------------------------------
+# Holds the names of already exported typed multi-fields. Used in
+# wrapMFReturnTypes()
+exported_mfields = []
 
-gRetMF_re = re.compile('.*MF.*')
+def wrapMFReturnTypes(class_decl):
+  """
+  Checks if the given class declaration contains methods that return typed
+  multi-fields. In that case the multi-field is wrapped with the
+  mfedit_indexing_suite helper, bases on the vector_indexing_suite.
+  """
 
-def addMyMFRetListWrapper(calldef, nakedRetType, mfIsPointer, unique_id):
-   """
-   Adds a custom wrapper for methods that return data through an MField. The wrapper changes the
-   method return type to be a Python list of the field data.
+  global exported_mfields
 
-   @type  calldef:
-   @param calldef:      The declaration of the method that will be wrapped.
-   @type  nakedRetType:
-   @param nakedRetType: The undecorated return type. This has had cv-qualification, pointer, and
-                        reference information stripped from it.
-   @type  mfIsPointer:  boolean
-   @param mfIsPointer:  Identifies whether the MField object returned by the method is a pointer.
-   """
-   class_decl = calldef.parent
-   classname = class_decl.name
-   fullclassname = class_decl.decl_string.lstrip(":")
-   methodname = calldef.name
+  class_decl.add_declaration_code('#include "mfedit_indexing_suite.hpp"')
 
-   # We use the actual return type from the method being invoked rather than
-   # the "naked" return type. In general, this avoids copying the MField
-   # object, and it allows us to use the typedef'd MField name quite easily.
-   # This is important for portability reasons (in particular because GLenum,
-   # as used by OSG::MFGLenum) is defined differently on different platforms.
-   mftype = calldef.return_type.decl_string.lstrip(":")
+  member_names = class_decl.get_members()
 
-   # addMyMFRetListWrapper() is used to make a C++ method returning a MField<>
-   # returning a python list instead. It is used for the 'myGetMField' template
-   # members. The problem is that when assigning the generated wrapper function
-   # to the instanciated template method returning the MField<> the compiler
-   # has no information on which of the functions to take (they have the same
-   # name and different return types and arguments, but that does not matter
-   # for the way boost::python assigns the functions). So it quits with a
-   # 'address of overloaded function with no contextual type information' error.
-   # Assigning the 'unique_id' to the wrapper function's name is a quick and
-   # readable workaround for that.
-   new_methodname = "%s_%s%s"%(osggen.cleanTemplateName(classname), methodname, unique_id)
-   if mfIsPointer:
-      get_size  = "mf_data->size()"
-      get_entry = "(*mf_data)[i]"
-   else:
-      get_size  = "mf_data.size()"
-      get_entry = "mf_data[i]"
+  class_decl.add_registration_code('\n// Exposing value multi-fields with the help of a customixed mfedit_indexing_suite:\n\n',
+                                    works_on_instance = False)
 
-   # Determine if the type contained in the multi-field derives from OSG::FieldContainer. If it
-   # does, then we need to extend the return value conversion to wrap the C pointer in an
-   # RecPtr object.
-   # TODO!
-   #value_type_typedef = nakedRetType.declarations.typedef(name ="value_type", allow_empty = True)
-   #if value_type_typedef:
-   #   field_container = OSG_MODULE.class_("FieldContainer")
-   #   value_type = value_type_typedef[0].type
+  idx = 0
+  for member in member_names:
+    decls = class_decl[member.name]
+    for decl in decls:
+      #print('Checking for multi-field return type: ' + str(decl.name))
+      if type(decl).__name__ == 'member_function_t':
+        return_name = decl.return_type.decl_string
+        if return_name.startswith('::OSG::MField<') == True:
 
-   #   # The actual type of value_type is probably going to be a pointer.
-   #   if is_pointer(value_type):
-   #      value_type = remove_pointer(value_type)
+          #print('    ... processing: ' + return_name)
+          mftype = decl.return_type.decl_string.lstrip('::').rstrip('const *')
 
-   #   if is_class(value_type):
-   #      if is_base_and_derived(field_container, value_type.declaration):
-   #         get_entry = "OSG::%s::ObjRecPtr(%s)" % (value_type.declaration.name, get_entry)
+          # TODO: extract typedef'd name and use it for the exported type.
+          #       Currently the name is 'MField_' + str(idx). Well...
+          # short_name = ...
 
-   args = calldef.arguments
-   #for arg in args:
-   #  print('Argument: ' + arg.type.decl_string)
-   mf_valuetype = args[1].type.decl_string.lstrip('::')
+          #print('Checking: ' + str(mftype))
+          if mftype in exported_mfields:
+            # already exported
+            #print('   already exported...')
+            continue
+          else:
+            #print('    add to exported_mfields')
+            exported_mfields.append(mftype)
 
-   code = """
-boost::python::list %(new_methodname)s(%(fullclassname)s *self,
-                                       const std::string& name,
-                                       %(mf_valuetype)s type)
-{
-   boost::python::list result;
-   %(mftype)s mf_data = self->%(methodname)s(name, type);
-   const OSG::UInt32 size(%(get_size)s);
-   for ( OSG::UInt32 i = 0; i < size; ++i )
-   {
-      result.append(%(get_entry)s);
-   }
-   return result;
-}""" % vars()
+          print('    Using indexing suite on type: ' + mftype)
 
-   class_decl.add_declaration_code(code)
-   calldef.ignore = True
-   print "Adding MFRetList wrapper for: %s %s"%(classname, methodname)
-   add_member_function(class_decl, methodname, new_methodname)
+          code = '\nbp::class_<' + mftype + ' >("MField_' + str(idx) + '")\n\t.def(bp::mfedit_indexing_suite<' + mftype + ' >());\n'
+          #print('    code:' + code)
+          class_decl.add_registration_code(code, works_on_instance = False)
+          idx += 1
 
-#--------------------------------------------------------------------------------------------------
+def wrapPyIteratorInterface(class_decl):
+  """
+  Takes a class and exports its iter(), getitem(), setitem() and len() methods
+  to their python iterator interface representation with the double underscore
+  pre- and suffix. Reason being is that Py++ does not export methods with double
+  underscore pre- and suffix automatically.
+
+  To use this wrapper the given class has to provide the iter(), getitem(),
+  setitem() and len() methods. Otherwise an exception is thrown.
+  """
+  for decl in class_decl['iter']:
+    decl.alias = '__iter__'
+  for decl in class_decl['getitem']:
+    decl.alias = '__getitem__'
+  for decl in class_decl['setitem']:
+    decl.alias = '__setitem__'
+  for decl in class_decl['len']:
+    decl.alias = '__len__'
 
 def preScanSetup(gen_classes, fc_infos, core_mods, free_funcs, free_func_mods, exc_types):
 
@@ -156,7 +136,14 @@ def genTemplatesSetup(template_builder, tbuilder, non_fc_template_instances):
 
 
 def postScanSetup(osg, template_alias_db):
-  
+  """
+  Use this function to register custom code.
+  """
+
+  #----------------------------------------------------------------------------
+  # Template instantiations:
+  #----------------------------------------------------------------------------
+
   splitGenHelper.exposeTemplateType(cmh_ncsd_temp)
   splitGenHelper.exposeTemplateType(ftm_cmh_ncsd_temp)
   splitGenHelper.exposeTemplateType(dfc_ftm_cmh_ncsd_temp)
@@ -169,14 +156,14 @@ def postScanSetup(osg, template_alias_db):
   sc = osg.class_("PythonScript")
 
   for decl in sc["getFinalType"]:
-    print "getFinalType", decl
+    #print "getFinalType", decl
     if is_const_ref(decl.return_type):
       decl.exclude()
     else:
       decl.call_policies = return_internal_reference()
 
   for decl in dfc_ftm_cmh_ncsd_temp.decl["getFinalType"]:
-    print "getFinalType TEMPLATE ", decl
+    #print "getFinalType TEMPLATE ", decl
     if is_const_ref(decl.return_type):
       decl.exclude()
     else:
@@ -189,40 +176,43 @@ def postScanSetup(osg, template_alias_db):
   scbase = osg.class_("ScriptBase")
 
   # Expose static fields as properties:
-  scbase.add_registration_code('add_property("priority", &OSG::ScriptBase::getPriority, &OSG::ScriptBase::setPriority)')
-  scbase.add_registration_code('add_property("script", bp::make_function(&OSG::ScriptBase::getScript, bp::return_value_policy<bp::copy_const_reference>()), &OSG::ScriptBase::setScript)')
+  scbase.add_registration_code('add_property("Priority", &OSG::ScriptBase::getPriority, &OSG::ScriptBase::setPriority)')
+  scbase.add_registration_code('add_property("Script", bp::make_function(&OSG::ScriptBase::getScript, bp::return_value_policy<bp::copy_const_reference>()), &OSG::ScriptBase::setScript)')
 
   # Expose static field masks. Masks for dynamically added fields are exposed
   # at runtime in PythonScript::addField().
+  scbase.add_code('bp::scope().attr("PriorityFieldId")   = (int)OSG::ScriptBase::PriorityFieldId;', False, False)
   scbase.add_code('bp::scope().attr("PriorityFieldMask") = (int)OSG::TypeTraits<OSG::BitVector>::One << OSG::ScriptBase::PriorityFieldId;', False, False)
+
+  scbase.add_code('bp::scope().attr("ScriptFieldId")   = (int)OSG::ScriptBase::ScriptFieldId;', False, False)
   scbase.add_code('bp::scope().attr("ScriptFieldMask") = (int)OSG::TypeTraits<OSG::BitVector>::One << OSG::ScriptBase::ScriptFieldId;', False, False)
 
   #----------------------------------------------------------------------------
   # PyFieldAccessHandler:
   #----------------------------------------------------------------------------
 
-  fah = osg.class_("PyFieldAccessHandler")
-  id  = 0
+  wrapMFReturnTypes(osg.class_("PyFieldAccessHandler"))
 
-  for decl in fah["myGetMField"]:
-    ret_type = remove_alias(decl.return_type)
-    ret_naked_type = remove_cv(remove_pointer(remove_reference(ret_type)))
-    rt_is_const = \
-       is_const(ret_type) or (hasattr(ret_type, 'base') and is_const(ret_type.base))
-    rt_is_ref = \
-       is_reference(ret_type) or (hasattr(ret_type, 'base') and is_reference(ret_type.base))
-    rt_is_pointer = is_pointer(ret_type)
-    rt_is_class = is_class(ret_naked_type)
-    rt_is_mf_type = rt_is_class and gRetMF_re.match(ret_naked_type.declaration.name)
+  #class_decl.add_declaration_code('#include "mfedit_indexing_suite.hpp"')
 
-    print "processing " + decl.name
-
-    #if not decl.ignore and rt_is_mf_type and rt_is_const:
-    addMyMFRetListWrapper(decl, ret_naked_type, rt_is_pointer, id)
-    id += 1
-    print("    ... adding MFWrapper")
-    #else:
-    #  print("    ... NOT adding MFWrapper")
+  #idx = 0
+  #members = class_decl.get_members()
+  #fah.add_registration_code('\n// Exposing value multi-fields with the help of a customixed mfedit_indexing_suite:\n\n', works_on_instance = False)
+  #for member in members:
+  #  decls = fah[member.name]
+  #  for decl in decls:
+  #    print('Checking for multi-field return type: ' + str(decl.name))
+  #    if decl.name.startswith('getValueMField') or decl.name.startswith('changeValueMField'):
+  #      print('           return_type: ' + decl.return_type.decl_string)
+  #      if decl.return_type.decl_string.startswith('::OSG::MField<') == True:
+  #          mftype = decl.return_type.decl_string
+  #          mftype = mftype.rstrip('const *')
+  #          mftype = mftype.lstrip('::')
+  #          print('    Using indexing suite on type: ' + mftype)
+  #          code = '\nbp::class_<' + mftype + ' >("MField_' + str(idx) + '")\n\t.def(bp::mfedit_indexing_suite<' + mftype + ' >());\n'
+  #          print('    code:' + code)
+  #          fah.add_registration_code(code, works_on_instance = False)
+  #          idx += 1
 
   return
 
@@ -238,51 +228,57 @@ def postGenClassesSetup(osg, mb):
 
 
 def postFCDInfoSetup(osg, mb, adddition_exp):
-
-  #----------------------------------------------------------------------------
-  # PythonScript:
-  #----------------------------------------------------------------------------
-
-  sc = osg.class_("PythonScript")
-
-  #
-  # findNamedComponent():
-  #
-
-  for decl in sc["findNamedComponent"]:
-    print "changing return type of: ", decl
-    print "    to return_internal_reference..."
-    decl.call_policies = return_internal_reference()
+  """
+  Use this function to adjust the return policies of your class members.
+  """
 
   #----------------------------------------------------------------------------
   # PyFieldAccessHandler:
   #----------------------------------------------------------------------------
 
-  sc = osg.class_("PyFieldAccessHandler")
+  fah = osg.class_("PyFieldAccessHandler")
 
+  members = fah.get_members()
+  for member in members:
+    declarations = fah[member.name]
+
+    for decl in declarations:
+      if decl.name.startswith('changeValueSField_') or \
+         decl.name.startswith('getValueMField_')    or \
+         decl.name.startswith('changeValueMField_'):
+        decl.call_policies = return_internal_reference()
+
+  #----------------------------------------------------------------------------
+  # PyFieldContainerPtrMFieldEditHandle
+  #----------------------------------------------------------------------------
+
+  wrapPyIteratorInterface(osg.class_('PyFieldContainerPtrMFieldEditHandle'))
+
+  #----------------------------------------------------------------------------
+  # PyFieldContainerPtrMFieldGetHandle
+  #----------------------------------------------------------------------------
+
+  wrapPyIteratorInterface(osg.class_('PyFieldContainerPtrMFieldGetHandle'))
+
+  #return_type = decl.return_type.decl_string.lstrip('::OSG::')
+  ##print('rettype: ' + return_type)
   #
-  # myEditSField():
+  ## The following non-const references are returned as copies, as python
+  ## does not support returning references to those.
+  #constref_return_types = ('std::string &', 'bool &')
+  #if return_type in constref_return_types:
+  #    decl.call_policies = return_value_policy(copy_non_const_reference)
+  #    print "    ... -> copy_non_const_reference"
+  #    continue
   #
-
-  for decl in sc["myEditSField"]:
-    print "processing ", decl
-    if decl.return_type.decl_string == "std::basic_string<char,std::char_traits<char>,std::allocator<char> > &":
-        decl.call_policies = return_value_policy(copy_non_const_reference)
-        print "    ... -> copy_non_const_reference"
-        continue
-    if decl.return_type.decl_string == "double &" or decl.return_type.decl_string == "int &":
-        decl.call_policies = return_value_policy(return_by_value)
-        print "    ... -> return_by_value"
-        continue
-    decl.call_policies = return_internal_reference()
-    print "    ... -> return_internal_reference"
-
+  ## These types map to integral C++ types. Python does not support to
+  ## return them as references, so they are returned by value.
+  #value_return_types = ['Real32', 'Real64', 'Int32', 'UInt32', 'Int64', \
+  #                      'UInt64', 'Int64', 'Time']
+  #if return_type in value_return_types:
+  #    decl.call_policies = return_value_policy(return_by_value)
+  #    print "    ... -> return_by_value"
+  #    continue
   #
-  # getPointerSField():
-  #
-
-  #for decl in sc["getPointerSField"]:
-  #  print "processing ", decl
-  #  decl.call_policies = return_internal_reference()
-
-  return
+  ## The remaining methods return class types, which are returned as
+  ## internal references.

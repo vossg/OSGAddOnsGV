@@ -40,13 +40,14 @@
 #define _OSGPYINTERPRETER_H_
 
 #include "OSGConfig.h"
+#include "OSGBaseTypes.h"
 #include "OSGPyFunction.h"
 
 #include "OSGScriptingDef.h"
 
 #include <boost/python.hpp>
-#include <vector>
 
+#include <vector>
 #include <iostream>
 
 namespace bp = boost::python;
@@ -79,7 +80,12 @@ public:
     /*! \name                   Activation                                 */
     /*! \{                                                                 */
 
-    /*!\brief  Activates the Python interpreter.                           */
+    /*!\brief Activates the Python interpreter. Multiple activations are   */
+    /*        supported. However, it is assumed that each activate() is    */
+    /*        followed by a corresponding deactivate(). Internally simply  */
+    /*        counter is incremented each time activate() is called. If    */
+    /*        the counter is greater than 1 when deactivate() is called    */
+    /*        the Python thread is not deactivated.                        */
     /*                                                                     */
     /* \return True on success, false otherwise                            */
     bool activate()
@@ -89,20 +95,35 @@ public:
             return false;
         }
 
-        PyEval_RestoreThread(_pPyInterpreter);
+        if(!_isActive)
+        {
+            PyEval_RestoreThread(_pPyInterpreter);
+            _isActive = true;
+        }
+
+        ++_refCount;
 
         return true;
     }
 
-    /*!\brief Deactivates the Python interpreter.                          */
+    /*!\brief Deactivates the Python interpreter. It checks if the     */
+    /*        the interpreter was activated multiple times. In that    */
+    /*        case the Python thread is only deactivated if the        */
+    /*        internal activation counter equals 1.                    */
+    /*                                                                 */
+    /* \see activate                                                   */
     void deactivate()
     {
-        PyEval_SaveThread();
+        if(--_refCount == 0)
+        {
+            PyEval_SaveThread();
+            _isActive = false;
+        }
     }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                Runtime Interface                             */
+    /*! \name                Interpreter Interface                         */
     /*! \{                                                                 */
 
     bool run(const std::string& cmd);
@@ -112,18 +133,20 @@ public:
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                 Error Interface                              */
+    /*! \name                  Error Interface                             */
     /*! \{                                                                 */
 
-    /*!\brief Checks for an interpreter error.                             */
+    /*!\brief Checks for an interpreter error. The interpreter has to be   */
+    /*        activated to run the method.                                 */
     /*                                                                     */
     /* \return true in case of an interpreter error, false otherwise       */
     bool checkForError() { return (PyErr_Occurred()!=NULL); }
 
-    /*!\brief Clears an interpreter error.                                 */
-    bool clearError() { PyErr_Clear(); return true; }
+    /*!\brief Clears an interpreter error. The interpreter has to be       */
+    /*        activated to run the method.                                 */
+    void clearError() { PyErr_Clear(); }
 
-    void dumpError(std::ostream& os);
+    void dumpError();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -144,12 +167,22 @@ private:
 
     FunctionStore  _funcStore;
 
+    bool           _isActive;
+    UInt32         _refCount;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Helper                                  */
+    /*! \{                                                                 */
+
     bool containsFunction(bp::object &dict,
                           const std::string& name);
 
+#if 0
     void fetchError(std::string &errorMessage,
                     long        &lineNo,
                     std::string &funcName);
+#endif
 };
 
 OSG_END_NAMESPACE

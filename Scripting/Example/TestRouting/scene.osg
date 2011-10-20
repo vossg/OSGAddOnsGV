@@ -1,0 +1,65 @@
+#OSG V1.0 
+
+Node
+{
+  core DEF Writer PythonScriptFile
+  {
+    field SFDouble mySFDouble 1.2
+    field SFVec3f  mySFVec3f  0 0 0
+    field MFDouble myMFDouble [ 0 0 0 0 0 0]
+    field MFVec3f  myMFVec3f  [ 0 0 0 0 0 0]
+    
+    field SFUnrecNodePtr mySFNode Node {}
+    field MFUnrecNodePtr myMFNode [ Node {} Node {} ]
+    
+    scriptUrl "writer.py"
+
+    priority 41
+  }
+
+  children
+  [
+    Node
+    {
+      core DEF TransCore1 ComponentTransform
+      {
+      }
+  
+      children
+      [
+	Node
+	{
+	  core Inline
+	  {
+	    url "../Models/tie.wrl"
+	  }
+	}
+      ]
+    }
+
+    Node
+    {
+      core DEF Reader PythonScriptFile
+      {    
+	field SFDouble mySFDouble 1.2
+	field SFVec3f  mySFVec3f  0 0 0
+	field MFDouble myMFDouble [ 0 0 0 0 0 0]
+	field MFVec3f  myMFVec3f  [ 0 0 0 0 0 0]
+	
+	field SFUnrecNodePtr mySFNode Node {}
+	field MFUnrecNodePtr myMFNode [ Node {} Node {} ]
+
+	scriptUrl "reader.py"
+
+	priority 42
+      }
+    }
+  ]
+}
+
+ROUTE Writer.mySFDouble TO Reader.mySFDouble
+ROUTE Writer.mySFVec3f  TO Reader.mySFVec3f
+ROUTE Writer.myMFDouble TO Reader.myMFDouble
+ROUTE Writer.myMFVec3f  TO Reader.myMFVec3f
+ROUTE Writer.mySFNode   TO Reader.mySFNode
+#ROUTE Writer.myMFNode   TO Reader.myMFNode

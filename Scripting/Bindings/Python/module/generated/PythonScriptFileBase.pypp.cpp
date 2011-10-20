@@ -58,6 +58,18 @@ struct PythonScriptFileBase_wrapper : OSG::PythonScriptFileBase, bp::wrapper< OS
         return OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::addField( szFieldType, szFieldName );
     }
 
+    virtual void dump( ::OSG::UInt32 uiIndent=0, long unsigned int const bvFlags=0 ) const  {
+        if( bp::override func_dump = this->get_override( "dump" ) )
+            func_dump( uiIndent, bvFlags );
+        else{
+            this->OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::dump( uiIndent, bvFlags );
+        }
+    }
+    
+    void default_dump( ::OSG::UInt32 uiIndent=0, long unsigned int const bvFlags=0 ) const  {
+        OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::dump( uiIndent, bvFlags );
+    }
+
 };
 
 void register_PythonScriptFileBase_class(){
@@ -249,6 +261,19 @@ void register_PythonScriptFileBase_class(){
                 , addField_function_type(&::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::addField)
                 , default_addField_function_type(&PythonScriptFileBase_wrapper::default_addField)
                 , ( bp::arg("szFieldType"), bp::arg("szFieldName") ) );
+        
+        }
+        { //::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::dump
+        
+            typedef OSG::PythonScriptFileBase exported_class_t;
+            typedef void ( exported_class_t::*dump_function_type )( ::OSG::UInt32,long unsigned int const ) const;
+            typedef void ( PythonScriptFileBase_wrapper::*default_dump_function_type )( ::OSG::UInt32,long unsigned int const ) const;
+            
+            PythonScriptFileBase_exposer.def( 
+                "dump"
+                , dump_function_type(&::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::dump)
+                , default_dump_function_type(&PythonScriptFileBase_wrapper::default_dump)
+                , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
         PythonScriptFileBase_exposer.staticmethod( "create" );

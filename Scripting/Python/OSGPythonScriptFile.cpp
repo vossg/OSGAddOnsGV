@@ -91,12 +91,12 @@ void PythonScriptFile::postOSGLoading(void)
             if(readProgram(szProgram, szFilenameResolved.c_str()))
             {
                 Inherited::setScript(szProgram);
-                std::cout << "PythonScriptFile: loaded script" << std::endl;
             }
         }
         else
         {
-            std::cerr << "PythonScriptFile: cannot find file " << _sfScriptUrl.getValue() << std::endl;
+            std::cerr << "PythonScriptFile: cannot find file "
+                      << _sfScriptUrl.getValue() << std::endl;
         }
     }
 }

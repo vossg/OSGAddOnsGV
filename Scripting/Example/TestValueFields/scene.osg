@@ -1,0 +1,135 @@
+#OSG V1.0 
+
+DEF Root Node
+{
+  core Inline
+  {
+    url "../Models/tie.wrl"
+  }
+  
+  children
+  [
+    Node
+    {
+      core DEF TestScript PythonScriptFile
+      {
+	#
+	# single-fields (the commented lines contain types which are not
+	# supported yet)
+	#
+	
+	field SFBool        mSFBool     true
+	
+	field SFInt32       mSFInt32    -1
+	#field SFInt64       mSFInt64    -2
+	field SFUInt32      mSFUInt32   1
+	field SFUInt32      mSFUInt64   1
+	
+	field SFReal32      mSFReal32   2.3
+	field SFReal64      mSFReal64   4.5
+	field SFDouble      mSFDouble   3.3
+	
+	field SFColor       mSFColor     0.1 0.1 0.1
+	field SFColor3f     mSFColor3f   0.1 0.1 0.1
+	#field SFColor3ub    mSFColor3ub  1 2 3
+	field SFColorRGBA   mSFColorRGBA 0.4 0.4 0.4 1
+	field SFColor4f     mSFColor4f   0.1 0.1 0.1 0.5
+	field SFColor4ub    mSFColor4ub  1 2 3 4
+	
+	field SFString      mSFString   "myString"
+	field SFTime        mSFTime      0.1
+	field SFVolume      mSFVolume    0 0 0 1 1 1 1
+	field SFBoxVolume   mSFBoxVolume 0 0 0 1 1 1 1
+	#field SFPlane      mSFPlane     ?
+    
+	#field SFPnt2d       mSFPnt2d     2.2 2.2
+	field SFPnt2f       mSFPnt2f     2.2 2.2
+	#field SFPnt3d       mSFPnt3d     3.3 3.3 3.3
+	field SFPnt3f       mSFPnt3f     3.3 3.3 3.3
+	#field SFPnt4d       mSFPnt4d     4.4 4.4 4.4 1
+	field SFPnt4f       mSFPnt4f     4.4 4.4 4.4 1
+    
+	field SFVec2d       mSFVec2d     2.2 2.2
+	field SFVec2f       mSFVec2f     2.2 2.2
+	#field SFVec2ub      mSFVec2ub    2 2
+	field SFVec3d       mSFVec3d     3.3 3.3 3.3
+	field SFVec3f       mSFVec3f     3.3 3.3 3.3
+	#field SFVec3ub      mSFVec3ub    3 3 3
+	field SFVec4d       mSFVec4d     4.4 4.4 4.4 1
+	field SFVec4f       mSFVec4f     4.4 4.4 4.4 1
+	#field SFVec4ub      mSFVec4ub    1 2 3 4
+    
+	field SFMatrix      mSFMatrix    1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1
+	field SFMatrix4d    mSFMatrix4d  1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1
+    
+	field SFRotation    mSFRotation  1 2 3 45
+	field SFQuaternion  mSFQuaternion 1 2 3 45
+	#field SFQuaterniond mSFQuaterniond  1 2 3 45
+    
+	#field SFImage     mSFImage     ?
+	
+	#
+	# multi-fields (the commented lines contain types which are not
+	# supported yet)
+	#
+	
+	field MFBool        mMFBool      [ true false true ]
+	
+	field MFInt32       mMFInt32     [ -1 -2  3 -4 ]
+	#field MFInt64       mMFInt64     [ -2 -5 -9  2 ]
+	field MFUInt32      mMFUInt32    [  1  4  4  3 ]
+	field MFUInt32      mMFUInt64    [  6  7  3  2 ]
+	
+	field MFReal32      mMFReal32    [ 2.3 3.4 6.5 44 ] 
+	#field MFReal64      mMFReal64    [ 3.3 6.4 8.5 74 ] 
+	field MFDouble      mMFDouble    [ 2.0 3.4 3 6 44 ] 
+	
+	field MFColor       mMFColor     [ 0.1 0.1 0.1 1 2 3 ]
+	field MFColor3f     mMFColor3f   [ 0.1 0.1 0.1 3 4 5 ]
+	#field MFColor3ub    mMFColor3ub  [ 1 2 3 5 7 3 ]
+	field MFColorRGBA   mMFColorRGBA [ 0.4 0.4 0.4 1 5 2 3 0 ]
+	field MFColor4f     mMFColor4f   [ 0.1 0.1 0.1 0.5 4 5 6 4 ]
+	field MFColor4ub    mMFColor4ub  [ 1 2 3 4 6 4 3 2 ]
+	
+	field MFString      mMFString    [ "myString1" "myString2" ]
+	field MFTime        mMFTime      [ 0.1 3 0.4 ]
+	# MFVolume -> could not find desc idx creator for MFVolume
+	#field MFVolume      mMFVolume    [ 0 0 0 1 1 1 1 1 1 1 2 2 2 2]
+	#field MFBoxVolume   mMFBoxVolume [ 0 0 0 1 1 1 1 0.4 3 3 1 1 1 2 ]
+	#field MFPlane      mMFPlane     ?
+    
+	#field MFPnt2d       mMFPnt2d     [ 2.2 2.2 3 4 ]
+	field MFPnt2f       mMFPnt2f     [ 2.2 2.2 4.4 3 ]
+	#field MFPnt3d       mMFPnt3d     [ 3.3 3.3 3.3 4 5 6.3 ]
+	field MFPnt3f       mMFPnt3f     [ 3.3 3.3 3.3 1 1 1 ]
+	#field MFPnt4d       mMFPnt4d     [ 4.4 4.4 4.4 1 4 3 2 0.4 ]
+	field MFPnt4f       mMFPnt4f     [ 4.4 4.4 4.4 1 2 6 3 0.5 ]
+    
+	field MFVec2d       mMFVec2d     [ 2.2 2.2 2 2 ]
+	field MFVec2f       mMFVec2f     [ 2.2 2.2 1 2.3 ]
+	#field MFVec2ub      mMFVec2ub    [ 2 2 2 4]
+	field MFVec3d       mMFVec3d     [ 3.3 3.3 3.3 1 1 1 ]
+	field MFVec3f       mMFVec3f     [ 3.3 3.3 3.3 2.3 4 2 ]
+	#field MFVec3ub      mMFVec3ub    [ 3 3 3 5 2 34 ]
+	field MFVec4d       mMFVec4d     [ 4.4 4.4 4.4 1 6 3 4 0.5 ]
+	field MFVec4f       mMFVec4f     [ 4.4 4.4 4.4 1 5.3 2 5 1 ]
+	#field MFVec4ub      mMFVec4ub    [ 1 2 3 4 65 4 3 2 ]
+    
+	field MFMatrix      mMFMatrix    [ 1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1
+					   1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1 ]
+	field MFMatrix4d    mMFMatrix4d  [ 1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1
+					   1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 9.1 10.1 11.1 12.1 13.1 14.1 15.1 16.1 ]
+    
+	field MFRotation    mMFRotation  [ 1 2 3 45 0 1 0 15.3 ]
+	field MFQuaternion  mMFQuaterion [ 1 2 3 45 3 2 1 34 ]
+	#field MFQuaterniond mMFQuaterniond  [ 1 2 3 45 3 1 2 45 ]
+    
+	#field MFImage     mMFImage     ?
+	
+	scriptUrl "testValueFields.py"
+    
+	priority 42
+      }
+    }
+  ]
+}

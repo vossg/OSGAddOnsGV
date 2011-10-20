@@ -1,0 +1,48 @@
+#OSG V1.0 
+
+Node
+{
+  core PythonScript
+  {
+    field SFDouble myField 1.2
+
+    script 
+"
+def init():
+  print('init')
+
+def frame(timeStamp, frameCount):
+  print('frame (timeStamp/frameCount): %s / %s' % (timeStamp, frameCount))
+  self.set_myField(timeStamp)
+
+def changed(whichField, origin, details):
+  print('changed')
+
+def shutdown():
+  print('shutdown')
+"
+
+    priority 41
+  }
+
+  children
+  [
+    Node
+    {
+      core ComponentTransform
+      {
+      }
+  
+      children
+      [
+	Node
+	{
+	  core Inline
+	  {
+	    url "../Models/tie.wrl"
+	  }
+	}
+      ]
+    }
+  ]
+}

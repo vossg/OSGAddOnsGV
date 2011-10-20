@@ -52,31 +52,35 @@
 
 OSG_USING_NAMESPACE
 
-//#define OSGPY_DEBUG
-//#define OSGPY_DEBUG_CODEGENERATION
-
 // Documentation for this class is emited in the
 // OSGPythonScriptBase.cpp file.
 // To modify it, please change the .fcd file (OSGPythonScript.fcd) and
 // regenerate the base file.
 
-/*! \brief Registers the given type for the conversion functions between OpenSG
- *         and Python.
- *  \ingroup GrpScripting
- */
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
 
-/*-------------------------------------------------------------------------*/
-/*                               Sync                                      */
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
 
-FieldContainer *PythonScript::findNamedComponent(const Char8 *szName) const
+void PythonScript::initMethod(InitPhase ePhase)
 {
-    if(ComplexSceneManager::the() != NULL)
-    {
-        return(ComplexSceneManager::the()->findNamedComponent(szName));
-    }
+    Inherited::initMethod(ePhase);
 
-    return NULL;
+    if(ePhase == TypeObject::SystemPost)
+    {
+    }
 }
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
@@ -87,13 +91,11 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
 {
     Inherited::changed(whichField, origin, details);
 
-    // applies in init and shutdown phase
+    // Applies in init and shutdown phase.
     if(_pPyInterpreter == NULL) { return; }
 
     if(whichField & ScriptFieldMask)
     {
-        //std::cout << "[PythonScript::changed::ScriptFieldMask]" << std::endl;
-
         // TODO: cleanup interpreter variables and defs. How?
         // _pPyInterpreter->reset();
 
@@ -104,7 +106,6 @@ void PythonScript::changed(ConstFieldMaskArg whichField,
             pyDeactivate();
         }
 
-        // internally checks if execScript() was successfully or not
         callInitFunction();
     }
 
@@ -127,37 +128,180 @@ const FieldContainerType &PythonScript::getType(void) const
 /*-------------------------------------------------------------------------*/
 /*                               Dump                                      */
 
-void PythonScript::dump(      UInt32    uiIndent,
-                              const BitVector bvFlags) const
+void PythonScript::dump(UInt32    uiIndent,
+                        const BitVector bvFlags) const
 {
     Inherited::dump(uiIndent, bvFlags);
 }
 
 /*-------------------------------------------------------------------------*/
+/*                         Action Callbacks                                */
+
+/* Initializes the Python environment and calls the init() function of */
+/* the Python script. If anything goes wrong during the initialization */
+/* the application is aborted.                                         */
+bool PythonScript::init(void)
+{
+    fprintf(stderr, "PythonScript : init\n");
+
+    if(initPython() == false)
+    {
+        pyActivate();
+        pyDumpError();
+        pyDeactivate();
+
+        _pPyFieldAccessHandler = NULL;
+        delete _pPyInterpreter;
+
+        OSG::osgExit();
+        exit(-1);
+    };
+
+    // An error when executing the script is no hard error as the script can be
+    // fixed and reexecuted. Therefore init() still returns true in this case.
+    if(execScript() == false)
+    {
+        pyActivate();
+        pyDumpError("\nError loading the Python script:\n");
+        pyDeactivate();
+    }
+    else
+    {
+        callInitFunction();
+    }
+
+    return true;
+}
+
+/* Executes the frame() function defined in the Python script.         */
+/* Additionally checks if the script was changed by an external entity */
+/* via the setScriptChanged() method. In that case the script is       */
+/* reloaded before calling the frame() function.                       */
+/*                                                                     */
+/* \see setScriptChanged                                               */
+void PythonScript::frame(OSG::Time timeStamp, OSG::UInt32 frameCount)
+{
+    // Allowing external threads to trigger an reexecution of the changed
+    // script:
+    if(_bExternalScriptChanged == true)
+    {
+        fprintf(stderr, "PythonScript : triggered external script change\n");
+        changed(ScriptFieldMask, 0, 0);
+        _bExternalScriptChanged = false;
+    }
+
+    callFrameFunction(timeStamp, frameCount);
+}
+
+/*\brief Tears down the PythonScript core and shuts down the Python    */
+/*       interpreter.                                                  */
+void PythonScript::shutdown(void)
+{
+    fprintf(stderr, "PythonScript : shutdown\n");
+
+    // shutdown() is calles twice per core, the first time triggered by
+    // ComplexSceneManager::shutdown() -> FrameTaskHandler::shutdown() and then
+    // on the destruction of the FrameTaskMixin parent of this FieldContainer
+    // in FrameTaskMixin::onDestroyAspect() -> FrameTaskHandler::removeTask().
+    // We have to take care of not destructing the core twice:
+    if(_pPyInterpreter == NULL)
+    {
+        fprintf(stderr, "PythonScript :     ... skipped. Already shutdown.\n");
+        return;
+    }
+
+    callShutdownFunction();
+
+    _pPyFieldAccessHandler = NULL;
+
+    delete _pPyInterpreter;
+    _pPyInterpreter = NULL;
+
+    fprintf(stderr, "PythonScript :     ... done.\n");
+}
+
+/*-------------------------------------------------------------------------*/
+/*                         Dynamic Fields                                  */
+
+/*!\brief Exposes a field that is added to the PythonScript at runtime */
+/*        to Python. Initial fields read from the CSM configuration    */
+/*        are exposed in the initPython() method.                      */
+/*                                                                     */
+/* \return Id of the added field                                       */
+/* \see    initPython                                                  */
+UInt32 PythonScript::addField(const UInt32  uiFieldTypeId,
+                              const Char8  *szFieldName  )
+{
+    UInt32 returnValue = Inherited::addField(uiFieldTypeId, szFieldName);
+
+    if(_pPyInterpreter != NULL)
+    {
+        _pPyFieldAccessHandler->exposeFieldToPython(szFieldName, returnValue);
+
+#ifdef OSGPY_DEBUG
+        std::cout << "[PythonScript::addField] add dynamic property '"
+                  << szFieldName << "' to Python object" << std::endl;
+#endif
+    }
+
+    return returnValue;
+}
+
+/*!\brief Exposes a field that is added to the PythonScript at runtime */
+/*        to Python. Initial fields read from the CSM configuration    */
+/*        are exposed in the initPython() method.                      */
+/*                                                                     */
+/* \return Id of the added field                                       */
+/* \see    initPython                                                  */
+UInt32 PythonScript::addField(const Char8  *szFieldType,
+                              const Char8  *szFieldName)
+{
+    UInt32 returnValue = Inherited::addField(szFieldType, szFieldName);
+
+    // The initial dynamic fields are exposed in setupPython(). Only fields
+    // at runtime are handled here:
+    if(_pPyInterpreter != NULL)
+    {
+        _pPyFieldAccessHandler->exposeFieldToPython(szFieldName, returnValue);
+
+#ifdef OSGPY_DEBUG
+        std::cout << "[PythonScript::addField] add dynamic property '"
+                  << szFieldName << "' to Python object" << std::endl;
+#endif
+    }
+
+    return returnValue;
+}
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 PythonScript::PythonScript(void ) :
-    Inherited             (     ),
-    _pPyInterpreter       (NULL ),
-    _pPyFieldAccessHandler(NULL ),
-    _pyInitFunc           (     ),
-    _pyShutdownFunc       (     ),
-    _pyFrameFunc          (     ),
-    _pyChangedFunc        (     ),
-    _bScriptChanged       (false)
+    Inherited              (     ),
+    _pPyInterpreter        (NULL ),
+    _pPyFieldAccessHandler (NULL ),
+    _pyInitFunc            (     ),
+    _pyShutdownFunc        (     ),
+    _pyFrameFunc           (     ),
+    _pyChangedFunc         (     ),
+    _bExternalScriptChanged(false)
 {
 }
 
 // Creates a new, unitialized object at the moment
 PythonScript::PythonScript(const PythonScript &source) :
-    Inherited             (source),
-    _pPyInterpreter       (NULL  ),
-    _pPyFieldAccessHandler(NULL  ),
-    _pyInitFunc           (      ),
-    _pyShutdownFunc       (      ),
-    _pyFrameFunc          (      ),
-    _pyChangedFunc        (      ),
-    _bScriptChanged       (false )
+    Inherited              (source),
+    _pPyInterpreter        (NULL  ),
+    _pPyFieldAccessHandler (NULL  ),
+    _pyInitFunc            (      ),
+    _pyShutdownFunc        (      ),
+    _pyFrameFunc           (      ),
+    _pyChangedFunc         (      ),
+    _bExternalScriptChanged(false )
 {
 }
 
@@ -172,7 +316,7 @@ PythonScript::~PythonScript(void)
 }
 
 /*-------------------------------------------------------------------------*/
-/*                              Render                                     */
+/*                                Type                                     */
 
 PythonScript::TypeObject       &PythonScript::getFinalType(void)
 {
@@ -184,92 +328,23 @@ const PythonScript::TypeObject &PythonScript::getFinalType(void) const
     return _type;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Intersect                                   */
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*/
-/*                                Init                                     */
+/*                            Python Related                               */
 
-void PythonScript::initMethod(InitPhase ePhase)
-{
-    Inherited::initMethod(ePhase);
-
-    if(ePhase == TypeObject::SystemPost)
-    {
-        PyFieldAccessHandler::registerTypeMappings();
-    }
-}
-
-bool PythonScript::init(void)
-{
-    fprintf(stderr, "PythonScript : init\n");
-
-    if(initPython() == false)
-    {
-        pyActivate();
-        pyDumpError();
-        pyDeactivate();
-
-        //delete _pPyFieldAccessHandler;
-        delete _pPyInterpreter;
-
-        OSG::osgExit();
-        std::abort();
-    };
-
-    callInitFunction();
-
-    return true;
-}
-
-void PythonScript::frame(OSG::Time timeStamp, OSG::UInt32 frameCount)
-{
-    // Allowiing external threads to trigger an reexecution of the changed
-    // script:
-    if(_bScriptChanged == true)
-    {
-        fprintf(stderr, "PythonScript : triggered external script change\n");
-        changed(ScriptFieldMask, 0, 0);
-        _bScriptChanged = false;
-    }
-
-    callFrameFunction(timeStamp, frameCount);
-}
-
-void PythonScript::shutdown(void)
-{
-    fprintf(stderr, "PythonScript : shutdown\n");
-
-    // shutdown() is calles twice per core, the first time triggered by
-    // ComplexSceneManager::shutdown() -> FrameTaskHandler::shutdown() and then
-    // on the destruction of this FieldContainer (which is a FrameTaskMixin)
-    // itself in FrameTaskMixin::onDestroyAspect() -> FrameTaskHandler::removeTask().
-    // The next line takes care of that fact:
-    if(_pPyInterpreter == NULL)
-    {
-        fprintf(stderr, "PythonScript :     ... skipped. Already shutdown.\n");
-        return;
-    }
-
-    callShutdownFunction();
-
-    // Destruction of the _pPyFieldAccessHandler is done when the RecPtr
-    // exposed in _pPyFieldAccessHandler->init(...) is destroyed when the
-    // _pPyInterpreter is shutdown and the global Python variable
-    // _fieldAccessHandler gets out of scope.
-    _pPyFieldAccessHandler = NULL;
-
-    delete _pPyInterpreter;
-    _pPyInterpreter = NULL;
-
-    fprintf(stderr, "PythonScript :     ... done.\n");
-}
-
-/*!\brief Sets up the Python environment, loads global functions and   */
-/*        and exposes the PythonScript core as Python variable.        */
+/*!\brief Sets up the Python environment, imports the osg2.osg         */
+/*        module as osg, loads the global functions and makes the      */
+/*        PythonScript core available in Python as 'self', as well as  */
+/*        the PyFielDAccessHandler as '_fieldAccessHandler'.           */
 bool PythonScript::initPython(void)
 {
     _pPyInterpreter = new PyInterpreter;
+
+    // pyActivate?
+
     if(_pPyInterpreter->run("import osg2.osg as osg") == false)
     {
         FFATAL(("PythonScript: Cannot load module osg2.osg. Ensure that "
@@ -279,105 +354,68 @@ bool PythonScript::initPython(void)
     }
     _pPyInterpreter->addGlobalVariable<PythonScriptRecPtr>(this, "self");
 
-    // Working around the forward declaration issue in the header:
-    PyFieldAccessHandlerUnrecPtr tmpPtr = PyFieldAccessHandler::create();
-
-    // Refcount is incremented in init() below
-    _pPyFieldAccessHandler = tmpPtr;
-    if(_pPyFieldAccessHandler->init(this, _pPyInterpreter) == false)
+    _pPyFieldAccessHandler = PyFieldAccessHandler::create();
+    if(_pPyFieldAccessHandler->init(this) == false)
     {
         FFATAL(("PythonScript: Error initializing the PyFieldHandler\n"));
         return false;
     }
-    _pPyFieldAccessHandler->setupFieldAccess();
-
-    return(execScript());
-}
-
-UInt32 PythonScript::addField(const UInt32  uiFieldTypeId,
-                              const Char8  *szFieldName  )
-{
-    UInt32 returnValue = Inherited::addField(uiFieldTypeId, szFieldName);
-
-    // The initial dynamic fields are exposed in setupPython(). Only fields
-    // at runtime are handled here:
-    if(_pPyInterpreter != NULL)
+    else
     {
-        _pPyFieldAccessHandler->exposeField(szFieldName, returnValue);
-
-#ifdef OSGPY_DEBUG
-        std::cout << "[PythonScript::addField] add dynamic property '"
-                  << szFieldName << "' to Python object" << std::endl;
-#endif
+        // Increases the refcount of the _pPyFieldAccessHandler
+        _pPyInterpreter->addGlobalVariable<PyFieldAccessHandlerTransitPtr>
+                (PyFieldAccessHandlerTransitPtr(_pPyFieldAccessHandler),
+                 "_fieldAccessHandler");
     }
 
-    return returnValue;
+    return true;
 }
 
-UInt32 PythonScript::addField(const Char8  *szFieldType,
-                              const Char8  *szFieldName)
-{
-    UInt32 returnValue = Inherited::addField(szFieldType, szFieldName);
-
-    // The initial dynamic fields are exposed in setupPython(). Only fields
-    // at runtime are handled here:
-    if(_pPyInterpreter != NULL)
-    {
-        _pPyFieldAccessHandler->exposeField(szFieldName, returnValue);
-
-#ifdef OSGPY_DEBUG
-        std::cout << "[PythonScript::addField] add dynamic property '"
-                  << szFieldName << "' to Python object" << std::endl;
-#endif
-    }
-
-    return returnValue;
-}
-
-/*!\brief Executes the script in the "script" field and stores the     */
-/*        "init()", "frame()", "onChange()" and "shutdown()" functions */
-/*        as bp::objects for fast access. Before execution of the      */
-/*        script an eventual Python error is cleared.                  */
+/*!\brief Executes the script stored in the "script" field and stores  */
+/*        the "init()", "frame()", "onChange()" and "shutdown()"       */
+/*        functions as bp::objects for fast access. Before execution   */
+/*        of the script an eventual Python error is cleared.           */
 /*                                                                     */
-/* \see pyCheckError, pyClearError                                     */
+/* \see pyCheckForError, pyClearError                                  */
 bool PythonScript::execScript()
 {
     pyActivate();
 
-    if(pyCheckError() == true)
+    if(pyCheckForError() == true)
     {
         pyClearError();
     }
 
-    if(_pPyInterpreter->run(getScript()) != false)
+    bool flag = _pPyInterpreter->run(getScript());
+
+    if(flag == true)
     {
         // The script is expected to contain the following functions:
         //   - init()
         //   - shutdown()
         //   - frame()
         //   - changed()
-        _pyInitFunc     = _pPyInterpreter->bindFunction("init");
+        _pyInitFunc     = _pPyInterpreter->bindFunction("init"    );
         _pyShutdownFunc = _pPyInterpreter->bindFunction("shutdown");
-        _pyFrameFunc    = _pPyInterpreter->bindFunction("frame");
-        _pyChangedFunc  = _pPyInterpreter->bindFunction("changed");
+        _pyFrameFunc    = _pPyInterpreter->bindFunction("frame"   );
+        _pyChangedFunc  = _pPyInterpreter->bindFunction("changed" );
 
         // It is no error if one or more of the functions is not present in the
-        // script. The callXXXFunction() members do not execute them in that
-        // case.
+        // script. The corresponding callXXXFunction() members do not execute
+        // in that case.
 
 #ifdef OSGPY_DEBUG
     std::cout << "PythonScript: executed script and bound functions" << std::endl;
 #endif
     }
 
-    bool flag = !pyCheckError();
-
     pyDeactivate();
 
     return flag;
 }
 
-/*!\brief Calls the script's init function and checks for errors.      */
+/*!\brief Calls the script's init function if no internal Python error */
+/*  is set. Otherwise returns immediately                              */
 /*                                                                     */
 /* \return true if the function was successfully executed, false       */
 /*         otherwise                                                   */
@@ -387,7 +425,7 @@ bool PythonScript::callInitFunction()
 
     pyActivate();
 
-    if(_pyInitFunc != NULL && !pyCheckError())
+    if(_pyInitFunc != NULL && !pyCheckForError())
     {
         try
         {
@@ -408,7 +446,8 @@ bool PythonScript::callInitFunction()
     return flag;
 }
 
-/*!\brief Calls the script's shutdown function and checks for errors.  */
+/*!\brief Calls the script's shutdown function if no internal Python   */
+/*  error is set. Otherwise returns immediately.                       */
 /*                                                                     */
 /* \return true if the function was successfully executed, false       */
 /*         otherwise                                                   */
@@ -418,7 +457,7 @@ bool PythonScript::callShutdownFunction()
 
     pyActivate();
 
-    if(_pyShutdownFunc != NULL && !pyCheckError())
+    if(_pyShutdownFunc != NULL && !pyCheckForError())
     {
         try
         {
@@ -427,7 +466,7 @@ bool PythonScript::callShutdownFunction()
         catch(bp::error_already_set)
         {
             FWARNING(("PythonScript: Error calling shutdown() function:\n"));
-            _pPyInterpreter->dumpError(std::cout);
+            _pPyInterpreter->dumpError();
             // Do not clear python error here. That is done in compileScript().
         }
 
@@ -439,7 +478,8 @@ bool PythonScript::callShutdownFunction()
     return flag;
 }
 
-/*!\brief Calls the script's frame function and checks for errors.     */
+/*!\brief Calls the script's frame function if no internal Python      */
+/*  error is set. Otherwise returns immediately.                       */
 /*                                                                     */
 /* \return true if the function was successfully executed, false       */
 /*         otherwise                                                   */
@@ -449,7 +489,7 @@ bool PythonScript::callFrameFunction(OSG::Time timeStamp, OSG::UInt32 frameCount
 
     pyActivate();
 
-    if(_pyFrameFunc != NULL && !pyCheckError())
+    if(_pyFrameFunc != NULL && !pyCheckForError())
     {
         try
         {
@@ -458,7 +498,7 @@ bool PythonScript::callFrameFunction(OSG::Time timeStamp, OSG::UInt32 frameCount
         catch(bp::error_already_set)
         {
             FWARNING(("PythonScript: Error calling frame() function:\n"));
-            _pPyInterpreter->dumpError(std::cout);
+            _pPyInterpreter->dumpError();
             // Do not clear python error here. That is done in compileScript().
         }
 
@@ -470,7 +510,8 @@ bool PythonScript::callFrameFunction(OSG::Time timeStamp, OSG::UInt32 frameCount
     return flag;
 }
 
-/*!\brief Calls the script's change function and checks for errors.    */
+/*!\brief Calls the script's changed function if no internal Python    */
+/*  error is set. Otherwise returns immediately.                       */
 /*                                                                     */
 /* \return true if the function was successfully executed, false       */
 /*         otherwise                                                   */
@@ -482,7 +523,7 @@ bool PythonScript::callChangedFunction(ConstFieldMaskArg whichField,
 
     pyActivate();
 
-    if(_pyChangedFunc != NULL && !pyCheckError())
+    if(_pyChangedFunc != NULL && !pyCheckForError())
     {
         try
         {
@@ -491,7 +532,7 @@ bool PythonScript::callChangedFunction(ConstFieldMaskArg whichField,
         catch(bp::error_already_set)
         {
             FWARNING(("PythonScript: Error calling changed() function:\n"));
-            _pPyInterpreter->dumpError(std::cout);
+            _pPyInterpreter->dumpError();
             // Do not clear python error here. That is done in compileScript().
         }
 

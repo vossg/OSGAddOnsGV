@@ -8,11 +8,14 @@ def shutdown():
     pass
 
 def frame(timeStamp, frameCount):
-    ts = timeStamp;
-
+    if self.get_mEnableFrameFunction() == True:
+        return
+    
+    ts = timeStamp
+    
     self.set_mSFInt32(frameCount)
-    #self.set_mSFFloat(timeStamp)
-    self.set_mSFDouble(timeStamp)
+    #self.set_mSFFloat(ts)
+    self.set_mSFDouble(ts)
     self.set_mSFString('mystring ' + str(frameCount))
     if frameCount%2 == 0:
         self.set_mSFBool(False)
@@ -42,6 +45,12 @@ def frame(timeStamp, frameCount):
     self.set_mSFVolume (osg.BoxVolume(osg.Vec3f(ts,ts,ts), osg.Vec3f(ts,ts,ts)))
 
     self.set_mSFTime(ts)
+    
+    #node = osg.Node.create()
+    #osg.setName(node, "node." + str(frameCount))
+    #self.set_mSFRecNodePtr(node)
+    #self.set_mSFUnrecNodePtr(node)
+    #self.set_mSFWeakNodePtr(node)
 
 def changed(whichField, origin, details):
     pass

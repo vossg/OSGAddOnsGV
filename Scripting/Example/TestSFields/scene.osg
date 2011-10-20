@@ -4,6 +4,8 @@ DEF MainNode Node
 {
   core DEF Writer PythonScriptFile
   {
+    field SFBool      mEnableFrameFunction False
+    
     field SFInt32     mSFInt32    1
     field SFDouble    mSFDouble   3.3
     field SFString    mSFString   "myString"
@@ -34,8 +36,11 @@ DEF MainNode Node
     field SFTime      mSFTime      0.1
 
     #field SFImage     mSFImage     ?
-    #field SFNode      mSFNode      USE MainNode
-
+    
+    field SFRecNodePtr   mSFRecNodePtr   USE MainNode
+    field SFUnrecNodePtr mSFUnrecNodePtr USE MainNode
+    field SFWeakNodePtr  mSFWeakNodePtr  USE MainNode
+    
     scriptUrl "testSFieldWriter.py"
 
     priority 41
@@ -65,6 +70,8 @@ DEF MainNode Node
         {
           core DEF Reader PythonScriptFile
           {    
+	    field SFBool      mEnableFrameFunction False
+	    
             field SFInt32     mSFInt32     4
             field SFDouble    mSFDouble    2.2  
             field SFString    mSFString   "myString"
@@ -93,6 +100,10 @@ DEF MainNode Node
             field SFVolume     mSFVolume   0 0 0 1 1 1 1
 
             field SFTime       mSFTime     0.2
+	    
+	    field SFRecNodePtr   mSFRecNodePtr   USE MainNode
+	    field SFUnrecNodePtr mSFUnrecNodePtr USE MainNode
+	    field SFWeakNodePtr  mSFWeakNodePtr  USE MainNode
 
             scriptUrl "testSFieldReader.py"
 
@@ -151,3 +162,7 @@ ROUTE Writer.mSFColorRGBA TO Reader.mSFColorRGBA
 ROUTE Writer.mSFVolume TO Reader.mSFVolume
 
 ROUTE Writer.mSFTime   TO Reader.mSFTime
+
+ROUTE Writer.mSFRecNodePtr   TO Reader.mSFRecNodePtr
+ROUTE Writer.mSFUnrecNodePtr TO Reader.mSFUnrecNodePtr
+ROUTE Writer.mSFWeakNodePtr  TO Reader.mSFWeakNodePtr

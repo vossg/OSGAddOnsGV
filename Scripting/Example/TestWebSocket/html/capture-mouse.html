@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <style>
+            body {
+                margin: 0px;
+                padding: 0px;
+            }
+            
+            #myCanvas {
+                border: 1px solid #9C9898;
+            }
+        </style>
+        <script src="http://www.html5canvastutorials.com/libraries/kinetic2d-v1.0.0.js">
+        </script>
+        <script>
+            var kin;
+            var message = "";
+            
+            function writeMessage(){
+                var context = kin.getContext();
+                context.font = "18pt Calibri";
+                context.fillStyle = "black";
+                context.fillText(message, 10, 25);
+            }
+            
+            window.onload = function(){
+                kin = new Kinetic_2d("myCanvas");
+                
+		socket = null;
+              if ('WebSocket' in window) {
+		    socket = new WebSocket("ws://localhost:9999");
+		  } else if ('MozWebSocket' in window) {
+		    socket = new MozWebSocket("ws://localhost:9999");
+		  } else {
+		    return;
+  		}
+
+  socket.onerror = function () {
+    alert('Error');
+  }; 
+                
+                kin.getCanvas().onmouseout = function(){
+                    kin.drawStage();
+                };
+                
+                kin.setDrawStage(function(){
+                    var mousePos = kin.getMousePos();
+                    
+                    if (mousePos !== null) {
+                        message = "Mouse position: " + mousePos.x +
+                        "," +
+                        mousePos.y;
+			socket.send(mousePos.x + " " + mousePos.y + " 0")
+                    }
+                    else {
+                        message = "Mouseover me!";
+                    }
+                    
+                    kin.clear();
+                    writeMessage();
+                });
+            };
+        </script>
+    </head>
+    <body onmousedown="return false;">
+
+        <canvas id="myCanvas" width="600" height="600">
+        </canvas>
+    </body>
+</html>
+

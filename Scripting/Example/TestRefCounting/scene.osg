@@ -1,0 +1,30 @@
+#OSG V1.0 
+
+DEF MainNode Node
+{ 
+  core DEF TestScript PythonScriptFile
+  {   
+    field SFRecNodePtr   mSFRecNodePtr   Node {}
+    field SFUnrecNodePtr mSFUnrecNodePtr Node {}
+    field SFWeakNodePtr  mSFWeakNodePtr  USE MainNode
+    
+    field MFRecNodePtr   mMFRecNodePtr   [ Node {} Node {} Node {} ]
+    field MFUnrecNodePtr mMFUnrecNodePtr [ Node {} Node {} Node {} ]
+    field MFWeakNodePtr  mMFWeakNodePtr  [ Node {} Node {} USE MainNode ]
+    
+    scriptUrl "testRefCounting.py"
+
+    priority 42
+  }
+    
+  children
+  [
+    Node
+    {
+      core Inline
+      {
+	url "../Models/tie.wrl"
+      }
+    }
+  ]
+}

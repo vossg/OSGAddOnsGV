@@ -78,17 +78,6 @@ void register_PythonScript_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
-        { //::OSG::PythonScript::findNamedComponent
-        
-            typedef ::OSG::FieldContainer * ( ::OSG::PythonScript::*findNamedComponent_function_type )( ::OSG::Char8 const * ) const;
-            
-            PythonScript_exposer.def( 
-                "findNamedComponent"
-                , findNamedComponent_function_type( &::OSG::PythonScript::findNamedComponent )
-                , ( bp::arg("szName") )
-                , bp::return_internal_reference< >() );
-        
-        }
         { //::OSG::PythonScript::frame
         
             typedef void ( ::OSG::PythonScript::*frame_function_type )( ::OSG::Time,::OSG::UInt32 ) ;
@@ -97,6 +86,16 @@ void register_PythonScript_class(){
                 "frame"
                 , frame_function_type( &::OSG::PythonScript::frame )
                 , ( bp::arg("timeStamp"), bp::arg("frameCount") ) );
+        
+        }
+        { //::OSG::PythonScript::getInterpreter
+        
+            typedef ::OSG::PyInterpreter * ( ::OSG::PythonScript::*getInterpreter_function_type )(  ) const;
+            
+            PythonScript_exposer.def( 
+                "getInterpreter"
+                , getInterpreter_function_type( &::OSG::PythonScript::getInterpreter )
+                , bp::return_internal_reference< >() );
         
         }
         { //::OSG::PythonScript::getType

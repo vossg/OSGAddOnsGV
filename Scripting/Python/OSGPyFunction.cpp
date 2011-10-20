@@ -52,6 +52,13 @@ PyFunction::PyFunction()
 {
 }
 
+/*!\brief  Acquires a function from a given boost::python object.      */
+/*                                                                     */
+/* \param  dict     A boost::python object                             */
+/* \param  funcname Name of the desired function                       */
+/*                                                                     */
+/* \return True if successfull, false otherwise. _isValid is set to
+/*         false if bind is not successfull.                           */
 bool PyFunction::bind(const bp::object& dict, std::string funcname)
 {
 #if BOOST_VERSION >= 104100
@@ -62,24 +69,25 @@ bool PyFunction::bind(const bp::object& dict, std::string funcname)
     {
         _func = dict[funcname];
         _isValid = true;
-
-        //std::cout << "[PyFunction] Successfully bound function '" << funcname << "'." << std::endl;
     }
     else
     {
         _isValid = false;
-
-        std::cout << "[PyFunction] Error binding function '" << funcname << "'." << std::endl;
+        std::cerr << "[PyFunction] Error binding function '" << funcname << "'." << std::endl;
     }
 
     return _isValid;
 }
 
+/*!\brief Returns the boost::python object containing the function.    */
+/*        You have to ensure that the function is valid before calling */
+/*        it.                                                          */
 bp::object& PyFunction::get()
 {
     return _func;
 }
 
+/*!\brief Invalidates the function.                                    */
 void PyFunction::invalidate()
 {
     _isValid = false;

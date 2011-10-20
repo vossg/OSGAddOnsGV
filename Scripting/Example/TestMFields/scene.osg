@@ -4,11 +4,12 @@ DEF MainNode Node
 {
   core DEF Writer PythonScriptFile
   {   
-    field MFInt32 mMFInt32 [ 1 2 3 6 7 5 7 4 6 44 33 2 ]
-    field MFVec3f mMFVec3f [ 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5]
+    #field MFInt32 mMFInt32 [ 1 2 3 6 7 5 7 4 6 44 33 2 ]
+    #field MFVec3f mMFVec3f [ 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5]
     
-    field SFWeakNodePtr  mSFNode  USE MainNode
-
+    #field SFWeakNodePtr  mSFNode  USE MainNode
+    #field MFWeakNodePtr  mMFNode  [ USE MainNode USE MainNode USE MainNode]
+    
     scriptUrl "testMFieldWriter.py"
 
     priority 41
@@ -42,6 +43,7 @@ DEF MainNode Node
 	    field MFVec3f mMFVec3f [ 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5]
 	    
 	    field SFWeakNodePtr  mSFNode  USE MainNode
+	    field MFWeakNodePtr  mMFNode  [ USE MainNode USE MainNode ]
 
             scriptUrl "testMFieldReader.py"
 
@@ -74,3 +76,5 @@ DEF MainNode Node
 
 ROUTE Writer.mMFInt32 TO Reader.mMFInt32
 ROUTE Writer.mMFVec3f TO Reader.mMFVec3f
+ROUTE Writer.mMFNode  TO Reader.mMFNode
+ROUTE Writer.mSFNode  TO Reader.mSFNode

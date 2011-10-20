@@ -5,6 +5,9 @@ def shutdown():
     pass
 
 def frame(timeStamp, frameCount):
+    if self.get_mEnableFrameFunction() == True:
+        return
+    
     print('Reader: mSFInt32  = ' + str(self.get_mSFInt32()))
     print('Reader: mSFDouble = ' + str(self.get_mSFDouble()))
     print('Reader: mSFString = ' + str(self.get_mSFString()))
@@ -33,6 +36,10 @@ def frame(timeStamp, frameCount):
     print('Reader: mSFVolume.getMin() = ' + str(self.get_mSFVolume().getMin()))
 
     print ('Reader: mSFTime = ' + str(self.get_mSFTime()))
+    
+    #print ('Reader: mSFRecNodePtr name   = ' + osg.getName(self.get_mSFRecNodePtr()))
+    #print ('Reader: mSFUnrecNodePtr name = ' + osg.getName(self.get_mSFUnrecNodePtr()))
+    #print ('Reader: mSFWeakNodePTr name  = ' + osg.getName(self.get_mSFWeakNodePtr()))
 
 def changed(whichField, origin, details):
     pass

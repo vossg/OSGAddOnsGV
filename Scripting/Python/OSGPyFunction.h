@@ -53,29 +53,16 @@ class OSG_SCRIPTING_DLLMAPPING PyFunction
 public:
     PyFunction();
 
-    /*!\brief  Acquires a function from a given boost::python object.      */
-    /*                                                                     */
-    /* \param  dict     A boost::python object                             */
-    /* \param  funcname Name of the desired function                       */
-    /*                                                                     */
-    /* \return True if successfull, false otherwise. _isValid is set to    */
-    /*         false if bind is not successfull.                           */
-    bool bind(const bp::object& dict, std::string funcname);
-
-    /*!\brief Checks if the wrapper contains a valid function.             */
-    bool isValid() { return _isValid; };
-
-    /*!\brief Returns the boost::python object containing the function. Be */
-    /*        sure to check if the the function is valid before calling    */
-    /*        it.                                                          */
+    bool        bind(const bp::object& dict, std::string funcname);
     bp::object& get();
 
-    /*!\brief Invalidates the function.                                    */
+    /*!\brief Checks if the wrapper contains a valid function.         */
+    bool isValid   () { return _isValid; }
     void invalidate();
 
 private:
-    bp::object     _func;
-    bool           _isValid;
+    bp::object _func;
+    bool       _isValid;
 };
 
 OSG_END_NAMESPACE

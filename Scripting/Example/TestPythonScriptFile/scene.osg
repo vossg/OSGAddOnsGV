@@ -2,9 +2,9 @@
 
 Node
 {
-  core DEF Driver PythonScriptFile
+  core PythonScriptFile
   {
-    field SFVec3f pos   0 0 0
+    field SFDouble myField 1.2
 
     scriptUrl "script.py"
 
@@ -13,24 +13,22 @@ Node
 
   children
   [
-        Node
-        {
-          core DEF TieTrans ComponentTransform
-          {
-          }
-      
-          children
-          [
-            Node
-            {
-              core Inline
-              {
-	        url "../Models/tie.wrl"
-              }
-            }
-          ]
-        }
+    Node
+    {
+      core ComponentTransform
+      {
+      }
+  
+      children
+      [
+	Node
+	{
+	  core Inline
+	  {
+	    url "../Models/tie.wrl"
+	  }
+	}
+      ]
+    }
   ]
 }
-
-ROUTE Driver.pos TO TieTrans.translation

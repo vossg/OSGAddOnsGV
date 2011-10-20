@@ -40,6 +40,14 @@
 
 #include "generated/PyFieldAccessHandlerBase.pypp.hpp"
 
+#include "generated/PyFieldContainerPtrMFieldEditHandle.pypp.hpp"
+
+#include "generated/PyFieldContainerPtrMFieldEditHandleBase.pypp.hpp"
+
+#include "generated/PyFieldContainerPtrMFieldGetHandle.pypp.hpp"
+
+#include "generated/PyFieldContainerPtrMFieldGetHandleBase.pypp.hpp"
+
 #include "generated/PythonScript.pypp.hpp"
 
 #include "generated/PythonScriptBase.pypp.hpp"
@@ -69,6 +77,14 @@ BOOST_PYTHON_MODULE(OSGScriptingPy){
 
     register_PyFieldAccessHandler_class();
 
+    register_PyFieldContainerPtrMFieldEditHandleBase_class();
+
+    register_PyFieldContainerPtrMFieldEditHandle_class();
+
+    register_PyFieldContainerPtrMFieldGetHandleBase_class();
+
+    register_PyFieldContainerPtrMFieldGetHandle_class();
+
     register_ScriptBase_class();
 
     register_Script_class();
@@ -79,29 +95,41 @@ BOOST_PYTHON_MODULE(OSGScriptingPy){
 
     register_PythonScriptFileBase_class();
 
-    /** Helpers for OSG::PyFieldAccessHandler */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PyFieldAccessHandler, OSG::PyFieldAccessHandler::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PyFieldAccessHandler::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
     /** Helpers for OSG::PythonScript */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PythonScript, OSG::PythonScript::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::PythonScript::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::PythonScriptFile */
+    /** Helpers for OSG::PyFieldAccessHandler */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PythonScriptFile, OSG::PythonScriptFile::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PyFieldAccessHandler, OSG::PyFieldAccessHandler::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PythonScriptFile::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PyFieldAccessHandler::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::PyFieldContainerPtrMFieldGetHandle */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PyFieldContainerPtrMFieldGetHandle, OSG::PyFieldContainerPtrMFieldGetHandle::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PyFieldContainerPtrMFieldGetHandle::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::PyFieldContainerPtrMFieldEditHandle */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PyFieldContainerPtrMFieldEditHandle, OSG::PyFieldContainerPtrMFieldEditHandle::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PyFieldContainerPtrMFieldEditHandle::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::Script */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Script, OSG::Script::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::Script::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::PythonScriptFile */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PythonScriptFile, OSG::PythonScriptFile::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PythonScriptFile::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     register_PythonScriptFile_class();
 }

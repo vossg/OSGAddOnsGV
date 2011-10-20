@@ -46,8 +46,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief PythonScriptFile class. See \ref
-           PageContribCSMPythonScriptFile for a description.
+/*! \brief A derived version of the PythonScript that provides a scriptUrl
+           field to point to a Python script file instead of handing the
+           script over as a string.
 */
 
 class OSG_CONTRIBCSM_DLLMAPPING PythonScriptFile : public PythonScriptFileBase
@@ -120,28 +121,6 @@ class OSG_CONTRIBCSM_DLLMAPPING PythonScriptFile : public PythonScriptFileBase
                      const Char8  *szFilename);
     bool readProgram(std::string  &szTarget,
                      std::istream &iStream);
-
-
-
-//    virtual UInt32 addField(const UInt32  uiFieldTypeId,
-//                            const Char8  *szFieldName   )
-//    {
-//        std::cout << "addfield0: " << szFieldName << " in container "
-//                  << this << " with _type " << &getType() << " and _finalType "
-//                  << &getFinalType() << std::endl;
-//        Inherited::addField(uiFieldTypeId, szFieldName);
-
-//        std::cout << "new type #:     " << getType().getNumFieldDescs() << std::endl;
-//        std::cout << "new finaltype#: " << getFinalType().getNumFieldDescs() << std::endl;
-//    }
-//    virtual UInt32 addField(const Char8  *szFieldType,
-//                            const Char8  *szFieldName   )
-//    {
-//        std::cout << "addfield0: " << szFieldName << " in container "
-//                  << this << " with _type " << &getType() << " and _finalType "
-//                  << &getFinalType() << std::endl;
-//        Inherited::addField(szFieldName, szFieldType);
-//    }
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

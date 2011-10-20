@@ -19,14 +19,14 @@ import socket
 import sys
 import threading
 
-import websocket
+#import websocket
 
 self.coords     = '0 0 0'
 self.hasNewData = False
 
 def frame(timeStamp, frameCount):
     if self.hasNewData == True:
-        #print('OSG thread: new data! -> %s' % self.coords)
+        print('OSG thread: new data! -> %s' % self.coords)
         
         items = self.coords.split(' ');
         #print('Item list: %s' %s items)
