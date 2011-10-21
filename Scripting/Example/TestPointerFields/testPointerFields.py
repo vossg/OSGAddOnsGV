@@ -81,12 +81,12 @@ def ptr_test():
     print('\n*** Changing content via EditHandle:')
     for idx in range(0, len(mfield)):
         old_node = mfield[idx]
-        mfield[idx] = self.findNamedComponent('Node0' + str(idx))
+        mfield[idx] = osg.ComplexSceneManager.the().findNamedComponent('Node0' + str(idx))
         print('  Replaced "%s" with "%s"' % \
               (osg.getName(old_node), osg.getName(mfield[idx])))
     size = len(mfield)
     for idx in range(size, size+3):
-        mfield.append(self.findNamedComponent('Node0' + str(idx)))
+        mfield.append(osg.ComplexSceneManager.the().findNamedComponent('Node0' + str(idx)))
         print('  Appended node "%s"' % (osg.getName(mfield[-1])))
     #----------------------------------------------------------------------------------------------
     

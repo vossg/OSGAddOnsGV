@@ -157,7 +157,7 @@ bool PythonScript::init(void)
         exit(-1);
     };
 
-    // An error when executing the script is no hard error as the script can be
+    // An error when executing the script is no critical error as the script can be
     // fixed and reexecuted. Therefore init() still returns true in this case.
     if(execScript() == false)
     {
