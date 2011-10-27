@@ -57,7 +57,7 @@ PyFunction::PyFunction()
 /* \param  dict     A boost::python object                             */
 /* \param  funcname Name of the desired function                       */
 /*                                                                     */
-/* \return True if successfull, false otherwise. _isValid is set to
+/* \return True if successfull, false otherwise. _isValid is set to    */
 /*         false if bind is not successfull.                           */
 bool PyFunction::bind(const bp::object& dict, std::string funcname)
 {

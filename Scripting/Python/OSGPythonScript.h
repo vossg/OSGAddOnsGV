@@ -171,8 +171,8 @@ protected:
     /*! \name                        Python                                */
     /*! \{                                                                 */
 
-    bool pyActivate  () { return _pPyInterpreter->activate();            }
-    bool pyDeactivate() {        _pPyInterpreter->deactivate();          }
+    bool pyActivate  () { return _pPyInterpreter->activate();                }
+    bool pyDeactivate() {        _pPyInterpreter->deactivate(); return true; }
 
     // pyXXX members can only be called in between pyActivate() and
     // pyDeactivate()

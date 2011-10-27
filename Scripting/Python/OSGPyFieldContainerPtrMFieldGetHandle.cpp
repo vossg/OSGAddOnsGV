@@ -198,7 +198,7 @@ FieldContainerTransitPtr PyFieldContainerPtrMFieldGetHandle::getitem(int key)
         key = _pGetMFHandle->size() - key;
     }
 
-    if(key < 0 || key > _pGetMFHandle->size())
+    if(key < 0 || UInt32(key) > _pGetMFHandle->size())
     {
         PyErr_SetNone(PyExc_IndexError);
         throw boost::python::error_already_set();

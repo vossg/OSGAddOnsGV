@@ -198,7 +198,7 @@ FieldContainerTransitPtr PyFieldContainerPtrMFieldEditHandle::getitem(int key)
         key = key + _pEditMFHandle->size();
     }
 
-    if(key < 0 || key > _pEditMFHandle->size())
+    if(key < 0 || UInt32(key) > _pEditMFHandle->size())
     {
         PyErr_SetNone(PyExc_IndexError);
         throw boost::python::error_already_set();
@@ -217,7 +217,7 @@ void PyFieldContainerPtrMFieldEditHandle::setitem(int key, FieldContainer* value
         key = _pEditMFHandle->size() - key;
     }
 
-    if(key < 0 || key > _pEditMFHandle->size())
+    if(key < 0 || UInt32(key) > _pEditMFHandle->size())
     {
         PyErr_SetNone(PyExc_IndexError);
         throw boost::python::error_already_set();

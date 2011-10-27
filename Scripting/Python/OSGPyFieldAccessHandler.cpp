@@ -97,7 +97,7 @@ void PyFieldAccessHandler::initMethod(InitPhase ePhase)
 /*        Internally global Python functions needed for the field      */
 /*        access are added to the interpreter and the currently        */
 /*        present dynamic fields are exposed to Python.                */
-/*
+/*                                                                     */
 /*        Dynamically added fields are handled in the addFields()      */
 /*        methods.                                                     */
 /*                                                                     */
@@ -148,7 +148,7 @@ bool PyFieldAccessHandler::init(PythonScript* pythonScript)
 /*         to be exposed it is not accessible via Python and an error  */
 /*         message is printed to std::cerr. The other fields are still */
 /*         processed in that case.                                     */
-/*
+/*                                                                     */
 /* \return true if every field was processed successfully. false if    */
 /*         one or more fields failed to be exposed to Python.          */
 bool PyFieldAccessHandler::exposeAllFieldsToPython()
