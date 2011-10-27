@@ -29,9 +29,9 @@
                 
 		socket = null;
               if ('WebSocket' in window) {
-		    socket = new WebSocket("ws://localhost:9999");
+		    socket = new WebSocket("ws://localhost:8080");
 		  } else if ('MozWebSocket' in window) {
-		    socket = new MozWebSocket("ws://localhost:9999");
+		    socket = new MozWebSocket("ws://localhost:8080");
 		  } else {
 		    return;
   		}

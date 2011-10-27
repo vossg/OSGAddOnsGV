@@ -4,12 +4,12 @@ Node
 {
   core DEF Writer PythonScriptFile
   {
-    field SFDouble mySFDouble 1.2
-    field SFVec3f  mySFVec3f  0 0 0
-    field MFDouble myMFDouble [ 0 0 0 0 0 0]
-    field MFVec3f  myMFVec3f  [ 0 0 0 0 0 0]
+    field SFDouble mySFDouble   1.2
+    field SFVec3f  mySFVec3f    0 0 0
+    field MFDouble myMFDouble [ 0 0 0 0 0 0 ]
+    field MFVec3f  myMFVec3f  [ 0 0 0 0 0 0 ]
     
-    field SFUnrecNodePtr mySFNode Node {}
+    field SFUnrecNodePtr mySFNode   Node {}
     field MFUnrecNodePtr myMFNode [ Node {} Node {} ]
     
     scriptUrl "writer.py"
@@ -41,12 +41,12 @@ Node
     {
       core DEF Reader PythonScriptFile
       {    
-	field SFDouble mySFDouble 1.2
-	field SFVec3f  mySFVec3f  0 0 0
-	field MFDouble myMFDouble [ 0 0 0 0 0 0]
-	field MFVec3f  myMFVec3f  [ 0 0 0 0 0 0]
+	field SFDouble mySFDouble   1.2
+	field SFVec3f  mySFVec3f    0 0 0
+	field MFDouble myMFDouble [ 0 0 0 0 0 0 ]
+	field MFVec3f  myMFVec3f  [ 0 0 0 0 0 0 ]
 	
-	field SFUnrecNodePtr mySFNode Node {}
+	field SFUnrecNodePtr mySFNode   Node {}
 	field MFUnrecNodePtr myMFNode [ Node {} Node {} ]
 
 	scriptUrl "reader.py"
@@ -62,4 +62,5 @@ ROUTE Writer.mySFVec3f  TO Reader.mySFVec3f
 ROUTE Writer.myMFDouble TO Reader.myMFDouble
 ROUTE Writer.myMFVec3f  TO Reader.myMFVec3f
 ROUTE Writer.mySFNode   TO Reader.mySFNode
+# Currently causes segfault:
 #ROUTE Writer.myMFNode   TO Reader.myMFNode

@@ -1,20 +1,360 @@
-/*---------------------------------------------------------------------------*/
-/* FAQ document for OpenSG's Python Bindings and the PythonScript core       */
-/* (This file will most likely be split into two documents when finished)    */
-/*                                                                           */
-/* Author: Martin Hecher                                                     */
-/* E-Mail: martin.hecher@fraunhofer.sg                                       */
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/* FAQ document for PythonScript core                                         */
+/* (This file will most likely be split into two documents when finished)     */
+/*                                                                            */
+/* Author: Martin Hecher                                                      */
+/* E-Mail: martin.hecher@fraunhofer.sg                                        */
+/*----------------------------------------------------------------------------*/
 
+/*----------------------------------------------------------------------------*/
+/* SECTION: What is the PythonScript/PythonScriptFile core?                   */
+/*----------------------------------------------------------------------------*/
 
-/*---------------------------------------------------------------------------*/
-/* SECTION: USAGE                                                            */
-/*---------------------------------------------------------------------------*/
+With a PythonScript core you can add a Python script to the scene. With the
+script you have access to the scenegraph and can change it. You can also route
+fields into the script and consume and/or manipulate their data.
 
+The core is meant to provide a rapid prototyping possibility for your
+applications as it uses an interpreted language with all its pro and cons. So,
+do not expect high-performance behaviour.
+
+Within you Python script you use the Python OpenSG bindings that are maintained
+via the code.google.com/p/pyopensg/ site. They are integrated into the CMake
+setup of OpenSG via the OSGAddons repository. See below for how to install and
+use the bindings.
+
+/*----------------------------------------------------------------------------*/
+/* SECTION: Application integration                                           */
+/*----------------------------------------------------------------------------*/
+
+The PythonScript core is designed to work best together with the
+ComplexSceneManager. The core is added in the CSM config file to in the
+following two ways. Either in using a Python script file:
+   
+   Node
+   {
+     core PythonScriptFile
+     {
+       field SFVec3f myPosition  0 0 0
+       
+       scriptUrl "driver.py"
+       
+       priority 41
+     }
+   }
+   
+Or in embedding the Python code directly into the configuration file:
+   
+   Node
+   {
+     core PythonScript
+     {
+       field SFVec3f myPosition  0 0 0
+       
+       script      
+"
+def init():
+   pass
+
+def frame(timeStamp, frameCount):
+   pass
+
+def changed(whichField, origin, details):
+   pass
+
+def shutdown():
+   pass
+"
+       
+       priority 41
+     }
+   }
+
+As shown above the script can either be read from a file in using the
+"PythonScriptFile" core. To directly embed the Python code use the
+"PythonScript" core. The core expects four methods to be present in the script:
+
+   init()    : Called once when the core is setup
+   
+   frame()   : Called every frame with the current timestamp and frame count as
+               argument
+               
+   changed() : Called when one of the dynamic fields data is changed and
+               OSG::commitChanges() is called (the method behaves the same as
+               the ordinary FieldContainer::changed() method). You get the
+               whichField, origin and details BitVectors as argument.
+               
+   shutdown(): Called when the core is destroyed.
+
+Those methods can be utilized to integrate scripted functionality into the
+application logic.
+
+/*----------------------------------------------------------------------------*/
+/* SECTION: Dynamic Fields                                                    */
+/*----------------------------------------------------------------------------*/
+
+The easiest way to get access data from within a Python script is to use
+"dynamic fields". A dynamic field can be added and removed to the core at
+runtime. To add a field you have to use the following syntax in your CSM
+config file:
+   
+   field SFVec3f myPosition 0 0 0             -> single-field definition
+     |       |        |       |
+  keyword  type      name    value
+     |       |        |       |
+   field MFVec3f myPositions [ 0 0 0 1 1 1 ]  -> multi-field definition
+
+Each core has a list of dynamic fields that are announced with the "field"
+keyword. It is followed by the field type and an arbitrary name. Finally the
+value is given.
+
+The most OSG value and pointer types are supported (please inform us if you want
+to use a type that does not work). Pointer fields are declared in the following
+form:
+   
+   "Cardinality""RefCountPolicy""Type""Ptr", e.g MFUnrecNodePtr
+         |              |          |    |
+      SF or MF   Weak, Unrec, Rec  |  Ptr prefix
+                                   |
+                                OSG type
+
+/*----------------------------------------------------------------------------*/
+/* SECTION: Accessing dynamic field data                                      */
+/*----------------------------------------------------------------------------*/
+
+Accessing field data follows the same rules as in C++ OpenSG. However, due to
+differences in the programming languages you have to be aware of some "quirks"
+that are explained in the next sections.
+
+/*----------------------------------------------------------------------------*/
+/* SUBSECTION: Single-field access                                            */
+/*----------------------------------------------------------------------------*/
+
+Generally 3 methods are provided to access the value of a single-field: a
+get-method to retrieve the value for reading only. An edit-method that allows to
+change the value and a set-method that assigns a new value to the field. Here is
+an example how to access a single-field of the type Vec3f and the name
+"myPosition":
+
+   pos = self.myPosition                   # get-method
+   self.myPosition = osg.Vec3f(0,0,0)      # set-method,  marks the field as changed
+   self.edit_myPosition().setValues(1,1,1) # edit-method, marks the field as changed
+   
+The first thing to notice is that the PythonScript[File] core can be referenced
+with the global variable "self". All fields are accessed via this variable.The
+second thing is that the set- and get-method are exposed as a Python property,
+where the name of the property equals the field name. The edit-method is a
+separate method with the structure "edit_ + fieldname + ()".
+When you use the set- and the edit method the field is marked as changed,
+exactly as it would happen in a C++/OpenSG application. On the next call to
+osg.commitChanges() the changed() method of all FieldContainers referencing the
+"myPosition" field will get called and dependent data can be updated.
+
+So far, so good, now comes "Quirk 1". Python does not prevent you to do
+something like that:
+
+   pos = self.myPosition.setValues(1,1,1) # does NOT mark the field as changed
+   print(self.myPosition)                 # prints '(1,1,1)'
+   
+In C++ the compiler would complain that you are trying to mutate a const
+reference, as the get-method for the field returns a const reference. However,
+in python there is no such thing as a const keyword and the reference returned
+by self.myPosition can not be protected against a change. The result in the
+above case is that the field value is changed to (1,1,1), but the field is not
+marked as edited and dependent data will not get updated on the next call to
+osg.commitChanges(). So be sure to not change a value retrieved by the
+get-method as dependent data will not be updated.
+
+There is a "Quirk 2". In Python numbers and strings are immutable (as a
+bool is a subclass of an int number it is immutable, too). The Python
+bindings represent the OSG types Int32, Int64, UInt32, UInt64, Real32, Real64,
+Time and Bool as numbers. Furthermore, the String type is represented as a
+Python string. In the default case the get- and the edit-methods for dynamic
+fields return a reference, but for the above mentioned types that is not
+possible as they are immutable. Because of that reason fields with immutable
+value types do not provide an edit-method, as it does not make much sense when
+not returning a reference. You have to use the set-method to change the value
+for a field holding an immutable type. Note that the get-method returns a copy
+of the value, too, not a reference. That is different from single-fields with
+non-immutable types, which return a reference type (see "Quirk 1").
+
+Long story short: Be sure to call the set-method when you want to change an
+field with an immutable value type (String, Bool, Int32, Int64, UInt32, UInt64,
+Real32, Real64, Time) respectively the edit-method if you want to change the
+field value of a non-immutable field (all other types). Do not change a value
+you received via the get-method of the property, as OpenSG will not pick up the
+change internally and dependent data will NOT be updated.
+
+/*----------------------------------------------------------------------------*/
+/* SUBSECTION: Multi-field access                                             */
+/*----------------------------------------------------------------------------*/
+
+When accessing multi-fields two types have to be distinguished: value and
+pointer multi-fields.
+
+x Value multi-fields:
+
+Value multi-fields have contain OSG types that are not derived from a
+FieldContainer, like Int64, Time, String, Bool, ... Those can be accessed in the
+same way as single-fields. set-method and get-method are exposed as property,
+the edit-method is a standalone method:
+
+   # get-method:
+   getmfield = self.myPositions
+   
+   # set-method, marks the field as changed:
+   self.myPositions = osg.PyFieldAccessHandler.MFVec3f()
+   
+   # edit-method, marks the field as changed:
+   editmfield = self.edit_myPositions()                  
+   editmfield.append(osg.Vec3f(0,0,0))
+
+As with single-fields, Python does not prevent the getmfield variable to get
+changed, resulting in depending data not being updated.
+
+Value multi-fields directly export the OSG::MField<type> templates via the
+boost indexing suite and can therefore be used like a built-in Python container
+type. Take a look at the example:
+
+   editmfield = self.edit_myPositions()
+   editmfield.extend(osg.Vec3f(i,i,i) for i in range(20)) # Python rocks ;-)
+   for item in editmfield:
+      print("Item: %s" + str(item))
+
+You can also create new multi-fields and set them as content of an existing
+dynamic field:
+
+   myMField = osg.PyFieldAccessHandler.MFVec3f()
+   myMField.extend(osg.Vec3f(i,i,i) for i in range(10))
+   self.set_myPositions(myMField)
+   
+x Pointer multi-fields:
+
+Pointer multi-fields contain types that are derived from FieldContainers. Access
+to such a multi-fields is only provided via the get- and the edit-method. The
+reason for that is that currently pointer multi-fields can not be created in
+Python and a set-method would not make much sense. But getting and editing a
+pointer multi-field works in the traditional manner:
+
+   # get-method:
+   getmfield  = self.myNodePtrField
+   
+   # edit-method, marks the field as changed:
+   editmfield = self.edit_myNodePtrField() 
+   editmfield.append(osg.Node.create())
+   
+Be aware that in contrary to value multi-fields pointer multi-fields are not
+exposed via the boost indexing_suite. However, they implement the basic Python
+iterator interface (__iter__, __getitem__, __setitem__, next() methods) and
+support for the len(), append() and extend() functions. Therefore the following
+code does work:
+   for item in self.myNodePtrField:
+      print(item)
+      
+   self.edit_myNodePtrField().append(osg.Vec3f(1,2,3))
+   size = len(self.myNodePtrField)
+   self.edit_myNodePtrField().extend(osg.Vec3f(i,i,i) for i in range(size))
+
+Advanced iterator stuff like slicing does not work for now.
+
+Pointer multi-fields are different compared to their value pendants as they are
+not directly mapped to OSG::PointerMField<type> templates. Instead, when calling
+the get-method a custom object called OSG::PyFieldContainerPtrMFieldGetHandle
+is returned. When calling the edit-method OSG::PyFieldContainerPtrMFieldEditHandle
+is returned. Internally those objects handle the access to the pointer
+multi-field via generic FieldContainer objects and additionally implement the
+aforementioned methods for the Python iterator interface.
+
+/*----------------------------------------------------------------------------*/
+/* SECTION: FieldMasks                                                        */
+/*----------------------------------------------------------------------------*/
+
+To be able to distinguish which fields have been changed in the changed()
+function each dynamic field's field mask and field id is exported. For instance,
+with the field "myPosition" the variables self.myPositionFieldMask and
+self.myPositionFieldId are generated.
+
+Comparing the field masks against the whichField argument of the changed()
+functions allows you to check which field has changed data, e.g.:
+
+def changed(whichField, origin, details):
+   if(whichField & self.myPositionFieldMask):
+      # react on change of self.myPosition
+      pass
+
+/*----------------------------------------------------------------------------*/
+/* SECTION: Routing                                                           */
+/*----------------------------------------------------------------------------*/
+
+To route data between fields the "ROUTE" keyword is used. The syntax is known
+from the VRML routing and looks as follows:
+
+   Node
+   {
+     core DEF Simulator PythonScriptFile
+     {
+       field SFVec3f myComputedPosition 0 0 0
+       
+       scriptUrl "simulation.py"
+       
+       priority 41
+     }
+   }
+
+   Node
+   {
+     core DEF Geometry PythonScriptFile
+     {
+       field SFVec3f myPosition  0 0 0
+       
+       scriptUrl "geometry.py"
+       
+       priority 41
+     }
+   }
+  
+   ROUTE Simulator.myComputedPosition TO Geometry.myPosition
+   
+Each time the field myComputedPosition is updated in the Simulator core and
+osg.commitChanges() is called in the script the value of the Geometry core's
+myPosition is updated and its changed() method is called with the corresponding
+whichField bitmask set.
+
+NOTE: Currently routing a dynamic multi-field to another dynamic multi-field
+      is not working.
+
+/*----------------------------------------------------------------------------*/
+/* SUBSECTION: Priority                                                       */
+/*----------------------------------------------------------------------------*/
+
+The priority field allows you to set the execution sequence if multiple\
+PythonScript cores are present in the scene. That is useful e.g. if the cores
+have data dependencies between them.
+
+/*----------------------------------------------------------------------------*/
+/* SECTION: Accessing other scene graph components                            */
+/*----------------------------------------------------------------------------*/
+
+When started by the ComplexSceneManager you can use
+osg.ComplexSceneManager.the().findNamedComponent(name) to retrieve a component
+in the scene graph. When using the PythonScript core in a native C++ application
+either route all your data into the script with dynamic fields or route in the
+root node of the scene.
+
+/*----------------------------------------------------------------------------*/
+/* SECTION: Installing the Python bindings                                    */
+/*----------------------------------------------------------------------------*/
+
+TODO
+
+/*----------------------------------------------------------------------------*/
+/* SECTION: FAQ                                                               */
+/*----------------------------------------------------------------------------*/
 
 --------------------------------------------------------------------------------
 Q: Why is it not possible to replace/set a dynamic multi-field with another
    multi-field of the same type?
+   
 A: There are two problems currently:
    1. Pointer multi-fields (typed or generic FieldContainer ones) are currently
       not exported to Python. It is therefore not possible to create a pointer
@@ -33,30 +373,6 @@ A: There are two problems currently:
    prototyping, not for high-performance applications.
 --------------------------------------------------------------------------------
 
-Q: How to access the scene graph?
-A: self.findNamedComponent()
-
-Q: how do i access the field Ids and fieldmasks?
-A: case sensitive
-  -> zusammenfassen? Q: How to access data?
-  
-Q: How to start an application?
-A: LD_LIBRARY_PATH=~/dev/Libs/install/OpenSG/lib64/debug PYTHONPATH=~/dev/Libs/install/OpenSG/lib64/python2.7/site-packages/debug OSG_LOAD_LIBS=OSGScriptingPy ./appCSM /home/hecher/dev/Projekte/OSGExt/Scripting/Example/TestSimpleAnimation
-
-
-
-Q: How can I access the fields added to the PythonScript[File] in the .osg
-   file?
-A: case sensitive, testRouting shows the different access methods
-
-Q: Are there any differences in use and behaviour of pointer multi/single-fields
-   and value multi/single-fields?
-   
-A: pointer multi-fields: gethandle is protected against write access
-   value   multi-field:  not protected, you have to take care yourself
-   pointer single-field: not protected
-   value   single-field: protected
-   
 --------------------------------------------------------------------------------
 Q: Which environment variables have to be set to correctly start the "appCSM"
    application in combination with the PythonScript component?
@@ -116,21 +432,7 @@ A: Python cannot find the OpenSG bindings needed to use the PythonScript core.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-Q: The import of the OpenSG bindings within the python interpreter quits with
-   the error "ImportError: No module named osg2.osg". What is going wrong?
-
-A: Python cannot find the OpenSG bindings. You have to add the bindings 
-   location to your PYTHONPATH before starting the application. You have to
-   create the PYTHONPATH environment variable (if it is not present yet) and
-   add the path to the OpenSG bindings. For a default installation of OpenSG
-   the path is 
-
-   Linux:   <install>/lib[64]/{debug|opt}
-   Windows: TODO: where?
---------------------------------------------------------------------------------
-
---------------------------------------------------------------------------------
-Q: Why do I have to "import osg2.osg as osg" instead of "import osg"?
+Q: Why do I have to use "import osg2.osg as osg" instead of "import osg"?
 
 A: With the additional "osg2" namespace it is possible to import single OpenSG
    packages. So you can do for instance an "import osg2.OSGBase as osgbase", if
@@ -142,13 +444,8 @@ A: With the additional "osg2" namespace it is possible to import single OpenSG
    ${OPENSG_ROOT}/CMakeLists.txt at about line 1661 in section "Global Python").
 
    The "import osg2.osg as osg" statement automatically takes care of importing
-   all known modules in the correct order.
---------------------------------------------------------------------------------
-
---------------------------------------------------------------------------------
-Q: How do I use the OpenSG bindings in my Python scripts? (notwendig hier?)
-
-A: TODO
+   all known modules in the correct order. When using the PythonScript core
+   the import is automatically done.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -175,7 +472,7 @@ Q: Why does a single-field not get changed when retrieving it with
      v = self.myVecField # or v = self.get_myVecField()
      v.setValues(2,2,2)
      print('new value: %s' % self.myVecField) # -> here the old value (1,1,1)
-                                              # is printed. Why?
+                                              # is printed.
      ...
 
 A: Short answer: self.myVecField or self.get_myVecField() are only returning a
@@ -220,22 +517,9 @@ A: The Python bindings do not support to return references to these types. Use
    the set_XXX methods to change the values.
 --------------------------------------------------------------------------------
 
-/*---------------------------------------------------------------------------*/
-/* SECTION: BINDINGS INSTALLATION                                            */
-/*---------------------------------------------------------------------------*/
-
-
---------------------------------------------------------------------------------
-Q: How do I install the OpenSG Python bindings from source?
-
-A: TODO
---------------------------------------------------------------------------------
-
-
-/*---------------------------------------------------------------------------*/
-/* SECTION: BINDINGS GENERATION                                              */
-/*---------------------------------------------------------------------------*/
-
+/*----------------------------------------------------------------------------*/
+/* SECTION: Binding Generation                                                */
+/*----------------------------------------------------------------------------*/
 
 --------------------------------------------------------------------------------
 Q: Generating the bindings e.g. with "make OSGBasePyGen" results in the error
@@ -251,9 +535,24 @@ A: When you downloaded the trunk version of pygccxml bindings (which is most
    "<pygccxml-svn>/pygccxml_dev". On Linux you can start the generation step
    with "PYTHONPATH=<pygccxml-svn>/pygccxml_dev make OSGPyGen".
 --------------------------------------------------------------------------------
+ 
+/*----------------------------------------------------------------------------*/
+/* SECTION: Future improvements                                               */
+/*----------------------------------------------------------------------------*/
 
-
-
+- Clear interpreter state when reloading a script.
+- Implement the FieldAccessHandler based on field ids, not on field names.
+- Implement extend() for OSGPyFieldContainerMFieldEditHandle
+- Correctly name value multi-fields that are exported via the indexing_suite
+  (currently they are numbered, but have no correlation to their actual type
+  in the name. Therefore you can not do something like that:
+      mfield = osg.MField_Vec3f()
+      mfield.extend([Vec3f(i,i,i) for i in range(20)])
+  but have to use
+      mfield = osg.PyFieldAccessHandler.MField_18() instead of osg.MField_Vec3f().
+   The correct mapping is only available from the file
+   PyFieldAccessHandler.pypp.cpp)
+- Add support for getFieldNames() and getField("fieldname")
 
 
 

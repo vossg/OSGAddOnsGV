@@ -1,135 +1,194 @@
-#------------------------------------------------------------------------------
-# Simple Websocket Server for the hixie-76 protocol only(!)
-#
-# Author: Martin Hecher
-# E-Mail: martin.hecher@fraunhofer.sg
-#------------------------------------------------------------------------------
+#!/usr/bin/env python
 
-import socket
 import sys
-import threading
+import optparse
+import logging
+import os
 
-class WebSocketServer:
-    
-    clients      = []
-    host         = "0.0.0.0"
-    port         = 8080
-    
-    def init(self, host, port):
-        self.host = host
-        self.port = port
+from mod_pywebsocket.dispatch import Dispatcher
+from mod_pywebsocket import standalone
+from mod_pywebsocket.standalone import WebSocketServer
+from mod_pywebsocket import util
+from mod_pywebsocket import common
+
+# copied from standalone.py
+_DEFAULT_LOG_MAX_BYTES = 1024 * 256
+_DEFAULT_LOG_BACKUP_COUNT = 5
+
+_DEFAULT_REQUEST_QUEUE_SIZE = 128
+
+# 1024 is practically large enough to contain WebSocket handshake lines.
+_MAX_MEMORIZED_LINES = 1024
+
+class FunctionDispatcher(Dispatcher):
+    """ A customized Dispatcher that allows you to register
+        a callable to execute when data is received. The
+        function also gets a user_data variable as argument
+        to exchange (non-threadsafe) data with the calling
+        module.
+    """
+    def __init__(self, callable, user_data):
+        Dispatcher.__init__(self, ".")
+        self.receive_function = callable
+        self.user_data = user_data
         
-        socket = socket.socket(socket.AF_INET, socket.socket_STREAM)
-        socket.setsocketopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        # listen for upto 50 cnxns on port gPort
-        self.socket.bind((host, port))
-        self.socket.listen(50)
+    def get_handler_suite(self, path):
+        return True
     
-        print('Listening on %s:%s. This is a blocking call!' % (self.host, self.port))
-    
-        clientsocket,clientaddress = socket.accept()
-        print 'Connection from: ', clientaddress
-        self.clients.append((clientsocket, clientaddress))
+    def do_extra_handshake(self, request):
+        #print("do_extra_handshake")
+        return True
         
-        # Start a thread to service each cnxn
-        t = threading.Thread(target=self.handle, args=(clientsocket,))
-        t.start()
+    def transfer_data(self, request):
+        self.receive_function(request, self.user_data)
+
+_GOODBYE_MESSAGE = "Bye bye..."
+
+def my_receive_function(request, user_data):
+    print("new client from %s" % 'asdf')
     
-    def handle(csocket):
-        shake1 = csocket.recv(1024)
+    while True:
+        try:
+            line = request.ws_stream.receive_message()
+        except:
+            print("exception")
+            
+        if line is None:
+            return
+        
+        user_data = line
+        print("user_data> %s" % userdata)
+        
+        #if isinstance(line, unicode):
+        #    request.ws_stream.send_message(line, binary=False)
+        #    if line == _GOODBYE_MESSAGE:
+        #        return
+        #else:
+        #    request.ws_stream.send_message(line, binary=True)
+
+def run(user_data = []):
+    parser = optparse.OptionParser()
+    parser.add_option('-H', '--server-host', '--server_host',
+                      dest='server_host',
+                      default='',
+                      help='server hostname to listen to')
+    parser.add_option('-V', '--validation-host', '--validation_host',
+                      dest='validation_host',
+                      default=None,
+                      help='server hostname to validate in absolute path.')
+    parser.add_option('-p', '--port', dest='port', type='int',
+                      default=common.DEFAULT_WEB_SOCKET_PORT,
+                      help='port to listen to')
+    parser.add_option('-P', '--validation-port', '--validation_port',
+                      dest='validation_port', type='int',
+                      default=None,
+                      help='server port to validate in absolute path.')
+    parser.add_option('-w', '--websock-handlers', '--websock_handlers',
+                      dest='websock_handlers',
+                      default='.',
+                      help='WebSocket handlers root directory.')
+    parser.add_option('-m', '--websock-handlers-map-file',
+                      '--websock_handlers_map_file',
+                      dest='websock_handlers_map_file',
+                      default=None,
+                      help=('WebSocket handlers map file. '
+                            'Each line consists of alias_resource_path and '
+                            'existing_resource_path, separated by spaces.'))
+    parser.add_option('-s', '--scan-dir', '--scan_dir', dest='scan_dir',
+                      default=None,
+                      help=('WebSocket handlers scan directory. '
+                            'Must be a directory under websock_handlers.'))
+    parser.add_option('-d', '--document-root', '--document_root',
+                      dest='document_root', default='.',
+                      help='Document root directory.')
+    parser.add_option('-x', '--cgi-paths', '--cgi_paths', dest='cgi_paths',
+                      default=None,
+                      help=('CGI paths relative to document_root.'
+                            'Comma-separated. (e.g -x /cgi,/htbin) '
+                            'Files under document_root/cgi_path are handled '
+                            'as CGI programs. Must be executable.'))
+    parser.add_option('-t', '--tls', dest='use_tls', action='store_true',
+                      default=False, help='use TLS (wss://)')
+    parser.add_option('-k', '--private-key', '--private_key',
+                      dest='private_key',
+                      default='', help='TLS private key file.')
+    parser.add_option('-c', '--certificate', dest='certificate',
+                      default='', help='TLS certificate file.')
+    parser.add_option('-l', '--log-file', '--log_file', dest='log_file',
+                      default='', help='Log file.')
+    parser.add_option('--log-level', '--log_level', type='choice',
+                      dest='log_level', default='warn',
+                      choices=['debug', 'info', 'warning', 'warn', 'error',
+                               'critical'],
+                      help='Log level.')
+    parser.add_option('--log-max', '--log_max', dest='log_max', type='int',
+                      default=_DEFAULT_LOG_MAX_BYTES,
+                      help='Log maximum bytes')
+    parser.add_option('--log-count', '--log_count', dest='log_count',
+                      type='int', default=_DEFAULT_LOG_BACKUP_COUNT,
+                      help='Log backup count')
+    parser.add_option('--allow-draft75', dest='allow_draft75',
+                      action='store_true', default=False,
+                      help='Allow draft 75 handshake')
+    parser.add_option('--strict', dest='strict', action='store_true',
+                      default=False, help='Strictly check handshake request')
+    parser.add_option('-q', '--queue', dest='request_queue_size', type='int',
+                      default=_DEFAULT_REQUEST_QUEUE_SIZE,
+                      help='request queue size')
+    options = parser.parse_args()[0]
     
-        print 'ClientHandshake:'
-        print shake1
+    os.chdir(options.document_root)
+
+    standalone._configure_logging(options)
+
+    # TODO(tyoshino): Clean up initialization of CGI related values. Move some
+    # of code here to WebSocketRequestHandler class if it's better.
+    options.cgi_directories = []
+    options.is_executable_method = None
+    if options.cgi_paths:
+        options.cgi_directories = options.cgi_paths.split(',')
+        if sys.platform in ('cygwin', 'win32'):
+            cygwin_path = None
+            # For Win32 Python, it is expected that CYGWIN_PATH
+            # is set to a directory of cygwin binaries.
+            # For example, websocket_server.py in Chromium sets CYGWIN_PATH to
+            # full path of third_party/cygwin/bin.
+            if 'CYGWIN_PATH' in os.environ:
+                cygwin_path = os.environ['CYGWIN_PATH']
+            util.wrap_popen3_for_win(cygwin_path)
+
+            def __check_script(scriptpath):
+                return util.get_script_interp(scriptpath, cygwin_path)
+
+            options.is_executable_method = __check_script
+
+    if options.use_tls:
+        if not _HAS_OPEN_SSL:
+            logging.critical('To use TLS, install pyOpenSSL.')
+            sys.exit(1)
+        if not options.private_key or not options.certificate:
+            logging.critical(
+                    'To use TLS, specify private_key and certificate.')
+            sys.exit(1)
+
+    if not options.scan_dir:
+        options.scan_dir = options.websock_handlers
+        
+    try:
+        # Share a Dispatcher among request handlers to save time for
+        # instantiation.  Dispatcher can be shared because it is thread-safe.
+        dump_reveived_data = True
+        options.dispatcher = FunctionDispatcher(my_receive_function, user_data)
+        standalone._print_warnings_if_any(options.dispatcher)
+
+        server = WebSocketServer(options)
+        server.serve_forever()
+    except Exception, e:
+        logging.critical('mod_pywebsocket: %s' % e)
+        logging.critical('mod_pywebsocket: %s' % util.get_stack_trace())
+        sys.exit(1)    
     
-        shakelist = shake1.split('\r\n')
-        # The body follows a \r\n after the 'headers'
-        body = shake1.split('\r\n\r\n')[1]
-    
-        # Extract key1 and key2
-        for elem in shakelist:
-            if elem.startswith('Sec-Websocketet-Key1:'):
-                key1 = elem[20:]  # Sec-Websocketet-Key1: is 20 chars
-            elif elem.startswith('Sec-Websocketet-Key2:'):
-                key2 = elem[20:]
-            else:
-                continue
-    
-        # Count spaces
-        nums1 = key1.count(' ')
-        nums2 = key2.count(' ')
-        # Join digits in the key
-        num1 = ''.join([x for x in key1 if x.isdigit()])
-        num2 = ''.join([x for x in key2 if x.isdigit()])
-    
-        # Divide the digits by the num of spaces
-        key1 = int(int(num1)/int(nums1))
-        key2 = int(int(num2)/int(nums2))
-    
-        # Pack into Network byte ordered 32 bit ints
-        import struct
-        key1 = struct.pack('!I', key1)
-        key2 = struct.pack('!I', key2)
-    
-        # Concat key1, key2, and the the body of the client handshake and take the md5 sum of it
-        key = key1 + key2 + body
-        import hashlib
-        m = hashlib.md5()
-        m.update(key)
-        d = m.digest()
-    
-        serverHandshake  = 'HTTP/1.1 101 Websocketet Protocol Handshake\r\n'
-        serverHandshake += 'Upgrade: Websocketet\r\n'
-        serverHandshake += 'Connection: Upgrade\r\n'
-        serverHandshake += 'Sec-Websocketet-Origin: http://localhost:9023\r\n'
-        serverHandshake += 'Sec-Websocketet-Location: ws://localhost:9999/\r\n'
-        serverHandshake += '\r\n'
-    
-        print 'ServerHandshake'
-        print serverHandshake
-    
-        csocket.send(serverHandshake)
-        csocket.send(d)
-    
-        # Send 'headers'
-        #csocket.send('HTTP/1.1 101 Websocketet Protocol Handshake\r\n')
-        #csocket.send('Upgrade: Websocketet\r\n')
-        #csocket.send('Connection: Upgrade\r\n')
-    
-        # Firefox settings localhost
-        #csocket.send('Sec-Websocketet-Origin: file://\r\n')
-        #csocket.send('Sec-Websocketet-Location: ws://localhost:9999/\r\n')
-    
-        # iPad settings:
-        #csocket.send('Sec-Websocketet-Origin: http://www3.ntu.edu.sg\r\n')
-        #csocket.send('Sec-Websocketet-Location: ws://155.69.99.99:9023/\r\n')
-        #csocket.send('Sec-Websocketet-Protocol: chat\r\n')
-        #csocket.send('\r\n')
-        #Send digest
-        #csocket.send(d)
-    
-        # Message framing - 0x00 utf-8-encoded-body 0xFF
-        def send(data):
-            first_byte = chr(0x00)
-            payload = data.encode('utf-8')
-            pl = first_byte + payload + chr(0xFF)
-            csocket.send(pl)
-    
-    
-        from time import sleep
-    
-        i = 0
-        time = 1
-        while True:
-            #self.translation = osg.Vec3f(sin(time.clock()),0,0)
-            send(u'CONNECTION ALIVE %s' % (i))
-            i += 1
-            sleep(time)
-            buf = csocket.recv(1024)
-            l = buf.split('\xff')
-            buf = l[0]
-            buf = buf.strip('\x00')
-            self.coords = buf
-            #self.coords = str(buf[0]) + ' ' + str(buf[1]) + ' ' + str(buf[2])
-            #print('Sending: %s' % buf)
-            self.hasNewData = True
-            time = 0.01
+if __name__ == '__main__':
+    run()    
+        
+

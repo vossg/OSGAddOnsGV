@@ -483,6 +483,29 @@ def test_multi_fields():
         print('  read back length value: -> FAILURE')
     #---------------------------------------------------------------------------  
     
+    #---------------------------------------------------------------------------
+    print('\n*** Testing MField setter:')
+    mfield = osg.PyFieldAccessHandler.MField_25() # MField_25 is a Vec3f multi-field
+                                                  # The naming has to be changed...
+    mfield.extend([osg.Vec3f(i,i,i) for i in range(20)])
+    
+    errorFlag = False
+    try:
+        self.mMFVec3f = mfield
+        idx = 0
+        for i in self.mMFVec3f:
+            idx +=1
+    except:
+        errorFlag = True
+    
+    if idx == 20 and errorFlag == False:
+        print('  -> SUCCESS')
+    else:
+        print('  -> FAILURE')
+    #---------------------------------------------------------------------------
+    
+    self.mSFVec3f.setValues(1,1,1)
+    
 def init():
     print('\n----------------------------------------------------------------------')
     print('  SINGLE-FIELD TEST SUITE')
