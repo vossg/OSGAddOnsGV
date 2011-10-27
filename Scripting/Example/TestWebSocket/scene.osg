@@ -5,7 +5,7 @@ Node
   core DEF Server PythonScriptFile
   {
     field SFString  host          "0.0.0.0"
-    field SFInt32   port          9999
+    field SFInt32   port          8080
 
     field SFInt32   inputratio    50
     field SFVec3f   offset        8 8 0
