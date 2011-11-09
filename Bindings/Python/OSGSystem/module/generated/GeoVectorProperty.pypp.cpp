@@ -23,7 +23,7 @@
 #endif
 
 #include "boost/python.hpp"
-#include "OSGDrawable_mainheader.h"
+#include "OSGSystem_mainheader.h"
 #include "OsgPtrHelpers.h"
 #include "boost/python/suite/indexing/map_indexing_suite.hpp"
 #include "boost/python/suite/indexing/vector_indexing_suite.hpp"
@@ -32,10 +32,16 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct GeoVectorProperty_wrapper : OSG::GeoVectorProperty, bp::wrapper< OSG::GeoVectorProperty > {
+
+
+
+};
+
 void register_GeoVectorProperty_class(){
 
     { //::OSG::GeoVectorProperty
-        typedef bp::class_< OSG::GeoVectorProperty, bp::bases< OSG::GeoVectorPropertyBase >, boost::noncopyable > GeoVectorProperty_exposer_t;
+        typedef bp::class_< GeoVectorProperty_wrapper, bp::bases< OSG::GeoVectorPropertyBase >, boost::noncopyable > GeoVectorProperty_exposer_t;
         GeoVectorProperty_exposer_t GeoVectorProperty_exposer = GeoVectorProperty_exposer_t( "GeoVectorProperty", bp::no_init );
         bp::scope GeoVectorProperty_scope( GeoVectorProperty_exposer );
         { //::OSG::GeoVectorProperty::addValue
@@ -812,6 +818,60 @@ void register_GeoVectorProperty_class(){
                 "unmapBuffer"
                 , unmapBuffer_function_type( &::OSG::GeoVectorProperty::unmapBuffer )
                 , ( bp::arg("pEnv") ) );
+        
+        }
+        { //::OSG::GeoProperty::clone
+        
+            typedef ::OSG::GeoPropertyTransitPtr ( ::OSG::GeoProperty::*clone_function_type )(  ) ;
+            
+            GeoVectorProperty_exposer.def( 
+                "clone"
+                , clone_function_type( &::OSG::GeoProperty::clone ) );
+        
+        }
+        { //::OSG::GeoProperty::getDimension
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getDimension_function_type )(  ) const;
+            
+            GeoVectorProperty_exposer.def( 
+                "getDimension"
+                , getDimension_function_type( &::OSG::GeoProperty::getDimension ) );
+        
+        }
+        { //::OSG::GeoProperty::getFormat
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getFormat_function_type )(  ) const;
+            
+            GeoVectorProperty_exposer.def( 
+                "getFormat"
+                , getFormat_function_type( &::OSG::GeoProperty::getFormat ) );
+        
+        }
+        { //::OSG::GeoProperty::getFormatSize
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getFormatSize_function_type )(  ) const;
+            
+            GeoVectorProperty_exposer.def( 
+                "getFormatSize"
+                , getFormatSize_function_type( &::OSG::GeoProperty::getFormatSize ) );
+        
+        }
+        { //::OSG::GeoProperty::getStride
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getStride_function_type )(  ) const;
+            
+            GeoVectorProperty_exposer.def( 
+                "getStride"
+                , getStride_function_type( &::OSG::GeoProperty::getStride ) );
+        
+        }
+        { //::OSG::GeoProperty::getVectorType
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getVectorType_function_type )(  ) const;
+            
+            GeoVectorProperty_exposer.def( 
+                "getVectorType"
+                , getVectorType_function_type( &::OSG::GeoProperty::getVectorType ) );
         
         }
         GeoVectorProperty_exposer.staticmethod( "getStaticClass" );

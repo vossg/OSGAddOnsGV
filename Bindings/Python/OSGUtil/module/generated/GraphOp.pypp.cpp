@@ -73,10 +73,11 @@ struct GraphOp_wrapper : OSG::GraphOp, bp::wrapper< OSG::GraphOp > {
         return func_traverseLeave( node, res );
     }
 
-    virtual ::std::string usage(  ){
-        bp::override func_usage = this->get_override( "usage" );
-        return func_usage(  );
-    }
+    virtual std::string usage() 
+        {
+            bp::override func_usage = this->get_override( "usage" );
+            return func_usage().as<std::string>();
+        }
 
 };
 
@@ -325,17 +326,10 @@ void register_GraphOp_class(){
                 , ( bp::arg("node"), bp::arg("res") ) );
         
         }
-        { //::OSG::GraphOp::usage
-        
-            typedef ::std::string ( ::OSG::GraphOp::*usage_function_type )(  ) ;
-            
-            GraphOp_exposer.def( 
-                "usage"
-                , bp::pure_virtual( usage_function_type(&::OSG::GraphOp::usage) ) );
-        
-        }
         GraphOp_exposer.staticmethod( "getClassname" );
         bp::implicitly_convertible<OSG::GraphOp::ObjTransitPtr, OSG::GraphOp::ObjRefPtr>();
+        GraphOp_exposer.def("usage",
+                bp::pure_virtual( &::OSG::GraphOp::usage ) );;
     }
 
 }

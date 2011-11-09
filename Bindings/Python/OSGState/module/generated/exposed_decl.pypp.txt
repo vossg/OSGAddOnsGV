@@ -1761,14 +1761,14 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@mpl_@::mpl_
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
-~@namespace_t@boost@::boost
+~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
 ~@namespace_t@boost_concepts@::boost_concepts
-~@namespace_t@__cxxabiv1@::__cxxabiv1
+~@namespace_t@mpl_@::mpl_
+~@namespace_t@boost@::boost
 ~@namespace_t@boost_swap_impl@::boost_swap_impl
 ~@namespace_t@OSG@::OSG
 ~@class_declaration_t@_IO_FILE_plus@::_IO_FILE_plus
@@ -1864,6 +1864,7 @@
 ~@variable_t@_ZTISt9bad_alloc@::_ZTISt9bad_alloc
 ~@variable_t@_ZTIN3OSG7DrawEnvE@::_ZTIN3OSG7DrawEnvE
 ~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
+~@variable_t@_ZTIN3OSG11PointerTypeE@::_ZTIN3OSG11PointerTypeE
 ~@variable_t@_sys_errlist@::_sys_errlist
 ~@variable_t@_ZTIN3OSG11StatIntElemE@::_ZTIN3OSG11StatIntElemE
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_4LockEEE@::_ZTIN3OSG12MPFieldStoreINS_4LockEEE

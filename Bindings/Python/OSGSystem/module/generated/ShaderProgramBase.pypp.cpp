@@ -32,6 +32,18 @@
 using namespace std;
 namespace bp = boost::python;
 
+boost::python::list ShaderProgramBase_getMFFeedbackVaryings(OSG::ShaderProgramBase *self)
+{
+   boost::python::list result;
+   OSG::MFString const * mf_data = self->getMFFeedbackVaryings();
+   const OSG::UInt32 size(mf_data->size());
+   for ( OSG::UInt32 i = 0; i < size; ++i )
+   {
+      result.append((*mf_data)[i]);
+   }
+   return result;
+}
+
 boost::python::list ShaderProgramBase_getMFParameter(OSG::ShaderProgramBase *self)
 {
    boost::python::list result;
@@ -66,6 +78,7 @@ void register_ShaderProgramBase_class(){
         bp::scope().attr("ProgramFieldId") = (int)OSG::ShaderProgramBase::ProgramFieldId;
         bp::scope().attr("GLIdFieldId") = (int)OSG::ShaderProgramBase::GLIdFieldId;
         bp::scope().attr("VariablesFieldId") = (int)OSG::ShaderProgramBase::VariablesFieldId;
+        bp::scope().attr("FeedbackVaryingsFieldId") = (int)OSG::ShaderProgramBase::FeedbackVaryingsFieldId;
         bp::scope().attr("ParameterFieldId") = (int)OSG::ShaderProgramBase::ParameterFieldId;
         bp::scope().attr("AttributesFieldId") = (int)OSG::ShaderProgramBase::AttributesFieldId;
         bp::scope().attr("CgFrontEndFieldId") = (int)OSG::ShaderProgramBase::CgFrontEndFieldId;
@@ -187,6 +200,17 @@ void register_ShaderProgramBase_class(){
             ShaderProgramBase_exposer.def( 
                 "getContainerSize"
                 , getContainerSize_function_type( &::OSG::ShaderProgramBase::getContainerSize ) );
+        
+        }
+        { //::OSG::ShaderProgramBase::getFeedbackVaryings
+        
+            typedef ::std::string const & ( ::OSG::ShaderProgramBase::*getFeedbackVaryings_function_type )( ::OSG::UInt32 const ) const;
+            
+            ShaderProgramBase_exposer.def( 
+                "getFeedbackVaryings"
+                , getFeedbackVaryings_function_type( &::OSG::ShaderProgramBase::getFeedbackVaryings )
+                , ( bp::arg("index") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
         { //::OSG::ShaderProgramBase::getGLId
@@ -394,6 +418,7 @@ void register_ShaderProgramBase_class(){
         ShaderProgramBase_exposer.staticmethod( "getClassGroupId" );
         ShaderProgramBase_exposer.staticmethod( "getClassType" );
         ShaderProgramBase_exposer.staticmethod( "getClassTypeId" );
+        ShaderProgramBase_exposer.def("getMFFeedbackVaryings",ShaderProgramBase_getMFFeedbackVaryings);
         ShaderProgramBase_exposer.def("getMFParameter",ShaderProgramBase_getMFParameter);
         ShaderProgramBase_exposer.def("getMFAttributes",ShaderProgramBase_getMFAttributes);
     }

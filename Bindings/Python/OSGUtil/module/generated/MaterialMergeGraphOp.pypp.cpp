@@ -70,18 +70,6 @@ struct MaterialMergeGraphOp_wrapper : OSG::MaterialMergeGraphOp, bp::wrapper< OS
         return OSG::MaterialMergeGraphOp::traverse( boost::python::ptr(node) );
     }
 
-    virtual ::std::string usage(  ) {
-        if( bp::override func_usage = this->get_override( "usage" ) )
-            return func_usage(  );
-        else{
-            return this->OSG::MaterialMergeGraphOp::usage(  );
-        }
-    }
-    
-    ::std::string default_usage(  ) {
-        return OSG::MaterialMergeGraphOp::usage( );
-    }
-
 };
 
 void register_MaterialMergeGraphOp_class(){
@@ -169,17 +157,6 @@ void register_MaterialMergeGraphOp_class(){
                 , traverse_function_type(&::OSG::MaterialMergeGraphOp::traverse)
                 , default_traverse_function_type(&MaterialMergeGraphOp_wrapper::default_traverse)
                 , ( bp::arg("node") ) );
-        
-        }
-        { //::OSG::MaterialMergeGraphOp::usage
-        
-            typedef ::std::string ( ::OSG::MaterialMergeGraphOp::*usage_function_type )(  ) ;
-            typedef ::std::string ( MaterialMergeGraphOp_wrapper::*default_usage_function_type )(  ) ;
-            
-            MaterialMergeGraphOp_exposer.def( 
-                "usage"
-                , usage_function_type(&::OSG::MaterialMergeGraphOp::usage)
-                , default_usage_function_type(&MaterialMergeGraphOp_wrapper::default_usage) );
         
         }
         MaterialMergeGraphOp_exposer.staticmethod( "create" );

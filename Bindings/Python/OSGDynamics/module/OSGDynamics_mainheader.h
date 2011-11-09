@@ -37,6 +37,7 @@
 #include <OSGVRMLOrientationInterpolator.h>
 #include <OSGVRMLCoordinateInterpolator.h>
 #include <OSGVRMLPositionInterpolator.h>
+#include <OSGVRMLNormalInterpolator.h>
 #include <OSGVRMLScalarInterpolator.h>
 #include <OSGVRMLInterpolator.h>
 

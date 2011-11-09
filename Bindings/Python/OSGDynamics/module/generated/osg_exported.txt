@@ -24,6 +24,7 @@ Animation
 AnimKeyFrameTemplate
 CPUSkinningDataAttachmentBase
 AnimTemplate
+VRMLNormalInterpolator
 UnskinnedSkinningAlgorithm
 FrameHandler
 VRMLOrientationInterpolatorBase
@@ -50,6 +51,7 @@ VRMLPositionInterpolator
 AnimMatrixDataSource
 AnimDataSource
 SkeletonJointBase
+VRMLNormalInterpolatorBase
 AnimQuaternionChannelBase
 AnimVec3fChannel
 Skeleton

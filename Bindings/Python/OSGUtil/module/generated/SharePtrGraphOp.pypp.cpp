@@ -70,18 +70,6 @@ struct SharePtrGraphOp_wrapper : OSG::SharePtrGraphOp, bp::wrapper< OSG::SharePt
         return OSG::SharePtrGraphOp::traverse( boost::python::ptr(root) );
     }
 
-    virtual ::std::string usage(  ) {
-        if( bp::override func_usage = this->get_override( "usage" ) )
-            return func_usage(  );
-        else{
-            return this->OSG::SharePtrGraphOp::usage(  );
-        }
-    }
-    
-    ::std::string default_usage(  ) {
-        return OSG::SharePtrGraphOp::usage( );
-    }
-
 };
 
 void register_SharePtrGraphOp_class(){
@@ -161,17 +149,6 @@ void register_SharePtrGraphOp_class(){
                 , traverse_function_type(&::OSG::SharePtrGraphOp::traverse)
                 , default_traverse_function_type(&SharePtrGraphOp_wrapper::default_traverse)
                 , ( bp::arg("root") ) );
-        
-        }
-        { //::OSG::SharePtrGraphOp::usage
-        
-            typedef ::std::string ( ::OSG::SharePtrGraphOp::*usage_function_type )(  ) ;
-            typedef ::std::string ( SharePtrGraphOp_wrapper::*default_usage_function_type )(  ) ;
-            
-            SharePtrGraphOp_exposer.def( 
-                "usage"
-                , usage_function_type(&::OSG::SharePtrGraphOp::usage)
-                , default_usage_function_type(&SharePtrGraphOp_wrapper::default_usage) );
         
         }
         SharePtrGraphOp_exposer.staticmethod( "create" );

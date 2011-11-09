@@ -23,7 +23,7 @@
 #endif
 
 #include "boost/python.hpp"
-#include "OSGDrawable_mainheader.h"
+#include "OSGSystem_mainheader.h"
 #include "OsgPtrHelpers.h"
 #include "boost/python/suite/indexing/map_indexing_suite.hpp"
 #include "boost/python/suite/indexing/vector_indexing_suite.hpp"

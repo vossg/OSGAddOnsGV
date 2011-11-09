@@ -58,18 +58,6 @@ struct GeoTypeGraphOp_wrapper : OSG::GeoTypeGraphOp, bp::wrapper< OSG::GeoTypeGr
         OSG::GeoTypeGraphOp::setParams( params );
     }
 
-    virtual ::std::string usage(  ) {
-        if( bp::override func_usage = this->get_override( "usage" ) )
-            return func_usage(  );
-        else{
-            return this->OSG::GeoTypeGraphOp::usage(  );
-        }
-    }
-    
-    ::std::string default_usage(  ) {
-        return OSG::GeoTypeGraphOp::usage( );
-    }
-
     virtual bool traverse( ::OSG::Node * root ) {
         if( bp::override func_traverse = this->get_override( "traverse" ) )
             return func_traverse( boost::python::ptr(root) );
@@ -149,17 +137,6 @@ void register_GeoTypeGraphOp_class(){
                 , setParams_function_type(&::OSG::GeoTypeGraphOp::setParams)
                 , default_setParams_function_type(&GeoTypeGraphOp_wrapper::default_setParams)
                 , ( bp::arg("params") ) );
-        
-        }
-        { //::OSG::GeoTypeGraphOp::usage
-        
-            typedef ::std::string ( ::OSG::GeoTypeGraphOp::*usage_function_type )(  ) ;
-            typedef ::std::string ( GeoTypeGraphOp_wrapper::*default_usage_function_type )(  ) ;
-            
-            GeoTypeGraphOp_exposer.def( 
-                "usage"
-                , usage_function_type(&::OSG::GeoTypeGraphOp::usage)
-                , default_usage_function_type(&GeoTypeGraphOp_wrapper::default_usage) );
         
         }
         { //::OSG::GraphOp::traverse

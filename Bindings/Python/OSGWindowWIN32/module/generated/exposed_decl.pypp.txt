@@ -1846,6 +1846,7 @@
 ~@variable_t@_ZTISt15basic_streambufIwSt11char_traitsIwEE@::_ZTISt15basic_streambufIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG16StatElemDescBaseE@::_ZTIN3OSG16StatElemDescBaseE
 ~@variable_t@_ZTIN3OSG7DrawEnvE@::_ZTIN3OSG7DrawEnvE
+~@variable_t@_ZTIN3OSG11PointerTypeE@::_ZTIN3OSG11PointerTypeE
 ~@variable_t@_sys_errlist@::_sys_errlist
 ~@variable_t@_ZTIN3OSG11StatIntElemE@::_ZTIN3OSG11StatIntElemE
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_4LockEEE@::_ZTIN3OSG12MPFieldStoreINS_4LockEEE

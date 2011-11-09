@@ -58,18 +58,6 @@ struct StripeGraphOp_wrapper : OSG::StripeGraphOp, bp::wrapper< OSG::StripeGraph
         OSG::StripeGraphOp::setParams( params );
     }
 
-    virtual ::std::string usage(  ) {
-        if( bp::override func_usage = this->get_override( "usage" ) )
-            return func_usage(  );
-        else{
-            return this->OSG::StripeGraphOp::usage(  );
-        }
-    }
-    
-    ::std::string default_usage(  ) {
-        return OSG::StripeGraphOp::usage( );
-    }
-
     virtual bool traverse( ::OSG::Node * root ) {
         if( bp::override func_traverse = this->get_override( "traverse" ) )
             return func_traverse( boost::python::ptr(root) );
@@ -139,17 +127,6 @@ void register_StripeGraphOp_class(){
                 , setParams_function_type(&::OSG::StripeGraphOp::setParams)
                 , default_setParams_function_type(&StripeGraphOp_wrapper::default_setParams)
                 , ( bp::arg("params") ) );
-        
-        }
-        { //::OSG::StripeGraphOp::usage
-        
-            typedef ::std::string ( ::OSG::StripeGraphOp::*usage_function_type )(  ) ;
-            typedef ::std::string ( StripeGraphOp_wrapper::*default_usage_function_type )(  ) ;
-            
-            StripeGraphOp_exposer.def( 
-                "usage"
-                , usage_function_type(&::OSG::StripeGraphOp::usage)
-                , default_usage_function_type(&StripeGraphOp_wrapper::default_usage) );
         
         }
         { //::OSG::GraphOp::traverse

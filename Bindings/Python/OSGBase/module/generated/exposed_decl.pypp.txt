@@ -312,7 +312,6 @@
 ~@typedef_t@PFNGLGETMULTITEXGENIVEXTPROC@::PFNGLGETMULTITEXGENIVEXTPROC
 ~@typedef_t@traverseproc@::traverseproc
 ~@typedef_t@PFNGLMULTITEXCOORD2SPROC@::PFNGLMULTITEXCOORD2SPROC
-~@typedef_t@PFNGLTANGENT3FVEXTPROC@::PFNGLTANGENT3FVEXTPROC
 ~@typedef_t@PFNGLPROGRAMLOCALPARAMETER4FARBPROC@::PFNGLPROGRAMLOCALPARAMETER4FARBPROC
 ~@typedef_t@int32_t@::int32_t
 ~@typedef_t@off64_t@::off64_t
@@ -575,7 +574,7 @@
 ~@typedef_t@pthread_key_t@::pthread_key_t
 ~@typedef_t@u_int8_t@::u_int8_t
 ~@typedef_t@initproc@::initproc
-~@typedef_t@PFNGLGETSHADERSOURCEPROC@::PFNGLGETSHADERSOURCEPROC
+~@typedef_t@PFNGLCOPYMULTITEXSUBIMAGE3DEXTPROC@::PFNGLCOPYMULTITEXSUBIMAGE3DEXTPROC
 ~@typedef_t@alias_VecStorage2f@::alias_VecStorage2f
 ~@typedef_t@PFNGLTEXBUFFEREXTPROC@::PFNGLTEXBUFFEREXTPROC
 ~@typedef_t@PFNGLPROGRAMUNIFORM3UIVEXTPROC@::PFNGLPROGRAMUNIFORM3UIVEXTPROC
@@ -600,7 +599,7 @@
 ~@typedef_t@PFNGLVERTEXWEIGHTFVEXTPROC@::PFNGLVERTEXWEIGHTFVEXTPROC
 ~@typedef_t@PFNGLPOLLASYNCSGIXPROC@::PFNGLPOLLASYNCSGIXPROC
 ~@typedef_t@PFNGLUNIFORMMATRIX3X4FVPROC@::PFNGLUNIFORMMATRIX3X4FVPROC
-~@typedef_t@PFNGLHINTPGIPROC@::PFNGLHINTPGIPROC
+~@typedef_t@PFNGLTANGENT3FVEXTPROC@::PFNGLTANGENT3FVEXTPROC
 ~@typedef_t@iternextfunc@::iternextfunc
 ~@typedef_t@PFNGLWINDOWPOS2DVPROC@::PFNGLWINDOWPOS2DVPROC
 ~@typedef_t@PFNGLGETUNIFORMLOCATIONARBPROC@::PFNGLGETUNIFORMLOCATIONARBPROC
@@ -742,7 +741,7 @@
 ~@typedef_t@PFNGLDELETEBUFFERSPROC@::PFNGLDELETEBUFFERSPROC
 ~@typedef_t@alias_VecStorage3d@::alias_VecStorage3d
 ~@typedef_t@alias_VecStorage3f@::alias_VecStorage3f
-~@typedef_t@PFNGLPROGRAMENVPARAMETERI4UINVPROC@::PFNGLPROGRAMENVPARAMETERI4UINVPROC
+~@typedef_t@PFNGLHINTPGIPROC@::PFNGLHINTPGIPROC
 ~@typedef_t@PFNGLPROGRAMBUFFERPARAMETERSIUIVNVPROC@::PFNGLPROGRAMBUFFERPARAMETERSIUIVNVPROC
 ~@typedef_t@PFNGLSAMPLEPATTERNSGISPROC@::PFNGLSAMPLEPATTERNSGISPROC
 ~@typedef_t@PFNGLVERTEXATTRIB2DARBPROC@::PFNGLVERTEXATTRIB2DARBPROC
@@ -1495,7 +1494,7 @@
 ~@typedef_t@PFNGLENABLEVERTEXATTRIBARRAYARBPROC@::PFNGLENABLEVERTEXATTRIBARRAYARBPROC
 ~@typedef_t@PFNGLBLENDFUNCSEPARATEPROC@::PFNGLBLENDFUNCSEPARATEPROC
 ~@typedef_t@PFNGLRESIZEBUFFERSMESAPROC@::PFNGLRESIZEBUFFERSMESAPROC
-~@typedef_t@PFNGLCOPYMULTITEXSUBIMAGE3DEXTPROC@::PFNGLCOPYMULTITEXSUBIMAGE3DEXTPROC
+~@typedef_t@PFNGLGETSHADERSOURCEPROC@::PFNGLGETSHADERSOURCEPROC
 ~@typedef_t@fsfilcnt64_t@::fsfilcnt64_t
 ~@typedef_t@PFNGLCOMPRESSEDMULTITEXIMAGE3DEXTPROC@::PFNGLCOMPRESSEDMULTITEXIMAGE3DEXTPROC
 ~@typedef_t@PFNGLCOMPRESSEDTEXTURESUBIMAGE1DEXTPROC@::PFNGLCOMPRESSEDTEXTURESUBIMAGE1DEXTPROC
@@ -1702,6 +1701,7 @@
 ~@typedef_t@PFNGLMAKEBUFFERNONRESIDENTNVPROC@::PFNGLMAKEBUFFERNONRESIDENTNVPROC
 ~@typedef_t@uint16_t@::uint16_t
 ~@typedef_t@PFNGLCONVOLUTIONFILTER2DPROC@::PFNGLCONVOLUTIONFILTER2DPROC
+~@typedef_t@PFNGLPROGRAMENVPARAMETERI4UINVPROC@::PFNGLPROGRAMENVPARAMETERI4UINVPROC
 ~@typedef_t@PFNGLMULTITEXCOORD1SVARBPROC@::PFNGLMULTITEXCOORD1SVARBPROC
 ~@typedef_t@PFNGLPROGRAMUNIFORM2FVEXTPROC@::PFNGLPROGRAMUNIFORM2FVEXTPROC
 ~@typedef_t@PFNGLCOMPRESSEDTEXIMAGE2DARBPROC@::PFNGLCOMPRESSEDTEXIMAGE2DARBPROC
@@ -1884,8 +1884,8 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
+~@namespace_t@@::
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -2044,6 +2044,7 @@
 ~@variable_t@PyDictIterKey_Type@::PyDictIterKey_Type
 ~@variable_t@_ZTIN3OSG16ThreadCommonBaseE@::_ZTIN3OSG16ThreadCommonBaseE
 ~@variable_t@_ZTISt15basic_streambufIwSt11char_traitsIwEE@::_ZTISt15basic_streambufIwSt11char_traitsIwEE
+~@variable_t@_ZTIN3OSG11PointerTypeE@::_ZTIN3OSG11PointerTypeE
 ~@variable_t@_ZTIN3OSG11StatIntElemE@::_ZTIN3OSG11StatIntElemE
 ~@variable_t@_ZTIN3OSG21GlobalsAttachmentBaseE@::_ZTIN3OSG21GlobalsAttachmentBaseE
 ~@variable_t@PyNullImporter_Type@::PyNullImporter_Type
@@ -2120,7 +2121,6 @@
 ~@variable_t@_ZTIN3OSG12StatTimeElemE@::_ZTIN3OSG12StatTimeElemE
 ~@variable_t@_ZTISt5ctypeIwE@::_ZTISt5ctypeIwE
 ~@variable_t@Py_NoUserSiteDirectory@::Py_NoUserSiteDirectory
-~@variable_t@signgam@::signgam
 ~@variable_t@_ZTIN3OSG18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEE@::_ZTIN3OSG18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEE
 ~@variable_t@PyExc_MemoryError@::PyExc_MemoryError
 ~@variable_t@_ZTIN3OSG17StringValueMapperIjEE@::_ZTIN3OSG17StringValueMapperIjEE
@@ -2278,8 +2278,9 @@
 ~@variable_t@PyLong_Type@::PyLong_Type
 ~@variable_t@sys_errlist@::sys_errlist
 ~@variable_t@_ZTISt15numpunct_bynameIwE@::_ZTISt15numpunct_bynameIwE
-~@variable_t@_ZTISt8bad_cast@::_ZTISt8bad_cast
+~@variable_t@signgam@::signgam
 ~@variable_t@PyExc_BufferError@::PyExc_BufferError
+~@variable_t@_ZTISt8bad_cast@::_ZTISt8bad_cast
 ~@variable_t@in6addr_loopback@::in6addr_loopback
 ~@variable_t@PyExc_ArithmeticError@::PyExc_ArithmeticError
 ~@variable_t@PyExc_KeyboardInterrupt@::PyExc_KeyboardInterrupt

@@ -59,7 +59,7 @@ boost::python::list TypedGeoVectorProperty_OSG__GeoColor3fPropertyDesc__getField
 void register_GeoColor3fProperty_class(){
 
     { //::OSG::TypedGeoVectorProperty< OSG::GeoColor3fPropertyDesc >
-        typedef bp::class_< OSG::TypedGeoVectorProperty< OSG::GeoColor3fPropertyDesc >, bp::bases< OSG::GeoVectorProperty >, OSG::TypedGeoVectorProperty<OSG::GeoColor3fPropertyDesc>::ObjRecPtr, boost::noncopyable > GeoColor3fProperty_exposer_t;
+        typedef bp::class_< OSG::TypedGeoVectorProperty< OSG::GeoColor3fPropertyDesc >, bp::bases< ::OSG::GeoVectorProperty >, OSG::TypedGeoVectorProperty<OSG::GeoColor3fPropertyDesc>::ObjRecPtr, boost::noncopyable > GeoColor3fProperty_exposer_t;
         GeoColor3fProperty_exposer_t GeoColor3fProperty_exposer = GeoColor3fProperty_exposer_t( "GeoColor3fProperty", bp::no_init );
         bp::scope GeoColor3fProperty_scope( GeoColor3fProperty_exposer );
         bp::scope().attr("GeoPropDataFieldId") = (int)OSG::TypedGeoVectorProperty<OSG::GeoColor3fPropertyDesc>::GeoPropDataFieldId;

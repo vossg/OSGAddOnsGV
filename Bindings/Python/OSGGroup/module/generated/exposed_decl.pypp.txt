@@ -142,7 +142,7 @@
 ~@typedef_t@uid_t@::uid_t
 ~@typedef_t@u_int64_t@::u_int64_t
 ~@typedef_t@u_int16_t@::u_int16_t
-~@typedef_t@PFNGLSECONDARYCOLOR3HVNVPROC@::PFNGLSECONDARYCOLOR3HVNVPROC
+~@typedef_t@PFNGLLINKPROGRAMPROC@::PFNGLLINKPROGRAMPROC
 ~@typedef_t@PFNGLPOLLINSTRUMENTSSGIXPROC@::PFNGLPOLLINSTRUMENTSSGIXPROC
 ~@typedef_t@PFNGLWINDOWPOS4SMESAPROC@::PFNGLWINDOWPOS4SMESAPROC
 ~@typedef_t@GLsizeiptr@::GLsizeiptr
@@ -1503,7 +1503,7 @@
 ~@typedef_t@PFNGLWEIGHTIVARBPROC@::PFNGLWEIGHTIVARBPROC
 ~@typedef_t@PFNGLASYNCMARKERSGIXPROC@::PFNGLASYNCMARKERSGIXPROC
 ~@typedef_t@PFNGLUNIFORMMATRIX2X4FVPROC@::PFNGLUNIFORMMATRIX2X4FVPROC
-~@typedef_t@PFNGLLINKPROGRAMPROC@::PFNGLLINKPROGRAMPROC
+~@typedef_t@PFNGLSECONDARYCOLOR3HVNVPROC@::PFNGLSECONDARYCOLOR3HVNVPROC
 ~@typedef_t@PFNGLGETUNIFORMLOCATIONPROC@::PFNGLGETUNIFORMLOCATIONPROC
 ~@typedef_t@PFNGLGETDETAILTEXFUNCSGISPROC@::PFNGLGETDETAILTEXFUNCSGISPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI4SVEXTPROC@::PFNGLVERTEXATTRIBI4SVEXTPROC
@@ -1916,6 +1916,7 @@
 ~@variable_t@_ZTIN3OSG16ThreadCommonBaseE@::_ZTIN3OSG16ThreadCommonBaseE
 ~@variable_t@_ZTIN3OSG5LightE@::_ZTIN3OSG5LightE
 ~@variable_t@_ZTISt15basic_streambufIwSt11char_traitsIwEE@::_ZTISt15basic_streambufIwSt11char_traitsIwEE
+~@variable_t@_ZTIN3OSG11PointerTypeE@::_ZTIN3OSG11PointerTypeE
 ~@variable_t@_ZTIN3OSG11StatIntElemE@::_ZTIN3OSG11StatIntElemE
 ~@variable_t@_ZTIN3OSG17StatTimeStampElemE@::_ZTIN3OSG17StatTimeStampElemE
 ~@variable_t@_ZTIN3OSG22ShaderProcVariableBaseE@::_ZTIN3OSG22ShaderProcVariableBaseE
@@ -4024,7 +4025,7 @@
 ~@free_function_t@imaxabs@::intmax_t (*)( ::intmax_t )::intmax_t (*)( ::intmax_t )
 ~@free_function_t@iswcntrl@int (*)( ::wint_t )int (*)( ::wint_t )
 ~@free_function_t@__builtin_frame_address@void * (*)( unsigned int )void * (*)( unsigned int )
-~@free_function_t@glNormal3f@void (*)( ::GLfloat,::GLfloat,::GLfloat )void (*)( ::GLfloat,::GLfloat,::GLfloat )
+~@free_function_t@getopt@int (*)( int,char * const *,char const * )int (*)( int,char * const *,char const * )
 ~@free_function_t@__builtin_tanf@float (*)( float )float (*)( float )
 ~@free_function_t@fsync@int (*)( int )int (*)( int )
 ~@free_function_t@__builtin_tanh@double (*)( double )double (*)( double )
@@ -4097,7 +4098,7 @@
 ~@free_function_t@glNormal3s@void (*)( ::GLshort,::GLshort,::GLshort )void (*)( ::GLshort,::GLshort,::GLshort )
 ~@free_function_t@__significandl@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@glNormal3i@void (*)( ::GLint,::GLint,::GLint )void (*)( ::GLint,::GLint,::GLint )
-~@free_function_t@getopt@int (*)( int,char * const *,char const * )int (*)( int,char * const *,char const * )
+~@free_function_t@glNormal3f@void (*)( ::GLfloat,::GLfloat,::GLfloat )void (*)( ::GLfloat,::GLfloat,::GLfloat )
 ~@free_function_t@inet6_rth_segments@int (*)( void const * )int (*)( void const * )
 ~@free_function_t@glNormal3d@void (*)( ::GLdouble,::GLdouble,::GLdouble )void (*)( ::GLdouble,::GLdouble,::GLdouble )
 ~@free_function_t@glNormal3b@void (*)( ::GLbyte,::GLbyte,::GLbyte )void (*)( ::GLbyte,::GLbyte,::GLbyte )

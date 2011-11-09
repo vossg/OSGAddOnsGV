@@ -114,9 +114,17 @@
 
 #include "generated/FullStateChunkBase.pypp.hpp"
 
+#include "generated/GeoProperty.pypp.hpp"
+
+#include "generated/GeoPropertyBase.pypp.hpp"
+
 #include "generated/GeoReferenceAttachment.pypp.hpp"
 
 #include "generated/GeoReferenceAttachmentBase.pypp.hpp"
+
+#include "generated/GeoVectorProperty.pypp.hpp"
+
+#include "generated/GeoVectorPropertyBase.pypp.hpp"
 
 #include "generated/GraphOpFactory.pypp.hpp"
 
@@ -525,9 +533,17 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     register_FullStateChunk_class();
 
+    register_GeoPropertyBase_class();
+
+    register_GeoProperty_class();
+
     register_GeoReferenceAttachmentBase_class();
 
     register_GeoReferenceAttachment_class();
+
+    register_GeoVectorPropertyBase_class();
+
+    register_GeoVectorProperty_class();
 
     register_GraphOpFactoryBase_class();
 
@@ -797,6 +813,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     boost::python::def("traverse",&osgwrap::traverseWrapper4);
 
+    /** Helpers for OSG::ShaderVariableMMatrix */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableMMatrix, OSG::ShaderVariableMMatrix::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableMMatrix::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::IntersectProxyAttachment */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::IntersectProxyAttachment, OSG::IntersectProxyAttachment::ObjRecPtr>);
@@ -923,11 +945,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::Camera::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::ShaderVariableVec4f */
+    /** Helpers for OSG::GeoVectorProperty */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableVec4f, OSG::ShaderVariableVec4f::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::GeoVectorProperty, OSG::GeoVectorProperty::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableVec4f::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::GeoVectorProperty::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ShaderVariableOSG */
 
@@ -1012,6 +1034,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SimpleMaterial, OSG::SimpleMaterial::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::SimpleMaterial::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::ShaderVariableVec4f */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableVec4f, OSG::ShaderVariableVec4f::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableVec4f::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ShaderVariableMVec3f */
 
@@ -1187,11 +1215,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderProgramVariableChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::ShaderVariableMMatrix */
+    /** Helpers for OSG::GeoProperty */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableMMatrix, OSG::ShaderVariableMMatrix::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::GeoProperty, OSG::GeoProperty::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableMMatrix::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::GeoProperty::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ShaderVariableMatrix */
 

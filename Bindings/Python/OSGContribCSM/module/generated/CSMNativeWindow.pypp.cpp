@@ -87,6 +87,16 @@ void register_CSMNativeWindow_class(){
                 , ( bp::arg("rX"), bp::arg("rY") ) );
         
         }
+        { //::OSG::CSMNativeWindow::translateScreenCoordinatesRel
+        
+            typedef ::OSG::Vec2f ( ::OSG::CSMNativeWindow::*translateScreenCoordinatesRel_function_type )( ::OSG::Real32,::OSG::Real32 ) ;
+            
+            CSMNativeWindow_exposer.def( 
+                "translateScreenCoordinatesRel"
+                , translateScreenCoordinatesRel_function_type( &::OSG::CSMNativeWindow::translateScreenCoordinatesRel )
+                , ( bp::arg("rX"), bp::arg("rY") ) );
+        
+        }
         pyopensg::register_transit< OSG::CSMNativeWindow >::execute();
         bp::implicitly_convertible< OSG::CSMNativeWindow::ObjRecPtr, OSG::CSMNativeWindow* >();
         bp::implicitly_convertible< OSG::CSMNativeWindow::ObjRecPtr, OSG::CSMNativeWindow::ObjCPtr >();

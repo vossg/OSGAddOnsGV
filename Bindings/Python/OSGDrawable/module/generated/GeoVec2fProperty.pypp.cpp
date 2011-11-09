@@ -59,7 +59,7 @@ boost::python::list TypedGeoVectorProperty_OSG__GeoVec2fPropertyDesc__getField(O
 void register_GeoVec2fProperty_class(){
 
     { //::OSG::TypedGeoVectorProperty< OSG::GeoVec2fPropertyDesc >
-        typedef bp::class_< OSG::TypedGeoVectorProperty< OSG::GeoVec2fPropertyDesc >, bp::bases< OSG::GeoVectorProperty >, OSG::TypedGeoVectorProperty<OSG::GeoVec2fPropertyDesc>::ObjRecPtr, boost::noncopyable > GeoVec2fProperty_exposer_t;
+        typedef bp::class_< OSG::TypedGeoVectorProperty< OSG::GeoVec2fPropertyDesc >, bp::bases< ::OSG::GeoVectorProperty >, OSG::TypedGeoVectorProperty<OSG::GeoVec2fPropertyDesc>::ObjRecPtr, boost::noncopyable > GeoVec2fProperty_exposer_t;
         GeoVec2fProperty_exposer_t GeoVec2fProperty_exposer = GeoVec2fProperty_exposer_t( "GeoVec2fProperty", bp::no_init );
         bp::scope GeoVec2fProperty_scope( GeoVec2fProperty_exposer );
         bp::scope().attr("GeoPropDataFieldId") = (int)OSG::TypedGeoVectorProperty<OSG::GeoVec2fPropertyDesc>::GeoPropDataFieldId;

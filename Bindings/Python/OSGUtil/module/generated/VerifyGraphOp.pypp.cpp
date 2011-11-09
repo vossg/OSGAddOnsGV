@@ -94,18 +94,6 @@ struct VerifyGraphOp_wrapper : OSG::VerifyGraphOp, bp::wrapper< OSG::VerifyGraph
         return OSG::VerifyGraphOp::traverseLeave( node, res );
     }
 
-    virtual ::std::string usage(  ) {
-        if( bp::override func_usage = this->get_override( "usage" ) )
-            return func_usage(  );
-        else{
-            return this->OSG::VerifyGraphOp::usage(  );
-        }
-    }
-    
-    ::std::string default_usage(  ) {
-        return OSG::VerifyGraphOp::usage( );
-    }
-
 };
 
 void register_VerifyGraphOp_class(){
@@ -206,17 +194,6 @@ void register_VerifyGraphOp_class(){
                 "traverseLeave"
                 , traverseLeave_function_type( &VerifyGraphOp_wrapper::default_traverseLeave )
                 , ( bp::arg("node"), bp::arg("res") ) );
-        
-        }
-        { //::OSG::VerifyGraphOp::usage
-        
-            typedef ::std::string ( ::OSG::VerifyGraphOp::*usage_function_type )(  ) ;
-            typedef ::std::string ( VerifyGraphOp_wrapper::*default_usage_function_type )(  ) ;
-            
-            VerifyGraphOp_exposer.def( 
-                "usage"
-                , usage_function_type(&::OSG::VerifyGraphOp::usage)
-                , default_usage_function_type(&VerifyGraphOp_wrapper::default_usage) );
         
         }
         VerifyGraphOp_exposer.staticmethod( "create" );

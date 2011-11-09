@@ -61,6 +61,16 @@ void register_Line_class(){
                 , ( bp::arg("point") ) );
         
         }
+        { //::OSG::Line::getClosestPointT
+        
+            typedef ::OSG::Real32 ( ::OSG::Line::*getClosestPointT_function_type )( ::OSG::Pnt3f const & ) const;
+            
+            Line_exposer.def( 
+                "getClosestPointT"
+                , getClosestPointT_function_type( &::OSG::Line::getClosestPointT )
+                , ( bp::arg("point") ) );
+        
+        }
         { //::OSG::Line::getClosestPoints
         
             typedef bool ( ::OSG::Line::*getClosestPoints_function_type )( ::OSG::Line const &,::OSG::Pnt3f &,::OSG::Pnt3f & ) const;
@@ -69,6 +79,16 @@ void register_Line_class(){
                 "getClosestPoints"
                 , getClosestPoints_function_type( &::OSG::Line::getClosestPoints )
                 , ( bp::arg("line2"), bp::arg("ptOnThis"), bp::arg("ptOnLine2") ) );
+        
+        }
+        { //::OSG::Line::getClosestPoints
+        
+            typedef bool ( ::OSG::Line::*getClosestPoints_function_type )( ::OSG::Line const &,::OSG::Real32 &,::OSG::Real32 & ) const;
+            
+            Line_exposer.def( 
+                "getClosestPoints"
+                , getClosestPoints_function_type( &::OSG::Line::getClosestPoints )
+                , ( bp::arg("line2"), bp::arg("tOnThis"), bp::arg("tOnLine2") ) );
         
         }
         { //::OSG::Line::getDirection
@@ -221,6 +241,16 @@ void register_Line_class(){
                 "setValue"
                 , setValue_function_type( &::OSG::Line::setValue )
                 , ( bp::arg("pos"), bp::arg("dir") ) );
+        
+        }
+        { //::OSG::Line::transform
+        
+            typedef void ( ::OSG::Line::*transform_function_type )( ::OSG::Matrix4f const & ) ;
+            
+            Line_exposer.def( 
+                "transform"
+                , transform_function_type( &::OSG::Line::transform )
+                , ( bp::arg("mat") ) );
         
         }
     }

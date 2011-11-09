@@ -32,6 +32,12 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct GeoMultiPropertyDataBase_wrapper : OSG::GeoMultiPropertyDataBase, bp::wrapper< OSG::GeoMultiPropertyDataBase > {
+
+
+
+};
+
 boost::python::list GeoMultiPropertyDataBase_getMFIData(OSG::GeoMultiPropertyDataBase *self)
 {
    boost::python::list result;
@@ -47,7 +53,7 @@ boost::python::list GeoMultiPropertyDataBase_getMFIData(OSG::GeoMultiPropertyDat
 void register_GeoMultiPropertyDataBase_class(){
 
     { //::OSG::GeoMultiPropertyDataBase
-        typedef bp::class_< OSG::GeoMultiPropertyDataBase, bp::bases< ::OSG::StateChunk >, boost::noncopyable > GeoMultiPropertyDataBase_exposer_t;
+        typedef bp::class_< GeoMultiPropertyDataBase_wrapper, bp::bases< ::OSG::StateChunk >, boost::noncopyable > GeoMultiPropertyDataBase_exposer_t;
         GeoMultiPropertyDataBase_exposer_t GeoMultiPropertyDataBase_exposer = GeoMultiPropertyDataBase_exposer_t( "GeoMultiPropertyDataBase", bp::no_init );
         bp::scope GeoMultiPropertyDataBase_scope( GeoMultiPropertyDataBase_exposer );
         bp::scope().attr("IDataFieldId") = (int)OSG::GeoMultiPropertyDataBase::IDataFieldId;
@@ -206,6 +212,36 @@ void register_GeoMultiPropertyDataBase_class(){
                 "setGLId"
                 , setGLId_function_type( &::OSG::GeoMultiPropertyDataBase::setGLId )
                 , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::StateChunk::activate
+        
+            typedef void ( ::OSG::StateChunk::*activate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            
+            GeoMultiPropertyDataBase_exposer.def( 
+                "activate"
+                , activate_function_type( &::OSG::StateChunk::activate )
+                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
+        
+        }
+        { //::OSG::StateChunk::changeFrom
+        
+            typedef void ( ::OSG::StateChunk::*changeFrom_function_type )( ::OSG::DrawEnv *,::OSG::StateChunk *,::OSG::UInt32 ) ;
+            
+            GeoMultiPropertyDataBase_exposer.def( 
+                "changeFrom"
+                , changeFrom_function_type( &::OSG::StateChunk::changeFrom )
+                , ( bp::arg("pEnv"), bp::arg("pOld"), bp::arg("index")=(::OSG::UInt32)(0) ) );
+        
+        }
+        { //::OSG::StateChunk::deactivate
+        
+            typedef void ( ::OSG::StateChunk::*deactivate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            
+            GeoMultiPropertyDataBase_exposer.def( 
+                "deactivate"
+                , deactivate_function_type( &::OSG::StateChunk::deactivate )
+                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
         
         }
         GeoMultiPropertyDataBase_exposer.staticmethod( "create" );

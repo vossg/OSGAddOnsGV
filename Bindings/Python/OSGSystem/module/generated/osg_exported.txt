@@ -28,6 +28,7 @@ ShaderVariableVec2fBase
 ChunkOverrideGroup
 ShaderVariableMReal
 ShaderVariableStringBase
+GeoProperty
 ShaderProgramVariableChunkBase
 ShaderProgramVariableChunk
 BlendChunk
@@ -68,6 +69,7 @@ DrawableStatsAttachmentBase
 BackgroundBase
 SwitchMaterial
 CompositeMaterial
+GeoPropertyBase
 ShaderVariableVec4fBase
 ImageFileType
 Foreground
@@ -129,6 +131,7 @@ IntersectAction
 RenderPartition
 ShaderVariableMatrixBase
 ShaderExecutableChunk
+GeoVectorProperty
 Action
 IntersectProxyAttachment
 LightEnv
@@ -141,6 +144,7 @@ StringAttributeMap
 ShaderVariablePnt2fBase
 SimpleMaterial
 VariantMaterialBase
+GeoVectorPropertyBase
 ColorMaskChunkBase
 ImageBase
 ShaderVariableBoolBase

@@ -70,18 +70,6 @@ struct VerifyGeoGraphOp_wrapper : OSG::VerifyGeoGraphOp, bp::wrapper< OSG::Verif
         return OSG::VerifyGeoGraphOp::traverse( boost::python::ptr(root) );
     }
 
-    virtual ::std::string usage(  ) {
-        if( bp::override func_usage = this->get_override( "usage" ) )
-            return func_usage(  );
-        else{
-            return this->OSG::VerifyGeoGraphOp::usage(  );
-        }
-    }
-    
-    ::std::string default_usage(  ) {
-        return OSG::VerifyGeoGraphOp::usage( );
-    }
-
     virtual ::OSG::ActionBase::ResultE traverseEnter( ::OSG::Node * const node ){
         bp::override func_traverseEnter = this->get_override( "traverseEnter" );
         return func_traverseEnter( node );
@@ -151,17 +139,6 @@ void register_VerifyGeoGraphOp_class(){
                 , traverse_function_type(&::OSG::VerifyGeoGraphOp::traverse)
                 , default_traverse_function_type(&VerifyGeoGraphOp_wrapper::default_traverse)
                 , ( bp::arg("root") ) );
-        
-        }
-        { //::OSG::VerifyGeoGraphOp::usage
-        
-            typedef ::std::string ( ::OSG::VerifyGeoGraphOp::*usage_function_type )(  ) ;
-            typedef ::std::string ( VerifyGeoGraphOp_wrapper::*default_usage_function_type )(  ) ;
-            
-            VerifyGeoGraphOp_exposer.def( 
-                "usage"
-                , usage_function_type(&::OSG::VerifyGeoGraphOp::usage)
-                , default_usage_function_type(&VerifyGeoGraphOp_wrapper::default_usage) );
         
         }
         { //::OSG::GraphOp::traverseEnter

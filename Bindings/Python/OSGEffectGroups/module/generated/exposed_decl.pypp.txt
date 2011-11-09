@@ -421,7 +421,7 @@
 ~@typedef_t@PFNGLLOADTRANSPOSEMATRIXFARBPROC@::PFNGLLOADTRANSPOSEMATRIXFARBPROC
 ~@typedef_t@PFNGLFRAGMENTLIGHTMODELIVSGIXPROC@::PFNGLFRAGMENTLIGHTMODELIVSGIXPROC
 ~@typedef_t@PFNGLMULTTRANSPOSEMATRIXDARBPROC@::PFNGLMULTTRANSPOSEMATRIXDARBPROC
-~@typedef_t@PFNGLWINDOWPOS3IVPROC@::PFNGLWINDOWPOS3IVPROC
+~@typedef_t@PFNGLSECONDARYCOLOR3USVEXTPROC@::PFNGLSECONDARYCOLOR3USVEXTPROC
 ~@typedef_t@PFNGLVERTEXATTRIB2HVNVPROC@::PFNGLVERTEXATTRIB2HVNVPROC
 ~@typedef_t@PFNGLFOGCOORDHVNVPROC@::PFNGLFOGCOORDHVNVPROC
 ~@typedef_t@PFNGLPIXELTEXGENPARAMETERIVSGISPROC@::PFNGLPIXELTEXGENPARAMETERIVSGISPROC
@@ -682,7 +682,7 @@
 ~@typedef_t@PFNGLBINDFRAGMENTSHADERATIPROC@::PFNGLBINDFRAGMENTSHADERATIPROC
 ~@typedef_t@PFNGLVERTEX3HVNVPROC@::PFNGLVERTEX3HVNVPROC
 ~@typedef_t@PFNGLCOPYCOLORTABLEPROC@::PFNGLCOPYCOLORTABLEPROC
-~@typedef_t@PFNGLSECONDARYCOLOR3USVEXTPROC@::PFNGLSECONDARYCOLOR3USVEXTPROC
+~@typedef_t@PFNGLWINDOWPOS3IVPROC@::PFNGLWINDOWPOS3IVPROC
 ~@typedef_t@PFNGLGETTEXPARAMETERIIVPROC@::PFNGLGETTEXPARAMETERIIVPROC
 ~@typedef_t@PFNGLWEIGHTSVARBPROC@::PFNGLWEIGHTSVARBPROC
 ~@typedef_t@PFNGLNAMEDPROGRAMLOCALPARAMETERSI4UIVEXTPROC@::PFNGLNAMEDPROGRAMLOCALPARAMETERSI4UIVEXTPROC
@@ -2027,7 +2027,7 @@
 ~@variable_t@_ZTIN3OSG8HDRStageE@::_ZTIN3OSG8HDRStageE
 ~@variable_t@_ZTIN3OSG15PThreadLockBaseE@::_ZTIN3OSG15PThreadLockBaseE
 ~@variable_t@_ZTIN3OSG24FishEyeProjectorDataBaseE@::_ZTIN3OSG24FishEyeProjectorDataBaseE
-~@variable_t@_ZTIN3OSG13ThreadManagerE@::_ZTIN3OSG13ThreadManagerE
+~@variable_t@_ZTIN3OSG9StageBaseE@::_ZTIN3OSG9StageBaseE
 ~@variable_t@getdate_err@::getdate_err
 ~@variable_t@_ZTISt13bad_exception@::_ZTISt13bad_exception
 ~@variable_t@_ZTISt7num_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
@@ -2140,7 +2140,7 @@
 ~@variable_t@_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE@::_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE
 ~@variable_t@_ZTIN3OSG22ShaderProgramVariablesE@::_ZTIN3OSG22ShaderProgramVariablesE
 ~@variable_t@_ZTIN3OSG26ShaderProgramVariablesBaseE@::_ZTIN3OSG26ShaderProgramVariablesBaseE
-~@variable_t@_ZTIN3OSG9StageBaseE@::_ZTIN3OSG9StageBaseE
+~@variable_t@_ZTIN3OSG13ThreadManagerE@::_ZTIN3OSG13ThreadManagerE
 ~@variable_t@_ZTIN3OSG21FrameBufferAttachmentE@::_ZTIN3OSG21FrameBufferAttachmentE
 ~@variable_t@_ZTIN3OSG14LockCommonBaseE@::_ZTIN3OSG14LockCommonBaseE
 ~@variable_t@_ZTIN3OSG11GeoPropertyE@::_ZTIN3OSG11GeoPropertyE
@@ -2148,6 +2148,7 @@
 ~@variable_t@_ZTIN3OSG11OpenGLStateE@::_ZTIN3OSG11OpenGLStateE
 ~@variable_t@_ZTISt14collate_bynameIwE@::_ZTISt14collate_bynameIwE
 ~@variable_t@_ZTIN3OSG18FieldContainerTypeE@::_ZTIN3OSG18FieldContainerTypeE
+~@variable_t@_ZTIN3OSG11PointerTypeE@::_ZTIN3OSG11PointerTypeE
 ~@class_t@sockaddr@::sockaddr
 ~@class_t@cpu_set_t@::cpu_set_t
 ~@class_t@pthread_cond_t@::pthread_cond_t
@@ -2226,8 +2227,8 @@
 ~@class_t@sched_param@::sched_param
 ~@class_t@__locale_struct@::__locale_struct
 ~@namespace_t@std@::std
-~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@@::
+~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug

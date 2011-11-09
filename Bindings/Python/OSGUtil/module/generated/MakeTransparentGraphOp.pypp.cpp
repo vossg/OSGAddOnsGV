@@ -70,18 +70,6 @@ struct MakeTransparentGraphOp_wrapper : OSG::MakeTransparentGraphOp, bp::wrapper
         return OSG::MakeTransparentGraphOp::traverse( boost::python::ptr(node) );
     }
 
-    virtual ::std::string usage(  ) {
-        if( bp::override func_usage = this->get_override( "usage" ) )
-            return func_usage(  );
-        else{
-            return this->OSG::MakeTransparentGraphOp::usage(  );
-        }
-    }
-    
-    ::std::string default_usage(  ) {
-        return OSG::MakeTransparentGraphOp::usage( );
-    }
-
 };
 
 void register_MakeTransparentGraphOp_class(){
@@ -169,17 +157,6 @@ void register_MakeTransparentGraphOp_class(){
                 , traverse_function_type(&::OSG::MakeTransparentGraphOp::traverse)
                 , default_traverse_function_type(&MakeTransparentGraphOp_wrapper::default_traverse)
                 , ( bp::arg("node") ) );
-        
-        }
-        { //::OSG::MakeTransparentGraphOp::usage
-        
-            typedef ::std::string ( ::OSG::MakeTransparentGraphOp::*usage_function_type )(  ) ;
-            typedef ::std::string ( MakeTransparentGraphOp_wrapper::*default_usage_function_type )(  ) ;
-            
-            MakeTransparentGraphOp_exposer.def( 
-                "usage"
-                , usage_function_type(&::OSG::MakeTransparentGraphOp::usage)
-                , default_usage_function_type(&MakeTransparentGraphOp_wrapper::default_usage) );
         
         }
         MakeTransparentGraphOp_exposer.staticmethod( "create" );

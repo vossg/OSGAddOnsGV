@@ -392,7 +392,6 @@
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIEXTPROC@::PFNGLVERTEXATTRIBI1UIEXTPROC
 ~@typedef_t@PFNGLCLIENTACTIVETEXTUREARBPROC@::PFNGLCLIENTACTIVETEXTUREARBPROC
 ~@typedef_t@PFNGLNORMALSTREAM3SVATIPROC@::PFNGLNORMALSTREAM3SVATIPROC
-~@typedef_t@PFNGLGETVERTEXATTRIBFVPROC@::PFNGLGETVERTEXATTRIBFVPROC
 ~@typedef_t@PFNGLGETMULTITEXPARAMETERFVEXTPROC@::PFNGLGETMULTITEXPARAMETERFVEXTPROC
 ~@typedef_t@PFNGLELEMENTPOINTERATIPROC@::PFNGLELEMENTPOINTERATIPROC
 ~@typedef_t@PFNGLPROGRAMENVPARAMETERI4IVNVPROC@::PFNGLPROGRAMENVPARAMETERI4IVNVPROC
@@ -717,6 +716,7 @@
 ~@typedef_t@PFNGLVERTEXATTRIBI3UIPROC@::PFNGLVERTEXATTRIBI3UIPROC
 ~@typedef_t@PFNGLSECONDARYCOLOR3FEXTPROC@::PFNGLSECONDARYCOLOR3FEXTPROC
 ~@typedef_t@PFNGLGENERATEMIPMAPEXTPROC@::PFNGLGENERATEMIPMAPEXTPROC
+~@typedef_t@PFNGLMULTITEXCOORD2DVARBPROC@::PFNGLMULTITEXCOORD2DVARBPROC
 ~@typedef_t@GLcharARB@::GLcharARB
 ~@typedef_t@PFNGLGENERATEMIPMAPPROC@::PFNGLGENERATEMIPMAPPROC
 ~@typedef_t@PFNGLGENFENCESAPPLEPROC@::PFNGLGENFENCESAPPLEPROC
@@ -807,7 +807,7 @@
 ~@typedef_t@__u_quad_t@::__u_quad_t
 ~@typedef_t@PFNGLWINDOWPOS2DARBPROC@::PFNGLWINDOWPOS2DARBPROC
 ~@typedef_t@PFNGLSECONDARYCOLOR3BEXTPROC@::PFNGLSECONDARYCOLOR3BEXTPROC
-~@typedef_t@PFNGLMULTITEXCOORD2DVARBPROC@::PFNGLMULTITEXCOORD2DVARBPROC
+~@typedef_t@PFNGLGETVERTEXATTRIBFVPROC@::PFNGLGETVERTEXATTRIBFVPROC
 ~@typedef_t@PFNGLWINDOWPOS2DVMESAPROC@::PFNGLWINDOWPOS2DVMESAPROC
 ~@typedef_t@PFNGLMULTITEXGENDEXTPROC@::PFNGLMULTITEXGENDEXTPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI3IVEXTPROC@::PFNGLVERTEXATTRIBI3IVEXTPROC
@@ -1997,6 +1997,7 @@
 ~@variable_t@_ZTIN3OSG24AnimKeyFrameTemplateBaseE@::_ZTIN3OSG24AnimKeyFrameTemplateBaseE
 ~@variable_t@_ZTISt14basic_ofstreamIwSt11char_traitsIwEE@::_ZTISt14basic_ofstreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG26ExceptionBinaryDataHandlerE@::_ZTIN3OSG26ExceptionBinaryDataHandlerE
+~@variable_t@_ZTIN3OSG13AlgorithmBaseE@::_ZTIN3OSG13AlgorithmBaseE
 ~@variable_t@_ZTIN3OSG12RenderActionE@::_ZTIN3OSG12RenderActionE
 ~@variable_t@_ZTIN3OSG13StatCollectorE@::_ZTIN3OSG13StatCollectorE
 ~@variable_t@_ZTIN3OSG12MemoryObjectE@::_ZTIN3OSG12MemoryObjectE
@@ -2071,6 +2072,7 @@
 ~@variable_t@_ZTIN5boost6detail15sp_counted_baseE@::_ZTIN5boost6detail15sp_counted_baseE
 ~@variable_t@_ZTIN3OSG25ShaderAttrIndexMapperBaseE@::_ZTIN3OSG25ShaderAttrIndexMapperBaseE
 ~@variable_t@_ZTISt21__ctype_abstract_baseIwE@::_ZTISt21__ctype_abstract_baseIwE
+~@variable_t@_ZTIN3OSG26VRMLNormalInterpolatorBaseE@::_ZTIN3OSG26VRMLNormalInterpolatorBaseE
 ~@variable_t@_ZTIN3OSG13DataSlotMixinINS_18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEEEE@::_ZTIN3OSG13DataSlotMixinINS_18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEEEE
 ~@variable_t@_ZTIN3OSG9StageDataE@::_ZTIN3OSG9StageDataE
 ~@variable_t@_ZTIN3OSG9GroupBaseE@::_ZTIN3OSG9GroupBaseE
@@ -2131,7 +2133,7 @@
 ~@variable_t@_ZTISt13runtime_error@::_ZTISt13runtime_error
 ~@variable_t@_ZTIN3OSG19GeoIntegralPropertyE@::_ZTIN3OSG19GeoIntegralPropertyE
 ~@variable_t@_ZTIN3OSG15GetMFieldHandleINS_17PointerMFieldBaseEEE@::_ZTIN3OSG15GetMFieldHandleINS_17PointerMFieldBaseEEE
-~@variable_t@_ZTIN3OSG13AlgorithmBaseE@::_ZTIN3OSG13AlgorithmBaseE
+~@variable_t@_ZTIN3OSG22VRMLNormalInterpolatorE@::_ZTIN3OSG22VRMLNormalInterpolatorE
 ~@variable_t@_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE@::_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE
 ~@variable_t@_ZTIN3OSG13RenderOptionsE@::_ZTIN3OSG13RenderOptionsE
 ~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
@@ -2156,6 +2158,7 @@
 ~@variable_t@_ZTIN3OSG21SkeletonOgreJointBaseE@::_ZTIN3OSG21SkeletonOgreJointBaseE
 ~@variable_t@_ZTIN3OSG18FieldContainerTypeE@::_ZTIN3OSG18FieldContainerTypeE
 ~@variable_t@_ZTIN3OSG9AnimationE@::_ZTIN3OSG9AnimationE
+~@variable_t@_ZTIN3OSG11PointerTypeE@::_ZTIN3OSG11PointerTypeE
 ~@variable_t@_ZTIN3OSG16FrameHandlerBaseE@::_ZTIN3OSG16FrameHandlerBaseE
 ~@class_t@sockaddr@::sockaddr
 ~@class_t@cpu_set_t@::cpu_set_t

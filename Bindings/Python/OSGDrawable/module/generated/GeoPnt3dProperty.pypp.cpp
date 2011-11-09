@@ -59,7 +59,7 @@ boost::python::list TypedGeoVectorProperty_OSG__GeoPnt3dPropertyDesc__getField(O
 void register_GeoPnt3dProperty_class(){
 
     { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt3dPropertyDesc >
-        typedef bp::class_< OSG::TypedGeoVectorProperty< OSG::GeoPnt3dPropertyDesc >, bp::bases< OSG::GeoVectorProperty >, OSG::TypedGeoVectorProperty<OSG::GeoPnt3dPropertyDesc>::ObjRecPtr, boost::noncopyable > GeoPnt3dProperty_exposer_t;
+        typedef bp::class_< OSG::TypedGeoVectorProperty< OSG::GeoPnt3dPropertyDesc >, bp::bases< ::OSG::GeoVectorProperty >, OSG::TypedGeoVectorProperty<OSG::GeoPnt3dPropertyDesc>::ObjRecPtr, boost::noncopyable > GeoPnt3dProperty_exposer_t;
         GeoPnt3dProperty_exposer_t GeoPnt3dProperty_exposer = GeoPnt3dProperty_exposer_t( "GeoPnt3dProperty", bp::no_init );
         bp::scope GeoPnt3dProperty_scope( GeoPnt3dProperty_exposer );
         bp::scope().attr("GeoPropDataFieldId") = (int)OSG::TypedGeoVectorProperty<OSG::GeoPnt3dPropertyDesc>::GeoPropDataFieldId;

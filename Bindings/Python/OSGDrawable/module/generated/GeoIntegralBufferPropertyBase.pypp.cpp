@@ -34,6 +34,11 @@ namespace bp = boost::python;
 
 struct GeoIntegralBufferPropertyBase_wrapper : OSG::GeoIntegralBufferPropertyBase, bp::wrapper< OSG::GeoIntegralBufferPropertyBase > {
 
+    virtual ::OSG::GeoPropertyTransitPtr clone(  ){
+        bp::override func_clone = this->get_override( "clone" );
+        return func_clone(  );
+    }
+
     void getGenericValue( ::OSG::UInt64 & val, ::OSG::UInt32 const index ) const {
         OSG::GeoIntegralProperty::getGenericValue( val, index );
     }
@@ -326,6 +331,15 @@ void register_GeoIntegralBufferPropertyBase_class(){
                 , clear_function_type( &::OSG::GeoIntegralProperty::clear ) );
         
         }
+        { //::OSG::GeoProperty::clone
+        
+            typedef ::OSG::GeoPropertyTransitPtr ( ::OSG::GeoProperty::*clone_function_type )(  ) ;
+            
+            GeoIntegralBufferPropertyBase_exposer.def( 
+                "clone"
+                , bp::pure_virtual( clone_function_type(&::OSG::GeoProperty::clone) ) );
+        
+        }
         { //::OSG::GeoIntegralProperty::getGenericValue
         
             typedef void ( GeoIntegralBufferPropertyBase_wrapper::*getGenericValue_function_type )( ::OSG::UInt64 &,::OSG::UInt32 const ) const;
@@ -354,6 +368,15 @@ void register_GeoIntegralBufferPropertyBase_class(){
                 "setGenericValue"
                 , setGenericValue_function_type( &GeoIntegralBufferPropertyBase_wrapper::setGenericValue )
                 , ( bp::arg("val"), bp::arg("index") ) );
+        
+        }
+        { //::OSG::GeoIntegralProperty::size
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoIntegralProperty::*size_function_type )(  ) const;
+            
+            GeoIntegralBufferPropertyBase_exposer.def( 
+                "size"
+                , size_function_type( &::OSG::GeoIntegralProperty::size ) );
         
         }
         GeoIntegralBufferPropertyBase_exposer.staticmethod( "create" );

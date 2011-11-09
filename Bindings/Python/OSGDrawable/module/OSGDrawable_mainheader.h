@@ -16,10 +16,8 @@
 #include <OSGGeometry.h>
 #include <OSGGeoMultiProperty.h>
 #include <OSGGeoIntegralBufferRefProperty.h>
-#include <OSGGeoVectorProperty.h>
 #include <OSGGeoVectorBufferProperty.h>
 #include <OSGGeoMultiPropertyData.h>
-#include <OSGGeoProperty.h>
 #include <OSGGeoIntegralProperty.h>
 #include <OSGGeoVectorBufferRefProperty.h>
 #include <OSGGeoIntegralBufferProperty.h>
@@ -115,74 +113,6 @@
 
 // Member template instantiations
 #if defined(__GCCXML__)
-template OSG::Vec2f OSG::GeoVectorProperty::getValue<OSG::Vec2f>(const OSG::UInt32) const;
-template OSG::Vec3f OSG::GeoVectorProperty::getValue<OSG::Vec3f>(const OSG::UInt32) const;
-template OSG::Vec4f OSG::GeoVectorProperty::getValue<OSG::Vec4f>(const OSG::UInt32) const;
-template OSG::Vec2d OSG::GeoVectorProperty::getValue<OSG::Vec2d>(const OSG::UInt32) const;
-template OSG::Vec3d OSG::GeoVectorProperty::getValue<OSG::Vec3d>(const OSG::UInt32) const;
-template OSG::Vec4d OSG::GeoVectorProperty::getValue<OSG::Vec4d>(const OSG::UInt32) const;
-template OSG::Vec2ub OSG::GeoVectorProperty::getValue<OSG::Vec2ub>(const OSG::UInt32) const;
-template OSG::Vec3ub OSG::GeoVectorProperty::getValue<OSG::Vec3ub>(const OSG::UInt32) const;
-template OSG::Vec4ub OSG::GeoVectorProperty::getValue<OSG::Vec4ub>(const OSG::UInt32) const;
-template OSG::Pnt2f OSG::GeoVectorProperty::getValue<OSG::Pnt2f>(const OSG::UInt32) const;
-template OSG::Pnt3f OSG::GeoVectorProperty::getValue<OSG::Pnt3f>(const OSG::UInt32) const;
-template OSG::Pnt4f OSG::GeoVectorProperty::getValue<OSG::Pnt4f>(const OSG::UInt32) const;
-template OSG::Pnt2d OSG::GeoVectorProperty::getValue<OSG::Pnt2d>(const OSG::UInt32) const;
-template OSG::Pnt3d OSG::GeoVectorProperty::getValue<OSG::Pnt3d>(const OSG::UInt32) const;
-template OSG::Pnt4d OSG::GeoVectorProperty::getValue<OSG::Pnt4d>(const OSG::UInt32) const;
-template OSG::Color3f OSG::GeoVectorProperty::getValue<OSG::Color3f>(const OSG::UInt32) const;
-template OSG::Color4f OSG::GeoVectorProperty::getValue<OSG::Color4f>(const OSG::UInt32) const;
-template void OSG::GeoVectorProperty::setValue<OSG::Vec2f>(const OSG::Vec2f&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Vec3f>(const OSG::Vec3f&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Vec4f>(const OSG::Vec4f&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Vec2d>(const OSG::Vec2d&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Vec3d>(const OSG::Vec3d&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Vec4d>(const OSG::Vec4d&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Vec2ub>(const OSG::Vec2ub&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Vec3ub>(const OSG::Vec3ub&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Vec4ub>(const OSG::Vec4ub&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Pnt2f>(const OSG::Pnt2f&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Pnt3f>(const OSG::Pnt3f&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Pnt4f>(const OSG::Pnt4f&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Pnt2d>(const OSG::Pnt2d&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Pnt3d>(const OSG::Pnt3d&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Pnt4d>(const OSG::Pnt4d&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Color3f>(const OSG::Color3f&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::setValue<OSG::Color4f>(const OSG::Color4f&, const OSG::UInt32);
-template void OSG::GeoVectorProperty::addValue<OSG::Vec2f>(const OSG::Vec2f&);
-template void OSG::GeoVectorProperty::addValue<OSG::Vec3f>(const OSG::Vec3f&);
-template void OSG::GeoVectorProperty::addValue<OSG::Vec4f>(const OSG::Vec4f&);
-template void OSG::GeoVectorProperty::addValue<OSG::Vec2d>(const OSG::Vec2d&);
-template void OSG::GeoVectorProperty::addValue<OSG::Vec3d>(const OSG::Vec3d&);
-template void OSG::GeoVectorProperty::addValue<OSG::Vec4d>(const OSG::Vec4d&);
-template void OSG::GeoVectorProperty::addValue<OSG::Vec2ub>(const OSG::Vec2ub&);
-template void OSG::GeoVectorProperty::addValue<OSG::Vec3ub>(const OSG::Vec3ub&);
-template void OSG::GeoVectorProperty::addValue<OSG::Vec4ub>(const OSG::Vec4ub&);
-template void OSG::GeoVectorProperty::addValue<OSG::Pnt2f>(const OSG::Pnt2f&);
-template void OSG::GeoVectorProperty::addValue<OSG::Pnt3f>(const OSG::Pnt3f&);
-template void OSG::GeoVectorProperty::addValue<OSG::Pnt4f>(const OSG::Pnt4f&);
-template void OSG::GeoVectorProperty::addValue<OSG::Pnt2d>(const OSG::Pnt2d&);
-template void OSG::GeoVectorProperty::addValue<OSG::Pnt3d>(const OSG::Pnt3d&);
-template void OSG::GeoVectorProperty::addValue<OSG::Pnt4d>(const OSG::Pnt4d&);
-template void OSG::GeoVectorProperty::addValue<OSG::Color3f>(const OSG::Color3f&);
-template void OSG::GeoVectorProperty::addValue<OSG::Color4f>(const OSG::Color4f&);
-template void OSG::GeoVectorProperty::push_back<OSG::Vec2f>(const OSG::Vec2f&);
-template void OSG::GeoVectorProperty::push_back<OSG::Vec3f>(const OSG::Vec3f&);
-template void OSG::GeoVectorProperty::push_back<OSG::Vec4f>(const OSG::Vec4f&);
-template void OSG::GeoVectorProperty::push_back<OSG::Vec2d>(const OSG::Vec2d&);
-template void OSG::GeoVectorProperty::push_back<OSG::Vec3d>(const OSG::Vec3d&);
-template void OSG::GeoVectorProperty::push_back<OSG::Vec4d>(const OSG::Vec4d&);
-template void OSG::GeoVectorProperty::push_back<OSG::Vec2ub>(const OSG::Vec2ub&);
-template void OSG::GeoVectorProperty::push_back<OSG::Vec3ub>(const OSG::Vec3ub&);
-template void OSG::GeoVectorProperty::push_back<OSG::Vec4ub>(const OSG::Vec4ub&);
-template void OSG::GeoVectorProperty::push_back<OSG::Pnt2f>(const OSG::Pnt2f&);
-template void OSG::GeoVectorProperty::push_back<OSG::Pnt3f>(const OSG::Pnt3f&);
-template void OSG::GeoVectorProperty::push_back<OSG::Pnt4f>(const OSG::Pnt4f&);
-template void OSG::GeoVectorProperty::push_back<OSG::Pnt2d>(const OSG::Pnt2d&);
-template void OSG::GeoVectorProperty::push_back<OSG::Pnt3d>(const OSG::Pnt3d&);
-template void OSG::GeoVectorProperty::push_back<OSG::Pnt4d>(const OSG::Pnt4d&);
-template void OSG::GeoVectorProperty::push_back<OSG::Color3f>(const OSG::Color3f&);
-template void OSG::GeoVectorProperty::push_back<OSG::Color4f>(const OSG::Color4f&);
 template OSG::UInt8 OSG::GeoIntegralProperty::getValue<OSG::UInt8>(const OSG::UInt32) const;
 template OSG::UInt16 OSG::GeoIntegralProperty::getValue<OSG::UInt16>(const OSG::UInt32) const;
 template OSG::UInt32 OSG::GeoIntegralProperty::getValue<OSG::UInt32>(const OSG::UInt32) const;

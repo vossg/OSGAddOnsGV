@@ -23,7 +23,7 @@
 #endif
 
 #include "boost/python.hpp"
-#include "OSGDrawable_mainheader.h"
+#include "OSGSystem_mainheader.h"
 #include "OsgPtrHelpers.h"
 #include "boost/python/suite/indexing/map_indexing_suite.hpp"
 #include "boost/python/suite/indexing/vector_indexing_suite.hpp"
@@ -32,16 +32,10 @@
 using namespace std;
 namespace bp = boost::python;
 
-struct GeoPropertyBase_wrapper : OSG::GeoPropertyBase, bp::wrapper< OSG::GeoPropertyBase > {
-
-
-
-};
-
 void register_GeoPropertyBase_class(){
 
     { //::OSG::GeoPropertyBase
-        typedef bp::class_< GeoPropertyBase_wrapper, bp::bases< ::OSG::StateChunk >, boost::noncopyable > GeoPropertyBase_exposer_t;
+        typedef bp::class_< OSG::GeoPropertyBase, bp::bases< OSG::StateChunk >, boost::noncopyable > GeoPropertyBase_exposer_t;
         GeoPropertyBase_exposer_t GeoPropertyBase_exposer = GeoPropertyBase_exposer_t( "GeoPropertyBase", bp::no_init );
         bp::scope GeoPropertyBase_scope( GeoPropertyBase_exposer );
         bp::scope().attr("UseVBOFieldId") = (int)OSG::GeoPropertyBase::UseVBOFieldId;
@@ -221,36 +215,6 @@ void register_GeoPropertyBase_class(){
                 "setVboUsage"
                 , setVboUsage_function_type( &::OSG::GeoPropertyBase::setVboUsage )
                 , ( bp::arg("value") ) );
-        
-        }
-        { //::OSG::StateChunk::activate
-        
-            typedef void ( ::OSG::StateChunk::*activate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
-            
-            GeoPropertyBase_exposer.def( 
-                "activate"
-                , activate_function_type( &::OSG::StateChunk::activate )
-                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
-        
-        }
-        { //::OSG::StateChunk::changeFrom
-        
-            typedef void ( ::OSG::StateChunk::*changeFrom_function_type )( ::OSG::DrawEnv *,::OSG::StateChunk *,::OSG::UInt32 ) ;
-            
-            GeoPropertyBase_exposer.def( 
-                "changeFrom"
-                , changeFrom_function_type( &::OSG::StateChunk::changeFrom )
-                , ( bp::arg("pEnv"), bp::arg("pOld"), bp::arg("index")=(::OSG::UInt32)(0) ) );
-        
-        }
-        { //::OSG::StateChunk::deactivate
-        
-            typedef void ( ::OSG::StateChunk::*deactivate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
-            
-            GeoPropertyBase_exposer.def( 
-                "deactivate"
-                , deactivate_function_type( &::OSG::StateChunk::deactivate )
-                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
         
         }
         GeoPropertyBase_exposer.staticmethod( "getClassGroupId" );

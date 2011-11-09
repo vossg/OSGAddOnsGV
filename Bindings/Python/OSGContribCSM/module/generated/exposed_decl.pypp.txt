@@ -374,7 +374,6 @@
 ~@typedef_t@PFNGLCOMBINERPARAMETERFVNVPROC@::PFNGLCOMBINERPARAMETERFVNVPROC
 ~@typedef_t@float_t@::float_t
 ~@typedef_t@PFNGLVERTEXATTRIB1SARBPROC@::PFNGLVERTEXATTRIB1SARBPROC
-~@typedef_t@PFNGLPOINTPARAMETERFVPROC@::PFNGLPOINTPARAMETERFVPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI4IPROC@::PFNGLVERTEXATTRIBI4IPROC
 ~@typedef_t@PFNGLARRAYOBJECTATIPROC@::PFNGLARRAYOBJECTATIPROC
 ~@typedef_t@PFNGLELEMENTPOINTERAPPLEPROC@::PFNGLELEMENTPOINTERAPPLEPROC
@@ -951,7 +950,7 @@
 ~@typedef_t@PFNGLPRESENTFRAMEKEYEDNVPROC@::PFNGLPRESENTFRAMEKEYEDNVPROC
 ~@typedef_t@__mode_t@::__mode_t
 ~@typedef_t@GLshort@::GLshort
-~@typedef_t@PFNGLUNIFORMBUFFEREXTPROC@::PFNGLUNIFORMBUFFEREXTPROC
+~@typedef_t@PFNGLPOINTPARAMETERFVPROC@::PFNGLPOINTPARAMETERFVPROC
 ~@typedef_t@PFNGLPROGRAMUNIFORMMATRIX3X2FVEXTPROC@::PFNGLPROGRAMUNIFORMMATRIX3X2FVEXTPROC
 ~@typedef_t@PFNGLDELETEFENCESAPPLEPROC@::PFNGLDELETEFENCESAPPLEPROC
 ~@typedef_t@PFNGLPROGRAMNAMEDPARAMETER4FNVPROC@::PFNGLPROGRAMNAMEDPARAMETER4FNVPROC
@@ -1298,6 +1297,7 @@
 ~@typedef_t@PFNGLMULTITEXCOORD4DVARBPROC@::PFNGLMULTITEXCOORD4DVARBPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI4IVPROC@::PFNGLVERTEXATTRIBI4IVPROC
 ~@typedef_t@PFNGLLOCKARRAYSEXTPROC@::PFNGLLOCKARRAYSEXTPROC
+~@typedef_t@PFNGLUNIFORMBUFFEREXTPROC@::PFNGLUNIFORMBUFFEREXTPROC
 ~@typedef_t@u_int@::u_int
 ~@typedef_t@PFNGLCLEARCOLORIIEXTPROC@::PFNGLCLEARCOLORIIEXTPROC
 ~@typedef_t@PFNGLBINDFRAGDATALOCATIONPROC@::PFNGLBINDFRAGDATALOCATIONPROC
@@ -1764,13 +1764,13 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@mpl_@::mpl_
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
 ~@namespace_t@boost_concepts@::boost_concepts
+~@namespace_t@mpl_@::mpl_
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@boost_swap_impl@::boost_swap_impl
 ~@namespace_t@OSG@::OSG
@@ -1897,6 +1897,7 @@
 ~@variable_t@_ZTIN3OSG16ThreadCommonBaseE@::_ZTIN3OSG16ThreadCommonBaseE
 ~@variable_t@_ZTISt15basic_streambufIwSt11char_traitsIwEE@::_ZTISt15basic_streambufIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG22CSMMultiWinOptionsBaseE@::_ZTIN3OSG22CSMMultiWinOptionsBaseE
+~@variable_t@_ZTIN3OSG11PointerTypeE@::_ZTIN3OSG11PointerTypeE
 ~@variable_t@_ZTIN3OSG11StatIntElemE@::_ZTIN3OSG11StatIntElemE
 ~@variable_t@_ZTIN3OSG17StatTimeStampElemE@::_ZTIN3OSG17StatTimeStampElemE
 ~@variable_t@_ZTIN3OSG22ShaderProcVariableBaseE@::_ZTIN3OSG22ShaderProcVariableBaseE
@@ -1976,6 +1977,7 @@
 ~@variable_t@_ZTIN3OSG26ExceptionBinaryDataHandlerE@::_ZTIN3OSG26ExceptionBinaryDataHandlerE
 ~@variable_t@_ZTIN3OSG16InterfaceOptionsE@::_ZTIN3OSG16InterfaceOptionsE
 ~@variable_t@_ZTISt11__timepunctIwE@::_ZTISt11__timepunctIwE
+~@variable_t@_ZTIN3OSG25ShaderAttrIndexMapperBaseE@::_ZTIN3OSG25ShaderAttrIndexMapperBaseE
 ~@variable_t@_ZTIN5boost16bad_lexical_castE@::_ZTIN5boost16bad_lexical_castE
 ~@variable_t@_ZTIN3OSG13StatCollectorE@::_ZTIN3OSG13StatCollectorE
 ~@variable_t@_ZTIN3OSG12MemoryObjectE@::_ZTIN3OSG12MemoryObjectE
@@ -2007,7 +2009,6 @@
 ~@variable_t@_ZTIN3OSG16CSMPassiveWindowE@::_ZTIN3OSG16CSMPassiveWindowE
 ~@variable_t@_ZTISt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@_ZTIN3OSG6MPTypeE@::_ZTIN3OSG6MPTypeE
-~@variable_t@_ZTISt12out_of_range@::_ZTISt12out_of_range
 ~@variable_t@_ZTIN3OSG12FrameHandlerE@::_ZTIN3OSG12FrameHandlerE
 ~@variable_t@_ZTIN3OSG18FrameTaskInterfaceE@::_ZTIN3OSG18FrameTaskInterfaceE
 ~@variable_t@_ZTIN3OSG15CSMNativeWindowE@::_ZTIN3OSG15CSMNativeWindowE
@@ -2052,7 +2053,7 @@
 ~@variable_t@__timezone@::__timezone
 ~@variable_t@_ZTIN5boost6detail15sp_counted_baseE@::_ZTIN5boost6detail15sp_counted_baseE
 ~@variable_t@_ZTISt17moneypunct_bynameIcLb1EE@::_ZTISt17moneypunct_bynameIcLb1EE
-~@variable_t@_ZTIN3OSG25ShaderAttrIndexMapperBaseE@::_ZTIN3OSG25ShaderAttrIndexMapperBaseE
+~@variable_t@_ZTISt12out_of_range@::_ZTISt12out_of_range
 ~@variable_t@_ZTISt21__ctype_abstract_baseIwE@::_ZTISt21__ctype_abstract_baseIwE
 ~@variable_t@_ZTIN3OSG13DataSlotMixinINS_18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEEEE@::_ZTIN3OSG13DataSlotMixinINS_18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEEEE
 ~@variable_t@_ZTIN3OSG9ImageBaseE@::_ZTIN3OSG9ImageBaseE

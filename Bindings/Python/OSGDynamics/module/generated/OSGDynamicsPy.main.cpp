@@ -168,6 +168,10 @@
 
 #include "generated/VRMLInterpolatorBase.pypp.hpp"
 
+#include "generated/VRMLNormalInterpolator.pypp.hpp"
+
+#include "generated/VRMLNormalInterpolatorBase.pypp.hpp"
+
 #include "generated/VRMLOrientationInterpolator.pypp.hpp"
 
 #include "generated/VRMLOrientationInterpolatorBase.pypp.hpp"
@@ -320,6 +324,10 @@ BOOST_PYTHON_MODULE(OSGDynamicsPy){
     register_VRMLCoordinateInterpolatorBase_class();
 
     register_VRMLCoordinateInterpolator_class();
+
+    register_VRMLNormalInterpolatorBase_class();
+
+    register_VRMLNormalInterpolator_class();
 
     register_VRMLOrientationInterpolatorBase_class();
 
@@ -486,6 +494,12 @@ BOOST_PYTHON_MODULE(OSGDynamicsPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::AnimDataSource, OSG::AnimDataSource::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::AnimDataSource::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::VRMLNormalInterpolator */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VRMLNormalInterpolator, OSG::VRMLNormalInterpolator::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::VRMLNormalInterpolator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::Skeleton */
 

@@ -70,18 +70,6 @@ struct SplitGraphOp_wrapper : OSG::SplitGraphOp, bp::wrapper< OSG::SplitGraphOp 
         return OSG::SplitGraphOp::traverse( boost::python::ptr(root) );
     }
 
-    virtual ::std::string usage(  ) {
-        if( bp::override func_usage = this->get_override( "usage" ) )
-            return func_usage(  );
-        else{
-            return this->OSG::SplitGraphOp::usage(  );
-        }
-    }
-    
-    ::std::string default_usage(  ) {
-        return OSG::SplitGraphOp::usage( );
-    }
-
 };
 
 void register_SplitGraphOp_class(){
@@ -152,17 +140,6 @@ void register_SplitGraphOp_class(){
                 , traverse_function_type(&::OSG::SplitGraphOp::traverse)
                 , default_traverse_function_type(&SplitGraphOp_wrapper::default_traverse)
                 , ( bp::arg("root") ) );
-        
-        }
-        { //::OSG::SplitGraphOp::usage
-        
-            typedef ::std::string ( ::OSG::SplitGraphOp::*usage_function_type )(  ) ;
-            typedef ::std::string ( SplitGraphOp_wrapper::*default_usage_function_type )(  ) ;
-            
-            SplitGraphOp_exposer.def( 
-                "usage"
-                , usage_function_type(&::OSG::SplitGraphOp::usage)
-                , default_usage_function_type(&SplitGraphOp_wrapper::default_usage) );
         
         }
         SplitGraphOp_exposer.staticmethod( "create" );

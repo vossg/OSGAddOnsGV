@@ -70,18 +70,6 @@ struct MergeGraphOp_wrapper : OSG::MergeGraphOp, bp::wrapper< OSG::MergeGraphOp 
         return OSG::MergeGraphOp::traverse( boost::python::ptr(node) );
     }
 
-    virtual ::std::string usage(  ) {
-        if( bp::override func_usage = this->get_override( "usage" ) )
-            return func_usage(  );
-        else{
-            return this->OSG::MergeGraphOp::usage(  );
-        }
-    }
-    
-    ::std::string default_usage(  ) {
-        return OSG::MergeGraphOp::usage( );
-    }
-
 };
 
 void register_MergeGraphOp_class(){
@@ -141,17 +129,6 @@ void register_MergeGraphOp_class(){
                 , traverse_function_type(&::OSG::MergeGraphOp::traverse)
                 , default_traverse_function_type(&MergeGraphOp_wrapper::default_traverse)
                 , ( bp::arg("node") ) );
-        
-        }
-        { //::OSG::MergeGraphOp::usage
-        
-            typedef ::std::string ( ::OSG::MergeGraphOp::*usage_function_type )(  ) ;
-            typedef ::std::string ( MergeGraphOp_wrapper::*default_usage_function_type )(  ) ;
-            
-            MergeGraphOp_exposer.def( 
-                "usage"
-                , usage_function_type(&::OSG::MergeGraphOp::usage)
-                , default_usage_function_type(&MergeGraphOp_wrapper::default_usage) );
         
         }
         MergeGraphOp_exposer.staticmethod( "create" );

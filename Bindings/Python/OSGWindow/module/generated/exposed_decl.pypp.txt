@@ -373,7 +373,6 @@
 ~@typedef_t@PFNGLCOMBINERPARAMETERFVNVPROC@::PFNGLCOMBINERPARAMETERFVNVPROC
 ~@typedef_t@float_t@::float_t
 ~@typedef_t@PFNGLVERTEXATTRIB1SARBPROC@::PFNGLVERTEXATTRIB1SARBPROC
-~@typedef_t@PFNGLPOINTPARAMETERFVPROC@::PFNGLPOINTPARAMETERFVPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI4IPROC@::PFNGLVERTEXATTRIBI4IPROC
 ~@typedef_t@PFNGLARRAYOBJECTATIPROC@::PFNGLARRAYOBJECTATIPROC
 ~@typedef_t@PFNGLELEMENTPOINTERAPPLEPROC@::PFNGLELEMENTPOINTERAPPLEPROC
@@ -950,7 +949,7 @@
 ~@typedef_t@PFNGLPRESENTFRAMEKEYEDNVPROC@::PFNGLPRESENTFRAMEKEYEDNVPROC
 ~@typedef_t@__mode_t@::__mode_t
 ~@typedef_t@GLshort@::GLshort
-~@typedef_t@PFNGLUNIFORMBUFFEREXTPROC@::PFNGLUNIFORMBUFFEREXTPROC
+~@typedef_t@PFNGLPOINTPARAMETERFVPROC@::PFNGLPOINTPARAMETERFVPROC
 ~@typedef_t@PFNGLPROGRAMUNIFORMMATRIX3X2FVEXTPROC@::PFNGLPROGRAMUNIFORMMATRIX3X2FVEXTPROC
 ~@typedef_t@PFNGLDELETEFENCESAPPLEPROC@::PFNGLDELETEFENCESAPPLEPROC
 ~@typedef_t@PFNGLPROGRAMNAMEDPARAMETER4FNVPROC@::PFNGLPROGRAMNAMEDPARAMETER4FNVPROC
@@ -1297,6 +1296,7 @@
 ~@typedef_t@PFNGLMULTITEXCOORD4DVARBPROC@::PFNGLMULTITEXCOORD4DVARBPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI4IVPROC@::PFNGLVERTEXATTRIBI4IVPROC
 ~@typedef_t@PFNGLLOCKARRAYSEXTPROC@::PFNGLLOCKARRAYSEXTPROC
+~@typedef_t@PFNGLUNIFORMBUFFEREXTPROC@::PFNGLUNIFORMBUFFEREXTPROC
 ~@typedef_t@u_int@::u_int
 ~@typedef_t@PFNGLCLEARCOLORIIEXTPROC@::PFNGLCLEARCOLORIIEXTPROC
 ~@typedef_t@PFNGLBINDFRAGDATALOCATIONPROC@::PFNGLBINDFRAGDATALOCATIONPROC
@@ -1763,13 +1763,13 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
+~@namespace_t@mpl_@::mpl_
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
 ~@namespace_t@boost_concepts@::boost_concepts
-~@namespace_t@mpl_@::mpl_
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@boost_swap_impl@::boost_swap_impl
 ~@namespace_t@OSG@::OSG
@@ -1921,7 +1921,7 @@
 ~@variable_t@_ZTIN3OSG6LogBufE@::_ZTIN3OSG6LogBufE
 ~@variable_t@sys_errlist@::sys_errlist
 ~@variable_t@_ZTISt15numpunct_bynameIwE@::_ZTISt15numpunct_bynameIwE
-~@variable_t@_ZTIN3OSG3LogE@::_ZTIN3OSG3LogE
+~@variable_t@_ZTIN3OSG19SolidBackgroundBaseE@::_ZTIN3OSG19SolidBackgroundBaseE
 ~@variable_t@signgam@::signgam
 ~@variable_t@_ZTIN3OSG17PassiveBackgroundE@::_ZTIN3OSG17PassiveBackgroundE
 ~@variable_t@_ZTIN3OSG18FileGrabForegroundE@::_ZTIN3OSG18FileGrabForegroundE
@@ -1985,6 +1985,7 @@
 ~@variable_t@optarg@::optarg
 ~@variable_t@_ZTIN3OSG18PThreadCondVarBaseE@::_ZTIN3OSG18PThreadCondVarBaseE
 ~@variable_t@_ZTIN3OSG21PerspectiveCameraBaseE@::_ZTIN3OSG21PerspectiveCameraBaseE
+~@variable_t@_ZTIN3OSG11PointerTypeE@::_ZTIN3OSG11PointerTypeE
 ~@variable_t@_ZTIN3OSG19RenderPartitionBaseE@::_ZTIN3OSG19RenderPartitionBaseE
 ~@variable_t@_ZTISt7num_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTISt13basic_ostreamIwSt11char_traitsIwEE@::_ZTISt13basic_ostreamIwSt11char_traitsIwEE
@@ -2038,7 +2039,7 @@
 ~@variable_t@_ZTISt15basic_stringbufIwSt11char_traitsIwESaIwEE@::_ZTISt15basic_stringbufIwSt11char_traitsIwESaIwEE
 ~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
 ~@variable_t@_ZTIN3OSG14BackgroundBaseE@::_ZTIN3OSG14BackgroundBaseE
-~@variable_t@_ZTIN3OSG19SolidBackgroundBaseE@::_ZTIN3OSG19SolidBackgroundBaseE
+~@variable_t@_ZTIN3OSG3LogE@::_ZTIN3OSG3LogE
 ~@variable_t@_ZTIN3OSG18PThreadBarrierBaseE@::_ZTIN3OSG18PThreadBarrierBaseE
 ~@variable_t@_ZTIN3OSG13RenderOptionsE@::_ZTIN3OSG13RenderOptionsE
 ~@variable_t@_ZTIN3OSG26ExceptionBinaryDataHandlerE@::_ZTIN3OSG26ExceptionBinaryDataHandlerE

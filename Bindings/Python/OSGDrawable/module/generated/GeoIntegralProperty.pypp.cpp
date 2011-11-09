@@ -32,10 +32,39 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct GeoIntegralProperty_wrapper : OSG::GeoIntegralProperty, bp::wrapper< OSG::GeoIntegralProperty > {
+
+    virtual ::OSG::GeoPropertyTransitPtr clone(  ){
+        bp::override func_clone = this->get_override( "clone" );
+        return func_clone(  );
+    }
+
+    virtual ::OSG::UInt32 getDimension(  ) const {
+        bp::override func_getDimension = this->get_override( "getDimension" );
+        return func_getDimension(  );
+    }
+
+    virtual ::OSG::UInt32 getFormat(  ) const {
+        bp::override func_getFormat = this->get_override( "getFormat" );
+        return func_getFormat(  );
+    }
+
+    virtual ::OSG::UInt32 getFormatSize(  ) const {
+        bp::override func_getFormatSize = this->get_override( "getFormatSize" );
+        return func_getFormatSize(  );
+    }
+
+    virtual ::OSG::UInt32 getStride(  ) const {
+        bp::override func_getStride = this->get_override( "getStride" );
+        return func_getStride(  );
+    }
+
+};
+
 void register_GeoIntegralProperty_class(){
 
     { //::OSG::GeoIntegralProperty
-        typedef bp::class_< OSG::GeoIntegralProperty, bp::bases< OSG::GeoIntegralPropertyBase >, boost::noncopyable > GeoIntegralProperty_exposer_t;
+        typedef bp::class_< GeoIntegralProperty_wrapper, bp::bases< OSG::GeoIntegralPropertyBase >, boost::noncopyable > GeoIntegralProperty_exposer_t;
         GeoIntegralProperty_exposer_t GeoIntegralProperty_exposer = GeoIntegralProperty_exposer_t( "GeoIntegralProperty", bp::no_init );
         bp::scope GeoIntegralProperty_scope( GeoIntegralProperty_exposer );
         { //::OSG::GeoIntegralProperty::addValue
@@ -222,6 +251,51 @@ void register_GeoIntegralProperty_class(){
                 "unmapBuffer"
                 , unmapBuffer_function_type( &::OSG::GeoIntegralProperty::unmapBuffer )
                 , ( bp::arg("pEnv") ) );
+        
+        }
+        { //::OSG::GeoProperty::clone
+        
+            typedef ::OSG::GeoPropertyTransitPtr ( ::OSG::GeoProperty::*clone_function_type )(  ) ;
+            
+            GeoIntegralProperty_exposer.def( 
+                "clone"
+                , bp::pure_virtual( clone_function_type(&::OSG::GeoProperty::clone) ) );
+        
+        }
+        { //::OSG::GeoProperty::getDimension
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getDimension_function_type )(  ) const;
+            
+            GeoIntegralProperty_exposer.def( 
+                "getDimension"
+                , bp::pure_virtual( getDimension_function_type(&::OSG::GeoProperty::getDimension) ) );
+        
+        }
+        { //::OSG::GeoProperty::getFormat
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getFormat_function_type )(  ) const;
+            
+            GeoIntegralProperty_exposer.def( 
+                "getFormat"
+                , bp::pure_virtual( getFormat_function_type(&::OSG::GeoProperty::getFormat) ) );
+        
+        }
+        { //::OSG::GeoProperty::getFormatSize
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getFormatSize_function_type )(  ) const;
+            
+            GeoIntegralProperty_exposer.def( 
+                "getFormatSize"
+                , bp::pure_virtual( getFormatSize_function_type(&::OSG::GeoProperty::getFormatSize) ) );
+        
+        }
+        { //::OSG::GeoProperty::getStride
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getStride_function_type )(  ) const;
+            
+            GeoIntegralProperty_exposer.def( 
+                "getStride"
+                , bp::pure_virtual( getStride_function_type(&::OSG::GeoProperty::getStride) ) );
         
         }
         GeoIntegralProperty_exposer.staticmethod( "getStaticClass" );

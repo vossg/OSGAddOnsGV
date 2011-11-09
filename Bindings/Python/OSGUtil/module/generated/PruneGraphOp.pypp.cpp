@@ -58,18 +58,6 @@ struct PruneGraphOp_wrapper : OSG::PruneGraphOp, bp::wrapper< OSG::PruneGraphOp 
         OSG::PruneGraphOp::setParams( params );
     }
 
-    virtual ::std::string usage(  ) {
-        if( bp::override func_usage = this->get_override( "usage" ) )
-            return func_usage(  );
-        else{
-            return this->OSG::PruneGraphOp::usage(  );
-        }
-    }
-    
-    ::std::string default_usage(  ) {
-        return OSG::PruneGraphOp::usage( );
-    }
-
     virtual bool traverse( ::OSG::Node * root ) {
         if( bp::override func_traverse = this->get_override( "traverse" ) )
             return func_traverse( boost::python::ptr(root) );
@@ -135,17 +123,6 @@ void register_PruneGraphOp_class(){
                 , setParams_function_type(&::OSG::PruneGraphOp::setParams)
                 , default_setParams_function_type(&PruneGraphOp_wrapper::default_setParams)
                 , ( bp::arg("params") ) );
-        
-        }
-        { //::OSG::PruneGraphOp::usage
-        
-            typedef ::std::string ( ::OSG::PruneGraphOp::*usage_function_type )(  ) ;
-            typedef ::std::string ( PruneGraphOp_wrapper::*default_usage_function_type )(  ) ;
-            
-            PruneGraphOp_exposer.def( 
-                "usage"
-                , usage_function_type(&::OSG::PruneGraphOp::usage)
-                , default_usage_function_type(&PruneGraphOp_wrapper::default_usage) );
         
         }
         { //::OSG::GraphOp::traverse

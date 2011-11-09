@@ -32,10 +32,54 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct GeoIntegralPropertyBase_wrapper : OSG::GeoIntegralPropertyBase, bp::wrapper< OSG::GeoIntegralPropertyBase > {
+
+    virtual ::OSG::GeoPropertyTransitPtr clone(  ){
+        bp::override func_clone = this->get_override( "clone" );
+        return func_clone(  );
+    }
+
+    virtual ::GLenum getBufferType(  ){
+        bp::override func_getBufferType = this->get_override( "getBufferType" );
+        return func_getBufferType(  );
+    }
+
+    virtual ::OSG::UInt32 getDimension(  ) const {
+        bp::override func_getDimension = this->get_override( "getDimension" );
+        return func_getDimension(  );
+    }
+
+    virtual ::OSG::UInt32 getFormat(  ) const {
+        bp::override func_getFormat = this->get_override( "getFormat" );
+        return func_getFormat(  );
+    }
+
+    virtual ::OSG::UInt32 getFormatSize(  ) const {
+        bp::override func_getFormatSize = this->get_override( "getFormatSize" );
+        return func_getFormatSize(  );
+    }
+
+    virtual ::OSG::UInt32 getStride(  ) const {
+        bp::override func_getStride = this->get_override( "getStride" );
+        return func_getStride(  );
+    }
+
+    virtual ::OSG::UInt32 getVectorType(  ) const {
+        bp::override func_getVectorType = this->get_override( "getVectorType" );
+        return func_getVectorType(  );
+    }
+
+    virtual ::OSG::UInt32 size(  ) const {
+        bp::override func_size = this->get_override( "size" );
+        return func_size(  );
+    }
+
+};
+
 void register_GeoIntegralPropertyBase_class(){
 
     { //::OSG::GeoIntegralPropertyBase
-        typedef bp::class_< OSG::GeoIntegralPropertyBase, bp::bases< OSG::GeoProperty >, boost::noncopyable > GeoIntegralPropertyBase_exposer_t;
+        typedef bp::class_< GeoIntegralPropertyBase_wrapper, bp::bases< ::OSG::GeoProperty >, boost::noncopyable > GeoIntegralPropertyBase_exposer_t;
         GeoIntegralPropertyBase_exposer_t GeoIntegralPropertyBase_exposer = GeoIntegralPropertyBase_exposer_t( "GeoIntegralPropertyBase", bp::no_init );
         bp::scope GeoIntegralPropertyBase_scope( GeoIntegralPropertyBase_exposer );
         { //::OSG::GeoIntegralPropertyBase::copyFromBin
@@ -123,6 +167,78 @@ void register_GeoIntegralPropertyBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::GeoIntegralPropertyBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::GeoProperty::clone
+        
+            typedef ::OSG::GeoPropertyTransitPtr ( ::OSG::GeoProperty::*clone_function_type )(  ) ;
+            
+            GeoIntegralPropertyBase_exposer.def( 
+                "clone"
+                , bp::pure_virtual( clone_function_type(&::OSG::GeoProperty::clone) ) );
+        
+        }
+        { //::OSG::GeoProperty::getBufferType
+        
+            typedef ::GLenum ( GeoIntegralPropertyBase_wrapper::*getBufferType_function_type )(  ) ;
+            
+            GeoIntegralPropertyBase_exposer.def( 
+                "getBufferType"
+                , getBufferType_function_type( &GeoIntegralPropertyBase_wrapper::getBufferType ) );
+        
+        }
+        { //::OSG::GeoProperty::getDimension
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getDimension_function_type )(  ) const;
+            
+            GeoIntegralPropertyBase_exposer.def( 
+                "getDimension"
+                , bp::pure_virtual( getDimension_function_type(&::OSG::GeoProperty::getDimension) ) );
+        
+        }
+        { //::OSG::GeoProperty::getFormat
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getFormat_function_type )(  ) const;
+            
+            GeoIntegralPropertyBase_exposer.def( 
+                "getFormat"
+                , bp::pure_virtual( getFormat_function_type(&::OSG::GeoProperty::getFormat) ) );
+        
+        }
+        { //::OSG::GeoProperty::getFormatSize
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getFormatSize_function_type )(  ) const;
+            
+            GeoIntegralPropertyBase_exposer.def( 
+                "getFormatSize"
+                , bp::pure_virtual( getFormatSize_function_type(&::OSG::GeoProperty::getFormatSize) ) );
+        
+        }
+        { //::OSG::GeoProperty::getStride
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getStride_function_type )(  ) const;
+            
+            GeoIntegralPropertyBase_exposer.def( 
+                "getStride"
+                , bp::pure_virtual( getStride_function_type(&::OSG::GeoProperty::getStride) ) );
+        
+        }
+        { //::OSG::GeoProperty::getVectorType
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getVectorType_function_type )(  ) const;
+            
+            GeoIntegralPropertyBase_exposer.def( 
+                "getVectorType"
+                , bp::pure_virtual( getVectorType_function_type(&::OSG::GeoProperty::getVectorType) ) );
+        
+        }
+        { //::OSG::GeoProperty::size
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*size_function_type )(  ) const;
+            
+            GeoIntegralPropertyBase_exposer.def( 
+                "size"
+                , bp::pure_virtual( size_function_type(&::OSG::GeoProperty::size) ) );
         
         }
         GeoIntegralPropertyBase_exposer.staticmethod( "getClassGroupId" );

@@ -222,6 +222,16 @@ void register_Window_class(){
                 , ( bp::arg("osgId") ) );
         
         }
+        { //::OSG::Window::getGLObjectInfo
+        
+            typedef ::OSG::UIntPointer ( ::OSG::Window::*getGLObjectInfo_function_type )( ::OSG::UInt32 ) ;
+            
+            Window_exposer.def( 
+                "getGLObjectInfo"
+                , getGLObjectInfo_function_type( &::OSG::Window::getGLObjectInfo )
+                , ( bp::arg("osgId") ) );
+        
+        }
         { //::OSG::Window::getGLVersion
         
             typedef ::OSG::UInt32 ( ::OSG::Window::*getGLVersion_function_type )(  ) ;
@@ -476,6 +486,16 @@ void register_Window_class(){
                 "setGLObjectId"
                 , setGLObjectId_function_type( &::OSG::Window::setGLObjectId )
                 , ( bp::arg("osgId"), bp::arg("id2") ) );
+        
+        }
+        { //::OSG::Window::setGLObjectInfo
+        
+            typedef void ( ::OSG::Window::*setGLObjectInfo_function_type )( ::OSG::UInt32,::OSG::UIntPointer ) ;
+            
+            Window_exposer.def( 
+                "setGLObjectInfo"
+                , setGLObjectInfo_function_type( &::OSG::Window::setGLObjectInfo )
+                , ( bp::arg("osgId"), bp::arg("info") ) );
         
         }
         { //::OSG::Window::setPartitionDrawMode

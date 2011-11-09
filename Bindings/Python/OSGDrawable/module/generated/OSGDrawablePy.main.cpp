@@ -76,10 +76,6 @@
 
 #include "generated/GeoPnt4fProperty.pypp.hpp"
 
-#include "generated/GeoProperty.pypp.hpp"
-
-#include "generated/GeoPropertyBase.pypp.hpp"
-
 #include "generated/GeoUInt16Property.pypp.hpp"
 
 #include "generated/GeoUInt32Property.pypp.hpp"
@@ -105,10 +101,6 @@
 #include "generated/GeoVectorBufferRefProperty.pypp.hpp"
 
 #include "generated/GeoVectorBufferRefPropertyBase.pypp.hpp"
-
-#include "generated/GeoVectorProperty.pypp.hpp"
-
-#include "generated/GeoVectorPropertyBase.pypp.hpp"
 
 #include "generated/Geometry.pypp.hpp"
 
@@ -169,10 +161,6 @@ BOOST_PYTHON_MODULE(OSGDrawablePy){
 
     register_FatBorderChunk_class();
 
-    register_GeoPropertyBase_class();
-
-    register_GeoProperty_class();
-
     register_GeoIntegralPropertyBase_class();
 
     register_GeoIntegralProperty_class();
@@ -184,10 +172,6 @@ BOOST_PYTHON_MODULE(OSGDrawablePy){
     register_GeoIntegralBufferRefPropertyBase_class();
 
     register_GeoIntegralBufferRefProperty_class();
-
-    register_GeoVectorPropertyBase_class();
-
-    register_GeoVectorProperty_class();
 
     register_GeoMultiPropertyBase_class();
 
@@ -285,17 +269,11 @@ BOOST_PYTHON_MODULE(OSGDrawablePy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::Particles::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::GeoProperty */
+    /** Helpers for OSG::QuadTreeTerrain */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::GeoProperty, OSG::GeoProperty::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::QuadTreeTerrain, OSG::QuadTreeTerrain::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::GeoProperty::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
-    /** Helpers for OSG::GeoVectorProperty */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::GeoVectorProperty, OSG::GeoVectorProperty::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::GeoVectorProperty::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::QuadTreeTerrain::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::GeoMultiProperty */
 
@@ -344,12 +322,6 @@ BOOST_PYTHON_MODULE(OSGDrawablePy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TiledQuadTreeTerrain, OSG::TiledQuadTreeTerrain::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::TiledQuadTreeTerrain::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
-    /** Helpers for OSG::QuadTreeTerrain */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::QuadTreeTerrain, OSG::QuadTreeTerrain::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::QuadTreeTerrain::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::KDTreeIntersectProxyAttachment */
 

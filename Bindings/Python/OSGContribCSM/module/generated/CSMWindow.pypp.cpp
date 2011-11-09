@@ -164,6 +164,16 @@ void register_CSMWindow_class(){
                 , ( bp::arg("rX"), bp::arg("rY") ) );
         
         }
+        { //::OSG::CSMWindow::translateScreenCoordinatesRel
+        
+            typedef ::OSG::Vec2f ( ::OSG::CSMWindow::*translateScreenCoordinatesRel_function_type )( ::OSG::Real32,::OSG::Real32 ) ;
+            
+            CSMWindow_exposer.def( 
+                "translateScreenCoordinatesRel"
+                , translateScreenCoordinatesRel_function_type( &::OSG::CSMWindow::translateScreenCoordinatesRel )
+                , ( bp::arg("rX"), bp::arg("rY") ) );
+        
+        }
         pyopensg::register_transit< OSG::CSMWindow >::execute();
         bp::register_ptr_to_python< OSG::CSMWindow::ObjRecPtr >();
         bp::implicitly_convertible< OSG::CSMWindow::ObjRecPtr, OSG::CSMWindow* >();
