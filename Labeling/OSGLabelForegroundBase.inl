@@ -100,6 +100,22 @@ void LabelForegroundBase::setImportanceThreshold(const Real32 value)
     _sfImportanceThreshold.setValue(value);
 }
 
+//! Get the value of the LabelForeground::_sfRoot field.
+inline
+Node * LabelForegroundBase::getRoot(void) const
+{
+    return _sfRoot.getValue();
+}
+
+//! Set the value of the LabelForeground::_sfRoot field.
+inline
+void LabelForegroundBase::setRoot(Node * const value)
+{
+    editSField(RootFieldMask);
+
+    _sfRoot.setValue(value);
+}
+
 //! Get the value of the LabelForeground::_sfTextureEnvironment field.
 inline
 TextureEnvChunk * LabelForegroundBase::getTextureEnvironment(void) const
@@ -129,6 +145,9 @@ void LabelForegroundBase::execSync (      LabelForegroundBase *pFrom,
 
     if(FieldBits::NoField != (ImportanceThresholdFieldMask & whichField))
         _sfImportanceThreshold.syncWith(pFrom->_sfImportanceThreshold);
+
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+        _sfRoot.syncWith(pFrom->_sfRoot);
 
     if(FieldBits::NoField != (TextureEnvironmentFieldMask & whichField))
         _sfTextureEnvironment.syncWith(pFrom->_sfTextureEnvironment);

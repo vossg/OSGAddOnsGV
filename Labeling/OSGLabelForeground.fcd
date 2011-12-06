@@ -29,6 +29,15 @@ See \ref PageSystemWindowForegroundLabelSimple
         The range of the importanceThreshold is up to you. We suggest [0,1].
 	</Field>
 
+	<Field
+	   name="root"
+	   type="NodePtr"
+	   cardinality="single"
+	   visibility="external"
+	   access="public"
+	   >
+	  The root of the tree that is displayed in this viewport.
+	</Field>
 
   <!-- protected fields -->
 	<Field

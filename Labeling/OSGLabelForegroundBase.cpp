@@ -57,6 +57,7 @@
 
 
 
+#include "OSGNode.h"                    // Root Class
 #include "OSGTextureEnvChunk.h"         // TextureEnvironment Class
 
 #include "OSGLabelForegroundBase.h"
@@ -91,6 +92,10 @@ OSG_BEGIN_NAMESPACE
     importanceThreshold will be displayed. The default value for
     importanceThreshold is 0, i.e. all labels are displayed.
     The range of the importanceThreshold is up to you. We suggest [0,1].
+*/
+
+/*! \var Node *          LabelForegroundBase::_sfRoot
+    The root of the tree that is displayed in this viewport.
 */
 
 /*! \var TextureEnvChunk * LabelForegroundBase::_sfTextureEnvironment
@@ -141,6 +146,18 @@ void LabelForegroundBase::classDescInserter(TypeObject &oType)
         (Field::SFDefaultFlags | Field::FStdAccess),
         static_cast<FieldEditMethodSig>(&LabelForeground::editHandleImportanceThreshold),
         static_cast<FieldGetMethodSig >(&LabelForeground::getHandleImportanceThreshold));
+
+    oType.addInitialDesc(pDesc);
+
+    pDesc = new SFUnrecNodePtr::Description(
+        SFUnrecNodePtr::getClassType(),
+        "root",
+        "The root of the tree that is displayed in this viewport.\n",
+        RootFieldId, RootFieldMask,
+        false,
+        (Field::SFDefaultFlags | Field::FStdAccess),
+        static_cast<FieldEditMethodSig>(&LabelForeground::editHandleRoot),
+        static_cast<FieldGetMethodSig >(&LabelForeground::getHandleRoot));
 
     oType.addInitialDesc(pDesc);
 
@@ -200,6 +217,15 @@ LabelForegroundBase::TypeObject LabelForegroundBase::_type(
     "        The range of the importanceThreshold is up to you. We suggest [0,1].\n"
     "\t</Field>\n"
     "\n"
+    "\t<Field\n"
+    "\t   name=\"root\"\n"
+    "\t   type=\"NodePtr\"\n"
+    "\t   cardinality=\"single\"\n"
+    "\t   visibility=\"external\"\n"
+    "\t   access=\"public\"\n"
+    "\t   >\n"
+    "\t  The root of the tree that is displayed in this viewport.\n"
+    "\t</Field>\n"
     "\n"
     "  <!-- protected fields -->\n"
     "\t<Field\n"
@@ -253,6 +279,19 @@ const SFReal32 *LabelForegroundBase::getSFImportanceThreshold(void) const
 }
 
 
+//! Get the LabelForeground::_sfRoot field.
+const SFUnrecNodePtr *LabelForegroundBase::getSFRoot(void) const
+{
+    return &_sfRoot;
+}
+
+SFUnrecNodePtr      *LabelForegroundBase::editSFRoot           (void)
+{
+    editSField(RootFieldMask);
+
+    return &_sfRoot;
+}
+
 //! Get the LabelForeground::_sfTextureEnvironment field.
 const SFUnrecTextureEnvChunkPtr *LabelForegroundBase::getSFTextureEnvironment(void) const
 {
@@ -280,6 +319,10 @@ UInt32 LabelForegroundBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfImportanceThreshold.getBinSize();
     }
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+    {
+        returnValue += _sfRoot.getBinSize();
+    }
     if(FieldBits::NoField != (TextureEnvironmentFieldMask & whichField))
     {
         returnValue += _sfTextureEnvironment.getBinSize();
@@ -297,6 +340,10 @@ void LabelForegroundBase::copyToBin(BinaryDataHandler &pMem,
     {
         _sfImportanceThreshold.copyToBin(pMem);
     }
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+    {
+        _sfRoot.copyToBin(pMem);
+    }
     if(FieldBits::NoField != (TextureEnvironmentFieldMask & whichField))
     {
         _sfTextureEnvironment.copyToBin(pMem);
@@ -312,6 +359,11 @@ void LabelForegroundBase::copyFromBin(BinaryDataHandler &pMem,
     {
         editSField(ImportanceThresholdFieldMask);
         _sfImportanceThreshold.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+    {
+        editSField(RootFieldMask);
+        _sfRoot.copyFromBin(pMem);
     }
     if(FieldBits::NoField != (TextureEnvironmentFieldMask & whichField))
     {
@@ -444,6 +496,7 @@ FieldContainerTransitPtr LabelForegroundBase::shallowCopy(void) const
 LabelForegroundBase::LabelForegroundBase(void) :
     Inherited(),
     _sfImportanceThreshold    (Real32(0)),
+    _sfRoot                   (NULL),
     _sfTextureEnvironment     (NULL)
 {
 }
@@ -451,6 +504,7 @@ LabelForegroundBase::LabelForegroundBase(void) :
 LabelForegroundBase::LabelForegroundBase(const LabelForegroundBase &source) :
     Inherited(source),
     _sfImportanceThreshold    (source._sfImportanceThreshold    ),
+    _sfRoot                   (NULL),
     _sfTextureEnvironment     (NULL)
 {
 }
@@ -469,6 +523,8 @@ void LabelForegroundBase::onCreate(const LabelForeground *source)
     if(source != NULL)
     {
         LabelForeground *pThis = static_cast<LabelForeground *>(this);
+
+        pThis->setRoot(source->getRoot());
 
         pThis->setTextureEnvironment(source->getTextureEnvironment());
     }
@@ -495,6 +551,34 @@ EditFieldHandlePtr LabelForegroundBase::editHandleImportanceThreshold(void)
 
 
     editSField(ImportanceThresholdFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr LabelForegroundBase::getHandleRoot            (void) const
+{
+    SFUnrecNodePtr::GetHandlePtr returnValue(
+        new  SFUnrecNodePtr::GetHandle(
+             &_sfRoot,
+             this->getType().getFieldDesc(RootFieldId),
+             const_cast<LabelForegroundBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr LabelForegroundBase::editHandleRoot           (void)
+{
+    SFUnrecNodePtr::EditHandlePtr returnValue(
+        new  SFUnrecNodePtr::EditHandle(
+             &_sfRoot,
+             this->getType().getFieldDesc(RootFieldId),
+             this));
+
+    returnValue->setSetMethod(
+        boost::bind(&LabelForeground::setRoot,
+                    static_cast<LabelForeground *>(this), _1));
+
+    editSField(RootFieldMask);
 
     return returnValue;
 }
@@ -563,6 +647,8 @@ FieldContainer *LabelForegroundBase::createAspectCopy(
 void LabelForegroundBase::resolveLinks(void)
 {
     Inherited::resolveLinks();
+
+    static_cast<LabelForeground *>(this)->setRoot(NULL);
 
     static_cast<LabelForeground *>(this)->setTextureEnvironment(NULL);
 

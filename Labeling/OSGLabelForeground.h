@@ -83,7 +83,7 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForeground : public LabelForegroundBas
     /*! \name                      Draw                                    */
     /*! \{                                                                 */
 
-    virtual void draw(DrawEnv *pEnv, Viewport *pPort);
+    virtual void draw(DrawEnv  *pEnv);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -125,8 +125,9 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForeground : public LabelForegroundBas
     /*==========================  PRIVATE  ================================*/
 
   private:
+
     DrawEnv*             _cachedDrawEnv;
-    Viewport*            _cachedViewport;
+//    Viewport*            _cachedViewport;
     std::vector<Matrix>  _matrixStack;
 
     friend class FieldContainer;

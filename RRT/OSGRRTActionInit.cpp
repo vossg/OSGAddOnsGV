@@ -73,7 +73,7 @@ ActionBase::ResultE RRTStageRenderEnter(NodeCore * const pCore,
 
     pStage->pushPartition(a, 0, RenderPartition::SimpleCallback);
     {
-        Viewport          *pPort    = a->getViewport();
+        Viewarea          *pArea    = a->getViewarea();
         RenderPartition   *pPart    = a->getActivePartition();
         FrameBufferObject *pTarget  = pStage->getRenderTarget();
         
@@ -84,15 +84,14 @@ ActionBase::ResultE RRTStageRenderEnter(NodeCore * const pCore,
 
         pPart->setRenderTarget(pTarget);
 
-        if(pPort != NULL)
+        if(pArea != NULL)
         {
-//            pPart->setViewport(pPort         );
             pPart->setWindow  (a->getWindow());
             
-            pPart->calcViewportDimension(pPort->getLeft  (),
-                                         pPort->getBottom(),
-                                         pPort->getRight (),
-                                         pPort->getTop   (),
+            pPart->calcViewportDimension(pArea->getLeft  (),
+                                         pArea->getBottom(),
+                                         pArea->getRight (),
+                                         pArea->getTop   (),
                                          
                                          a->getWindow()->getWidth (),
                                          a->getWindow()->getHeight());

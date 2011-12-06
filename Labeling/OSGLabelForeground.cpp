@@ -70,7 +70,7 @@ OSG_USING_NAMESPACE
 LabelForeground::LabelForeground(void) :
     Inherited(),
     _cachedDrawEnv(NULL),
-    _cachedViewport(NULL),
+//    _cachedViewport(NULL),
     _matrixStack()
 {
     TextureEnvChunkRefPtr texEnv = TextureEnvChunk::create();
@@ -82,7 +82,8 @@ LabelForeground::LabelForeground(void) :
 LabelForeground::LabelForeground(const LabelForeground &source) :
     Inherited(source),
     _cachedDrawEnv(source._cachedDrawEnv),
-    _cachedViewport(source._cachedViewport)
+//    _cachedViewport(source._cachedViewport),
+    _matrixStack()
 {
 }
 
@@ -115,21 +116,21 @@ void LabelForeground::dump(UInt32, const BitVector) const
 
 /*! Draw the statistics lines.
 */
-void LabelForeground::draw(DrawEnv *pEnv, Viewport *pPort)
+void LabelForeground::draw(DrawEnv *pEnv)
 {
     if(getActive() == false) return;
 
-    Node* root = pPort->getRoot();
+    Node *root = _sfRoot.getValue();
 
     if (root == NULL) return; // nothing to do;
 
-    Real32  pw = Real32(pPort->getPixelWidth ());
-    Real32  ph = Real32(pPort->getPixelHeight());
+    Real32  pw = Real32(pEnv->getPixelWidth ());
+    Real32  ph = Real32(pEnv->getPixelHeight());
 
     if (pw < 1 || ph < 1) return;
 
     _cachedDrawEnv  = pEnv;
-    _cachedViewport = pPort;
+//    _cachedViewport = pPort;
 
     glPushAttrib(GL_LIGHTING_BIT | GL_POLYGON_BIT | GL_DEPTH_BUFFER_BIT | 
                  GL_COLOR_BUFFER_BIT);
@@ -169,7 +170,7 @@ void LabelForeground::draw(DrawEnv *pEnv, Viewport *pPort)
     glPopAttrib();
 
 
-    _cachedViewport = NULL;
+//    _cachedViewport = NULL;
     _cachedDrawEnv  = NULL;
 }
 
@@ -204,7 +205,9 @@ void LabelForeground::drawLabel(Node* labelNode) const
     labelNode->getVolume().getCenter(screenPos);
     screenPos += label->getPosition().subZero();
 
-    _cachedViewport->getCamera()->getWorldToScreen(toScreen, *_cachedViewport);
+//  _cachedViewport->getCamera()->getWorldToScreen(toScreen, *_cachedViewport);
+
+    toScreen = _cachedDrawEnv->getWorldToScreen();
     toWorld.mult(screenPos, screenPos);
     toScreen.multFull(screenPos, screenPos);
 
@@ -218,8 +221,8 @@ void LabelForeground::drawLabel(Node* labelNode) const
     Real32 pixHeight = screenRect.y() + 2.0 * marg.y();
 
     // Let's do some simple form of layout management
-    Real32 pw     = Real32(_cachedViewport->getPixelWidth ());
-    Real32 ph     = Real32(_cachedViewport->getPixelHeight());
+    Real32 pw     = Real32(_cachedDrawEnv->getPixelWidth ());
+    Real32 ph     = Real32(_cachedDrawEnv->getPixelHeight());
     Real32 orthoX = pw * screenPos.x();
     Real32 orthoY = ph * screenPos.y(); 
 

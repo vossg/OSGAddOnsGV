@@ -55,7 +55,7 @@
 #include "OSGTextLayoutParam.h"
 #include "OSGTextLayoutResult.h"
 #include "OSGTextTXFGlyph.h"
-#include "OSGStatisticsDefaultFont.h" // FIXME: get rid of this
+#include "OSGDefaultFont.h" // FIXME: get rid of this
 #include "OSGTextureObjChunk.h"
 
 OSG_USING_NAMESPACE
@@ -292,8 +292,8 @@ void TextLabel::updateFaceAndTexture(void)
     if (_face == NULL)
     {
         // FIXME: create TextLabelDefaultFont!!!
-        _face     = StatisticsDefaultFont::the()->getFace();
-        this->setTextureObject(StatisticsDefaultFont::the()->getTexture());
+        _face     = DefaultFont::the()->getFace();
+        this->setTextureObject(DefaultFont::the()->getTexture());
     }
 
     // Increment reference counters

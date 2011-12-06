@@ -66,6 +66,7 @@
 #include "OSGForeground.h" // Parent
 
 #include "OSGSysFields.h"               // ImportanceThreshold type
+#include "OSGNodeFields.h"              // Root type
 #include "OSGTextureEnvChunkFields.h"   // TextureEnvironment type
 
 #include "OSGLabelForegroundFields.h"
@@ -96,18 +97,22 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForegroundBase : public Foreground
     enum
     {
         ImportanceThresholdFieldId = Inherited::NextFieldId,
-        TextureEnvironmentFieldId = ImportanceThresholdFieldId + 1,
+        RootFieldId = ImportanceThresholdFieldId + 1,
+        TextureEnvironmentFieldId = RootFieldId + 1,
         NextFieldId = TextureEnvironmentFieldId + 1
     };
 
     static const OSG::BitVector ImportanceThresholdFieldMask =
         (TypeTraits<BitVector>::One << ImportanceThresholdFieldId);
+    static const OSG::BitVector RootFieldMask =
+        (TypeTraits<BitVector>::One << RootFieldId);
     static const OSG::BitVector TextureEnvironmentFieldMask =
         (TypeTraits<BitVector>::One << TextureEnvironmentFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
     typedef SFReal32          SFImportanceThresholdType;
+    typedef SFUnrecNodePtr    SFRootType;
     typedef SFUnrecTextureEnvChunkPtr SFTextureEnvironmentType;
 
     /*---------------------------------------------------------------------*/
@@ -136,10 +141,14 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForegroundBase : public Foreground
 
                   SFReal32            *editSFImportanceThreshold(void);
             const SFReal32            *getSFImportanceThreshold (void) const;
+            const SFUnrecNodePtr      *getSFRoot           (void) const;
+                  SFUnrecNodePtr      *editSFRoot           (void);
 
 
                   Real32              &editImportanceThreshold(void);
                   Real32               getImportanceThreshold (void) const;
+
+                  Node * getRoot           (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -147,6 +156,7 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForegroundBase : public Foreground
     /*! \{                                                                 */
 
             void setImportanceThreshold(const Real32 value);
+            void setRoot           (Node * const value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -212,6 +222,7 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForegroundBase : public Foreground
     /*! \{                                                                 */
 
     SFReal32          _sfImportanceThreshold;
+    SFUnrecNodePtr    _sfRoot;
     SFUnrecTextureEnvChunkPtr _sfTextureEnvironment;
 
     /*! \}                                                                 */
@@ -243,6 +254,8 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForegroundBase : public Foreground
 
     GetFieldHandlePtr  getHandleImportanceThreshold (void) const;
     EditFieldHandlePtr editHandleImportanceThreshold(void);
+    GetFieldHandlePtr  getHandleRoot            (void) const;
+    EditFieldHandlePtr editHandleRoot           (void);
     GetFieldHandlePtr  getHandleTextureEnvironment (void) const;
     EditFieldHandlePtr editHandleTextureEnvironment(void);
 
