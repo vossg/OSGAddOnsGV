@@ -88,18 +88,22 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<PyFieldContainerPtrMFieldGetHandle *>::_type("PyFieldContainerPtrMFieldGetHandlePtr", "FieldContainerPtr");
+PointerType FieldTraits<PyFieldContainerPtrMFieldGetHandle *, nsOSG>::_type(
+    "PyFieldContainerPtrMFieldGetHandlePtr", 
+    "FieldContainerPtr", 
+    PyFieldContainerPtrMFieldGetHandle::getClassType(),
+    nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(PyFieldContainerPtrMFieldGetHandle *)
+OSG_FIELDTRAITS_GETTYPE_NS(PyFieldContainerPtrMFieldGetHandle *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            PyFieldContainerPtrMFieldGetHandle *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            PyFieldContainerPtrMFieldGetHandle *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -114,7 +118,7 @@ PyFieldContainerPtrMFieldGetHandleBase::TypeObject PyFieldContainerPtrMFieldGetH
     PyFieldContainerPtrMFieldGetHandleBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&PyFieldContainerPtrMFieldGetHandleBase::createEmptyLocal),
     PyFieldContainerPtrMFieldGetHandle::initMethod,
     PyFieldContainerPtrMFieldGetHandle::exitMethod,

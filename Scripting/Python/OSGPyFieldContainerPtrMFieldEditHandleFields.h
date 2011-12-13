@@ -64,24 +64,24 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class PyFieldContainerPtrMFieldEditHandle;
 
 OSG_GEN_CONTAINERPTR(PyFieldContainerPtrMFieldEditHandle);
-
 /*! \ingroup GrpScriptingFieldTraits
     \ingroup GrpLibOSGScripting
  */
 template <>
-struct FieldTraits<PyFieldContainerPtrMFieldEditHandle *> :
-    public FieldTraitsFCPtrBase<PyFieldContainerPtrMFieldEditHandle *>
+struct FieldTraits<PyFieldContainerPtrMFieldEditHandle *, nsOSG> :
+    public FieldTraitsFCPtrBase<PyFieldContainerPtrMFieldEditHandle *, nsOSG>
 {
   private:
 
-    static DataType             _type;
+    static PointerType             _type;
 
   public:
 
-    typedef FieldTraits<PyFieldContainerPtrMFieldEditHandle *>  Self;
+    typedef FieldTraits<PyFieldContainerPtrMFieldEditHandle *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<PyFieldContainerPtrMFieldEditHandle *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFPyFieldContainerPtrMFieldEditHandlePtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFPyFieldContainerPtrMFieldEditHandlePtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecPyFieldContainerPtrMFieldEditHandlePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecPyFieldContainerPtrMFieldEditHandlePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakPyFieldContainerPtrMFieldEditHandlePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdPyFieldContainerPtrMFieldEditHandlePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecPyFieldContainerPtrMFieldEditHandlePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecPyFieldContainerPtrMFieldEditHandlePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakPyFieldContainerPtrMFieldEditHandlePtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdPyFieldContainerPtrMFieldEditHandlePtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<PyFieldContainerPtrMFieldEditHandle *, 0>::getMName<NoR
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PyFieldContainerPtrMFieldEditHandle *,
-                      RecordedRefCountPolicy  > SFRecPyFieldContainerPtrMFieldEditHandlePtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecPyFieldContainerPtrMFieldEditHandlePtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PyFieldContainerPtrMFieldEditHandle *,
-                      UnrecordedRefCountPolicy> SFUnrecPyFieldContainerPtrMFieldEditHandlePtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecPyFieldContainerPtrMFieldEditHandlePtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PyFieldContainerPtrMFieldEditHandle *,
-                      WeakRefCountPolicy      > SFWeakPyFieldContainerPtrMFieldEditHandlePtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakPyFieldContainerPtrMFieldEditHandlePtr;
 /*! \ingroup GrpScriptingFieldSFields */
 typedef PointerSField<PyFieldContainerPtrMFieldEditHandle *,
-                      NoRefCountPolicy        > SFUncountedPyFieldContainerPtrMFieldEditHandlePtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedPyFieldContainerPtrMFieldEditHandlePtr;
 
 
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PyFieldContainerPtrMFieldEditHandle *,
-                      RecordedRefCountPolicy  > MFRecPyFieldContainerPtrMFieldEditHandlePtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecPyFieldContainerPtrMFieldEditHandlePtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PyFieldContainerPtrMFieldEditHandle *,
-                      UnrecordedRefCountPolicy> MFUnrecPyFieldContainerPtrMFieldEditHandlePtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecPyFieldContainerPtrMFieldEditHandlePtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PyFieldContainerPtrMFieldEditHandle *,
-                      WeakRefCountPolicy      > MFWeakPyFieldContainerPtrMFieldEditHandlePtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakPyFieldContainerPtrMFieldEditHandlePtr;
 /*! \ingroup GrpScriptingFieldMFields */
 typedef PointerMField<PyFieldContainerPtrMFieldEditHandle *,
-                      NoRefCountPolicy        > MFUncountedPyFieldContainerPtrMFieldEditHandlePtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedPyFieldContainerPtrMFieldEditHandlePtr;
 
 
 

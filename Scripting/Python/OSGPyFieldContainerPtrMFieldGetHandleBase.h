@@ -70,6 +70,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class PyFieldContainerPtrMFieldGetHandle;
 
 //! \brief PyFieldContainerPtrMFieldGetHandle Base Class.
