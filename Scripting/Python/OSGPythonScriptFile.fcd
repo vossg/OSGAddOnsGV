@@ -3,7 +3,7 @@
 <FieldContainer
     name="PythonScriptFile"
     parent="PythonScript"
-    library="ContribCSM"
+    library="Scripting"
     structure="concrete"
     pointerfieldtypes="both"
     systemcomponent="true"

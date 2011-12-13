@@ -43,6 +43,7 @@
 #endif
 
 #include "OSGPythonScriptFileBase.h"
+#include "OSGOSGSceneFileType.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -51,7 +52,7 @@ OSG_BEGIN_NAMESPACE
            script over as a string.
 */
 
-class OSG_CONTRIBCSM_DLLMAPPING PythonScriptFile : public PythonScriptFileBase
+class OSG_SCRIPTING_DLLMAPPING PythonScriptFile : public PythonScriptFileBase
 {
   protected:
 
@@ -129,6 +130,8 @@ class OSG_CONTRIBCSM_DLLMAPPING PythonScriptFile : public PythonScriptFileBase
 
     friend class FieldContainer;
     friend class PythonScriptFileBase;
+
+    friend struct OSGSceneFileType::PostLoadingDispatcher<PythonScriptFile>;
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const PythonScriptFile &source);

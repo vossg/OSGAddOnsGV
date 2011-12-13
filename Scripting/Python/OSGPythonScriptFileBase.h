@@ -59,7 +59,7 @@
 
 
 #include "OSGConfig.h"
-#include "OSGContribCSMDef.h"
+#include "OSGScriptingDef.h"
 
 //#include "OSGBaseTypes.h"
 
@@ -76,7 +76,7 @@ class PythonScriptFile;
 
 //! \brief PythonScriptFile Base Class.
 
-class OSG_CONTRIBCSM_DLLMAPPING PythonScriptFileBase : public PythonScript
+class OSG_SCRIPTING_DLLMAPPING PythonScriptFileBase : public PythonScript
 {
   public:
 

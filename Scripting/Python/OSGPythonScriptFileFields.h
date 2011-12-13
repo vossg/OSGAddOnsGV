@@ -55,7 +55,7 @@
 #endif
 
 #include "OSGConfig.h"
-#include "OSGContribCSMDef.h"
+#include "OSGScriptingDef.h"
 
 #include "OSGFieldContainerFields.h"
 #include "OSGPointerSField.h"
@@ -69,7 +69,7 @@ class PythonScriptFile;
 
 OSG_GEN_CONTAINERPTR(PythonScriptFile);
 /*! \ingroup GrpScriptingFieldTraits
-    \ingroup GrpLibOSGContribCSM
+    \ingroup GrpLibOSGScripting
  */
 template <>
 struct FieldTraits<PythonScriptFile *, nsOSG> :
@@ -85,7 +85,7 @@ struct FieldTraits<PythonScriptFile *, nsOSG> :
 
     enum                        { Convertible = NotConvertible };
 
-    static OSG_CONTRIBCSM_DLLMAPPING DataType &getType(void);
+    static OSG_SCRIPTING_DLLMAPPING DataType &getType(void);
 
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);

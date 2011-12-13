@@ -45,7 +45,6 @@
 
 #include "OSGConfig.h"
 #include "OSGSceneFileHandler.h"
-#include "OSGOSGSceneFileType.h"
 
 #include "OSGPythonScriptFile.h"
 
@@ -70,10 +69,20 @@ void PythonScriptFile::initMethod(InitPhase ePhase)
 
     if(ePhase == TypeObject::SystemPost)
     {
+#ifdef WIN32
+        typedef OSGSceneFileType::PostLoadingDispatcher<
+                  PythonScriptFile> PLDPythonScriptFile;
+
+        OSGSceneFileType::the().registerEndNodeCallback(
+            PythonScriptFile::getClassType(),
+            boost::bind(&PLDPythonScriptFile::dispatch,
+                        PLDPythonScriptFile(), _1)); 
+#else
         OSGSceneFileType::the().registerEndNodeCallback(
             PythonScriptFile::getClassType(),
             reinterpret_cast<OSGSceneFileType::Callback>(
                 &PythonScriptFile::postOSGLoading));
+#endif
     }
 }
 
