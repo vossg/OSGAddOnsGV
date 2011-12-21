@@ -32,17 +32,17 @@
 using namespace std;
 namespace bp = boost::python;
 
-static void getFrustum_const_ref_wrapper(::OSG::Camera& self_arg, OSG::FrustumVolume & result,OSG::Viewport & port)
-         { return self_arg.getFrustum(result,port); }
+static void calcFrustum_const_ref_wrapper(::OSG::Camera& self_arg, OSG::FrustumVolume & result,OSG::Viewport & port)
+         { return self_arg.calcFrustum(result,port); }
 
-static void getWorldToScreen_const_ref_wrapper(::OSG::Camera& self_arg, OSG::Matrix & result,OSG::Viewport & port)
-         { return self_arg.getWorldToScreen(result,port); }
+static void calcWorldToScreen_const_ref_wrapper(::OSG::Camera& self_arg, OSG::Matrix & result,OSG::Viewport & port)
+         { return self_arg.calcWorldToScreen(result,port); }
 
-static OSG::Matrix getWorldToScreenVal_const_ref_wrapper(::OSG::Camera& self_arg, OSG::Viewport & port)
-         { return self_arg.getWorldToScreenVal(port); }
+static OSG::FrustumVolume calcFrustumVal_const_ref_wrapper(::OSG::Camera& self_arg, OSG::Viewport & port)
+         { return self_arg.calcFrustumVal(port); }
 
-static OSG::FrustumVolume getFrustumVal_const_ref_wrapper(::OSG::Camera& self_arg, OSG::Viewport & port)
-         { return self_arg.getFrustumVal(port); }
+static OSG::Matrix calcWorldToScreenVal_const_ref_wrapper(::OSG::Camera& self_arg, OSG::Viewport & port)
+         { return self_arg.calcWorldToScreenVal(port); }
 
 static bool calcViewRay_const_ref_wrapper(::OSG::Camera& self_arg, OSG::Line & line,OSG::Int32 x,OSG::Int32 y,OSG::Viewport & port,OSG::Real32 * t=0l)
          { return self_arg.calcViewRay(line,x,y,port,t); }
@@ -181,10 +181,10 @@ void register_Camera_class(){
                 , tileGetRegion_function_type( &::OSG::Camera::tileGetRegion ) );
         
         }
-        Camera_exposer.def("getFrustum", &getFrustum_const_ref_wrapper);
-        Camera_exposer.def("getWorldToScreen", &getWorldToScreen_const_ref_wrapper);
-        Camera_exposer.def("getWorldToScreenVal", &getWorldToScreenVal_const_ref_wrapper);
-        Camera_exposer.def("getFrustumVal", &getFrustumVal_const_ref_wrapper);
+        Camera_exposer.def("calcFrustum", &calcFrustum_const_ref_wrapper);
+        Camera_exposer.def("calcWorldToScreen", &calcWorldToScreen_const_ref_wrapper);
+        Camera_exposer.def("calcFrustumVal", &calcFrustumVal_const_ref_wrapper);
+        Camera_exposer.def("calcWorldToScreenVal", &calcWorldToScreenVal_const_ref_wrapper);
         Camera_exposer.def("calcViewRay", &calcViewRay_const_ref_wrapper);
         pyopensg::register_transit< OSG::Camera >::execute();
         bp::register_ptr_to_python< OSG::Camera::ObjRecPtr >();

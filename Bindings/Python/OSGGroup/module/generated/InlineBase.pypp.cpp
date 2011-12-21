@@ -53,6 +53,7 @@ void register_InlineBase_class(){
         bp::scope().attr("UrlFieldId") = (int)OSG::InlineBase::UrlFieldId;
         bp::scope().attr("LoadedFieldId") = (int)OSG::InlineBase::LoadedFieldId;
         bp::scope().attr("RootFieldId") = (int)OSG::InlineBase::RootFieldId;
+        bp::scope().attr("GrapOpFieldId") = (int)OSG::InlineBase::GrapOpFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::InlineBase::NextFieldId;
         { //::OSG::InlineBase::copyFromBin
         
@@ -150,6 +151,16 @@ void register_InlineBase_class(){
                 , getContainerSize_function_type( &::OSG::InlineBase::getContainerSize ) );
         
         }
+        { //::OSG::InlineBase::getGrapOp
+        
+            typedef ::std::string const & ( ::OSG::InlineBase::*getGrapOp_function_type )(  ) const;
+            
+            InlineBase_exposer.def( 
+                "getGrapOp"
+                , getGrapOp_function_type( &::OSG::InlineBase::getGrapOp )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
         { //::OSG::InlineBase::getLoaded
         
             typedef bool ( ::OSG::InlineBase::*getLoaded_function_type )(  ) const;
@@ -157,6 +168,16 @@ void register_InlineBase_class(){
             InlineBase_exposer.def( 
                 "getLoaded"
                 , getLoaded_function_type( &::OSG::InlineBase::getLoaded ) );
+        
+        }
+        { //::OSG::InlineBase::getSFGrapOp
+        
+            typedef ::OSG::SFString const * ( ::OSG::InlineBase::*getSFGrapOp_function_type )(  ) const;
+            
+            InlineBase_exposer.def( 
+                "getSFGrapOp"
+                , getSFGrapOp_function_type( &::OSG::InlineBase::getSFGrapOp )
+                , bp::return_internal_reference< >() );
         
         }
         { //::OSG::InlineBase::getSFLoaded
@@ -198,6 +219,16 @@ void register_InlineBase_class(){
                 , getUrl_function_type( &::OSG::InlineBase::getUrl )
                 , ( bp::arg("index") )
                 , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::InlineBase::setGrapOp
+        
+            typedef void ( ::OSG::InlineBase::*setGrapOp_function_type )( ::std::string const & ) ;
+            
+            InlineBase_exposer.def( 
+                "setGrapOp"
+                , setGrapOp_function_type( &::OSG::InlineBase::setGrapOp )
+                , ( bp::arg("value") ) );
         
         }
         { //::OSG::InlineBase::setLoaded

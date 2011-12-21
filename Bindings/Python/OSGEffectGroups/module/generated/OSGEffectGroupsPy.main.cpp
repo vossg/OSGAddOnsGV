@@ -88,6 +88,14 @@
 
 #include "generated/FishEyeProjectorDataBase.pypp.hpp"
 
+#include "generated/FogStage.pypp.hpp"
+
+#include "generated/FogStageBase.pypp.hpp"
+
+#include "generated/FogStageData.pypp.hpp"
+
+#include "generated/FogStageDataBase.pypp.hpp"
+
 #include "generated/HDRStage.pypp.hpp"
 
 #include "generated/HDRStageBase.pypp.hpp"
@@ -99,6 +107,14 @@
 #include "generated/LightStore.pypp.hpp"
 
 #include "generated/NodeStore.pypp.hpp"
+
+#include "generated/PostShaderStage.pypp.hpp"
+
+#include "generated/PostShaderStageBase.pypp.hpp"
+
+#include "generated/PostShaderStageData.pypp.hpp"
+
+#include "generated/PostShaderStageDataBase.pypp.hpp"
 
 #include "generated/ResolutionDisplayFilter.pypp.hpp"
 
@@ -191,6 +207,14 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     register_FishEyeProjectorData_class();
 
+    register_FogStageBase_class();
+
+    register_FogStage_class();
+
+    register_FogStageDataBase_class();
+
+    register_FogStageData_class();
+
     register_HDRStageBase_class();
 
     register_HDRStage_class();
@@ -198,6 +222,14 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
     register_HDRStageDataBase_class();
 
     register_HDRStageData_class();
+
+    register_PostShaderStageBase_class();
+
+    register_PostShaderStage_class();
+
+    register_PostShaderStageDataBase_class();
+
+    register_PostShaderStageData_class();
 
     register_ResolutionDisplayFilterBase_class();
 
@@ -221,23 +253,29 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::DisplayFilterStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::DisplayFilter */
+    /** Helpers for OSG::FishEyeProjectorData */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DisplayFilter, OSG::DisplayFilter::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FishEyeProjectorData, OSG::FishEyeProjectorData::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DisplayFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FishEyeProjectorData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::ColorDisplayFilter */
+    /** Helpers for OSG::FogStage */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ColorDisplayFilter, OSG::ColorDisplayFilter::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FogStage, OSG::FogStage::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ColorDisplayFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FogStage::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::DSLightChunk */
+    /** Helpers for OSG::FogStageData */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DSLightChunk, OSG::DSLightChunk::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FogStageData, OSG::FogStageData::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DSLightChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FogStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::CalibrationPatternFilter */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CalibrationPatternFilter, OSG::CalibrationPatternFilter::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CalibrationPatternFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::DeferredShadingStage */
 
@@ -245,17 +283,65 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::DeferredShadingStage::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::ShadowStageData */
+    /** Helpers for OSG::HDRStage */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShadowStageData, OSG::ShadowStageData::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::HDRStage, OSG::HDRStage::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShadowStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::HDRStage::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::ShadowStage */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShadowStage, OSG::ShadowStage::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShadowStage::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::FishEyeProjector */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FishEyeProjector, OSG::FishEyeProjector::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::FishEyeProjector::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::CheckerboardCalibFilter */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CheckerboardCalibFilter, OSG::CheckerboardCalibFilter::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CheckerboardCalibFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::DisplayFilter */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DisplayFilter, OSG::DisplayFilter::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DisplayFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::HDRStageData */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::HDRStageData, OSG::HDRStageData::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::HDRStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::ShadowStageData */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShadowStageData, OSG::ShadowStageData::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShadowStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::DisplayFilterGroup */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DisplayFilterGroup, OSG::DisplayFilterGroup::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DisplayFilterGroup::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::PostShaderStageData */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PostShaderStageData, OSG::PostShaderStageData::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PostShaderStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::DSLightChunk */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DSLightChunk, OSG::DSLightChunk::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DSLightChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::DistortionDisplayFilter */
 
@@ -269,35 +355,11 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::DeferredShadingStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::ShadowStage */
+    /** Helpers for OSG::ColorDisplayFilter */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShadowStage, OSG::ShadowStage::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ColorDisplayFilter, OSG::ColorDisplayFilter::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShadowStage::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
-    /** Helpers for OSG::HDRStageData */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::HDRStageData, OSG::HDRStageData::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::HDRStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
-    /** Helpers for OSG::CalibrationPatternFilter */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CalibrationPatternFilter, OSG::CalibrationPatternFilter::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CalibrationPatternFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
-    /** Helpers for OSG::FishEyeProjectorData */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FishEyeProjectorData, OSG::FishEyeProjectorData::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FishEyeProjectorData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
-    /** Helpers for OSG::CheckerboardCalibFilter */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CheckerboardCalibFilter, OSG::CheckerboardCalibFilter::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CheckerboardCalibFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ColorDisplayFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ResolutionDisplayFilter */
 
@@ -305,17 +367,11 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ResolutionDisplayFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::DisplayFilterGroup */
+    /** Helpers for OSG::PostShaderStage */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DisplayFilterGroup, OSG::DisplayFilterGroup::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PostShaderStage, OSG::PostShaderStage::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DisplayFilterGroup::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
-    /** Helpers for OSG::HDRStage */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::HDRStage, OSG::HDRStage::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::HDRStage::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PostShaderStage::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     register_ShadowStageData_class();
 }

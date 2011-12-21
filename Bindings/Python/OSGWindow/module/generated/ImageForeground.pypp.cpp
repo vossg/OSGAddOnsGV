@@ -58,6 +58,15 @@ void register_ImageForeground_class(){
                 , ( bp::arg("whichField"), bp::arg("origin"), bp::arg("detail") ) );
         
         }
+        { //::OSG::ImageForeground::clear
+        
+            typedef void ( ::OSG::ImageForeground::*clear_function_type )(  ) ;
+            
+            ImageForeground_exposer.def( 
+                "clear"
+                , clear_function_type( &::OSG::ImageForeground::clear ) );
+        
+        }
         { //::OSG::ImageForeground::dump
         
             typedef void ( ::OSG::ImageForeground::*dump_function_type )( ::OSG::UInt32,long unsigned int const ) const;
@@ -66,6 +75,16 @@ void register_ImageForeground_class(){
                 "dump"
                 , dump_function_type( &::OSG::ImageForeground::dump )
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
+        
+        }
+        { //::OSG::ImageForeground::subImage
+        
+            typedef void ( ::OSG::ImageForeground::*subImage_function_type )( ::OSG::Image * ) ;
+            
+            ImageForeground_exposer.def( 
+                "subImage"
+                , subImage_function_type( &::OSG::ImageForeground::subImage )
+                , ( bp::arg("image") ) );
         
         }
         pyopensg::register_transit< OSG::ImageForeground >::execute();

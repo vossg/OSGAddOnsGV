@@ -32,16 +32,10 @@
 using namespace std;
 namespace bp = boost::python;
 
-struct FullStateChunkBase_wrapper : OSG::FullStateChunkBase, bp::wrapper< OSG::FullStateChunkBase > {
-
-
-
-};
-
 void register_FullStateChunkBase_class(){
 
     { //::OSG::FullStateChunkBase
-        typedef bp::class_< FullStateChunkBase_wrapper, bp::bases< OSG::StateChunk >, boost::noncopyable > FullStateChunkBase_exposer_t;
+        typedef bp::class_< OSG::FullStateChunkBase, bp::bases< OSG::StateChunk >, boost::noncopyable > FullStateChunkBase_exposer_t;
         FullStateChunkBase_exposer_t FullStateChunkBase_exposer = FullStateChunkBase_exposer_t( "FullStateChunkBase", bp::no_init );
         bp::scope FullStateChunkBase_scope( FullStateChunkBase_exposer );
         { //::OSG::FullStateChunkBase::copyFromBin
@@ -129,36 +123,6 @@ void register_FullStateChunkBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::FullStateChunkBase::getType )
                 , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::StateChunk::activate
-        
-            typedef void ( ::OSG::StateChunk::*activate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
-            
-            FullStateChunkBase_exposer.def( 
-                "activate"
-                , activate_function_type( &::OSG::StateChunk::activate )
-                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
-        
-        }
-        { //::OSG::StateChunk::changeFrom
-        
-            typedef void ( ::OSG::StateChunk::*changeFrom_function_type )( ::OSG::DrawEnv *,::OSG::StateChunk *,::OSG::UInt32 ) ;
-            
-            FullStateChunkBase_exposer.def( 
-                "changeFrom"
-                , changeFrom_function_type( &::OSG::StateChunk::changeFrom )
-                , ( bp::arg("pEnv"), bp::arg("pOld"), bp::arg("index")=(::OSG::UInt32)(0) ) );
-        
-        }
-        { //::OSG::StateChunk::deactivate
-        
-            typedef void ( ::OSG::StateChunk::*deactivate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
-            
-            FullStateChunkBase_exposer.def( 
-                "deactivate"
-                , deactivate_function_type( &::OSG::StateChunk::deactivate )
-                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
         
         }
         FullStateChunkBase_exposer.staticmethod( "getClassGroupId" );

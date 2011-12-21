@@ -47,6 +47,69 @@ void register_Viewport_class(){
                 , activateSize_function_type( &::OSG::Viewport::activateSize ) );
         
         }
+        { //::OSG::Viewport::calcIsFullWindow
+        
+            typedef bool ( ::OSG::Viewport::*calcIsFullWindow_function_type )(  ) const;
+            
+            Viewport_exposer.def( 
+                "calcIsFullWindow"
+                , calcIsFullWindow_function_type( &::OSG::Viewport::calcIsFullWindow ) );
+        
+        }
+        { //::OSG::Viewport::calcPixelBottom
+        
+            typedef ::OSG::Int32 ( ::OSG::Viewport::*calcPixelBottom_function_type )(  ) const;
+            
+            Viewport_exposer.def( 
+                "calcPixelBottom"
+                , calcPixelBottom_function_type( &::OSG::Viewport::calcPixelBottom ) );
+        
+        }
+        { //::OSG::Viewport::calcPixelHeight
+        
+            typedef ::OSG::Int32 ( ::OSG::Viewport::*calcPixelHeight_function_type )(  ) const;
+            
+            Viewport_exposer.def( 
+                "calcPixelHeight"
+                , calcPixelHeight_function_type( &::OSG::Viewport::calcPixelHeight ) );
+        
+        }
+        { //::OSG::Viewport::calcPixelLeft
+        
+            typedef ::OSG::Int32 ( ::OSG::Viewport::*calcPixelLeft_function_type )(  ) const;
+            
+            Viewport_exposer.def( 
+                "calcPixelLeft"
+                , calcPixelLeft_function_type( &::OSG::Viewport::calcPixelLeft ) );
+        
+        }
+        { //::OSG::Viewport::calcPixelRight
+        
+            typedef ::OSG::Int32 ( ::OSG::Viewport::*calcPixelRight_function_type )(  ) const;
+            
+            Viewport_exposer.def( 
+                "calcPixelRight"
+                , calcPixelRight_function_type( &::OSG::Viewport::calcPixelRight ) );
+        
+        }
+        { //::OSG::Viewport::calcPixelTop
+        
+            typedef ::OSG::Int32 ( ::OSG::Viewport::*calcPixelTop_function_type )(  ) const;
+            
+            Viewport_exposer.def( 
+                "calcPixelTop"
+                , calcPixelTop_function_type( &::OSG::Viewport::calcPixelTop ) );
+        
+        }
+        { //::OSG::Viewport::calcPixelWidth
+        
+            typedef ::OSG::Int32 ( ::OSG::Viewport::*calcPixelWidth_function_type )(  ) const;
+            
+            Viewport_exposer.def( 
+                "calcPixelWidth"
+                , calcPixelWidth_function_type( &::OSG::Viewport::calcPixelWidth ) );
+        
+        }
         { //::OSG::Viewport::changed
         
             typedef void ( ::OSG::Viewport::*changed_function_type )( ::OSG::ConstFieldMaskArg,::OSG::UInt32,::OSG::BitVector ) ;
@@ -77,98 +140,6 @@ void register_Viewport_class(){
                 , bp::return_internal_reference< >() );
         
         }
-        { //::OSG::Viewport::getPixelBottom
-        
-            typedef ::OSG::Int32 ( ::OSG::Viewport::*getPixelBottom_function_type )(  ) const;
-            
-            Viewport_exposer.def( 
-                "getPixelBottom"
-                , getPixelBottom_function_type( &::OSG::Viewport::getPixelBottom ) );
-        
-        }
-        { //::OSG::Viewport::getPixelHeight
-        
-            typedef ::OSG::Int32 ( ::OSG::Viewport::*getPixelHeight_function_type )(  ) const;
-            
-            Viewport_exposer.def( 
-                "getPixelHeight"
-                , getPixelHeight_function_type( &::OSG::Viewport::getPixelHeight ) );
-        
-        }
-        { //::OSG::Viewport::getPixelLeft
-        
-            typedef ::OSG::Int32 ( ::OSG::Viewport::*getPixelLeft_function_type )(  ) const;
-            
-            Viewport_exposer.def( 
-                "getPixelLeft"
-                , getPixelLeft_function_type( &::OSG::Viewport::getPixelLeft ) );
-        
-        }
-        { //::OSG::Viewport::getPixelRight
-        
-            typedef ::OSG::Int32 ( ::OSG::Viewport::*getPixelRight_function_type )(  ) const;
-            
-            Viewport_exposer.def( 
-                "getPixelRight"
-                , getPixelRight_function_type( &::OSG::Viewport::getPixelRight ) );
-        
-        }
-        { //::OSG::Viewport::getPixelTop
-        
-            typedef ::OSG::Int32 ( ::OSG::Viewport::*getPixelTop_function_type )(  ) const;
-            
-            Viewport_exposer.def( 
-                "getPixelTop"
-                , getPixelTop_function_type( &::OSG::Viewport::getPixelTop ) );
-        
-        }
-        { //::OSG::Viewport::getPixelWidth
-        
-            typedef ::OSG::Int32 ( ::OSG::Viewport::*getPixelWidth_function_type )(  ) const;
-            
-            Viewport_exposer.def( 
-                "getPixelWidth"
-                , getPixelWidth_function_type( &::OSG::Viewport::getPixelWidth ) );
-        
-        }
-        { //::OSG::Viewport::getTarget
-        
-            typedef ::OSG::FrameBufferObject * ( ::OSG::Viewport::*getTarget_function_type )(  ) ;
-            
-            Viewport_exposer.def( 
-                "getTarget"
-                , getTarget_function_type( &::OSG::Viewport::getTarget )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::Viewport::getTravValidator
-        
-            typedef ::OSG::TraversalValidator * ( ::OSG::Viewport::*getTravValidator_function_type )(  ) ;
-            
-            Viewport_exposer.def( 
-                "getTravValidator"
-                , getTravValidator_function_type( &::OSG::Viewport::getTravValidator )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::Viewport::isFullWindow
-        
-            typedef bool ( ::OSG::Viewport::*isFullWindow_function_type )(  ) const;
-            
-            Viewport_exposer.def( 
-                "isFullWindow"
-                , isFullWindow_function_type( &::OSG::Viewport::isFullWindow ) );
-        
-        }
-        { //::OSG::Viewport::isPassive
-        
-            typedef bool ( ::OSG::Viewport::*isPassive_function_type )(  ) ;
-            
-            Viewport_exposer.def( 
-                "isPassive"
-                , isPassive_function_type( &::OSG::Viewport::isPassive ) );
-        
-        }
         { //::OSG::Viewport::render
         
             typedef void ( ::OSG::Viewport::*render_function_type )( ::OSG::RenderActionBase * ) ;
@@ -179,23 +150,13 @@ void register_Viewport_class(){
                 , ( bp::arg("action") ) );
         
         }
-        { //::OSG::Viewport::setSize
-        
-            typedef void ( ::OSG::Viewport::*setSize_function_type )( ::OSG::Real32,::OSG::Real32,::OSG::Real32,::OSG::Real32 ) ;
-            
-            Viewport_exposer.def( 
-                "setSize"
-                , setSize_function_type( &::OSG::Viewport::setSize )
-                , ( bp::arg("left"), bp::arg("bottom"), bp::arg("right"), bp::arg("top") ) );
-        
-        }
         pyopensg::register_transit< OSG::Viewport >::execute();
         bp::implicitly_convertible< OSG::Viewport::ObjRecPtr, OSG::Viewport* >();
         bp::implicitly_convertible< OSG::Viewport::ObjRecPtr, OSG::Viewport::ObjCPtr >();
-        bp::implicitly_convertible< OSG::Viewport::ObjRecPtr, OSG::AttachmentContainer* >();
-        bp::implicitly_convertible< OSG::Viewport::ObjRecPtr, OSG::AttachmentContainer::ObjRecPtr >();
-        bp::implicitly_convertible<OSG::Viewport::ObjRecPtr, OSG::AttachmentContainer::ObjCPtr>();
-        Viewport_exposer.def("getNormalizedCoordinates",osgwrap::getNormalizedCoordinates);
+        bp::implicitly_convertible< OSG::Viewport::ObjRecPtr, OSG::Viewarea* >();
+        bp::implicitly_convertible< OSG::Viewport::ObjRecPtr, OSG::Viewarea::ObjRecPtr >();
+        bp::implicitly_convertible<OSG::Viewport::ObjRecPtr, OSG::Viewarea::ObjCPtr>();
+        Viewport_exposer.def("calcNormalizedCoordinates",osgwrap::calcNormalizedCoordinates);
     }
 
 }

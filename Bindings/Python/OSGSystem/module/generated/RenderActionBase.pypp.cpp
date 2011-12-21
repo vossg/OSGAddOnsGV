@@ -207,6 +207,16 @@ void register_RenderActionBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::RenderActionBase::getTraversalRoot
+        
+            typedef ::OSG::Node * ( ::OSG::RenderActionBase::*getTraversalRoot_function_type )(  ) const;
+            
+            RenderActionBase_exposer.def( 
+                "getTraversalRoot"
+                , getTraversalRoot_function_type( &::OSG::RenderActionBase::getTraversalRoot )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::RenderActionBase::getUseGLFinish
         
             typedef bool ( ::OSG::RenderActionBase::*getUseGLFinish_function_type )(  ) ;
@@ -216,13 +226,13 @@ void register_RenderActionBase_class(){
                 , getUseGLFinish_function_type( &::OSG::RenderActionBase::getUseGLFinish ) );
         
         }
-        { //::OSG::RenderActionBase::getViewport
+        { //::OSG::RenderActionBase::getViewarea
         
-            typedef ::OSG::Viewport * ( ::OSG::RenderActionBase::*getViewport_function_type )(  ) const;
+            typedef ::OSG::Viewarea * ( ::OSG::RenderActionBase::*getViewarea_function_type )(  ) const;
             
             RenderActionBase_exposer.def( 
-                "getViewport"
-                , getViewport_function_type( &::OSG::RenderActionBase::getViewport )
+                "getViewarea"
+                , getViewarea_function_type( &::OSG::RenderActionBase::getViewarea )
                 , bp::return_internal_reference< >() );
         
         }
@@ -403,6 +413,16 @@ void register_RenderActionBase_class(){
                 , ( bp::arg("pStat") ) );
         
         }
+        { //::OSG::RenderActionBase::setTraversalRoot
+        
+            typedef void ( ::OSG::RenderActionBase::*setTraversalRoot_function_type )( ::OSG::Node * ) ;
+            
+            RenderActionBase_exposer.def( 
+                "setTraversalRoot"
+                , setTraversalRoot_function_type( &::OSG::RenderActionBase::setTraversalRoot )
+                , ( bp::arg("pTravRoot") ) );
+        
+        }
         { //::OSG::RenderActionBase::setUseGLFinish
         
             typedef void ( ::OSG::RenderActionBase::*setUseGLFinish_function_type )( bool ) ;
@@ -413,14 +433,14 @@ void register_RenderActionBase_class(){
                 , ( bp::arg("bVal") ) );
         
         }
-        { //::OSG::RenderActionBase::setViewport
+        { //::OSG::RenderActionBase::setViewarea
         
-            typedef void ( ::OSG::RenderActionBase::*setViewport_function_type )( ::OSG::Viewport * ) ;
+            typedef void ( ::OSG::RenderActionBase::*setViewarea_function_type )( ::OSG::Viewarea * ) ;
             
             RenderActionBase_exposer.def( 
-                "setViewport"
-                , setViewport_function_type( &::OSG::RenderActionBase::setViewport )
-                , ( bp::arg("pViewport") ) );
+                "setViewarea"
+                , setViewarea_function_type( &::OSG::RenderActionBase::setViewarea )
+                , ( bp::arg("pViewarea") ) );
         
         }
         { //::OSG::RenderActionBase::setVolumeDrawing

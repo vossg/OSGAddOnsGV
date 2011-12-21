@@ -32,6 +32,12 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct PolygonChunkBase_wrapper : OSG::PolygonChunkBase, bp::wrapper< OSG::PolygonChunkBase > {
+
+
+
+};
+
 boost::python::list PolygonChunkBase_getMFStipple(OSG::PolygonChunkBase *self)
 {
    boost::python::list result;
@@ -47,7 +53,7 @@ boost::python::list PolygonChunkBase_getMFStipple(OSG::PolygonChunkBase *self)
 void register_PolygonChunkBase_class(){
 
     { //::OSG::PolygonChunkBase
-        typedef bp::class_< OSG::PolygonChunkBase, bp::bases< OSG::StateChunk >, boost::noncopyable > PolygonChunkBase_exposer_t;
+        typedef bp::class_< PolygonChunkBase_wrapper, bp::bases< OSG::StateChunk >, boost::noncopyable > PolygonChunkBase_exposer_t;
         PolygonChunkBase_exposer_t PolygonChunkBase_exposer = PolygonChunkBase_exposer_t( "PolygonChunkBase", bp::no_init );
         bp::scope PolygonChunkBase_scope( PolygonChunkBase_exposer );
         bp::scope().attr("CullFaceFieldId") = (int)OSG::PolygonChunkBase::CullFaceFieldId;
@@ -480,6 +486,36 @@ void register_PolygonChunkBase_class(){
                 "setSmooth"
                 , setSmooth_function_type( &::OSG::PolygonChunkBase::setSmooth )
                 , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::StateChunk::activate
+        
+            typedef void ( ::OSG::StateChunk::*activate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            
+            PolygonChunkBase_exposer.def( 
+                "activate"
+                , activate_function_type( &::OSG::StateChunk::activate )
+                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
+        
+        }
+        { //::OSG::StateChunk::changeFrom
+        
+            typedef void ( ::OSG::StateChunk::*changeFrom_function_type )( ::OSG::DrawEnv *,::OSG::StateChunk *,::OSG::UInt32 ) ;
+            
+            PolygonChunkBase_exposer.def( 
+                "changeFrom"
+                , changeFrom_function_type( &::OSG::StateChunk::changeFrom )
+                , ( bp::arg("pEnv"), bp::arg("pOld"), bp::arg("index")=(::OSG::UInt32)(0) ) );
+        
+        }
+        { //::OSG::StateChunk::deactivate
+        
+            typedef void ( ::OSG::StateChunk::*deactivate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            
+            PolygonChunkBase_exposer.def( 
+                "deactivate"
+                , deactivate_function_type( &::OSG::StateChunk::deactivate )
+                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
         
         }
         PolygonChunkBase_exposer.staticmethod( "create" );

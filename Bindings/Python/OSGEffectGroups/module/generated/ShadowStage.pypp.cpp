@@ -44,6 +44,7 @@ void register_ShadowStage_class(){
             .value("PERSPECTIVE_SHADOW_MAP", OSG::ShadowStage::PERSPECTIVE_SHADOW_MAP)
             .value("DITHER_SHADOW_MAP", OSG::ShadowStage::DITHER_SHADOW_MAP)
             .value("PCF_SHADOW_MAP", OSG::ShadowStage::PCF_SHADOW_MAP)
+            .value("PCF2_SHADOW_MAP", OSG::ShadowStage::PCF2_SHADOW_MAP)
             .value("PCSS_SHADOW_MAP", OSG::ShadowStage::PCSS_SHADOW_MAP)
             .value("VARIANCE_SHADOW_MAP", OSG::ShadowStage::VARIANCE_SHADOW_MAP)
             .export_values()

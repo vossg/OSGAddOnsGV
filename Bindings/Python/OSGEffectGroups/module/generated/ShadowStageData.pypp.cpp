@@ -100,13 +100,13 @@ void register_ShadowStageData_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
-        { //::OSG::ShadowStageData::getExcludeNodeActive
+        { //::OSG::ShadowStageData::getExcludeNodeTravMask
         
-            typedef ::std::vector< bool > & ( ::OSG::ShadowStageData::*getExcludeNodeActive_function_type )(  ) ;
+            typedef ::std::vector< unsigned int > & ( ::OSG::ShadowStageData::*getExcludeNodeTravMask_function_type )(  ) ;
             
             ShadowStageData_exposer.def( 
-                "getExcludeNodeActive"
-                , getExcludeNodeActive_function_type( &::OSG::ShadowStageData::getExcludeNodeActive )
+                "getExcludeNodeTravMask"
+                , getExcludeNodeTravMask_function_type( &::OSG::ShadowStageData::getExcludeNodeTravMask )
                 , bp::return_internal_reference< >() );
         
         }

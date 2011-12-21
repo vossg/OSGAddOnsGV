@@ -18,6 +18,7 @@
 #include <OSGProxyGroup.h>
 #include <OSGVisitSubTree.h>
 #include <OSGSwitch.h>
+#include <OSGScreenTransform.h>
 #include <OSGRangeLOD.h>
 #include <OSGScreenLOD.h>
 #include <OSGComponentTransform.h>
@@ -25,9 +26,18 @@
 #include <OSGMaterialChunkOverrideGroup.h>
 #include <OSGDoubleTransform.h>
 #include <OSGInverseTransform.h>
+#include <OSGStackedTransform.h>
 #include <OSGDistanceLOD.h>
 #include <OSGBillboard.h>
+#include <OSGReplicateTransform.h>
 #include <OSGMultiSwitch.h>
+#include <OSGTranslationTransformationElement.h>
+#include <OSGLookAtTransformationElement.h>
+#include <OSGSkewTransformationElement.h>
+#include <OSGMatrixTransformationElement.h>
+#include <OSGRotationTransformationElement.h>
+#include <OSGTransformationElement.h>
+#include <OSGScaleTransformationElement.h>
 #include <OSGGroupingStage.h>
 #include <OSGStage.h>
 #include <OSGRenderCallbackStage.h>

@@ -56,6 +56,18 @@ boost::python::list ImageForegroundBase_getMFPositions(OSG::ImageForegroundBase 
    return result;
 }
 
+boost::python::list ImageForegroundBase_getMFScales(OSG::ImageForegroundBase *self)
+{
+   boost::python::list result;
+   OSG::MFPnt2f const * mf_data = self->getMFScales();
+   const OSG::UInt32 size(mf_data->size());
+   for ( OSG::UInt32 i = 0; i < size; ++i )
+   {
+      result.append((*mf_data)[i]);
+   }
+   return result;
+}
+
 void register_ImageForegroundBase_class(){
 
     { //::OSG::ImageForegroundBase
@@ -64,6 +76,7 @@ void register_ImageForegroundBase_class(){
         bp::scope ImageForegroundBase_scope( ImageForegroundBase_exposer );
         bp::scope().attr("ImagesFieldId") = (int)OSG::ImageForegroundBase::ImagesFieldId;
         bp::scope().attr("PositionsFieldId") = (int)OSG::ImageForegroundBase::PositionsFieldId;
+        bp::scope().attr("ScalesFieldId") = (int)OSG::ImageForegroundBase::ScalesFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ImageForegroundBase::NextFieldId;
         { //::OSG::ImageForegroundBase::assignImages
         
@@ -202,6 +215,17 @@ void register_ImageForegroundBase_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
+        { //::OSG::ImageForegroundBase::getScales
+        
+            typedef ::OSG::Pnt2f const & ( ::OSG::ImageForegroundBase::*getScales_function_type )( ::OSG::UInt32 const ) const;
+            
+            ImageForegroundBase_exposer.def( 
+                "getScales"
+                , getScales_function_type( &::OSG::ImageForegroundBase::getScales )
+                , ( bp::arg("index") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
         { //::OSG::ImageForegroundBase::getType
         
             typedef ::OSG::FieldContainerType & ( ::OSG::ImageForegroundBase::*getType_function_type )(  ) ;
@@ -260,6 +284,7 @@ void register_ImageForegroundBase_class(){
         ImageForegroundBase_exposer.staticmethod( "getClassTypeId" );
         ImageForegroundBase_exposer.def("getMFImages",ImageForegroundBase_getMFImages);
         ImageForegroundBase_exposer.def("getMFPositions",ImageForegroundBase_getMFPositions);
+        ImageForegroundBase_exposer.def("getMFScales",ImageForegroundBase_getMFScales);
     }
 
 }

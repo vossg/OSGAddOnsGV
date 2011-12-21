@@ -184,16 +184,6 @@ void register_CSMDrawer_class(){
                 , ( bp::arg("pThread") ) );
         
         }
-        { //::OSG::CSMDrawer::setSyncLock
-        
-            typedef void ( ::OSG::CSMDrawer::*setSyncLock_function_type )( ::OSG::Lock * ) ;
-            
-            CSMDrawer_exposer.def( 
-                "setSyncLock"
-                , setSyncLock_function_type( &::OSG::CSMDrawer::setSyncLock )
-                , ( bp::arg("pSyncLock") ) );
-        
-        }
         { //::OSG::CSMDrawer::shutdown
         
             typedef void ( ::OSG::CSMDrawer::*shutdown_function_type )(  ) ;

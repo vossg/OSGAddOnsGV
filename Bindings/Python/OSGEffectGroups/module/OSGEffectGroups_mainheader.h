@@ -17,6 +17,10 @@
 #include <OSGFishEyeProjector.h>
 #include <OSGShadowStageData.h>
 #include <OSGShadowStage.h>
+#include <OSGFogStageData.h>
+#include <OSGFogStage.h>
+#include <OSGPostShaderStageData.h>
+#include <OSGPostShaderStage.h>
 #include <OSGHDRStage.h>
 #include <OSGHDRStageData.h>
 

@@ -7,7 +7,6 @@
 #include <OSGDepthClearBackground.h>
 #include <OSGTextureGrabBackground.h>
 #include <OSGPolygonBackground.h>
-#include <OSGSolidBackground.h>
 #include <OSGGradientBackground.h>
 #include <OSGTextureBackground.h>
 #include <OSGOffCenterPerspectiveCamera.h>
@@ -17,6 +16,7 @@
 #include <OSGProjectionCameraDecorator.h>
 #include <OSGTileCameraDecorator.h>
 #include <OSGTextureGrabForeground.h>
+#include <OSGSimpleTextForeground.h>
 #include <OSGPolygonForeground.h>
 #include <OSGImageForeground.h>
 #include <OSGGrabForeground.h>

@@ -96,13 +96,13 @@
 
 #include "generated/ShearedStereoCameraDecoratorBase.pypp.hpp"
 
+#include "generated/SimpleTextForeground.pypp.hpp"
+
+#include "generated/SimpleTextForegroundBase.pypp.hpp"
+
 #include "generated/SkyBackground.pypp.hpp"
 
 #include "generated/SkyBackgroundBase.pypp.hpp"
-
-#include "generated/SolidBackground.pypp.hpp"
-
-#include "generated/SolidBackgroundBase.pypp.hpp"
 
 #include "generated/StereoBufferViewport.pypp.hpp"
 
@@ -201,13 +201,13 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
 
     register_ShearedStereoCameraDecorator_class();
 
+    register_SimpleTextForegroundBase_class();
+
+    register_SimpleTextForeground_class();
+
     register_SkyBackgroundBase_class();
 
     register_SkyBackground_class();
-
-    register_SolidBackgroundBase_class();
-
-    register_SolidBackground_class();
 
     register_StereoBufferViewportBase_class();
 
@@ -323,12 +323,6 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::StereoBufferViewport::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::SolidBackground */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SolidBackground, OSG::SolidBackground::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::SolidBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
     /** Helpers for OSG::ProjectionCameraDecorator */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ProjectionCameraDecorator, OSG::ProjectionCameraDecorator::ObjRecPtr>);
@@ -340,6 +334,12 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ColorBufferViewport, OSG::ColorBufferViewport::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ColorBufferViewport::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::SimpleTextForeground */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SimpleTextForeground, OSG::SimpleTextForeground::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::SimpleTextForeground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::GrabForeground */
 

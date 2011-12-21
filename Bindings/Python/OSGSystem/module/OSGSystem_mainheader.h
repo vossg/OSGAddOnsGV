@@ -25,6 +25,7 @@
 #include <OSGStateOverride.h>
 #include <OSGStringAttributeMap.h>
 #include <OSGIntersectProxyAttachment.h>
+#include <OSGBoostPathAttachment.h>
 #include <OSGContainerCollection.h>
 #include <OSGImage.h>
 #include <OSGGeoReferenceAttachment.h>
@@ -65,9 +66,11 @@
 #include <OSGStatisticsForeground.h>
 #include <OSGRenderOptions.h>
 #include <OSGCamera.h>
+#include <OSGViewarea.h>
 #include <OSGBackground.h>
 #include <OSGMatrixCamera.h>
 #include <OSGPerspectiveCamera.h>
+#include <OSGSolidBackground.h>
 #include <OSGForeground.h>
 #include <OSGViewport.h>
 #include <OSGStereoCameraDecorator.h>
@@ -163,6 +166,87 @@ template bool OSG::ShaderProgram::getUniformVariable(const OSG::Char8*, OSG::Vec
 template bool OSG::ShaderProgram::getUniformVariable(const OSG::Char8*, OSG::Matrix&);
 template bool OSG::ShaderProgram::getUniformVariable(const OSG::Char8*, OSG::Pnt2f&);
 template bool OSG::ShaderProgram::getUniformVariable(const OSG::Char8*, OSG::Pnt3f&);
+template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const bool&);
+template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Int32&);
+template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Real32&);
+template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
+template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
+template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
+template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Matrix&);
+template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
+template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
+template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const bool&);
+template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Int32&);
+template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Real32&);
+template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
+template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
+template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
+template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Matrix&);
+template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
+template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
+template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, bool&);
+template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Int32&);
+template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Real32&);
+template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec2f&);
+template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec3f&);
+template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec4f&);
+template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Matrix&);
+template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt2f&);
+template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt3f&);
+template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const bool&);
+template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Int32&);
+template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Real32&);
+template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
+template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
+template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
+template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Matrix&);
+template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
+template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
+template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const bool&);
+template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Int32&);
+template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Real32&);
+template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
+template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
+template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
+template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Matrix&);
+template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
+template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
+template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, bool&);
+template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Int32&);
+template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Real32&);
+template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Vec2f&);
+template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Vec3f&);
+template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Vec4f&);
+template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Matrix&);
+template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt2f&);
+template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt3f&);
+template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const bool&);
+template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Int32&);
+template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Real32&);
+template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
+template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
+template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
+template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Matrix&);
+template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
+template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
+template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const bool&);
+template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Int32&);
+template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Real32&);
+template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
+template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
+template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
+template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Matrix&);
+template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
+template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
+template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, bool&);
+template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Int32&);
+template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Real32&);
+template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec2f&);
+template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec3f&);
+template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec4f&);
+template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Matrix&);
+template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt2f&);
+template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt3f&);
 template OSG::Vec2f OSG::GeoVectorProperty::getValue<OSG::Vec2f>(const OSG::UInt32) const;
 template OSG::Vec3f OSG::GeoVectorProperty::getValue<OSG::Vec3f>(const OSG::UInt32) const;
 template OSG::Vec4f OSG::GeoVectorProperty::getValue<OSG::Vec4f>(const OSG::UInt32) const;
@@ -231,87 +315,6 @@ template void OSG::GeoVectorProperty::push_back<OSG::Pnt3d>(const OSG::Pnt3d&);
 template void OSG::GeoVectorProperty::push_back<OSG::Pnt4d>(const OSG::Pnt4d&);
 template void OSG::GeoVectorProperty::push_back<OSG::Color3f>(const OSG::Color3f&);
 template void OSG::GeoVectorProperty::push_back<OSG::Color4f>(const OSG::Color4f&);
-template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const bool&);
-template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Int32&);
-template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Real32&);
-template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
-template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
-template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
-template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Matrix&);
-template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
-template bool OSG::SimpleSHLChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
-template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const bool&);
-template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Int32&);
-template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Real32&);
-template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
-template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
-template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
-template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Matrix&);
-template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
-template bool OSG::SimpleSHLChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
-template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, bool&);
-template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Int32&);
-template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Real32&);
-template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Vec2f&);
-template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Vec3f&);
-template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Vec4f&);
-template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Matrix&);
-template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt2f&);
-template bool OSG::SimpleSHLChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt3f&);
-template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const bool&);
-template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Int32&);
-template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Real32&);
-template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
-template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
-template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
-template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Matrix&);
-template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
-template bool OSG::SimpleSHLVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
-template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const bool&);
-template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Int32&);
-template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Real32&);
-template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
-template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
-template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
-template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Matrix&);
-template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
-template bool OSG::SimpleSHLVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
-template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, bool&);
-template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Int32&);
-template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Real32&);
-template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec2f&);
-template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec3f&);
-template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec4f&);
-template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Matrix&);
-template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt2f&);
-template bool OSG::SimpleSHLVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt3f&);
-template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const bool&);
-template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Int32&);
-template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Real32&);
-template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
-template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
-template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
-template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Matrix&);
-template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
-template bool OSG::ShaderProgramVariableChunk::addUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
-template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const bool&);
-template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Int32&);
-template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Real32&);
-template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec2f&);
-template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec3f&);
-template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Vec4f&);
-template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Matrix&);
-template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt2f&);
-template bool OSG::ShaderProgramVariableChunk::updateUniformVariable(const OSG::Char8*, const OSG::Pnt3f&);
-template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, bool&);
-template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Int32&);
-template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Real32&);
-template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec2f&);
-template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec3f&);
-template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Vec4f&);
-template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Matrix&);
-template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt2f&);
-template bool OSG::ShaderProgramVariableChunk::getUniformVariable(const OSG::Char8*, OSG::Pnt3f&);
 template OSG::RenderTreeNode* OSG::RenderTreeNodePool::create<OSG::RenderTreeNode>();
 template OSG::RenderTreeNode* OSG::RenderTreeNodePool::create<OSG::RenderTreeNode>(OSG::UInt32);
 #endif

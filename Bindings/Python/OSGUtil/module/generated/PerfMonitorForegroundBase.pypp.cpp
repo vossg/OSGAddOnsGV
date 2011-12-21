@@ -409,12 +409,12 @@ void register_PerfMonitorForegroundBase_class(){
         }
         { //::OSG::Foreground::draw
         
-            typedef void ( ::OSG::Foreground::*draw_function_type )( ::OSG::DrawEnv *,::OSG::Viewport * ) ;
+            typedef void ( ::OSG::Foreground::*draw_function_type )( ::OSG::DrawEnv * ) ;
             
             PerfMonitorForegroundBase_exposer.def( 
                 "draw"
                 , draw_function_type( &::OSG::Foreground::draw )
-                , ( bp::arg("pEnv"), bp::arg("port") ) );
+                , ( bp::arg("pEnv") ) );
         
         }
         PerfMonitorForegroundBase_exposer.staticmethod( "create" );

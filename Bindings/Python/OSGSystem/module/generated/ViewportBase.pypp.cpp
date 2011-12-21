@@ -47,22 +47,14 @@ boost::python::list ViewportBase_getMFForegrounds(OSG::ViewportBase *self)
 void register_ViewportBase_class(){
 
     { //::OSG::ViewportBase
-        typedef bp::class_< OSG::ViewportBase, bp::bases< ::OSG::AttachmentContainer >, boost::noncopyable > ViewportBase_exposer_t;
+        typedef bp::class_< OSG::ViewportBase, bp::bases< OSG::Viewarea >, boost::noncopyable > ViewportBase_exposer_t;
         ViewportBase_exposer_t ViewportBase_exposer = ViewportBase_exposer_t( "ViewportBase", bp::no_init );
         bp::scope ViewportBase_scope( ViewportBase_exposer );
-        bp::scope().attr("LeftFieldId") = (int)OSG::ViewportBase::LeftFieldId;
-        bp::scope().attr("RightFieldId") = (int)OSG::ViewportBase::RightFieldId;
-        bp::scope().attr("BottomFieldId") = (int)OSG::ViewportBase::BottomFieldId;
-        bp::scope().attr("TopFieldId") = (int)OSG::ViewportBase::TopFieldId;
         bp::scope().attr("ParentFieldId") = (int)OSG::ViewportBase::ParentFieldId;
         bp::scope().attr("CameraFieldId") = (int)OSG::ViewportBase::CameraFieldId;
         bp::scope().attr("RootFieldId") = (int)OSG::ViewportBase::RootFieldId;
         bp::scope().attr("BackgroundFieldId") = (int)OSG::ViewportBase::BackgroundFieldId;
         bp::scope().attr("ForegroundsFieldId") = (int)OSG::ViewportBase::ForegroundsFieldId;
-        bp::scope().attr("TravMaskFieldId") = (int)OSG::ViewportBase::TravMaskFieldId;
-        bp::scope().attr("DrawTimeFieldId") = (int)OSG::ViewportBase::DrawTimeFieldId;
-        bp::scope().attr("DrawableIdFieldId") = (int)OSG::ViewportBase::DrawableIdFieldId;
-        bp::scope().attr("RenderOptionsFieldId") = (int)OSG::ViewportBase::RenderOptionsFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ViewportBase::NextFieldId;
         { //::OSG::ViewportBase::addForeground
         
@@ -162,15 +154,6 @@ void register_ViewportBase_class(){
                 , ( bp::arg("whichField") ) );
         
         }
-        { //::OSG::ViewportBase::getBottom
-        
-            typedef ::OSG::Real32 ( ::OSG::ViewportBase::*getBottom_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getBottom"
-                , getBottom_function_type( &::OSG::ViewportBase::getBottom ) );
-        
-        }
         { //::OSG::ViewportBase::getCamera
         
             typedef ::OSG::Camera * ( ::OSG::ViewportBase::*getCamera_function_type )(  ) const;
@@ -218,24 +201,6 @@ void register_ViewportBase_class(){
                 , getContainerSize_function_type( &::OSG::ViewportBase::getContainerSize ) );
         
         }
-        { //::OSG::ViewportBase::getDrawTime
-        
-            typedef ::OSG::Real32 ( ::OSG::ViewportBase::*getDrawTime_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getDrawTime"
-                , getDrawTime_function_type( &::OSG::ViewportBase::getDrawTime ) );
-        
-        }
-        { //::OSG::ViewportBase::getDrawableId
-        
-            typedef ::OSG::Int32 ( ::OSG::ViewportBase::*getDrawableId_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getDrawableId"
-                , getDrawableId_function_type( &::OSG::ViewportBase::getDrawableId ) );
-        
-        }
         { //::OSG::ViewportBase::getForegrounds
         
             typedef ::OSG::Foreground * ( ::OSG::ViewportBase::*getForegrounds_function_type )( ::OSG::UInt32 const ) const;
@@ -245,34 +210,6 @@ void register_ViewportBase_class(){
                 , getForegrounds_function_type( &::OSG::ViewportBase::getForegrounds )
                 , ( bp::arg("index") )
                 , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::ViewportBase::getLeft
-        
-            typedef ::OSG::Real32 ( ::OSG::ViewportBase::*getLeft_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getLeft"
-                , getLeft_function_type( &::OSG::ViewportBase::getLeft ) );
-        
-        }
-        { //::OSG::ViewportBase::getRenderOptions
-        
-            typedef ::OSG::RenderOptions * ( ::OSG::ViewportBase::*getRenderOptions_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getRenderOptions"
-                , getRenderOptions_function_type( &::OSG::ViewportBase::getRenderOptions )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::ViewportBase::getRight
-        
-            typedef ::OSG::Real32 ( ::OSG::ViewportBase::*getRight_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getRight"
-                , getRight_function_type( &::OSG::ViewportBase::getRight ) );
         
         }
         { //::OSG::ViewportBase::getRoot
@@ -295,16 +232,6 @@ void register_ViewportBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
-        { //::OSG::ViewportBase::getSFBottom
-        
-            typedef ::OSG::SFReal32 const * ( ::OSG::ViewportBase::*getSFBottom_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getSFBottom"
-                , getSFBottom_function_type( &::OSG::ViewportBase::getSFBottom )
-                , bp::return_internal_reference< >() );
-        
-        }
         { //::OSG::ViewportBase::getSFCamera
         
             typedef ::OSG::SFUnrecCameraPtr const * ( ::OSG::ViewportBase::*getSFCamera_function_type )(  ) const;
@@ -312,56 +239,6 @@ void register_ViewportBase_class(){
             ViewportBase_exposer.def( 
                 "getSFCamera"
                 , getSFCamera_function_type( &::OSG::ViewportBase::getSFCamera )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::ViewportBase::getSFDrawTime
-        
-            typedef ::OSG::SFReal32 const * ( ::OSG::ViewportBase::*getSFDrawTime_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getSFDrawTime"
-                , getSFDrawTime_function_type( &::OSG::ViewportBase::getSFDrawTime )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::ViewportBase::getSFDrawableId
-        
-            typedef ::OSG::SFInt32 const * ( ::OSG::ViewportBase::*getSFDrawableId_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getSFDrawableId"
-                , getSFDrawableId_function_type( &::OSG::ViewportBase::getSFDrawableId )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::ViewportBase::getSFLeft
-        
-            typedef ::OSG::SFReal32 const * ( ::OSG::ViewportBase::*getSFLeft_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getSFLeft"
-                , getSFLeft_function_type( &::OSG::ViewportBase::getSFLeft )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::ViewportBase::getSFRenderOptions
-        
-            typedef ::OSG::SFUnrecRenderOptionsPtr const * ( ::OSG::ViewportBase::*getSFRenderOptions_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getSFRenderOptions"
-                , getSFRenderOptions_function_type( &::OSG::ViewportBase::getSFRenderOptions )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::ViewportBase::getSFRight
-        
-            typedef ::OSG::SFReal32 const * ( ::OSG::ViewportBase::*getSFRight_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getSFRight"
-                , getSFRight_function_type( &::OSG::ViewportBase::getSFRight )
                 , bp::return_internal_reference< >() );
         
         }
@@ -373,44 +250,6 @@ void register_ViewportBase_class(){
                 "getSFRoot"
                 , getSFRoot_function_type( &::OSG::ViewportBase::getSFRoot )
                 , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::ViewportBase::getSFTop
-        
-            typedef ::OSG::SFReal32 const * ( ::OSG::ViewportBase::*getSFTop_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getSFTop"
-                , getSFTop_function_type( &::OSG::ViewportBase::getSFTop )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::ViewportBase::getSFTravMask
-        
-            typedef ::OSG::SFUInt32 const * ( ::OSG::ViewportBase::*getSFTravMask_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getSFTravMask"
-                , getSFTravMask_function_type( &::OSG::ViewportBase::getSFTravMask )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::ViewportBase::getTop
-        
-            typedef ::OSG::Real32 ( ::OSG::ViewportBase::*getTop_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getTop"
-                , getTop_function_type( &::OSG::ViewportBase::getTop ) );
-        
-        }
-        { //::OSG::ViewportBase::getTravMask
-        
-            typedef ::OSG::UInt32 ( ::OSG::ViewportBase::*getTravMask_function_type )(  ) const;
-            
-            ViewportBase_exposer.def( 
-                "getTravMask"
-                , getTravMask_function_type( &::OSG::ViewportBase::getTravMask ) );
         
         }
         { //::OSG::ViewportBase::getType
@@ -463,16 +302,6 @@ void register_ViewportBase_class(){
                 , ( bp::arg("value") ) );
         
         }
-        { //::OSG::ViewportBase::setBottom
-        
-            typedef void ( ::OSG::ViewportBase::*setBottom_function_type )( ::OSG::Real32 const ) ;
-            
-            ViewportBase_exposer.def( 
-                "setBottom"
-                , setBottom_function_type( &::OSG::ViewportBase::setBottom )
-                , ( bp::arg("value") ) );
-        
-        }
         { //::OSG::ViewportBase::setCamera
         
             typedef void ( ::OSG::ViewportBase::*setCamera_function_type )( ::OSG::Camera * const ) ;
@@ -483,56 +312,6 @@ void register_ViewportBase_class(){
                 , ( bp::arg("value") ) );
         
         }
-        { //::OSG::ViewportBase::setDrawTime
-        
-            typedef void ( ::OSG::ViewportBase::*setDrawTime_function_type )( ::OSG::Real32 const ) ;
-            
-            ViewportBase_exposer.def( 
-                "setDrawTime"
-                , setDrawTime_function_type( &::OSG::ViewportBase::setDrawTime )
-                , ( bp::arg("value") ) );
-        
-        }
-        { //::OSG::ViewportBase::setDrawableId
-        
-            typedef void ( ::OSG::ViewportBase::*setDrawableId_function_type )( ::OSG::Int32 const ) ;
-            
-            ViewportBase_exposer.def( 
-                "setDrawableId"
-                , setDrawableId_function_type( &::OSG::ViewportBase::setDrawableId )
-                , ( bp::arg("value") ) );
-        
-        }
-        { //::OSG::ViewportBase::setLeft
-        
-            typedef void ( ::OSG::ViewportBase::*setLeft_function_type )( ::OSG::Real32 const ) ;
-            
-            ViewportBase_exposer.def( 
-                "setLeft"
-                , setLeft_function_type( &::OSG::ViewportBase::setLeft )
-                , ( bp::arg("value") ) );
-        
-        }
-        { //::OSG::ViewportBase::setRenderOptions
-        
-            typedef void ( ::OSG::ViewportBase::*setRenderOptions_function_type )( ::OSG::RenderOptions * const ) ;
-            
-            ViewportBase_exposer.def( 
-                "setRenderOptions"
-                , setRenderOptions_function_type( &::OSG::ViewportBase::setRenderOptions )
-                , ( bp::arg("value") ) );
-        
-        }
-        { //::OSG::ViewportBase::setRight
-        
-            typedef void ( ::OSG::ViewportBase::*setRight_function_type )( ::OSG::Real32 const ) ;
-            
-            ViewportBase_exposer.def( 
-                "setRight"
-                , setRight_function_type( &::OSG::ViewportBase::setRight )
-                , ( bp::arg("value") ) );
-        
-        }
         { //::OSG::ViewportBase::setRoot
         
             typedef void ( ::OSG::ViewportBase::*setRoot_function_type )( ::OSG::Node * const ) ;
@@ -540,26 +319,6 @@ void register_ViewportBase_class(){
             ViewportBase_exposer.def( 
                 "setRoot"
                 , setRoot_function_type( &::OSG::ViewportBase::setRoot )
-                , ( bp::arg("value") ) );
-        
-        }
-        { //::OSG::ViewportBase::setTop
-        
-            typedef void ( ::OSG::ViewportBase::*setTop_function_type )( ::OSG::Real32 const ) ;
-            
-            ViewportBase_exposer.def( 
-                "setTop"
-                , setTop_function_type( &::OSG::ViewportBase::setTop )
-                , ( bp::arg("value") ) );
-        
-        }
-        { //::OSG::ViewportBase::setTravMask
-        
-            typedef void ( ::OSG::ViewportBase::*setTravMask_function_type )( ::OSG::UInt32 const ) ;
-            
-            ViewportBase_exposer.def( 
-                "setTravMask"
-                , setTravMask_function_type( &::OSG::ViewportBase::setTravMask )
                 , ( bp::arg("value") ) );
         
         }

@@ -35,7 +35,7 @@ namespace bp = boost::python;
 void register_TextureGrabBackgroundBase_class(){
 
     { //::OSG::TextureGrabBackgroundBase
-        typedef bp::class_< OSG::TextureGrabBackgroundBase, bp::bases< OSG::SolidBackground >, boost::noncopyable > TextureGrabBackgroundBase_exposer_t;
+        typedef bp::class_< OSG::TextureGrabBackgroundBase, bp::bases< ::OSG::SolidBackground >, boost::noncopyable > TextureGrabBackgroundBase_exposer_t;
         TextureGrabBackgroundBase_exposer_t TextureGrabBackgroundBase_exposer = TextureGrabBackgroundBase_exposer_t( "TextureGrabBackgroundBase", bp::no_init );
         bp::scope TextureGrabBackgroundBase_scope( TextureGrabBackgroundBase_exposer );
         bp::scope().attr("TextureFieldId") = (int)OSG::TextureGrabBackgroundBase::TextureFieldId;

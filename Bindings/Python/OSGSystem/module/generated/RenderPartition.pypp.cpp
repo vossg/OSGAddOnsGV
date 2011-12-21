@@ -116,6 +116,15 @@ void register_RenderPartition_class(){
                 , ( bp::arg("rLeft"), bp::arg("rBottom"), bp::arg("rRight"), bp::arg("rTop"), bp::arg("iTargetWidth"), bp::arg("iTargetHeight") ) );
         
         }
+        { //::OSG::RenderPartition::clearForegrounds
+        
+            typedef void ( ::OSG::RenderPartition::*clearForegrounds_function_type )(  ) ;
+            
+            RenderPartition_exposer.def( 
+                "clearForegrounds"
+                , clearForegrounds_function_type( &::OSG::RenderPartition::clearForegrounds ) );
+        
+        }
         { //::OSG::RenderPartition::disable
         
             typedef void ( ::OSG::RenderPartition::*disable_function_type )(  ) ;
@@ -532,6 +541,16 @@ void register_RenderPartition_class(){
             RenderPartition_exposer.def( 
                 "pushState"
                 , pushState_function_type( &::OSG::RenderPartition::pushState ) );
+        
+        }
+        { //::OSG::RenderPartition::pushToForegrounds
+        
+            typedef void ( ::OSG::RenderPartition::*pushToForegrounds_function_type )( ::OSG::Foreground * ) ;
+            
+            RenderPartition_exposer.def( 
+                "pushToForegrounds"
+                , pushToForegrounds_function_type( &::OSG::RenderPartition::pushToForegrounds )
+                , ( bp::arg("pForeground") ) );
         
         }
         { //::OSG::RenderPartition::pushVisibility

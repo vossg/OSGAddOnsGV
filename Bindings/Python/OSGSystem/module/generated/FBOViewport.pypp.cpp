@@ -48,6 +48,51 @@ void register_FBOViewport_class(){
                 , ( bp::arg("whichField"), bp::arg("origin"), bp::arg("detail") ) );
         
         }
+        { //::OSG::FBOViewport::computeIsFullWindow
+        
+            typedef bool ( ::OSG::FBOViewport::*computeIsFullWindow_function_type )(  ) const;
+            
+            FBOViewport_exposer.def( 
+                "computeIsFullWindow"
+                , computeIsFullWindow_function_type( &::OSG::FBOViewport::computeIsFullWindow ) );
+        
+        }
+        { //::OSG::FBOViewport::computePixelBottom
+        
+            typedef ::OSG::Int32 ( ::OSG::FBOViewport::*computePixelBottom_function_type )(  ) const;
+            
+            FBOViewport_exposer.def( 
+                "computePixelBottom"
+                , computePixelBottom_function_type( &::OSG::FBOViewport::computePixelBottom ) );
+        
+        }
+        { //::OSG::FBOViewport::computePixelLeft
+        
+            typedef ::OSG::Int32 ( ::OSG::FBOViewport::*computePixelLeft_function_type )(  ) const;
+            
+            FBOViewport_exposer.def( 
+                "computePixelLeft"
+                , computePixelLeft_function_type( &::OSG::FBOViewport::computePixelLeft ) );
+        
+        }
+        { //::OSG::FBOViewport::computePixelRight
+        
+            typedef ::OSG::Int32 ( ::OSG::FBOViewport::*computePixelRight_function_type )(  ) const;
+            
+            FBOViewport_exposer.def( 
+                "computePixelRight"
+                , computePixelRight_function_type( &::OSG::FBOViewport::computePixelRight ) );
+        
+        }
+        { //::OSG::FBOViewport::computePixelTop
+        
+            typedef ::OSG::Int32 ( ::OSG::FBOViewport::*computePixelTop_function_type )(  ) const;
+            
+            FBOViewport_exposer.def( 
+                "computePixelTop"
+                , computePixelTop_function_type( &::OSG::FBOViewport::computePixelTop ) );
+        
+        }
         { //::OSG::FBOViewport::dump
         
             typedef void ( ::OSG::FBOViewport::*dump_function_type )( ::OSG::UInt32,long unsigned int const ) const;
@@ -58,42 +103,6 @@ void register_FBOViewport_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
-        { //::OSG::FBOViewport::getPixelBottom
-        
-            typedef ::OSG::Int32 ( ::OSG::FBOViewport::*getPixelBottom_function_type )(  ) const;
-            
-            FBOViewport_exposer.def( 
-                "getPixelBottom"
-                , getPixelBottom_function_type( &::OSG::FBOViewport::getPixelBottom ) );
-        
-        }
-        { //::OSG::FBOViewport::getPixelLeft
-        
-            typedef ::OSG::Int32 ( ::OSG::FBOViewport::*getPixelLeft_function_type )(  ) const;
-            
-            FBOViewport_exposer.def( 
-                "getPixelLeft"
-                , getPixelLeft_function_type( &::OSG::FBOViewport::getPixelLeft ) );
-        
-        }
-        { //::OSG::FBOViewport::getPixelRight
-        
-            typedef ::OSG::Int32 ( ::OSG::FBOViewport::*getPixelRight_function_type )(  ) const;
-            
-            FBOViewport_exposer.def( 
-                "getPixelRight"
-                , getPixelRight_function_type( &::OSG::FBOViewport::getPixelRight ) );
-        
-        }
-        { //::OSG::FBOViewport::getPixelTop
-        
-            typedef ::OSG::Int32 ( ::OSG::FBOViewport::*getPixelTop_function_type )(  ) const;
-            
-            FBOViewport_exposer.def( 
-                "getPixelTop"
-                , getPixelTop_function_type( &::OSG::FBOViewport::getPixelTop ) );
-        
-        }
         { //::OSG::FBOViewport::getTarget
         
             typedef ::OSG::FrameBufferObject * ( ::OSG::FBOViewport::*getTarget_function_type )(  ) ;
@@ -102,15 +111,6 @@ void register_FBOViewport_class(){
                 "getTarget"
                 , getTarget_function_type( &::OSG::FBOViewport::getTarget )
                 , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::FBOViewport::isFullWindow
-        
-            typedef bool ( ::OSG::FBOViewport::*isFullWindow_function_type )(  ) const;
-            
-            FBOViewport_exposer.def( 
-                "isFullWindow"
-                , isFullWindow_function_type( &::OSG::FBOViewport::isFullWindow ) );
         
         }
         pyopensg::register_transit< OSG::FBOViewport >::execute();

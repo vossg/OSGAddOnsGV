@@ -129,11 +129,12 @@ void register_free_functions(){
 
     { //::OSG::commitChanges
     
-        typedef void ( *commitChanges_function_type )(  );
+        typedef void ( *commitChanges_function_type )( ::OSG::UInt32 );
         
         bp::def( 
             "commitChanges"
-            , commitChanges_function_type( &::OSG::commitChanges ) );
+            , commitChanges_function_type( &::OSG::commitChanges )
+            , ( bp::arg("AdditionalChangeOrigin")=(::OSG::UInt32)(0) ) );
     
     }
 

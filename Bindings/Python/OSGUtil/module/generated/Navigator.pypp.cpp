@@ -271,6 +271,16 @@ void register_Navigator_class(){
                 , getMoved_function_type( &::OSG::Navigator::getMoved ) );
         
         }
+        { //::OSG::Navigator::getNavballEngine
+        
+            typedef ::OSG::NavballEngine & ( ::OSG::Navigator::*getNavballEngine_function_type )(  ) ;
+            
+            Navigator_exposer.def( 
+                "getNavballEngine"
+                , getNavballEngine_function_type( &::OSG::Navigator::getNavballEngine )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::Navigator::getNoneEngine
         
             typedef ::OSG::NoneEngine & ( ::OSG::Navigator::*getNoneEngine_function_type )(  ) ;

@@ -23,7 +23,7 @@
 #endif
 
 #include "boost/python.hpp"
-#include "OSGWindow_mainheader.h"
+#include "OSGSystem_mainheader.h"
 #include "OsgPtrHelpers.h"
 #include "boost/python/suite/indexing/map_indexing_suite.hpp"
 #include "boost/python/suite/indexing/vector_indexing_suite.hpp"
@@ -34,17 +34,14 @@ namespace bp = boost::python;
 
 struct SolidBackgroundBase_wrapper : OSG::SolidBackgroundBase, bp::wrapper< OSG::SolidBackgroundBase > {
 
-    virtual void clear( ::OSG::DrawEnv * pEnv ){
-        bp::override func_clear = this->get_override( "clear" );
-        func_clear( boost::python::ptr(pEnv) );
-    }
+
 
 };
 
 void register_SolidBackgroundBase_class(){
 
     { //::OSG::SolidBackgroundBase
-        typedef bp::class_< SolidBackgroundBase_wrapper, bp::bases< ::OSG::Background >, boost::noncopyable > SolidBackgroundBase_exposer_t;
+        typedef bp::class_< SolidBackgroundBase_wrapper, bp::bases< OSG::Background >, boost::noncopyable > SolidBackgroundBase_exposer_t;
         SolidBackgroundBase_exposer_t SolidBackgroundBase_exposer = SolidBackgroundBase_exposer_t( "SolidBackgroundBase", bp::no_init );
         bp::scope SolidBackgroundBase_scope( SolidBackgroundBase_exposer );
         bp::scope().attr("ColorFieldId") = (int)OSG::SolidBackgroundBase::ColorFieldId;
@@ -231,7 +228,7 @@ void register_SolidBackgroundBase_class(){
             
             SolidBackgroundBase_exposer.def( 
                 "clear"
-                , bp::pure_virtual( clear_function_type(&::OSG::Background::clear) )
+                , clear_function_type( &::OSG::Background::clear )
                 , ( bp::arg("pEnv") ) );
         
         }

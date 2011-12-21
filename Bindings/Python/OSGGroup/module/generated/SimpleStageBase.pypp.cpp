@@ -60,6 +60,18 @@ struct SimpleStageBase_wrapper : OSG::SimpleStageBase, bp::wrapper< OSG::SimpleS
 
 };
 
+boost::python::list SimpleStageBase_getMFForegrounds(OSG::SimpleStageBase *self)
+{
+   boost::python::list result;
+   OSG::MFUnrecForegroundPtr const * mf_data = self->getMFForegrounds();
+   const OSG::UInt32 size(mf_data->size());
+   for ( OSG::UInt32 i = 0; i < size; ++i )
+   {
+      result.append(OSG::Foreground::ObjRecPtr((*mf_data)[i]));
+   }
+   return result;
+}
+
 void register_SimpleStageBase_class(){
 
     { //::OSG::SimpleStageBase
@@ -72,7 +84,27 @@ void register_SimpleStageBase_class(){
         bp::scope().attr("TopFieldId") = (int)OSG::SimpleStageBase::TopFieldId;
         bp::scope().attr("CameraFieldId") = (int)OSG::SimpleStageBase::CameraFieldId;
         bp::scope().attr("BackgroundFieldId") = (int)OSG::SimpleStageBase::BackgroundFieldId;
+        bp::scope().attr("ForegroundsFieldId") = (int)OSG::SimpleStageBase::ForegroundsFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::SimpleStageBase::NextFieldId;
+        { //::OSG::SimpleStageBase::assignForegrounds
+        
+            typedef void ( ::OSG::SimpleStageBase::*assignForegrounds_function_type )( ::OSG::MFUnrecForegroundPtr const & ) ;
+            
+            SimpleStageBase_exposer.def( 
+                "assignForegrounds"
+                , assignForegrounds_function_type( &::OSG::SimpleStageBase::assignForegrounds )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::SimpleStageBase::clearForegrounds
+        
+            typedef void ( ::OSG::SimpleStageBase::*clearForegrounds_function_type )(  ) ;
+            
+            SimpleStageBase_exposer.def( 
+                "clearForegrounds"
+                , clearForegrounds_function_type( &::OSG::SimpleStageBase::clearForegrounds ) );
+        
+        }
         { //::OSG::SimpleStageBase::copyFromBin
         
             typedef void ( ::OSG::SimpleStageBase::*copyFromBin_function_type )( ::OSG::BinaryDataHandler &,::OSG::ConstFieldMaskArg ) ;
@@ -198,6 +230,17 @@ void register_SimpleStageBase_class(){
                 , getContainerSize_function_type( &::OSG::SimpleStageBase::getContainerSize ) );
         
         }
+        { //::OSG::SimpleStageBase::getForegrounds
+        
+            typedef ::OSG::Foreground * ( ::OSG::SimpleStageBase::*getForegrounds_function_type )( ::OSG::UInt32 const ) const;
+            
+            SimpleStageBase_exposer.def( 
+                "getForegrounds"
+                , getForegrounds_function_type( &::OSG::SimpleStageBase::getForegrounds )
+                , ( bp::arg("index") )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::SimpleStageBase::getLeft
         
             typedef ::OSG::Real32 ( ::OSG::SimpleStageBase::*getLeft_function_type )(  ) const;
@@ -305,6 +348,36 @@ void register_SimpleStageBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::SimpleStageBase::pushToForegrounds
+        
+            typedef void ( ::OSG::SimpleStageBase::*pushToForegrounds_function_type )( ::OSG::Foreground * const ) ;
+            
+            SimpleStageBase_exposer.def( 
+                "pushToForegrounds"
+                , pushToForegrounds_function_type( &::OSG::SimpleStageBase::pushToForegrounds )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::SimpleStageBase::removeFromForegrounds
+        
+            typedef void ( ::OSG::SimpleStageBase::*removeFromForegrounds_function_type )( ::OSG::UInt32 ) ;
+            
+            SimpleStageBase_exposer.def( 
+                "removeFromForegrounds"
+                , removeFromForegrounds_function_type( &::OSG::SimpleStageBase::removeFromForegrounds )
+                , ( bp::arg("uiIndex") ) );
+        
+        }
+        { //::OSG::SimpleStageBase::removeObjFromForegrounds
+        
+            typedef void ( ::OSG::SimpleStageBase::*removeObjFromForegrounds_function_type )( ::OSG::Foreground * const ) ;
+            
+            SimpleStageBase_exposer.def( 
+                "removeObjFromForegrounds"
+                , removeObjFromForegrounds_function_type( &::OSG::SimpleStageBase::removeObjFromForegrounds )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::SimpleStageBase::setBackground
         
             typedef void ( ::OSG::SimpleStageBase::*setBackground_function_type )( ::OSG::Background * const ) ;
@@ -397,6 +470,7 @@ void register_SimpleStageBase_class(){
         SimpleStageBase_exposer.staticmethod( "getClassGroupId" );
         SimpleStageBase_exposer.staticmethod( "getClassType" );
         SimpleStageBase_exposer.staticmethod( "getClassTypeId" );
+        SimpleStageBase_exposer.def("getMFForegrounds",SimpleStageBase_getMFForegrounds);
     }
 
 }

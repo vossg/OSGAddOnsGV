@@ -525,12 +525,12 @@ void register_SimpleStatisticsForegroundBase_class(){
         }
         { //::OSG::StatisticsForeground::draw
         
-            typedef void ( ::OSG::StatisticsForeground::*draw_function_type )( ::OSG::DrawEnv *,::OSG::Viewport * ) ;
+            typedef void ( ::OSG::StatisticsForeground::*draw_function_type )( ::OSG::DrawEnv * ) ;
             
             SimpleStatisticsForegroundBase_exposer.def( 
                 "draw"
                 , draw_function_type( &::OSG::StatisticsForeground::draw )
-                , ( bp::arg("pEnv"), bp::arg("pPort") ) );
+                , ( bp::arg("pEnv") ) );
         
         }
         SimpleStatisticsForegroundBase_exposer.staticmethod( "create" );

@@ -103,22 +103,22 @@ void register_ChangeList_class(){
         }
         { //::OSG::ChangeList::commitChanges
         
-            typedef void ( ::OSG::ChangeList::*commitChanges_function_type )( ::OSG::UInt32 ) ;
+            typedef void ( ::OSG::ChangeList::*commitChanges_function_type )( ::OSG::UInt32,::OSG::UInt32 ) ;
             
             ChangeList_exposer.def( 
                 "commitChanges"
                 , commitChanges_function_type( &::OSG::ChangeList::commitChanges )
-                , ( bp::arg("origin")=(::OSG::UInt32)(OSG::ChangedOrigin::Commit) ) );
+                , ( bp::arg("origin")=(::OSG::UInt32)(OSG::ChangedOrigin::Commit), bp::arg("AdditionalChangeOrigin")=(::OSG::UInt32)(0) ) );
         
         }
         { //::OSG::ChangeList::commitChangesAndClear
         
-            typedef void ( ::OSG::ChangeList::*commitChangesAndClear_function_type )( ::OSG::UInt32 ) ;
+            typedef void ( ::OSG::ChangeList::*commitChangesAndClear_function_type )( ::OSG::UInt32,::OSG::UInt32 ) ;
             
             ChangeList_exposer.def( 
                 "commitChangesAndClear"
                 , commitChangesAndClear_function_type( &::OSG::ChangeList::commitChangesAndClear )
-                , ( bp::arg("origin")=(::OSG::UInt32)(OSG::ChangedOrigin::Commit) ) );
+                , ( bp::arg("origin")=(::OSG::UInt32)(OSG::ChangedOrigin::Commit), bp::arg("AdditionalChangeOrigin")=(::OSG::UInt32)(0) ) );
         
         }
         { //::OSG::ChangeList::commitDelayedSubRefs

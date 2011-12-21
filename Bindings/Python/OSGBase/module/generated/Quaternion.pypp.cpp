@@ -130,6 +130,28 @@ void register_Quaternion_class(){
                 , expThis_function_type( &::OSG::QuaternionBase< float >::expThis ) );
         
         }
+        { //::OSG::QuaternionBase< float >::getEulerAngleDeg
+        
+            typedef OSG::QuaternionBase< float > exported_class_t;
+            typedef void ( exported_class_t::*getEulerAngleDeg_function_type )( ::OSG::Vector< float, 3u > & ) const;
+            
+            Quaternion_exposer.def( 
+                "getEulerAngleDeg"
+                , getEulerAngleDeg_function_type( &::OSG::QuaternionBase< float >::getEulerAngleDeg )
+                , ( bp::arg("euler") ) );
+        
+        }
+        { //::OSG::QuaternionBase< float >::getEulerAngleRad
+        
+            typedef OSG::QuaternionBase< float > exported_class_t;
+            typedef void ( exported_class_t::*getEulerAngleRad_function_type )( ::OSG::Vector< float, 3u > & ) const;
+            
+            Quaternion_exposer.def( 
+                "getEulerAngleRad"
+                , getEulerAngleRad_function_type( &::OSG::QuaternionBase< float >::getEulerAngleRad )
+                , ( bp::arg("euler") ) );
+        
+        }
         { //::OSG::QuaternionBase< float >::getValue
         
             typedef OSG::QuaternionBase< float > exported_class_t;

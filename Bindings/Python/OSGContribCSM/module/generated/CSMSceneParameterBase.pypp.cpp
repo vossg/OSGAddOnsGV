@@ -43,6 +43,8 @@ void register_CSMSceneParameterBase_class(){
         bp::scope().attr("SceneDiagFieldId") = (int)OSG::CSMSceneParameterBase::SceneDiagFieldId;
         bp::scope().attr("InitViewPosFieldId") = (int)OSG::CSMSceneParameterBase::InitViewPosFieldId;
         bp::scope().attr("SceneCenterFieldId") = (int)OSG::CSMSceneParameterBase::SceneCenterFieldId;
+        bp::scope().attr("SceneNearFieldId") = (int)OSG::CSMSceneParameterBase::SceneNearFieldId;
+        bp::scope().attr("SceneFarFieldId") = (int)OSG::CSMSceneParameterBase::SceneFarFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::CSMSceneParameterBase::NextFieldId;
         { //::OSG::CSMSceneParameterBase::copyFromBin
         
@@ -199,6 +201,26 @@ void register_CSMSceneParameterBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::CSMSceneParameterBase::getSFSceneFar
+        
+            typedef ::OSG::SFReal32 const * ( ::OSG::CSMSceneParameterBase::*getSFSceneFar_function_type )(  ) const;
+            
+            CSMSceneParameterBase_exposer.def( 
+                "getSFSceneFar"
+                , getSFSceneFar_function_type( &::OSG::CSMSceneParameterBase::getSFSceneFar )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMSceneParameterBase::getSFSceneNear
+        
+            typedef ::OSG::SFReal32 const * ( ::OSG::CSMSceneParameterBase::*getSFSceneNear_function_type )(  ) const;
+            
+            CSMSceneParameterBase_exposer.def( 
+                "getSFSceneNear"
+                , getSFSceneNear_function_type( &::OSG::CSMSceneParameterBase::getSFSceneNear )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::CSMSceneParameterBase::getSFSceneRef
         
             typedef ::OSG::SFUnrecNodePtr const * ( ::OSG::CSMSceneParameterBase::*getSFSceneRef_function_type )(  ) const;
@@ -227,6 +249,24 @@ void register_CSMSceneParameterBase_class(){
                 "getSceneDiag"
                 , getSceneDiag_function_type( &::OSG::CSMSceneParameterBase::getSceneDiag )
                 , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::CSMSceneParameterBase::getSceneFar
+        
+            typedef ::OSG::Real32 ( ::OSG::CSMSceneParameterBase::*getSceneFar_function_type )(  ) const;
+            
+            CSMSceneParameterBase_exposer.def( 
+                "getSceneFar"
+                , getSceneFar_function_type( &::OSG::CSMSceneParameterBase::getSceneFar ) );
+        
+        }
+        { //::OSG::CSMSceneParameterBase::getSceneNear
+        
+            typedef ::OSG::Real32 ( ::OSG::CSMSceneParameterBase::*getSceneNear_function_type )(  ) const;
+            
+            CSMSceneParameterBase_exposer.def( 
+                "getSceneNear"
+                , getSceneNear_function_type( &::OSG::CSMSceneParameterBase::getSceneNear ) );
         
         }
         { //::OSG::CSMSceneParameterBase::getSceneRef
@@ -296,6 +336,26 @@ void register_CSMSceneParameterBase_class(){
             CSMSceneParameterBase_exposer.def( 
                 "setSceneDiag"
                 , setSceneDiag_function_type( &::OSG::CSMSceneParameterBase::setSceneDiag )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMSceneParameterBase::setSceneFar
+        
+            typedef void ( ::OSG::CSMSceneParameterBase::*setSceneFar_function_type )( ::OSG::Real32 const ) ;
+            
+            CSMSceneParameterBase_exposer.def( 
+                "setSceneFar"
+                , setSceneFar_function_type( &::OSG::CSMSceneParameterBase::setSceneFar )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMSceneParameterBase::setSceneNear
+        
+            typedef void ( ::OSG::CSMSceneParameterBase::*setSceneNear_function_type )( ::OSG::Real32 const ) ;
+            
+            CSMSceneParameterBase_exposer.def( 
+                "setSceneNear"
+                , setSceneNear_function_type( &::OSG::CSMSceneParameterBase::setSceneNear )
                 , ( bp::arg("value") ) );
         
         }

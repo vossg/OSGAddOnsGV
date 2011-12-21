@@ -60,12 +60,12 @@ void register_HDRStage_class(){
         }
         { //::OSG::HDRStage::initData
         
-            typedef void ( ::OSG::HDRStage::*initData_function_type )( ::OSG::Viewport *,::OSG::RenderActionBase * ) ;
+            typedef void ( ::OSG::HDRStage::*initData_function_type )( ::OSG::RenderAction * ) ;
             
             HDRStage_exposer.def( 
                 "initData"
                 , initData_function_type( &::OSG::HDRStage::initData )
-                , ( bp::arg("pViewport"), bp::arg("pAction") ) );
+                , ( bp::arg("pAction") ) );
         
         }
         { //::OSG::HDRStage::postProcess

@@ -92,9 +92,17 @@
 
 #include "generated/InverseTransformBase.pypp.hpp"
 
+#include "generated/LookAtTransformationElement.pypp.hpp"
+
+#include "generated/LookAtTransformationElementBase.pypp.hpp"
+
 #include "generated/MaterialChunkOverrideGroup.pypp.hpp"
 
 #include "generated/MaterialChunkOverrideGroupBase.pypp.hpp"
+
+#include "generated/MatrixTransformationElement.pypp.hpp"
+
+#include "generated/MatrixTransformationElementBase.pypp.hpp"
 
 #include "generated/MultiSwitch.pypp.hpp"
 
@@ -116,6 +124,18 @@
 
 #include "generated/RenderCallbackStageBase.pypp.hpp"
 
+#include "generated/ReplicateTransform.pypp.hpp"
+
+#include "generated/ReplicateTransformBase.pypp.hpp"
+
+#include "generated/RotationTransformationElement.pypp.hpp"
+
+#include "generated/RotationTransformationElementBase.pypp.hpp"
+
+#include "generated/ScaleTransformationElement.pypp.hpp"
+
+#include "generated/ScaleTransformationElementBase.pypp.hpp"
+
 #include "generated/ScreenGroup.pypp.hpp"
 
 #include "generated/ScreenGroupBase.pypp.hpp"
@@ -123,6 +143,10 @@
 #include "generated/ScreenLOD.pypp.hpp"
 
 #include "generated/ScreenLODBase.pypp.hpp"
+
+#include "generated/ScreenTransform.pypp.hpp"
+
+#include "generated/ScreenTransformBase.pypp.hpp"
 
 #include "generated/ShaderShadowMapEngine.pypp.hpp"
 
@@ -140,9 +164,17 @@
 
 #include "generated/SimpleStageBase.pypp.hpp"
 
+#include "generated/SkewTransformationElement.pypp.hpp"
+
+#include "generated/SkewTransformationElementBase.pypp.hpp"
+
 #include "generated/SpotLight.pypp.hpp"
 
 #include "generated/SpotLightBase.pypp.hpp"
+
+#include "generated/StackedTransform.pypp.hpp"
+
+#include "generated/StackedTransformBase.pypp.hpp"
 
 #include "generated/Stage.pypp.hpp"
 
@@ -165,6 +197,14 @@
 #include "generated/Transform.pypp.hpp"
 
 #include "generated/TransformBase.pypp.hpp"
+
+#include "generated/TransformationElement.pypp.hpp"
+
+#include "generated/TransformationElementBase.pypp.hpp"
+
+#include "generated/TranslationTransformationElement.pypp.hpp"
+
+#include "generated/TranslationTransformationElementBase.pypp.hpp"
 
 #include "generated/VisitSubTree.pypp.hpp"
 
@@ -257,9 +297,21 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     register_InverseTransform_class();
 
+    register_TransformationElementBase_class();
+
+    register_TransformationElement_class();
+
+    register_LookAtTransformationElementBase_class();
+
+    register_LookAtTransformationElement_class();
+
     register_MaterialChunkOverrideGroupBase_class();
 
     register_MaterialChunkOverrideGroup_class();
+
+    register_MatrixTransformationElementBase_class();
+
+    register_MatrixTransformationElement_class();
 
     register_MultiSwitchBase_class();
 
@@ -277,6 +329,18 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     register_RangeLOD_class();
 
+    register_ReplicateTransformBase_class();
+
+    register_ReplicateTransform_class();
+
+    register_RotationTransformationElementBase_class();
+
+    register_RotationTransformationElement_class();
+
+    register_ScaleTransformationElementBase_class();
+
+    register_ScaleTransformationElement_class();
+
     register_ScreenGroupBase_class();
 
     register_ScreenGroup_class();
@@ -284,6 +348,10 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
     register_ScreenLODBase_class();
 
     register_ScreenLOD_class();
+
+    register_ScreenTransformBase_class();
+
+    register_ScreenTransform_class();
 
     register_ShaderShadowMapEngineBase_class();
 
@@ -301,13 +369,25 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     register_SimpleStage_class();
 
+    register_SkewTransformationElementBase_class();
+
+    register_SkewTransformationElement_class();
+
     register_SpotLightBase_class();
 
     register_SpotLight_class();
 
+    register_StackedTransformBase_class();
+
+    register_StackedTransform_class();
+
     register_SwitchBase_class();
 
     register_Switch_class();
+
+    register_TranslationTransformationElementBase_class();
+
+    register_TranslationTransformationElement_class();
 
     register_VisitSubTreeBase_class();
 
@@ -341,17 +421,35 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ComponentTransform::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::TransformationElement */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TransformationElement, OSG::TransformationElement::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TransformationElement::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::DoubleTransform */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DoubleTransform, OSG::DoubleTransform::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::DoubleTransform::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::ScreenTransform */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ScreenTransform, OSG::ScreenTransform::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ScreenTransform::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::CubeMapGenerator */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CubeMapGenerator, OSG::CubeMapGenerator::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::CubeMapGenerator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::StackedTransform */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::StackedTransform, OSG::StackedTransform::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::StackedTransform::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::AlgorithmStage */
 
@@ -413,6 +511,12 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::DynamicStateGeneratorStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::LookAtTransformationElement */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::LookAtTransformationElement, OSG::LookAtTransformationElement::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::LookAtTransformationElement::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::DistanceLOD */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DistanceLOD, OSG::DistanceLOD::ObjRecPtr>);
@@ -436,6 +540,12 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PointLight, OSG::PointLight::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::PointLight::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::RotationTransformationElement */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::RotationTransformationElement, OSG::RotationTransformationElement::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::RotationTransformationElement::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::DirectionalLight */
 
@@ -461,6 +571,12 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::DynamicStateGenerator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::ScaleTransformationElement */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ScaleTransformationElement, OSG::ScaleTransformationElement::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ScaleTransformationElement::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::VisitSubTree */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::VisitSubTree, OSG::VisitSubTree::ObjRecPtr>);
@@ -472,6 +588,24 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::RangeLOD, OSG::RangeLOD::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::RangeLOD::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::ReplicateTransform */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ReplicateTransform, OSG::ReplicateTransform::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ReplicateTransform::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::TranslationTransformationElement */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TranslationTransformationElement, OSG::TranslationTransformationElement::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TranslationTransformationElement::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::MatrixTransformationElement */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::MatrixTransformationElement, OSG::MatrixTransformationElement::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::MatrixTransformationElement::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ShaderShadowMapEngineData */
 
@@ -508,6 +642,12 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SpotLight, OSG::SpotLight::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::SpotLight::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::SkewTransformationElement */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SkewTransformationElement, OSG::SkewTransformationElement::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::SkewTransformationElement::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     register_VisitSubTree_class();
 }

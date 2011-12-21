@@ -422,12 +422,12 @@ void register_PolygonForegroundBase_class(){
         }
         { //::OSG::Foreground::draw
         
-            typedef void ( ::OSG::Foreground::*draw_function_type )( ::OSG::DrawEnv *,::OSG::Viewport * ) ;
+            typedef void ( ::OSG::Foreground::*draw_function_type )( ::OSG::DrawEnv * ) ;
             
             PolygonForegroundBase_exposer.def( 
                 "draw"
                 , draw_function_type( &::OSG::Foreground::draw )
-                , ( bp::arg("pEnv"), bp::arg("port") ) );
+                , ( bp::arg("pEnv") ) );
         
         }
         PolygonForegroundBase_exposer.staticmethod( "create" );

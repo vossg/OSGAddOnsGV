@@ -32,16 +32,10 @@
 using namespace std;
 namespace bp = boost::python;
 
-struct ChunkMaterialBase_wrapper : OSG::ChunkMaterialBase, bp::wrapper< OSG::ChunkMaterialBase > {
-
-
-
-};
-
 void register_ChunkMaterialBase_class(){
 
     { //::OSG::ChunkMaterialBase
-        typedef bp::class_< ChunkMaterialBase_wrapper, bp::bases< OSG::PrimeMaterial >, boost::noncopyable > ChunkMaterialBase_exposer_t;
+        typedef bp::class_< OSG::ChunkMaterialBase, bp::bases< OSG::PrimeMaterial >, boost::noncopyable > ChunkMaterialBase_exposer_t;
         ChunkMaterialBase_exposer_t ChunkMaterialBase_exposer = ChunkMaterialBase_exposer_t( "ChunkMaterialBase", bp::no_init );
         bp::scope ChunkMaterialBase_scope( ChunkMaterialBase_exposer );
         bp::scope().attr("ChunksFieldId") = (int)OSG::ChunkMaterialBase::ChunksFieldId;
@@ -161,15 +155,6 @@ void register_ChunkMaterialBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::ChunkMaterialBase::getType )
                 , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::PrimeMaterial::rebuildState
-        
-            typedef void ( ::OSG::PrimeMaterial::*rebuildState_function_type )(  ) ;
-            
-            ChunkMaterialBase_exposer.def( 
-                "rebuildState"
-                , rebuildState_function_type( &::OSG::PrimeMaterial::rebuildState ) );
         
         }
         ChunkMaterialBase_exposer.staticmethod( "create" );

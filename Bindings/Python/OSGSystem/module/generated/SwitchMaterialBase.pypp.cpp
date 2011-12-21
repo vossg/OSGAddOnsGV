@@ -32,12 +32,6 @@
 using namespace std;
 namespace bp = boost::python;
 
-struct SwitchMaterialBase_wrapper : OSG::SwitchMaterialBase, bp::wrapper< OSG::SwitchMaterialBase > {
-
-
-
-};
-
 boost::python::list SwitchMaterialBase_getMFMaterials(OSG::SwitchMaterialBase *self)
 {
    boost::python::list result;
@@ -53,7 +47,7 @@ boost::python::list SwitchMaterialBase_getMFMaterials(OSG::SwitchMaterialBase *s
 void register_SwitchMaterialBase_class(){
 
     { //::OSG::SwitchMaterialBase
-        typedef bp::class_< SwitchMaterialBase_wrapper, bp::bases< OSG::CompositeMaterial >, boost::noncopyable > SwitchMaterialBase_exposer_t;
+        typedef bp::class_< OSG::SwitchMaterialBase, bp::bases< OSG::CompositeMaterial >, boost::noncopyable > SwitchMaterialBase_exposer_t;
         SwitchMaterialBase_exposer_t SwitchMaterialBase_exposer = SwitchMaterialBase_exposer_t( "SwitchMaterialBase", bp::no_init );
         bp::scope SwitchMaterialBase_scope( SwitchMaterialBase_exposer );
         bp::scope().attr("MaterialsFieldId") = (int)OSG::SwitchMaterialBase::MaterialsFieldId;
@@ -262,26 +256,6 @@ void register_SwitchMaterialBase_class(){
                 "setChoice"
                 , setChoice_function_type( &::OSG::SwitchMaterialBase::setChoice )
                 , ( bp::arg("value") ) );
-        
-        }
-        { //::OSG::Material::finalize
-        
-            typedef ::OSG::PrimeMaterial * ( ::OSG::Material::*finalize_function_type )( ::OSG::MaterialMapKey,::OSG::Window * ) ;
-            
-            SwitchMaterialBase_exposer.def( 
-                "finalize"
-                , finalize_function_type( &::OSG::Material::finalize )
-                , ( bp::arg("oKey"), bp::arg("pWin") )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::Material::isTransparent
-        
-            typedef bool ( ::OSG::Material::*isTransparent_function_type )(  ) const;
-            
-            SwitchMaterialBase_exposer.def( 
-                "isTransparent"
-                , isTransparent_function_type( &::OSG::Material::isTransparent ) );
         
         }
         SwitchMaterialBase_exposer.staticmethod( "create" );
