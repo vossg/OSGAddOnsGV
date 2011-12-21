@@ -177,37 +177,37 @@ typedef PointerMField<PythonScriptFile *,
 
 #else // these are the doxygen hacks
 
-/*! \ingroup GrpScriptingFieldSFields \ingroup GrpLibOSGContribCSM */
+/*! \ingroup GrpScriptingFieldSFields \ingroup GrpLibOSGScripting */
 struct SFRecPythonScriptFilePtr : 
     public PointerSField<PythonScriptFile *,
                          RecordedRefCountPolicy> {};
-/*! \ingroup GrpScriptingFieldSFields \ingroup GrpLibOSGContribCSM */
+/*! \ingroup GrpScriptingFieldSFields \ingroup GrpLibOSGScripting */
 struct SFUnrecPythonScriptFilePtr : 
     public PointerSField<PythonScriptFile *,
                          UnrecordedRefCountPolicy> {};
-/*! \ingroup GrpScriptingFieldSFields \ingroup GrpLibOSGContribCSM */
+/*! \ingroup GrpScriptingFieldSFields \ingroup GrpLibOSGScripting */
 struct SFWeakPythonScriptFilePtr :
     public PointerSField<PythonScriptFile *,
                          WeakRefCountPolicy> {};
-/*! \ingroup GrpScriptingFieldSFields \ingroup GrpLibOSGContribCSM */
+/*! \ingroup GrpScriptingFieldSFields \ingroup GrpLibOSGScripting */
 struct SFUncountedPythonScriptFilePtr :
     public PointerSField<PythonScriptFile *,
                          NoRefCountPolicy> {};
 
 
-/*! \ingroup GrpScriptingFieldMFields \ingroup GrpLibOSGContribCSM */
+/*! \ingroup GrpScriptingFieldMFields \ingroup GrpLibOSGScripting */
 struct MFRecPythonScriptFilePtr :
     public PointerMField<PythonScriptFile *,
                          RecordedRefCountPolicy  > {};
-/*! \ingroup GrpScriptingFieldMFields \ingroup GrpLibOSGContribCSM */
+/*! \ingroup GrpScriptingFieldMFields \ingroup GrpLibOSGScripting */
 struct MFUnrecPythonScriptFilePtr :
     public PointerMField<PythonScriptFile *,
                          UnrecordedRefCountPolicy> {};
-/*! \ingroup GrpScriptingFieldMFields \ingroup GrpLibOSGContribCSM */
+/*! \ingroup GrpScriptingFieldMFields \ingroup GrpLibOSGScripting */
 struct MFWeakPythonScriptFilePtr :
     public PointerMField<PythonScriptFile *,
                          WeakRefCountPolicy      > {};
-/*! \ingroup GrpScriptingFieldMFields \ingroup GrpLibOSGContribCSM */
+/*! \ingroup GrpScriptingFieldMFields \ingroup GrpLibOSGScripting */
 struct MFUncountedPythonScriptFilePtr :
     public PointerMField<PythonScriptFile *,
                          NoRefCountPolicy        > {};

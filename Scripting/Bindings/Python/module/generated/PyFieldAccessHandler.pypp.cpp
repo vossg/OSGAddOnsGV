@@ -2154,70 +2154,70 @@ void register_PyFieldAccessHandler_class(){
         // Exposing value multi-fields with the help of a customixed mfedit_indexing_suite:
         bp::class_<OSG::MField<bool, 2, std::allocator<bool> > >("MField_0")
         	.def(bp::mfedit_indexing_suite<OSG::MField<bool, 2, std::allocator<bool> > >());
-        bp::class_<OSG::MField<int, 0, std::allocator<int> > >("MField_1")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<int, 0, std::allocator<int> > >());
-        bp::class_<OSG::MField<long, 0, std::allocator<long> > >("MField_2")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<long, 0, std::allocator<long> > >());
-        bp::class_<OSG::MField<unsigned int, 0, std::allocator<unsigned int> > >("MField_3")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<unsigned int, 0, std::allocator<unsigned int> > >());
-        bp::class_<OSG::MField<unsigned long, 0, std::allocator<unsigned long> > >("MField_4")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<unsigned long, 0, std::allocator<unsigned long> > >());
-        bp::class_<OSG::MField<float, 0, std::allocator<float> > >("MField_5")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<float, 0, std::allocator<float> > >());
-        bp::class_<OSG::MField<double, 0, std::allocator<double> > >("MField_6")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<double, 0, std::allocator<double> > >());
-        bp::class_<OSG::MField<OSG::Color3<float>, 0, std::allocator<OSG::Color3<float> > > >("MField_7")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Color3<float>, 0, std::allocator<OSG::Color3<float> > > >());
-        bp::class_<OSG::MField<OSG::Color3<unsigned char>, 0, std::allocator<OSG::Color3<unsigned char> > > >("MField_8")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Color3<unsigned char>, 0, std::allocator<OSG::Color3<unsigned char> > > >());
-        bp::class_<OSG::MField<OSG::Color4<float>, 0, std::allocator<OSG::Color4<float> > > >("MField_9")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Color4<float>, 0, std::allocator<OSG::Color4<float> > > >());
-        bp::class_<OSG::MField<OSG::Color4<unsigned char>, 0, std::allocator<OSG::Color4<unsigned char> > > >("MField_10")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Color4<unsigned char>, 0, std::allocator<OSG::Color4<unsigned char> > > >());
-        bp::class_<OSG::MField<std::string, 0, std::allocator<std::string> > >("MField_11")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<std::string, 0, std::allocator<std::string> > >());
-        bp::class_<OSG::MField<double, 1, std::allocator<double> > >("MField_12")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<double, 1, std::allocator<double> > >());
-        bp::class_<OSG::MField<OSG::BoxVolume, 0, std::allocator<OSG::BoxVolume> > >("MField_13")
+        bp::class_<OSG::MField<OSG::BoxVolume, 0, std::allocator<OSG::BoxVolume> > >("MField_1")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::BoxVolume, 0, std::allocator<OSG::BoxVolume> > >());
-        bp::class_<OSG::MField<OSG::Plane, 0, std::allocator<OSG::Plane> > >("MField_14")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Plane, 0, std::allocator<OSG::Plane> > >());
-        bp::class_<OSG::MField<OSG::Point<double, 2u>, 0, std::allocator<OSG::Point<double, 2u> > > >("MField_15")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<double, 2u>, 0, std::allocator<OSG::Point<double, 2u> > > >());
-        bp::class_<OSG::MField<OSG::Point<float, 2u>, 0, std::allocator<OSG::Point<float, 2u> > > >("MField_16")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<float, 2u>, 0, std::allocator<OSG::Point<float, 2u> > > >());
-        bp::class_<OSG::MField<OSG::Point<double, 3u>, 0, std::allocator<OSG::Point<double, 3u> > > >("MField_17")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<double, 3u>, 0, std::allocator<OSG::Point<double, 3u> > > >());
-        bp::class_<OSG::MField<OSG::Point<float, 3u>, 0, std::allocator<OSG::Point<float, 3u> > > >("MField_18")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<float, 3u>, 0, std::allocator<OSG::Point<float, 3u> > > >());
-        bp::class_<OSG::MField<OSG::Point<double, 4u>, 0, std::allocator<OSG::Point<double, 4u> > > >("MField_19")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<double, 4u>, 0, std::allocator<OSG::Point<double, 4u> > > >());
-        bp::class_<OSG::MField<OSG::Point<float, 4u>, 0, std::allocator<OSG::Point<float, 4u> > > >("MField_20")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<float, 4u>, 0, std::allocator<OSG::Point<float, 4u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<double, 2u>, 0, std::allocator<OSG::Vector<double, 2u> > > >("MField_21")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<double, 2u>, 0, std::allocator<OSG::Vector<double, 2u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<float, 2u>, 0, std::allocator<OSG::Vector<float, 2u> > > >("MField_22")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<float, 2u>, 0, std::allocator<OSG::Vector<float, 2u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<unsigned char, 2u>, 0, std::allocator<OSG::Vector<unsigned char, 2u> > > >("MField_23")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<unsigned char, 2u>, 0, std::allocator<OSG::Vector<unsigned char, 2u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<double, 3u>, 0, std::allocator<OSG::Vector<double, 3u> > > >("MField_24")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<double, 3u>, 0, std::allocator<OSG::Vector<double, 3u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<float, 3u>, 0, std::allocator<OSG::Vector<float, 3u> > > >("MField_25")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<float, 3u>, 0, std::allocator<OSG::Vector<float, 3u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<unsigned char, 3u>, 0, std::allocator<OSG::Vector<unsigned char, 3u> > > >("MField_26")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<unsigned char, 3u>, 0, std::allocator<OSG::Vector<unsigned char, 3u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<double, 4u>, 0, std::allocator<OSG::Vector<double, 4u> > > >("MField_27")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<double, 4u>, 0, std::allocator<OSG::Vector<double, 4u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<float, 4u>, 0, std::allocator<OSG::Vector<float, 4u> > > >("MField_28")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<float, 4u>, 0, std::allocator<OSG::Vector<float, 4u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<unsigned char, 4u>, 0, std::allocator<OSG::Vector<unsigned char, 4u> > > >("MField_29")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<unsigned char, 4u>, 0, std::allocator<OSG::Vector<unsigned char, 4u> > > >());
-        bp::class_<OSG::MField<OSG::TransformationMatrix<float>, 0, std::allocator<OSG::TransformationMatrix<float> > > >("MField_30")
+        bp::class_<OSG::MField<OSG::Color3<float>, 0, std::allocator<OSG::Color3<float> > > >("MField_2")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Color3<float>, 0, std::allocator<OSG::Color3<float> > > >());
+        bp::class_<OSG::MField<OSG::Color3<unsigned char>, 0, std::allocator<OSG::Color3<unsigned char> > > >("MField_3")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Color3<unsigned char>, 0, std::allocator<OSG::Color3<unsigned char> > > >());
+        bp::class_<OSG::MField<OSG::Color4<float>, 0, std::allocator<OSG::Color4<float> > > >("MField_4")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Color4<float>, 0, std::allocator<OSG::Color4<float> > > >());
+        bp::class_<OSG::MField<OSG::Color4<unsigned char>, 0, std::allocator<OSG::Color4<unsigned char> > > >("MField_5")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Color4<unsigned char>, 0, std::allocator<OSG::Color4<unsigned char> > > >());
+        bp::class_<OSG::MField<int, 0, std::allocator<int> > >("MField_6")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<int, 0, std::allocator<int> > >());
+        bp::class_<OSG::MField<long, 0, std::allocator<long> > >("MField_7")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<long, 0, std::allocator<long> > >());
+        bp::class_<OSG::MField<OSG::TransformationMatrix<float>, 0, std::allocator<OSG::TransformationMatrix<float> > > >("MField_8")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::TransformationMatrix<float>, 0, std::allocator<OSG::TransformationMatrix<float> > > >());
-        bp::class_<OSG::MField<OSG::TransformationMatrix<double>, 0, std::allocator<OSG::TransformationMatrix<double> > > >("MField_31")
+        bp::class_<OSG::MField<OSG::TransformationMatrix<double>, 0, std::allocator<OSG::TransformationMatrix<double> > > >("MField_9")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::TransformationMatrix<double>, 0, std::allocator<OSG::TransformationMatrix<double> > > >());
-        bp::class_<OSG::MField<OSG::QuaternionBase<float>, 0, std::allocator<OSG::QuaternionBase<float> > > >("MField_32")
+        bp::class_<OSG::MField<OSG::Plane, 0, std::allocator<OSG::Plane> > >("MField_10")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Plane, 0, std::allocator<OSG::Plane> > >());
+        bp::class_<OSG::MField<OSG::Point<double, 2u>, 0, std::allocator<OSG::Point<double, 2u> > > >("MField_11")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<double, 2u>, 0, std::allocator<OSG::Point<double, 2u> > > >());
+        bp::class_<OSG::MField<OSG::Point<float, 2u>, 0, std::allocator<OSG::Point<float, 2u> > > >("MField_12")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<float, 2u>, 0, std::allocator<OSG::Point<float, 2u> > > >());
+        bp::class_<OSG::MField<OSG::Point<double, 3u>, 0, std::allocator<OSG::Point<double, 3u> > > >("MField_13")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<double, 3u>, 0, std::allocator<OSG::Point<double, 3u> > > >());
+        bp::class_<OSG::MField<OSG::Point<float, 3u>, 0, std::allocator<OSG::Point<float, 3u> > > >("MField_14")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<float, 3u>, 0, std::allocator<OSG::Point<float, 3u> > > >());
+        bp::class_<OSG::MField<OSG::Point<double, 4u>, 0, std::allocator<OSG::Point<double, 4u> > > >("MField_15")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<double, 4u>, 0, std::allocator<OSG::Point<double, 4u> > > >());
+        bp::class_<OSG::MField<OSG::Point<float, 4u>, 0, std::allocator<OSG::Point<float, 4u> > > >("MField_16")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<float, 4u>, 0, std::allocator<OSG::Point<float, 4u> > > >());
+        bp::class_<OSG::MField<OSG::QuaternionBase<float>, 0, std::allocator<OSG::QuaternionBase<float> > > >("MField_17")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::QuaternionBase<float>, 0, std::allocator<OSG::QuaternionBase<float> > > >());
+        bp::class_<OSG::MField<float, 0, std::allocator<float> > >("MField_18")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<float, 0, std::allocator<float> > >());
+        bp::class_<OSG::MField<double, 0, std::allocator<double> > >("MField_19")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<double, 0, std::allocator<double> > >());
+        bp::class_<OSG::MField<std::string, 0, std::allocator<std::string> > >("MField_20")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<std::string, 0, std::allocator<std::string> > >());
+        bp::class_<OSG::MField<double, 1, std::allocator<double> > >("MField_21")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<double, 1, std::allocator<double> > >());
+        bp::class_<OSG::MField<unsigned int, 0, std::allocator<unsigned int> > >("MField_22")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<unsigned int, 0, std::allocator<unsigned int> > >());
+        bp::class_<OSG::MField<unsigned long, 0, std::allocator<unsigned long> > >("MField_23")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<unsigned long, 0, std::allocator<unsigned long> > >());
+        bp::class_<OSG::MField<OSG::Vector<double, 2u>, 0, std::allocator<OSG::Vector<double, 2u> > > >("MField_24")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<double, 2u>, 0, std::allocator<OSG::Vector<double, 2u> > > >());
+        bp::class_<OSG::MField<OSG::Vector<float, 2u>, 0, std::allocator<OSG::Vector<float, 2u> > > >("MField_25")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<float, 2u>, 0, std::allocator<OSG::Vector<float, 2u> > > >());
+        bp::class_<OSG::MField<OSG::Vector<unsigned char, 2u>, 0, std::allocator<OSG::Vector<unsigned char, 2u> > > >("MField_26")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<unsigned char, 2u>, 0, std::allocator<OSG::Vector<unsigned char, 2u> > > >());
+        bp::class_<OSG::MField<OSG::Vector<double, 3u>, 0, std::allocator<OSG::Vector<double, 3u> > > >("MField_27")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<double, 3u>, 0, std::allocator<OSG::Vector<double, 3u> > > >());
+        bp::class_<OSG::MField<OSG::Vector<float, 3u>, 0, std::allocator<OSG::Vector<float, 3u> > > >("MField_28")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<float, 3u>, 0, std::allocator<OSG::Vector<float, 3u> > > >());
+        bp::class_<OSG::MField<OSG::Vector<unsigned char, 3u>, 0, std::allocator<OSG::Vector<unsigned char, 3u> > > >("MField_29")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<unsigned char, 3u>, 0, std::allocator<OSG::Vector<unsigned char, 3u> > > >());
+        bp::class_<OSG::MField<OSG::Vector<double, 4u>, 0, std::allocator<OSG::Vector<double, 4u> > > >("MField_30")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<double, 4u>, 0, std::allocator<OSG::Vector<double, 4u> > > >());
+        bp::class_<OSG::MField<OSG::Vector<float, 4u>, 0, std::allocator<OSG::Vector<float, 4u> > > >("MField_31")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<float, 4u>, 0, std::allocator<OSG::Vector<float, 4u> > > >());
+        bp::class_<OSG::MField<OSG::Vector<unsigned char, 4u>, 0, std::allocator<OSG::Vector<unsigned char, 4u> > > >("MField_32")
+        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<unsigned char, 4u>, 0, std::allocator<OSG::Vector<unsigned char, 4u> > > >());
         pyopensg::register_transit< OSG::PyFieldAccessHandler >::execute();
         bp::implicitly_convertible< OSG::PyFieldAccessHandler::ObjRecPtr, OSG::PyFieldAccessHandler* >();
         bp::implicitly_convertible< OSG::PyFieldAccessHandler::ObjRecPtr, OSG::PyFieldAccessHandler::ObjCPtr >();

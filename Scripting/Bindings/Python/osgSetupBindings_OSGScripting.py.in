@@ -244,8 +244,11 @@ def postFCDInfoSetup(osg, mb, adddition_exp):
 
     for decl in declarations:
       if decl.name.startswith('changeValueSField_') or \
-         decl.name.startswith('getValueMField_')    or \
          decl.name.startswith('changeValueMField_'):
+        decl.call_policies = return_internal_reference()
+
+      if decl.name.startswith('getValueMField_'):
+        decl.ignore = False
         decl.call_policies = return_internal_reference()
 
   #----------------------------------------------------------------------------

@@ -147,7 +147,7 @@ PythonScriptFileBase::TypeObject PythonScriptFileBase::_type(
     "<FieldContainer\n"
     "    name=\"PythonScriptFile\"\n"
     "    parent=\"PythonScript\"\n"
-    "    library=\"ContribCSM\"\n"
+    "    library=\"Scripting\"\n"
     "    structure=\"concrete\"\n"
     "    pointerfieldtypes=\"both\"\n"
     "    systemcomponent=\"true\"\n"
