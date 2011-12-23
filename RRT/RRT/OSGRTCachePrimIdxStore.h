@@ -188,7 +188,7 @@ struct FieldTraits<RTCachePrimIdxStore> :
         typedef TypeTraits<UInt32> TypeTrait;
 
         str << "\"";
-        TypeTrait::putToStream(val.size(), str);
+        TypeTrait::putToStream(UInt32(val.size()), str);
         str << " ";
         
         for(UInt32 i = 0; i < val.size(); ++i)
@@ -200,18 +200,18 @@ struct FieldTraits<RTCachePrimIdxStore> :
         str << "\"";
     }
 
-    static UInt32 getBinSize(const RTCachePrimIdxStore &oObject)
+    static SizeT  getBinSize(const RTCachePrimIdxStore &oObject)
     {
         return sizeof(UInt32) + sizeof(UInt32) * oObject.size();
     }
 
 
-    static UInt32 getBinSize(const RTCachePrimIdxStore *pObjectStore,
-                                   UInt32               uiNumObjects)
+    static SizeT  getBinSize(const RTCachePrimIdxStore *pObjectStore,
+                                   SizeT                uiNumObjects)
     {
-        UInt32 size = 0;
+        SizeT size = 0;
 
-        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        for(SizeT i = 0; i < uiNumObjects; ++i)
         {
             size += getBinSize(pObjectStore[i]);
         }
@@ -222,7 +222,7 @@ struct FieldTraits<RTCachePrimIdxStore> :
     static void copyToBin(      BinaryDataHandler   &pMem, 
                           const RTCachePrimIdxStore &oObject)
     {
-        UInt32 size = oObject.size();
+        UInt32 size = UInt32(oObject.size());
 
         pMem.putValue(size);
 
@@ -234,9 +234,9 @@ struct FieldTraits<RTCachePrimIdxStore> :
 
     static void copyToBin(      BinaryDataHandler   &pMem, 
                           const RTCachePrimIdxStore *pObjectStore,
-                                UInt32               uiNumObjects)
+                                SizeT                uiNumObjects)
     {
-        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        for(SizeT i = 0; i < uiNumObjects; ++i)
         {
             copyToBin(pMem, pObjectStore[i]);
         }
@@ -262,9 +262,9 @@ struct FieldTraits<RTCachePrimIdxStore> :
 
     static void copyFromBin(BinaryDataHandler   &pMem, 
                             RTCachePrimIdxStore *pObjectStore,
-                            UInt32                uiNumObjects)
+                            SizeT                 uiNumObjects)
     {
-        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        for(SizeT i = 0; i < uiNumObjects; ++i)
         {
             copyFromBin(pMem, pObjectStore[i]);
         }

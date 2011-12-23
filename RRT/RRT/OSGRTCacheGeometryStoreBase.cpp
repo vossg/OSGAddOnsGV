@@ -286,9 +286,9 @@ SFUnrecStatePtr     *RTCacheGeometryStoreBase::editSFState          (void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 RTCacheGeometryStoreBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT RTCacheGeometryStoreBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (GeoFieldMask & whichField))
     {

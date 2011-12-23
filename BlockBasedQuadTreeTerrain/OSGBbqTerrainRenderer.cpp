@@ -470,12 +470,12 @@ bool BbqTerrainRendererBase<HeightType,
 
     // store the indices in a gpu buffer:
     _oStaticIndexBuffer.create(GL_ELEMENT_ARRAY_BUFFER, 
-                               sizeof(UInt16) * _vStaticIndices.size(), 
+                               sizeof(UInt16) * UInt32(_vStaticIndices.size()), 
                                BufferUsage_Static_WriteOnly           );
 
     _oStaticIndexBuffer.uploadData(&(_vStaticIndices[0]), 
                                    0, 
-                                   sizeof(UInt16) * _vStaticIndices.size());
+                                   sizeof(UInt16) * UInt32(_vStaticIndices.size()));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -521,12 +521,12 @@ bool BbqTerrainRendererBase<HeightType,
     }
 
     _oStaticVertexBuffer.create(GL_ARRAY_BUFFER_ARB, 
-                                sizeof(UInt16) * _vStaticVertexData.size(), 
+                                sizeof(UInt16) * UInt32(_vStaticVertexData.size()), 
                                 BufferUsage_Static_WriteOnly );
 
     _oStaticVertexBuffer.uploadData(&(_vStaticVertexData[0]), 
                                     0, 
-                                    sizeof(UInt16) * _vStaticVertexData.size());
+                                    sizeof(UInt16) * UInt32(_vStaticVertexData.size()));
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -856,7 +856,7 @@ OpenGLTexture* BbqTerrainRendererBase<HeightType,
     // upload data
     if( !texture->upload2DRect( 0, 0, 
                                 &node->data.textureData[ 0 ], 
-                                node->data.textureData.size() ) )
+                                UInt32(node->data.textureData.size()) ) )
     {
         // todo: report an errors
     }
@@ -910,7 +910,7 @@ OpenGLGpuBuffer* BbqTerrainRendererBase<HeightType,
     // and upload the data:
     heightData->uploadData( &(_vHeightBuffer[ 0 ]), 
                             0, 
-                            sizeof( float ) * _vHeightBuffer.size() );
+                            sizeof( float ) * UInt32(_vHeightBuffer.size()) );
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
     
     return heightData;

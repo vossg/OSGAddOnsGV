@@ -176,7 +176,7 @@ bool Heightmap::findIntersection( const Line& line, Real32& t, Vec3f& normal )
 
 void Heightmap::updateMinMaxSamples()
 {
-    const int sampleCount = samples.size();
+    const int sampleCount = int(samples.size());
     
     if( sampleCount == 0 )
     {

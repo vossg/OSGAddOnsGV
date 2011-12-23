@@ -193,18 +193,18 @@ struct FieldTraits<RTCacheKDNode> :
         str << "\"";
     }
 
-    static UInt32 getBinSize(const RTCacheKDNode &oObject)
+    static SizeT  getBinSize(const RTCacheKDNode &oObject)
     {
         return oObject.getBinSize();
     }
 
 
-    static UInt32 getBinSize(const RTCacheKDNode *pObjectStore,
-                                   UInt32         uiNumObjects)
+    static SizeT  getBinSize(const RTCacheKDNode *pObjectStore,
+                                   SizeT          uiNumObjects)
     {
-        UInt32 size = 0;
+        SizeT size = 0;
 
-        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        for(SizeT i = 0; i < uiNumObjects; ++i)
         {
             size += getBinSize(pObjectStore[i]);
         }
@@ -220,9 +220,9 @@ struct FieldTraits<RTCacheKDNode> :
 
     static void copyToBin(      BinaryDataHandler &pMem, 
                           const RTCacheKDNode     *pObjectStore,
-                                UInt32             uiNumObjects)
+                                SizeT              uiNumObjects)
     {
-        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        for(SizeT i = 0; i < uiNumObjects; ++i)
         {
             copyToBin(pMem, pObjectStore[i]);
         }
@@ -236,9 +236,9 @@ struct FieldTraits<RTCacheKDNode> :
 
     static void copyFromBin(BinaryDataHandler &pMem, 
                             RTCacheKDNode     *pObjectStore,
-                            UInt32             uiNumObjects)
+                            SizeT              uiNumObjects)
     {
-        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        for(SizeT i = 0; i < uiNumObjects; ++i)
         {
             copyFromBin(pMem, pObjectStore[i]);
         }

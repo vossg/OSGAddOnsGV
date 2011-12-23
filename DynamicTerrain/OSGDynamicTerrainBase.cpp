@@ -802,9 +802,9 @@ const SFString *DynamicTerrainBase::getSFCpuFragmentProgram(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 DynamicTerrainBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT DynamicTerrainBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (LevelSizeFieldMask & whichField))
     {

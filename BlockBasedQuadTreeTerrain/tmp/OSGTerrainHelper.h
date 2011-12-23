@@ -361,8 +361,8 @@ void projectPnt(Pnt3f  &result,
                 Real32  longitudeDeg, 
                 Real32  height)
 {
-    Real32 rSemiMajorAxis = 6378.137;
-    Real32 rSemiMinorAxis = 6356.7523142;
+    Real32 rSemiMajorAxis = 6378.137f;
+    Real32 rSemiMinorAxis = 6356.7523142f;
 
 
     Real32 rSemiMajorAxisSquare = rSemiMajorAxis * rSemiMajorAxis;
@@ -441,16 +441,16 @@ void backProjectPnt(Vec3f &result,
 #define Height    (&(result[2]))
 #define PI_OVER_2  (PI / 2.0e0)
 #define COS_67P5   0.38268343236508977 
-#define PI           3.14159265358979323846
-#define AD_C       1.0026000
+#define PI         3.14159265358979323846f
+#define AD_C       1.0026000f
 
 #ifndef WIN32
     static const int FALSE = 0;
     static const int TRUE = 1;
 #endif
 
-    Real32 a = 6378.137;
-    Real32 b = 6356.7523142;
+    Real32 a = 6378.137f;
+    Real32 b = 6356.7523142f;
 
     double Geocent_a = a;
     double Geocent_b = b;

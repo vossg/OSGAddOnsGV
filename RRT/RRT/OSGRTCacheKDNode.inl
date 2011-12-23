@@ -66,7 +66,7 @@ void RTKDNode::initLeaf(IndexIterator          primNums,
     _pAboveChild = NULL;
     _pBelowChild = NULL;
 
-    _uiPrimIdx = vStore.size();
+    _uiPrimIdx = vStore.size32();
 
     std::vector<UInt32> tmpVec;
 
@@ -158,7 +158,7 @@ void RTCacheKDNode::initLeaf(IndexIterator          primNums,
                              IndexSize              np,
                              MFRTCachePrimIdxStore &vStore  )
 {
-    _uiNumPrims  = np << 2;
+    _uiNumPrims  = UInt32(np) << 2;
     _uiFlags    |= 3;
 
 #if defined(OSG_CELL)
@@ -191,7 +191,7 @@ void RTCacheKDNode::initLeaf(IndexIterator          primNums,
     }
     else 
     {
-        _pPrimitiveIdx = vStore.size();
+        _pPrimitiveIdx = vStore.size32();
 
         std::vector<UInt32> tmpVec;
         
@@ -220,7 +220,7 @@ void RTCacheKDNode::initLeaf(RTKDNode              *pNode,
 {
     std::vector<UInt32> &vPrimitives = vStore[pNode->getPrimitiveIdx()];
 
-    _uiNumPrims  = vPrimitives.size() << 2;
+    _uiNumPrims  = UInt32(vPrimitives.size()) << 2;
     _uiFlags    |= 3;
     
     if(vPrimitives.size() == 0)

@@ -54,7 +54,7 @@ class RTTriAccelBarycentric;
 
 #ifndef OSG_XCACHEKD
 
-class RTCacheKDNode;
+struct RTCacheKDNode;
 
 template<typename DescT>
 class RTCacheKD;

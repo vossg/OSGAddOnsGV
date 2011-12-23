@@ -79,7 +79,7 @@ bool RTRaySIMDPacketInfo::isActive(UInt32 uiIdx)
 {
     OSG_ASSERT(uiIdx < NumRays);
 
-    return _bIsActive[uiIdx];
+    return _bIsActive[uiIdx] != 0;
 }
 
 inline
@@ -92,7 +92,7 @@ bool RTRaySIMDPacketInfo::hasActive(void)
         returnValue |= _bIsActive[i];
     }
 
-    return returnValue;
+    return returnValue != 0;
 }
 
 #if 1

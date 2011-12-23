@@ -128,13 +128,13 @@ TriangulatorData& Triangulator::resetWithDuplicates(void)
     reset();
 
     this->input.setPointNumber(7);
-    this->input.setPoint(Pnt2f(0.2, 0.6), 0);
-    this->input.setPoint(Pnt2f(0.2, 0.8), 1);
-    this->input.setPoint(Pnt2f(0.4, 0.8), 2);
-    this->input.setPoint(Pnt2f(0.4, 0.6), 3);
-    this->input.setPoint(Pnt2f(0.2, 0.6), 4); // point duplicate
-    this->input.setPoint(Pnt2f(0.3, 0.8), 5);
-    this->input.setPoint(Pnt2f(0.4, 0.6), 6); // point duplicate
+    this->input.setPoint(Pnt2f(0.2f, 0.6f), 0);
+    this->input.setPoint(Pnt2f(0.2f, 0.8f), 1);
+    this->input.setPoint(Pnt2f(0.4f, 0.8f), 2);
+    this->input.setPoint(Pnt2f(0.4f, 0.6f), 3);
+    this->input.setPoint(Pnt2f(0.2f, 0.6f), 4); // point duplicate
+    this->input.setPoint(Pnt2f(0.3f, 0.8f), 5);
+    this->input.setPoint(Pnt2f(0.4f, 0.6f), 6); // point duplicate
 
     this->input.setSegmentNumber(7);
     this->input.setSegment(0, 1,  0);
@@ -146,7 +146,7 @@ TriangulatorData& Triangulator::resetWithDuplicates(void)
     this->input.setSegment(6, 4,  6);
 
     this->input.setHoleNumber(1);
-    this->input.setHole(Pnt2f(0.3, 0.666666667), 0);
+    this->input.setHole(Pnt2f(0.3f, 0.666666667f), 0);
 
     return input;
 }
@@ -158,11 +158,11 @@ TriangulatorData& Triangulator::resetWithoutDuplicates(void)
     reset();
 
     this->input.setPointNumber(5);
-    this->input.setPoint(Pnt2f(0.2, 0.6), 0);
-    this->input.setPoint(Pnt2f(0.2, 0.8), 1);
-    this->input.setPoint(Pnt2f(0.4, 0.8), 2);
-    this->input.setPoint(Pnt2f(0.4, 0.6), 3);
-    this->input.setPoint(Pnt2f(0.3, 0.8), 4);
+    this->input.setPoint(Pnt2f(0.2f, 0.6f), 0);
+    this->input.setPoint(Pnt2f(0.2f, 0.8f), 1);
+    this->input.setPoint(Pnt2f(0.4f, 0.8f), 2);
+    this->input.setPoint(Pnt2f(0.4f, 0.6f), 3);
+    this->input.setPoint(Pnt2f(0.3f, 0.8f), 4);
 
     this->input.setSegmentNumber(7);
     this->input.setSegment(0, 1,  0);
@@ -174,7 +174,7 @@ TriangulatorData& Triangulator::resetWithoutDuplicates(void)
     this->input.setSegment(3, 0,  6);
 
     this->input.setHoleNumber(1);
-    this->input.setHole(Pnt2f(0.3, 0.666666667), 0);
+    this->input.setHole(Pnt2f(0.3f, 0.666666667f), 0);
 
     return input;
 }

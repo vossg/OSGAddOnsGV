@@ -431,9 +431,9 @@ SFUnrecRTCameraDecoratorPtr *RRTStageBase::editSFRTCamera       (void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 RRTStageBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT RRTStageBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (BackgroundRootFieldMask & whichField))
     {

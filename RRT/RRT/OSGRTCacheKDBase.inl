@@ -101,9 +101,9 @@ RTCacheKDBase<DescT>::~RTCacheKDBase(void)
 }
 
 template<typename DescT> inline
-UInt32 RTCacheKDBase<DescT>::getBinSize(ConstFieldMaskArg  whichField)
+SizeT RTCacheKDBase<DescT>::getBinSize(ConstFieldMaskArg  whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (PrimIdxStoreFieldMask & whichField))
     {
@@ -316,7 +316,7 @@ RTKDNode *RTCacheKDBase<DescT>::buildTree(
         std::sort(edgesBegin, edgesEnd);
                
         Int32 iNumBelow = 0;
-        Int32 iNumAbove = numCurrentPrims;
+        Int32 iNumAbove = Int32(numCurrentPrims);
         
         for(UInt32 i = 0; i < 2 * numCurrentPrims; ++i) 
         {

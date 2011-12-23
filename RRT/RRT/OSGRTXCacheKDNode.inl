@@ -72,7 +72,7 @@ void RTXKDNode::initLeaf(IndexIterator          primNums,
                          MFRTCachePrimIdxStore &vStore,
                          UInt32                 id      )
 {
-    _uiNumPrim  = np << 2;
+    _uiNumPrim  = UInt32(np) << 2;
   
     _nodeId = id;
     _bIsLeaf = true;
@@ -82,7 +82,7 @@ void RTXKDNode::initLeaf(IndexIterator          primNums,
 
     _pBBox = new boxVolume_t;
 
-    _uiPrimIdx = vStore.size();
+    _uiPrimIdx = vStore.size32();
 
     std::vector<UInt32> tmpVec;
 
@@ -244,10 +244,10 @@ void RTXCacheKDNode::initLeaf(IndexIterator          primNums,
                              IndexSize              np,
                              MFRTCachePrimIdxStore &vStore  )
 {
-    node.uiNumPrims  = np << 2;
+    node.uiNumPrims  = UInt32(np) << 2;
     node.uiFlags    |= 3;
 
-    node.pPrimitiveIdx = vStore.size();
+    node.pPrimitiveIdx = vStore.size32();
 
     std::vector<UInt32> tmpVec;
         
@@ -281,7 +281,7 @@ void RTXCacheKDNode::initLeaf(RTXKDNode             *pNode,
 {
     std::vector<UInt32> &vPrimitives = vStore[pNode->getPrimitiveIdx()];
 
-    node.uiNumPrims  = vPrimitives.size() << 2;
+    node.uiNumPrims  = UInt32(vPrimitives.size()) << 2;
     node.uiFlags    |= 3;
   
     if(vPrimitives.size() == 0)

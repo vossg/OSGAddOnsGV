@@ -167,9 +167,9 @@ UInt32 RTCacheAttachmentBase::getContainerSize(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 RTCacheAttachmentBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT RTCacheAttachmentBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
 
     return returnValue;

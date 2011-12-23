@@ -103,18 +103,18 @@ struct FieldTraits<RTTriAccelBarycentric> :
         str << "\"";
     }
 
-    static UInt32 getBinSize(const RTTriAccelBarycentric &oObject)
+    static SizeT  getBinSize(const RTTriAccelBarycentric &oObject)
     {
         return oObject.getBinSize();
     }
 
 
-    static UInt32 getBinSize(const RTTriAccelBarycentric *pObjectStore,
-                                   UInt32                 uiNumObjects)
+    static SizeT  getBinSize(const RTTriAccelBarycentric *pObjectStore,
+                                   SizeT                  uiNumObjects)
     {
-        UInt32 size = 0;
+        SizeT size = 0;
 
-        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        for(SizeT i = 0; i < uiNumObjects; ++i)
         {
             size += getBinSize(pObjectStore[i]);
         }
@@ -130,9 +130,9 @@ struct FieldTraits<RTTriAccelBarycentric> :
 
     static void copyToBin(      BinaryDataHandler     &pMem, 
                           const RTTriAccelBarycentric *pObjectStore,
-                                UInt32                 uiNumObjects)
+                                SizeT                  uiNumObjects)
     {
-        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        for(SizeT i = 0; i < uiNumObjects; ++i)
         {
             copyToBin(pMem, pObjectStore[i]);
         }
@@ -146,9 +146,9 @@ struct FieldTraits<RTTriAccelBarycentric> :
 
     static void copyFromBin(BinaryDataHandler     &pMem, 
                             RTTriAccelBarycentric *pObjectStore,
-                            UInt32                 uiNumObjects)
+                            SizeT                  uiNumObjects)
     {
-        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        for(SizeT i = 0; i < uiNumObjects; ++i)
         {
             copyFromBin(pMem, pObjectStore[i]);
         }

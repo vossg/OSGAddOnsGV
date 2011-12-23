@@ -68,13 +68,13 @@ void RTRayPacketInfo::setActive(bool bVal)
 inline
 bool RTRayPacketInfo::isActive(void)
 {
-    return _bIsActive;
+    return _bIsActive != 0;
 }
 
 inline
 bool RTRayPacketInfo::hasActive(void)
 {
-    return _bIsActive;
+    return _bIsActive != 0;
 }
 
 inline

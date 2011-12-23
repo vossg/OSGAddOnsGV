@@ -904,7 +904,7 @@ bool LwoTagsChunk::read(std::istream &is, LwoDatabase &oDB)
 
         if(mIt == _mTagToIndex.end())
         {
-            _mTagToIndex[tmpString] = _vTags.size();
+            _mTagToIndex[tmpString] = UInt32(_vTags.size());
 
             _vTags.push_back(tmpString);
         }
@@ -1486,8 +1486,8 @@ NodeTransitPtr LwoLayrChunk::convertToNode(LwoDatabase &oDB)
                 pCurrIdx->push_back(_vPolys[k]._vPolys[i][j]);
             }
 
-            pCurrTypes->push_back (GL_POLYGON                      );
-            pCurrLength->push_back(_vPolys[k]._vPolys[i].size() - 1);
+            pCurrTypes ->push_back(GL_POLYGON                              );
+            pCurrLength->push_back(UInt32(_vPolys[k]._vPolys[i].size()) - 1);
         }
     }
 

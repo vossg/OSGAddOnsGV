@@ -311,9 +311,9 @@ SFUnrecTextureEnvChunkPtr *LabelForegroundBase::editSFTextureEnvironment(void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 LabelForegroundBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT LabelForegroundBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (ImportanceThresholdFieldMask & whichField))
     {

@@ -316,9 +316,9 @@ const SFReal32 *BbqOutOfCoreDataSourceBase::getSFSampleSpacing(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 BbqOutOfCoreDataSourceBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT BbqOutOfCoreDataSourceBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (FilenameFieldMask & whichField))
     {

@@ -205,9 +205,9 @@ SFUnrecTextureObjChunkPtr *RTTextureTargetBase::editSFTexObjChunk    (void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 RTTextureTargetBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT RTTextureTargetBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (TexObjChunkFieldMask & whichField))
     {

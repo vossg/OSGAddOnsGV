@@ -291,9 +291,9 @@ const SFVec2f *IconLabelBase::getSFSize(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 IconLabelBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT IconLabelBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (FilenameFieldMask & whichField))
     {

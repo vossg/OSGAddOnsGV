@@ -210,7 +210,7 @@ void CpuClipmapRenderer::onDestroyGpuResources()
     _pTerrainShader = NULL;
 #endif
     
-    const int levelCount = levels_.size();
+    const int levelCount = int(levels_.size());
     
     for( int i = 0; i < levelCount; ++i )
     {
@@ -233,7 +233,7 @@ void CpuClipmapRenderer::onCreateGpuResources()
         
     reloadShader();
     
-    const int levelCount = levels_.size();
+    const int levelCount = int(levels_.size());
     
     // if the extension is supported:
     useVertexBufferObjects_ = true;
@@ -245,7 +245,7 @@ void CpuClipmapRenderer::onCreateGpuResources()
         
         // create vbo for the vertex data: 
         // todo: create a dynamic vbo for the index data?
-        const int vertexCount = levelData.vertices.size();
+        const int vertexCount = int(levelData.vertices.size());
         
         // todo: use ReadOnly Vbo (for speed)
         if( !levelData.vertexBuffer.create( window_, GL_ARRAY_BUFFER_ARB, sizeof( OpenGLTerrainVertex ) * vertexCount, BufferUsage_Dynamic_ReadWrite ) )
@@ -301,7 +301,7 @@ void CpuClipmapRenderer::onRender( const ClipmapRenderParameters& renderParamete
     }
     
     // render all levels from finest to coarsest:
-    const int levelCount = levels_.size();
+    const int levelCount = int(levels_.size());
     
     //		for( int i = 0; i < levelCount; ++i )
     for( int i = 0; i < levelCount; ++i )
@@ -594,7 +594,7 @@ bool CpuClipmapRenderer::checkVboConsistency( TerrainLevelRenderData& levelRende
     }
     std::cerr << "Checking Vbo consistency" << std::endl;
     
-    const int vertexCount = levelRenderData.vertices.size();
+    const int vertexCount = int(levelRenderData.vertices.size());
     
     OpenGLTerrainVertex* vboContent = 
         static_cast<OpenGLTerrainVertex*>(
@@ -990,8 +990,8 @@ void CpuClipmapRenderer::renderBlock( const GeometryClipmapLevel& level, const G
     glDisableClientState( GL_VERTEX_ARRAY );
 
     stats_.drawnBlockCount++;
-    stats_.drawnTriangleCount		+= renderData.indices.size() / 3;
-    stats_.transformedVertexCount	+= renderData.vertices.size();
+    stats_.drawnTriangleCount		+= int(renderData.indices.size()) / 3;
+    stats_.transformedVertexCount	+= int(renderData.vertices.size());
 
     if( renderData.texture != NULL )
     {

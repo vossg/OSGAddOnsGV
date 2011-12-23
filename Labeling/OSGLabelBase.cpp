@@ -737,9 +737,9 @@ SFUnrecTextureObjChunkPtr *LabelBase::editSFTextureObject  (void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 LabelBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT LabelBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (PositionFieldMask & whichField))
     {

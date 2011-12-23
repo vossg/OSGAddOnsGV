@@ -318,7 +318,7 @@ bool TriangulatorData::addUniquePoint(const Pnt2f& pnt)
 {
     if (this->point2index.count(pnt) > 0) return true; // pnt was already added
 
-    int idx = this->point2index.size();
+    int idx = int(this->point2index.size());
 
     if (idx < int(getPointNumber())) {
         setPoint(pnt, idx);
@@ -332,13 +332,13 @@ bool TriangulatorData::addUniquePoint(const Pnt2f& pnt)
 
 unsigned int TriangulatorData::getUniquePointNumber(void) const
 {
-    return this->point2index.size();
+    return unsigned(this->point2index.size());
 }
 
 void TriangulatorData::shrinkToUniquePointNumber(void)
 {
     unsigned int oldPointNum = getPointNumber();
-    unsigned int newPointNum = this->point2index.size();
+    unsigned int newPointNum = unsigned(this->point2index.size());
     if (newPointNum == oldPointNum) return;
 
     assert(newPointNum > 0);
@@ -388,8 +388,8 @@ void TriangulatorData::setSegment(const Pnt2f& start, const Pnt2f& end,
 int TriangulatorData::getSegmentByPoints(const Pnt2f& start,
                                          const Pnt2f& end) const
 {
-    int startCnt = this->point2index.count(start);
-    int endCnt   = this->point2index.count(end);
+    int startCnt = int(this->point2index.count(start));
+    int endCnt   = int(this->point2index.count(end  ));
 
     if (startCnt == 0) return -1;
     if (endCnt   == 0) return -1;

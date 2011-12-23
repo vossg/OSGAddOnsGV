@@ -192,7 +192,7 @@ void TextLabel::onPreLabelRendering(void)
     updateFaceAndTexture();
 
     _cachedTextLayoutParam  = new TextLayoutParam;
-    _cachedTextLayoutParam->spacing = 1.1;
+    _cachedTextLayoutParam->spacing = 1.1f;
     _cachedTextLayoutParam->majorAlignment = TextLayoutParam::ALIGN_BEGIN;
     _cachedTextLayoutParam->minorAlignment = TextLayoutParam::ALIGN_BEGIN;
 

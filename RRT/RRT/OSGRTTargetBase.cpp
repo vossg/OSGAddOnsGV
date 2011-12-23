@@ -241,9 +241,9 @@ const SFUInt32 *RTTargetBase::getSFHeight(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 RTTargetBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT RTTargetBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (WidthFieldMask & whichField))
     {

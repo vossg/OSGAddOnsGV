@@ -120,9 +120,9 @@ GetFieldHandlePtr RTCacheKD<DescT>::getHandleKDTree (void) const
 }
 
 template<typename DescT> inline
-UInt32 RTCacheKD<DescT>::getBinSize(ConstFieldMaskArg  whichField)
+SizeT RTCacheKD<DescT>::getBinSize(ConstFieldMaskArg  whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (KDTreeFieldMask & whichField))
     {
@@ -1523,7 +1523,7 @@ void RTCacheKD<DescT>::flattenTree(RTKDNode *pLeft,
 {
     if(_uiNumAllocedNodes <= _uiNextFreeNode + 2) 
     {
-        int nAlloc = osgMax(2 * _mfKDTree.size(), 512u);
+        int nAlloc = osgMax(2 * _mfKDTree.size32(), 512u);
 
         _mfKDTree.resize(nAlloc);
 

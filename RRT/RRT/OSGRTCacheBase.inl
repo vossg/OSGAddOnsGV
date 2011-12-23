@@ -80,9 +80,9 @@ RTCacheBase<DescT>::~RTCacheBase(void)
 }
 
 template<typename DescT> inline
-UInt32 RTCacheBase<DescT>::getBinSize(ConstFieldMaskArg  whichField)
+SizeT RTCacheBase<DescT>::getBinSize(ConstFieldMaskArg  whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (GeoStoreFieldMask & whichField))
     {

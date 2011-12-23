@@ -198,7 +198,7 @@ void GeometryClipmaps::update( const Pnt3f& localViewerPos )
     
     cpuRenderer_.updateRenderData( localViewerPos );
     
-    const int levelCount = levels_.size();
+    const int levelCount = int(levels_.size());
     
     // update clip rect:
     int updatedSampleCount = 0;
@@ -289,7 +289,7 @@ bool GeometryClipmaps::findFirstIntersection( const Line& line,
 
 int GeometryClipmaps::getLevelCount() const
 {
-    return levels_.size();
+    return int(levels_.size());
 }
 
 
