@@ -108,16 +108,6 @@ void register_FieldContainerFactoryBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
-        { //::OSG::FieldContainerFactoryBase::getFieldContainerStore
-        
-            typedef ::__gnu_cxx::hash_map< unsigned int, OSG::AspectStore* > const & ( ::OSG::FieldContainerFactoryBase::*getFieldContainerStore_function_type )(  ) const;
-            
-            FieldContainerFactoryBase_exposer.def( 
-                "getFieldContainerStore"
-                , getFieldContainerStore_function_type( &::OSG::FieldContainerFactoryBase::getFieldContainerStore )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
         { //::OSG::FieldContainerFactoryBase::getMappedContainer
         
             typedef ::OSG::FieldContainer * ( ::OSG::FieldContainerFactoryBase::*getMappedContainer_function_type )( ::OSG::UInt32 ) const;

@@ -62,7 +62,7 @@ void register_NodeCoreBase_class(){
         }
         { //::OSG::NodeCoreBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::NodeCoreBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::NodeCoreBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             NodeCoreBase_exposer.def( 
                 "getBinSize"

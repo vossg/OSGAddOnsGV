@@ -36,7 +36,7 @@ boost::python::list GlobalsAttachmentBase_getMFElements(OSG::GlobalsAttachmentBa
 {
    boost::python::list result;
    OSG::MFUnrecFieldContainerPtr const * mf_data = self->getMFElements();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -122,7 +122,7 @@ void register_GlobalsAttachmentBase_class(){
         }
         { //::OSG::GlobalsAttachmentBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::GlobalsAttachmentBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::GlobalsAttachmentBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             GlobalsAttachmentBase_exposer.def( 
                 "getBinSize"

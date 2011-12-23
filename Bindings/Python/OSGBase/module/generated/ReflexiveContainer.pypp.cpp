@@ -99,7 +99,7 @@ void register_ReflexiveContainer_class(){
         }
         { //::OSG::ReflexiveContainer::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ReflexiveContainer::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ReflexiveContainer::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ReflexiveContainer_exposer.def( 
                 "getBinSize"

@@ -86,7 +86,7 @@ struct FieldDescriptionBase_wrapper : OSG::FieldDescriptionBase, bp::wrapper< OS
         func_destroyField( boost::python::ptr(pField) );
     }
 
-    virtual ::OSG::UInt32 getBinSize( ::OSG::Field * pField ) const {
+    virtual ::OSG::SizeT getBinSize( ::OSG::Field * pField ) const {
         bp::override func_getBinSize = this->get_override( "getBinSize" );
         return func_getBinSize( boost::python::ptr(pField) );
     }

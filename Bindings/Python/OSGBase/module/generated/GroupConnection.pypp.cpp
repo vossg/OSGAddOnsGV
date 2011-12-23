@@ -58,7 +58,7 @@ struct GroupConnection_wrapper : OSG::GroupConnection, bp::wrapper< OSG::GroupCo
 
     virtual ::std::string bind( ::std::string const & address="" ){
         bp::override func_bind = this->get_override( "bind" );
-        return func_bind( address );
+        return func_bind( address ).as<std::string>();
     }
 
     virtual ::OSG::Int32 connectPoint( ::std::string const & address, ::OSG::Time timeout=-0x00000000000000001 ){

@@ -76,7 +76,7 @@ void register_HardwareContextBase_class(){
         }
         { //::OSG::HardwareContextBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::HardwareContextBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::HardwareContextBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             HardwareContextBase_exposer.def( 
                 "getBinSize"

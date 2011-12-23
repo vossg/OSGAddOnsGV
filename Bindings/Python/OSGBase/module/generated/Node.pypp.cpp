@@ -36,7 +36,7 @@ boost::python::list Node_getMFChildren(OSG::Node *self)
 {
    boost::python::list result;
    OSG::MFUnrecChildNodePtr const * mf_data = self->getMFChildren();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::Node::ObjRecPtr((*mf_data)[i]));
@@ -178,7 +178,7 @@ void register_Node_class(){
         }
         { //::OSG::Node::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::Node::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::Node::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             Node_exposer.def( 
                 "getBinSize"
