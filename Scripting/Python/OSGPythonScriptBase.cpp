@@ -168,9 +168,9 @@ UInt32 PythonScriptBase::getContainerSize(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 PythonScriptBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT PythonScriptBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
 
     return returnValue;

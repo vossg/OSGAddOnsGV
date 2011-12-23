@@ -219,9 +219,9 @@ const SFString *PythonScriptFileBase::getSFScriptUrl(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 PythonScriptFileBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT PythonScriptFileBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (ScriptUrlFieldMask & whichField))
     {

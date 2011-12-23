@@ -186,7 +186,7 @@ FieldContainerTransitPtr PyFieldContainerPtrMFieldEditHandle::next()
 /*        container.                                                   */
 OSG::UInt32 PyFieldContainerPtrMFieldEditHandle::len()
 {
-    return _pEditMFHandle->size();
+    return UInt32(_pEditMFHandle->size());
 }
 
 /*!\brief Python iterator interface: Returns an item. Negative key     */
@@ -195,7 +195,7 @@ FieldContainerTransitPtr PyFieldContainerPtrMFieldEditHandle::getitem(int key)
 {
     if(key < 0)
     {
-        key = key + _pEditMFHandle->size();
+        key = key + UInt32(_pEditMFHandle->size());
     }
 
     if(key < 0 || UInt32(key) > _pEditMFHandle->size())
@@ -214,7 +214,7 @@ void PyFieldContainerPtrMFieldEditHandle::setitem(int key, FieldContainer* value
 {
     if(key < 0)
     {
-        key = _pEditMFHandle->size() - key;
+        key = UInt32(_pEditMFHandle->size()) - key;
     }
 
     if(key < 0 || UInt32(key) > _pEditMFHandle->size())

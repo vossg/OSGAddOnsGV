@@ -168,9 +168,9 @@ UInt32 PyFieldAccessHandlerBase::getContainerSize(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 PyFieldAccessHandlerBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT PyFieldAccessHandlerBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
 
     return returnValue;

@@ -186,7 +186,7 @@ FieldContainerTransitPtr PyFieldContainerPtrMFieldGetHandle::next()
 /*        container.                                                   */
 OSG::UInt32 PyFieldContainerPtrMFieldGetHandle::len()
 {
-    return _pGetMFHandle->size();
+    return UInt32(_pGetMFHandle->size());
 }
 
 /*!\brief Python iterator interface: Returns an item. Negative key     */
@@ -195,7 +195,7 @@ FieldContainerTransitPtr PyFieldContainerPtrMFieldGetHandle::getitem(int key)
 {
     if(key < 0)
     {
-        key = _pGetMFHandle->size() - key;
+        key = UInt32(_pGetMFHandle->size()) - key;
     }
 
     if(key < 0 || UInt32(key) > _pGetMFHandle->size())
