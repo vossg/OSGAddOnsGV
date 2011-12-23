@@ -1399,7 +1399,7 @@
 ~@typedef_t@PFNGLPROGRAMUNIFORM2DVPROC@::PFNGLPROGRAMUNIFORM2DVPROC
 ~@typedef_t@PFNGLREADNPIXELSARBPROC@::PFNGLREADNPIXELSARBPROC
 ~@typedef_t@PFNGLGETPROGRAMIVPROC@::PFNGLGETPROGRAMIVPROC
-~@typedef_t@PFNGLPROGRAMPARAMETER4FNVPROC@::PFNGLPROGRAMPARAMETER4FNVPROC
+~@typedef_t@PFNGLMULTITEXCOORD3SVARBPROC@::PFNGLMULTITEXCOORD3SVARBPROC
 ~@typedef_t@PFNGLGETRENDERBUFFERPARAMETERIVEXTPROC@::PFNGLGETRENDERBUFFERPARAMETERIVEXTPROC
 ~@typedef_t@PFNGLNAMEDPROGRAMLOCALPARAMETERSI4IVEXTPROC@::PFNGLNAMEDPROGRAMLOCALPARAMETERSI4IVEXTPROC
 ~@typedef_t@PFNGLMULTITEXCOORD2HNVPROC@::PFNGLMULTITEXCOORD2HNVPROC
@@ -1424,7 +1424,7 @@
 ~@typedef_t@PFNGLGETNTEXIMAGEARBPROC@::PFNGLGETNTEXIMAGEARBPROC
 ~@typedef_t@PFNGLWINDOWPOS2FMESAPROC@::PFNGLWINDOWPOS2FMESAPROC
 ~@typedef_t@PFNGLPOINTPARAMETERFARBPROC@::PFNGLPOINTPARAMETERFARBPROC
-~@typedef_t@PFNGLDELETEASYNCMARKERSSGIXPROC@::PFNGLDELETEASYNCMARKERSSGIXPROC
+~@typedef_t@PFNGLPROGRAMUNIFORM4I64NVPROC@::PFNGLPROGRAMUNIFORM4I64NVPROC
 ~@typedef_t@PFNGLUNIFORMBLOCKBINDINGPROC@::PFNGLUNIFORMBLOCKBINDINGPROC
 ~@typedef_t@PFNGLGETPERFMONITORGROUPSAMDPROC@::PFNGLGETPERFMONITORGROUPSAMDPROC
 ~@typedef_t@PFNGLUNIFORM1FVPROC@::PFNGLUNIFORM1FVPROC
@@ -1760,6 +1760,7 @@
 ~@typedef_t@PFNGLCOLOR4UBVERTEX2FSUNPROC@::PFNGLCOLOR4UBVERTEX2FSUNPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI2IPROC@::PFNGLVERTEXATTRIBI2IPROC
 ~@typedef_t@PFNGLSECONDARYCOLOR3SEXTPROC@::PFNGLSECONDARYCOLOR3SEXTPROC
+~@typedef_t@PFNGLPROGRAMPARAMETER4FNVPROC@::PFNGLPROGRAMPARAMETER4FNVPROC
 ~@typedef_t@PFNGLMULTITEXENVIEXTPROC@::PFNGLMULTITEXENVIEXTPROC
 ~@typedef_t@PFNGLISNAMEDSTRINGARBPROC@::PFNGLISNAMEDSTRINGARBPROC
 ~@typedef_t@PFNGLMULTITEXCOORDP2UIVPROC@::PFNGLMULTITEXCOORDP2UIVPROC
@@ -1989,7 +1990,6 @@
 ~@typedef_t@PFNGLGETPROGRAMLOCALPARAMETERIUIVNVPROC@::PFNGLGETPROGRAMLOCALPARAMETERIUIVNVPROC
 ~@typedef_t@PFNGLGENERATEMULTITEXMIPMAPEXTPROC@::PFNGLGENERATEMULTITEXMIPMAPEXTPROC
 ~@typedef_t@PFNGLDRAWRANGEELEMENTSPROC@::PFNGLDRAWRANGEELEMENTSPROC
-~@typedef_t@PFNGLMULTITEXCOORD3SVARBPROC@::PFNGLMULTITEXCOORD3SVARBPROC
 ~@typedef_t@PFNGLTEXCOORDPOINTEREXTPROC@::PFNGLTEXCOORDPOINTEREXTPROC
 ~@typedef_t@PFNGLNAMEDPROGRAMLOCALPARAMETER4DVEXTPROC@::PFNGLNAMEDPROGRAMLOCALPARAMETER4DVEXTPROC
 ~@typedef_t@PFNGLSECONDARYCOLOR3DPROC@::PFNGLSECONDARYCOLOR3DPROC
@@ -2051,7 +2051,7 @@
 ~@typedef_t@PFNGLCHECKFRAMEBUFFERSTATUSPROC@::PFNGLCHECKFRAMEBUFFERSTATUSPROC
 ~@typedef_t@PFNGLSECONDARYCOLOR3FVPROC@::PFNGLSECONDARYCOLOR3FVPROC
 ~@typedef_t@PFNGLGETOCCLUSIONQUERYUIVNVPROC@::PFNGLGETOCCLUSIONQUERYUIVNVPROC
-~@typedef_t@PFNGLPROGRAMUNIFORM4I64NVPROC@::PFNGLPROGRAMUNIFORM4I64NVPROC
+~@typedef_t@PFNGLDELETEASYNCMARKERSSGIXPROC@::PFNGLDELETEASYNCMARKERSSGIXPROC
 ~@typedef_t@PFNGLGETPROGRAMENVPARAMETERIIVNVPROC@::PFNGLGETPROGRAMENVPARAMETERIIVNVPROC
 ~@typedef_t@PFNGLBUFFERPARAMETERIAPPLEPROC@::PFNGLBUFFERPARAMETERIAPPLEPROC
 ~@typedef_t@PFNGLVERTEXATTRIB4FARBPROC@::PFNGLVERTEXATTRIB4FARBPROC
@@ -2890,7 +2890,6 @@
 ~@free_function_t@__secure_getenv@char * (*)( char const * )char * (*)( char const * )
 ~@free_function_t@pthread_mutexattr_getprioceiling@int (*)( __restrict__ ::pthread_mutexattr_t const *,__restrict__ int * )int (*)( __restrict__ ::pthread_mutexattr_t const *,__restrict__ int * )
 ~@free_function_t@strerror_r@char * (*)( int,char *,::size_t )char * (*)( int,char *,::size_t )
-~@free_function_t@__fdimf@float (*)( float,float )float (*)( float,float )
 ~@free_function_t@iscntrl@int (*)( int )int (*)( int )
 ~@free_function_t@__builtin_cos@double (*)( double )double (*)( double )
 ~@free_function_t@__atanl@long double (*)( long double )long double (*)( long double )
@@ -2935,6 +2934,7 @@
 ~@free_function_t@vswscanf@int (*)( __restrict__ wchar_t const *,__restrict__ wchar_t const *,::__va_list_tag * )int (*)( __restrict__ wchar_t const *,__restrict__ wchar_t const *,::__va_list_tag * )
 ~@free_function_t@sprintf@int (*)( __restrict__ char *,__restrict__ char const *,... )int (*)( __restrict__ char *,__restrict__ char const *,... )
 ~@free_function_t@__ctype_b_loc@short unsigned int const * * (*)(  )short unsigned int const * * (*)(  )
+~@free_function_t@__builtin_ccosl@complex long double (*)( complex long double )complex long double (*)( complex long double )
 ~@free_function_t@glEvalCoord1fv@void (*)( ::GLfloat const * )void (*)( ::GLfloat const * )
 ~@free_function_t@iswspace_l@int (*)( ::wint_t,::__locale_t )int (*)( ::wint_t,::__locale_t )
 ~@free_function_t@pthread_rwlock_destroy@int (*)( ::pthread_rwlock_t * )int (*)( ::pthread_rwlock_t * )
@@ -3436,7 +3436,7 @@
 ~@free_function_t@pthread_cond_signal@int (*)( ::pthread_cond_t * )int (*)( ::pthread_cond_t * )
 ~@free_function_t@inet6_rth_getaddr@::in6_addr * (*)( void const *,int )::in6_addr * (*)( void const *,int )
 ~@free_function_t@initstate_r@int (*)( unsigned int,__restrict__ char *,::size_t,__restrict__ ::random_data * )int (*)( unsigned int,__restrict__ char *,::size_t,__restrict__ ::random_data * )
-~@free_function_t@__builtin_ccosl@complex long double (*)( complex long double )complex long double (*)( complex long double )
+~@free_function_t@__fdimf@float (*)( float,float )float (*)( float,float )
 ~@free_function_t@__builtin_infl@long double (*)(  )long double (*)(  )
 ~@free_function_t@__builtin_prefetch@void (*)( void const *,... )void (*)( void const *,... )
 ~@free_function_t@profil@int (*)( short unsigned int *,::size_t,::size_t,unsigned int )int (*)( short unsigned int *,::size_t,::size_t,unsigned int )

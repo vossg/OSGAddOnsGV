@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGWindow_mainheader.h"
@@ -45,7 +49,7 @@ boost::python::list SkyBackgroundBase_getMFSkyColor(OSG::SkyBackgroundBase *self
 {
    boost::python::list result;
    OSG::MFColor4f const * mf_data = self->getMFSkyColor();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -57,7 +61,7 @@ boost::python::list SkyBackgroundBase_getMFSkyAngle(OSG::SkyBackgroundBase *self
 {
    boost::python::list result;
    OSG::MFReal32 const * mf_data = self->getMFSkyAngle();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -69,7 +73,7 @@ boost::python::list SkyBackgroundBase_getMFGroundColor(OSG::SkyBackgroundBase *s
 {
    boost::python::list result;
    OSG::MFColor4f const * mf_data = self->getMFGroundColor();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -81,7 +85,7 @@ boost::python::list SkyBackgroundBase_getMFGroundAngle(OSG::SkyBackgroundBase *s
 {
    boost::python::list result;
    OSG::MFReal32 const * mf_data = self->getMFGroundAngle();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -93,7 +97,7 @@ boost::python::list SkyBackgroundBase_getMFTopTexCoord(OSG::SkyBackgroundBase *s
 {
    boost::python::list result;
    OSG::MFVec3f const * mf_data = self->getMFTopTexCoord();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -105,7 +109,7 @@ boost::python::list SkyBackgroundBase_getMFBottomTexCoord(OSG::SkyBackgroundBase
 {
    boost::python::list result;
    OSG::MFVec3f const * mf_data = self->getMFBottomTexCoord();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -117,7 +121,7 @@ boost::python::list SkyBackgroundBase_getMFRightTexCoord(OSG::SkyBackgroundBase 
 {
    boost::python::list result;
    OSG::MFVec3f const * mf_data = self->getMFRightTexCoord();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -129,7 +133,7 @@ boost::python::list SkyBackgroundBase_getMFLeftTexCoord(OSG::SkyBackgroundBase *
 {
    boost::python::list result;
    OSG::MFVec3f const * mf_data = self->getMFLeftTexCoord();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -141,7 +145,7 @@ boost::python::list SkyBackgroundBase_getMFFrontTexCoord(OSG::SkyBackgroundBase 
 {
    boost::python::list result;
    OSG::MFVec3f const * mf_data = self->getMFFrontTexCoord();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -153,7 +157,7 @@ boost::python::list SkyBackgroundBase_getMFBackTexCoord(OSG::SkyBackgroundBase *
 {
    boost::python::list result;
    OSG::MFVec3f const * mf_data = self->getMFBackTexCoord();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -270,7 +274,7 @@ void register_SkyBackgroundBase_class(){
         }
         { //::OSG::SkyBackgroundBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::SkyBackgroundBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::SkyBackgroundBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             SkyBackgroundBase_exposer.def( 
                 "getBinSize"

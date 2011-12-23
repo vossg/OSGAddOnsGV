@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGSystem_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list ShaderVariableMVec2fBase_getMFValue(OSG::ShaderVariableMVec2
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFValue();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -103,7 +107,7 @@ void register_ShaderVariableMVec2fBase_class(){
         }
         { //::OSG::ShaderVariableMVec2fBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ShaderVariableMVec2fBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ShaderVariableMVec2fBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ShaderVariableMVec2fBase_exposer.def( 
                 "getBinSize"

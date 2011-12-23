@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDynamics_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list VRMLCoordinateInterpolatorBase_getMFKeyValue(OSG::VRMLCoordi
 {
    boost::python::list result;
    OSG::MFPnt3f const * mf_data = self->getMFKeyValue();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -48,7 +52,7 @@ boost::python::list VRMLCoordinateInterpolatorBase_getMFOutValue(OSG::VRMLCoordi
 {
    boost::python::list result;
    OSG::MFPnt3f const * mf_data = self->getMFOutValue();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -116,7 +120,7 @@ void register_VRMLCoordinateInterpolatorBase_class(){
         }
         { //::OSG::VRMLCoordinateInterpolatorBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::VRMLCoordinateInterpolatorBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::VRMLCoordinateInterpolatorBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             VRMLCoordinateInterpolatorBase_exposer.def( 
                 "getBinSize"

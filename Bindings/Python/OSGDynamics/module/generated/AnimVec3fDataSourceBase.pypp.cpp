@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDynamics_mainheader.h"
@@ -42,7 +46,7 @@ boost::python::list AnimVec3fDataSourceBase_getMFValues(OSG::AnimVec3fDataSource
 {
    boost::python::list result;
    OSG::MFVec3f const * mf_data = self->getMFValues();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -54,7 +58,7 @@ boost::python::list AnimVec3fDataSourceBase_getMFInTangentsX(OSG::AnimVec3fDataS
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFInTangentsX();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -66,7 +70,7 @@ boost::python::list AnimVec3fDataSourceBase_getMFInTangentsY(OSG::AnimVec3fDataS
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFInTangentsY();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -78,7 +82,7 @@ boost::python::list AnimVec3fDataSourceBase_getMFInTangentsZ(OSG::AnimVec3fDataS
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFInTangentsZ();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -90,7 +94,7 @@ boost::python::list AnimVec3fDataSourceBase_getMFOutTangentsX(OSG::AnimVec3fData
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFOutTangentsX();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -102,7 +106,7 @@ boost::python::list AnimVec3fDataSourceBase_getMFOutTangentsY(OSG::AnimVec3fData
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFOutTangentsY();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -114,7 +118,7 @@ boost::python::list AnimVec3fDataSourceBase_getMFOutTangentsZ(OSG::AnimVec3fData
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFOutTangentsZ();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -187,7 +191,7 @@ void register_AnimVec3fDataSourceBase_class(){
         }
         { //::OSG::AnimVec3fDataSourceBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::AnimVec3fDataSourceBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::AnimVec3fDataSourceBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             AnimVec3fDataSourceBase_exposer.def( 
                 "getBinSize"

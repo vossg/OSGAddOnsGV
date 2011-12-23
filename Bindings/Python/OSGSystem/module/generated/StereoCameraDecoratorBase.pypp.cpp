@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGSystem_mainheader.h"
@@ -63,7 +67,7 @@ void register_StereoCameraDecoratorBase_class(){
         }
         { //::OSG::StereoCameraDecoratorBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::StereoCameraDecoratorBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::StereoCameraDecoratorBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             StereoCameraDecoratorBase_exposer.def( 
                 "getBinSize"

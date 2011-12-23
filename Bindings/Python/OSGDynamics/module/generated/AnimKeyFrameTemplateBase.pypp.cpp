@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDynamics_mainheader.h"
@@ -95,7 +99,7 @@ void register_AnimKeyFrameTemplateBase_class(){
         }
         { //::OSG::AnimKeyFrameTemplateBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::AnimKeyFrameTemplateBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::AnimKeyFrameTemplateBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             AnimKeyFrameTemplateBase_exposer.def( 
                 "getBinSize"

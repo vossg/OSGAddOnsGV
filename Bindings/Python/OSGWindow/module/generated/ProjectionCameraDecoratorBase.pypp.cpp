@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGWindow_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list ProjectionCameraDecoratorBase_getMFSurface(OSG::ProjectionCa
 {
    boost::python::list result;
    OSG::MFPnt3f const * mf_data = self->getMFSurface();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -109,7 +113,7 @@ void register_ProjectionCameraDecoratorBase_class(){
         }
         { //::OSG::ProjectionCameraDecoratorBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ProjectionCameraDecoratorBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ProjectionCameraDecoratorBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ProjectionCameraDecoratorBase_exposer.def( 
                 "getBinSize"

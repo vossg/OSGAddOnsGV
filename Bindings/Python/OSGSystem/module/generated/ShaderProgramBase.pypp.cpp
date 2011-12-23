@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGSystem_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list ShaderProgramBase_getMFFeedbackVaryings(OSG::ShaderProgramBa
 {
    boost::python::list result;
    OSG::MFString const * mf_data = self->getMFFeedbackVaryings();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -48,7 +52,7 @@ boost::python::list ShaderProgramBase_getMFParameter(OSG::ShaderProgramBase *sel
 {
    boost::python::list result;
    OSG::MFShaderParameter const * mf_data = self->getMFParameter();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -60,7 +64,7 @@ boost::python::list ShaderProgramBase_getMFAttributes(OSG::ShaderProgramBase *se
 {
    boost::python::list result;
    OSG::MFShaderAttribute const * mf_data = self->getMFAttributes();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -148,7 +152,7 @@ void register_ShaderProgramBase_class(){
         }
         { //::OSG::ShaderProgramBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ShaderProgramBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ShaderProgramBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ShaderProgramBase_exposer.def( 
                 "getBinSize"

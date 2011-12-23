@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGGroup_mainheader.h"
@@ -91,7 +95,7 @@ void register_TranslationTransformationElementBase_class(){
         }
         { //::OSG::TranslationTransformationElementBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::TranslationTransformationElementBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::TranslationTransformationElementBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             TranslationTransformationElementBase_exposer.def( 
                 "getBinSize"

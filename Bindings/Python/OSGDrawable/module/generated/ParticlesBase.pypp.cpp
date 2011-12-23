@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDrawable_mainheader.h"
@@ -45,7 +49,7 @@ boost::python::list ParticlesBase_getMFSizes(OSG::ParticlesBase *self)
 {
    boost::python::list result;
    OSG::MFVec3f const * mf_data = self->getMFSizes();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -57,7 +61,7 @@ boost::python::list ParticlesBase_getMFIndices(OSG::ParticlesBase *self)
 {
    boost::python::list result;
    OSG::MFInt32 const * mf_data = self->getMFIndices();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -69,7 +73,7 @@ boost::python::list ParticlesBase_getMFTextureZs(OSG::ParticlesBase *self)
 {
    boost::python::list result;
    OSG::MFReal32 const * mf_data = self->getMFTextureZs();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -148,7 +152,7 @@ void register_ParticlesBase_class(){
         }
         { //::OSG::ParticlesBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ParticlesBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ParticlesBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ParticlesBase_exposer.def( 
                 "getBinSize"

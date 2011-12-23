@@ -20,6 +20,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 
 #include "boost/python.hpp"
@@ -58,13 +62,9 @@
 
 #include "generated/Color4ub.pypp.hpp"
 
-#include "generated/Connection.pypp.hpp"
-
 #include "generated/ConnectionFactory.pypp.hpp"
 
 #include "generated/ConnectionFactoryBase.pypp.hpp"
-
-#include "generated/ConnectionType.pypp.hpp"
 
 #include "generated/ConnectorAttachment.pypp.hpp"
 
@@ -99,8 +99,6 @@
 #include "generated/GlobalsAttachment.pypp.hpp"
 
 #include "generated/GlobalsAttachmentBase.pypp.hpp"
-
-#include "generated/GroupConnection.pypp.hpp"
 
 #include "generated/HardwareContext.pypp.hpp"
 
@@ -147,8 +145,6 @@
 #include "generated/Pnt4d.pypp.hpp"
 
 #include "generated/Pnt4f.pypp.hpp"
-
-#include "generated/PointConnection.pypp.hpp"
 
 #include "generated/PolytopeVolume.pypp.hpp"
 
@@ -289,15 +285,7 @@ BOOST_PYTHON_MODULE(OSGBasePy){
 
     register_Color4ub_class();
 
-    register_Exception_class();
-
-    register_ExceptionBinaryDataHandler_class();
-
-    register_Connection_class();
-
     register_ConnectionFactoryBase_class();
-
-    register_ConnectionType_class();
 
     register_ConnectorAttachmentBase_class();
 
@@ -310,6 +298,10 @@ BOOST_PYTHON_MODULE(OSGBasePy){
     register_HardwareContextParent_class();
 
     register_DataType_class();
+
+    register_Exception_class();
+
+    register_ExceptionBinaryDataHandler_class();
 
     register_ExternalThread_class();
 
@@ -328,8 +320,6 @@ BOOST_PYTHON_MODULE(OSGBasePy){
     register_GlobalsAttachmentBase_class();
 
     register_GlobalsAttachment_class();
-
-    register_GroupConnection_class();
 
     register_HardwareContextBase_class();
 
@@ -368,8 +358,6 @@ BOOST_PYTHON_MODULE(OSGBasePy){
     register_VecStorage2f_class();
 
     register_Pnt2f_class();
-
-    register_PointConnection_class();
 
     register_PolytopeVolume_class();
 

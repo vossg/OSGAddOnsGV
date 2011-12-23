@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGSystem_mainheader.h"
@@ -623,7 +627,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::resize
         
-            typedef void ( ::OSG::GeoVectorProperty::*resize_function_type )( ::size_t ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*resize_function_type )( ::OSG::SizeT ) ;
             
             GeoVectorProperty_exposer.def( 
                 "resize"
@@ -803,11 +807,20 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::size
         
-            typedef ::OSG::UInt32 ( ::OSG::GeoVectorProperty::*size_function_type )(  ) const;
+            typedef ::OSG::SizeT ( ::OSG::GeoVectorProperty::*size_function_type )(  ) const;
             
             GeoVectorProperty_exposer.def( 
                 "size"
                 , size_function_type( &::OSG::GeoVectorProperty::size ) );
+        
+        }
+        { //::OSG::GeoVectorProperty::size32
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoVectorProperty::*size32_function_type )(  ) const;
+            
+            GeoVectorProperty_exposer.def( 
+                "size32"
+                , size32_function_type( &::OSG::GeoVectorProperty::size32 ) );
         
         }
         { //::OSG::GeoVectorProperty::unmapBuffer

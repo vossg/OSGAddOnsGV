@@ -2186,13 +2186,13 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@mpl_@::mpl_
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
 ~@namespace_t@boost_concepts@::boost_concepts
+~@namespace_t@mpl_@::mpl_
 ~@namespace_t@boost@::boost
 ~@namespace_t@boost_swap_impl@::boost_swap_impl
 ~@namespace_t@OSG@::OSG
@@ -2257,7 +2257,7 @@
 ~@variable_t@_ZTIN3OSG9MixinHeadINS_18RenderDataSlotDescEEE@::_ZTIN3OSG9MixinHeadINS_18RenderDataSlotDescEEE
 ~@variable_t@_ZTISt8messagesIcE@::_ZTISt8messagesIcE
 ~@variable_t@_ZTISt9bad_alloc@::_ZTISt9bad_alloc
-~@variable_t@_ZTIN3OSG18GLDefineMapperBaseE@::_ZTIN3OSG18GLDefineMapperBaseE
+~@variable_t@_ZTIN3OSG10ConnectionE@::_ZTIN3OSG10ConnectionE
 ~@variable_t@_ZTIN3OSG13ClusterServerE@::_ZTIN3OSG13ClusterServerE
 ~@variable_t@_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
@@ -2420,7 +2420,6 @@
 ~@variable_t@__tzname@::__tzname
 ~@variable_t@_ZTIN3OSG14MPLockPoolTypeE@::_ZTIN3OSG14MPLockPoolTypeE
 ~@variable_t@_ZTISt10moneypunctIcLb0EE@::_ZTISt10moneypunctIcLb0EE
-~@variable_t@_ZTIN3OSG10ConnectionE@::_ZTIN3OSG10ConnectionE
 ~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
 ~@variable_t@_ZTISt12domain_error@::_ZTISt12domain_error
 ~@variable_t@stdin@::stdin
@@ -2457,6 +2456,7 @@
 ~@variable_t@_ZTIN3OSG18MultiDisplayWindowE@::_ZTIN3OSG18MultiDisplayWindowE
 ~@variable_t@_ZTIN3OSG16BlockingDrawTaskE@::_ZTIN3OSG16BlockingDrawTaskE
 ~@variable_t@_ZTISt14basic_iostreamIwSt11char_traitsIwEE@::_ZTISt14basic_iostreamIwSt11char_traitsIwEE
+~@variable_t@_ZTIN3OSG18GLDefineMapperBaseE@::_ZTIN3OSG18GLDefineMapperBaseE
 ~@variable_t@optarg@::optarg
 ~@variable_t@_ZTIN3OSG13MPBarrierTypeE@::_ZTIN3OSG13MPBarrierTypeE
 ~@variable_t@_ZTIN3OSG13ThreadManagerE@::_ZTIN3OSG13ThreadManagerE

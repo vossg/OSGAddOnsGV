@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDynamics_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list SkeletonBase_getMFRoots(OSG::SkeletonBase *self)
 {
    boost::python::list result;
    OSG::MFUnrecNodePtr const * mf_data = self->getMFRoots();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::Node::ObjRecPtr((*mf_data)[i]));
@@ -48,7 +52,7 @@ boost::python::list SkeletonBase_getMFJoints(OSG::SkeletonBase *self)
 {
    boost::python::list result;
    OSG::MFUnrecChildBaseSkeletonJointPtr const * mf_data = self->getMFJoints();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::BaseSkeletonJoint::ObjRecPtr((*mf_data)[i]));
@@ -60,7 +64,7 @@ boost::python::list SkeletonBase_getMFParentJoints(OSG::SkeletonBase *self)
 {
    boost::python::list result;
    OSG::MFUnrecBaseSkeletonJointPtr const * mf_data = self->getMFParentJoints();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::BaseSkeletonJoint::ObjRecPtr((*mf_data)[i]));
@@ -72,7 +76,7 @@ boost::python::list SkeletonBase_getMFJointMatrices(OSG::SkeletonBase *self)
 {
    boost::python::list result;
    OSG::MFMatrix const * mf_data = self->getMFJointMatrices();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -84,7 +88,7 @@ boost::python::list SkeletonBase_getMFJointNormalMatrices(OSG::SkeletonBase *sel
 {
    boost::python::list result;
    OSG::MFMatrix const * mf_data = self->getMFJointNormalMatrices();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -215,7 +219,7 @@ void register_SkeletonBase_class(){
         }
         { //::OSG::SkeletonBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::SkeletonBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::SkeletonBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             SkeletonBase_exposer.def( 
                 "getBinSize"

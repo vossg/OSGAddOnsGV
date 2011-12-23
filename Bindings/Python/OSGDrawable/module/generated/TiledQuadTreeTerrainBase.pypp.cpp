@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDrawable_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list TiledQuadTreeTerrainBase_getMFHeightTiles(OSG::TiledQuadTree
 {
    boost::python::list result;
    OSG::MFUnrecImagePtr const * mf_data = self->getMFHeightTiles();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::Image::ObjRecPtr((*mf_data)[i]));
@@ -48,7 +52,7 @@ boost::python::list TiledQuadTreeTerrainBase_getMFHeightTextures(OSG::TiledQuadT
 {
    boost::python::list result;
    OSG::MFUnrecMaterialPtr const * mf_data = self->getMFHeightTextures();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::Material::ObjRecPtr((*mf_data)[i]));
@@ -166,7 +170,7 @@ void register_TiledQuadTreeTerrainBase_class(){
         }
         { //::OSG::TiledQuadTreeTerrainBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::TiledQuadTreeTerrainBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::TiledQuadTreeTerrainBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             TiledQuadTreeTerrainBase_exposer.def( 
                 "getBinSize"

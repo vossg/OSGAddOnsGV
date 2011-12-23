@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGEffectGroups_mainheader.h"
@@ -91,7 +95,7 @@ void register_ResolutionDisplayFilterBase_class(){
         }
         { //::OSG::ResolutionDisplayFilterBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ResolutionDisplayFilterBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ResolutionDisplayFilterBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ResolutionDisplayFilterBase_exposer.def( 
                 "getBinSize"

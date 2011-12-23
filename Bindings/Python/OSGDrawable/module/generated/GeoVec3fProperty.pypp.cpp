@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDrawable_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list TypedGeoVectorProperty_OSG__GeoVec3fPropertyDesc__getFieldPt
 {
    boost::python::list result;
    OSG::MFVec3f const * mf_data = self->getFieldPtr();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -48,7 +52,7 @@ boost::python::list TypedGeoVectorProperty_OSG__GeoVec3fPropertyDesc__getField(O
 {
    boost::python::list result;
    OSG::MFVec3f const & mf_data = self->getField();
-   const OSG::UInt32 size(mf_data.size());
+   const OSG::UInt32 size(mf_data.size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(mf_data[i]);
@@ -264,6 +268,16 @@ void register_GeoVec3fProperty_class(){
                 , __getitem___function_type( &::OSG::TypedGeoVectorProperty< OSG::GeoVec3fPropertyDesc >::operator[] )
                 , ( bp::arg("index") )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::TypedGeoVectorProperty< OSG::GeoVec3fPropertyDesc >::size32
+        
+            typedef OSG::TypedGeoVectorProperty< OSG::GeoVec3fPropertyDesc > exported_class_t;
+            typedef ::OSG::UInt32 ( exported_class_t::*size32_function_type )(  ) const;
+            
+            GeoVec3fProperty_exposer.def( 
+                "size32"
+                , size32_function_type( &::OSG::TypedGeoVectorProperty< OSG::GeoVec3fPropertyDesc >::size32 ) );
         
         }
         GeoVec3fProperty_exposer.staticmethod( "create" );

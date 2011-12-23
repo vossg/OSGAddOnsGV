@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGState_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list ProgramChunkBase_getMFParamValues(OSG::ProgramChunkBase *sel
 {
    boost::python::list result;
    OSG::MFVec4f const * mf_data = self->getMFParamValues();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -48,7 +52,7 @@ boost::python::list ProgramChunkBase_getMFParamNames(OSG::ProgramChunkBase *self
 {
    boost::python::list result;
    OSG::MFString const * mf_data = self->getMFParamNames();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -89,7 +93,7 @@ void register_ProgramChunkBase_class(){
         }
         { //::OSG::ProgramChunkBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ProgramChunkBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ProgramChunkBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ProgramChunkBase_exposer.def( 
                 "getBinSize"

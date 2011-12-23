@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGEffectGroups_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list DeferredShadingStageBase_getMFPixelFormats(OSG::DeferredShad
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFPixelFormats();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -48,7 +52,7 @@ boost::python::list DeferredShadingStageBase_getMFPixelTypes(OSG::DeferredShadin
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFPixelTypes();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -60,7 +64,7 @@ boost::python::list DeferredShadingStageBase_getMFLightPrograms(OSG::DeferredSha
 {
    boost::python::list result;
    OSG::MFUnrecShaderProgramChunkPtr const * mf_data = self->getMFLightPrograms();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::ShaderProgramChunk::ObjRecPtr((*mf_data)[i]));
@@ -72,7 +76,7 @@ boost::python::list DeferredShadingStageBase_getMFLights(OSG::DeferredShadingSta
 {
    boost::python::list result;
    OSG::MFUnrecLightPtr const * mf_data = self->getMFLights();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::Light::ObjRecPtr((*mf_data)[i]));
@@ -192,7 +196,7 @@ void register_DeferredShadingStageBase_class(){
         }
         { //::OSG::DeferredShadingStageBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::DeferredShadingStageBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::DeferredShadingStageBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             DeferredShadingStageBase_exposer.def( 
                 "getBinSize"

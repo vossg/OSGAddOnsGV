@@ -15,7 +15,6 @@ AnimQuaternionChannel
 AnimBlenderBase
 AnimVec3fBlender
 GPUSkinningAlgorithm
-SkeletonJoint
 AnimBlender
 VRMLOrientationInterpolator
 AnimKeyFrameDataSource
@@ -74,3 +73,4 @@ AnimTimeSensorBase
 SkeletonOgreJointBase
 SkinnedGeometry
 AnimVec3fChannelBase
+SkeletonJoint

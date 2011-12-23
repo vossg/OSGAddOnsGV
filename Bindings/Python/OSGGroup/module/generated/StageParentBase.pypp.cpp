@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGGroup_mainheader.h"
@@ -82,7 +86,7 @@ struct TraversalValidationHandlerMixin_less__OSG_scope_ContainerMixinHead_less__
         OSG::TraversalValidationHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > >::dump( uiIndent, bvFlags );
     }
 
-    virtual ::OSG::UInt32 getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
+    virtual ::OSG::SizeT getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
         if( bp::override func_getBinSize = this->get_override( "getBinSize" ) )
             return func_getBinSize( whichField );
         else{
@@ -90,7 +94,7 @@ struct TraversalValidationHandlerMixin_less__OSG_scope_ContainerMixinHead_less__
         }
     }
     
-    ::OSG::UInt32 default_getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
+    ::OSG::SizeT default_getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
         return OSG::TraversalValidationHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > >::getBinSize( whichField );
     }
 
@@ -204,8 +208,8 @@ void register_StageParentBase_class(){
         { //::OSG::TraversalValidationHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > >::getBinSize
         
             typedef OSG::TraversalValidationHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > > exported_class_t;
-            typedef ::OSG::UInt32 ( exported_class_t::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
-            typedef ::OSG::UInt32 ( TraversalValidationHandlerMixin_less__OSG_scope_ContainerMixinHead_less__OSG_scope_StageDesc__greater___greater__wrapper::*default_getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( exported_class_t::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( TraversalValidationHandlerMixin_less__OSG_scope_ContainerMixinHead_less__OSG_scope_StageDesc__greater___greater__wrapper::*default_getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             StageParentBase_exposer.def( 
                 "getBinSize"

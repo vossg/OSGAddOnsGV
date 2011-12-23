@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDynamics_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list AnimTargetAttachmentBase_getMFBlenders(OSG::AnimTargetAttach
 {
    boost::python::list result;
    OSG::MFUnrecAnimBlenderPtr const * mf_data = self->getMFBlenders();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::AnimBlender::ObjRecPtr((*mf_data)[i]));
@@ -123,7 +127,7 @@ void register_AnimTargetAttachmentBase_class(){
         }
         { //::OSG::AnimTargetAttachmentBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::AnimTargetAttachmentBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::AnimTargetAttachmentBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             AnimTargetAttachmentBase_exposer.def( 
                 "getBinSize"

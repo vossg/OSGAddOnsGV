@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDrawable_mainheader.h"
@@ -54,7 +58,7 @@ struct GeoVectorBufferPropertyBase_wrapper : OSG::GeoVectorBufferPropertyBase, b
         return func_getNormalize(  );
     }
 
-    virtual void resize( ::size_t newsize ){
+    virtual void resize( ::OSG::SizeT newsize ){
         bp::override func_resize = this->get_override( "resize" );
         func_resize( newsize );
     }
@@ -64,9 +68,14 @@ struct GeoVectorBufferPropertyBase_wrapper : OSG::GeoVectorBufferPropertyBase, b
         func_setGenericValue( boost::ref(val), index );
     }
 
-    virtual ::OSG::UInt32 size(  ) const {
+    virtual ::OSG::SizeT size(  ) const {
         bp::override func_size = this->get_override( "size" );
         return func_size(  );
+    }
+
+    virtual ::OSG::UInt32 size32(  ) const {
+        bp::override func_size32 = this->get_override( "size32" );
+        return func_size32(  );
     }
 
 };
@@ -135,7 +144,7 @@ void register_GeoVectorBufferPropertyBase_class(){
         }
         { //::OSG::GeoVectorBufferPropertyBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::GeoVectorBufferPropertyBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::GeoVectorBufferPropertyBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             GeoVectorBufferPropertyBase_exposer.def( 
                 "getBinSize"
@@ -413,7 +422,7 @@ void register_GeoVectorBufferPropertyBase_class(){
         }
         { //::OSG::GeoVectorProperty::resize
         
-            typedef void ( ::OSG::GeoVectorProperty::*resize_function_type )( ::size_t ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*resize_function_type )( ::OSG::SizeT ) ;
             
             GeoVectorBufferPropertyBase_exposer.def( 
                 "resize"
@@ -433,11 +442,20 @@ void register_GeoVectorBufferPropertyBase_class(){
         }
         { //::OSG::GeoVectorProperty::size
         
-            typedef ::OSG::UInt32 ( ::OSG::GeoVectorProperty::*size_function_type )(  ) const;
+            typedef ::OSG::SizeT ( ::OSG::GeoVectorProperty::*size_function_type )(  ) const;
             
             GeoVectorBufferPropertyBase_exposer.def( 
                 "size"
                 , bp::pure_virtual( size_function_type(&::OSG::GeoVectorProperty::size) ) );
+        
+        }
+        { //::OSG::GeoVectorProperty::size32
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoVectorProperty::*size32_function_type )(  ) const;
+            
+            GeoVectorBufferPropertyBase_exposer.def( 
+                "size32"
+                , bp::pure_virtual( size32_function_type(&::OSG::GeoVectorProperty::size32) ) );
         
         }
         GeoVectorBufferPropertyBase_exposer.staticmethod( "create" );

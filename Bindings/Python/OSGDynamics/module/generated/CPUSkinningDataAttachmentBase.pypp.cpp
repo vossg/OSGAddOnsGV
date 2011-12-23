@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDynamics_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list CPUSkinningDataAttachmentBase_getMFProperties(OSG::CPUSkinni
 {
    boost::python::list result;
    OSG::MFUnrecChildGeoVectorPropertyPtr const * mf_data = self->getMFProperties();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::GeoVectorProperty::ObjRecPtr((*mf_data)[i]));
@@ -48,7 +52,7 @@ boost::python::list CPUSkinningDataAttachmentBase_getMFJointMatrices(OSG::CPUSki
 {
    boost::python::list result;
    OSG::MFMatrix const * mf_data = self->getMFJointMatrices();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -60,7 +64,7 @@ boost::python::list CPUSkinningDataAttachmentBase_getMFJointNormalMatrices(OSG::
 {
    boost::python::list result;
    OSG::MFMatrix const * mf_data = self->getMFJointNormalMatrices();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -149,7 +153,7 @@ void register_CPUSkinningDataAttachmentBase_class(){
         }
         { //::OSG::CPUSkinningDataAttachmentBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::CPUSkinningDataAttachmentBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::CPUSkinningDataAttachmentBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             CPUSkinningDataAttachmentBase_exposer.def( 
                 "getBinSize"

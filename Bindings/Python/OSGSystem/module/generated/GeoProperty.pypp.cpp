@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGSystem_mainheader.h"
@@ -123,15 +127,6 @@ void register_GeoProperty_class(){
                 , getGLId_function_type( &::OSG::GeoProperty::getGLId ) );
         
         }
-        { //::OSG::GeoProperty::getSize
-        
-            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*getSize_function_type )(  ) const;
-            
-            GeoProperty_exposer.def( 
-                "getSize"
-                , getSize_function_type( &::OSG::GeoProperty::getSize ) );
-        
-        }
         { //::OSG::GeoProperty::getStaticClass
         
             typedef ::OSG::StateChunkClass const * ( *getStaticClass_function_type )(  );
@@ -180,11 +175,20 @@ void register_GeoProperty_class(){
         }
         { //::OSG::GeoProperty::size
         
-            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*size_function_type )(  ) const;
+            typedef ::OSG::SizeT ( ::OSG::GeoProperty::*size_function_type )(  ) const;
             
             GeoProperty_exposer.def( 
                 "size"
                 , size_function_type( &::OSG::GeoProperty::size ) );
+        
+        }
+        { //::OSG::GeoProperty::size32
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*size32_function_type )(  ) const;
+            
+            GeoProperty_exposer.def( 
+                "size32"
+                , size32_function_type( &::OSG::GeoProperty::size32 ) );
         
         }
         { //::OSG::GeoProperty::switchCost

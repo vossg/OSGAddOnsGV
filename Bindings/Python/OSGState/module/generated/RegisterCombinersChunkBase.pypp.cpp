@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGState_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list RegisterCombinersChunkBase_getMFVariableArgb(OSG::RegisterCo
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFVariableArgb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -48,7 +52,7 @@ boost::python::list RegisterCombinersChunkBase_getMFVariableBrgb(OSG::RegisterCo
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFVariableBrgb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -60,7 +64,7 @@ boost::python::list RegisterCombinersChunkBase_getMFVariableCrgb(OSG::RegisterCo
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFVariableCrgb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -72,7 +76,7 @@ boost::python::list RegisterCombinersChunkBase_getMFVariableDrgb(OSG::RegisterCo
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFVariableDrgb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -84,7 +88,7 @@ boost::python::list RegisterCombinersChunkBase_getMFVariableAalpha(OSG::Register
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFVariableAalpha();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -96,7 +100,7 @@ boost::python::list RegisterCombinersChunkBase_getMFVariableBalpha(OSG::Register
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFVariableBalpha();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -108,7 +112,7 @@ boost::python::list RegisterCombinersChunkBase_getMFVariableCalpha(OSG::Register
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFVariableCalpha();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -120,7 +124,7 @@ boost::python::list RegisterCombinersChunkBase_getMFVariableDalpha(OSG::Register
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFVariableDalpha();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -132,7 +136,7 @@ boost::python::list RegisterCombinersChunkBase_getMFOutputABrgb(OSG::RegisterCom
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFOutputABrgb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -144,7 +148,7 @@ boost::python::list RegisterCombinersChunkBase_getMFOutputCDrgb(OSG::RegisterCom
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFOutputCDrgb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -156,7 +160,7 @@ boost::python::list RegisterCombinersChunkBase_getMFOutputSumrgb(OSG::RegisterCo
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFOutputSumrgb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -168,7 +172,7 @@ boost::python::list RegisterCombinersChunkBase_getMFScalergb(OSG::RegisterCombin
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFScalergb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -180,7 +184,7 @@ boost::python::list RegisterCombinersChunkBase_getMFBiasrgb(OSG::RegisterCombine
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFBiasrgb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -192,7 +196,7 @@ boost::python::list RegisterCombinersChunkBase_getMFOutputABalpha(OSG::RegisterC
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFOutputABalpha();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -204,7 +208,7 @@ boost::python::list RegisterCombinersChunkBase_getMFOutputCDalpha(OSG::RegisterC
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFOutputCDalpha();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -216,7 +220,7 @@ boost::python::list RegisterCombinersChunkBase_getMFOutputSumalpha(OSG::Register
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFOutputSumalpha();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -228,7 +232,7 @@ boost::python::list RegisterCombinersChunkBase_getMFDotABrgb(OSG::RegisterCombin
 {
    boost::python::list result;
    OSG::MFUInt8 const * mf_data = self->getMFDotABrgb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -240,7 +244,7 @@ boost::python::list RegisterCombinersChunkBase_getMFDotCDrgb(OSG::RegisterCombin
 {
    boost::python::list result;
    OSG::MFUInt8 const * mf_data = self->getMFDotCDrgb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -252,7 +256,7 @@ boost::python::list RegisterCombinersChunkBase_getMFMuxSumrgb(OSG::RegisterCombi
 {
    boost::python::list result;
    OSG::MFUInt8 const * mf_data = self->getMFMuxSumrgb();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -264,7 +268,7 @@ boost::python::list RegisterCombinersChunkBase_getMFScalealpha(OSG::RegisterComb
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFScalealpha();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -276,7 +280,7 @@ boost::python::list RegisterCombinersChunkBase_getMFBiasalpha(OSG::RegisterCombi
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFBiasalpha();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -288,7 +292,7 @@ boost::python::list RegisterCombinersChunkBase_getMFMuxSumalpha(OSG::RegisterCom
 {
    boost::python::list result;
    OSG::MFUInt8 const * mf_data = self->getMFMuxSumalpha();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -300,7 +304,7 @@ boost::python::list RegisterCombinersChunkBase_getMFVariableE(OSG::RegisterCombi
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFVariableE();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -312,7 +316,7 @@ boost::python::list RegisterCombinersChunkBase_getMFVariableF(OSG::RegisterCombi
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFVariableF();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -324,7 +328,7 @@ boost::python::list RegisterCombinersChunkBase_getMFVariableG(OSG::RegisterCombi
 {
    boost::python::list result;
    OSG::MFGLenum const * mf_data = self->getMFVariableG();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -336,7 +340,7 @@ boost::python::list RegisterCombinersChunkBase_getMFCombinerColor0(OSG::Register
 {
    boost::python::list result;
    OSG::MFColor4f const * mf_data = self->getMFCombinerColor0();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -348,7 +352,7 @@ boost::python::list RegisterCombinersChunkBase_getMFCombinerColor1(OSG::Register
 {
    boost::python::list result;
    OSG::MFColor4f const * mf_data = self->getMFCombinerColor1();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -467,7 +471,7 @@ void register_RegisterCombinersChunkBase_class(){
         }
         { //::OSG::RegisterCombinersChunkBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::RegisterCombinersChunkBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::RegisterCombinersChunkBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             RegisterCombinersChunkBase_exposer.def( 
                 "getBinSize"

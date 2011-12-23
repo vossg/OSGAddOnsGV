@@ -162,7 +162,7 @@
 ~@typedef_t@PFNGLBLENDFUNCIPROC@::PFNGLBLENDFUNCIPROC
 ~@typedef_t@PFNGLMAPNAMEDBUFFEREXTPROC@::PFNGLMAPNAMEDBUFFEREXTPROC
 ~@typedef_t@PFNGLUNIFORM2IVPROC@::PFNGLUNIFORM2IVPROC
-~@typedef_t@PFNGLREPLACEMENTCODEUBVSUNPROC@::PFNGLREPLACEMENTCODEUBVSUNPROC
+~@typedef_t@PFNGLMAPVERTEXATTRIB1FAPPLEPROC@::PFNGLMAPVERTEXATTRIB1FAPPLEPROC
 ~@typedef_t@uint_least16_t@::uint_least16_t
 ~@typedef_t@PFNGLGETHISTOGRAMPARAMETERIVEXTPROC@::PFNGLGETHISTOGRAMPARAMETERIVEXTPROC
 ~@typedef_t@PFNGLSECONDARYCOLOR3BVEXTPROC@::PFNGLSECONDARYCOLOR3BVEXTPROC
@@ -907,7 +907,7 @@
 ~@typedef_t@PFNGLVERTEXATTRIB4UBVPROC@::PFNGLVERTEXATTRIB4UBVPROC
 ~@typedef_t@PFNGLCREATESYNCFROMCLEVENTARBPROC@::PFNGLCREATESYNCFROMCLEVENTARBPROC
 ~@typedef_t@PFNGLCOLORMASKINDEXEDEXTPROC@::PFNGLCOLORMASKINDEXEDEXTPROC
-~@typedef_t@blkcnt_t@::blkcnt_t
+~@typedef_t@PFNGLREPLACEMENTCODEUBVSUNPROC@::PFNGLREPLACEMENTCODEUBVSUNPROC
 ~@typedef_t@PFNGLMULTITEXSUBIMAGE3DEXTPROC@::PFNGLMULTITEXSUBIMAGE3DEXTPROC
 ~@typedef_t@PFNGLVERTEXATTRIB3SVNVPROC@::PFNGLVERTEXATTRIB3SVNVPROC
 ~@typedef_t@PFNGLGETVERTEXATTRIBIVARBPROC@::PFNGLGETVERTEXATTRIBIVARBPROC
@@ -1784,7 +1784,6 @@
 ~@typedef_t@PFNGLMULTITEXCOORD1DVPROC@::PFNGLMULTITEXCOORD1DVPROC
 ~@typedef_t@PFNGLREPLACEMENTCODEUSSUNPROC@::PFNGLREPLACEMENTCODEUSSUNPROC
 ~@typedef_t@PFNGLGETHISTOGRAMPARAMETERFVPROC@::PFNGLGETHISTOGRAMPARAMETERFVPROC
-~@typedef_t@PFNGLMAPVERTEXATTRIB1FAPPLEPROC@::PFNGLMAPVERTEXATTRIB1FAPPLEPROC
 ~@typedef_t@PFNGLCOPYTEXTUREIMAGE2DEXTPROC@::PFNGLCOPYTEXTUREIMAGE2DEXTPROC
 ~@typedef_t@PFNGLTEXCOORD2FVERTEX3FVSUNPROC@::PFNGLTEXCOORD2FVERTEX3FVSUNPROC
 ~@typedef_t@ssize_t@::ssize_t
@@ -1896,6 +1895,7 @@
 ~@typedef_t@PFNGLUNIFORM3DVPROC@::PFNGLUNIFORM3DVPROC
 ~@typedef_t@PFNGLGETDOUBLEINDEXEDVEXTPROC@::PFNGLGETDOUBLEINDEXEDVEXTPROC
 ~@typedef_t@PFNGLBINDPROGRAMPIPELINEPROC@::PFNGLBINDPROGRAMPIPELINEPROC
+~@typedef_t@blkcnt_t@::blkcnt_t
 ~@typedef_t@__pthread_unwind_buf_t@::__pthread_unwind_buf_t
 ~@typedef_t@PFNGLMULTITEXCOORD2SVPROC@::PFNGLMULTITEXCOORD2SVPROC
 ~@typedef_t@PFNGLUNIFORMUI64VNVPROC@::PFNGLUNIFORMUI64VNVPROC
@@ -3147,6 +3147,7 @@
 ~@free_function_t@__gthrw_sched_yield@int (*)(  )int (*)(  )
 ~@free_function_t@strtoul_l@long unsigned int (*)( __restrict__ char const *,__restrict__ char * *,int,::__locale_t )long unsigned int (*)( __restrict__ char const *,__restrict__ char * *,int,::__locale_t )
 ~@free_function_t@time@::time_t (*)( ::time_t * )::time_t (*)( ::time_t * )
+~@free_function_t@glEvalCoord1dv@void (*)( ::GLdouble const * )void (*)( ::GLdouble const * )
 ~@free_function_t@revoke@int (*)( char const * )int (*)( char const * )
 ~@free_function_t@nearbyint@double (*)( double )double (*)( double )
 ~@free_function_t@__gthrw_pthread_self@::pthread_t (*)(  )::pthread_t (*)(  )
@@ -3287,7 +3288,7 @@
 ~@free_function_t@__asinf@float (*)( float )float (*)( float )
 ~@free_function_t@strcoll_l@int (*)( char const *,char const *,::__locale_t )int (*)( char const *,char const *,::__locale_t )
 ~@free_function_t@isxdigit_l@int (*)( int,::__locale_t )int (*)( int,::__locale_t )
-~@free_function_t@__builtin_frame_address@void * (*)( unsigned int )void * (*)( unsigned int )
+~@free_function_t@glTexCoord3fv@void (*)( ::GLfloat const * )void (*)( ::GLfloat const * )
 ~@free_function_t@bindresvport@int (*)( int,::sockaddr_in * )int (*)( int,::sockaddr_in * )
 ~@free_function_t@setreuid@int (*)( ::__uid_t,::__uid_t )int (*)( ::__uid_t,::__uid_t )
 ~@free_function_t@seed48@short unsigned int * (*)( short unsigned int * )short unsigned int * (*)( short unsigned int * )
@@ -3388,7 +3389,7 @@
 ~@free_function_t@strtold_l@long double (*)( __restrict__ char const *,__restrict__ char * *,::__locale_t )long double (*)( __restrict__ char const *,__restrict__ char * *,::__locale_t )
 ~@free_function_t@glArrayElement@void (*)( ::GLint )void (*)( ::GLint )
 ~@free_function_t@glPixelStoref@void (*)( ::GLenum,::GLfloat )void (*)( ::GLenum,::GLfloat )
-~@free_function_t@glEvalCoord1dv@void (*)( ::GLdouble const * )void (*)( ::GLdouble const * )
+~@free_function_t@vfprintf@int (*)( __restrict__ ::FILE *,__restrict__ char const *,::__va_list_tag * )int (*)( __restrict__ ::FILE *,__restrict__ char const *,::__va_list_tag * )
 ~@free_function_t@glRecti@void (*)( ::GLint,::GLint,::GLint,::GLint )void (*)( ::GLint,::GLint,::GLint,::GLint )
 ~@free_function_t@obstack_vprintf@int (*)( __restrict__ ::obstack *,__restrict__ char const *,::__va_list_tag * )int (*)( __restrict__ ::obstack *,__restrict__ char const *,::__va_list_tag * )
 ~@free_function_t@isprint_l@int (*)( int,::__locale_t )int (*)( int,::__locale_t )
@@ -4233,7 +4234,6 @@
 ~@free_function_t@iswctype@int (*)( ::wint_t,::wctype_t )int (*)( ::wint_t,::wctype_t )
 ~@free_function_t@__logf@float (*)( float )float (*)( float )
 ~@free_function_t@__ldexpl@long double (*)( long double,int )long double (*)( long double,int )
-~@free_function_t@vfprintf@int (*)( __restrict__ ::FILE *,__restrict__ char const *,::__va_list_tag * )int (*)( __restrict__ ::FILE *,__restrict__ char const *,::__va_list_tag * )
 ~@free_function_t@wmemchr@wchar_t const * (*)( wchar_t const *,wchar_t,::size_t )wchar_t const * (*)( wchar_t const *,wchar_t,::size_t )
 ~@free_function_t@wmemchr@wchar_t * (*)( wchar_t *,wchar_t,::size_t )wchar_t * (*)( wchar_t *,wchar_t,::size_t )
 ~@free_function_t@on_exit@int (*)( void (*)( int,void * ) *,void * )int (*)( void (*)( int,void * ) *,void * )
@@ -4282,7 +4282,6 @@
 ~@free_function_t@modf@double (*)( double,double * )double (*)( double,double * )
 ~@free_function_t@glActiveTextureARB@void (*)( ::GLenum )void (*)( ::GLenum )
 ~@free_function_t@__builtin_modfl@long double (*)( long double,long double * )long double (*)( long double,long double * )
-~@free_function_t@glTexCoord3fv@void (*)( ::GLfloat const * )void (*)( ::GLfloat const * )
 ~@free_function_t@__builtin_popcountl@int (*)( long int )int (*)( long int )
 ~@free_function_t@__atan@double (*)( double )double (*)( double )
 ~@free_function_t@fgets_unlocked@char * (*)( __restrict__ char *,int,__restrict__ ::FILE * )char * (*)( __restrict__ char *,int,__restrict__ ::FILE * )
@@ -4507,6 +4506,7 @@
 ~@free_function_t@sethostname@int (*)( char const *,::size_t )int (*)( char const *,::size_t )
 ~@free_function_t@imaxabs@::intmax_t (*)( ::intmax_t )::intmax_t (*)( ::intmax_t )
 ~@free_function_t@iswcntrl@int (*)( ::wint_t )int (*)( ::wint_t )
+~@free_function_t@__builtin_frame_address@void * (*)( unsigned int )void * (*)( unsigned int )
 ~@free_function_t@glNormal3f@void (*)( ::GLfloat,::GLfloat,::GLfloat )void (*)( ::GLfloat,::GLfloat,::GLfloat )
 ~@free_function_t@__builtin_tanf@float (*)( float )float (*)( float )
 ~@free_function_t@fsync@int (*)( int )int (*)( int )

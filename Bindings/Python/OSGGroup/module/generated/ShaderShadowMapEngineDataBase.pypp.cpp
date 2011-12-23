@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGGroup_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list ShaderShadowMapEngineDataBase_getMFRenderTargets(OSG::Shader
 {
    boost::python::list result;
    OSG::MFUnrecFrameBufferObjectPtr const * mf_data = self->getMFRenderTargets();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::FrameBufferObject::ObjRecPtr((*mf_data)[i]));
@@ -48,7 +52,7 @@ boost::python::list ShaderShadowMapEngineDataBase_getMFShadowTexBuffers(OSG::Sha
 {
    boost::python::list result;
    OSG::MFUnrecTextureBufferPtr const * mf_data = self->getMFShadowTexBuffers();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::TextureBuffer::ObjRecPtr((*mf_data)[i]));
@@ -60,7 +64,7 @@ boost::python::list ShaderShadowMapEngineDataBase_getMFLightPassMaterials(OSG::S
 {
    boost::python::list result;
    OSG::MFUnrecChunkMaterialPtr const * mf_data = self->getMFLightPassMaterials();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::ChunkMaterial::ObjRecPtr((*mf_data)[i]));
@@ -199,7 +203,7 @@ void register_ShaderShadowMapEngineDataBase_class(){
         }
         { //::OSG::ShaderShadowMapEngineDataBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ShaderShadowMapEngineDataBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ShaderShadowMapEngineDataBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ShaderShadowMapEngineDataBase_exposer.def( 
                 "getBinSize"

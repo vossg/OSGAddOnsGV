@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDrawable_mainheader.h"
@@ -69,9 +73,14 @@ struct GeoIntegralPropertyBase_wrapper : OSG::GeoIntegralPropertyBase, bp::wrapp
         return func_getVectorType(  );
     }
 
-    virtual ::OSG::UInt32 size(  ) const {
+    virtual ::OSG::SizeT size(  ) const {
         bp::override func_size = this->get_override( "size" );
         return func_size(  );
+    }
+
+    virtual ::OSG::UInt32 size32(  ) const {
+        bp::override func_size32 = this->get_override( "size32" );
+        return func_size32(  );
     }
 
 };
@@ -104,7 +113,7 @@ void register_GeoIntegralPropertyBase_class(){
         }
         { //::OSG::GeoIntegralPropertyBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::GeoIntegralPropertyBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::GeoIntegralPropertyBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             GeoIntegralPropertyBase_exposer.def( 
                 "getBinSize"
@@ -234,11 +243,20 @@ void register_GeoIntegralPropertyBase_class(){
         }
         { //::OSG::GeoProperty::size
         
-            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*size_function_type )(  ) const;
+            typedef ::OSG::SizeT ( ::OSG::GeoProperty::*size_function_type )(  ) const;
             
             GeoIntegralPropertyBase_exposer.def( 
                 "size"
                 , bp::pure_virtual( size_function_type(&::OSG::GeoProperty::size) ) );
+        
+        }
+        { //::OSG::GeoProperty::size32
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoProperty::*size32_function_type )(  ) const;
+            
+            GeoIntegralPropertyBase_exposer.def( 
+                "size32"
+                , bp::pure_virtual( size32_function_type(&::OSG::GeoProperty::size32) ) );
         
         }
         GeoIntegralPropertyBase_exposer.staticmethod( "getClassGroupId" );

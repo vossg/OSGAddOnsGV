@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDynamics_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list AnimQuaternionDataSourceBase_getMFValues(OSG::AnimQuaternion
 {
    boost::python::list result;
    OSG::MFQuaternion const * mf_data = self->getMFValues();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -48,7 +52,7 @@ boost::python::list AnimQuaternionDataSourceBase_getMFInTangentsX(OSG::AnimQuate
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFInTangentsX();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -60,7 +64,7 @@ boost::python::list AnimQuaternionDataSourceBase_getMFInTangentsY(OSG::AnimQuate
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFInTangentsY();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -72,7 +76,7 @@ boost::python::list AnimQuaternionDataSourceBase_getMFInTangentsZ(OSG::AnimQuate
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFInTangentsZ();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -84,7 +88,7 @@ boost::python::list AnimQuaternionDataSourceBase_getMFInTangentsW(OSG::AnimQuate
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFInTangentsW();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -96,7 +100,7 @@ boost::python::list AnimQuaternionDataSourceBase_getMFOutTangentsX(OSG::AnimQuat
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFOutTangentsX();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -108,7 +112,7 @@ boost::python::list AnimQuaternionDataSourceBase_getMFOutTangentsY(OSG::AnimQuat
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFOutTangentsY();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -120,7 +124,7 @@ boost::python::list AnimQuaternionDataSourceBase_getMFOutTangentsZ(OSG::AnimQuat
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFOutTangentsZ();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -132,7 +136,7 @@ boost::python::list AnimQuaternionDataSourceBase_getMFOutTangentsW(OSG::AnimQuat
 {
    boost::python::list result;
    OSG::MFVec2f const * mf_data = self->getMFOutTangentsW();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -207,7 +211,7 @@ void register_AnimQuaternionDataSourceBase_class(){
         }
         { //::OSG::AnimQuaternionDataSourceBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::AnimQuaternionDataSourceBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::AnimQuaternionDataSourceBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             AnimQuaternionDataSourceBase_exposer.def( 
                 "getBinSize"

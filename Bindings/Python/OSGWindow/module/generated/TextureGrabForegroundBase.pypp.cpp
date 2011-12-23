@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGWindow_mainheader.h"
@@ -103,7 +107,7 @@ void register_TextureGrabForegroundBase_class(){
         }
         { //::OSG::TextureGrabForegroundBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::TextureGrabForegroundBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::TextureGrabForegroundBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             TextureGrabForegroundBase_exposer.def( 
                 "getBinSize"

@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGUtil_mainheader.h"
@@ -42,7 +46,7 @@ boost::python::list SimpleStatisticsForegroundBase_getMFFormats(OSG::SimpleStati
 {
    boost::python::list result;
    OSG::MFString const * mf_data = self->getMFFormats();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -130,7 +134,7 @@ void register_SimpleStatisticsForegroundBase_class(){
         }
         { //::OSG::SimpleStatisticsForegroundBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::SimpleStatisticsForegroundBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::SimpleStatisticsForegroundBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             SimpleStatisticsForegroundBase_exposer.def( 
                 "getBinSize"

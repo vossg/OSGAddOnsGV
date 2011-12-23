@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGEffectGroups_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list ColorDisplayFilterBase_getMFColorTable(OSG::ColorDisplayFilt
 {
    boost::python::list result;
    OSG::MFColor3f const * mf_data = self->getMFColorTable();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -110,7 +114,7 @@ void register_ColorDisplayFilterBase_class(){
         }
         { //::OSG::ColorDisplayFilterBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ColorDisplayFilterBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ColorDisplayFilterBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ColorDisplayFilterBase_exposer.def( 
                 "getBinSize"

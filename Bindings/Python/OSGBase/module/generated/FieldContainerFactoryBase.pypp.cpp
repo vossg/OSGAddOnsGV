@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGBase_mainheader.h"
@@ -121,7 +125,7 @@ void register_FieldContainerFactoryBase_class(){
         }
         { //::OSG::FieldContainerFactoryBase::getNumLiveContainers
         
-            typedef ::OSG::UInt32 ( ::OSG::FieldContainerFactoryBase::*getNumLiveContainers_function_type )(  ) const;
+            typedef ::OSG::SizeT ( ::OSG::FieldContainerFactoryBase::*getNumLiveContainers_function_type )(  ) const;
             
             FieldContainerFactoryBase_exposer.def( 
                 "getNumLiveContainers"
@@ -130,7 +134,7 @@ void register_FieldContainerFactoryBase_class(){
         }
         { //::OSG::FieldContainerFactoryBase::getNumTotalContainers
         
-            typedef ::OSG::UInt32 ( ::OSG::FieldContainerFactoryBase::*getNumTotalContainers_function_type )(  ) const;
+            typedef ::OSG::SizeT ( ::OSG::FieldContainerFactoryBase::*getNumTotalContainers_function_type )(  ) const;
             
             FieldContainerFactoryBase_exposer.def( 
                 "getNumTotalContainers"

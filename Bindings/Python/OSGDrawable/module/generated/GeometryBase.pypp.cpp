@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDrawable_mainheader.h"
@@ -45,7 +49,7 @@ boost::python::list GeometryBase_getMFProperties(OSG::GeometryBase *self)
 {
    boost::python::list result;
    OSG::MFUnrecChildGeoVectorPropertyPtr const * mf_data = self->getMFProperties();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::GeoVectorProperty::ObjRecPtr((*mf_data)[i]));
@@ -57,7 +61,7 @@ boost::python::list GeometryBase_getMFPropIndices(OSG::GeometryBase *self)
 {
    boost::python::list result;
    OSG::MFUnrecChildGeoIntegralPropertyPtr const * mf_data = self->getMFPropIndices();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::GeoIntegralProperty::ObjRecPtr((*mf_data)[i]));
@@ -168,7 +172,7 @@ void register_GeometryBase_class(){
         }
         { //::OSG::GeometryBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::GeometryBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::GeometryBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             GeometryBase_exposer.def( 
                 "getBinSize"

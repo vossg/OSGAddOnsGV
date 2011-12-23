@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGEffectGroups_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list PostShaderStageDataBase_getMFShaderMaterials(OSG::PostShader
 {
    boost::python::list result;
    OSG::MFUnrecChunkMaterialPtr const * mf_data = self->getMFShaderMaterials();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::ChunkMaterial::ObjRecPtr((*mf_data)[i]));
@@ -48,7 +52,7 @@ boost::python::list PostShaderStageDataBase_getMFRenderTargets(OSG::PostShaderSt
 {
    boost::python::list result;
    OSG::MFUnrecFrameBufferObjectPtr const * mf_data = self->getMFRenderTargets();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::FrameBufferObject::ObjRecPtr((*mf_data)[i]));
@@ -157,7 +161,7 @@ void register_PostShaderStageDataBase_class(){
         }
         { //::OSG::PostShaderStageDataBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::PostShaderStageDataBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::PostShaderStageDataBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             PostShaderStageDataBase_exposer.def( 
                 "getBinSize"

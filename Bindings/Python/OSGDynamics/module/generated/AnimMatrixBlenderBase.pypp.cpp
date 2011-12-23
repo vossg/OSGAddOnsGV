@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDynamics_mainheader.h"
@@ -45,7 +49,7 @@ boost::python::list AnimMatrixBlenderBase_getMFChannels(OSG::AnimMatrixBlenderBa
 {
    boost::python::list result;
    OSG::MFUnrecAnimMatrixChannelPtr const * mf_data = self->getMFChannels();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::AnimMatrixChannel::ObjRecPtr((*mf_data)[i]));
@@ -132,7 +136,7 @@ void register_AnimMatrixBlenderBase_class(){
         }
         { //::OSG::AnimMatrixBlenderBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::AnimMatrixBlenderBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::AnimMatrixBlenderBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             AnimMatrixBlenderBase_exposer.def( 
                 "getBinSize"

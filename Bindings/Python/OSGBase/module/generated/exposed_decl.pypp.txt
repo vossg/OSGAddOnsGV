@@ -439,7 +439,7 @@
 ~@typedef_t@int_least32_t@::int_least32_t
 ~@typedef_t@PFNGLSCISSORINDEXEDPROC@::PFNGLSCISSORINDEXEDPROC
 ~@typedef_t@alias_Pnt2f@::alias_Pnt2f
-~@typedef_t@PFNGLGETSEPARABLEFILTEREXTPROC@::PFNGLGETSEPARABLEFILTEREXTPROC
+~@typedef_t@PFNGLGETNAMEDRENDERBUFFERPARAMETERIVEXTPROC@::PFNGLGETNAMEDRENDERBUFFERPARAMETERIVEXTPROC
 ~@typedef_t@alias_Pnt2d@::alias_Pnt2d
 ~@typedef_t@alias_VecStorage4ub@::alias_VecStorage4ub
 ~@typedef_t@PFNGLGETNMAPDVARBPROC@::PFNGLGETNMAPDVARBPROC
@@ -769,6 +769,7 @@
 ~@typedef_t@alias_Pnt4d@::alias_Pnt4d
 ~@typedef_t@PFNGLSETFENCENVPROC@::PFNGLSETFENCENVPROC
 ~@typedef_t@alias_Pnt4f@::alias_Pnt4f
+~@typedef_t@PFNGLGETSEPARABLEFILTEREXTPROC@::PFNGLGETSEPARABLEFILTEREXTPROC
 ~@typedef_t@PFNGLPROGRAMUNIFORM1UIVEXTPROC@::PFNGLPROGRAMUNIFORM1UIVEXTPROC
 ~@typedef_t@PFNGLGETTEXTUREPARAMETERIIVEXTPROC@::PFNGLGETTEXTUREPARAMETERIIVEXTPROC
 ~@typedef_t@cookie_write_function_t@::cookie_write_function_t
@@ -1049,7 +1050,6 @@
 ~@typedef_t@PFNGLVERTEXATTRIBI3IVEXTPROC@::PFNGLVERTEXATTRIBI3IVEXTPROC
 ~@typedef_t@_G_uint32_t@::_G_uint32_t
 ~@typedef_t@PFNGLVALIDATEPROGRAMPROC@::PFNGLVALIDATEPROGRAMPROC
-~@typedef_t@PFNGLGETNAMEDRENDERBUFFERPARAMETERIVEXTPROC@::PFNGLGETNAMEDRENDERBUFFERPARAMETERIVEXTPROC
 ~@typedef_t@PFNGLVERTEXATTRIB3FARBPROC@::PFNGLVERTEXATTRIB3FARBPROC
 ~@typedef_t@PFNGLGENQUERIESPROC@::PFNGLGENQUERIESPROC
 ~@typedef_t@ssizeobjargproc@::ssizeobjargproc
@@ -1124,6 +1124,7 @@
 ~@typedef_t@PFNGLVERTEXATTRIBP4UIPROC@::PFNGLVERTEXATTRIBP4UIPROC
 ~@typedef_t@PFNGLMULTITEXCOORD1DPROC@::PFNGLMULTITEXCOORD1DPROC
 ~@typedef_t@PFNGLGETCOLORTABLEPROC@::PFNGLGETCOLORTABLEPROC
+~@typedef_t@PFNGLVERTEXATTRIBP4UIVPROC@::PFNGLVERTEXATTRIBP4UIVPROC
 ~@typedef_t@PFNGLGETBUFFERSUBDATAPROC@::PFNGLGETBUFFERSUBDATAPROC
 ~@typedef_t@PFNGLGENFRAMEBUFFERSPROC@::PFNGLGENFRAMEBUFFERSPROC
 ~@typedef_t@PFNGLISVERTEXATTRIBENABLEDAPPLEPROC@::PFNGLISVERTEXATTRIBENABLEDAPPLEPROC
@@ -1441,7 +1442,6 @@
 ~@typedef_t@PFNGLVERTEXATTRIB3SPROC@::PFNGLVERTEXATTRIB3SPROC
 ~@typedef_t@PFNGLPROGRAMLOCALPARAMETERS4FVEXTPROC@::PFNGLPROGRAMLOCALPARAMETERS4FVEXTPROC
 ~@typedef_t@PFNGLPROGRAMLOCALPARAMETERI4IVNVPROC@::PFNGLPROGRAMLOCALPARAMETERI4IVNVPROC
-~@typedef_t@PFNGLREPLACEMENTCODEUSSUNPROC@::PFNGLREPLACEMENTCODEUSSUNPROC
 ~@typedef_t@PFNGLGENTEXTURESEXTPROC@::PFNGLGENTEXTURESEXTPROC
 ~@typedef_t@PFNGLMULTITEXCOORD4DARBPROC@::PFNGLMULTITEXCOORD4DARBPROC
 ~@typedef_t@getattrfunc@::getattrfunc
@@ -1878,7 +1878,7 @@
 ~@typedef_t@cookie_seek_function_t@::cookie_seek_function_t
 ~@typedef_t@PFNGLGETBUFFERPARAMETERIVARBPROC@::PFNGLGETBUFFERPARAMETERIVARBPROC
 ~@typedef_t@PFNGLMULTITEXCOORD1DVPROC@::PFNGLMULTITEXCOORD1DVPROC
-~@typedef_t@PFNGLVERTEXATTRIBP4UIVPROC@::PFNGLVERTEXATTRIBP4UIVPROC
+~@typedef_t@PFNGLREPLACEMENTCODEUSSUNPROC@::PFNGLREPLACEMENTCODEUSSUNPROC
 ~@typedef_t@PFNGLGETHISTOGRAMPARAMETERFVPROC@::PFNGLGETHISTOGRAMPARAMETERFVPROC
 ~@typedef_t@PFNGLMAPVERTEXATTRIB1FAPPLEPROC@::PFNGLMAPVERTEXATTRIB1FAPPLEPROC
 ~@typedef_t@PFNGLCOPYTEXTUREIMAGE2DEXTPROC@::PFNGLCOPYTEXTUREIMAGE2DEXTPROC
@@ -2348,6 +2348,7 @@
 ~@variable_t@_ZTIN3OSG12NoLockPolicyE@::_ZTIN3OSG12NoLockPolicyE
 ~@variable_t@_ZTIN3OSG14ConnectionTypeE@::_ZTIN3OSG14ConnectionTypeE
 ~@variable_t@PyComplex_Type@::PyComplex_Type
+~@variable_t@Py_BytesWarningFlag@::Py_BytesWarningFlag
 ~@variable_t@_ZTIN5boost12bad_any_castE@::_ZTIN5boost12bad_any_castE
 ~@variable_t@_Py_CheckRecursionLimit@::_Py_CheckRecursionLimit
 ~@variable_t@_ZTISt13basic_ostreamIwSt11char_traitsIwEE@::_ZTISt13basic_ostreamIwSt11char_traitsIwEE
@@ -2533,7 +2534,7 @@
 ~@variable_t@_ZTIN3OSG7CondVarE@::_ZTIN3OSG7CondVarE
 ~@variable_t@PyExc_Exception@::PyExc_Exception
 ~@variable_t@_ZTIN5boost6system12system_errorE@::_ZTIN5boost6system12system_errorE
-~@variable_t@_ZTIN3OSG8TypeBaseE@::_ZTIN3OSG8TypeBaseE
+~@variable_t@_ZTIN3OSG16SingleLockPolicyE@::_ZTIN3OSG16SingleLockPolicyE
 ~@variable_t@_ZTIN3OSG9ExceptionE@::_ZTIN3OSG9ExceptionE
 ~@variable_t@_ZTIN3OSG13MPCondVarTypeE@::_ZTIN3OSG13MPCondVarTypeE
 ~@variable_t@PyMethod_Type@::PyMethod_Type
@@ -2632,7 +2633,7 @@
 ~@variable_t@Py_UnicodeFlag@::Py_UnicodeFlag
 ~@variable_t@PyExc_RuntimeError@::PyExc_RuntimeError
 ~@variable_t@stdout@::stdout
-~@variable_t@_ZTIN3OSG16SingleLockPolicyE@::_ZTIN3OSG16SingleLockPolicyE
+~@variable_t@_ZTIN3OSG8TypeBaseE@::_ZTIN3OSG8TypeBaseE
 ~@variable_t@_ZTISt19basic_ostringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt19basic_ostringstreamIcSt11char_traitsIcESaIcEE
 ~@variable_t@_ZTISt14basic_ofstreamIcSt11char_traitsIcEE@::_ZTISt14basic_ofstreamIcSt11char_traitsIcEE
 ~@variable_t@PyExc_TypeError@::PyExc_TypeError
@@ -2743,7 +2744,6 @@
 ~@variable_t@_IO_2_1_stderr_@::_IO_2_1_stderr_
 ~@variable_t@PyExc_SystemExit@::PyExc_SystemExit
 ~@variable_t@_ZTIN5boost3any11placeholderE@::_ZTIN5boost3any11placeholderE
-~@variable_t@Py_BytesWarningFlag@::Py_BytesWarningFlag
 ~@variable_t@_ZTISt9money_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt9money_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@_Py_ascii_whitespace@::_Py_ascii_whitespace
 ~@variable_t@_ZTISt15time_put_bynameIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt15time_put_bynameIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
@@ -3159,7 +3159,7 @@
 ~@free_function_t@__cxa_rethrow@void (*)(  )void (*)(  )
 ~@free_function_t@glIndexPointer@void (*)( ::GLenum,::GLsizei,::GLvoid const * )void (*)( ::GLenum,::GLsizei,::GLvoid const * )
 ~@free_function_t@__builtin_csqrtf@complex float (*)( complex float )complex float (*)( complex float )
-~@free_function_t@PyOS_snprintf@int (*)( char *,::size_t,char const *,... )int (*)( char *,::size_t,char const *,... )
+~@free_function_t@PyNumber_Float@::PyObject * (*)( ::PyObject * )::PyObject * (*)( ::PyObject * )
 ~@free_function_t@PyUnicodeUCS4_DecodeUTF16@::PyObject * (*)( char const *,::Py_ssize_t,char const *,int * )::PyObject * (*)( char const *,::Py_ssize_t,char const *,int * )
 ~@free_function_t@PyObject_GC_Del@void (*)( void * )void (*)( void * )
 ~@free_function_t@vsscanf@int (*)( __restrict__ char const *,__restrict__ char const *,::__va_list_tag * )int (*)( __restrict__ char const *,__restrict__ char const *,::__va_list_tag * )
@@ -3632,7 +3632,7 @@
 ~@free_function_t@syscall@long int (*)( long int,... )long int (*)( long int,... )
 ~@free_function_t@glStencilMask@void (*)( ::GLuint )void (*)( ::GLuint )
 ~@free_function_t@PyErr_NoMemory@::PyObject * (*)(  )::PyObject * (*)(  )
-~@free_function_t@ftello@::__off_t (*)( ::FILE * )::__off_t (*)( ::FILE * )
+~@free_function_t@PyOS_snprintf@int (*)( char *,::size_t,char const *,... )int (*)( char *,::size_t,char const *,... )
 ~@free_function_t@wctype@::wctype_t (*)( char const * )::wctype_t (*)( char const * )
 ~@free_function_t@glPointSize@void (*)( ::GLfloat )void (*)( ::GLfloat )
 ~@free_function_t@PyNumber_Add@::PyObject * (*)( ::PyObject *,::PyObject * )::PyObject * (*)( ::PyObject *,::PyObject * )
@@ -4136,6 +4136,7 @@
 ~@free_function_t@execvpe@int (*)( char const *,char * const *,char * const * )int (*)( char const *,char * const *,char * const * )
 ~@free_function_t@glMapGrid1f@void (*)( ::GLint,::GLfloat,::GLfloat )void (*)( ::GLint,::GLfloat,::GLfloat )
 ~@free_function_t@__builtin_floorl@long double (*)( long double )long double (*)( long double )
+~@free_function_t@ftello@::__off_t (*)( ::FILE * )::__off_t (*)( ::FILE * )
 ~@free_function_t@pthread_attr_setinheritsched@int (*)( ::pthread_attr_t *,int )int (*)( ::pthread_attr_t *,int )
 ~@free_function_t@__nanf@float (*)( char const * )float (*)( char const * )
 ~@free_function_t@PyMem_Free@void (*)( void * )void (*)( void * )
@@ -5038,7 +5039,7 @@
 ~@free_function_t@imaxdiv@::imaxdiv_t (*)( ::intmax_t,::intmax_t )::imaxdiv_t (*)( ::intmax_t,::intmax_t )
 ~@free_function_t@_PyObject_GC_New@::PyObject * (*)( ::PyTypeObject * )::PyObject * (*)( ::PyTypeObject * )
 ~@free_function_t@glRasterPos4dv@void (*)( ::GLdouble const * )void (*)( ::GLdouble const * )
-~@free_function_t@PyDescr_NewClassMethod@::PyObject * (*)( ::PyTypeObject *,::PyMethodDef * )::PyObject * (*)( ::PyTypeObject *,::PyMethodDef * )
+~@free_function_t@PySlice_GetIndicesEx@int (*)( ::PySliceObject *,::Py_ssize_t,::Py_ssize_t *,::Py_ssize_t *,::Py_ssize_t *,::Py_ssize_t * )int (*)( ::PySliceObject *,::Py_ssize_t,::Py_ssize_t *,::Py_ssize_t *,::Py_ssize_t *,::Py_ssize_t * )
 ~@free_function_t@pthread_rwlock_init@int (*)( __restrict__ ::pthread_rwlock_t *,__restrict__ ::pthread_rwlockattr_t const * )int (*)( __restrict__ ::pthread_rwlock_t *,__restrict__ ::pthread_rwlockattr_t const * )
 ~@free_function_t@htonl@::uint32_t (*)( ::uint32_t )::uint32_t (*)( ::uint32_t )
 ~@free_function_t@ffsl@int (*)( long int )int (*)( long int )
@@ -5472,7 +5473,7 @@
 ~@free_function_t@PyErr_WarnEx@int (*)( ::PyObject *,char const *,::Py_ssize_t )int (*)( ::PyObject *,char const *,::Py_ssize_t )
 ~@free_function_t@PyNumber_InPlaceMultiply@::PyObject * (*)( ::PyObject *,::PyObject * )::PyObject * (*)( ::PyObject *,::PyObject * )
 ~@free_function_t@_PyString_FormatLong@::PyObject * (*)( ::PyObject *,int,int,int,char * *,int * )::PyObject * (*)( ::PyObject *,int,int,int,char * *,int * )
-~@free_function_t@PyUnicodeDecodeError_Create@::PyObject * (*)( char const *,char const *,::Py_ssize_t,::Py_ssize_t,::Py_ssize_t,char const * )::PyObject * (*)( char const *,char const *,::Py_ssize_t,::Py_ssize_t,::Py_ssize_t,char const * )
+~@free_function_t@localeconv@::lconv * (*)(  )::lconv * (*)(  )
 ~@free_function_t@PyObject_GC_UnTrack@void (*)( void * )void (*)( void * )
 ~@free_function_t@PyUnicodeUCS4_DecodeUnicodeEscape@::PyObject * (*)( char const *,::Py_ssize_t,char const * )::PyObject * (*)( char const *,::Py_ssize_t,char const * )
 ~@free_function_t@nextafterl@long double (*)( long double,long double )long double (*)( long double,long double )
@@ -5658,7 +5659,7 @@
 ~@free_function_t@inet6_opt_append@int (*)( void *,::socklen_t,int,::uint8_t,::socklen_t,::uint8_t,void * * )int (*)( void *,::socklen_t,int,::uint8_t,::socklen_t,::uint8_t,void * * )
 ~@free_function_t@glMultiTexCoord4sARB@void (*)( ::GLenum,::GLshort,::GLshort,::GLshort,::GLshort )void (*)( ::GLenum,::GLshort,::GLshort,::GLshort,::GLshort )
 ~@free_function_t@getdelim@::__ssize_t (*)( __restrict__ char * *,__restrict__ ::size_t *,int,__restrict__ ::FILE * )::__ssize_t (*)( __restrict__ char * *,__restrict__ ::size_t *,int,__restrict__ ::FILE * )
-~@free_function_t@PySlice_GetIndicesEx@int (*)( ::PySliceObject *,::Py_ssize_t,::Py_ssize_t *,::Py_ssize_t *,::Py_ssize_t *,::Py_ssize_t * )int (*)( ::PySliceObject *,::Py_ssize_t,::Py_ssize_t *,::Py_ssize_t *,::Py_ssize_t *,::Py_ssize_t * )
+~@free_function_t@PyDescr_NewClassMethod@::PyObject * (*)( ::PyTypeObject *,::PyMethodDef * )::PyObject * (*)( ::PyTypeObject *,::PyMethodDef * )
 ~@free_function_t@wcstod_l@double (*)( __restrict__ wchar_t const *,__restrict__ wchar_t * *,::__locale_t )double (*)( __restrict__ wchar_t const *,__restrict__ wchar_t * *,::__locale_t )
 ~@free_function_t@PySys_GetObject@::PyObject * (*)( char * )::PyObject * (*)( char * )
 ~@free_function_t@_PyString_InsertThousandsGrouping@::Py_ssize_t (*)( char *,::Py_ssize_t,char *,::Py_ssize_t,::Py_ssize_t,char const *,char const * )::Py_ssize_t (*)( char *,::Py_ssize_t,char *,::Py_ssize_t,::Py_ssize_t,char const *,char const * )
@@ -5695,7 +5696,6 @@
 ~@free_function_t@endusershell@void (*)(  )void (*)(  )
 ~@free_function_t@PyDict_DelItemString@int (*)( ::PyObject *,char const * )int (*)( ::PyObject *,char const * )
 ~@free_function_t@__llrintf@long long int (*)( float )long long int (*)( float )
-~@free_function_t@PyNumber_Float@::PyObject * (*)( ::PyObject * )::PyObject * (*)( ::PyObject * )
 ~@free_function_t@__tan@double (*)( double )double (*)( double )
 ~@free_function_t@_toupper@int (*)( int )int (*)( int )
 ~@free_function_t@isprint@int (*)( int )int (*)( int )
@@ -5729,7 +5729,7 @@
 ~@free_function_t@PyNumber_AsSsize_t@::Py_ssize_t (*)( ::PyObject *,::PyObject * )::Py_ssize_t (*)( ::PyObject *,::PyObject * )
 ~@free_function_t@_IO_getc@int (*)( ::_IO_FILE * )int (*)( ::_IO_FILE * )
 ~@free_function_t@PyThreadState_Next@::PyThreadState * (*)( ::PyThreadState * )::PyThreadState * (*)( ::PyThreadState * )
-~@free_function_t@localeconv@::lconv * (*)(  )::lconv * (*)(  )
+~@free_function_t@PyUnicodeDecodeError_Create@::PyObject * (*)( char const *,char const *,::Py_ssize_t,::Py_ssize_t,::Py_ssize_t,char const * )::PyObject * (*)( char const *,char const *,::Py_ssize_t,::Py_ssize_t,::Py_ssize_t,char const * )
 ~@free_function_t@cuserid@char * (*)( char * )char * (*)( char * )
 ~@free_function_t@__instantiate_alias_StatElemDesc_StatIntElem@unsigned int (*)(  )unsigned int (*)(  )
 ~@free_function_t@strspn@::size_t (*)( char const *,char const * )::size_t (*)( char const *,char const * )

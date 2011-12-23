@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGSystem_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list ShaderProgramVariables_getMFVariables(OSG::ShaderProgramVari
 {
    boost::python::list result;
    OSG::MFUnrecShaderValueVariablePtr const * mf_data = self->getMFVariables();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::ShaderValueVariable::ObjRecPtr((*mf_data)[i]));
@@ -48,7 +52,7 @@ boost::python::list ShaderProgramVariables_getMFProceduralVariables(OSG::ShaderP
 {
    boost::python::list result;
    OSG::MFUnrecChildShaderProcVariablePtr const * mf_data = self->getMFProceduralVariables();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::ShaderProcVariable::ObjRecPtr((*mf_data)[i]));

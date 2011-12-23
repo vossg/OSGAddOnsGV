@@ -2273,8 +2273,8 @@
 ~@typedef_t@PFNGLDELETESAMPLERSPROC@::PFNGLDELETESAMPLERSPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
+~@namespace_t@@::
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -2510,7 +2510,7 @@
 ~@variable_t@_Py_ZeroStruct@::_Py_ZeroStruct
 ~@variable_t@_ZTIN3OSG11PathHandlerE@::_ZTIN3OSG11PathHandlerE
 ~@variable_t@_ZTIN3OSG13PrimeMaterialE@::_ZTIN3OSG13PrimeMaterialE
-~@variable_t@_ZTISt12length_error@::_ZTISt12length_error
+~@variable_t@_ZTIN3OSG14IOFileTypeBaseE@::_ZTIN3OSG14IOFileTypeBaseE
 ~@variable_t@_ZTISt9basic_iosIwSt11char_traitsIwEE@::_ZTISt9basic_iosIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG12MPThreadTypeE@::_ZTIN3OSG12MPThreadTypeE
 ~@variable_t@__environ@::__environ
@@ -2545,9 +2545,9 @@
 ~@variable_t@_ZTIN3OSG16RenderActionBaseE@::_ZTIN3OSG16RenderActionBaseE
 ~@variable_t@_ZTIN3OSG16StatElemDescBaseE@::_ZTIN3OSG16StatElemDescBaseE
 ~@variable_t@_ZTIN3OSG12LightEnvBaseE@::_ZTIN3OSG12LightEnvBaseE
-~@variable_t@_ZTIN3OSG14IOFileTypeBaseE@::_ZTIN3OSG14IOFileTypeBaseE
+~@variable_t@_ZTISt12length_error@::_ZTISt12length_error
 ~@variable_t@PyBool_Type@::PyBool_Type
-~@variable_t@_ZTIN3OSG24HardwareContextTaskQueueE@::_ZTIN3OSG24HardwareContextTaskQueueE
+~@variable_t@_ZTIN3OSG24ShaderVariableStringBaseE@::_ZTIN3OSG24ShaderVariableStringBaseE
 ~@variable_t@_sys_nerr@::_sys_nerr
 ~@variable_t@_ZTIN3OSG14ForegroundBaseE@::_ZTIN3OSG14ForegroundBaseE
 ~@variable_t@_ZTIN3OSG18EditMapFieldHandleE@::_ZTIN3OSG18EditMapFieldHandleE
@@ -2659,7 +2659,7 @@
 ~@variable_t@_ZTIN3OSG13StatCollectorE@::_ZTIN3OSG13StatCollectorE
 ~@variable_t@_ZTIN3OSG12MemoryObjectE@::_ZTIN3OSG12MemoryObjectE
 ~@variable_t@_Py_CheckInterval@::_Py_CheckInterval
-~@variable_t@_ZTIN3OSG24ShaderVariableStringBaseE@::_ZTIN3OSG24ShaderVariableStringBaseE
+~@variable_t@_ZTIN3OSG24HardwareContextTaskQueueE@::_ZTIN3OSG24HardwareContextTaskQueueE
 ~@variable_t@_ZTIN3OSG15GetSFieldHandleINS_17PointerSFieldBaseEEE@::_ZTIN3OSG15GetSFieldHandleINS_17PointerSFieldBaseEEE
 ~@variable_t@program_invocation_name@::program_invocation_name
 ~@variable_t@_ZTIN3OSG23ShaderValueVariableBaseE@::_ZTIN3OSG23ShaderValueVariableBaseE

@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGGroup_mainheader.h"
@@ -92,7 +96,7 @@ void register_DynamicStateGeneratorStageDataBase_class(){
         }
         { //::OSG::DynamicStateGeneratorStageDataBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::DynamicStateGeneratorStageDataBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::DynamicStateGeneratorStageDataBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             DynamicStateGeneratorStageDataBase_exposer.def( 
                 "getBinSize"

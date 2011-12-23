@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGContribCSM_mainheader.h"
@@ -44,7 +48,7 @@ boost::python::list CSMClusterWindowBase_getMFServers(OSG::CSMClusterWindowBase 
 {
    boost::python::list result;
    OSG::MFString const * mf_data = self->getMFServers();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -56,7 +60,7 @@ boost::python::list CSMClusterWindowBase_getMFServerIds(OSG::CSMClusterWindowBas
 {
    boost::python::list result;
    OSG::MFUInt32 const * mf_data = self->getMFServerIds();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -131,7 +135,7 @@ void register_CSMClusterWindowBase_class(){
         }
         { //::OSG::CSMClusterWindowBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::CSMClusterWindowBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::CSMClusterWindowBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             CSMClusterWindowBase_exposer.def( 
                 "getBinSize"

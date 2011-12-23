@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGWindow_mainheader.h"
@@ -45,7 +49,7 @@ boost::python::list PolygonBackgroundBase_getMFTexCoords(OSG::PolygonBackgroundB
 {
    boost::python::list result;
    OSG::MFVec3f const * mf_data = self->getMFTexCoords();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -57,7 +61,7 @@ boost::python::list PolygonBackgroundBase_getMFPositions(OSG::PolygonBackgroundB
 {
    boost::python::list result;
    OSG::MFPnt2f const * mf_data = self->getMFPositions();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -150,7 +154,7 @@ void register_PolygonBackgroundBase_class(){
         }
         { //::OSG::PolygonBackgroundBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::PolygonBackgroundBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::PolygonBackgroundBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             PolygonBackgroundBase_exposer.def( 
                 "getBinSize"

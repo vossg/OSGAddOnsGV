@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDrawable_mainheader.h"
@@ -60,11 +64,20 @@ void register_GeoVectorBufferProperty_class(){
         }
         { //::OSG::GeoVectorBufferProperty::size
         
-            typedef ::OSG::UInt32 ( ::OSG::GeoVectorBufferProperty::*size_function_type )(  ) const;
+            typedef ::OSG::SizeT ( ::OSG::GeoVectorBufferProperty::*size_function_type )(  ) const;
             
             GeoVectorBufferProperty_exposer.def( 
                 "size"
                 , size_function_type( &::OSG::GeoVectorBufferProperty::size ) );
+        
+        }
+        { //::OSG::GeoVectorBufferProperty::size32
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoVectorBufferProperty::*size32_function_type )(  ) const;
+            
+            GeoVectorBufferProperty_exposer.def( 
+                "size32"
+                , size32_function_type( &::OSG::GeoVectorBufferProperty::size32 ) );
         
         }
         pyopensg::register_transit< OSG::GeoVectorBufferProperty >::execute();

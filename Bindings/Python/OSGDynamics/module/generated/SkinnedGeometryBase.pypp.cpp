@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDynamics_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list SkinnedGeometryBase_getMFJointIds(OSG::SkinnedGeometryBase *
 {
    boost::python::list result;
    OSG::MFInt16 const * mf_data = self->getMFJointIds();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -109,7 +113,7 @@ void register_SkinnedGeometryBase_class(){
         }
         { //::OSG::SkinnedGeometryBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::SkinnedGeometryBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::SkinnedGeometryBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             SkinnedGeometryBase_exposer.def( 
                 "getBinSize"

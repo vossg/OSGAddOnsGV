@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGSystem_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list ShaderExecutableChunkBase_getMFAttributes(OSG::ShaderExecuta
 {
    boost::python::list result;
    OSG::MFShaderAttribute const * mf_data = self->getMFAttributes();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -125,7 +129,7 @@ void register_ShaderExecutableChunkBase_class(){
         }
         { //::OSG::ShaderExecutableChunkBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ShaderExecutableChunkBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ShaderExecutableChunkBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ShaderExecutableChunkBase_exposer.def( 
                 "getBinSize"

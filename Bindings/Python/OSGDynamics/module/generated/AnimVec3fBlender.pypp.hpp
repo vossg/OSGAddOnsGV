@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #ifndef AnimVec3fBlender_hpp__pyplusplus_wrapper
 #define AnimVec3fBlender_hpp__pyplusplus_wrapper

@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDrawable_mainheader.h"
@@ -122,15 +126,6 @@ void register_GeoMultiProperty_class(){
                 , getNormalize_function_type( &::OSG::GeoMultiProperty::getNormalize ) );
         
         }
-        { //::OSG::GeoMultiProperty::getSize
-        
-            typedef ::OSG::UInt32 ( ::OSG::GeoMultiProperty::*getSize_function_type )(  ) const;
-            
-            GeoMultiProperty_exposer.def( 
-                "getSize"
-                , getSize_function_type( &::OSG::GeoMultiProperty::getSize ) );
-        
-        }
         { //::OSG::GeoMultiProperty::getStaticClass
         
             typedef ::OSG::StateChunkClass const * ( *getStaticClass_function_type )(  );
@@ -199,7 +194,7 @@ void register_GeoMultiProperty_class(){
         }
         { //::OSG::GeoMultiProperty::resize
         
-            typedef void ( ::OSG::GeoMultiProperty::*resize_function_type )( ::size_t ) ;
+            typedef void ( ::OSG::GeoMultiProperty::*resize_function_type )( ::OSG::SizeT ) ;
             
             GeoMultiProperty_exposer.def( 
                 "resize"
@@ -269,11 +264,20 @@ void register_GeoMultiProperty_class(){
         }
         { //::OSG::GeoMultiProperty::size
         
-            typedef ::OSG::UInt32 ( ::OSG::GeoMultiProperty::*size_function_type )(  ) const;
+            typedef ::OSG::SizeT ( ::OSG::GeoMultiProperty::*size_function_type )(  ) const;
             
             GeoMultiProperty_exposer.def( 
                 "size"
                 , size_function_type( &::OSG::GeoMultiProperty::size ) );
+        
+        }
+        { //::OSG::GeoMultiProperty::size32
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoMultiProperty::*size32_function_type )(  ) const;
+            
+            GeoMultiProperty_exposer.def( 
+                "size32"
+                , size32_function_type( &::OSG::GeoMultiProperty::size32 ) );
         
         }
         { //::OSG::GeoMultiProperty::switchCost

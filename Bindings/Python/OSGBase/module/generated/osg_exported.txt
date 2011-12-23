@@ -51,9 +51,7 @@ ExceptionBinaryDataHandler
 MapHelperBase
 ConnectorAttachment
 ChangeList
-Connection
 TypeBase
-ConnectionType
 ReflexiveContainer
 MapHelper
 MemoryObject
@@ -78,12 +76,10 @@ NodeCore
 GlobalsAttachmentBase
 Thread
 FieldType
-PointConnection
 Line
 BoxVolume
 Exception
 SphereVolume
-GroupConnection
 Volume
 StatCollector
 vector<unsigned short>

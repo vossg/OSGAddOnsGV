@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDrawable_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list TypedGeoIntegralProperty_OSG__GeoUInt16PropertyDesc__getFiel
 {
    boost::python::list result;
    OSG::MFUInt16 const * mf_data = self->getFieldPtr();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -48,7 +52,7 @@ boost::python::list TypedGeoIntegralProperty_OSG__GeoUInt16PropertyDesc__getFiel
 {
    boost::python::list result;
    OSG::MFUInt16 const & mf_data = self->getField();
-   const OSG::UInt32 size(mf_data.size());
+   const OSG::UInt32 size(mf_data.size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(mf_data[i]);
@@ -254,6 +258,16 @@ void register_GeoUInt16Property_class(){
                 , __getitem___function_type( &::OSG::TypedGeoIntegralProperty< OSG::GeoUInt16PropertyDesc >::operator[] )
                 , ( bp::arg("index") )
                 , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
+        { //::OSG::TypedGeoIntegralProperty< OSG::GeoUInt16PropertyDesc >::size32
+        
+            typedef OSG::TypedGeoIntegralProperty< OSG::GeoUInt16PropertyDesc > exported_class_t;
+            typedef ::OSG::UInt32 ( exported_class_t::*size32_function_type )(  ) const;
+            
+            GeoUInt16Property_exposer.def( 
+                "size32"
+                , size32_function_type( &::OSG::TypedGeoIntegralProperty< OSG::GeoUInt16PropertyDesc >::size32 ) );
         
         }
         GeoUInt16Property_exposer.staticmethod( "create" );

@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGState_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list TextureEnvChunkBase_getMFShaderOffsetMatrix(OSG::TextureEnvC
 {
    boost::python::list result;
    OSG::MFReal32 const * mf_data = self->getMFShaderOffsetMatrix();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -130,7 +134,7 @@ void register_TextureEnvChunkBase_class(){
         }
         { //::OSG::TextureEnvChunkBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::TextureEnvChunkBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::TextureEnvChunkBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             TextureEnvChunkBase_exposer.def( 
                 "getBinSize"

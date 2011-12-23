@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGSystem_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list ShaderProgramChunkBase_getMFVertexShader(OSG::ShaderProgramC
 {
    boost::python::list result;
    OSG::MFUnrecShaderProgramPtr const * mf_data = self->getMFVertexShader();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::ShaderProgram::ObjRecPtr((*mf_data)[i]));
@@ -48,7 +52,7 @@ boost::python::list ShaderProgramChunkBase_getMFGeometryShader(OSG::ShaderProgra
 {
    boost::python::list result;
    OSG::MFUnrecShaderProgramPtr const * mf_data = self->getMFGeometryShader();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::ShaderProgram::ObjRecPtr((*mf_data)[i]));
@@ -60,7 +64,7 @@ boost::python::list ShaderProgramChunkBase_getMFFragmentShader(OSG::ShaderProgra
 {
    boost::python::list result;
    OSG::MFUnrecShaderProgramPtr const * mf_data = self->getMFFragmentShader();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::ShaderProgram::ObjRecPtr((*mf_data)[i]));
@@ -219,7 +223,7 @@ void register_ShaderProgramChunkBase_class(){
         }
         { //::OSG::ShaderProgramChunkBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ShaderProgramChunkBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ShaderProgramChunkBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ShaderProgramChunkBase_exposer.def( 
                 "getBinSize"

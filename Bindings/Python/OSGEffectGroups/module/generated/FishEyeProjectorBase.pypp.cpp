@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGEffectGroups_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list FishEyeProjectorBase_getMFGeometries(OSG::FishEyeProjectorBa
 {
    boost::python::list result;
    OSG::MFUnrecGeometryPtr const * mf_data = self->getMFGeometries();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append(OSG::Geometry::ObjRecPtr((*mf_data)[i]));
@@ -143,7 +147,7 @@ void register_FishEyeProjectorBase_class(){
         }
         { //::OSG::FishEyeProjectorBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::FishEyeProjectorBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::FishEyeProjectorBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             FishEyeProjectorBase_exposer.def( 
                 "getBinSize"

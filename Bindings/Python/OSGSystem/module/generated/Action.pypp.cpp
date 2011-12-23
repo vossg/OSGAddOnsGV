@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGSystem_mainheader.h"
@@ -227,7 +231,7 @@ void register_Action_class(){
         }
         { //::OSG::Action::getNode
         
-            typedef ::OSG::Node * ( ::OSG::Action::*getNode_function_type )( int ) ;
+            typedef ::OSG::Node * ( ::OSG::Action::*getNode_function_type )( ::OSG::UInt32 ) ;
             
             Action_exposer.def( 
                 "getNode"

@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDynamics_mainheader.h"
@@ -99,7 +103,7 @@ void register_SkeletonJointBase_class(){
         }
         { //::OSG::SkeletonJointBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::SkeletonJointBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::SkeletonJointBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             SkeletonJointBase_exposer.def( 
                 "getBinSize"

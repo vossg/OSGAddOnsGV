@@ -23,6 +23,7 @@
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
 #endif
 
 #include "boost/python.hpp"

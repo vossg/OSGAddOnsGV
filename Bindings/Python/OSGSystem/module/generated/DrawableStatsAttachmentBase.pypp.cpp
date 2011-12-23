@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGSystem_mainheader.h"
@@ -97,7 +101,7 @@ void register_DrawableStatsAttachmentBase_class(){
         }
         { //::OSG::DrawableStatsAttachmentBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::DrawableStatsAttachmentBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::DrawableStatsAttachmentBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             DrawableStatsAttachmentBase_exposer.def( 
                 "getBinSize"

@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDrawable_mainheader.h"
@@ -216,7 +220,7 @@ void register_GeoIntegralProperty_class(){
         }
         { //::OSG::GeoIntegralProperty::resize
         
-            typedef void ( ::OSG::GeoIntegralProperty::*resize_function_type )( ::size_t ) ;
+            typedef void ( ::OSG::GeoIntegralProperty::*resize_function_type )( ::OSG::SizeT ) ;
             
             GeoIntegralProperty_exposer.def( 
                 "resize"
@@ -236,11 +240,20 @@ void register_GeoIntegralProperty_class(){
         }
         { //::OSG::GeoIntegralProperty::size
         
-            typedef ::OSG::UInt32 ( ::OSG::GeoIntegralProperty::*size_function_type )(  ) const;
+            typedef ::OSG::SizeT ( ::OSG::GeoIntegralProperty::*size_function_type )(  ) const;
             
             GeoIntegralProperty_exposer.def( 
                 "size"
                 , size_function_type( &::OSG::GeoIntegralProperty::size ) );
+        
+        }
+        { //::OSG::GeoIntegralProperty::size32
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoIntegralProperty::*size32_function_type )(  ) const;
+            
+            GeoIntegralProperty_exposer.def( 
+                "size32"
+                , size32_function_type( &::OSG::GeoIntegralProperty::size32 ) );
         
         }
         { //::OSG::GeoIntegralProperty::unmapBuffer

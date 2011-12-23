@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGBase_mainheader.h"
@@ -102,7 +106,7 @@ void register_StatElemDescBase_class(){
         }
         { //::OSG::StatElemDescBase::getNumOfDescs
         
-            typedef ::OSG::Int32 ( *getNumOfDescs_function_type )(  );
+            typedef ::OSG::UInt32 ( *getNumOfDescs_function_type )(  );
             
             StatElemDescBase_exposer.def( 
                 "getNumOfDescs"

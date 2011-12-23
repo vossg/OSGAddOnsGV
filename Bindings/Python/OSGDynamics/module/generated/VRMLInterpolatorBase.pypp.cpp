@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGDynamics_mainheader.h"
@@ -36,7 +40,7 @@ boost::python::list VRMLInterpolatorBase_getMFKey(OSG::VRMLInterpolatorBase *sel
 {
    boost::python::list result;
    OSG::MFReal32 const * mf_data = self->getMFKey();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -48,7 +52,7 @@ boost::python::list VRMLInterpolatorBase_getMFResortIndex(OSG::VRMLInterpolatorB
 {
    boost::python::list result;
    OSG::MFUInt32 const * mf_data = self->getMFResortIndex();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -117,7 +121,7 @@ void register_VRMLInterpolatorBase_class(){
         }
         { //::OSG::VRMLInterpolatorBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::VRMLInterpolatorBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::VRMLInterpolatorBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             VRMLInterpolatorBase_exposer.def( 
                 "getBinSize"

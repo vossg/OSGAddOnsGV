@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGCluster_mainheader.h"
@@ -65,7 +69,7 @@ boost::python::list ClusterWindowBase_getMFServers(OSG::ClusterWindowBase *self)
 {
    boost::python::list result;
    OSG::MFString const * mf_data = self->getMFServers();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -77,7 +81,7 @@ boost::python::list ClusterWindowBase_getMFServerIds(OSG::ClusterWindowBase *sel
 {
    boost::python::list result;
    OSG::MFUInt32 const * mf_data = self->getMFServerIds();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -89,7 +93,7 @@ boost::python::list ClusterWindowBase_getMFAutostart(OSG::ClusterWindowBase *sel
 {
    boost::python::list result;
    OSG::MFString const * mf_data = self->getMFAutostart();
-   const OSG::UInt32 size(mf_data->size());
+   const OSG::UInt32 size(mf_data->size32());
    for ( OSG::UInt32 i = 0; i < size; ++i )
    {
       result.append((*mf_data)[i]);
@@ -180,7 +184,7 @@ void register_ClusterWindowBase_class(){
         }
         { //::OSG::ClusterWindowBase::getBinSize
         
-            typedef ::OSG::UInt32 ( ::OSG::ClusterWindowBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( ::OSG::ClusterWindowBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ClusterWindowBase_exposer.def( 
                 "getBinSize"
