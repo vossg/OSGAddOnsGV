@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGScripting_mainheader.h"
@@ -82,7 +86,7 @@ struct Script_wrapper : OSG::Script, bp::wrapper< OSG::Script > {
         OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::copyToBin( boost::ref(pMem), whichField );
     }
 
-    virtual ::OSG::UInt32 getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
+    virtual ::OSG::SizeT getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
         if( bp::override func_getBinSize = this->get_override( "getBinSize" ) )
             return func_getBinSize( whichField );
         else{
@@ -90,7 +94,7 @@ struct Script_wrapper : OSG::Script, bp::wrapper< OSG::Script > {
         }
     }
     
-    ::OSG::UInt32 default_getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
+    ::OSG::SizeT default_getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
         return OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getBinSize( whichField );
     }
 
@@ -208,8 +212,8 @@ void register_Script_class(){
         { //::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getBinSize
         
             typedef OSG::Script exported_class_t;
-            typedef ::OSG::UInt32 ( exported_class_t::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
-            typedef ::OSG::UInt32 ( Script_wrapper::*default_getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( exported_class_t::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( Script_wrapper::*default_getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             Script_exposer.def( 
                 "getBinSize"

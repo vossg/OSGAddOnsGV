@@ -21,6 +21,10 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
+#if WIN32
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4344)
+#endif
 
 #include "boost/python.hpp"
 #include "OSGScripting_mainheader.h"
@@ -94,7 +98,7 @@ struct DynFieldContainer_less__OSG_scope_FrameTaskMixin_less__OSG_scope_Containe
         OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::dump( uiIndent, bvFlags );
     }
 
-    virtual ::OSG::UInt32 getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
+    virtual ::OSG::SizeT getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
         if( bp::override func_getBinSize = this->get_override( "getBinSize" ) )
             return func_getBinSize( whichField );
         else{
@@ -102,7 +106,7 @@ struct DynFieldContainer_less__OSG_scope_FrameTaskMixin_less__OSG_scope_Containe
         }
     }
     
-    ::OSG::UInt32 default_getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
+    ::OSG::SizeT default_getBinSize( ::OSG::ConstFieldMaskArg whichField ) {
         return OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getBinSize( whichField );
     }
 
@@ -210,8 +214,8 @@ void register_ScriptParent_class(){
         { //::OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > >::getBinSize
         
             typedef OSG::DynFieldContainer< OSG::FrameTaskMixin< OSG::ContainerMixinHead< OSG::NodeCoreScriptDesc > > > exported_class_t;
-            typedef ::OSG::UInt32 ( exported_class_t::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
-            typedef ::OSG::UInt32 ( DynFieldContainer_less__OSG_scope_FrameTaskMixin_less__OSG_scope_ContainerMixinHead_less__OSG_scope_NodeCoreScriptDesc__greater___greater___greater__wrapper::*default_getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( exported_class_t::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
+            typedef ::OSG::SizeT ( DynFieldContainer_less__OSG_scope_FrameTaskMixin_less__OSG_scope_ContainerMixinHead_less__OSG_scope_NodeCoreScriptDesc__greater___greater___greater__wrapper::*default_getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
             
             ScriptParent_exposer.def( 
                 "getBinSize"

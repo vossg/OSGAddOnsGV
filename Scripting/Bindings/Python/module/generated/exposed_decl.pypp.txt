@@ -167,7 +167,7 @@
 ~@typedef_t@PFNGLBLENDFUNCIPROC@::PFNGLBLENDFUNCIPROC
 ~@typedef_t@PFNGLMAPNAMEDBUFFEREXTPROC@::PFNGLMAPNAMEDBUFFEREXTPROC
 ~@typedef_t@PFNGLUNIFORM2IVPROC@::PFNGLUNIFORM2IVPROC
-~@typedef_t@PFNGLREPLACEMENTCODEUBVSUNPROC@::PFNGLREPLACEMENTCODEUBVSUNPROC
+~@typedef_t@PFNGLMAPVERTEXATTRIB1FAPPLEPROC@::PFNGLMAPVERTEXATTRIB1FAPPLEPROC
 ~@typedef_t@uint_least16_t@::uint_least16_t
 ~@typedef_t@PFNGLGETHISTOGRAMPARAMETERIVEXTPROC@::PFNGLGETHISTOGRAMPARAMETERIVEXTPROC
 ~@typedef_t@PFNGLSECONDARYCOLOR3BVEXTPROC@::PFNGLSECONDARYCOLOR3BVEXTPROC
@@ -940,7 +940,7 @@
 ~@typedef_t@PFNGLVERTEXATTRIB4UBVPROC@::PFNGLVERTEXATTRIB4UBVPROC
 ~@typedef_t@PFNGLCREATESYNCFROMCLEVENTARBPROC@::PFNGLCREATESYNCFROMCLEVENTARBPROC
 ~@typedef_t@PFNGLCOLORMASKINDEXEDEXTPROC@::PFNGLCOLORMASKINDEXEDEXTPROC
-~@typedef_t@blkcnt_t@::blkcnt_t
+~@typedef_t@PFNGLREPLACEMENTCODEUBVSUNPROC@::PFNGLREPLACEMENTCODEUBVSUNPROC
 ~@typedef_t@PFNGLMULTITEXSUBIMAGE3DEXTPROC@::PFNGLMULTITEXSUBIMAGE3DEXTPROC
 ~@typedef_t@PFNGLVERTEXATTRIB3SVNVPROC@::PFNGLVERTEXATTRIB3SVNVPROC
 ~@typedef_t@PFNGLGETVERTEXATTRIBIVARBPROC@::PFNGLGETVERTEXATTRIBIVARBPROC
@@ -1848,7 +1848,6 @@
 ~@typedef_t@PFNGLMULTITEXCOORD1DVPROC@::PFNGLMULTITEXCOORD1DVPROC
 ~@typedef_t@PFNGLVERTEXATTRIBP4UIVPROC@::PFNGLVERTEXATTRIBP4UIVPROC
 ~@typedef_t@PFNGLGETHISTOGRAMPARAMETERFVPROC@::PFNGLGETHISTOGRAMPARAMETERFVPROC
-~@typedef_t@PFNGLMAPVERTEXATTRIB1FAPPLEPROC@::PFNGLMAPVERTEXATTRIB1FAPPLEPROC
 ~@typedef_t@PFNGLCOPYTEXTUREIMAGE2DEXTPROC@::PFNGLCOPYTEXTUREIMAGE2DEXTPROC
 ~@typedef_t@PFNGLTEXCOORD2FVERTEX3FVSUNPROC@::PFNGLTEXCOORD2FVERTEX3FVSUNPROC
 ~@typedef_t@ssize_t@::ssize_t
@@ -1964,6 +1963,7 @@
 ~@typedef_t@PFNGLUNIFORM3DVPROC@::PFNGLUNIFORM3DVPROC
 ~@typedef_t@PFNGLGETDOUBLEINDEXEDVEXTPROC@::PFNGLGETDOUBLEINDEXEDVEXTPROC
 ~@typedef_t@PFNGLBINDPROGRAMPIPELINEPROC@::PFNGLBINDPROGRAMPIPELINEPROC
+~@typedef_t@blkcnt_t@::blkcnt_t
 ~@typedef_t@__pthread_unwind_buf_t@::__pthread_unwind_buf_t
 ~@typedef_t@PFNGLMULTITEXCOORD2SVPROC@::PFNGLMULTITEXCOORD2SVPROC
 ~@typedef_t@PFNGLUNIFORMUI64VNVPROC@::PFNGLUNIFORMUI64VNVPROC
@@ -2356,7 +2356,7 @@
 ~@variable_t@_ZTIN3OSG15GetMFieldHandleINS_6MFieldIlLi0ESaIlEEEEE@::_ZTIN3OSG15GetMFieldHandleINS_6MFieldIlLi0ESaIlEEEEE
 ~@variable_t@_ZTIN3OSG14GetFieldHandleE@::_ZTIN3OSG14GetFieldHandleE
 ~@variable_t@_ZTIN3OSG15GetSFieldHandleINS_6SFieldIfLi0EEEEE@::_ZTIN3OSG15GetSFieldHandleINS_6SFieldIfLi0EEEEE
-~@variable_t@_ZTIN5boost6assign20assignment_exceptionE@::_ZTIN5boost6assign20assignment_exceptionE
+~@variable_t@_ZTISt14basic_ifstreamIcSt11char_traitsIcEE@::_ZTISt14basic_ifstreamIcSt11char_traitsIcEE
 ~@variable_t@_ZTIN3OSG16EditSFieldHandleINS_6SFieldIdLi0EEEEE@::_ZTIN3OSG16EditSFieldHandleINS_6SFieldIdLi0EEEEE
 ~@variable_t@_ZTIN3OSG16EditMFieldHandleINS_6MFieldINS_6VectorIfLj2EEELi0ESaIS3_EEEEE@::_ZTIN3OSG16EditMFieldHandleINS_6MFieldINS_6VectorIfLj2EEELi0ESaIS3_EEEEE
 ~@variable_t@PySet_Type@::PySet_Type
@@ -2765,7 +2765,7 @@
 ~@variable_t@_Py_EllipsisObject@::_Py_EllipsisObject
 ~@variable_t@PySuper_Type@::PySuper_Type
 ~@variable_t@_ZTIN3OSG16EditSFieldHandleINS_6SFieldINS_6VectorIfLj3EEELi0EEEEE@::_ZTIN3OSG16EditSFieldHandleINS_6SFieldINS_6VectorIfLj3EEELi0EEEEE
-~@variable_t@_ZTISt14basic_ifstreamIcSt11char_traitsIcEE@::_ZTISt14basic_ifstreamIcSt11char_traitsIcEE
+~@variable_t@_ZTIN5boost6assign20assignment_exceptionE@::_ZTIN5boost6assign20assignment_exceptionE
 ~@variable_t@_ZTIN3OSG11FactoryBaseE@::_ZTIN3OSG11FactoryBaseE
 ~@variable_t@_ZTIN5boost17bad_function_callE@::_ZTIN5boost17bad_function_callE
 ~@variable_t@_ZTIN3OSG16EditMFieldHandleINS_17PointerMFieldBaseEEE@::_ZTIN3OSG16EditMFieldHandleINS_17PointerMFieldBaseEEE
@@ -3811,7 +3811,7 @@
 ~@free_function_t@setregid@int (*)( ::__gid_t,::__gid_t )int (*)( ::__gid_t,::__gid_t )
 ~@free_function_t@fmaf@float (*)( float,float,float )float (*)( float,float,float )
 ~@free_function_t@putwchar_unlocked@::wint_t (*)( wchar_t )::wint_t (*)( wchar_t )
-~@free_function_t@__dreml@long double (*)( long double,long double )long double (*)( long double,long double )
+~@free_function_t@PyUnicodeEncodeError_GetReason@::PyObject * (*)( ::PyObject * )::PyObject * (*)( ::PyObject * )
 ~@free_function_t@realloc@void * (*)( void *,::size_t )void * (*)( void *,::size_t )
 ~@free_function_t@PyNumber_Divide@::PyObject * (*)( ::PyObject *,::PyObject * )::PyObject * (*)( ::PyObject *,::PyObject * )
 ~@free_function_t@PyImport_Cleanup@void (*)(  )void (*)(  )
@@ -3971,6 +3971,7 @@
 ~@free_function_t@_PyUnicodeUCS4_ToDecimalDigit@int (*)( ::Py_UNICODE )int (*)( ::Py_UNICODE )
 ~@free_function_t@glVertex2f@void (*)( ::GLfloat,::GLfloat )void (*)( ::GLfloat,::GLfloat )
 ~@free_function_t@_PyWeakref_ClearRef@void (*)( ::PyWeakReference * )void (*)( ::PyWeakReference * )
+~@free_function_t@__dreml@long double (*)( long double,long double )long double (*)( long double,long double )
 ~@free_function_t@_PyObject_RealIsInstance@int (*)( ::PyObject *,::PyObject * )int (*)( ::PyObject *,::PyObject * )
 ~@free_function_t@pthread_barrierattr_setpshared@int (*)( ::pthread_barrierattr_t *,int )int (*)( ::pthread_barrierattr_t *,int )
 ~@free_function_t@glTexEnvf@void (*)( ::GLenum,::GLenum,::GLfloat )void (*)( ::GLenum,::GLenum,::GLfloat )
@@ -4869,7 +4870,7 @@
 ~@free_function_t@alloca@void * (*)( ::size_t )void * (*)( ::size_t )
 ~@free_function_t@symlinkat@int (*)( char const *,int,char const * )int (*)( char const *,int,char const * )
 ~@free_function_t@PyEval_AcquireThread@void (*)( ::PyThreadState * )void (*)( ::PyThreadState * )
-~@free_function_t@PyUnicodeEncodeError_GetReason@::PyObject * (*)( ::PyObject * )::PyObject * (*)( ::PyObject * )
+~@free_function_t@_PyFrame_Init@int (*)(  )int (*)(  )
 ~@free_function_t@pread@::ssize_t (*)( int,void *,::size_t,::__off_t )::ssize_t (*)( int,void *,::size_t,::__off_t )
 ~@free_function_t@glMaterialiv@void (*)( ::GLenum,::GLenum,::GLint const * )void (*)( ::GLenum,::GLenum,::GLint const * )
 ~@free_function_t@PyMethod_Fini@void (*)(  )void (*)(  )
@@ -5699,7 +5700,6 @@
 ~@free_function_t@__y1@double (*)( double )double (*)( double )
 ~@free_function_t@__y0@double (*)( double )double (*)( double )
 ~@free_function_t@pclose@int (*)( ::FILE * )int (*)( ::FILE * )
-~@free_function_t@_PyFrame_Init@int (*)(  )int (*)(  )
 ~@free_function_t@inet6_opt_append@int (*)( void *,::socklen_t,int,::uint8_t,::socklen_t,::uint8_t,void * * )int (*)( void *,::socklen_t,int,::uint8_t,::socklen_t,::uint8_t,void * * )
 ~@free_function_t@glMultiTexCoord4sARB@void (*)( ::GLenum,::GLshort,::GLshort,::GLshort,::GLshort )void (*)( ::GLenum,::GLshort,::GLshort,::GLshort,::GLshort )
 ~@free_function_t@getdelim@::__ssize_t (*)( __restrict__ char * *,__restrict__ ::size_t *,int,__restrict__ ::FILE * )::__ssize_t (*)( __restrict__ char * *,__restrict__ ::size_t *,int,__restrict__ ::FILE * )
