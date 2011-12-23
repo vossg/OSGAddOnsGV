@@ -316,7 +316,7 @@ void RTCacheBase<DescT>::initAccel(BBoxStore &vBounds)
         
     }
 
-    fprintf(stderr, "RTCache::build %d\n", _mfTriangleAcc.size());
+    fprintf(stderr, "RTCache::build %"PRIUSize"\n", _mfTriangleAcc.size());
 
     fprintf(stderr, "Cache bounds %f %f %f -> %f %f %f\n",
             _sfBoundingVolume.getValue().getMin()[0],

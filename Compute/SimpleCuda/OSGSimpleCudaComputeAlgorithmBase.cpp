@@ -401,9 +401,9 @@ SFUnrecGeometryPtr  *SimpleCudaComputeAlgorithmBase::editSFTarget         (void)
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 SimpleCudaComputeAlgorithmBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT SimpleCudaComputeAlgorithmBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (ModeFieldMask & whichField))
     {

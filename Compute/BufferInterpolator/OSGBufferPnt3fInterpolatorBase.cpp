@@ -364,9 +364,9 @@ const MFUInt32 *BufferPnt3fInterpolatorBase::getMFResortIndex(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 BufferPnt3fInterpolatorBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT BufferPnt3fInterpolatorBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (InValueFieldMask & whichField))
     {

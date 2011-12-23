@@ -241,7 +241,7 @@ void CudaBufferPnt3fInterpolator::changed(ConstFieldMaskArg whichField,
         else
         {
             fprintf(stderr, "interpol resort : sizes don't match %zd | %d\n",
-                    uiNumRes, _mfResortIndex.size());
+                    uiNumRes, _mfResortIndex.size32());
         }
     }
     if(0x0000 != (whichField & InValueFieldMask))

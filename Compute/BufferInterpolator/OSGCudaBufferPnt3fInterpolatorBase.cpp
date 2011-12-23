@@ -165,9 +165,9 @@ UInt32 CudaBufferPnt3fInterpolatorBase::getContainerSize(void) const
 
 /*------------------------------ access -----------------------------------*/
 
-UInt32 CudaBufferPnt3fInterpolatorBase::getBinSize(ConstFieldMaskArg whichField)
+SizeT CudaBufferPnt3fInterpolatorBase::getBinSize(ConstFieldMaskArg whichField)
 {
-    UInt32 returnValue = Inherited::getBinSize(whichField);
+    SizeT returnValue = Inherited::getBinSize(whichField);
 
 
     return returnValue;
