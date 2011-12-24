@@ -47,7 +47,7 @@ struct ImageFileType_wrapper : OSG::ImageFileType, bp::wrapper< OSG::ImageFileTy
 
     virtual ::std::string determineMimetypeFromStream( ::std::istream & is ) {
         if( bp::override func_determineMimetypeFromStream = this->get_override( "determineMimetypeFromStream" ) )
-            return func_determineMimetypeFromStream( boost::ref(is) );
+            return func_determineMimetypeFromStream( boost::ref(is) ).as<std::string>();
         else{
             return this->OSG::ImageFileType::determineMimetypeFromStream( boost::ref(is) );
         }
