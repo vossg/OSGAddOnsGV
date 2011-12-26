@@ -39,7 +39,7 @@ SET(${PROJECT_NAME}_NO_DOC TRUE)
 ##############################################################################
 
 SET(${PROJECT_NAME}_NO_PYTHON FALSE)
-SET(${PROJECT_NAME}_ENABLE_WRITE_PYTHON_TO_SOURCE TRUE)
+#SET(${PROJECT_NAME}_ENABLE_WRITE_PYTHON_TO_SOURCE TRUE)
 
 ##############################################################################
 # store dependencies
