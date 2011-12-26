@@ -255,9 +255,9 @@ class OSG_SCRIPTING_DLLMAPPING PyFieldAccessHandler : public PyFieldAccessHandle
 
     OSGPY_GEN_VALUESFIELD_CODE_NRT(Bool      , bool       , 2)
     OSGPY_GEN_VALUESFIELD_CODE_NRT(Int32     , Int32      , 0)
-    OSGPY_GEN_VALUESFIELD_CODE_NRT(Int64     , Int64      , 0)
+//    OSGPY_GEN_VALUESFIELD_CODE_NRT(Int64     , Int64      , 0)
     OSGPY_GEN_VALUESFIELD_CODE_NRT(UInt32    , UInt32     , 0)
-    OSGPY_GEN_VALUESFIELD_CODE_NRT(UInt64    , UInt64     , 0)
+//    OSGPY_GEN_VALUESFIELD_CODE_NRT(UInt64    , UInt64     , 0)
     OSGPY_GEN_VALUESFIELD_CODE_NRT(Real32    , Real32     , 0)
     OSGPY_GEN_VALUESFIELD_CODE_NRT(Real64    , Real64     , 0)
     OSGPY_GEN_VALUESFIELD_CODE    (Color3f                , 0)
@@ -289,9 +289,9 @@ class OSG_SCRIPTING_DLLMAPPING PyFieldAccessHandler : public PyFieldAccessHandle
 
     OSGPY_GEN_VALUEMFIELD_CODE(Bool       , bool       , 2)
     OSGPY_GEN_VALUEMFIELD_CODE(Int32      , Int32      , 0)
-    OSGPY_GEN_VALUEMFIELD_CODE(Int64      , Int64      , 0)
+//    OSGPY_GEN_VALUEMFIELD_CODE(Int64      , Int64      , 0)
     OSGPY_GEN_VALUEMFIELD_CODE(UInt32     , UInt32     , 0)
-    OSGPY_GEN_VALUEMFIELD_CODE(UInt64     , UInt64     , 0)
+//    OSGPY_GEN_VALUEMFIELD_CODE(UInt64     , UInt64     , 0)
     OSGPY_GEN_VALUEMFIELD_CODE(Real32     , Real32     , 0)
     OSGPY_GEN_VALUEMFIELD_CODE(Real64     , Real64     , 0)
     OSGPY_GEN_VALUEMFIELD_CODE(Color3f    , Color3f    , 0)

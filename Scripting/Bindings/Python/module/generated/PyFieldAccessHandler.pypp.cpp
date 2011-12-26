@@ -141,17 +141,6 @@ void register_PyFieldAccessHandler_class(){
                 , bp::return_internal_reference< >() );
         
         }
-        { //::OSG::PyFieldAccessHandler::changeValueMField_Int64
-        
-            typedef ::OSG::MField< OSG::Int64, 0, std::allocator< OSG::Int64 > > * ( ::OSG::PyFieldAccessHandler::*changeValueMField_Int64_function_type )( ::std::string const & ) ;
-            
-            PyFieldAccessHandler_exposer.def( 
-                "changeValueMField_Int64"
-                , changeValueMField_Int64_function_type( &::OSG::PyFieldAccessHandler::changeValueMField_Int64 )
-                , ( bp::arg("fieldName") )
-                , bp::return_internal_reference< >() );
-        
-        }
         { //::OSG::PyFieldAccessHandler::changeValueMField_Matrix
         
             typedef ::OSG::MField< OSG::TransformationMatrix< float >, 0, std::allocator< OSG::TransformationMatrix< float > > > * ( ::OSG::PyFieldAccessHandler::*changeValueMField_Matrix_function_type )( ::std::string const & ) ;
@@ -313,17 +302,6 @@ void register_PyFieldAccessHandler_class(){
             PyFieldAccessHandler_exposer.def( 
                 "changeValueMField_UInt32"
                 , changeValueMField_UInt32_function_type( &::OSG::PyFieldAccessHandler::changeValueMField_UInt32 )
-                , ( bp::arg("fieldName") )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::PyFieldAccessHandler::changeValueMField_UInt64
-        
-            typedef ::OSG::MField< OSG::UInt64, 0, std::allocator< OSG::UInt64 > > * ( ::OSG::PyFieldAccessHandler::*changeValueMField_UInt64_function_type )( ::std::string const & ) ;
-            
-            PyFieldAccessHandler_exposer.def( 
-                "changeValueMField_UInt64"
-                , changeValueMField_UInt64_function_type( &::OSG::PyFieldAccessHandler::changeValueMField_UInt64 )
                 , ( bp::arg("fieldName") )
                 , bp::return_internal_reference< >() );
         
@@ -827,17 +805,6 @@ void register_PyFieldAccessHandler_class(){
                 , bp::return_internal_reference< >() );
         
         }
-        { //::OSG::PyFieldAccessHandler::getValueMField_Int64
-        
-            typedef ::OSG::MField< OSG::Int64, 0, std::allocator< OSG::Int64 > > const * ( ::OSG::PyFieldAccessHandler::*getValueMField_Int64_function_type )( ::std::string const & ) ;
-            
-            PyFieldAccessHandler_exposer.def( 
-                "getValueMField_Int64"
-                , getValueMField_Int64_function_type( &::OSG::PyFieldAccessHandler::getValueMField_Int64 )
-                , ( bp::arg("fieldName") )
-                , bp::return_internal_reference< >() );
-        
-        }
         { //::OSG::PyFieldAccessHandler::getValueMField_Matrix
         
             typedef ::OSG::MField< OSG::TransformationMatrix< float >, 0, std::allocator< OSG::TransformationMatrix< float > > > const * ( ::OSG::PyFieldAccessHandler::*getValueMField_Matrix_function_type )( ::std::string const & ) ;
@@ -999,17 +966,6 @@ void register_PyFieldAccessHandler_class(){
             PyFieldAccessHandler_exposer.def( 
                 "getValueMField_UInt32"
                 , getValueMField_UInt32_function_type( &::OSG::PyFieldAccessHandler::getValueMField_UInt32 )
-                , ( bp::arg("fieldName") )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::OSG::PyFieldAccessHandler::getValueMField_UInt64
-        
-            typedef ::OSG::MField< OSG::UInt64, 0, std::allocator< OSG::UInt64 > > const * ( ::OSG::PyFieldAccessHandler::*getValueMField_UInt64_function_type )( ::std::string const & ) ;
-            
-            PyFieldAccessHandler_exposer.def( 
-                "getValueMField_UInt64"
-                , getValueMField_UInt64_function_type( &::OSG::PyFieldAccessHandler::getValueMField_UInt64 )
                 , ( bp::arg("fieldName") )
                 , bp::return_internal_reference< >() );
         
@@ -1190,17 +1146,6 @@ void register_PyFieldAccessHandler_class(){
                 , bp::return_value_policy< bp::return_by_value >() );
         
         }
-        { //::OSG::PyFieldAccessHandler::getValueSField_Int64
-        
-            typedef ::OSG::Int64 const & ( ::OSG::PyFieldAccessHandler::*getValueSField_Int64_function_type )( ::std::string const & ) ;
-            
-            PyFieldAccessHandler_exposer.def( 
-                "getValueSField_Int64"
-                , getValueSField_Int64_function_type( &::OSG::PyFieldAccessHandler::getValueSField_Int64 )
-                , ( bp::arg("fieldName") )
-                , bp::return_value_policy< bp::return_by_value >() );
-        
-        }
         { //::OSG::PyFieldAccessHandler::getValueSField_Matrix
         
             typedef ::OSG::Matrix const & ( ::OSG::PyFieldAccessHandler::*getValueSField_Matrix_function_type )( ::std::string const & ) ;
@@ -1361,17 +1306,6 @@ void register_PyFieldAccessHandler_class(){
             PyFieldAccessHandler_exposer.def( 
                 "getValueSField_UInt32"
                 , getValueSField_UInt32_function_type( &::OSG::PyFieldAccessHandler::getValueSField_UInt32 )
-                , ( bp::arg("fieldName") )
-                , bp::return_value_policy< bp::return_by_value >() );
-        
-        }
-        { //::OSG::PyFieldAccessHandler::getValueSField_UInt64
-        
-            typedef ::OSG::UInt64 const & ( ::OSG::PyFieldAccessHandler::*getValueSField_UInt64_function_type )( ::std::string const & ) ;
-            
-            PyFieldAccessHandler_exposer.def( 
-                "getValueSField_UInt64"
-                , getValueSField_UInt64_function_type( &::OSG::PyFieldAccessHandler::getValueSField_UInt64 )
                 , ( bp::arg("fieldName") )
                 , bp::return_value_policy< bp::return_by_value >() );
         
@@ -1565,16 +1499,6 @@ void register_PyFieldAccessHandler_class(){
                 , ( bp::arg("fieldName"), bp::arg("value") ) );
         
         }
-        { //::OSG::PyFieldAccessHandler::setValueMField_Int64
-        
-            typedef void ( ::OSG::PyFieldAccessHandler::*setValueMField_Int64_function_type )( ::std::string const &,::OSG::MField< OSG::Int64, 0, std::allocator< OSG::Int64 > > & ) ;
-            
-            PyFieldAccessHandler_exposer.def( 
-                "setValueMField_Int64"
-                , setValueMField_Int64_function_type( &::OSG::PyFieldAccessHandler::setValueMField_Int64 )
-                , ( bp::arg("fieldName"), bp::arg("value") ) );
-        
-        }
         { //::OSG::PyFieldAccessHandler::setValueMField_Matrix
         
             typedef void ( ::OSG::PyFieldAccessHandler::*setValueMField_Matrix_function_type )( ::std::string const &,::OSG::MField< OSG::TransformationMatrix< float >, 0, std::allocator< OSG::TransformationMatrix< float > > > & ) ;
@@ -1722,16 +1646,6 @@ void register_PyFieldAccessHandler_class(){
             PyFieldAccessHandler_exposer.def( 
                 "setValueMField_UInt32"
                 , setValueMField_UInt32_function_type( &::OSG::PyFieldAccessHandler::setValueMField_UInt32 )
-                , ( bp::arg("fieldName"), bp::arg("value") ) );
-        
-        }
-        { //::OSG::PyFieldAccessHandler::setValueMField_UInt64
-        
-            typedef void ( ::OSG::PyFieldAccessHandler::*setValueMField_UInt64_function_type )( ::std::string const &,::OSG::MField< OSG::UInt64, 0, std::allocator< OSG::UInt64 > > & ) ;
-            
-            PyFieldAccessHandler_exposer.def( 
-                "setValueMField_UInt64"
-                , setValueMField_UInt64_function_type( &::OSG::PyFieldAccessHandler::setValueMField_UInt64 )
                 , ( bp::arg("fieldName"), bp::arg("value") ) );
         
         }
@@ -1895,16 +1809,6 @@ void register_PyFieldAccessHandler_class(){
                 , ( bp::arg("fieldName"), bp::arg("value") ) );
         
         }
-        { //::OSG::PyFieldAccessHandler::setValueSField_Int64
-        
-            typedef void ( ::OSG::PyFieldAccessHandler::*setValueSField_Int64_function_type )( ::std::string const &,long int ) ;
-            
-            PyFieldAccessHandler_exposer.def( 
-                "setValueSField_Int64"
-                , setValueSField_Int64_function_type( &::OSG::PyFieldAccessHandler::setValueSField_Int64 )
-                , ( bp::arg("fieldName"), bp::arg("value") ) );
-        
-        }
         { //::OSG::PyFieldAccessHandler::setValueSField_Matrix
         
             typedef void ( ::OSG::PyFieldAccessHandler::*setValueSField_Matrix_function_type )( ::std::string const &,::OSG::Matrix & ) ;
@@ -2055,16 +1959,6 @@ void register_PyFieldAccessHandler_class(){
                 , ( bp::arg("fieldName"), bp::arg("value") ) );
         
         }
-        { //::OSG::PyFieldAccessHandler::setValueSField_UInt64
-        
-            typedef void ( ::OSG::PyFieldAccessHandler::*setValueSField_UInt64_function_type )( ::std::string const &,long unsigned int ) ;
-            
-            PyFieldAccessHandler_exposer.def( 
-                "setValueSField_UInt64"
-                , setValueSField_UInt64_function_type( &::OSG::PyFieldAccessHandler::setValueSField_UInt64 )
-                , ( bp::arg("fieldName"), bp::arg("value") ) );
-        
-        }
         { //::OSG::PyFieldAccessHandler::setValueSField_Vec2d
         
             typedef void ( ::OSG::PyFieldAccessHandler::*setValueSField_Vec2d_function_type )( ::std::string const &,::OSG::Vec2d & ) ;
@@ -2170,57 +2064,53 @@ void register_PyFieldAccessHandler_class(){
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Color4<unsigned char>, 0, std::allocator<OSG::Color4<unsigned char> > > >());
         bp::class_<OSG::MField<int, 0, std::allocator<int> > >("MField_6")
         	.def(bp::mfedit_indexing_suite<OSG::MField<int, 0, std::allocator<int> > >());
-        bp::class_<OSG::MField<OSG::Int64, 0, std::allocator<OSG::Int64> > >("MField_7")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Int64, 0, std::allocator<OSG::Int64> > >());
-        bp::class_<OSG::MField<OSG::TransformationMatrix<float>, 0, std::allocator<OSG::TransformationMatrix<float> > > >("MField_8")
+        bp::class_<OSG::MField<OSG::TransformationMatrix<float>, 0, std::allocator<OSG::TransformationMatrix<float> > > >("MField_7")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::TransformationMatrix<float>, 0, std::allocator<OSG::TransformationMatrix<float> > > >());
-        bp::class_<OSG::MField<OSG::TransformationMatrix<double>, 0, std::allocator<OSG::TransformationMatrix<double> > > >("MField_9")
+        bp::class_<OSG::MField<OSG::TransformationMatrix<double>, 0, std::allocator<OSG::TransformationMatrix<double> > > >("MField_8")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::TransformationMatrix<double>, 0, std::allocator<OSG::TransformationMatrix<double> > > >());
-        bp::class_<OSG::MField<OSG::Plane, 0, std::allocator<OSG::Plane> > >("MField_10")
+        bp::class_<OSG::MField<OSG::Plane, 0, std::allocator<OSG::Plane> > >("MField_9")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Plane, 0, std::allocator<OSG::Plane> > >());
-        bp::class_<OSG::MField<OSG::Point<double, 2u>, 0, std::allocator<OSG::Point<double, 2u> > > >("MField_11")
+        bp::class_<OSG::MField<OSG::Point<double, 2u>, 0, std::allocator<OSG::Point<double, 2u> > > >("MField_10")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<double, 2u>, 0, std::allocator<OSG::Point<double, 2u> > > >());
-        bp::class_<OSG::MField<OSG::Point<float, 2u>, 0, std::allocator<OSG::Point<float, 2u> > > >("MField_12")
+        bp::class_<OSG::MField<OSG::Point<float, 2u>, 0, std::allocator<OSG::Point<float, 2u> > > >("MField_11")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<float, 2u>, 0, std::allocator<OSG::Point<float, 2u> > > >());
-        bp::class_<OSG::MField<OSG::Point<double, 3u>, 0, std::allocator<OSG::Point<double, 3u> > > >("MField_13")
+        bp::class_<OSG::MField<OSG::Point<double, 3u>, 0, std::allocator<OSG::Point<double, 3u> > > >("MField_12")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<double, 3u>, 0, std::allocator<OSG::Point<double, 3u> > > >());
-        bp::class_<OSG::MField<OSG::Point<float, 3u>, 0, std::allocator<OSG::Point<float, 3u> > > >("MField_14")
+        bp::class_<OSG::MField<OSG::Point<float, 3u>, 0, std::allocator<OSG::Point<float, 3u> > > >("MField_13")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<float, 3u>, 0, std::allocator<OSG::Point<float, 3u> > > >());
-        bp::class_<OSG::MField<OSG::Point<double, 4u>, 0, std::allocator<OSG::Point<double, 4u> > > >("MField_15")
+        bp::class_<OSG::MField<OSG::Point<double, 4u>, 0, std::allocator<OSG::Point<double, 4u> > > >("MField_14")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<double, 4u>, 0, std::allocator<OSG::Point<double, 4u> > > >());
-        bp::class_<OSG::MField<OSG::Point<float, 4u>, 0, std::allocator<OSG::Point<float, 4u> > > >("MField_16")
+        bp::class_<OSG::MField<OSG::Point<float, 4u>, 0, std::allocator<OSG::Point<float, 4u> > > >("MField_15")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Point<float, 4u>, 0, std::allocator<OSG::Point<float, 4u> > > >());
-        bp::class_<OSG::MField<OSG::QuaternionBase<float>, 0, std::allocator<OSG::QuaternionBase<float> > > >("MField_17")
+        bp::class_<OSG::MField<OSG::QuaternionBase<float>, 0, std::allocator<OSG::QuaternionBase<float> > > >("MField_16")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::QuaternionBase<float>, 0, std::allocator<OSG::QuaternionBase<float> > > >());
-        bp::class_<OSG::MField<float, 0, std::allocator<float> > >("MField_18")
+        bp::class_<OSG::MField<float, 0, std::allocator<float> > >("MField_17")
         	.def(bp::mfedit_indexing_suite<OSG::MField<float, 0, std::allocator<float> > >());
-        bp::class_<OSG::MField<double, 0, std::allocator<double> > >("MField_19")
+        bp::class_<OSG::MField<double, 0, std::allocator<double> > >("MField_18")
         	.def(bp::mfedit_indexing_suite<OSG::MField<double, 0, std::allocator<double> > >());
-        bp::class_<OSG::MField<std::string, 0, std::allocator<std::string> > >("MField_20")
+        bp::class_<OSG::MField<std::string, 0, std::allocator<std::string> > >("MField_19")
         	.def(bp::mfedit_indexing_suite<OSG::MField<std::string, 0, std::allocator<std::string> > >());
-        bp::class_<OSG::MField<double, 1, std::allocator<double> > >("MField_21")
+        bp::class_<OSG::MField<double, 1, std::allocator<double> > >("MField_20")
         	.def(bp::mfedit_indexing_suite<OSG::MField<double, 1, std::allocator<double> > >());
-        bp::class_<OSG::MField<unsigned int, 0, std::allocator<unsigned int> > >("MField_22")
+        bp::class_<OSG::MField<unsigned int, 0, std::allocator<unsigned int> > >("MField_21")
         	.def(bp::mfedit_indexing_suite<OSG::MField<unsigned int, 0, std::allocator<unsigned int> > >());
-        bp::class_<OSG::MField<OSG::UInt64, 0, std::allocator<OSG::UInt64> > >("MField_23")
-        	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::UInt64, 0, std::allocator<OSG::UInt64> > >());
-        bp::class_<OSG::MField<OSG::Vector<double, 2u>, 0, std::allocator<OSG::Vector<double, 2u> > > >("MField_24")
+        bp::class_<OSG::MField<OSG::Vector<double, 2u>, 0, std::allocator<OSG::Vector<double, 2u> > > >("MField_22")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<double, 2u>, 0, std::allocator<OSG::Vector<double, 2u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<float, 2u>, 0, std::allocator<OSG::Vector<float, 2u> > > >("MField_25")
+        bp::class_<OSG::MField<OSG::Vector<float, 2u>, 0, std::allocator<OSG::Vector<float, 2u> > > >("MField_23")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<float, 2u>, 0, std::allocator<OSG::Vector<float, 2u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<unsigned char, 2u>, 0, std::allocator<OSG::Vector<unsigned char, 2u> > > >("MField_26")
+        bp::class_<OSG::MField<OSG::Vector<unsigned char, 2u>, 0, std::allocator<OSG::Vector<unsigned char, 2u> > > >("MField_24")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<unsigned char, 2u>, 0, std::allocator<OSG::Vector<unsigned char, 2u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<double, 3u>, 0, std::allocator<OSG::Vector<double, 3u> > > >("MField_27")
+        bp::class_<OSG::MField<OSG::Vector<double, 3u>, 0, std::allocator<OSG::Vector<double, 3u> > > >("MField_25")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<double, 3u>, 0, std::allocator<OSG::Vector<double, 3u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<float, 3u>, 0, std::allocator<OSG::Vector<float, 3u> > > >("MField_28")
+        bp::class_<OSG::MField<OSG::Vector<float, 3u>, 0, std::allocator<OSG::Vector<float, 3u> > > >("MField_26")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<float, 3u>, 0, std::allocator<OSG::Vector<float, 3u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<unsigned char, 3u>, 0, std::allocator<OSG::Vector<unsigned char, 3u> > > >("MField_29")
+        bp::class_<OSG::MField<OSG::Vector<unsigned char, 3u>, 0, std::allocator<OSG::Vector<unsigned char, 3u> > > >("MField_27")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<unsigned char, 3u>, 0, std::allocator<OSG::Vector<unsigned char, 3u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<double, 4u>, 0, std::allocator<OSG::Vector<double, 4u> > > >("MField_30")
+        bp::class_<OSG::MField<OSG::Vector<double, 4u>, 0, std::allocator<OSG::Vector<double, 4u> > > >("MField_28")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<double, 4u>, 0, std::allocator<OSG::Vector<double, 4u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<float, 4u>, 0, std::allocator<OSG::Vector<float, 4u> > > >("MField_31")
+        bp::class_<OSG::MField<OSG::Vector<float, 4u>, 0, std::allocator<OSG::Vector<float, 4u> > > >("MField_29")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<float, 4u>, 0, std::allocator<OSG::Vector<float, 4u> > > >());
-        bp::class_<OSG::MField<OSG::Vector<unsigned char, 4u>, 0, std::allocator<OSG::Vector<unsigned char, 4u> > > >("MField_32")
+        bp::class_<OSG::MField<OSG::Vector<unsigned char, 4u>, 0, std::allocator<OSG::Vector<unsigned char, 4u> > > >("MField_30")
         	.def(bp::mfedit_indexing_suite<OSG::MField<OSG::Vector<unsigned char, 4u>, 0, std::allocator<OSG::Vector<unsigned char, 4u> > > >());
         pyopensg::register_transit< OSG::PyFieldAccessHandler >::execute();
         bp::implicitly_convertible< OSG::PyFieldAccessHandler::ObjRecPtr, OSG::PyFieldAccessHandler* >();
