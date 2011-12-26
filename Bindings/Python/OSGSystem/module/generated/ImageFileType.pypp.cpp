@@ -45,18 +45,6 @@ struct ImageFileType_wrapper : OSG::ImageFileType, bp::wrapper< OSG::ImageFileTy
     
     }
 
-    virtual ::std::string determineMimetypeFromStream( ::std::istream & is ) {
-        if( bp::override func_determineMimetypeFromStream = this->get_override( "determineMimetypeFromStream" ) )
-            return func_determineMimetypeFromStream( boost::ref(is) ).as<std::string>();
-        else{
-            return this->OSG::ImageFileType::determineMimetypeFromStream( boost::ref(is) );
-        }
-    }
-    
-    ::std::string default_determineMimetypeFromStream( ::std::istream & is ) {
-        return OSG::ImageFileType::determineMimetypeFromStream( boost::ref(is) );
-    }
-
     virtual ::OSG::UInt64 maxBufferSize( ::OSG::Image const * pImage ) {
         if( bp::override func_maxBufferSize = this->get_override( "maxBufferSize" ) )
             return func_maxBufferSize( boost::python::ptr(pImage) );
@@ -165,6 +153,18 @@ struct ImageFileType_wrapper : OSG::ImageFileType, bp::wrapper< OSG::ImageFileTy
         return OSG::ImageFileType::write( boost::python::ptr(pImage), boost::ref(os), mimetype );
     }
 
+    virtual ::std::string determineMimetypeFromStream( ::std::istream & is ) {
+            if( bp::override func_determineMimetypeFromStream = this->get_override( "determineMimetypeFromStream" ) )
+                return func_determineMimetypeFromStream( boost::ref(is) ).as<std::string>();
+            else{
+                return this->OSG::ImageFileType::determineMimetypeFromStream( boost::ref(is) );
+            }
+        }
+        
+        ::std::string default_determineMimetypeFromStream( ::std::istream & is ) {
+            return OSG::ImageFileType::determineMimetypeFromStream( boost::ref(is) );
+        }
+
 };
 
 namespace
@@ -195,18 +195,6 @@ void register_ImageFileType_class(){
         bp::scope().attr("OSG_READ_SUPPORTED") = (int)OSG::ImageFileType::OSG_READ_SUPPORTED;
         bp::scope().attr("OSG_WRITE_SUPPORTED") = (int)OSG::ImageFileType::OSG_WRITE_SUPPORTED;
         ImageFileType_exposer.def( bp::init< OSG::Char8 const *, OSG::Char8 const * *, OSG::UInt16, bp::optional< OSG::UInt32 > >(( bp::arg("mimeType"), bp::arg("suffixArray"), bp::arg("suffixByteCount"), bp::arg("flags")=(::OSG::UInt32)(::OSG::UInt32(::OSG::ImageFileType::OSG_READ_SUPPORTED)) )) );
-        { //::OSG::ImageFileType::determineMimetypeFromStream
-        
-            typedef ::std::string ( ::OSG::ImageFileType::*determineMimetypeFromStream_function_type )( ::std::istream & ) ;
-            typedef ::std::string ( ImageFileType_wrapper::*default_determineMimetypeFromStream_function_type )( ::std::istream & ) ;
-            
-            ImageFileType_exposer.def( 
-                "determineMimetypeFromStream"
-                , determineMimetypeFromStream_function_type(&::OSG::ImageFileType::determineMimetypeFromStream)
-                , default_determineMimetypeFromStream_function_type(&ImageFileType_wrapper::default_determineMimetypeFromStream)
-                , ( bp::arg("is") ) );
-        
-        }
         { //::OSG::ImageFileType::dump
         
             typedef void ( ::OSG::ImageFileType::*dump_function_type )(  ) ;
@@ -366,6 +354,18 @@ void register_ImageFileType_class(){
         ImageFileType_exposer.staticmethod( "restore" );
         ImageFileType_exposer.staticmethod( "store" );
         ImageFileType_exposer.def("getSuffixList", wrapGetSuffixList);
+        { //::OSG::ImageFileType::determineMimetypeFromStream
+                
+                    typedef ::std::string ( ::OSG::ImageFileType::*determineMimetypeFromStream_function_type )( ::std::istream & ) ;
+                    typedef ::std::string ( ImageFileType_wrapper::*default_determineMimetypeFromStream_function_type )( ::std::istream & ) ;
+                
+                    ImageFileType_exposer.def( 
+                        "determineMimetypeFromStream"
+                        , determineMimetypeFromStream_function_type(&::OSG::ImageFileType::determineMimetypeFromStream)
+                        , default_determineMimetypeFromStream_function_type(&ImageFileType_wrapper::default_determineMimetypeFromStream)
+                        , ( bp::arg("is") ) );
+                
+                }
     }
 
 }
