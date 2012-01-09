@@ -29,10 +29,10 @@
 using namespace OSG;
 
 // The SimpleSceneManager to manage simple applications
-SimpleSceneManager *mgr;
-NodeUnrecPtr terrainNode;
+SimpleSceneManagerRefPtr mgr;
+NodeUnrecPtr             terrainNode;
 
-DynamicTerrainUnrecPtr	terrainCore;
+DynamicTerrainUnrecPtr	 terrainCore;
 
 #ifdef _DEBUG
 const bool testPerformance = false;
@@ -138,7 +138,7 @@ int main( int argc, char**argv )
 	terrainNode->setCore( terrainCore );
 
 	// create the SimpleSceneManager helper
-	mgr = new SimpleSceneManager;
+	mgr = SimpleSceneManager::create();
 
 	// Create the Scenegraph:
 	NodeUnrecPtr sceneNode = Node::create();
@@ -414,7 +414,7 @@ void keyboard(unsigned char k, int x, int y)
 			std::cerr << "From "  << l.getPosition () 
 				<< ", dir " << l.getDirection() << std::endl;
 
-			IntersectAction *act = IntersectAction::create();
+			IntersectActionRefPtr act = IntersectAction::create();
 
 			act->setLine(l);
 			act->apply(terrainNode);
@@ -434,6 +434,8 @@ void keyboard(unsigned char k, int x, int y)
 				// no, get rid of the triangle and highlight.
 				std::cerr << " nothing hit " << std::endl;
 			}
+
+            act = NULL;
 		}
 		break;
 	}

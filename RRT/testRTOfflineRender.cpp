@@ -36,7 +36,7 @@ using namespace OSG;
 
 NodeUnrecPtr pStageNode = NULL;
 
-RenderAction *rentravact = NULL;
+RenderActionRefPtr rentravact = NULL;
 
 NodeUnrecPtr  root = NULL;
 NodeUnrecPtr  file = NULL;
@@ -297,7 +297,7 @@ int doMain (int argc, char **argv)
     // run...
 //    glutMainLoop();
     
-    delete rentravact;
+    rentravact  = NULL;
 
     pStageNode  = NULL;
     root        = NULL;

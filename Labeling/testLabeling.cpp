@@ -24,10 +24,10 @@
 // New Headers
 
 // The SimpleSceneManager to manage simple applications
-OSG::SimpleSceneManager*   g_mgr             = NULL;
-OSG::GLUTWindowRefPtr      g_win             = NULL;
-OSG::NodeRefPtr            g_scene           = NULL;
-OSG::LabelForegroundRefPtr g_labelForeground = NULL;
+OSG::SimpleSceneManagerRefPtr g_mgr             = NULL;
+OSG::GLUTWindowRefPtr         g_win             = NULL;
+OSG::NodeRefPtr               g_scene           = NULL;
+OSG::LabelForegroundRefPtr    g_labelForeground = NULL;
 
 // forward declaration so we can have the interesting stuff upfront
 int  setupGLUT( int *argc, char *argv[] );
@@ -184,7 +184,7 @@ int main(int argc, char **argv)
     g_scene = createScene();
 
     // create the SimpleSceneManager helper
-    g_mgr = new OSG::SimpleSceneManager;
+    g_mgr = OSG::SimpleSceneManager::create();
     g_mgr->setUseTraversalAction(true);
 
     // tell the manager what to manage
@@ -295,7 +295,7 @@ int setupGLUT(int *argc, char *argv[])
 
 void onExit(void)
 {
-    delete g_mgr;
+    g_mgr             = NULL;
 
     g_labelForeground = NULL;
     g_scene           = NULL;

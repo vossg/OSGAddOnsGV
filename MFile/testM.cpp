@@ -48,7 +48,7 @@
 
 using namespace OSG;
 
-RenderAction *rentravact;
+RenderActionRefPtr rentravact;
 
 NodeUnrecPtr  root;
 
@@ -220,7 +220,8 @@ void key(unsigned char key, int x, int y)
     switch ( key )
     {
         case 27:    
-            delete rentravact;
+            
+            rentravact = NULL;
 
             root = NULL;
             file = NULL;

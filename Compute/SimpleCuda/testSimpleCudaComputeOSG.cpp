@@ -47,7 +47,7 @@
 
 #define USE_CALLBACK_ALGO
 
-OSG::RenderAction *pRenAct = NULL;
+OSG::RenderActionRefPtr pRenAct = NULL;
 
 OSG::Trackball     tball;
 
@@ -641,7 +641,7 @@ void key(unsigned char key, int x, int y)
 
             pWin                   = NULL;
 
-            delete pRenAct;
+            pRenAct                = NULL;
 
             OSG::osgExit(); 
 

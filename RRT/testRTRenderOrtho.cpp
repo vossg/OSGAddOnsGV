@@ -35,7 +35,7 @@
 
 using namespace OSG;
 
-RenderAction *rentravact = NULL;
+RenderActionRefPtr rentravact = NULL;
 
 NodeUnrecPtr  root = NULL;
 NodeUnrecPtr  file = NULL;
@@ -193,8 +193,8 @@ void key(unsigned char key, int x, int y)
     switch ( key )
     {
         case 27:    
-            delete rentravact;
-
+            
+            rentravact  = NULL;
             root        = NULL;
             file        = NULL;
             cam         = NULL;
