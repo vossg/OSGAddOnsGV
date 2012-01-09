@@ -38,13 +38,6 @@ namespace bp = boost::python;
 
 struct NavigationManager_wrapper : OSG::NavigationManager, bp::wrapper< OSG::NavigationManager > {
 
-    NavigationManager_wrapper( )
-    : OSG::NavigationManager( )
-      , bp::wrapper< OSG::NavigationManager >(){
-        // null constructor
-    
-    }
-
     virtual ::OSG::Navigator * getNavigator(  ) {
         if( bp::override func_getNavigator = this->get_override( "getNavigator" ) )
             return func_getNavigator(  );
@@ -194,8 +187,8 @@ struct NavigationManager_wrapper : OSG::NavigationManager, bp::wrapper< OSG::Nav
 void register_NavigationManager_class(){
 
     { //::OSG::NavigationManager
-        typedef bp::class_< NavigationManager_wrapper, boost::noncopyable > NavigationManager_exposer_t;
-        NavigationManager_exposer_t NavigationManager_exposer = NavigationManager_exposer_t( "NavigationManager", bp::init< >() );
+        typedef bp::class_< NavigationManager_wrapper, bp::bases< ::OSG::MemoryObject >, boost::noncopyable > NavigationManager_exposer_t;
+        NavigationManager_exposer_t NavigationManager_exposer = NavigationManager_exposer_t( "NavigationManager", bp::no_init );
         bp::scope NavigationManager_scope( NavigationManager_exposer );
         bp::scope().attr("MouseLeft") = (int)OSG::NavigationManager::MouseLeft;
         bp::scope().attr("MouseMiddle") = (int)OSG::NavigationManager::MouseMiddle;
@@ -205,12 +198,11 @@ void register_NavigationManager_class(){
         bp::scope().attr("NoButton") = (int)OSG::NavigationManager::NoButton;
         { //::OSG::NavigationManager::create
         
-            typedef ::OSG::NavigationManager * ( ::OSG::NavigationManager::*create_function_type )(  ) ;
+            typedef ::OSG::TransitPtr< OSG::NavigationManager > ( *create_function_type )(  );
             
             NavigationManager_exposer.def( 
                 "create"
-                , create_function_type( &::OSG::NavigationManager::create )
-                , bp::return_value_policy< bp::manage_new_object >() );
+                , create_function_type( &::OSG::NavigationManager::create ) );
         
         }
         { //::OSG::NavigationManager::getNavigator
@@ -374,6 +366,7 @@ void register_NavigationManager_class(){
                 , default_update_function_type(&NavigationManager_wrapper::default_update) );
         
         }
+        NavigationManager_exposer.staticmethod( "create" );
     }
 
 }

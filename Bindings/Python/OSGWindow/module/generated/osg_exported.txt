@@ -1,4 +1,3 @@
-MatrixCameraDecorator
 PassiveViewport
 ImageForeground
 GrabForegroundBase
@@ -26,6 +25,7 @@ PolygonBackgroundBase
 SimpleTextForegroundBase
 TileableBackground
 GradientBackground
+MatrixCameraDecorator
 DepthClearBackground
 PassiveWindow
 OffCenterPerspectiveCameraBase

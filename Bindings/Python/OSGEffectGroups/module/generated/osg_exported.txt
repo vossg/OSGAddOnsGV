@@ -24,7 +24,6 @@ CheckerboardCalibFilter
 DSLightChunk
 DisplayFilterStageDataBase
 DisplayFilter
-DistortionDisplayFilter
 DeferredShadingStageDataBase
 FishEyeProjectorDataBase
 DisplayFilterBase
@@ -40,5 +39,6 @@ DistortionDisplayFilterBase
 CalibrationPatternFilterBase
 ShadowStageData
 ShadowStageDataBase
+DistortionDisplayFilter
 ColorDisplayFilterBase
 PostShaderStageDataBase

@@ -42,6 +42,16 @@ void register_DisplayFilterStage_class(){
         typedef bp::class_< OSG::DisplayFilterStage, bp::bases< OSG::DisplayFilterStageBase >, OSG::DisplayFilterStage::ObjRecPtr, boost::noncopyable > DisplayFilterStage_exposer_t;
         DisplayFilterStage_exposer_t DisplayFilterStage_exposer = DisplayFilterStage_exposer_t( "DisplayFilterStage", bp::no_init );
         bp::scope DisplayFilterStage_scope( DisplayFilterStage_exposer );
+        { //::OSG::DisplayFilterStage::adjustVolume
+        
+            typedef void ( ::OSG::DisplayFilterStage::*adjustVolume_function_type )( ::OSG::Volume & ) ;
+            
+            DisplayFilterStage_exposer.def( 
+                "adjustVolume"
+                , adjustVolume_function_type( &::OSG::DisplayFilterStage::adjustVolume )
+                , ( bp::arg("volume") ) );
+        
+        }
         { //::OSG::DisplayFilterStage::changed
         
             typedef void ( ::OSG::DisplayFilterStage::*changed_function_type )( ::OSG::ConstFieldMaskArg,::OSG::UInt32,::OSG::BitVector ) ;

@@ -192,12 +192,11 @@ void register_Action_class(){
         }
         { //::OSG::Action::create
         
-            typedef ::OSG::Action * ( *create_function_type )(  );
+            typedef ::OSG::TransitPtr< OSG::Action > ( *create_function_type )(  );
             
             Action_exposer.def( 
                 "create"
-                , create_function_type( &::OSG::Action::create )
-                , bp::return_value_policy< bp::manage_new_object >() );
+                , create_function_type( &::OSG::Action::create ) );
         
         }
         { //::OSG::Action::getActNode

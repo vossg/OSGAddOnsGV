@@ -5,13 +5,13 @@ UnskinnedSkinningAlgorithmBase
 AnimMatrixChannelBase
 AnimVec3fDataSourceBase
 SkinnedGeometryBase
-SkeletonOgreJoint
+TimeSensorBase
+AnimQuaternionChannel
 AnimMatrixDataSourceBase
 VRMLCoordinateInterpolator
 BaseSkeletonJoint
 AnimTemplateBase
 CPUSkinningAlgorithmBase
-AnimQuaternionChannel
 AnimBlenderBase
 AnimVec3fBlender
 GPUSkinningAlgorithm
@@ -32,6 +32,7 @@ AnimQuaternionDataSourceBase
 AnimTargetAttachment
 SkeletonSkinningAlgorithm
 CPUSkinningDataAttachment
+SkeletonOgreJoint
 SkeletonSkinningAlgorithmBase
 BaseSkeletonJointBase
 VRMLCoordinateInterpolatorBase
@@ -68,7 +69,6 @@ SkinningAlgorithm
 VRMLScalarInterpolator
 GPUSkinningDataAttachment
 VRMLInterpolator
-TimeSensorBase
 AnimTimeSensorBase
 SkeletonOgreJointBase
 SkinnedGeometry

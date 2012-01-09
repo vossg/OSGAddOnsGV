@@ -122,12 +122,11 @@ void register_RenderAction_class(){
         }
         { //::OSG::RenderAction::create
         
-            typedef ::OSG::RenderAction * ( *create_function_type )(  );
+            typedef ::OSG::TransitPtr< OSG::RenderAction > ( *create_function_type )(  );
             
             RenderAction_exposer.def( 
                 "create"
-                , create_function_type( &::OSG::RenderAction::create )
-                , bp::return_value_policy< bp::manage_new_object >() );
+                , create_function_type( &::OSG::RenderAction::create ) );
         
         }
         { //::OSG::RenderAction::disableDefaultPartition

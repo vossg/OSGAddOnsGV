@@ -39,8 +39,8 @@ namespace bp = boost::python;
 void register_ActionBase_class(){
 
     { //::OSG::ActionBase
-        typedef bp::class_< OSG::ActionBase > ActionBase_exposer_t;
-        ActionBase_exposer_t ActionBase_exposer = ActionBase_exposer_t( "ActionBase" );
+        typedef bp::class_< OSG::ActionBase, bp::bases< ::OSG::MemoryObject >, boost::noncopyable > ActionBase_exposer_t;
+        ActionBase_exposer_t ActionBase_exposer = ActionBase_exposer_t( "ActionBase", bp::no_init );
         bp::scope ActionBase_scope( ActionBase_exposer );
         bp::enum_< OSG::ActionBase::ResultE>("ResultE")
             .value("Continue", OSG::ActionBase::Continue)

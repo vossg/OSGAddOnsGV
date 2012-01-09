@@ -1,10 +1,10 @@
+SimpleStatisticsForegroundBase
 VerifyGraphOp
 MakeTransparentGraphOp
 SimpleSceneManager
 Navigator
 GraphOp
 SharePtrGraphOp
-SplitGraphOp
 PerfMonitorForegroundBase
 SimpleStatisticsForeground
 PerfMonitorForeground
@@ -15,4 +15,4 @@ VerifyGeoGraphOp
 GeoTypeGraphOp
 PruneGraphOp
 MaterialMergeGraphOp
-SimpleStatisticsForegroundBase
+SplitGraphOp

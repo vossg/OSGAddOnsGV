@@ -43,6 +43,7 @@ void register_MultiCoreBase_class(){
         MultiCoreBase_exposer_t MultiCoreBase_exposer = MultiCoreBase_exposer_t( "MultiCoreBase", bp::no_init );
         bp::scope MultiCoreBase_scope( MultiCoreBase_exposer );
         bp::scope().attr("CoresFieldId") = (int)OSG::MultiCoreBase::CoresFieldId;
+        bp::scope().attr("ExitOnSkipFieldId") = (int)OSG::MultiCoreBase::ExitOnSkipFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::MultiCoreBase::NextFieldId;
         { //::OSG::MultiCoreBase::copyFromBin
         
@@ -140,6 +141,25 @@ void register_MultiCoreBase_class(){
                 , getContainerSize_function_type( &::OSG::MultiCoreBase::getContainerSize ) );
         
         }
+        { //::OSG::MultiCoreBase::getExitOnSkip
+        
+            typedef bool ( ::OSG::MultiCoreBase::*getExitOnSkip_function_type )(  ) const;
+            
+            MultiCoreBase_exposer.def( 
+                "getExitOnSkip"
+                , getExitOnSkip_function_type( &::OSG::MultiCoreBase::getExitOnSkip ) );
+        
+        }
+        { //::OSG::MultiCoreBase::getSFExitOnSkip
+        
+            typedef ::OSG::SFBool const * ( ::OSG::MultiCoreBase::*getSFExitOnSkip_function_type )(  ) const;
+            
+            MultiCoreBase_exposer.def( 
+                "getSFExitOnSkip"
+                , getSFExitOnSkip_function_type( &::OSG::MultiCoreBase::getSFExitOnSkip )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::MultiCoreBase::getType
         
             typedef ::OSG::FieldContainerType & ( ::OSG::MultiCoreBase::*getType_function_type )(  ) ;
@@ -158,6 +178,16 @@ void register_MultiCoreBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::MultiCoreBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::MultiCoreBase::setExitOnSkip
+        
+            typedef void ( ::OSG::MultiCoreBase::*setExitOnSkip_function_type )( bool const ) ;
+            
+            MultiCoreBase_exposer.def( 
+                "setExitOnSkip"
+                , setExitOnSkip_function_type( &::OSG::MultiCoreBase::setExitOnSkip )
+                , ( bp::arg("value") ) );
         
         }
         MultiCoreBase_exposer.staticmethod( "create" );

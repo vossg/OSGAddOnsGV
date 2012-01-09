@@ -38,13 +38,6 @@ namespace bp = boost::python;
 
 struct SimpleSceneManager_wrapper : OSG::SimpleSceneManager, bp::wrapper< OSG::SimpleSceneManager > {
 
-    SimpleSceneManager_wrapper( )
-    : OSG::SimpleSceneManager( )
-      , bp::wrapper< OSG::SimpleSceneManager >(){
-        // null constructor
-    
-    }
-
     virtual void addForeground( ::OSG::Foreground * const fg ) {
         if( bp::override func_addForeground = this->get_override( "addForeground" ) )
             func_addForeground( fg );
@@ -459,7 +452,7 @@ void register_SimpleSceneManager_class(){
 
     { //::OSG::SimpleSceneManager
         typedef bp::class_< SimpleSceneManager_wrapper, bp::bases< OSG::NavigationManager >, boost::noncopyable > SimpleSceneManager_exposer_t;
-        SimpleSceneManager_exposer_t SimpleSceneManager_exposer = SimpleSceneManager_exposer_t( "SimpleSceneManager", bp::init< >() );
+        SimpleSceneManager_exposer_t SimpleSceneManager_exposer = SimpleSceneManager_exposer_t( "SimpleSceneManager", bp::no_init );
         bp::scope SimpleSceneManager_scope( SimpleSceneManager_exposer );
         { //::OSG::SimpleSceneManager::addForeground
         
@@ -485,12 +478,11 @@ void register_SimpleSceneManager_class(){
         }
         { //::OSG::SimpleSceneManager::create
         
-            typedef ::OSG::SimpleSceneManager * ( ::OSG::SimpleSceneManager::*create_function_type )(  ) ;
+            typedef ::OSG::TransitPtr< OSG::SimpleSceneManager > ( *create_function_type )(  );
             
             SimpleSceneManager_exposer.def( 
                 "create"
-                , create_function_type( &::OSG::SimpleSceneManager::create )
-                , bp::return_value_policy< bp::manage_new_object >() );
+                , create_function_type( &::OSG::SimpleSceneManager::create ) );
         
         }
         { //::OSG::SimpleSceneManager::getBackground
@@ -889,6 +881,7 @@ void register_SimpleSceneManager_class(){
                 , ( bp::arg("win") ) );
         
         }
+        SimpleSceneManager_exposer.staticmethod( "create" );
     }
 
 }

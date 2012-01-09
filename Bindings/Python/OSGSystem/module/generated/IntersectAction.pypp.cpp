@@ -93,23 +93,21 @@ void register_IntersectAction_class(){
         bp::scope IntersectAction_scope( IntersectAction_exposer );
         { //::OSG::IntersectAction::create
         
-            typedef ::OSG::IntersectAction * ( *create_function_type )(  );
+            typedef ::OSG::TransitPtr< OSG::IntersectAction > ( *create_function_type )(  );
             
             IntersectAction_exposer.def( 
                 "create"
-                , create_function_type( &::OSG::IntersectAction::create )
-                , bp::return_value_policy< bp::manage_new_object >() );
+                , create_function_type( &::OSG::IntersectAction::create ) );
         
         }
         { //::OSG::IntersectAction::create
         
-            typedef ::OSG::IntersectAction * ( *create_function_type )( ::OSG::Line const &,::OSG::Real32 const );
+            typedef ::OSG::TransitPtr< OSG::IntersectAction > ( *create_function_type )( ::OSG::Line const &,::OSG::Real32 const );
             
             IntersectAction_exposer.def( 
                 "create"
                 , create_function_type( &::OSG::IntersectAction::create )
-                , ( bp::arg("line"), bp::arg("maxdist")=OSG::Inf )
-                , bp::return_value_policy< bp::manage_new_object >() );
+                , ( bp::arg("line"), bp::arg("maxdist")=OSG::Inf ) );
         
         }
         { //::OSG::IntersectAction::didHit

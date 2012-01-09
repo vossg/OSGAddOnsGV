@@ -1,12 +1,13 @@
 GeoVec3fProperty
 StageDrawableParent
+GeoColor4fProperty
 GeoUInt8Property
 GeoPnt4fProperty
 GeoPnt4dProperty
-GeoVec4dProperty
 GeoVec4fProperty
-GeoPnt2fProperty
 GeoVec3dProperty
+GeoVec4dProperty
+GeoPnt2fProperty
 GeoPnt2dProperty
 GeoUInt16Property
 ContainerMixinHeadStageDrawableDesc
@@ -14,7 +15,6 @@ GeoVec2fProperty
 GeoUInt32Property
 GeoVec2dProperty
 GeoColor3fProperty
-GeoColor4fProperty
 GeoPnt3dProperty
 GeoPnt3fProperty
 GeoIntegralProperty
