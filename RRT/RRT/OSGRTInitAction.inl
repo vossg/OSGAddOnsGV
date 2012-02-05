@@ -544,7 +544,7 @@ void RTInitAction<DescT>::dropGeometry(Geometry *pGeo)
         if(pMat == NULL)
             return;
 
-        PrimeMaterial *pPrimeMat = pMat->finalize(0x0000, NULL);
+        PrimeMaterial *pPrimeMat = pMat->finalize(0x0000, NULL, NULL);
 
         if(isTriangulated(pGeo) == false)
         {
