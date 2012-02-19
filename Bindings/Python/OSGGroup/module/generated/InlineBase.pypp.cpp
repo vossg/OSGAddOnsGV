@@ -57,7 +57,7 @@ void register_InlineBase_class(){
         bp::scope().attr("UrlFieldId") = (int)OSG::InlineBase::UrlFieldId;
         bp::scope().attr("LoadedFieldId") = (int)OSG::InlineBase::LoadedFieldId;
         bp::scope().attr("RootFieldId") = (int)OSG::InlineBase::RootFieldId;
-        bp::scope().attr("GrapOpFieldId") = (int)OSG::InlineBase::GrapOpFieldId;
+        bp::scope().attr("GraphOpFieldId") = (int)OSG::InlineBase::GraphOpFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::InlineBase::NextFieldId;
         { //::OSG::InlineBase::copyFromBin
         
@@ -155,13 +155,13 @@ void register_InlineBase_class(){
                 , getContainerSize_function_type( &::OSG::InlineBase::getContainerSize ) );
         
         }
-        { //::OSG::InlineBase::getGrapOp
+        { //::OSG::InlineBase::getGraphOp
         
-            typedef ::std::string const & ( ::OSG::InlineBase::*getGrapOp_function_type )(  ) const;
+            typedef ::std::string const & ( ::OSG::InlineBase::*getGraphOp_function_type )(  ) const;
             
             InlineBase_exposer.def( 
-                "getGrapOp"
-                , getGrapOp_function_type( &::OSG::InlineBase::getGrapOp )
+                "getGraphOp"
+                , getGraphOp_function_type( &::OSG::InlineBase::getGraphOp )
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
@@ -174,13 +174,13 @@ void register_InlineBase_class(){
                 , getLoaded_function_type( &::OSG::InlineBase::getLoaded ) );
         
         }
-        { //::OSG::InlineBase::getSFGrapOp
+        { //::OSG::InlineBase::getSFGraphOp
         
-            typedef ::OSG::SFString const * ( ::OSG::InlineBase::*getSFGrapOp_function_type )(  ) const;
+            typedef ::OSG::SFString const * ( ::OSG::InlineBase::*getSFGraphOp_function_type )(  ) const;
             
             InlineBase_exposer.def( 
-                "getSFGrapOp"
-                , getSFGrapOp_function_type( &::OSG::InlineBase::getSFGrapOp )
+                "getSFGraphOp"
+                , getSFGraphOp_function_type( &::OSG::InlineBase::getSFGraphOp )
                 , bp::return_internal_reference< >() );
         
         }
@@ -225,13 +225,13 @@ void register_InlineBase_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
-        { //::OSG::InlineBase::setGrapOp
+        { //::OSG::InlineBase::setGraphOp
         
-            typedef void ( ::OSG::InlineBase::*setGrapOp_function_type )( ::std::string const & ) ;
+            typedef void ( ::OSG::InlineBase::*setGraphOp_function_type )( ::std::string const & ) ;
             
             InlineBase_exposer.def( 
-                "setGrapOp"
-                , setGrapOp_function_type( &::OSG::InlineBase::setGrapOp )
+                "setGraphOp"
+                , setGraphOp_function_type( &::OSG::InlineBase::setGraphOp )
                 , ( bp::arg("value") ) );
         
         }

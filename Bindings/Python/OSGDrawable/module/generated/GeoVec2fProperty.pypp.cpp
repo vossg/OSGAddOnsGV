@@ -217,7 +217,7 @@ void register_GeoVec2fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoVec2fPropertyDesc >::getValue
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoVec2fPropertyDesc > exported_class_t;
-            typedef ::OSG::Vec2f ( exported_class_t::*getValue_function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Vec2f ( exported_class_t::*getValue_function_type )( ::OSG::SizeT const ) const;
             
             GeoVec2fProperty_exposer.def( 
                 "getValue"
@@ -228,7 +228,7 @@ void register_GeoVec2fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoVec2fPropertyDesc >::getValue
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoVec2fPropertyDesc > exported_class_t;
-            typedef void ( exported_class_t::*getValue_function_type )( ::OSG::Vec2f &,::OSG::UInt32 const ) const;
+            typedef void ( exported_class_t::*getValue_function_type )( ::OSG::Vec2f &,::OSG::SizeT const ) const;
             
             GeoVec2fProperty_exposer.def( 
                 "getValue"
@@ -249,7 +249,7 @@ void register_GeoVec2fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoVec2fPropertyDesc >::operator[]
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoVec2fPropertyDesc > exported_class_t;
-            typedef ::OSG::Vector< float, 2u > const & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) const;
+            typedef ::OSG::Vector< float, 2u > const & ( exported_class_t::*__getitem___function_type )( ::OSG::SizeT ) const;
             
             GeoVec2fProperty_exposer.def( 
                 "__getitem__"
@@ -261,7 +261,7 @@ void register_GeoVec2fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoVec2fPropertyDesc >::operator[]
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoVec2fPropertyDesc > exported_class_t;
-            typedef ::OSG::Vector< float, 2u > & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
+            typedef ::OSG::Vector< float, 2u > & ( exported_class_t::*__getitem___function_type )( ::OSG::SizeT ) ;
             
             GeoVec2fProperty_exposer.def( 
                 "__getitem__"

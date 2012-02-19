@@ -11,6 +11,7 @@
 #include <OSGCSMViewport.h>
 #include <OSGCSMSceneParameter.h>
 #include <OSGCSMPerspectiveCamera.h>
+#include <OSGCSMStatisticsForeground.h>
 #include <OSGCSMSortFirstWinOptions.h>
 #include <OSGImageFile.h>
 #include <OSGCSMClusterWinOptions.h>

@@ -217,7 +217,7 @@ void register_GeoUInt32Property_class(){
         { //::OSG::TypedGeoIntegralProperty< OSG::GeoUInt32PropertyDesc >::getValue
         
             typedef OSG::TypedGeoIntegralProperty< OSG::GeoUInt32PropertyDesc > exported_class_t;
-            typedef ::OSG::UInt32 ( exported_class_t::*getValue_function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::UInt32 ( exported_class_t::*getValue_function_type )( ::OSG::SizeT const ) const;
             
             GeoUInt32Property_exposer.def( 
                 "getValue"
@@ -228,7 +228,7 @@ void register_GeoUInt32Property_class(){
         { //::OSG::TypedGeoIntegralProperty< OSG::GeoUInt32PropertyDesc >::getValue
         
             typedef OSG::TypedGeoIntegralProperty< OSG::GeoUInt32PropertyDesc > exported_class_t;
-            typedef void ( exported_class_t::*getValue_function_type )( ::OSG::UInt32 &,::OSG::UInt32 const ) const;
+            typedef void ( exported_class_t::*getValue_function_type )( ::OSG::UInt32 &,::OSG::SizeT const ) const;
             
             GeoUInt32Property_exposer.def( 
                 "getValue"
@@ -239,7 +239,7 @@ void register_GeoUInt32Property_class(){
         { //::OSG::TypedGeoIntegralProperty< OSG::GeoUInt32PropertyDesc >::operator[]
         
             typedef OSG::TypedGeoIntegralProperty< OSG::GeoUInt32PropertyDesc > exported_class_t;
-            typedef unsigned int const & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) const;
+            typedef unsigned int const & ( exported_class_t::*__getitem___function_type )( ::OSG::SizeT ) const;
             
             GeoUInt32Property_exposer.def( 
                 "__getitem__"
@@ -251,7 +251,7 @@ void register_GeoUInt32Property_class(){
         { //::OSG::TypedGeoIntegralProperty< OSG::GeoUInt32PropertyDesc >::operator[]
         
             typedef OSG::TypedGeoIntegralProperty< OSG::GeoUInt32PropertyDesc > exported_class_t;
-            typedef unsigned int & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
+            typedef unsigned int & ( exported_class_t::*__getitem___function_type )( ::OSG::SizeT ) ;
             
             GeoUInt32Property_exposer.def( 
                 "__getitem__"

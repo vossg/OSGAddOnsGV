@@ -42,18 +42,6 @@ struct FieldContainer_wrapper : OSG::FieldContainer, bp::wrapper< OSG::FieldCont
 
 };
 
-namespace
-{
-
-OSG::FieldContainerRecPtr
-wrapFindNamedComponent(OSG::FieldContainer* self,
-                       const OSG::Char8* szName)
-{
-   return OSG::FieldContainerTransitPtr(self->findNamedComponent(szName));
-}
-
-}
-
 void register_FieldContainer_class(){
 
     { //::OSG::FieldContainer
@@ -127,6 +115,17 @@ void register_FieldContainer_class(){
             FieldContainer_exposer.def( 
                 "dumpFieldInfo"
                 , dumpFieldInfo_function_type( &::OSG::FieldContainer::dumpFieldInfo ) );
+        
+        }
+        { //::OSG::FieldContainer::findNamedComponent
+        
+            typedef ::OSG::FieldContainer * ( ::OSG::FieldContainer::*findNamedComponent_function_type )( ::OSG::Char8 const * ) ;
+            
+            FieldContainer_exposer.def( 
+                "findNamedComponent"
+                , findNamedComponent_function_type( &::OSG::FieldContainer::findNamedComponent )
+                , ( bp::arg("szName") )
+                , bp::return_value_policy< bp::reference_existing_object >() );
         
         }
         { //::OSG::FieldContainer::getClassGroupId
@@ -299,7 +298,6 @@ void register_FieldContainer_class(){
         bp::register_ptr_to_python< OSG::FieldContainer::ObjRecPtr >();
         bp::implicitly_convertible< OSG::FieldContainer::ObjRecPtr, OSG::FieldContainer* >();
         bp::implicitly_convertible< OSG::FieldContainer::ObjRecPtr, OSG::FieldContainer::ObjCPtr >();
-        FieldContainer_exposer.def("findNamedComponent", wrapFindNamedComponent, (bp::arg("szName")));
     }
 
 }

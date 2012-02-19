@@ -69,6 +69,8 @@ void register_CSMWindowBase_class(){
         bp::scope().attr("ParentFieldId") = (int)OSG::CSMWindowBase::ParentFieldId;
         bp::scope().attr("ViewportsFieldId") = (int)OSG::CSMWindowBase::ViewportsFieldId;
         bp::scope().attr("MouseDataFieldId") = (int)OSG::CSMWindowBase::MouseDataFieldId;
+        bp::scope().attr("MTouchDataFieldId") = (int)OSG::CSMWindowBase::MTouchDataFieldId;
+        bp::scope().attr("MouseAsMTouchFieldId") = (int)OSG::CSMWindowBase::MouseAsMTouchFieldId;
         bp::scope().attr("SizeFieldId") = (int)OSG::CSMWindowBase::SizeFieldId;
         bp::scope().attr("PositionFieldId") = (int)OSG::CSMWindowBase::PositionFieldId;
         bp::scope().attr("DecorEnabledFieldId") = (int)OSG::CSMWindowBase::DecorEnabledFieldId;
@@ -245,6 +247,25 @@ void register_CSMWindowBase_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
+        { //::OSG::CSMWindowBase::getMTouchData
+        
+            typedef ::OSG::MTouchData const & ( ::OSG::CSMWindowBase::*getMTouchData_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getMTouchData"
+                , getMTouchData_function_type( &::OSG::CSMWindowBase::getMTouchData )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::CSMWindowBase::getMouseAsMTouch
+        
+            typedef bool ( ::OSG::CSMWindowBase::*getMouseAsMTouch_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getMouseAsMTouch"
+                , getMouseAsMTouch_function_type( &::OSG::CSMWindowBase::getMouseAsMTouch ) );
+        
+        }
         { //::OSG::CSMWindowBase::getMouseData
         
             typedef ::OSG::MouseData const & ( ::OSG::CSMWindowBase::*getMouseData_function_type )(  ) const;
@@ -378,6 +399,26 @@ void register_CSMWindowBase_class(){
             CSMWindowBase_exposer.def( 
                 "getSFIgnoreAllExtensions"
                 , getSFIgnoreAllExtensions_function_type( &::OSG::CSMWindowBase::getSFIgnoreAllExtensions )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMWindowBase::getSFMTouchData
+        
+            typedef ::OSG::SFMTouchData const * ( ::OSG::CSMWindowBase::*getSFMTouchData_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getSFMTouchData"
+                , getSFMTouchData_function_type( &::OSG::CSMWindowBase::getSFMTouchData )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMWindowBase::getSFMouseAsMTouch
+        
+            typedef ::OSG::SFBool const * ( ::OSG::CSMWindowBase::*getSFMouseAsMTouch_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getSFMouseAsMTouch"
+                , getSFMouseAsMTouch_function_type( &::OSG::CSMWindowBase::getSFMouseAsMTouch )
                 , bp::return_internal_reference< >() );
         
         }
@@ -599,6 +640,26 @@ void register_CSMWindowBase_class(){
             CSMWindowBase_exposer.def( 
                 "setIgnoreAllExtensions"
                 , setIgnoreAllExtensions_function_type( &::OSG::CSMWindowBase::setIgnoreAllExtensions )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMWindowBase::setMTouchData
+        
+            typedef void ( ::OSG::CSMWindowBase::*setMTouchData_function_type )( ::OSG::MTouchData const & ) ;
+            
+            CSMWindowBase_exposer.def( 
+                "setMTouchData"
+                , setMTouchData_function_type( &::OSG::CSMWindowBase::setMTouchData )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMWindowBase::setMouseAsMTouch
+        
+            typedef void ( ::OSG::CSMWindowBase::*setMouseAsMTouch_function_type )( bool const ) ;
+            
+            CSMWindowBase_exposer.def( 
+                "setMouseAsMTouch"
+                , setMouseAsMTouch_function_type( &::OSG::CSMWindowBase::setMouseAsMTouch )
                 , ( bp::arg("value") ) );
         
         }

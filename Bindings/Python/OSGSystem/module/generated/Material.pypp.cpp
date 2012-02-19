@@ -64,12 +64,12 @@ void register_Material_class(){
         }
         { //::OSG::Material::finalize
         
-            typedef ::OSG::PrimeMaterial * ( ::OSG::Material::*finalize_function_type )( ::OSG::MaterialMapKey,::OSG::Window * ) ;
+            typedef ::OSG::PrimeMaterial * ( ::OSG::Material::*finalize_function_type )( ::OSG::MaterialMapKey,::OSG::StateOverride const *,::OSG::Window * ) ;
             
             Material_exposer.def( 
                 "finalize"
                 , finalize_function_type( &::OSG::Material::finalize )
-                , ( bp::arg("oKey"), bp::arg("pWin") )
+                , ( bp::arg("oKey"), bp::arg("pOverrides"), bp::arg("pWin") )
                 , bp::return_internal_reference< >() );
         
         }

@@ -50,7 +50,7 @@ wrapFindNamedComponent(OSG::CSMDrawManager* self, const OSG::Char8* szName)
 void register_CSMDrawManager_class(){
 
     { //::OSG::CSMDrawManager
-        typedef bp::class_< OSG::CSMDrawManager, bp::bases< OSG::CSMDrawManagerBase >, OSG::CSMDrawManager::ObjRecPtr, boost::noncopyable > CSMDrawManager_exposer_t;
+        typedef bp::class_< OSG::CSMDrawManager, OSG::CSMDrawManager::ObjRecPtr, boost::noncopyable > CSMDrawManager_exposer_t;
         CSMDrawManager_exposer_t CSMDrawManager_exposer = CSMDrawManager_exposer_t( "CSMDrawManager", bp::no_init );
         bp::scope CSMDrawManager_scope( CSMDrawManager_exposer );
         { //::OSG::CSMDrawManager::changed

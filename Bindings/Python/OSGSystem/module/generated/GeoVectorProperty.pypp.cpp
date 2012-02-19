@@ -287,7 +287,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Color3<float> >
         
-            typedef ::OSG::Color3< float > ( ::OSG::GeoVectorProperty::*getValue_Color3_less__float__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Color3< float > ( ::OSG::GeoVectorProperty::*getValue_Color3_less__float__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Color3_less__float__greater_"
@@ -297,7 +297,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Color4<float> >
         
-            typedef ::OSG::Color4< float > ( ::OSG::GeoVectorProperty::*getValue_Color4_less__float__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Color4< float > ( ::OSG::GeoVectorProperty::*getValue_Color4_less__float__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Color4_less__float__greater_"
@@ -307,7 +307,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Point<double, 2u> >
         
-            typedef ::OSG::Point< double, 2u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__double_comma__2u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Point< double, 2u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__double_comma__2u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Point_less__double_comma__2u__greater_"
@@ -317,7 +317,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Point<double, 3u> >
         
-            typedef ::OSG::Point< double, 3u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__double_comma__3u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Point< double, 3u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__double_comma__3u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Point_less__double_comma__3u__greater_"
@@ -327,7 +327,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Point<double, 4u> >
         
-            typedef ::OSG::Point< double, 4u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__double_comma__4u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Point< double, 4u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__double_comma__4u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Point_less__double_comma__4u__greater_"
@@ -337,7 +337,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Point<float, 2u> >
         
-            typedef ::OSG::Point< float, 2u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__float_comma__2u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Point< float, 2u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__float_comma__2u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Point_less__float_comma__2u__greater_"
@@ -347,7 +347,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Point<float, 3u> >
         
-            typedef ::OSG::Point< float, 3u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__float_comma__3u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Point< float, 3u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__float_comma__3u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Point_less__float_comma__3u__greater_"
@@ -357,7 +357,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Point<float, 4u> >
         
-            typedef ::OSG::Point< float, 4u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__float_comma__4u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Point< float, 4u > ( ::OSG::GeoVectorProperty::*getValue_Point_less__float_comma__4u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Point_less__float_comma__4u__greater_"
@@ -367,7 +367,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Vector<double, 2u> >
         
-            typedef ::OSG::Vector< double, 2u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__double_comma__2u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Vector< double, 2u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__double_comma__2u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Vector_less__double_comma__2u__greater_"
@@ -377,7 +377,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Vector<double, 3u> >
         
-            typedef ::OSG::Vector< double, 3u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__double_comma__3u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Vector< double, 3u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__double_comma__3u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Vector_less__double_comma__3u__greater_"
@@ -387,7 +387,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Vector<double, 4u> >
         
-            typedef ::OSG::Vector< double, 4u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__double_comma__4u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Vector< double, 4u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__double_comma__4u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Vector_less__double_comma__4u__greater_"
@@ -397,7 +397,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Vector<float, 2u> >
         
-            typedef ::OSG::Vector< float, 2u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__float_comma__2u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Vector< float, 2u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__float_comma__2u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Vector_less__float_comma__2u__greater_"
@@ -407,7 +407,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Vector<float, 3u> >
         
-            typedef ::OSG::Vector< float, 3u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__float_comma__3u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Vector< float, 3u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__float_comma__3u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Vector_less__float_comma__3u__greater_"
@@ -417,7 +417,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Vector<float, 4u> >
         
-            typedef ::OSG::Vector< float, 4u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__float_comma__4u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Vector< float, 4u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__float_comma__4u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Vector_less__float_comma__4u__greater_"
@@ -427,7 +427,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Vector<unsigned char, 2u> >
         
-            typedef ::OSG::Vector< unsigned char, 2u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__unsigned_char_comma__2u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Vector< unsigned char, 2u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__unsigned_char_comma__2u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Vector_less__unsigned_char_comma__2u__greater_"
@@ -437,7 +437,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Vector<unsigned char, 3u> >
         
-            typedef ::OSG::Vector< unsigned char, 3u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__unsigned_char_comma__3u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Vector< unsigned char, 3u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__unsigned_char_comma__3u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Vector_less__unsigned_char_comma__3u__greater_"
@@ -447,7 +447,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::getValue<OSG::Vector<unsigned char, 4u> >
         
-            typedef ::OSG::Vector< unsigned char, 4u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__unsigned_char_comma__4u__greater__function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Vector< unsigned char, 4u > ( ::OSG::GeoVectorProperty::*getValue_Vector_less__unsigned_char_comma__4u__greater__function_type )( ::OSG::SizeT const ) const;
             
             GeoVectorProperty_exposer.def( 
                 "getValue_Vector_less__unsigned_char_comma__4u__greater_"
@@ -637,7 +637,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Color4< float > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Color4< float > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -647,7 +647,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Color3< float > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Color3< float > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -657,7 +657,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< double, 4u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< double, 4u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -667,7 +667,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< double, 3u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< double, 3u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -677,7 +677,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< double, 2u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< double, 2u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -687,7 +687,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< float, 4u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< float, 4u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -697,7 +697,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< float, 3u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< float, 3u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -707,7 +707,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< float, 2u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Point< float, 2u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -717,7 +717,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< unsigned char, 4u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< unsigned char, 4u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -727,7 +727,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< unsigned char, 3u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< unsigned char, 3u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -737,7 +737,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< unsigned char, 2u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< unsigned char, 2u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -747,7 +747,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< double, 4u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< double, 4u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -757,7 +757,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< double, 3u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< double, 3u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -767,7 +767,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< double, 2u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< double, 2u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -777,7 +777,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< float, 4u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< float, 4u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -787,7 +787,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< float, 3u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< float, 3u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"
@@ -797,7 +797,7 @@ void register_GeoVectorProperty_class(){
         }
         { //::OSG::GeoVectorProperty::setValue
         
-            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< float, 2u > const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoVectorProperty::*setValue_function_type )( ::OSG::Vector< float, 2u > const &,::OSG::SizeT const ) ;
             
             GeoVectorProperty_exposer.def( 
                 "setValue"

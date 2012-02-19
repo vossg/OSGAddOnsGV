@@ -194,6 +194,16 @@ void register_RenderAction_class(){
                 , getCurrentBuffer_function_type( &::OSG::RenderAction::getCurrentBuffer ) );
         
         }
+        { //::OSG::RenderAction::getCurrentOverrides
+        
+            typedef ::OSG::StateOverride const * ( ::OSG::RenderAction::*getCurrentOverrides_function_type )(  ) const;
+            
+            RenderAction_exposer.def( 
+                "getCurrentOverrides"
+                , getCurrentOverrides_function_type( &::OSG::RenderAction::getCurrentOverrides )
+                , bp::return_value_policy< bp::reference_existing_object >() );
+        
+        }
         { //::OSG::RenderAction::getDoCullOnly
         
             typedef bool ( ::OSG::RenderAction::*getDoCullOnly_function_type )(  ) ;
@@ -516,7 +526,7 @@ void register_RenderAction_class(){
             RenderAction_exposer.def( 
                 "setOcclusionCulling"
                 , setOcclusionCulling_function_type( &::OSG::RenderAction::setOcclusionCulling )
-                , ( bp::arg("bVal") ) );
+                , ( bp::arg("val") ) );
         
         }
         { //::OSG::RenderAction::setOcclusionCullingCoveredThreshold
@@ -536,7 +546,7 @@ void register_RenderAction_class(){
             RenderAction_exposer.def( 
                 "setOcclusionCullingDebug"
                 , setOcclusionCullingDebug_function_type( &::OSG::RenderAction::setOcclusionCullingDebug )
-                , ( bp::arg("bVal") ) );
+                , ( bp::arg("val") ) );
         
         }
         { //::OSG::RenderAction::setOcclusionCullingMinimumFeatureSize

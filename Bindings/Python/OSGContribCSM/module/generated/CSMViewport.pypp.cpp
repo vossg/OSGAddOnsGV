@@ -64,11 +64,12 @@ void register_CSMViewport_class(){
         }
         { //::OSG::CSMViewport::init
         
-            typedef bool ( ::OSG::CSMViewport::*init_function_type )(  ) ;
+            typedef bool ( ::OSG::CSMViewport::*init_function_type )( ::OSG::CSMWindow * ) ;
             
             CSMViewport_exposer.def( 
                 "init"
-                , init_function_type( &::OSG::CSMViewport::init ) );
+                , init_function_type( &::OSG::CSMViewport::init )
+                , ( bp::arg("pCSMWin") ) );
         
         }
         { //::OSG::CSMViewport::needsStereoVisual

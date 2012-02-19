@@ -36,18 +36,6 @@
 using namespace std;
 namespace bp = boost::python;
 
-namespace
-{
-
-OSG::FieldContainerRecPtr
-wrapFindNamedComponent(OSG::AttachmentContainer* self,
-                       const OSG::Char8* szName)
-{
-   return OSG::FieldContainerTransitPtr(self->findNamedComponent(szName));
-}
-
-}
-
 void register_AttachmentContainer_class(){
 
     { //::OSG::AttachmentContainer
@@ -223,7 +211,6 @@ void register_AttachmentContainer_class(){
         bp::implicitly_convertible< OSG::AttachmentContainer::ObjRecPtr, OSG::FieldContainer* >();
         bp::implicitly_convertible< OSG::AttachmentContainer::ObjRecPtr, OSG::FieldContainer::ObjRecPtr >();
         bp::implicitly_convertible<OSG::AttachmentContainer::ObjRecPtr, OSG::FieldContainer::ObjCPtr>();
-        AttachmentContainer_exposer.def("findNamedComponent", wrapFindNamedComponent, (bp::arg("szName")));
     }
 
 }

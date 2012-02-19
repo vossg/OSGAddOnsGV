@@ -32,6 +32,7 @@ SwitchBase
 RotationTransformationElement
 Transform
 SimpleStage
+ScreenTransformBase
 ScreenLODBase
 GroupingStageBase
 SpotLight
@@ -83,7 +84,6 @@ SpotLightBase
 InverseTransformBase
 DynamicStateGeneratorStageData
 TransformationElement
-ScreenTransformBase
 CallbackAlgorithmBase
 RenderCallbackStage
 Algorithm

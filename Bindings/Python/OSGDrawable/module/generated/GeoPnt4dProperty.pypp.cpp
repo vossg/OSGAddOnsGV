@@ -217,7 +217,7 @@ void register_GeoPnt4dProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc >::getValue
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc > exported_class_t;
-            typedef ::OSG::Pnt4d ( exported_class_t::*getValue_function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Pnt4d ( exported_class_t::*getValue_function_type )( ::OSG::SizeT const ) const;
             
             GeoPnt4dProperty_exposer.def( 
                 "getValue"
@@ -228,7 +228,7 @@ void register_GeoPnt4dProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc >::getValue
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc > exported_class_t;
-            typedef void ( exported_class_t::*getValue_function_type )( ::OSG::Pnt4d &,::OSG::UInt32 const ) const;
+            typedef void ( exported_class_t::*getValue_function_type )( ::OSG::Pnt4d &,::OSG::SizeT const ) const;
             
             GeoPnt4dProperty_exposer.def( 
                 "getValue"
@@ -249,7 +249,7 @@ void register_GeoPnt4dProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc >::operator[]
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc > exported_class_t;
-            typedef ::OSG::Point< double, 4u > const & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) const;
+            typedef ::OSG::Point< double, 4u > const & ( exported_class_t::*__getitem___function_type )( ::OSG::SizeT ) const;
             
             GeoPnt4dProperty_exposer.def( 
                 "__getitem__"
@@ -261,7 +261,7 @@ void register_GeoPnt4dProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc >::operator[]
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoPnt4dPropertyDesc > exported_class_t;
-            typedef ::OSG::Point< double, 4u > & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
+            typedef ::OSG::Point< double, 4u > & ( exported_class_t::*__getitem___function_type )( ::OSG::SizeT ) ;
             
             GeoPnt4dProperty_exposer.def( 
                 "__getitem__"

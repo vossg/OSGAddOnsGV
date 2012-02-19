@@ -2007,7 +2007,7 @@
 ~@variable_t@_ZTIN3OSG25TextureGrabForegroundBaseE@::_ZTIN3OSG25TextureGrabForegroundBaseE
 ~@variable_t@_ZTIN3OSG17PolygonBackgroundE@::_ZTIN3OSG17PolygonBackgroundE
 ~@variable_t@_ZTISt18basic_stringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt18basic_stringstreamIcSt11char_traitsIcESaIcEE
-~@variable_t@_ZTIN3OSG19SolidBackgroundBaseE@::_ZTIN3OSG19SolidBackgroundBaseE
+~@variable_t@_ZTIN3OSG3LogE@::_ZTIN3OSG3LogE
 ~@variable_t@_ZTIN3OSG8ViewportE@::_ZTIN3OSG8ViewportE
 ~@variable_t@_ZTIN3OSG17PerspectiveCameraE@::_ZTIN3OSG17PerspectiveCameraE
 ~@variable_t@_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
@@ -2044,7 +2044,7 @@
 ~@variable_t@_ZTIN3OSG19ColorBufferViewportE@::_ZTIN3OSG19ColorBufferViewportE
 ~@variable_t@_ZTIN3OSG6MPBaseE@::_ZTIN3OSG6MPBaseE
 ~@variable_t@_ZTIN3OSG24SimpleTextForegroundBaseE@::_ZTIN3OSG24SimpleTextForegroundBaseE
-~@variable_t@_ZTIN3OSG3LogE@::_ZTIN3OSG3LogE
+~@variable_t@_ZTIN3OSG19SolidBackgroundBaseE@::_ZTIN3OSG19SolidBackgroundBaseE
 ~@variable_t@_ZTISt14basic_iostreamIwSt11char_traitsIwEE@::_ZTISt14basic_iostreamIwSt11char_traitsIwEE
 ~@variable_t@optarg@::optarg
 ~@variable_t@_ZTIN3OSG13MPBarrierTypeE@::_ZTIN3OSG13MPBarrierTypeE
@@ -2526,7 +2526,7 @@
 ~@free_function_t@fgetwc@::wint_t (*)( ::__FILE * )::wint_t (*)( ::__FILE * )
 ~@free_function_t@__sincosl@void (*)( long double,long double *,long double * )void (*)( long double,long double *,long double * )
 ~@free_function_t@__lgammal_r@long double (*)( long double,int * )long double (*)( long double,int * )
-~@free_function_t@dysize@int (*)( int )int (*)( int )
+~@free_function_t@glRenderMode@::GLint (*)( ::GLenum )::GLint (*)( ::GLenum )
 ~@free_function_t@__hypotf@float (*)( float,float )float (*)( float,float )
 ~@free_function_t@__sincosf@void (*)( float,float *,float * )void (*)( float,float *,float * )
 ~@free_function_t@__hypotl@long double (*)( long double,long double )long double (*)( long double,long double )
@@ -3814,7 +3814,7 @@
 ~@free_function_t@pthread_key_delete@int (*)( ::pthread_key_t )int (*)( ::pthread_key_t )
 ~@free_function_t@unsetenv@int (*)( char const * )int (*)( char const * )
 ~@free_function_t@atan2l@long double (*)( long double,long double )long double (*)( long double,long double )
-~@free_function_t@glRenderMode@::GLint (*)( ::GLenum )::GLint (*)( ::GLenum )
+~@free_function_t@dysize@int (*)( int )int (*)( int )
 ~@free_function_t@atan2f@float (*)( float,float )float (*)( float,float )
 ~@free_function_t@__signbit@int (*)( double )int (*)( double )
 ~@free_function_t@_IO_cookie_init@void (*)( ::_IO_cookie_file *,int,void *,::_IO_cookie_io_functions_t )void (*)( ::_IO_cookie_file *,int,void *,::_IO_cookie_io_functions_t )

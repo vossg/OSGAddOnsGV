@@ -74,12 +74,12 @@ void register_SwitchMaterial_class(){
         }
         { //::OSG::SwitchMaterial::finalize
         
-            typedef ::OSG::PrimeMaterial * ( ::OSG::SwitchMaterial::*finalize_function_type )( ::OSG::MaterialMapKey,::OSG::Window * ) ;
+            typedef ::OSG::PrimeMaterial * ( ::OSG::SwitchMaterial::*finalize_function_type )( ::OSG::MaterialMapKey,::OSG::StateOverride const *,::OSG::Window * ) ;
             
             SwitchMaterial_exposer.def( 
                 "finalize"
                 , finalize_function_type( &::OSG::SwitchMaterial::finalize )
-                , ( bp::arg("oKey"), bp::arg("pWin") )
+                , ( bp::arg("oKey"), bp::arg("pOverrides"), bp::arg("pWin") )
                 , bp::return_internal_reference< >() );
         
         }

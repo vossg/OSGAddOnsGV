@@ -335,7 +335,7 @@
 ~@typedef_t@PFNGLFRAGMENTLIGHTISGIXPROC@::PFNGLFRAGMENTLIGHTISGIXPROC
 ~@typedef_t@PFNGLGETQUERYOBJECTUIVARBPROC@::PFNGLGETQUERYOBJECTUIVARBPROC
 ~@typedef_t@PFNGLFRAGMENTMATERIALFSGIXPROC@::PFNGLFRAGMENTMATERIALFSGIXPROC
-~@typedef_t@PFNGLTEXSUBIMAGE3DEXTPROC@::PFNGLTEXSUBIMAGE3DEXTPROC
+~@typedef_t@PFNGLMULTITEXCOORD4SVPROC@::PFNGLMULTITEXCOORD4SVPROC
 ~@typedef_t@PFNGLGETOBJECTBUFFERIVATIPROC@::PFNGLGETOBJECTBUFFERIVATIPROC
 ~@typedef_t@int_least32_t@::int_least32_t
 ~@typedef_t@PFNGLGETSEPARABLEFILTEREXTPROC@::PFNGLGETSEPARABLEFILTEREXTPROC
@@ -946,7 +946,7 @@
 ~@typedef_t@fpos_t@::fpos_t
 ~@typedef_t@PFNGLPROGRAMENVPARAMETERSI4UIVNVPROC@::PFNGLPROGRAMENVPARAMETERSI4UIVNVPROC
 ~@typedef_t@PFNGLUNIFORM4UIEXTPROC@::PFNGLUNIFORM4UIEXTPROC
-~@typedef_t@PFNGLMULTITEXCOORD4SVPROC@::PFNGLMULTITEXCOORD4SVPROC
+~@typedef_t@PFNGLTEXSUBIMAGE3DEXTPROC@::PFNGLTEXSUBIMAGE3DEXTPROC
 ~@typedef_t@PFNGLGETFRAGMENTLIGHTIVSGIXPROC@::PFNGLGETFRAGMENTLIGHTIVSGIXPROC
 ~@typedef_t@PFNGLGETATTRIBLOCATIONPROC@::PFNGLGETATTRIBLOCATIONPROC
 ~@typedef_t@PFNGLPRESENTFRAMEKEYEDNVPROC@::PFNGLPRESENTFRAMEKEYEDNVPROC
@@ -1785,11 +1785,12 @@
 ~@class_declaration_t@__locale_data@::__locale_data
 ~@variable_t@_ZTISt15time_get_bynameIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt15time_get_bynameIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTIN3OSG9StateBaseE@::_ZTIN3OSG9StateBaseE
-~@variable_t@_ZTIN3OSG19SemaphoreCommonBaseE@::_ZTIN3OSG19SemaphoreCommonBaseE
+~@variable_t@_ZTIN3OSG16EditSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE@::_ZTIN3OSG16EditSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE
 ~@variable_t@_ZTIN3OSG12NoLockPolicyE@::_ZTIN3OSG12NoLockPolicyE
 ~@variable_t@_ZTIN3OSG33TransformationInterfaceSensorBaseE@::_ZTIN3OSG33TransformationInterfaceSensorBaseE
 ~@variable_t@_ZTIN3OSG20NamedSplitFinitePoolImNS_25RenderPropertiesSplitInfoENS_23RenderPropertiesPoolTagENS_16SingleLockPolicyEEE@::_ZTIN3OSG20NamedSplitFinitePoolImNS_25RenderPropertiesSplitInfoENS_23RenderPropertiesPoolTagENS_16SingleLockPolicyEEE
 ~@variable_t@_ZTIN5boost12bad_any_castE@::_ZTIN5boost12bad_any_castE
+~@variable_t@_ZTIN3OSG20StatisticsForegroundE@::_ZTIN3OSG20StatisticsForegroundE
 ~@variable_t@_ZTISt13basic_ostreamIwSt11char_traitsIwEE@::_ZTISt13basic_ostreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTISd@::_ZTISd
 ~@variable_t@_ZTIN3OSG6WindowE@::_ZTIN3OSG6WindowE
@@ -1797,7 +1798,6 @@
 ~@variable_t@_ZTISi@::_ZTISi
 ~@variable_t@_ZTIN3OSG17ClusterWindowBaseE@::_ZTIN3OSG17ClusterWindowBaseE
 ~@variable_t@_ZTISo@::_ZTISo
-~@variable_t@_ZTIN3OSG16EditSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE@::_ZTIN3OSG16EditSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE
 ~@variable_t@_ZTIN3OSG19ComplexSceneManagerE@::_ZTIN3OSG19ComplexSceneManagerE
 ~@variable_t@_ZTIN3OSG12MaterialBaseE@::_ZTIN3OSG12MaterialBaseE
 ~@variable_t@_ZTIN3OSG20FieldDescFactoryBaseE@::_ZTIN3OSG20FieldDescFactoryBaseE
@@ -1840,7 +1840,9 @@
 ~@variable_t@_ZTISt13basic_istreamIwSt11char_traitsIwEE@::_ZTISt13basic_istreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG12BlockingTaskE@::_ZTIN3OSG12BlockingTaskE
 ~@variable_t@_ZTIN3OSG20BaseThreadCommonBaseE@::_ZTIN3OSG20BaseThreadCommonBaseE
+~@variable_t@_ZTIN3OSG25FrameProducerHandlerMixinINS_18CSMDrawManagerBaseEEE@::_ZTIN3OSG25FrameProducerHandlerMixinINS_18CSMDrawManagerBaseEEE
 ~@variable_t@_ZTIN3OSG21DeviceInterfaceSensorE@::_ZTIN3OSG21DeviceInterfaceSensorE
+~@variable_t@_ZTIN3OSG27CSMStatisticsForegroundBaseE@::_ZTIN3OSG27CSMStatisticsForegroundBaseE
 ~@variable_t@_ZTISt13basic_fstreamIcSt11char_traitsIcEE@::_ZTISt13basic_fstreamIcSt11char_traitsIcEE
 ~@variable_t@_ZTIN3OSG16CSMTrackballBaseE@::_ZTIN3OSG16CSMTrackballBaseE
 ~@variable_t@_ZTISt8messagesIwE@::_ZTISt8messagesIwE
@@ -1887,6 +1889,7 @@
 ~@variable_t@_ZTIN3OSG7BarrierE@::_ZTIN3OSG7BarrierE
 ~@variable_t@_ZTIN3OSG20CSMPerspectiveCameraE@::_ZTIN3OSG20CSMPerspectiveCameraE
 ~@variable_t@_ZTIN3OSG19HardwareContextTaskE@::_ZTIN3OSG19HardwareContextTaskE
+~@variable_t@_ZTIN3OSG10MTouchDataE@::_ZTIN3OSG10MTouchDataE
 ~@variable_t@_ZTIN3OSG17CondVarCommonBaseE@::_ZTIN3OSG17CondVarCommonBaseE
 ~@variable_t@_ZTIN3OSG17RenderOptionsBaseE@::_ZTIN3OSG17RenderOptionsBaseE
 ~@variable_t@_ZTIN3OSG17CSMSceneParameterE@::_ZTIN3OSG17CSMSceneParameterE
@@ -1992,6 +1995,7 @@
 ~@variable_t@_ZTIN3OSG26ExceptionBinaryDataHandlerE@::_ZTIN3OSG26ExceptionBinaryDataHandlerE
 ~@variable_t@_ZTIN3OSG16InterfaceOptionsE@::_ZTIN3OSG16InterfaceOptionsE
 ~@variable_t@_ZTISt11__timepunctIwE@::_ZTISt11__timepunctIwE
+~@variable_t@_ZTIN3OSG24StatisticsForegroundBaseE@::_ZTIN3OSG24StatisticsForegroundBaseE
 ~@variable_t@_ZTIN5boost16bad_lexical_castE@::_ZTIN5boost16bad_lexical_castE
 ~@variable_t@_ZTIN3OSG12RenderActionE@::_ZTIN3OSG12RenderActionE
 ~@variable_t@_ZTIN3OSG13StatCollectorE@::_ZTIN3OSG13StatCollectorE
@@ -2072,6 +2076,7 @@
 ~@variable_t@_ZTIN3OSG13CSMDrawerBaseE@::_ZTIN3OSG13CSMDrawerBaseE
 ~@variable_t@_ZTIN3OSG14StatStringElemE@::_ZTIN3OSG14StatStringElemE
 ~@variable_t@__timezone@::__timezone
+~@variable_t@_ZTIN3OSG23CSMStatisticsForegroundE@::_ZTIN3OSG23CSMStatisticsForegroundE
 ~@variable_t@_ZTIN5boost6detail15sp_counted_baseE@::_ZTIN5boost6detail15sp_counted_baseE
 ~@variable_t@_ZTISt17moneypunct_bynameIcLb1EE@::_ZTISt17moneypunct_bynameIcLb1EE
 ~@variable_t@_ZTIN3OSG25ShaderAttrIndexMapperBaseE@::_ZTIN3OSG25ShaderAttrIndexMapperBaseE
@@ -2109,6 +2114,7 @@
 ~@variable_t@_ZTIN3OSG6CameraE@::_ZTIN3OSG6CameraE
 ~@variable_t@_ZTIN3OSG20CSMClusterWindowBaseE@::_ZTIN3OSG20CSMClusterWindowBaseE
 ~@variable_t@_ZTIN3OSG12SphereVolumeE@::_ZTIN3OSG12SphereVolumeE
+~@variable_t@_ZTIN3OSG13StateOverrideE@::_ZTIN3OSG13StateOverrideE
 ~@variable_t@sys_errlist@::sys_errlist
 ~@variable_t@_ZTISt15numpunct_bynameIwE@::_ZTISt15numpunct_bynameIwE
 ~@variable_t@_ZTISt8bad_cast@::_ZTISt8bad_cast
@@ -2137,6 +2143,7 @@
 ~@variable_t@_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE@::_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE
 ~@variable_t@_ZTIN3OSG13RenderOptionsE@::_ZTIN3OSG13RenderOptionsE
 ~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
+~@variable_t@_ZTIN3OSG22FrameProducerInterfaceE@::_ZTIN3OSG22FrameProducerInterfaceE
 ~@variable_t@_ZTIN3OSG18FrameTaskInterfaceE@::_ZTIN3OSG18FrameTaskInterfaceE
 ~@variable_t@_ZTIN3OSG20CSMClusterWinOptionsE@::_ZTIN3OSG20CSMClusterWinOptionsE
 ~@variable_t@_ZTIN3OSG10AttachmentE@::_ZTIN3OSG10AttachmentE
@@ -2163,6 +2170,7 @@
 ~@variable_t@_ZTIN3OSG11OpenGLStateE@::_ZTIN3OSG11OpenGLStateE
 ~@variable_t@_ZTISt14collate_bynameIwE@::_ZTISt14collate_bynameIwE
 ~@variable_t@_ZTISt10moneypunctIwLb0EE@::_ZTISt10moneypunctIwLb0EE
+~@variable_t@_ZTIN3OSG19SemaphoreCommonBaseE@::_ZTIN3OSG19SemaphoreCommonBaseE
 ~@variable_t@_ZTIN3OSG9ImageFileE@::_ZTIN3OSG9ImageFileE
 ~@variable_t@_ZTIN3OSG18FieldContainerTypeE@::_ZTIN3OSG18FieldContainerTypeE
 ~@variable_t@_ZTIN3OSG16FrameHandlerBaseE@::_ZTIN3OSG16FrameHandlerBaseE

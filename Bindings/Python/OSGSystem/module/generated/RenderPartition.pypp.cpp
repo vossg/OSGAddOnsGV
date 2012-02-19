@@ -166,6 +166,16 @@ void register_RenderPartition_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
+        { //::OSG::RenderPartition::getCurrentOverrides
+        
+            typedef ::OSG::StateOverride const * ( ::OSG::RenderPartition::*getCurrentOverrides_function_type )(  ) const;
+            
+            RenderPartition_exposer.def( 
+                "getCurrentOverrides"
+                , getCurrentOverrides_function_type( &::OSG::RenderPartition::getCurrentOverrides )
+                , bp::return_value_policy< bp::reference_existing_object >() );
+        
+        }
         { //::OSG::RenderPartition::getDrawEnv
         
             typedef ::OSG::DrawEnv & ( ::OSG::RenderPartition::*getDrawEnv_function_type )(  ) ;

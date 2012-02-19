@@ -1761,14 +1761,14 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
+~@namespace_t@mpl_@::mpl_
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
-~@namespace_t@__cxxabiv1@::__cxxabiv1
+~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
 ~@namespace_t@boost_concepts@::boost_concepts
-~@namespace_t@mpl_@::mpl_
-~@namespace_t@boost@::boost
+~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@boost_swap_impl@::boost_swap_impl
 ~@namespace_t@OSG@::OSG
 ~@class_declaration_t@_IO_FILE_plus@::_IO_FILE_plus
@@ -1780,6 +1780,7 @@
 ~@class_declaration_t@__locale_data@::__locale_data
 ~@variable_t@_ZTIN5boost16bad_lexical_castE@::_ZTIN5boost16bad_lexical_castE
 ~@variable_t@_ZTISt15time_get_bynameIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt15time_get_bynameIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
+~@variable_t@_ZTIN3OSG8NodeCoreE@::_ZTIN3OSG8NodeCoreE
 ~@variable_t@__timezone@::__timezone
 ~@variable_t@_ZTIN3OSG17StringValueMapperIjEE@::_ZTIN3OSG17StringValueMapperIjEE
 ~@variable_t@_ZTISt5ctypeIcE@::_ZTISt5ctypeIcE
@@ -1795,7 +1796,7 @@
 ~@variable_t@_ZTIN3OSG17BarrierCommonBaseE@::_ZTIN3OSG17BarrierCommonBaseE
 ~@variable_t@_IO_2_1_stdin_@::_IO_2_1_stdin_
 ~@variable_t@_ZTIN3OSG12ViewareaBaseE@::_ZTIN3OSG12ViewareaBaseE
-~@variable_t@_ZTIN3OSG8StatElemE@::_ZTIN3OSG8StatElemE
+~@variable_t@_ZTISt14overflow_error@::_ZTISt14overflow_error
 ~@variable_t@_ZTISt23__codecvt_abstract_baseIcc11__mbstate_tE@::_ZTISt23__codecvt_abstract_baseIcc11__mbstate_tE
 ~@variable_t@_ZTIN5boost12bad_any_castE@::_ZTIN5boost12bad_any_castE
 ~@variable_t@_ZTIN3OSG15GetSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE@::_ZTIN3OSG15GetSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE
@@ -1860,11 +1861,10 @@
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_7CondVarEEE@::_ZTIN3OSG12MPFieldStoreINS_7CondVarEEE
 ~@variable_t@_ZTIN3OSG8DataTypeE@::_ZTIN3OSG8DataTypeE
 ~@variable_t@_ZTIN3OSG12SphereVolumeE@::_ZTIN3OSG12SphereVolumeE
-~@variable_t@_ZTISt14overflow_error@::_ZTISt14overflow_error
 ~@variable_t@_ZTIN3OSG16ThreadCommonBaseE@::_ZTIN3OSG16ThreadCommonBaseE
 ~@variable_t@_ZTISt15basic_streambufIwSt11char_traitsIwEE@::_ZTISt15basic_streambufIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG16StatElemDescBaseE@::_ZTIN3OSG16StatElemDescBaseE
-~@variable_t@_LIB_VERSION@::_LIB_VERSION
+~@variable_t@_ZTIN3OSG7DrawEnvE@::_ZTIN3OSG7DrawEnvE
 ~@variable_t@_ZTIN3OSG15RemoteSyncErrorE@::_ZTIN3OSG15RemoteSyncErrorE
 ~@variable_t@_sys_errlist@::_sys_errlist
 ~@variable_t@_ZTIN3OSG11StatIntElemE@::_ZTIN3OSG11StatIntElemE
@@ -1921,7 +1921,7 @@
 ~@variable_t@_ZTIN3OSG10BaseThreadE@::_ZTIN3OSG10BaseThreadE
 ~@variable_t@_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@_ZTISt15underflow_error@::_ZTISt15underflow_error
-~@variable_t@_ZTIN3OSG8NodeCoreE@::_ZTIN3OSG8NodeCoreE
+~@variable_t@_ZTIN3OSG8StatElemE@::_ZTIN3OSG8StatElemE
 ~@variable_t@_ZTISt14basic_ifstreamIwSt11char_traitsIwEE@::_ZTISt14basic_ifstreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG20NamedSplitFinitePoolImNS_25RenderPropertiesSplitInfoENS_23RenderPropertiesPoolTagENS_16SingleLockPolicyEEE@::_ZTIN3OSG20NamedSplitFinitePoolImNS_25RenderPropertiesSplitInfoENS_23RenderPropertiesPoolTagENS_16SingleLockPolicyEEE
 ~@variable_t@_ZTISt15basic_stringbufIcSt11char_traitsIcESaIcEE@::_ZTISt15basic_stringbufIcSt11char_traitsIcESaIcEE
@@ -2051,7 +2051,7 @@
 ~@variable_t@_ZTISt13runtime_error@::_ZTISt13runtime_error
 ~@variable_t@_ZTIN3OSG14ExternalThreadE@::_ZTIN3OSG14ExternalThreadE
 ~@variable_t@_ZTIN3OSG6ThreadE@::_ZTIN3OSG6ThreadE
-~@variable_t@_ZTIN3OSG7DrawEnvE@::_ZTIN3OSG7DrawEnvE
+~@variable_t@_LIB_VERSION@::_LIB_VERSION
 ~@variable_t@_ZTIN3OSG12StatTimeElemE@::_ZTIN3OSG12StatTimeElemE
 ~@variable_t@_ZTIN3OSG8DrawTaskE@::_ZTIN3OSG8DrawTaskE
 ~@variable_t@_ZTIN3OSG15BasePThreadBaseE@::_ZTIN3OSG15BasePThreadBaseE

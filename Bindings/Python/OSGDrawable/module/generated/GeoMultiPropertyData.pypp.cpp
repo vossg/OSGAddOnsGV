@@ -100,13 +100,13 @@ void register_GeoMultiPropertyData_class(){
                 , isTransparent_function_type( &::OSG::GeoMultiPropertyData::isTransparent ) );
         
         }
-        { //::OSG::GeoMultiPropertyData::setSize
+        { //::OSG::GeoMultiPropertyData::resize
         
-            typedef void ( ::OSG::GeoMultiPropertyData::*setSize_function_type )( ::OSG::UInt32 ) ;
+            typedef void ( ::OSG::GeoMultiPropertyData::*resize_function_type )( ::OSG::SizeT ) ;
             
             GeoMultiPropertyData_exposer.def( 
-                "setSize"
-                , setSize_function_type( &::OSG::GeoMultiPropertyData::setSize )
+                "resize"
+                , resize_function_type( &::OSG::GeoMultiPropertyData::resize )
                 , ( bp::arg("size") ) );
         
         }

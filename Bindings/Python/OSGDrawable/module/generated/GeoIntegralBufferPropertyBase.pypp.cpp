@@ -43,11 +43,11 @@ struct GeoIntegralBufferPropertyBase_wrapper : OSG::GeoIntegralBufferPropertyBas
         return func_clone(  );
     }
 
-    void getGenericValue( ::OSG::UInt64 & val, ::OSG::UInt32 const index ) const {
+    void getGenericValue( ::OSG::UInt64 & val, ::OSG::SizeT const index ) const {
         OSG::GeoIntegralProperty::getGenericValue( val, index );
     }
 
-    void setGenericValue( ::OSG::UInt64 const & val, ::OSG::UInt32 const index ){
+    void setGenericValue( ::OSG::UInt64 const & val, ::OSG::SizeT const index ){
         OSG::GeoIntegralProperty::setGenericValue( val, index );
     }
 
@@ -346,7 +346,7 @@ void register_GeoIntegralBufferPropertyBase_class(){
         }
         { //::OSG::GeoIntegralProperty::getGenericValue
         
-            typedef void ( GeoIntegralBufferPropertyBase_wrapper::*getGenericValue_function_type )( ::OSG::UInt64 &,::OSG::UInt32 const ) const;
+            typedef void ( GeoIntegralBufferPropertyBase_wrapper::*getGenericValue_function_type )( ::OSG::UInt64 &,::OSG::SizeT const ) const;
             
             GeoIntegralBufferPropertyBase_exposer.def( 
                 "getGenericValue"
@@ -366,7 +366,7 @@ void register_GeoIntegralBufferPropertyBase_class(){
         }
         { //::OSG::GeoIntegralProperty::setGenericValue
         
-            typedef void ( GeoIntegralBufferPropertyBase_wrapper::*setGenericValue_function_type )( ::OSG::UInt64 const &,::OSG::UInt32 const ) ;
+            typedef void ( GeoIntegralBufferPropertyBase_wrapper::*setGenericValue_function_type )( ::OSG::UInt64 const &,::OSG::SizeT const ) ;
             
             GeoIntegralBufferPropertyBase_exposer.def( 
                 "setGenericValue"

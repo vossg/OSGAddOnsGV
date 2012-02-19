@@ -141,7 +141,7 @@ void register_GeoIntegralProperty_class(){
         }
         { //::OSG::GeoIntegralProperty::getValue
         
-            typedef ::OSG::UInt32 ( ::OSG::GeoIntegralProperty::*getValue_UInt32_function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::UInt32 ( ::OSG::GeoIntegralProperty::*getValue_UInt32_function_type )( ::OSG::SizeT const ) const;
             
             GeoIntegralProperty_exposer.def( 
                 "getValue_UInt32"
@@ -151,7 +151,7 @@ void register_GeoIntegralProperty_class(){
         }
         { //::OSG::GeoIntegralProperty::getValue<int>
         
-            typedef int ( ::OSG::GeoIntegralProperty::*getValue_int_function_type )( ::OSG::UInt32 const ) const;
+            typedef int ( ::OSG::GeoIntegralProperty::*getValue_int_function_type )( ::OSG::SizeT const ) const;
             
             GeoIntegralProperty_exposer.def( 
                 "getValue_int"
@@ -161,7 +161,7 @@ void register_GeoIntegralProperty_class(){
         }
         { //::OSG::GeoIntegralProperty::getValue<unsigned char>
         
-            typedef unsigned char ( ::OSG::GeoIntegralProperty::*getValue_unsigned_char_function_type )( ::OSG::UInt32 const ) const;
+            typedef unsigned char ( ::OSG::GeoIntegralProperty::*getValue_unsigned_char_function_type )( ::OSG::SizeT const ) const;
             
             GeoIntegralProperty_exposer.def( 
                 "getValue_unsigned_char"
@@ -171,7 +171,7 @@ void register_GeoIntegralProperty_class(){
         }
         { //::OSG::GeoIntegralProperty::getValue<unsigned int>
         
-            typedef unsigned int ( ::OSG::GeoIntegralProperty::*getValue_unsigned_int_function_type )( ::OSG::UInt32 const ) const;
+            typedef unsigned int ( ::OSG::GeoIntegralProperty::*getValue_unsigned_int_function_type )( ::OSG::SizeT const ) const;
             
             GeoIntegralProperty_exposer.def( 
                 "getValue_unsigned_int"
@@ -181,7 +181,7 @@ void register_GeoIntegralProperty_class(){
         }
         { //::OSG::GeoIntegralProperty::getValue<unsigned short>
         
-            typedef short unsigned int ( ::OSG::GeoIntegralProperty::*getValue_short_unsigned_int_function_type )( ::OSG::UInt32 const ) const;
+            typedef short unsigned int ( ::OSG::GeoIntegralProperty::*getValue_short_unsigned_int_function_type )( ::OSG::SizeT const ) const;
             
             GeoIntegralProperty_exposer.def( 
                 "getValue_short_unsigned_int"
@@ -230,7 +230,7 @@ void register_GeoIntegralProperty_class(){
         }
         { //::OSG::GeoIntegralProperty::setValue
         
-            typedef void ( ::OSG::GeoIntegralProperty::*setValue_function_type )( unsigned int const &,::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::GeoIntegralProperty::*setValue_function_type )( unsigned int const &,::OSG::SizeT const ) ;
             
             GeoIntegralProperty_exposer.def( 
                 "setValue"

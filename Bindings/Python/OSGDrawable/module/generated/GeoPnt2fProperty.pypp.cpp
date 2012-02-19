@@ -217,7 +217,7 @@ void register_GeoPnt2fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt2fPropertyDesc >::getValue
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoPnt2fPropertyDesc > exported_class_t;
-            typedef ::OSG::Pnt2f ( exported_class_t::*getValue_function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Pnt2f ( exported_class_t::*getValue_function_type )( ::OSG::SizeT const ) const;
             
             GeoPnt2fProperty_exposer.def( 
                 "getValue"
@@ -228,7 +228,7 @@ void register_GeoPnt2fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt2fPropertyDesc >::getValue
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoPnt2fPropertyDesc > exported_class_t;
-            typedef void ( exported_class_t::*getValue_function_type )( ::OSG::Pnt2f &,::OSG::UInt32 const ) const;
+            typedef void ( exported_class_t::*getValue_function_type )( ::OSG::Pnt2f &,::OSG::SizeT const ) const;
             
             GeoPnt2fProperty_exposer.def( 
                 "getValue"
@@ -249,7 +249,7 @@ void register_GeoPnt2fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt2fPropertyDesc >::operator[]
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoPnt2fPropertyDesc > exported_class_t;
-            typedef ::OSG::Point< float, 2u > const & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) const;
+            typedef ::OSG::Point< float, 2u > const & ( exported_class_t::*__getitem___function_type )( ::OSG::SizeT ) const;
             
             GeoPnt2fProperty_exposer.def( 
                 "__getitem__"
@@ -261,7 +261,7 @@ void register_GeoPnt2fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoPnt2fPropertyDesc >::operator[]
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoPnt2fPropertyDesc > exported_class_t;
-            typedef ::OSG::Point< float, 2u > & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
+            typedef ::OSG::Point< float, 2u > & ( exported_class_t::*__getitem___function_type )( ::OSG::SizeT ) ;
             
             GeoPnt2fProperty_exposer.def( 
                 "__getitem__"

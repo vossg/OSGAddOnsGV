@@ -110,6 +110,16 @@ void register_CSMNativeWindow_class(){
                 , ( bp::arg("rX"), bp::arg("rY") ) );
         
         }
+        { //::OSG::CSMNativeWindow::translateToScreenCoordinatesAbs
+        
+            typedef ::OSG::Vec2f ( ::OSG::CSMNativeWindow::*translateToScreenCoordinatesAbs_function_type )( ::OSG::Real32,::OSG::Real32 ) ;
+            
+            CSMNativeWindow_exposer.def( 
+                "translateToScreenCoordinatesAbs"
+                , translateToScreenCoordinatesAbs_function_type( &::OSG::CSMNativeWindow::translateToScreenCoordinatesAbs )
+                , ( bp::arg("rX"), bp::arg("rY") ) );
+        
+        }
         CSMNativeWindow_exposer.staticmethod( "initWindowSystemThreading" );
         pyopensg::register_transit< OSG::CSMNativeWindow >::execute();
         bp::implicitly_convertible< OSG::CSMNativeWindow::ObjRecPtr, OSG::CSMNativeWindow* >();

@@ -156,7 +156,7 @@ void register_GeoMultiProperty_class(){
         }
         { //::OSG::GeoMultiProperty::getValue
         
-            typedef ::OSG::Vec4d ( ::OSG::GeoMultiProperty::*getValue_function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Vec4d ( ::OSG::GeoMultiProperty::*getValue_function_type )( ::OSG::SizeT const ) const;
             
             GeoMultiProperty_exposer.def( 
                 "getValue"
@@ -166,7 +166,7 @@ void register_GeoMultiProperty_class(){
         }
         { //::OSG::GeoMultiProperty::getValue
         
-            typedef void ( ::OSG::GeoMultiProperty::*getValue_function_type )( ::OSG::Vec4d &,::OSG::UInt32 const ) const;
+            typedef void ( ::OSG::GeoMultiProperty::*getValue_function_type )( ::OSG::Vec4d &,::OSG::SizeT const ) const;
             
             GeoMultiProperty_exposer.def( 
                 "getValue"

@@ -2039,7 +2039,7 @@
 ~@variable_t@_ZTIN3OSG8ViewportE@::_ZTIN3OSG8ViewportE
 ~@variable_t@_ZTIN3OSG30ShaderProgramVariableChunkBaseE@::_ZTIN3OSG30ShaderProgramVariableChunkBaseE
 ~@variable_t@_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
-~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
+~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
 ~@variable_t@_ZTIN3OSG22VRMLScalarInterpolatorE@::_ZTIN3OSG22VRMLScalarInterpolatorE
 ~@variable_t@sys_nerr@::sys_nerr
 ~@variable_t@_ZTISt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE
@@ -2132,6 +2132,7 @@
 ~@variable_t@_ZTIN5boost17bad_function_callE@::_ZTIN5boost17bad_function_callE
 ~@variable_t@_ZTIN3OSG6CameraE@::_ZTIN3OSG6CameraE
 ~@variable_t@_ZTIN3OSG12SphereVolumeE@::_ZTIN3OSG12SphereVolumeE
+~@variable_t@_ZTIN3OSG13StateOverrideE@::_ZTIN3OSG13StateOverrideE
 ~@variable_t@sys_errlist@::sys_errlist
 ~@variable_t@_ZTISt15numpunct_bynameIwE@::_ZTISt15numpunct_bynameIwE
 ~@variable_t@_ZTIN3OSG17BaseSkeletonJointE@::_ZTIN3OSG17BaseSkeletonJointE
@@ -2165,7 +2166,7 @@
 ~@variable_t@_ZTIN3OSG13AlgorithmBaseE@::_ZTIN3OSG13AlgorithmBaseE
 ~@variable_t@_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE@::_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE
 ~@variable_t@_ZTIN3OSG13RenderOptionsE@::_ZTIN3OSG13RenderOptionsE
-~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
+~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
 ~@variable_t@_ZTIN3OSG16AnimVec3fChannelE@::_ZTIN3OSG16AnimVec3fChannelE
 ~@variable_t@_IO_2_1_stderr_@::_IO_2_1_stderr_
 ~@variable_t@_ZTIN3OSG10AttachmentE@::_ZTIN3OSG10AttachmentE
@@ -2215,32 +2216,33 @@
 ~@class_t@pthread_mutexattr_t@::pthread_mutexattr_t
 ~@class_t@__vmi_class_type_info_pseudo1@::__vmi_class_type_info_pseudo1
 ~@class_t@timezone@::timezone
-~@class_t@random_data@::random_data
+~@class_t@timeval@::timeval
 ~@class_t@__vmi_class_type_info_pseudo2@::__vmi_class_type_info_pseudo2
 ~@class_t@__sigset_t@::__sigset_t
 ~@class_t@mmsghdr@::mmsghdr
+~@class_t@random_data@::random_data
 ~@class_t@drand48_data@::drand48_data
 ~@class_t@group_source_req@::group_source_req
 ~@class_t@imaxdiv_t@::imaxdiv_t
 ~@class_t@osockaddr@::osockaddr
 ~@class_t@fd_set@::fd_set
 ~@class_t@div_t@::div_t
-~@class_t@timeval@::timeval
+~@class_t@in6_addr@::in6_addr
 ~@class_t@_IO_marker@::_IO_marker
 ~@class_t@tm@::tm
 ~@class_t@__pthread_cleanup_class@::__pthread_cleanup_class
 ~@class_t@ip6_mtuinfo@::ip6_mtuinfo
 ~@class_t@ldiv_t@::ldiv_t
-~@class_t@_pthread_cleanup_buffer@::_pthread_cleanup_buffer
+~@class_t@_G_fpos_t@::_G_fpos_t
 ~@class_t@__exception@::__exception
 ~@class_t@pthread_attr_t@::pthread_attr_t
 ~@class_t@pthread_barrier_t@::pthread_barrier_t
 ~@class_t@ipv6_mreq@::ipv6_mreq
-~@class_t@group_req@::group_req
 ~@class_t@ucred@::ucred
 ~@class_t@pthread_rwlock_t@::pthread_rwlock_t
 ~@class_t@in_addr@::in_addr
 ~@class_t@sockaddr_storage@::sockaddr_storage
+~@class_t@_pthread_cleanup_buffer@::_pthread_cleanup_buffer
 ~@class_t@__pthread_internal_list@::__pthread_internal_list
 ~@class_t@_IO_cookie_io_functions_t@::_IO_cookie_io_functions_t
 ~@class_t@__si_class_type_info_pseudo@::__si_class_type_info_pseudo
@@ -2251,7 +2253,7 @@
 ~@class_t@msghdr@::msghdr
 ~@class_t@__sched_param@::__sched_param
 ~@class_t@pthread_rwlockattr_t@::pthread_rwlockattr_t
-~@class_t@in6_addr@::in6_addr
+~@class_t@group_req@::group_req
 ~@class_t@wait@::wait
 ~@class_t@__mbstate_t@::__mbstate_t
 ~@class_t@timex@::timex
@@ -2262,7 +2264,6 @@
 ~@class_t@__pthread_cleanup_frame@::__pthread_cleanup_frame
 ~@class_t@lldiv_t@::lldiv_t
 ~@class_t@in6_pktinfo@::in6_pktinfo
-~@class_t@_G_fpos_t@::_G_fpos_t
 ~@class_t@pthread_mutex_t@::pthread_mutex_t
 ~@class_t@itimerspec@::itimerspec
 ~@class_t@_IO_FILE@::_IO_FILE
@@ -2554,7 +2555,7 @@
 ~@free_function_t@glDeleteTextures@void (*)( ::GLsizei,::GLuint const * )void (*)( ::GLsizei,::GLuint const * )
 ~@free_function_t@lgammaf@float (*)( float )float (*)( float )
 ~@free_function_t@wmemset@wchar_t * (*)( wchar_t *,wchar_t,::size_t )wchar_t * (*)( wchar_t *,wchar_t,::size_t )
-~@free_function_t@iswctype@int (*)( ::wint_t,::wctype_t )int (*)( ::wint_t,::wctype_t )
+~@free_function_t@dup3@int (*)( int,int,int )int (*)( int,int,int )
 ~@free_function_t@dup2@int (*)( int,int )int (*)( int,int )
 ~@free_function_t@lgammal@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@ceil@double (*)( double )double (*)( double )
@@ -3801,7 +3802,7 @@
 ~@free_function_t@towupper@::wint_t (*)( ::wint_t )::wint_t (*)( ::wint_t )
 ~@free_function_t@tan@double (*)( double )double (*)( double )
 ~@free_function_t@glEnable@void (*)( ::GLenum )void (*)( ::GLenum )
-~@free_function_t@dup3@int (*)( int,int,int )int (*)( int,int,int )
+~@free_function_t@iswctype@int (*)( ::wint_t,::wctype_t )int (*)( ::wint_t,::wctype_t )
 ~@free_function_t@feof@int (*)( ::FILE * )int (*)( ::FILE * )
 ~@free_function_t@__ldexpl@long double (*)( long double,int )long double (*)( long double,int )
 ~@free_function_t@vfprintf@int (*)( __restrict__ ::FILE *,__restrict__ char const *,::__va_list_tag * )int (*)( __restrict__ ::FILE *,__restrict__ char const *,::__va_list_tag * )

@@ -217,7 +217,7 @@ void register_GeoColor3fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoColor3fPropertyDesc >::getValue
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoColor3fPropertyDesc > exported_class_t;
-            typedef ::OSG::Color3f ( exported_class_t::*getValue_function_type )( ::OSG::UInt32 const ) const;
+            typedef ::OSG::Color3f ( exported_class_t::*getValue_function_type )( ::OSG::SizeT const ) const;
             
             GeoColor3fProperty_exposer.def( 
                 "getValue"
@@ -228,7 +228,7 @@ void register_GeoColor3fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoColor3fPropertyDesc >::getValue
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoColor3fPropertyDesc > exported_class_t;
-            typedef void ( exported_class_t::*getValue_function_type )( ::OSG::Color3f &,::OSG::UInt32 const ) const;
+            typedef void ( exported_class_t::*getValue_function_type )( ::OSG::Color3f &,::OSG::SizeT const ) const;
             
             GeoColor3fProperty_exposer.def( 
                 "getValue"
@@ -249,7 +249,7 @@ void register_GeoColor3fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoColor3fPropertyDesc >::operator[]
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoColor3fPropertyDesc > exported_class_t;
-            typedef ::OSG::Color3< float > const & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) const;
+            typedef ::OSG::Color3< float > const & ( exported_class_t::*__getitem___function_type )( ::OSG::SizeT ) const;
             
             GeoColor3fProperty_exposer.def( 
                 "__getitem__"
@@ -261,7 +261,7 @@ void register_GeoColor3fProperty_class(){
         { //::OSG::TypedGeoVectorProperty< OSG::GeoColor3fPropertyDesc >::operator[]
         
             typedef OSG::TypedGeoVectorProperty< OSG::GeoColor3fPropertyDesc > exported_class_t;
-            typedef ::OSG::Color3< float > & ( exported_class_t::*__getitem___function_type )( ::OSG::UInt32 ) ;
+            typedef ::OSG::Color3< float > & ( exported_class_t::*__getitem___function_type )( ::OSG::SizeT ) ;
             
             GeoColor3fProperty_exposer.def( 
                 "__getitem__"

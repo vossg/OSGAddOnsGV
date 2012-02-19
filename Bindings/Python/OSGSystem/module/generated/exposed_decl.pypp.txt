@@ -1848,8 +1848,8 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@@::
+~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -1898,8 +1898,8 @@
 ~@variable_t@_ZTIN3OSG10ActionBaseE@::_ZTIN3OSG10ActionBaseE
 ~@variable_t@_ZTISi@::_ZTISi
 ~@variable_t@_PyWeakref_RefType@::_PyWeakref_RefType
-~@variable_t@_ZTISo@::_ZTISo
-~@variable_t@_PyByteArray_empty_string@::_PyByteArray_empty_string
+~@variable_t@_ZTIN3OSG14RenderTreeNodeE@::_ZTIN3OSG14RenderTreeNodeE
+~@variable_t@_ZTIN3OSG12MaterialBaseE@::_ZTIN3OSG12MaterialBaseE
 ~@variable_t@PyExc_StopIteration@::PyExc_StopIteration
 ~@variable_t@_ZTIN3OSG20FieldDescFactoryBaseE@::_ZTIN3OSG20FieldDescFactoryBaseE
 ~@variable_t@_ZTIN3OSG28IntersectProxyAttachmentBaseE@::_ZTIN3OSG28IntersectProxyAttachmentBaseE
@@ -2006,7 +2006,7 @@
 ~@variable_t@_ZTIN3OSG22ReflexiveContainerTypeE@::_ZTIN3OSG22ReflexiveContainerTypeE
 ~@variable_t@_ZTIN3OSG12ViewareaBaseE@::_ZTIN3OSG12ViewareaBaseE
 ~@variable_t@_ZTISt10bad_typeid@::_ZTISt10bad_typeid
-~@variable_t@_ZTIN3OSG14RenderTreeNodeE@::_ZTIN3OSG14RenderTreeNodeE
+~@variable_t@PyClass_Type@::PyClass_Type
 ~@variable_t@_ZTIN3OSG14SimpleSHLChunkE@::_ZTIN3OSG14SimpleSHLChunkE
 ~@variable_t@PyCFunction_Type@::PyCFunction_Type
 ~@variable_t@_ZTISt12domain_error@::_ZTISt12domain_error
@@ -2025,7 +2025,7 @@
 ~@variable_t@_ZTIN3OSG18ShaderVariableBoolE@::_ZTIN3OSG18ShaderVariableBoolE
 ~@variable_t@_ZTIN10__cxxabiv115__forced_unwindE@::_ZTIN10__cxxabiv115__forced_unwindE
 ~@variable_t@_PyWeakref_ProxyType@::_PyWeakref_ProxyType
-~@variable_t@_ZTIN3OSG12MaterialBaseE@::_ZTIN3OSG12MaterialBaseE
+~@variable_t@_PyByteArray_empty_string@::_PyByteArray_empty_string
 ~@variable_t@_ZTIN3OSG10DepthChunkE@::_ZTIN3OSG10DepthChunkE
 ~@variable_t@_ZTIN3OSG22GeoReferenceAttachmentE@::_ZTIN3OSG22GeoReferenceAttachmentE
 ~@variable_t@_ZTIPv@::_ZTIPv
@@ -2121,7 +2121,6 @@
 ~@variable_t@PyBool_Type@::PyBool_Type
 ~@variable_t@_ZTIN3OSG24ShaderVariableStringBaseE@::_ZTIN3OSG24ShaderVariableStringBaseE
 ~@variable_t@_sys_nerr@::_sys_nerr
-~@variable_t@PyClass_Type@::PyClass_Type
 ~@variable_t@_ZTIN3OSG14ForegroundBaseE@::_ZTIN3OSG14ForegroundBaseE
 ~@variable_t@_ZTIN3OSG18EditMapFieldHandleE@::_ZTIN3OSG18EditMapFieldHandleE
 ~@variable_t@Py_InteractiveFlag@::Py_InteractiveFlag
@@ -2308,6 +2307,7 @@
 ~@variable_t@_ZTIN3OSG21CompositeMaterialBaseE@::_ZTIN3OSG21CompositeMaterialBaseE
 ~@variable_t@PyExc_EOFError@::PyExc_EOFError
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_7BarrierEEE@::_ZTIN3OSG12MPFieldStoreINS_7BarrierEEE
+~@variable_t@_ZTISo@::_ZTISo
 ~@variable_t@Py_UnicodeFlag@::Py_UnicodeFlag
 ~@variable_t@_ZTIN3OSG23ShaderVariablePnt2fBaseE@::_ZTIN3OSG23ShaderVariablePnt2fBaseE
 ~@variable_t@_ZTIN3OSG20MapCacheHandlerMixinINS_21ChunkOverrideMapCacheEEE@::_ZTIN3OSG20MapCacheHandlerMixinINS_21ChunkOverrideMapCacheEEE

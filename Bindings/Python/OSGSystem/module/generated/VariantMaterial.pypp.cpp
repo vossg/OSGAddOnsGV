@@ -74,12 +74,12 @@ void register_VariantMaterial_class(){
         }
         { //::OSG::VariantMaterial::finalize
         
-            typedef ::OSG::PrimeMaterial * ( ::OSG::VariantMaterial::*finalize_function_type )( long unsigned int,::OSG::Window * ) ;
+            typedef ::OSG::PrimeMaterial * ( ::OSG::VariantMaterial::*finalize_function_type )( long unsigned int,::OSG::StateOverride const *,::OSG::Window * ) ;
             
             VariantMaterial_exposer.def( 
                 "finalize"
                 , finalize_function_type( &::OSG::VariantMaterial::finalize )
-                , ( bp::arg("oKey"), bp::arg("pWin") )
+                , ( bp::arg("oKey"), bp::arg("pOverrides"), bp::arg("pWin") )
                 , bp::return_internal_reference< >() );
         
         }

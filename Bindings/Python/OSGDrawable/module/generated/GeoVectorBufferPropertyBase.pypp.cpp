@@ -48,7 +48,7 @@ struct GeoVectorBufferPropertyBase_wrapper : OSG::GeoVectorBufferPropertyBase, b
         return func_clone(  );
     }
 
-    virtual void getGenericValue( ::OSG::Vec4d & val, ::OSG::UInt32 const index ) const {
+    virtual void getGenericValue( ::OSG::Vec4d & val, ::OSG::SizeT const index ) const {
         bp::override func_getGenericValue = this->get_override( "getGenericValue" );
         func_getGenericValue( boost::ref(val), index );
     }
@@ -63,7 +63,7 @@ struct GeoVectorBufferPropertyBase_wrapper : OSG::GeoVectorBufferPropertyBase, b
         func_resize( newsize );
     }
 
-    virtual void setGenericValue( ::OSG::Vec4d const & val, ::OSG::UInt32 const index ){
+    virtual void setGenericValue( ::OSG::Vec4d const & val, ::OSG::SizeT const index ){
         bp::override func_setGenericValue = this->get_override( "setGenericValue" );
         func_setGenericValue( boost::ref(val), index );
     }
@@ -403,7 +403,7 @@ void register_GeoVectorBufferPropertyBase_class(){
         }
         { //::OSG::GeoVectorProperty::getGenericValue
         
-            typedef void ( GeoVectorBufferPropertyBase_wrapper::*getGenericValue_function_type )( ::OSG::Vec4d &,::OSG::UInt32 const ) const;
+            typedef void ( GeoVectorBufferPropertyBase_wrapper::*getGenericValue_function_type )( ::OSG::Vec4d &,::OSG::SizeT const ) const;
             
             GeoVectorBufferPropertyBase_exposer.def( 
                 "getGenericValue"
@@ -432,7 +432,7 @@ void register_GeoVectorBufferPropertyBase_class(){
         }
         { //::OSG::GeoVectorProperty::setGenericValue
         
-            typedef void ( GeoVectorBufferPropertyBase_wrapper::*setGenericValue_function_type )( ::OSG::Vec4d const &,::OSG::UInt32 const ) ;
+            typedef void ( GeoVectorBufferPropertyBase_wrapper::*setGenericValue_function_type )( ::OSG::Vec4d const &,::OSG::SizeT const ) ;
             
             GeoVectorBufferPropertyBase_exposer.def( 
                 "setGenericValue"

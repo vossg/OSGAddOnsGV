@@ -39,18 +39,6 @@ namespace bp = boost::python;
 namespace
 {
 
-OSG::FieldContainerRecPtr
-wrapFindNamedComponent(OSG::ComplexSceneManager* self,
-                       const OSG::Char8* szName)
-{
-   return OSG::FieldContainerTransitPtr(self->findNamedComponent(szName));
-}
-
-}
-
-namespace
-{
-
 void mainLoopCallback(bp::object callable)
 {
    callable();
@@ -82,6 +70,16 @@ void register_ComplexSceneManager_class(){
         typedef bp::class_< OSG::ComplexSceneManager, bp::bases< OSG::ComplexSceneManagerBase >, OSG::ComplexSceneManager::ObjRecPtr, boost::noncopyable > ComplexSceneManager_exposer_t;
         ComplexSceneManager_exposer_t ComplexSceneManager_exposer = ComplexSceneManager_exposer_t( "ComplexSceneManager", bp::no_init );
         bp::scope ComplexSceneManager_scope( ComplexSceneManager_exposer );
+        { //::OSG::ComplexSceneManager::addFrameProducer
+        
+            typedef void ( ::OSG::ComplexSceneManager::*addFrameProducer_function_type )( ::OSG::FrameProducerInterface * ) ;
+            
+            ComplexSceneManager_exposer.def( 
+                "addFrameProducer"
+                , addFrameProducer_function_type( &::OSG::ComplexSceneManager::addFrameProducer )
+                , ( bp::arg("pProducer") ) );
+        
+        }
         { //::OSG::ComplexSceneManager::changed
         
             typedef void ( ::OSG::ComplexSceneManager::*changed_function_type )( ::OSG::ConstFieldMaskArg,::OSG::UInt32,::OSG::BitVector ) ;
@@ -102,6 +100,17 @@ void register_ComplexSceneManager_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::ComplexSceneManager::findNamedComponent
+        
+            typedef ::OSG::FieldContainer * ( ::OSG::ComplexSceneManager::*findNamedComponent_function_type )( ::OSG::Char8 const * ) const;
+            
+            ComplexSceneManager_exposer.def( 
+                "findNamedComponent"
+                , findNamedComponent_function_type( &::OSG::ComplexSceneManager::findNamedComponent )
+                , ( bp::arg("szName") )
+                , bp::return_value_policy< bp::reference_existing_object >() );
+        
+        }
         { //::OSG::ComplexSceneManager::frame
         
             typedef void ( ::OSG::ComplexSceneManager::*frame_function_type )(  ) ;
@@ -119,6 +128,16 @@ void register_ComplexSceneManager_class(){
                 "key"
                 , key_function_type( &::OSG::ComplexSceneManager::key )
                 , ( bp::arg("x"), bp::arg("y"), bp::arg("iState"), bp::arg("cKey") ) );
+        
+        }
+        { //::OSG::ComplexSceneManager::removeFrameProducer
+        
+            typedef void ( ::OSG::ComplexSceneManager::*removeFrameProducer_function_type )( ::OSG::FrameProducerInterface * ) ;
+            
+            ComplexSceneManager_exposer.def( 
+                "removeFrameProducer"
+                , removeFrameProducer_function_type( &::OSG::ComplexSceneManager::removeFrameProducer )
+                , ( bp::arg("pProducer") ) );
         
         }
         { //::OSG::ComplexSceneManager::resetScene
@@ -176,7 +195,6 @@ void register_ComplexSceneManager_class(){
         bp::implicitly_convertible< OSG::ComplexSceneManager::ObjRecPtr, OSG::FieldContainer* >();
         bp::implicitly_convertible< OSG::ComplexSceneManager::ObjRecPtr, OSG::FieldContainer::ObjRecPtr >();
         bp::implicitly_convertible<OSG::ComplexSceneManager::ObjRecPtr, OSG::FieldContainer::ObjCPtr>();
-        ComplexSceneManager_exposer.def("findNamedComponent", wrapFindNamedComponent, (bp::arg("szName")));
         ComplexSceneManager_exposer.def("init", wrapInit);
         ComplexSceneManager_exposer.def("setMainloop", wrapSetMainloop, (bp::arg("fMainLoop")));
     }

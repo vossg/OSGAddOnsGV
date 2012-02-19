@@ -110,6 +110,18 @@ struct SimpleSceneManager_wrapper : OSG::SimpleSceneManager, bp::wrapper< OSG::S
         return OSG::SimpleSceneManager::getHighlight( );
     }
 
+    virtual ::OSG::Node * getInternalRoot(  ) {
+        if( bp::override func_getInternalRoot = this->get_override( "getInternalRoot" ) )
+            return func_getInternalRoot(  );
+        else{
+            return this->OSG::SimpleSceneManager::getInternalRoot(  );
+        }
+    }
+    
+    ::OSG::Node * default_getInternalRoot(  ) {
+        return OSG::SimpleSceneManager::getInternalRoot( );
+    }
+
     virtual ::OSG::RenderAction * getRenderAction(  ) {
         if( bp::override func_getRenderAction = this->get_override( "getRenderAction" ) )
             return func_getRenderAction(  );
@@ -541,6 +553,18 @@ void register_SimpleSceneManager_class(){
                 "getHighlight"
                 , getHighlight_function_type(&::OSG::SimpleSceneManager::getHighlight)
                 , default_getHighlight_function_type(&SimpleSceneManager_wrapper::default_getHighlight)
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::SimpleSceneManager::getInternalRoot
+        
+            typedef ::OSG::Node * ( ::OSG::SimpleSceneManager::*getInternalRoot_function_type )(  ) ;
+            typedef ::OSG::Node * ( SimpleSceneManager_wrapper::*default_getInternalRoot_function_type )(  ) ;
+            
+            SimpleSceneManager_exposer.def( 
+                "getInternalRoot"
+                , getInternalRoot_function_type(&::OSG::SimpleSceneManager::getInternalRoot)
+                , default_getInternalRoot_function_type(&SimpleSceneManager_wrapper::default_getInternalRoot)
                 , bp::return_internal_reference< >() );
         
         }

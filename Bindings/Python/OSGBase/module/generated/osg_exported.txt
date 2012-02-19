@@ -1,4 +1,3 @@
-VecStorage4ub
 Pnt2d
 Pnt2f
 Pnt3d
@@ -9,12 +8,12 @@ Color3f
 Color4f
 VecStorage2ub
 VecStorage3ub
+VecStorage4ub
 ContainerMixinHardwareContextDataSlotDesc
 Vec2f
 Vec3f
 Vec4d
 PerfMonitor
-Matrix4d
 VecStorage2d
 VecStorage2f
 FieldContainerFactory
@@ -34,6 +33,7 @@ VecStorage3f
 VecStorage4f
 Color3ub
 Color4ub
+Matrix4d
 Quaterniond
 StatElemDesc_StatTimeElem
 Matrix

@@ -113,10 +113,10 @@
 
 // Member template instantiations
 #if defined(__GCCXML__)
-template OSG::UInt8 OSG::GeoIntegralProperty::getValue<OSG::UInt8>(const OSG::UInt32) const;
-template OSG::UInt16 OSG::GeoIntegralProperty::getValue<OSG::UInt16>(const OSG::UInt32) const;
-template OSG::UInt32 OSG::GeoIntegralProperty::getValue<OSG::UInt32>(const OSG::UInt32) const;
-template void OSG::GeoIntegralProperty::setValue<OSG::UInt32>(const OSG::UInt32&, const OSG::UInt32);
+template OSG::UInt8 OSG::GeoIntegralProperty::getValue<OSG::UInt8>(const OSG::SizeT) const;
+template OSG::UInt16 OSG::GeoIntegralProperty::getValue<OSG::UInt16>(const OSG::SizeT) const;
+template OSG::UInt32 OSG::GeoIntegralProperty::getValue<OSG::UInt32>(const OSG::SizeT) const;
+template void OSG::GeoIntegralProperty::setValue<OSG::UInt32>(const OSG::UInt32&, const OSG::SizeT);
 template void OSG::GeoIntegralProperty::addValue<OSG::UInt32>(const OSG::UInt32&);
 template void OSG::GeoIntegralProperty::push_back<OSG::UInt32>(const OSG::UInt32&);
 #endif

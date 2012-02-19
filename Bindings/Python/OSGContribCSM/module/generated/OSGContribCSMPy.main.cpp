@@ -80,6 +80,10 @@
 
 #include "generated/CSMSortFirstWinOptionsBase.pypp.hpp"
 
+#include "generated/CSMStatisticsForeground.pypp.hpp"
+
+#include "generated/CSMStatisticsForegroundBase.pypp.hpp"
+
 #include "generated/CSMTrackball.pypp.hpp"
 
 #include "generated/CSMTrackballBase.pypp.hpp"
@@ -149,9 +153,9 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
 
     register_CSMClusterWindow_class();
 
-    register_CSMDrawManagerBase_class();
-
     register_CSMDrawManager_class();
+
+    register_CSMDrawManagerBase_class();
 
     register_CSMDrawerBase_class();
 
@@ -184,6 +188,10 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
     register_CSMSortFirstWinOptionsBase_class();
 
     register_CSMSortFirstWinOptions_class();
+
+    register_CSMStatisticsForegroundBase_class();
+
+    register_CSMStatisticsForeground_class();
 
     register_CSMTrackballBase_class();
 
@@ -242,6 +250,12 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CSMDrawManager, OSG::CSMDrawManager::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::CSMDrawManager::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::CSMStatisticsForeground */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CSMStatisticsForeground, OSG::CSMStatisticsForeground::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CSMStatisticsForeground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::CSMPerspectiveCamera */
 

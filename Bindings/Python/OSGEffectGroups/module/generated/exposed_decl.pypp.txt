@@ -1761,8 +1761,8 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@@::
+~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -1831,7 +1831,7 @@
 ~@variable_t@_ZTIN3OSG12FogStageDataE@::_ZTIN3OSG12FogStageDataE
 ~@variable_t@_ZTIN3OSG10BackgroundE@::_ZTIN3OSG10BackgroundE
 ~@variable_t@_ZTIN3OSG4LockE@::_ZTIN3OSG4LockE
-~@variable_t@_ZTISt14codecvt_bynameIwc11__mbstate_tE@::_ZTISt14codecvt_bynameIwc11__mbstate_tE
+~@variable_t@_ZTIN3OSG21FrameBufferAttachmentE@::_ZTIN3OSG21FrameBufferAttachmentE
 ~@variable_t@_ZTIN3OSG22ShaderProgramChunkBaseE@::_ZTIN3OSG22ShaderProgramChunkBaseE
 ~@variable_t@_ZTIN3OSG15TextureObjChunkE@::_ZTIN3OSG15TextureObjChunkE
 ~@variable_t@_ZTIN3OSG16EditMFieldHandleINS_17PointerMFieldBaseEEE@::_ZTIN3OSG16EditMFieldHandleINS_17PointerMFieldBaseEEE
@@ -1856,7 +1856,7 @@
 ~@variable_t@_ZTIN3OSG14BackgroundBaseE@::_ZTIN3OSG14BackgroundBaseE
 ~@variable_t@_ZTIN3OSG18PThreadBarrierBaseE@::_ZTIN3OSG18PThreadBarrierBaseE
 ~@variable_t@_ZTIN3OSG15SimpleReusePoolIiNS_14StageIdPoolTagENS_16SingleLockPolicyEEE@::_ZTIN3OSG15SimpleReusePoolIiNS_14StageIdPoolTagENS_16SingleLockPolicyEEE
-~@variable_t@_ZTISt19basic_istringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt19basic_istringstreamIcSt11char_traitsIcESaIcEE
+~@variable_t@_ZTISt8bad_cast@::_ZTISt8bad_cast
 ~@variable_t@_ZTIN3OSG16BlockingDrawTaskE@::_ZTIN3OSG16BlockingDrawTaskE
 ~@variable_t@_ZTIN3OSG15ShadowStageBaseE@::_ZTIN3OSG15ShadowStageBaseE
 ~@variable_t@_ZTIN5boost16exception_detail20error_info_containerE@::_ZTIN5boost16exception_detail20error_info_containerE
@@ -1885,7 +1885,7 @@
 ~@variable_t@_ZTISt23__codecvt_abstract_baseIwc11__mbstate_tE@::_ZTISt23__codecvt_abstract_baseIwc11__mbstate_tE
 ~@variable_t@_ZTISt23__codecvt_abstract_baseIcc11__mbstate_tE@::_ZTISt23__codecvt_abstract_baseIcc11__mbstate_tE
 ~@variable_t@_ZTIN3OSG15GetSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE@::_ZTIN3OSG15GetSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE
-~@variable_t@_ZTIN3OSG10WindowBaseE@::_ZTIN3OSG10WindowBaseE
+~@variable_t@_ZTISt19basic_istringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt19basic_istringstreamIcSt11char_traitsIcESaIcEE
 ~@variable_t@_ZTIN3OSG18SimpleMaterialBaseE@::_ZTIN3OSG18SimpleMaterialBaseE
 ~@variable_t@_ZTIN3OSG16CallbackDrawTaskE@::_ZTIN3OSG16CallbackDrawTaskE
 ~@variable_t@_ZTIN3OSG7BarrierE@::_ZTIN3OSG7BarrierE
@@ -1980,7 +1980,6 @@
 ~@variable_t@_ZTIN3OSG16SingleLockPolicyE@::_ZTIN3OSG16SingleLockPolicyE
 ~@variable_t@_ZTIN3OSG15SimpleStageBaseE@::_ZTIN3OSG15SimpleStageBaseE
 ~@variable_t@_ZTIN3OSG9ExceptionE@::_ZTIN3OSG9ExceptionE
-~@variable_t@_ZTIN3OSG12StatRealElemE@::_ZTIN3OSG12StatRealElemE
 ~@variable_t@_ZTIN3OSG13MPCondVarTypeE@::_ZTIN3OSG13MPCondVarTypeE
 ~@variable_t@_ZTIN3OSG13MultiCoreBaseE@::_ZTIN3OSG13MultiCoreBaseE
 ~@variable_t@_ZTIN3OSG9LightBaseE@::_ZTIN3OSG9LightBaseE
@@ -2043,7 +2042,7 @@
 ~@variable_t@_ZTISt17moneypunct_bynameIwLb0EE@::_ZTISt17moneypunct_bynameIwLb0EE
 ~@variable_t@_ZTIN3OSG14SimplePoolBaseE@::_ZTIN3OSG14SimplePoolBaseE
 ~@variable_t@_ZTISt18basic_stringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt18basic_stringstreamIcSt11char_traitsIcESaIcEE
-~@variable_t@_ZTIN3OSG3LogE@::_ZTIN3OSG3LogE
+~@variable_t@_ZTIN3OSG19SolidBackgroundBaseE@::_ZTIN3OSG19SolidBackgroundBaseE
 ~@variable_t@_ZTIN3OSG8ViewportE@::_ZTIN3OSG8ViewportE
 ~@variable_t@_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
@@ -2080,7 +2079,7 @@
 ~@variable_t@_ZTISt17moneypunct_bynameIcLb0EE@::_ZTISt17moneypunct_bynameIcLb0EE
 ~@variable_t@_ZTIN3OSG16RenderActionTaskE@::_ZTIN3OSG16RenderActionTaskE
 ~@variable_t@_ZTIN3OSG6MPBaseE@::_ZTIN3OSG6MPBaseE
-~@variable_t@_ZTIN3OSG19SolidBackgroundBaseE@::_ZTIN3OSG19SolidBackgroundBaseE
+~@variable_t@_ZTIN3OSG3LogE@::_ZTIN3OSG3LogE
 ~@variable_t@_ZTIN3OSG14DepthChunkBaseE@::_ZTIN3OSG14DepthChunkBaseE
 ~@variable_t@_ZTISt14basic_iostreamIwSt11char_traitsIwEE@::_ZTISt14basic_iostreamIwSt11char_traitsIwEE
 ~@variable_t@optarg@::optarg
@@ -2092,7 +2091,7 @@
 ~@variable_t@_ZTIN3OSG21FrameBufferObjectBaseE@::_ZTIN3OSG21FrameBufferObjectBaseE
 ~@variable_t@_ZTIN3OSG15BasePThreadBaseE@::_ZTIN3OSG15BasePThreadBaseE
 ~@variable_t@program_invocation_short_name@::program_invocation_short_name
-~@variable_t@_ZTIN3OSG21FrameBufferAttachmentE@::_ZTIN3OSG21FrameBufferAttachmentE
+~@variable_t@_ZTIN3OSG12StatRealElemE@::_ZTIN3OSG12StatRealElemE
 ~@variable_t@_ZTIN3OSG15SimpleReusePoolIiNS_15DataSlotPoolTagENS_16SingleLockPolicyEEE@::_ZTIN3OSG15SimpleReusePoolIiNS_15DataSlotPoolTagENS_16SingleLockPolicyEEE
 ~@variable_t@_ZTIN3OSG19BasicFieldConnectorE@::_ZTIN3OSG19BasicFieldConnectorE
 ~@variable_t@_ZTIN3OSG14StatStringElemE@::_ZTIN3OSG14StatStringElemE
@@ -2108,6 +2107,7 @@
 ~@variable_t@_ZTIN3OSG9ImageBaseE@::_ZTIN3OSG9ImageBaseE
 ~@variable_t@_ZTIN3OSG12DSLightChunkE@::_ZTIN3OSG12DSLightChunkE
 ~@variable_t@_ZTIN3OSG9GroupBaseE@::_ZTIN3OSG9GroupBaseE
+~@variable_t@_ZTISt14codecvt_bynameIwc11__mbstate_tE@::_ZTISt14codecvt_bynameIwc11__mbstate_tE
 ~@variable_t@optopt@::optopt
 ~@variable_t@_ZTISt7collateIwE@::_ZTISt7collateIwE
 ~@variable_t@_ZTIN3OSG18DisplayFilterGroupE@::_ZTIN3OSG18DisplayFilterGroupE
@@ -2138,16 +2138,17 @@
 ~@variable_t@_ZTISt13basic_filebufIwSt11char_traitsIwEE@::_ZTISt13basic_filebufIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG15TextureEnvChunkE@::_ZTIN3OSG15TextureEnvChunkE
 ~@variable_t@_ZTIN3OSG19TextureEnvChunkBaseE@::_ZTIN3OSG19TextureEnvChunkBaseE
+~@variable_t@_ZTIN3OSG10WindowBaseE@::_ZTIN3OSG10WindowBaseE
 ~@variable_t@_ZTIN5boost6assign20assignment_exceptionE@::_ZTIN5boost6assign20assignment_exceptionE
 ~@variable_t@_ZTIN3OSG11FactoryBaseE@::_ZTIN3OSG11FactoryBaseE
 ~@variable_t@_ZTIN5boost17bad_function_callE@::_ZTIN5boost17bad_function_callE
 ~@variable_t@_ZTIN3OSG6CameraE@::_ZTIN3OSG6CameraE
 ~@variable_t@_ZTIN3OSG12SphereVolumeE@::_ZTIN3OSG12SphereVolumeE
+~@variable_t@_ZTIN3OSG13StateOverrideE@::_ZTIN3OSG13StateOverrideE
 ~@variable_t@sys_errlist@::sys_errlist
 ~@variable_t@_ZTISt15numpunct_bynameIwE@::_ZTISt15numpunct_bynameIwE
 ~@variable_t@signgam@::signgam
 ~@variable_t@_ZTIN3OSG11ShadowStageE@::_ZTIN3OSG11ShadowStageE
-~@variable_t@_ZTISt8bad_cast@::_ZTISt8bad_cast
 ~@variable_t@in6addr_loopback@::in6addr_loopback
 ~@variable_t@_ZTISt15underflow_error@::_ZTISt15underflow_error
 ~@variable_t@_ZTIN3OSG8StatElemE@::_ZTIN3OSG8StatElemE
