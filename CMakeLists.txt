@@ -13,7 +13,8 @@ INCLUDE(ExternalProjectHelper)
 
 SET(OSG_COMPONENTS OSGBase OSGSystem OSGState OSGGroup OSGDrawable OSGWindow
                    OSGText OSGUtil OSGWindowGLUT OSGFileIO OSGImageFileIO
-                   OSGDynamics OSGContribComputeBase)
+                   OSGDynamics OSGContribComputeBase OSGContribCSM 
+                   OSGEffectGroups)
 
 IF(UNIX)
   IF(APPLE)
@@ -36,5 +37,8 @@ ENDIF(WIN32)
 ##############################################################################
 # MAIN BUILD STEPS
 ##############################################################################
+
+SET(OSG_EXCLUDE_FROM_BUILD 
+    ./WebInterface/CMakeLists.Lib.OSGContribWebInterface.txt)
 
 OSG_COLLECT_LIBS(FALSE)
