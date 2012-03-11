@@ -140,8 +140,8 @@ class RTInitAction : public Action
     /*! \name                   Lights                                     */
     /*! \{                                                                 */
 
-    virtual ActionBase::ResultE start(void                   );
-    virtual ActionBase::ResultE stop (ActionBase::ResultE res);
+    virtual Action::ResultE start(void               );
+    virtual Action::ResultE stop (Action::ResultE res);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -211,8 +211,8 @@ class RTInitAction : public Action
     /*! \name                   Internal updates                           */
     /*! \{                                                                 */
 
-    ActionBase::ResultE nodeEnter(Node * const pNode, Action *pAction);
-    ActionBase::ResultE nodeExit (Node * const pNode, Action *pAction);
+    Action::ResultE nodeEnter(Node * const pNode, Action *pAction);
+    Action::ResultE nodeExit (Node * const pNode, Action *pAction);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

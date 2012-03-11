@@ -127,19 +127,17 @@ class OSG_CONTRIBLABELING_DLLMAPPING IconLabel : public IconLabelBase
     /*! \name              Intersect & Render                              */
     /*! \{                                                                 */
 
-#ifndef OSG_WINCE
-    ActionBase::ResultE     intersect(Action    *action);
-#endif
+    Action::ResultE intersectEnter(Action *action);
 
-    ActionBase::ResultE     renderEnter   (Action    *action);
-    ActionBase::ResultE     renderLeave   (Action    *action);
+    Action::ResultE renderEnter   (Action *action);
+    Action::ResultE renderLeave   (Action *action);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name           label rendering helper functions                   */
     /*! \{                                                                 */
 
-           TextureObjChunkRefPtr     getTextureObjChunk(void);
+    TextureObjChunkRefPtr getTextureObjChunk(void);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

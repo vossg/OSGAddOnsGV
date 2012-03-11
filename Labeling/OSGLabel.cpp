@@ -99,31 +99,30 @@ Label::~Label(void)
 /*-------------------------------------------------------------------------*/
 /*                                Render                                   */
 
-ActionBase::ResultE Label::renderEnter(Action *action)
+Action::ResultE Label::renderEnter(Action *action)
 {
     RenderAction *pAction = 
         dynamic_cast<RenderAction *>(action);
 
     pAction->pushVisibility();
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
-ActionBase::ResultE Label::renderLeave(Action *action)
+Action::ResultE Label::renderLeave(Action *action)
 {
     RenderAction *pAction = 
         dynamic_cast<RenderAction *>(action);
 
     pAction->popVisibility();
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 /*-------------------------------------------------------------------------*/
 /*                            Intersect                                    */
 
-#ifndef OSG_WINCE
-ActionBase::ResultE Label::intersect(Action *action)
+Action::ResultE Label::intersectEnter(Action *action)
 {
           IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
     const BoxVolume       &bv = ia->getActNode()->getVolume();
@@ -133,9 +132,8 @@ ActionBase::ResultE Label::intersect(Action *action)
         return Action::Skip;  //bv missed -> can not hit children
     }
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                                 Init                                    */
@@ -153,11 +151,10 @@ void Label::initMethod(InitPhase ePhase)
         RenderAction::registerLeaveDefault(
             Label::getClassType(), 
             reinterpret_cast<Action::Callback>(&Label::renderLeave));
-#ifndef OSG_WINCE
+
         IntersectAction::registerEnterDefault(
             getClassType(),
-            reinterpret_cast<Action::Callback>(&Label::intersect));
-#endif 
+            reinterpret_cast<Action::Callback>(&Label::intersectEnter));
     }
 }
 

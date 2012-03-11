@@ -58,8 +58,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-ActionBase::ResultE RRTStageRenderEnter(NodeCore * const pCore,
-                                        Action   *       action)
+Action::ResultE RRTStageRenderEnter(NodeCore * const pCore,
+                                    Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter RRTStage %p\n", &(*pCore)));
@@ -124,8 +124,8 @@ ActionBase::ResultE RRTStageRenderEnter(NodeCore * const pCore,
     return Action::Skip;
 }
 
-ActionBase::ResultE RRTStageRenderLeave(NodeCore * const pCore,
-                                        Action   *       action)
+Action::ResultE RRTStageRenderLeave(NodeCore * const pCore,
+                                    Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Leave RRTStage %p\n", &(*pCore)));

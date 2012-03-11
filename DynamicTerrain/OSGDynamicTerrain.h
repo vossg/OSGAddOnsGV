@@ -78,9 +78,10 @@ class OSG_CONTRIBDYNAMICTERRAIN_DLLMAPPING DynamicTerrain :
   public:
     
     // action handlers:
-    virtual void                drawPrimitives( DrawEnv * pEnv );
-    virtual void                adjustVolume( Volume & volume );
-    virtual Action::ResultE     intersect(Action* action );
+    virtual void            drawPrimitives(DrawEnv *pEnv  );
+    virtual void            adjustVolume  (Volume  &volume);
+
+            Action::ResultE intersectEnter(Action  *action);
     
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */

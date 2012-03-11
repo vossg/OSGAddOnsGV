@@ -41,9 +41,7 @@
 
 #include <OSGGL.h>
 
-#ifndef OSG_WINCE
 #include <OSGIntersectAction.h>
-#endif
 
 #include <OSGRenderAction.h>
 
@@ -111,31 +109,30 @@ IconLabel::~IconLabel(void)
 /*-------------------------------------------------------------------------*/
 /*                                Render                                   */
 
-ActionBase::ResultE IconLabel::renderEnter(Action *action)
+Action::ResultE IconLabel::renderEnter(Action *action)
 {
     RenderAction *pAction = 
         dynamic_cast<RenderAction *>(action);
 
     pAction->pushVisibility();
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
-ActionBase::ResultE IconLabel::renderLeave(Action *action)
+Action::ResultE IconLabel::renderLeave(Action *action)
 {
     RenderAction *pAction = 
         dynamic_cast<RenderAction *>(action);
 
     pAction->popVisibility();
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 /*-------------------------------------------------------------------------*/
 /*                            Intersect                                    */
 
-#ifndef OSG_WINCE
-ActionBase::ResultE IconLabel::intersect(Action *action)
+Action::ResultE IconLabel::intersectEnter(Action *action)
 {
           IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
     const BoxVolume       &bv = ia->getActNode()->getVolume();
@@ -145,9 +142,8 @@ ActionBase::ResultE IconLabel::intersect(Action *action)
         return Action::Skip;  //bv missed -> can not hit children
     }
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                                 Init                                    */
@@ -165,11 +161,10 @@ void IconLabel::initMethod(InitPhase ePhase)
         RenderAction::registerLeaveDefault(
             IconLabel::getClassType(), 
             reinterpret_cast<Action::Callback>(&IconLabel::renderLeave));
-#ifndef OSG_WINCE
+
         IntersectAction::registerEnterDefault(
             getClassType(),
-            reinterpret_cast<Action::Callback>(&IconLabel::intersect));
-#endif 
+            reinterpret_cast<Action::Callback>(&IconLabel::intersectEnter));
     }
 }
 

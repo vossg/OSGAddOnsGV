@@ -406,8 +406,8 @@ class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqTerrain : public BbqTerrainBase
     /*! \name                      Init                                    */
     /*! \{                                                                 */
 
-    Action::ResultE renderEnter(Action  *action  );
-    Action::ResultE renderLeave(Action  *action  );
+    Action::ResultE renderEnter(Action *action   );
+    Action::ResultE renderLeave(Action *action   );
 
     void            execute    (DrawEnv *pDrawEnv);
 

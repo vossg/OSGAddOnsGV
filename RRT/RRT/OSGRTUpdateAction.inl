@@ -202,13 +202,13 @@ void RTUpdateAction<DescT>::dropGeometry(Geometry *pGeo)
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTUpdateAction<DescT>::start(void)
+Action::ResultE RTUpdateAction<DescT>::start(void)
 {
     return Action::Continue;
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTUpdateAction<DescT>::stop(ActionBase::ResultE res)
+Action::ResultE RTUpdateAction<DescT>::stop(Action::ResultE res)
 {
     return Action::Continue;
 }
@@ -271,8 +271,8 @@ RTUpdateAction<DescT>::RTUpdateAction(const RTUpdateAction &source) :
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTUpdateAction<DescT>::nodeEnter(Node   * const  pNode, 
-                                                     Action *        pAction)
+Action::ResultE RTUpdateAction<DescT>::nodeEnter(Node   * const  pNode, 
+                                                 Action *        pAction)
 {
     CacheAttachmentPtr pRTCacheAtt = 
         dynamic_cast<CacheAttachmentPtr>(
@@ -289,8 +289,8 @@ ActionBase::ResultE RTUpdateAction<DescT>::nodeEnter(Node   * const  pNode,
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTUpdateAction<DescT>::nodeExit (Node   * const pNode, 
-                                                     Action *       pAction)
+Action::ResultE RTUpdateAction<DescT>::nodeExit (Node   * const pNode, 
+                                                 Action *       pAction)
 {
     return Action::Continue;
 }
@@ -302,8 +302,8 @@ ActionBase::ResultE RTUpdateAction<DescT>::nodeExit (Node   * const pNode,
 
 
 template<typename DescT> inline
-ActionBase::ResultE GeometryRTUpdateEnter(NodeCore * const pCore,
-                                          Action   *       action)
+Action::ResultE GeometryRTUpdateEnter(NodeCore * const pCore,
+                                      Action   *       action)
 {
 #if 0
     fprintf(stderr, "Enter GeoRTInit %p\n", &(*pCore));
@@ -317,24 +317,24 @@ ActionBase::ResultE GeometryRTUpdateEnter(NodeCore * const pCore,
     }
 #endif
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 template<typename DescT> inline
-ActionBase::ResultE GeometryRTUpdateLeave(NodeCore * const pCore,
-                                          Action   *       action)
+Action::ResultE GeometryRTUpdateLeave(NodeCore * const pCore,
+                                      Action   *       action)
 {
 #if 0
     fprintf(stderr, "Leave GeoRTInit %p\n", &(*pCore));
 #endif
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 
 template<typename DescT> inline
-ActionBase::ResultE VisitSubTreeRTUpdateEnter(NodeCore * const pCore,
-                                              Action   *       action)
+Action::ResultE VisitSubTreeRTUpdateEnter(NodeCore * const pCore,
+                                          Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter Group %p\n", &(*pCore)));
@@ -347,7 +347,7 @@ ActionBase::ResultE VisitSubTreeRTUpdateEnter(NodeCore * const pCore,
     
     action->addNode(pVisit->getSubTreeRoot());
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 

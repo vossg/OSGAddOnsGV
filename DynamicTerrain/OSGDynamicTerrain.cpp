@@ -84,12 +84,12 @@ void DynamicTerrain::initMethod(InitPhase ePhase)
         RenderAction::registerEnterDefault( 
             getClassType(),
             reinterpret_cast<Action::Callback>(
-                &MaterialDrawable::renderActionEnterHandler));
+                &MaterialDrawable::renderEnter));
 
         RenderAction::registerLeaveDefault( 
             getClassType(),
             reinterpret_cast<Action::Callback>(
-                &MaterialDrawable::renderActionLeaveHandler));
+                &MaterialDrawable::renderLeave));
 
 #if 0       // register intersection handler
         
@@ -399,7 +399,7 @@ void DynamicTerrain::adjustVolume(Volume &volume)
 }
 
 
-Action::ResultE DynamicTerrain::intersect(Action* action )
+Action::ResultE DynamicTerrain::intersectEnter(Action *action)
 {
 #if 0
     IntersectAction* intersectAction = 

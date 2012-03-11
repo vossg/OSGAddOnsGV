@@ -118,31 +118,30 @@ TextLabel::~TextLabel(void)
 /*-------------------------------------------------------------------------*/
 /*                                Render                                   */
 
-ActionBase::ResultE TextLabel::renderEnter(Action *action)
+Action::ResultE TextLabel::renderEnter(Action *action)
 {
     RenderAction *pAction = 
         dynamic_cast<RenderAction *>(action);
 
     pAction->pushVisibility();
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
-ActionBase::ResultE TextLabel::renderLeave(Action *action)
+Action::ResultE TextLabel::renderLeave(Action *action)
 {
     RenderAction *pAction = 
         dynamic_cast<RenderAction *>(action);
 
     pAction->popVisibility();
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 /*-------------------------------------------------------------------------*/
 /*                            Intersect                                    */
 
-#ifndef OSG_WINCE
-ActionBase::ResultE TextLabel::intersect(Action *action)
+Action::ResultE TextLabel::intersectEnter(Action *action)
 {
           IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
     const BoxVolume       &bv = ia->getActNode()->getVolume();
@@ -152,9 +151,8 @@ ActionBase::ResultE TextLabel::intersect(Action *action)
         return Action::Skip;  //bv missed -> can not hit children
     }
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                                 Init                                    */
@@ -172,11 +170,10 @@ void TextLabel::initMethod(InitPhase ePhase)
         RenderAction::registerLeaveDefault(
             TextLabel::getClassType(), 
             reinterpret_cast<Action::Callback>(&TextLabel::renderLeave));
-#ifndef OSG_WINCE
+
         IntersectAction::registerEnterDefault(
             getClassType(),
-            reinterpret_cast<Action::Callback>(&TextLabel::intersect));
-#endif 
+            reinterpret_cast<Action::Callback>(&TextLabel::intersectEnter));
     }
 }
 

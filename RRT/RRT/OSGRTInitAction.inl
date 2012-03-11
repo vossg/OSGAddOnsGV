@@ -247,8 +247,8 @@ RTInitAction<DescT>::RTInitAction(const RTInitAction &source) :
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTInitAction<DescT>::nodeEnter(Node   * const  pNode, 
-                                                   Action *        pAction)
+Action::ResultE RTInitAction<DescT>::nodeEnter(Node   * const  pNode, 
+                                               Action *        pAction)
 {
     RTInfoAttachment *pRTInfo = 
         dynamic_cast<RTInfoAttachment *>(
@@ -287,8 +287,8 @@ ActionBase::ResultE RTInitAction<DescT>::nodeEnter(Node   * const  pNode,
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTInitAction<DescT>::nodeExit(Node   * const  pNode, 
-                                                  Action *        pAction)
+Action::ResultE RTInitAction<DescT>::nodeExit(Node   * const  pNode, 
+                                              Action *        pAction)
 {
     if(pNode == _pCacheNode)
     {
@@ -574,13 +574,13 @@ void RTInitAction<DescT>::dropGeometry(Geometry *pGeo)
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTInitAction<DescT>::start(void)
+Action::ResultE RTInitAction<DescT>::start(void)
 {
     return Action::Continue;
 }
 
 template<typename DescT> inline
-ActionBase::ResultE RTInitAction<DescT>::stop(ActionBase::ResultE res)
+Action::ResultE RTInitAction<DescT>::stop(Action::ResultE res)
 {
     return Action::Continue;
 }
@@ -597,8 +597,8 @@ ActionBase::ResultE RTInitAction<DescT>::stop(ActionBase::ResultE res)
 /*                             Destructor                                  */
 
 template<typename DescT> inline
-ActionBase::ResultE GeometryRTInitEnter(NodeCore * const pCore,
-                                        Action   *       action)
+Action::ResultE GeometryRTInitEnter(NodeCore * const pCore,
+                                    Action   *       action)
 {
     fprintf(stderr, "Enter GeoRTInit %p\n", &(*pCore));
 
@@ -610,22 +610,22 @@ ActionBase::ResultE GeometryRTInitEnter(NodeCore * const pCore,
         pRTInit->dropGeometry(pGeo);
     }
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 inline
-ActionBase::ResultE GeometryRTInitLeave(NodeCore * const pCore,
-                                        Action   *       action)
+Action::ResultE GeometryRTInitLeave(NodeCore * const pCore,
+                                    Action   *       action)
 {
     fprintf(stderr, "Leave GeoRTInit %p\n", &(*pCore));
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 
 template<typename DescT> inline
-ActionBase::ResultE TransformRTInitEnter(NodeCore * const pCore,
-                                         Action   *       action)
+Action::ResultE TransformRTInitEnter(NodeCore * const pCore,
+                                     Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter Transform %p\n", &(*pCore)));
@@ -637,12 +637,12 @@ ActionBase::ResultE TransformRTInitEnter(NodeCore * const pCore,
 
     pRTInit->pushMatrix(pThis->getMatrix());
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 template<typename DescT> inline
-ActionBase::ResultE TransformRTInitLeave(NodeCore * const pCore,
-                                         Action   *       action)
+Action::ResultE TransformRTInitLeave(NodeCore * const pCore,
+                                     Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Leave Transform %p\n", &(*pCore)));
@@ -652,12 +652,12 @@ ActionBase::ResultE TransformRTInitLeave(NodeCore * const pCore,
 
     pRTInit->popMatrix();
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 template<typename DescT> inline
-ActionBase::ResultE MaterialGroupRTInitEnter(NodeCore * const pCore,
-                                             Action   *       action)
+Action::ResultE MaterialGroupRTInitEnter(NodeCore * const pCore,
+                                         Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter MaterialGroup %p\n", &(*pCore)));
@@ -676,12 +676,12 @@ ActionBase::ResultE MaterialGroupRTInitEnter(NodeCore * const pCore,
                                   pRTInit->getActNode()   );
     }
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 template<typename DescT> inline
-ActionBase::ResultE MaterialGroupRTInitLeave(NodeCore * const pCore,
-                                             Action   *       action)
+Action::ResultE MaterialGroupRTInitLeave(NodeCore * const pCore,
+                                         Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Leave MaterialGroup %p\n", &(*pCore)));
@@ -694,7 +694,7 @@ ActionBase::ResultE MaterialGroupRTInitLeave(NodeCore * const pCore,
         pRTInit->overrideMaterial(NULL, pRTInit->getActNode());
     }
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 template<typename DescT> inline
@@ -822,29 +822,29 @@ Action::ResultE SpotLightRTInitLeave(NodeCore * const pCore,
 
 
 template<typename DescT> inline
-ActionBase::ResultE GroupRTInitEnter(NodeCore * const pCore,
-                                     Action   *       action)
+Action::ResultE GroupRTInitEnter(NodeCore * const pCore,
+                                 Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter Group %p\n", &(*pCore)));
 #endif
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 template<typename DescT> inline
-ActionBase::ResultE GroupRTInitLeave(NodeCore * const pCore,
-                                     Action   *       action)
+Action::ResultE GroupRTInitLeave(NodeCore * const pCore,
+                                 Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Leave Group %p\n", &(*pCore)));
 #endif
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 template<typename DescT> inline
-ActionBase::ResultE VisitSubTreeRTInitEnter(NodeCore * const pCore,
-                                            Action   *       action)
+Action::ResultE VisitSubTreeRTInitEnter(NodeCore * const pCore,
+                                        Action   *       action)
 {
 #ifdef OSG_DUMP_TRAVERSAL
     FDEBUG_GV(("Enter Group %p\n", &(*pCore)));
@@ -857,7 +857,7 @@ ActionBase::ResultE VisitSubTreeRTInitEnter(NodeCore * const pCore,
     
     action->addNode(pVisit->getSubTreeRoot());
 
-    return ActionBase::Continue;
+    return Action::Continue;
 }
 
 

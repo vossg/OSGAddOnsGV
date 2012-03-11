@@ -79,7 +79,7 @@ namespace OSG
 		// action handlers:
 		virtual Action::ResultE		drawPrimitives( DrawActionBase * action );
 		virtual void				adjustVolume( Volume & volume );
-		virtual Action::ResultE		intersect(Action* action );
+		virtual Action::ResultE		intersectEnter(Action* action );
 
 		/*---------------------------------------------------------------------*/
 		/*! \name                      Sync                                    */

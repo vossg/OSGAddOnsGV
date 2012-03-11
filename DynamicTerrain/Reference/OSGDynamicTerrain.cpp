@@ -98,7 +98,7 @@ namespace OSG
 			osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
 			DynamicTerrainPtr,
 			CNodePtr,
-			Action *>(&DynamicTerrain::intersect));		
+			Action *>(&DynamicTerrain::intersectEnter));		
 	}
 
 
@@ -374,7 +374,7 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 
-	Action::ResultE DynamicTerrain::intersect(Action* action )
+	Action::ResultE DynamicTerrain::intersectEnter(Action* action )
 	{
 		IntersectAction       *ia = dynamic_cast< IntersectAction* >( action );
 	#ifndef OSG_2_PREP

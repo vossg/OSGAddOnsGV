@@ -130,12 +130,10 @@ class OSG_CONTRIBLABELING_DLLMAPPING TextLabel : public TextLabelBase
     /*! \name              Intersect & Render                              */
     /*! \{                                                                 */
 
-#ifndef OSG_WINCE
-    ActionBase::ResultE     intersect(Action    *action);
-#endif
+    Action::ResultE intersectEnter(Action *action);
 
-    ActionBase::ResultE     renderEnter   (Action    *action);
-    ActionBase::ResultE     renderLeave   (Action    *action);
+    Action::ResultE renderEnter   (Action *action);
+    Action::ResultE renderLeave   (Action *action);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

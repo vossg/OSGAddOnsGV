@@ -111,14 +111,14 @@ SimpleCudaComputeAlgorithm::~SimpleCudaComputeAlgorithm(void)
 /*-------------------------------------------------------------------------*/
 /*                                Draw                                     */
 
-ActionBase::ResultE SimpleCudaComputeAlgorithm::renderEnter(Action *pAction)
+Action::ResultE SimpleCudaComputeAlgorithm::renderEnter(Action *pAction)
 {
     fprintf(stderr, "SimpleCudaComputeAlgorithm::renderEnter\n");
 
     return Action::Continue;
 }
 
-ActionBase::ResultE SimpleCudaComputeAlgorithm::renderLeave(Action *pAction)
+Action::ResultE SimpleCudaComputeAlgorithm::renderLeave(Action *pAction)
 {
     fprintf(stderr, "SimpleCudaComputeAlgorithm::renderLeave\n");
 
