@@ -5,6 +5,10 @@
 # define GL_GLEXT_PROTOTYPES
 #endif
 
+#if defined(OSG_GL_INCLUDE_GLEW)
+# undef OSG_GL_INCLUDE_GLEW
+#endif
+
 #ifdef WIN32
 #include "OSGConfig.h"
 #include <GL/glew.h>

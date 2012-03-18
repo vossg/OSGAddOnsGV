@@ -46,6 +46,8 @@
 
 #include "OSGConfig.h"
 
+#include "OSGGL.h"
+
 #ifdef OSG_WITH_CUDA
 #include <cuda_runtime_api.h>
 #include <cuda_gl_interop.h>
