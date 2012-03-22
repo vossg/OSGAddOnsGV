@@ -30,7 +30,15 @@ SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGGroup OSGUtil OSGWindowGLUT)
 #### SOFA
 ##############
 
-SET (Sofa_ROOT /home/gerrit/Projects/Inria/Packaged/Sofa.git)
+IF(NOT Sofa_ROOT)
+  SET (Sofa_ROOT /home/gerrit/Projects/Inria/Packaged/Sofa.git)
+ENDIF()
+
+IF(WIN32)
+  SET(SOFA_VERSION "_1_0")
+ELSE()
+  SET(SOFA_VERSION "")
+ENDIF()
 
 SET (Sofa_INCLUDE_DIRS)
 LIST(APPEND Sofa_INCLUDE_DIRS "${Sofa_ROOT}/framework")
@@ -44,15 +52,15 @@ LIST(APPEND Sofa_LIBRARY_DIRS ${Sofa_ROOT}/lib)
 
 LIST(APPEND ${PROJECT_NAME}_DEP_LIBDIR  Sofa_LIBRARY_DIRS)
 
-SET(Sofa_LIBRARIES sofacore)
-LIST(APPEND Sofa_LIBRARIES sofahelper)
-LIST(APPEND Sofa_LIBRARIES sofadefaulttype)
-LIST(APPEND Sofa_LIBRARIES sofasimulation)
-LIST(APPEND Sofa_LIBRARIES sofatree)
-LIST(APPEND Sofa_LIBRARIES sofa_base_visual)
-LIST(APPEND Sofa_LIBRARIES sofa_opengl_visual)
-LIST(APPEND Sofa_LIBRARIES sofa_base_topology)
-LIST(APPEND Sofa_LIBRARIES sofa_component)
+SET(Sofa_LIBRARIES sofacore${SOFA_VERSION})
+LIST(APPEND Sofa_LIBRARIES sofahelper${SOFA_VERSION})
+LIST(APPEND Sofa_LIBRARIES sofadefaulttype${SOFA_VERSION})
+LIST(APPEND Sofa_LIBRARIES sofasimulation${SOFA_VERSION})
+LIST(APPEND Sofa_LIBRARIES sofatree${SOFA_VERSION})
+LIST(APPEND Sofa_LIBRARIES sofa_base_visual${SOFA_VERSION})
+LIST(APPEND Sofa_LIBRARIES sofa_opengl_visual${SOFA_VERSION})
+LIST(APPEND Sofa_LIBRARIES sofa_base_topology${SOFA_VERSION})
+LIST(APPEND Sofa_LIBRARIES sofa_component${SOFA_VERSION})
 
 LIST(APPEND ${PROJECT_NAME}_DEP_LIB Sofa_LIBRARIES)
 
