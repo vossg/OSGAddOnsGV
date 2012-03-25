@@ -61,4 +61,28 @@
 #define OSG_CONTRIBSOFA_DLLTMPLMAPPING
 #endif
 
+
+#define BEGIN_SOFA_CORE_TOPO_NAMESPACE \
+    namespace sofa { namespace core { namespace topology {
+#define END_SOFA_CORE_TOPO_NAMESPACE } } }
+
+#define BEGIN_SOFA_CORE_BEHAVIOR_NAMESPACE \
+    namespace sofa { namespace core{ namespace behavior {
+#define END_SOFA_CORE_BEHAVIOR_NAMESPACE } } } 
+
+#define BEGIN_SOFA_CORE_VISUAL_NAMESPACE \
+    namespace sofa { namespace core { namespace visual {
+#define END_SOFA_CORE_VISUAL_NAMESPACE } } }
+
+#define BEGIN_SOFA_SIM_NAMESPACE namespace sofa { namespace simulation {
+#define END_SOFA_SIM_NAMESPACE } }
+
+#define BEGIN_SOFA_CMP_VISMODEL_NAMESPACE \
+    namespace sofa { namespace component { namespace visualmodel {
+#define END_SOFA_CMP_VISMODEL_NAMESPACE } } }
+
+#define BEGIN_SOFA_GUI_QT_VIEWER_NAMESPACE \
+    namespace sofa { namespace gui { namespace qt { namespace viewer {
+#define END_SOFA_GUI_QT_VIEWER_NAMESPACE } } } }
+
 #endif /* _OSGCONTRIBSOFADEF_H_ */
