@@ -11,6 +11,12 @@
 # SOFA_ROOT
 ##
 
+IF(WIN32)
+  SET(SOFA_VERSION "_1_0")
+ELSE()
+  SET(SOFA_VERSION "")
+ENDIF()
+
 SET(SOFA_LIB_LIST sofacore sofahelper sofadefaulttype sofasimulation
                   sofatree sofa_base_visual sofa_opengl_visual 
                   sofa_base_topology sofa_component sofa_graph_component
@@ -68,13 +74,13 @@ MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
        STRING(TOUPPER ${SOFA_LIB} SOFA_LIB_UC)
        MESSAGE("LOOKING FOR : ${SOFA_LIB} # ${SOFA_LIB_UC}")
 
-       SET(${SOFA_LIB_UC}_NAMES_RELEASE ${SOFA_LIB})
+       SET(${SOFA_LIB_UC}_NAMES_RELEASE ${SOFA_LIB}${SOFA_VERSION})
        FIND_LIBRARY(${SOFA_LIB_UC}_LIBRARY_RELEASE 
                     NAMES ${${SOFA_LIB_UC}_NAMES_RELEASE}
                     PATHS ${SOFA_ROOT} ENV SOFA_ROOT
                     PATH_SUFFIXES lib)
  
-       SET(${SOFA_LIB_UC}_NAMES_DEBUG ${SOFA_LIB}_d)
+       SET(${SOFA_LIB_UC}_NAMES_DEBUG ${SOFA_LIB}${SOFA_VERSION}d)
        FIND_LIBRARY(${SOFA_LIB_UC}_LIBRARY_DEBUG 
                     NAMES ${${SOFA_LIB_UC}_NAMES_DEBUG}
                     PATHS ${SOFA_ROOT} ENV SOFA_ROOT
