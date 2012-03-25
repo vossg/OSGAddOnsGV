@@ -13,7 +13,8 @@
 
 SET(SOFA_LIB_LIST sofacore sofahelper sofadefaulttype sofasimulation
                   sofatree sofa_base_visual sofa_opengl_visual 
-                  sofa_base_topology sofa_component)
+                  sofa_base_topology sofa_component sofa_graph_component
+                  sofagui)
 
 IF(APPLE)
 #    FIND_LIBRARY(CG_LIBRARY Cg
