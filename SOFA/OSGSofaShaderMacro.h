@@ -45,16 +45,16 @@
 
 BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_ShaderMacro : public OSG2_ShaderElement {
+class OSG_CONTRIBSOFA_DLLMAPPING OSGShaderMacro : public OSGShaderElement {
 
   public:
 
-    SOFA_CLASS(OSG2_ShaderMacro, OSG2_ShaderElement);
+    SOFA_CLASS(OSGShaderMacro, OSGShaderElement);
 
   protected:
 
-    OSG2_ShaderMacro();
-    virtual ~OSG2_ShaderMacro();
+    OSGShaderMacro();
+    virtual ~OSGShaderMacro();
 
   public:
     virtual void init();
@@ -62,11 +62,11 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSG2_ShaderMacro : public OSG2_ShaderElement {
 };
 
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_ShaderDefineMacro : public OSG2_ShaderMacro {
+class OSG_CONTRIBSOFA_DLLMAPPING OSGShaderDefineMacro : public OSGShaderMacro {
 
   public:
 
-    SOFA_CLASS(OSG2_ShaderDefineMacro, OSG2_ShaderMacro);
+    SOFA_CLASS(OSGShaderDefineMacro, OSGShaderMacro);
 
   protected:
 
@@ -74,8 +74,8 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSG2_ShaderDefineMacro : public OSG2_ShaderMacr
 
   public:
 
-    OSG2_ShaderDefineMacro();
-    virtual ~OSG2_ShaderDefineMacro();
+    OSGShaderDefineMacro();
+    virtual ~OSGShaderDefineMacro();
 
     virtual void init();
 

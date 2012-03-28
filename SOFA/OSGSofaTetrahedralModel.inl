@@ -71,7 +71,7 @@ namespace visualmodel
 using namespace sofa::defaulttype;
 
 template<class DataTypes>
-OSG2_TetrahedralModel<DataTypes>::OSG2_TetrahedralModel()
+OSGTetrahedralModel<DataTypes>::OSGTetrahedralModel()
 : nodes(NULL), topo(NULL)
 , depthTest(initData(&depthTest, (bool) true, "depthTest", "Set Depth Test"))
 , blending(initData(&blending, (bool) true, "blending", "Set Blending"))
@@ -80,12 +80,12 @@ OSG2_TetrahedralModel<DataTypes>::OSG2_TetrahedralModel()
 }
 
 template<class DataTypes>
-OSG2_TetrahedralModel<DataTypes>::~OSG2_TetrahedralModel()
+OSGTetrahedralModel<DataTypes>::~OSGTetrahedralModel()
 {
 }
 
 template<class DataTypes>
-void OSG2_TetrahedralModel<DataTypes>::init()
+void OSGTetrahedralModel<DataTypes>::init()
 {
     sofa::core::objectmodel::BaseContext* context = this->getContext();
     context->get(topo);
@@ -93,21 +93,21 @@ void OSG2_TetrahedralModel<DataTypes>::init()
 
     if (!nodes)
     {
-        serr << "OSG2_TetrahedralModel : Error : no MechanicalState found." << sendl;
+        serr << "OSGTetrahedralModel : Error : no MechanicalState found." << sendl;
         return;
     }
 
     if (!topo)
     {
-        serr << "OSG2_TetrahedralModel : Error : no BaseMeshTopology found." << sendl;
+        serr << "OSGTetrahedralModel : Error : no BaseMeshTopology found." << sendl;
         return;
     }
 }
 
 template<class DataTypes>
-void OSG2_TetrahedralModel<DataTypes>::initVisual()
+void OSGTetrahedralModel<DataTypes>::initVisual()
 {
-//    serr << "OSG2_TetrahedralModel : initVisual." << this << sendl;
+//    serr << "OSGTetrahedralModel : initVisual." << this << sendl;
 
 
 
@@ -136,10 +136,10 @@ void OSG2_TetrahedralModel<DataTypes>::initVisual()
             }
     }
 
-    OSG::GeoUInt8PropertyRecPtr polyTypes = OSG::GeoUInt8Property::create();
+    OSG::GeoUInt8PropertyUnrecPtr polyTypes = OSG::GeoUInt8Property::create();
     OSG::GeoUInt32PropertyMTRecPtr polyLens =  OSG::GeoUInt32Property::create();
     OSG::GeoUInt32PropertyMTRecPtr polyIndices =  OSG::GeoUInt32Property::create();
-    OSG::GeometryRecPtr geoCore = OSG::Geometry::create();
+    OSG::GeometryUnrecPtr geoCore = OSG::Geometry::create();
 
     //polyTypes->addValue(GL_LINES);
     polyTypes->addValue(GL_LINES_ADJACENCY_EXT);
@@ -157,14 +157,14 @@ void OSG2_TetrahedralModel<DataTypes>::initVisual()
 
 
 
-    OSG::SimpleMaterialRecPtr simpleMaterial = OSG::SimpleMaterial::create();
+    OSG::SimpleMaterialUnrecPtr simpleMaterial = OSG::SimpleMaterial::create();
     simpleMaterial->setLit(false);
 
     
     sofa::core::objectmodel::BaseContext* context = this->getContext();
 
     // Find attached shader
-    OSG2_Shader* shader = context->core::objectmodel::BaseContext::get<OSG2_Shader>();
+    OSGShader* shader = context->core::objectmodel::BaseContext::get<OSGShader>();
 
     if (shader)
     {
@@ -182,7 +182,7 @@ void OSG2_TetrahedralModel<DataTypes>::initVisual()
 
     geoCore->setMaterial(simpleMaterial);
 
-    OSG::NodeRecPtr geo_node = OSG::makeNodeFor(geoCore);
+    OSG::NodeUnrecPtr geo_node = OSG::makeNodeFor(geoCore);
     _attachNode = geo_node;
 
 
@@ -191,7 +191,7 @@ void OSG2_TetrahedralModel<DataTypes>::initVisual()
 
 
 template<class DataTypes>
-void OSG2_TetrahedralModel<DataTypes>::computeBBox(const core::ExecParams * params)
+void OSGTetrahedralModel<DataTypes>::computeBBox(const core::ExecParams * params)
 {
     if (nodes && topo)
     {

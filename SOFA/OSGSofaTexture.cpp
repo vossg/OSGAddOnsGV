@@ -51,7 +51,7 @@
 BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
 
 SOFA_DECL_CLASS(OSGTexture)
-SOFA_DECL_CLASS(OSG2_Texture2D)
+SOFA_DECL_CLASS(OSGTexture2D)
 
 // Register the OSGTexture* objects in the Object Factory
 namespace
@@ -150,6 +150,8 @@ unsigned short OSGTexture::MAX_NUMBER_OF_TEXTURE_UNIT = 1;
 
 OSGTexture::OSGTexture(void) :
 
+    // 3rd parameter in initData is a keyword in scn files!
+    // do not change!
     textureUnit            (
         initData(&textureUnit, 
                   1, 
@@ -224,32 +226,31 @@ OSGTexture::OSGTexture(void) :
     _szTextureFilename     (
         initData(&_szTextureFilename, 
                    std::string(""),
-                   "_szTextureFilename", 
+                   "textureFilename", 
                    "Texture Filename")),
-
 
     _szCubemapFilenamePosX (
         initData(&_szCubemapFilenamePosX, 
                    std::string(""), 
-                   "_szCubemapFilenamePosX", 
+                   "cubemapFilenamePosX", 
                    "Texture filename of positive-X cubemap face")),
 
     _szCubemapFilenamePosY (
         initData(&_szCubemapFilenamePosY, 
                    std::string(""), 
-                   "_szCubemapFilenamePosY", 
+                   "cubemapFilenamePosY", 
                    "Texture filename of positive-Y cubemap face")),
 
     _szCubemapFilenamePosZ (
         initData(&_szCubemapFilenamePosZ, 
                    std::string(""), 
-                   "_szCubemapFilenamePosZ", 
+                   "cubemapFilenamePosZ", 
                    "Texture filename of positive-Z cubemap face")),
 
     _szCubemapFilenameNegX (
         initData(&_szCubemapFilenameNegX, 
                    std::string(""), 
-                   "_szCubemapFilenameNegX", 
+                   "cubemapFilenameNegX", 
                    "Texture filename of negative-X cubemap face")),
 
     _szCubemapFilenameNegY (
@@ -261,7 +262,7 @@ OSGTexture::OSGTexture(void) :
     _szCubemapFilenameNegZ (
         initData(&_szCubemapFilenameNegZ, 
                    std::string(""), 
-                   "_szCubemapFilenameNegZ", 
+                   "cubemapFilenameNegZ", 
                    "Texture filename of negative-Z cubemap face")),
 
     _pTexture   (NULL),
@@ -469,9 +470,10 @@ void OSGTexture::init(void)
         _pOSGImage = OSG::Image::create();
 
         _pOSGImage->read(_szTextureFilename.getFullPath().c_str());
+std::cerr  << "_pOSGIMAGE : " << _szTextureFilename.getFullPath().c_str() << "\n";
     }
 
-    OSG2_ShaderElement::init();
+    OSGShaderElement::init();
 }
 
 /* 
@@ -536,6 +538,7 @@ void OSGTexture::initVisual(void)
 
     _pOSGTexture = OSG::TextureObjChunk::create();
 
+std::cerr  << "_pOSGIMAGE : " << _szTextureFilename.getFullPath().c_str() << "\n";
     _pOSGTexture->setImage(_pOSGImage);
 
 /*

@@ -61,7 +61,7 @@
 BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
 
 /**
- *  \brief Defines an uniform variable for a OSG2_Shader.
+ *  \brief Defines an uniform variable for a OSGShader.
  *
  *  This is an abstract class which pass a value to an uniform
  *  variable defined into the shader.
@@ -73,227 +73,227 @@ BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
  */
 
 template<class DataTypes>
-class OSG2_Variable : public core::visual::VisualModel, public OSG2_ShaderElement
+class OSGVariable : public core::visual::VisualModel, public OSGShaderElement
 {
   public:
-    SOFA_CLASS2(OSG2_Variable, core::visual::VisualModel, OSG2_ShaderElement);
+    SOFA_CLASS2(OSGVariable, core::visual::VisualModel, OSGShaderElement);
   protected:
     Data< DataTypes > value;
 
-    OSG2_Variable(): value(initData(&value, DataTypes(), "value", "Set Uniform Value"))
+    OSGVariable(): value(initData(&value, DataTypes(), "value", "Set Uniform Value"))
         {
             addAlias(&value, "values"); // some variable types hold multiple values, so we authorize both names for this attribute
         }
 
-    virtual ~OSG2_Variable(){}
+    virtual ~OSGVariable(){}
   public:
     virtual void setValue( const DataTypes& v ) { value.setValue(v); system("pause"); }
-    void init(){ OSG2_ShaderElement::init(); }
+    void init(){ OSGShaderElement::init(); }
     void initVisual(){ core::visual::VisualModel::initVisual(); }
     void pushValue() { initVisual(); }
     void reinit() { init(); initVisual(); }
 };
 
 /** SINGLE INT VARIABLE **/
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_IntVariable : public OSG2_Variable< int>
+class OSG_CONTRIBSOFA_DLLMAPPING OSGIntVariable : public OSGVariable< int>
 {
   public:
-    SOFA_CLASS(OSG2_IntVariable, OSG2_Variable< int>);
+    SOFA_CLASS(OSGIntVariable, OSGVariable< int>);
 
-    OSG2_IntVariable();
-    virtual ~OSG2_IntVariable() { }
+    OSGIntVariable();
+    virtual ~OSGIntVariable() { }
 
     void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Int2Variable : public OSG2_Variable<defaulttype::Vec<2, int> >
+class OSG_CONTRIBSOFA_DLLMAPPING OSGInt2Variable : public OSGVariable<defaulttype::Vec<2, int> >
 {
 
   public:
-    SOFA_CLASS(OSG2_Int2Variable, SOFA_TEMPLATE(OSG2_Variable, SOFA_TEMPLATE2(defaulttype::Vec, 2, int)));
+    SOFA_CLASS(OSGInt2Variable, SOFA_TEMPLATE(OSGVariable, SOFA_TEMPLATE2(defaulttype::Vec, 2, int)));
 
-    OSG2_Int2Variable();
-    virtual ~OSG2_Int2Variable(){ }
+    OSGInt2Variable();
+    virtual ~OSGInt2Variable(){ }
 
     void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Int3Variable : public OSG2_Variable<defaulttype::Vec<3, int> >
+class OSG_CONTRIBSOFA_DLLMAPPING OSGInt3Variable : public OSGVariable<defaulttype::Vec<3, int> >
 {
   public:
-    SOFA_CLASS(OSG2_Int3Variable, SOFA_TEMPLATE(OSG2_Variable, SOFA_TEMPLATE2(defaulttype::Vec, 3, int)));
+    SOFA_CLASS(OSGInt3Variable, SOFA_TEMPLATE(OSGVariable, SOFA_TEMPLATE2(defaulttype::Vec, 3, int)));
 
-    OSG2_Int3Variable();
-    virtual ~OSG2_Int3Variable(){ }
+    OSGInt3Variable();
+    virtual ~OSGInt3Variable(){ }
 
     void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Int4Variable : public OSG2_Variable<defaulttype::Vec<4, int> >
+class OSG_CONTRIBSOFA_DLLMAPPING OSGInt4Variable : public OSGVariable<defaulttype::Vec<4, int> >
 {
   public:
-    SOFA_CLASS(OSG2_Int4Variable, SOFA_TEMPLATE(OSG2_Variable, SOFA_TEMPLATE2(defaulttype::Vec, 4, int)));
+    SOFA_CLASS(OSGInt4Variable, SOFA_TEMPLATE(OSGVariable, SOFA_TEMPLATE2(defaulttype::Vec, 4, int)));
 
-    OSG2_Int4Variable();
-    virtual ~OSG2_Int4Variable(){ }
+    OSGInt4Variable();
+    virtual ~OSGInt4Variable(){ }
 
     void initVisual();
 };
 
 /** SINGLE FLOAT VARIABLE **/
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_FloatVariable : public OSG2_Variable<float>
+class OSG_CONTRIBSOFA_DLLMAPPING OSGFloatVariable : public OSGVariable<float>
 {
   public:
-    SOFA_CLASS(OSG2_FloatVariable, OSG2_Variable<float>);
+    SOFA_CLASS(OSGFloatVariable, OSGVariable<float>);
 
-    OSG2_FloatVariable();
-    virtual ~OSG2_FloatVariable() { }
+    OSGFloatVariable();
+    virtual ~OSGFloatVariable() { }
 
     void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Float2Variable : public OSG2_Variable<defaulttype::Vec2f>
+class OSG_CONTRIBSOFA_DLLMAPPING OSGFloat2Variable : public OSGVariable<defaulttype::Vec2f>
 {
   public:
-    SOFA_CLASS(OSG2_Float2Variable, OSG2_Variable<defaulttype::Vec2f>);
+    SOFA_CLASS(OSGFloat2Variable, OSGVariable<defaulttype::Vec2f>);
 
-    OSG2_Float2Variable();
-    virtual ~OSG2_Float2Variable(){ }
+    OSGFloat2Variable();
+    virtual ~OSGFloat2Variable(){ }
 
     void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Float3Variable : public OSG2_Variable<defaulttype::Vec3f>
+class OSG_CONTRIBSOFA_DLLMAPPING OSGFloat3Variable : public OSGVariable<defaulttype::Vec3f>
 {
   public:
-    SOFA_CLASS(OSG2_Float3Variable, OSG2_Variable<defaulttype::Vec3f>);
+    SOFA_CLASS(OSGFloat3Variable, OSGVariable<defaulttype::Vec3f>);
 
-    OSG2_Float3Variable();
-    virtual ~OSG2_Float3Variable(){ }
+    OSGFloat3Variable();
+    virtual ~OSGFloat3Variable(){ }
 
     void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Float4Variable : public OSG2_Variable<defaulttype::Vec4f>
+class OSG_CONTRIBSOFA_DLLMAPPING OSGFloat4Variable : public OSGVariable<defaulttype::Vec4f>
 {
   public:
-    SOFA_CLASS(OSG2_Float4Variable, OSG2_Variable<defaulttype::Vec4f>);
+    SOFA_CLASS(OSGFloat4Variable, OSGVariable<defaulttype::Vec4f>);
 
-    OSG2_Float4Variable();
-    virtual ~OSG2_Float4Variable(){ }
+    OSGFloat4Variable();
+    virtual ~OSGFloat4Variable(){ }
 
     void initVisual();
 };
 
 /** INT VECTOR VARIABLE **/
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_IntVectorVariable : public OSG2_Variable<helper::vector<GLint> >
+class OSG_CONTRIBSOFA_DLLMAPPING OSGIntVectorVariable : public OSGVariable<helper::vector<GLint> >
 {
   public:
-    SOFA_CLASS(OSG2_IntVectorVariable, OSG2_Variable<helper::vector<GLint> >);
+    SOFA_CLASS(OSGIntVectorVariable, OSGVariable<helper::vector<GLint> >);
 
-    OSG2_IntVectorVariable();
-    virtual ~OSG2_IntVectorVariable() { }
+    OSGIntVectorVariable();
+    virtual ~OSGIntVectorVariable() { }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_IntVector2Variable : public OSG2_IntVectorVariable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGIntVector2Variable : public OSGIntVectorVariable
 {
 
   public:
-    SOFA_CLASS(OSG2_IntVector2Variable, OSG2_IntVectorVariable);
+    SOFA_CLASS(OSGIntVector2Variable, OSGIntVectorVariable);
 
-    OSG2_IntVector2Variable();
-    virtual ~OSG2_IntVector2Variable(){ }
+    OSGIntVector2Variable();
+    virtual ~OSGIntVector2Variable(){ }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_IntVector3Variable : public OSG2_IntVectorVariable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGIntVector3Variable : public OSGIntVectorVariable
 {
   public:
-    SOFA_CLASS(OSG2_IntVector3Variable, OSG2_IntVectorVariable);
+    SOFA_CLASS(OSGIntVector3Variable, OSGIntVectorVariable);
 
-    OSG2_IntVector3Variable();
-    virtual ~OSG2_IntVector3Variable(){ }
+    OSGIntVector3Variable();
+    virtual ~OSGIntVector3Variable(){ }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_IntVector4Variable : public OSG2_IntVectorVariable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGIntVector4Variable : public OSGIntVectorVariable
 {
   public:
-    SOFA_CLASS(OSG2_IntVector4Variable, OSG2_IntVectorVariable);
+    SOFA_CLASS(OSGIntVector4Variable, OSGIntVectorVariable);
 
-    OSG2_IntVector4Variable();
-    virtual ~OSG2_IntVector4Variable(){ }
+    OSGIntVector4Variable();
+    virtual ~OSGIntVector4Variable(){ }
 
     virtual void init();
     virtual void initVisual();
 };
 
 /** FLOAT VECTOR VARIABLE **/
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_FloatVectorVariable : public OSG2_Variable<helper::vector<float> >
+class OSG_CONTRIBSOFA_DLLMAPPING OSGFloatVectorVariable : public OSGVariable<helper::vector<float> >
 {
   public:
-    SOFA_CLASS(OSG2_FloatVectorVariable, OSG2_Variable<helper::vector<float> >);
+    SOFA_CLASS(OSGFloatVectorVariable, OSGVariable<helper::vector<float> >);
 
-    OSG2_FloatVectorVariable();
-    virtual ~OSG2_FloatVectorVariable() { }
+    OSGFloatVectorVariable();
+    virtual ~OSGFloatVectorVariable() { }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_FloatVector2Variable : public OSG2_FloatVectorVariable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGFloatVector2Variable : public OSGFloatVectorVariable
 {
   public:
-    SOFA_CLASS(OSG2_FloatVector2Variable,OSG2_FloatVectorVariable);
+    SOFA_CLASS(OSGFloatVector2Variable,OSGFloatVectorVariable);
 
-    OSG2_FloatVector2Variable();
-    virtual ~OSG2_FloatVector2Variable(){ }
+    OSGFloatVector2Variable();
+    virtual ~OSGFloatVector2Variable(){ }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_FloatVector3Variable : public OSG2_FloatVectorVariable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGFloatVector3Variable : public OSGFloatVectorVariable
 {
   public:
-    SOFA_CLASS(OSG2_FloatVector3Variable,OSG2_FloatVectorVariable);
+    SOFA_CLASS(OSGFloatVector3Variable,OSGFloatVectorVariable);
 
-    OSG2_FloatVector3Variable();
-    virtual ~OSG2_FloatVector3Variable(){ }
+    OSGFloatVector3Variable();
+    virtual ~OSGFloatVector3Variable(){ }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_FloatVector4Variable : public OSG2_FloatVectorVariable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGFloatVector4Variable : public OSGFloatVectorVariable
 {
   public:
-    SOFA_CLASS(OSG2_FloatVector4Variable,OSG2_FloatVectorVariable);
+    SOFA_CLASS(OSGFloatVector4Variable,OSGFloatVectorVariable);
 
-    OSG2_FloatVector4Variable();
-    virtual ~OSG2_FloatVector4Variable(){ }
+    OSGFloatVector4Variable();
+    virtual ~OSGFloatVector4Variable(){ }
 
     virtual void init();
     virtual void initVisual();
 };
 
 /** Matrix VARIABLE **/
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Matrix2Variable : public OSG2_Variable<helper::vector<float> >
+class OSG_CONTRIBSOFA_DLLMAPPING OSGMatrix2Variable : public OSGVariable<helper::vector<float> >
 {
   public:
-    SOFA_CLASS(OSG2_Matrix2Variable,OSG2_Variable<helper::vector<float> >);
+    SOFA_CLASS(OSGMatrix2Variable,OSGVariable<helper::vector<float> >);
 
     Data<bool> transpose;
 
-    OSG2_Matrix2Variable();
-    virtual ~OSG2_Matrix2Variable() { }
+    OSGMatrix2Variable();
+    virtual ~OSGMatrix2Variable() { }
 
     virtual void setTranspose( const bool& v ) { transpose.setValue(v); }
 
@@ -301,97 +301,97 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Matrix2Variable : public OSG2_Variable<hel
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Matrix3Variable : public OSG2_Matrix2Variable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGMatrix3Variable : public OSGMatrix2Variable
 {
   public:
-    SOFA_CLASS(OSG2_Matrix3Variable,OSG2_Matrix2Variable);
+    SOFA_CLASS(OSGMatrix3Variable,OSGMatrix2Variable);
 
-    OSG2_Matrix3Variable();
-    virtual ~OSG2_Matrix3Variable() { }
+    OSGMatrix3Variable();
+    virtual ~OSGMatrix3Variable() { }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Matrix4Variable : public OSG2_Matrix2Variable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGMatrix4Variable : public OSGMatrix2Variable
 {
   public:
-    SOFA_CLASS(OSG2_Matrix4Variable,OSG2_Matrix2Variable);
+    SOFA_CLASS(OSGMatrix4Variable,OSGMatrix2Variable);
 
-    OSG2_Matrix4Variable();
-    virtual ~OSG2_Matrix4Variable() { }
+    OSGMatrix4Variable();
+    virtual ~OSGMatrix4Variable() { }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Matrix2x3Variable : public OSG2_Matrix2Variable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGMatrix2x3Variable : public OSGMatrix2Variable
 {
   public:
-    SOFA_CLASS(OSG2_Matrix2x3Variable,OSG2_Matrix2Variable);
+    SOFA_CLASS(OSGMatrix2x3Variable,OSGMatrix2Variable);
 
-    OSG2_Matrix2x3Variable();
-    virtual ~OSG2_Matrix2x3Variable() { }
+    OSGMatrix2x3Variable();
+    virtual ~OSGMatrix2x3Variable() { }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Matrix3x2Variable : public OSG2_Matrix2Variable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGMatrix3x2Variable : public OSGMatrix2Variable
 {
   public:
-    SOFA_CLASS(OSG2_Matrix3x2Variable,OSG2_Matrix2Variable);
+    SOFA_CLASS(OSGMatrix3x2Variable,OSGMatrix2Variable);
 
-    OSG2_Matrix3x2Variable();
-    virtual ~OSG2_Matrix3x2Variable() { }
+    OSGMatrix3x2Variable();
+    virtual ~OSGMatrix3x2Variable() { }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Matrix2x4Variable : public OSG2_Matrix2Variable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGMatrix2x4Variable : public OSGMatrix2Variable
 {
   public:
-    SOFA_CLASS(OSG2_Matrix2x4Variable,OSG2_Matrix2Variable);
+    SOFA_CLASS(OSGMatrix2x4Variable,OSGMatrix2Variable);
 
-    OSG2_Matrix2x4Variable();
-    virtual ~OSG2_Matrix2x4Variable() { }
+    OSGMatrix2x4Variable();
+    virtual ~OSGMatrix2x4Variable() { }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Matrix4x2Variable : public OSG2_Matrix2Variable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGMatrix4x2Variable : public OSGMatrix2Variable
 {
   public:
-    SOFA_CLASS(OSG2_Matrix4x2Variable,OSG2_Matrix2Variable);
+    SOFA_CLASS(OSGMatrix4x2Variable,OSGMatrix2Variable);
 
-    OSG2_Matrix4x2Variable();
-    virtual ~OSG2_Matrix4x2Variable() { }
+    OSGMatrix4x2Variable();
+    virtual ~OSGMatrix4x2Variable() { }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Matrix3x4Variable : public OSG2_Matrix2Variable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGMatrix3x4Variable : public OSGMatrix2Variable
 {
   public:
-    SOFA_CLASS(OSG2_Matrix3x4Variable,OSG2_Matrix2Variable);
+    SOFA_CLASS(OSGMatrix3x4Variable,OSGMatrix2Variable);
 
-    OSG2_Matrix3x4Variable();
-    virtual ~OSG2_Matrix3x4Variable() { }
+    OSGMatrix3x4Variable();
+    virtual ~OSGMatrix3x4Variable() { }
 
     virtual void init();
     virtual void initVisual();
 };
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Matrix4x3Variable : public OSG2_Matrix2Variable
+class OSG_CONTRIBSOFA_DLLMAPPING OSGMatrix4x3Variable : public OSGMatrix2Variable
 {
   public:
-    SOFA_CLASS(OSG2_Matrix4x3Variable,OSG2_Matrix2Variable);
+    SOFA_CLASS(OSGMatrix4x3Variable,OSGMatrix2Variable);
 
-    OSG2_Matrix4x3Variable();
-    virtual ~OSG2_Matrix4x3Variable() { }
+    OSGMatrix4x3Variable();
+    virtual ~OSGMatrix4x3Variable() { }
 
     virtual void init();
     virtual void initVisual();

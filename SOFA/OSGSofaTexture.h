@@ -57,7 +57,7 @@
 BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
 
 /**
- *  \brief Defines an uniform sampler (texture) for a OSG2_Shader.
+ *  \brief Defines an uniform sampler (texture) for a OSGShader.
  *
  *  This is an abstract class which passes a texture id to an uniform
  *  sampler variable defined into the shader and load the image into OpenGL.
@@ -65,12 +65,12 @@ BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
  */
 
 class OSG_CONTRIBSOFA_DLLMAPPING OSGTexture : public core::visual::VisualModel, 
-                                              public OSG2_ShaderElement
+                                              public OSGShaderElement
 {
 
   public:
 
-    SOFA_CLASS2(OSGTexture, core::visual::VisualModel, OSG2_ShaderElement);
+    SOFA_CLASS2(OSGTexture, core::visual::VisualModel, OSGShaderElement);
 
   protected:
 

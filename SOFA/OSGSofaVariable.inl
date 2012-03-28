@@ -38,8 +38,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef SOFA_COMPONENT_VISUALMODEL_OSG2_VARIABLE_INL
-#define SOFA_COMPONENT_VISUALMODEL_OSG2_VARIABLE_INL
+#ifndef SOFA_COMPONENT_VISUALMODEL_OSGVARIABLE_INL
+#define SOFA_COMPONENT_VISUALMODEL_OSGVARIABLE_INL
 
 #include "OSGSofaVariable.h"
 #include <sofa/core/visual/VisualParams.h>
@@ -56,31 +56,31 @@ namespace visualmodel
 
 //
 //template<class DataTypes>
-//OSG2_Variable<DataTypes>::OSG2_Variable()
+//OSGVariable<DataTypes>::OSGVariable()
 //: value(initData(&value, DataTypes(), "value", "Set Uniform Value"))
 //{
 //    addAlias(&value, "values"); // some variable types hold multiple values, so we authorize both names for this attribute
 //}
 //
 //template<class DataTypes>
-//OSG2_Variable<DataTypes>::~OSG2_Variable()
+//OSGVariable<DataTypes>::~OSGVariable()
 //{
 //}
 //
 //template<class DataTypes>
-//void OSG2_Variable<DataTypes>::init()
+//void OSGVariable<DataTypes>::init()
 //{
-//    OSG2_ShaderElement::init();
+//    OSGShaderElement::init();
 //}
 //
 //template<class DataTypes>
-//void OSG2_Variable<DataTypes>::initVisual()
+//void OSGVariable<DataTypes>::initVisual()
 //{ 
 //    core::visual::VisualModel::initVisual();
 //}
 //
 //template<class DataTypes>
-//void OSG2_Variable<DataTypes>::reinit()
+//void OSGVariable<DataTypes>::reinit()
 //{
 //    init();
 //    initVisual();

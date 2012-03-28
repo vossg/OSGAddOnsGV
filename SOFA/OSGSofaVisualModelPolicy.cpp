@@ -81,101 +81,101 @@ void OSGModelPolicy::createStateAliases(void)
 void OSGModelPolicy::createShaderAliases(void)
 {
     _mShaderMap.insert(AliasPair("OglShader", 
-                                 "OSG2_Shader"              ));
+                                 "OSGShader"              ));
     _mShaderMap.insert(AliasPair("OglShaderDefineMacro", 
-                                 "OSG2_ShaderDefineMacro"   ));
+                                 "OSGShaderDefineMacro"   ));
     _mShaderMap.insert(AliasPair("OglTexture",        
-                                 "OSG2_Texture"             ));
+                                 "OSGTexture"             ));
     _mShaderMap.insert(AliasPair("OglTexture2D",      
-                                 "OSG2_Texture2D"           ));
+                                 "OSGTexture2D"           ));
     
     _mShaderMap.insert(AliasPair("OglIntVariable",    
-                                 "OSG2_IntVariable"         ));
+                                 "OSGIntVariable"         ));
     _mShaderMap.insert(AliasPair("OglInt2Variable",   
-                                 "OSG2_Int2Variable"        ));
+                                 "OSGInt2Variable"        ));
     _mShaderMap.insert(AliasPair("OglInt3Variable",   
-                                 "OSG2_Int3Variable"        ));
+                                 "OSGInt3Variable"        ));
     _mShaderMap.insert(AliasPair("OglInt4Variable",   
-                                 "OSG2_Int4Variable"        ));
+                                 "OSGInt4Variable"        ));
     
     _mShaderMap.insert(AliasPair("OglFloatVariable",  
-                                 "OSG2_FloatVariable"       ));
+                                 "OSGFloatVariable"       ));
     _mShaderMap.insert(AliasPair("OglFloat2Variable", 
-                                 "OSG2_Float2Variable"      ));
+                                 "OSGFloat2Variable"      ));
     _mShaderMap.insert(AliasPair("OglFloat3Variable", 
-                                 "OSG2_Float3Variable"      ));
+                                 "OSGFloat3Variable"      ));
     _mShaderMap.insert(AliasPair("OglFloat4Variable", 
-                                 "OSG2_Float4Variable"      ));
+                                 "OSGFloat4Variable"      ));
     
     _mShaderMap.insert(AliasPair("OglIntVectorVariable", 
-                                 "OSG2_IntVectorVariable"   ));
+                                 "OSGIntVectorVariable"   ));
     _mShaderMap.insert(AliasPair("OglIntVector2Variable", 
-                                 "OSG2_IntVector2Variable"  ));
+                                 "OSGIntVector2Variable"  ));
     _mShaderMap.insert(AliasPair("OglIntVector3Variable", 
-                                 "OSG2_IntVector3Variable"  ));
+                                 "OSGIntVector3Variable"  ));
     _mShaderMap.insert(AliasPair("OglIntVector4Variable", 
-                                 "OSG2_IntVector4Variable"  ));
+                                 "OSGIntVector4Variable"  ));
     
     _mShaderMap.insert(AliasPair("OglFloatVectorVariable", 
-                                 "OSG2_FloatVectorVariable" ));
+                                 "OSGFloatVectorVariable" ));
     _mShaderMap.insert(AliasPair("OglFloatVector2Variable", 
-                                 "OSG2_FloatVector2Variable"));
+                                 "OSGFloatVector2Variable"));
     _mShaderMap.insert(AliasPair("OglFloatVector3Variable", 
-                                 "OSG2_FloatVector3Variable"));
+                                 "OSGFloatVector3Variable"));
     _mShaderMap.insert(AliasPair("OglFloatVector4Variable", 
-                                 "OSG2_FloatVector4Variable"));
+                                 "OSGFloatVector4Variable"));
     
     _mShaderMap.insert(AliasPair("OglMatrix2Variable", 
-                                 "OSG2_Matrix2Variable"     ));
+                                 "OSGMatrix2Variable"     ));
     _mShaderMap.insert(AliasPair("OglMatrix3Variable", 
-                                 "OSG2_Matrix3Variable"     ));
+                                 "OSGMatrix3Variable"     ));
     _mShaderMap.insert(AliasPair("OglMatrix4Variable", 
-                                 "OSG2_Matrix4Variable"     ));
+                                 "OSGMatrix4Variable"     ));
     
     _mShaderMap.insert(AliasPair("OglMatrix2x3Variable", 
-                                 "OSG2_Matrix2x3Variable"   ));
+                                 "OSGMatrix2x3Variable"   ));
     _mShaderMap.insert(AliasPair("OglMatrix3x2Variable", 
-                                 "OSG2_Matrix3x2Variable"   ));
+                                 "OSGMatrix3x2Variable"   ));
     
     _mShaderMap.insert(AliasPair("OglMatrix2x4Variable", 
-                                 "OSG2_Matrix2x4Variable"   ));
+                                 "OSGMatrix2x4Variable"   ));
     _mShaderMap.insert(AliasPair("OglMatrix4x2Variable", 
-                                 "OSG2_Matrix4x2Variable"   ));
+                                 "OSGMatrix4x2Variable"   ));
     
     _mShaderMap.insert(AliasPair("OglMatrix3x4Variable", 
-                                 "OSG2_Matrix3x4Variable"   ));
+                                 "OSGMatrix3x4Variable"   ));
     _mShaderMap.insert(AliasPair("OglMatrix4x3Variable", 
-                                 "OSG2_Matrix4x3Variable"   ));
+                                 "OSGMatrix4x3Variable"   ));
 }
 
 
 void OSGModelPolicy::load(void)
 {
-    std::cerr << "OSG2_Model_Policy LOADING" << std::endl;
+    std::cerr << "OSGModelPolicy LOADING" << std::endl;
     
-    // Replace all visual models with OSG2_Model
+    // Replace all visual models with OSGSofaModel
     sofa::core::ObjectFactory::AddAlias( "VisualModel", 
-                                         "OSG2_Model", 
+                                         "OSGSofaModel", 
                                          true,
                                         &_pClassVisualModel_1   );
 
     sofa::core::ObjectFactory::AddAlias( "OglModel", 
-                                         "OSG2_Model", 
+                                         "OSGSofaModel", 
                                          true,
                                         &_pClassVisualModel_2   );
 
     sofa::core::ObjectFactory::AddAlias( "OglTetrahedralModel", 
-                                         "OSG2_TetrahedralModel", 
+                                         "OSGTetrahedralModel", 
                                          true,
                                         &_pClassVisualModel_3   );
 
     sofa::core::ObjectFactory::AddAlias( "PointSplatModel", 
-                                         "OSG2_PointSplatModel", 
+                                         "OSGPointSplatModel", 
                                          true,
                                         &_pClassVisualModel_4   );
 
     sofa::core::ObjectFactory::AddAlias( "PointSplat", 
-                                         "OSG2_PointSplatModel", 
+                                         "OSGPointSplatModel", 
                                          true,
                                         &_pClassVisualModel_5   );
     
@@ -190,7 +190,7 @@ void OSGModelPolicy::load(void)
 
 void OSGModelPolicy::unload(void)
 {
-    std::cerr << "OSG2_Model_Policy UNLOADING" << std::endl;
+    std::cerr << "OSGModelPolicy UNLOADING" << std::endl;
     
     // Restore all visual models to original
     sofa::core::ObjectFactory::ResetAlias("VisualModel", 

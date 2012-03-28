@@ -68,13 +68,13 @@ END_SOFA_CORE_BEHAVIOR_NAMESPACE
 
 BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_PointSplatModel : public core::visual::VisualModel
+class OSG_CONTRIBSOFA_DLLMAPPING OSGPointSplatModel : public core::visual::VisualModel
 {
   public:
-    SOFA_CLASS(OSG2_PointSplatModel,core::visual::VisualModel);
+    SOFA_CLASS(OSGPointSplatModel,core::visual::VisualModel);
   protected:
-    OSG2_PointSplatModel();
-    virtual ~OSG2_PointSplatModel();
+    OSGPointSplatModel();
+    virtual ~OSGPointSplatModel();
   public:
     virtual void init();
 
@@ -88,7 +88,7 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSG2_PointSplatModel : public core::visual::Vis
     virtual void drawTransparent(const core::visual::VisualParams* vparams);
 
     // OpenSG
-    OSG::NodeRecPtr getAttachNode() const { return _attachNode; }
+    OSG::Node* getAttachNode() const { return _attachNode; }
 
   private:
     void setColor(float r, float g, float b, float a);
@@ -118,10 +118,10 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSG2_PointSplatModel : public core::visual::Vis
     OSG::GeoPnt3fPropertyMTRecPtr  _particlePoints;
     OSG::GeoColor3fPropertyMTRecPtr  _particleColors;
     OSG::GeoVec3fPropertyMTRecPtr  _particleSizes;
-    OSG::TextureObjChunkRecPtr _texture;
-    OSG::SimpleMaterialRecPtr _simpleTexMaterial;
+    OSG::TextureObjChunkUnrecPtr _texture;
+    OSG::SimpleMaterialUnrecPtr _simpleTexMaterial;
 
-    OSG::NodeRecPtr _attachNode;
+    OSG::NodeUnrecPtr _attachNode;
 };
 
 END_SOFA_CMP_VISMODEL_NAMESPACE

@@ -56,22 +56,22 @@ namespace visualmodel
 
 
 
-SOFA_DECL_CLASS(OSG2_TetrahedralModel)
+SOFA_DECL_CLASS(OSGTetrahedralModel)
 
-int OSG2_TetrahedralModelClass = sofa::core::RegisterObject("Tetrahedral model for OpenSG2 display")
+int OSGTetrahedralModelClass = sofa::core::RegisterObject("Tetrahedral model for OpenSG2 display")
 #ifndef SOFA_FLOAT
-.add< OSG2_TetrahedralModel<Vec3dTypes> >()
+.add< OSGTetrahedralModel<Vec3dTypes> >()
 #endif
 #ifndef SOFA_DOUBLE
-.add< OSG2_TetrahedralModel<Vec3fTypes> >()
+.add< OSGTetrahedralModel<Vec3fTypes> >()
 #endif
 ;
 
 #ifndef SOFA_FLOAT
-template class OSG2_TetrahedralModel<Vec3dTypes>;
+template class OSGTetrahedralModel<Vec3dTypes>;
 #endif
 #ifndef SOFA_DOUBLE
-template class OSG2_TetrahedralModel<Vec3fTypes>;
+template class OSGTetrahedralModel<Vec3fTypes>;
 #endif
 
 }
