@@ -82,13 +82,6 @@
 
 #ifndef OSG2_SOFA_SIMU_THREAD
 
-#define OSG2_NodeRecPtr NodeUnrecPtr
-#define OSG2_GeoPnt3fPropertyRecPtr GeoPnt3fPropertyUnrecPtr 
-#define OSG2_GeoVec3fPropertyRecPtr GeoVec3fPropertyUnrecPtr  
-#define OSG2_GeoPnt2fPropertyRecPtr GeoPnt2fPropertyUnrecPtr
-#define OSG2_GeometryRecPtr         GeometryUnrecPtr
-#define OSG2_GeoUInt8PropertyRecPtr GeoUInt8PropertyUnrecPtr
-#define OSG2_GeoUInt32PropertyRecPtr GeoUInt32PropertyUnrecPtr
 
 typedef OSG::NodeUnrecPtr OSGSofaNodePtr;
 typedef OSG::GeoPnt3fPropertyUnrecPtr OSGSofaGeoPnt3fPropertyPtr;
@@ -101,13 +94,6 @@ typedef OSG::GeoUInt32PropertyUnrecPtr OSGSofaGeoUInt32PropertyPtr;
 
 #else
 
-#define OSG2_NodeRecPtr NodeMTRecPtr
-#define OSG2_GeoPnt3fPropertyRecPtr GeoPnt3fPropertyMTRecPtr 
-#define OSG2_GeoVec3fPropertyRecPtr GeoVec3fPropertyMTRecPtr  
-#define OSG2_GeoPnt2fPropertyRecPtr GeoPnt2fPropertyMTRecPtr
-#define OSG2_GeometryRecPtr         GeometryMTRecPtr
-#define OSG2_GeoUInt8PropertyRecPtr GeoUInt8PropertyMTRecPtr
-#define OSG2_GeoUInt32PropertyRecPtr GeoUInt32PropertyMTRecPtr
 
 typedef OSG::NodeMTRecPtr OSGSofaNodePtr;
 typedef OSG::GeoPnt3fPropertyMTRecPtr OSGSofaGeoPnt3fPropertyPtr;
