@@ -55,7 +55,7 @@ namespace component
 namespace visualmodel
 {
 
-OSG2_ShadowGraph::OSG2_ShadowGraph( void )
+OSGSofaShadowGraph::OSGSofaShadowGraph( void )
 :
 _shadowStage(NULL)
 ,_chunkOverrideGroup(NULL)
@@ -64,7 +64,7 @@ _shadowStage(NULL)
 
 }
 
-OSG2_ShadowGraph::~OSG2_ShadowGraph( void )
+OSGSofaShadowGraph::~OSGSofaShadowGraph( void )
 {
     _shadowStage = NULL;
     _scene = NULL;
@@ -72,7 +72,7 @@ OSG2_ShadowGraph::~OSG2_ShadowGraph( void )
 }
 
 OSG::NodeTransitPtr 
-OSG2_ShadowGraph::build( sofa::simulation::Node::SPtr root, bool ignoreLights)
+OSGSofaShadowGraph::build( sofa::simulation::Node::SPtr root, bool ignoreLights)
 {
     _scene = NULL;
     _chunkOverrideGroup = NULL;

@@ -50,13 +50,13 @@
 
 BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_ShadowGraph 
+class OSG_CONTRIBSOFA_DLLMAPPING OSGSofaShadowGraph 
 {
   public:
 
-    OSG2_ShadowGraph( void );
+    OSGSofaShadowGraph( void );
 
-    ~OSG2_ShadowGraph( void );
+    ~OSGSofaShadowGraph( void );
 
   public:
 
