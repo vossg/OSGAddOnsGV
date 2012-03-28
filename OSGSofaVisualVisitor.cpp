@@ -288,7 +288,7 @@ void OSGVisualUpdateVisitor::processVisualModel(
 
     std::cerr << "CLASS_NAME : " << pVisModel->getClassName() << std::endl;
 
-    OSG2_Model *osg2Model = dynamic_cast<OSG2_Model *>(pVisModel);
+    OSGSofaModel *osg2Model = dynamic_cast<OSGSofaModel *>(pVisModel);
 
     if(osg2Model != NULL)
     {
@@ -298,31 +298,6 @@ void OSGVisualUpdateVisitor::processVisualModel(
             {
                 _pParent->addChild(osg2Model->getAttachNode());
 
-//                std::cerr << "OSG2_VisualVisitor:: " 
-//                          <<  OSG::getName(osg2Model->getAttachNode()) 
-//                          << " ADDED to parent "  
-//                          << std::endl;
-
-//                OSG::getName(_pParent)
-//                std::cerr << "OSG2_VisualVisitor:: " 
-//                          <<  osg2Model->getName() 
-//                          << "  ADDED to parent"   
-//                          << std::endl;
-
-//                Shader *pShader = node->getShader();
-//                OSG2_Shader *pShadowShader = 
-//                    dynamic_cast<OSG2_Shader *>(pShader);
-//
-//                if(pShadowShader)
-//                {
-//                    std::cerr << "OSG2_VisualVisitor Shader:: " 
-//                              <<  osg2Model->getName() 
-//                              << "  "  << pShader->getClassName() 
-//                              << std::endl;
-//
-//                    osg2Model->setShaderChunk(
-//                        pShadowShader->getShaderChunk(0));
-//                }
             }
         }
 
@@ -364,7 +339,7 @@ void OSGVisualUpdateVisitor::processVisualModel(
     }
     //any better way??
     else if(boost::iequals(pVisModel->getClassName(),
-                           "OSG2_TetrahedralModel"     ) &&   
+                           "OSGTetrahedralModel"     ) &&   
             boost::iequals(pVisModel->getTemplateName(), 
                            "vec3d"                     )   )
     {
@@ -376,8 +351,8 @@ void OSGVisualUpdateVisitor::processVisualModel(
                   << pVisModel->getTemplateName() 
                   << std::endl;
 
-        OSG2_TetrahedralModel<Vec3dTypes> *pOSG2TModel = 
-            dynamic_cast<OSG2_TetrahedralModel<Vec3dTypes> *>(pVisModel);
+        OSGTetrahedralModel<Vec3dTypes> *pOSG2TModel = 
+            dynamic_cast<OSGTetrahedralModel<Vec3dTypes> *>(pVisModel);
 
         if(pOSG2TModel == NULL) 
             return;
@@ -393,7 +368,7 @@ void OSGVisualUpdateVisitor::processVisualModel(
         return;
     }
     else if(boost::iequals(pVisModel->getClassName(),
-                           "OSG2_TetrahedralModel"     ) &&   
+                           "OSGTetrahedralModel"     ) &&   
             boost::iequals(pVisModel->getTemplateName(),
                            "vec3f"                     )   )
     {
@@ -405,8 +380,8 @@ void OSGVisualUpdateVisitor::processVisualModel(
                   << pVisModel->getTemplateName() 
                   << std::endl;
 
-        OSG2_TetrahedralModel<Vec3fTypes> *pOSG2TModel = 
-            dynamic_cast<OSG2_TetrahedralModel<Vec3fTypes> *>(pVisModel);
+        OSGTetrahedralModel<Vec3fTypes> *pOSG2TModel = 
+            dynamic_cast<OSGTetrahedralModel<Vec3fTypes> *>(pVisModel);
 
         if(pOSG2TModel == NULL) 
             return;
@@ -421,10 +396,10 @@ void OSGVisualUpdateVisitor::processVisualModel(
 
         return;
     }
-    else if(boost::iequals(pVisModel->getClassName(), "OSG2_PointSplatModel"))
+    else if(boost::iequals(pVisModel->getClassName(), "OSGPointSplatModel"))
     {
-        OSG2_PointSplatModel *pPointModel = 
-            dynamic_cast<OSG2_PointSplatModel *>(pVisModel);
+        OSGPointSplatModel *pPointModel = 
+            dynamic_cast<OSGPointSplatModel *>(pVisModel);
 
         if(pPointModel == NULL)
             return;

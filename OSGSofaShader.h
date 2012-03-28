@@ -67,27 +67,27 @@ OSG_END_NAMESPACE
 BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
 
     /*
-    class OSG2_Texture_Info 
+    class OSGTexture_Info 
     {
     public:
-        OSG2_TextureInfo():_textureChunk(NULL), _textureUnit(0)  { }
-        ~OSG2_TextureInfo() { _textureChunk = NULL; }
+        OSGTextureInfo():_textureChunk(NULL), _textureUnit(0)  { }
+        ~OSGTextureInfo() { _textureChunk = NULL; }
         OSG::UInt16 _textureUnit;
         OSG::TextureObjChunkRecPtr _textureChunk;
     
     };
     */
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_ShaderGroup 
+class OSG_CONTRIBSOFA_DLLMAPPING OSGShaderGroup 
 {
 
   public:
-    OSG2_ShaderGroup():_shaderChunk(NULL), _shaderVarChunk(NULL)  { }
-    ~OSG2_ShaderGroup() { _shaderChunk = NULL; _shaderVarChunk = NULL; _textureChunks.clear(); }
-    OSG::ShaderProgramChunkRecPtr  _shaderChunk;
-    OSG::ShaderProgramVariableChunkRecPtr _shaderVarChunk;
+    OSGShaderGroup():_shaderChunk(NULL), _shaderVarChunk(NULL)  { }
+    ~OSGShaderGroup() { _shaderChunk = NULL; _shaderVarChunk = NULL; _textureChunks.clear(); }
+    OSG::ShaderProgramChunkUnrecPtr  _shaderChunk;
+    OSG::ShaderProgramVariableChunkUnrecPtr _shaderVarChunk;
 
-    typedef std::map<OSG::UInt16 , OSG::TextureObjChunkRecPtr> TextureChunkMap;
-    typedef std::pair<OSG::UInt16 , OSG::TextureObjChunkRecPtr> TextureChunkPair;
+    typedef std::map<OSG::UInt16 , OSG::TextureObjChunkUnrecPtr> TextureChunkMap;
+    typedef std::pair<OSG::UInt16 , OSG::TextureObjChunkUnrecPtr> TextureChunkPair;
 
     TextureChunkMap _textureChunks;
     std::string _vertexSource;
@@ -99,17 +99,17 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSG2_ShaderGroup
 };
 
 
-//class SOFA_OPENGL_VISUAL_API OSG2_Shader : public sofa::core::visual::Shader, public sofa::core::visual::VisualModel {
+//class SOFA_OPENGL_VISUAL_API OSGShader : public sofa::core::visual::Shader, public sofa::core::visual::VisualModel {
 
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Shader : public sofa::component::visualmodel::OglShader {
+class OSG_CONTRIBSOFA_DLLMAPPING OSGShader : public sofa::component::visualmodel::OglShader {
 
   public:
-    SOFA_CLASS(OSG2_Shader, sofa::component::visualmodel::OglShader);
-    //SOFA_CLASS(OSG2_Shader, sofa::core::visual::Shader);
+    SOFA_CLASS(OSGShader, sofa::component::visualmodel::OglShader);
+    //SOFA_CLASS(OSGShader, sofa::core::visual::Shader);
     
   protected:
-    OSG2_Shader();
-    virtual ~OSG2_Shader();
+    OSGShader();
+    virtual ~OSGShader();
 
     std::string loadFile(const std::string& file);
     void initFiles( void );
@@ -134,26 +134,24 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Shader : public sofa::component::visualmod
     void addTexture(const unsigned int index, const char* name, unsigned short unit, OSG::TextureObjChunk* texture);
 
 
-    OSG::ShaderProgramChunkRecPtr getShaderChunk( unsigned int i) const 
+    OSG::ShaderProgramChunk* getShaderChunk( unsigned int i) const 
         { return  ( ( i < _shaderGroups.size() ) ? _shaderGroups[i]._shaderChunk : NULL  );  }
 
-    OSG::ShaderProgramVariableChunkRecPtr getShaderVariableChunk( unsigned int i) const 
+    OSG::ShaderProgramVariableChunk* getShaderVariableChunk( unsigned int i) const 
         { return  ( ( i < _shaderGroups.size() ) ? _shaderGroups[i]._shaderVarChunk : NULL  );  }
 
-    //OSG::TextureObjChunkRecPtr getShaderTextureObjChunk( unsigned int i) const 
-    //{ return  ( ( i < _shaderGroups.size() ) ? _shaderGroups[i]._textureChunk : NULL  );  }
 
     void addToMaterial(unsigned int i, OSG::SimpleMaterial* mat) const;
   protected:
 
     //OpenSG
-    std::vector<OSG::ShaderProgramChunkRecPtr> _shaderChunks;
-    std::vector<OSG::ShaderProgramVariableChunkRecPtr> _shaderVariableChunks;
+    std::vector<OSG::ShaderProgramChunkUnrecPtr> _shaderChunks;
+    std::vector<OSG::ShaderProgramVariableChunkUnrecPtr> _shaderVariableChunks;
     std::vector<std::string> _vertexSource;
     std::vector<std::string> _fragmentSource;
 
 
-    std::vector< OSG2_ShaderGroup > _shaderGroups;
+    std::vector< OSGShaderGroup > _shaderGroups;
 
 
 
@@ -161,13 +159,13 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Shader : public sofa::component::visualmod
 
 
 /**
- *  \brief Abstract class which defines a element to be used with a OSG2_Shader.
+ *  \brief Abstract class which defines a element to be used with a OSGShader.
  *
  *  This is only an partial implementation of the interface ShaderElement
  *  which adds a pointer to its corresponding shader (where it will be used)
  *  and the id (or name) of the element.
  */
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_ShaderElement : public core::visual::ShaderElement {
+class OSG_CONTRIBSOFA_DLLMAPPING OSGShaderElement : public core::visual::ShaderElement {
 
   protected:
     ///Name of element (corresponding with the shader)
@@ -175,11 +173,11 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSG2_ShaderElement : public core::visual::Shade
     ///Name of element (corresponding with the shader)
     Data<unsigned int> indexShader;
     ///Shader to use the element with
-    OSG2_Shader* shader;
+    OSGShader* shader;
 
   public:
-    OSG2_ShaderElement();
-    virtual ~OSG2_ShaderElement() { };
+    OSGShaderElement();
+    virtual ~OSGShaderElement() { };
     virtual void init();
     const std::string getId() const {return id.getValue();};
     void setID( std::string str ) { *(id.beginEdit()) = str; id.endEdit();};

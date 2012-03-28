@@ -78,14 +78,14 @@ namespace visualmodel
 using namespace sofa::defaulttype;
 using namespace sofa::core::loader;
 
-SOFA_DECL_CLASS(OSG2_Model)
+SOFA_DECL_CLASS(OSGSofaModel)
 
-int OSG2_ModelClass = core::RegisterObject("Visual Model for OpenSG 2.0")
-.add< OSG2_Model >()
+int OSGSofaModelClass = core::RegisterObject("Visual Model for OpenSG 2.0")
+.add< OSGSofaModel >()
 ;
 
 
-OSG2_Model::OSG2_Model()
+OSGSofaModel::OSGSofaModel()
 : premultipliedAlpha(initData(&premultipliedAlpha, (bool) false, "premultipliedAlpha", "is alpha premultiplied ?"))
 #ifndef SOFA_HAVE_GLEW
 , useVBO(initData(&useVBO, (bool) false, "useVBO", "Use VBO for rendering"))
@@ -108,6 +108,7 @@ OSG2_Model::OSG2_Model()
 ,_texCoord2D(NULL)
 ,_tangents(NULL)
 ,_biTangents(NULL)
+,_bTangents(false)
 ,_textureName(NULL)
 ,_polygonChunk(NULL)
 ,_shadeModelChunk(NULL)
@@ -136,7 +137,7 @@ OSG2_Model::OSG2_Model()
     destFactor.endEdit();
 }
 
-OSG2_Model::~OSG2_Model()
+OSGSofaModel::~OSGSofaModel()
 {
     if (tex!=NULL) delete tex;
 
@@ -145,19 +146,22 @@ OSG2_Model::~OSG2_Model()
     _polygonPoints = NULL;
     _vertexNormals = NULL;
     _texCoord2D = NULL;
+    _tangents = NULL;
+    _biTangents = NULL;
 
     _textureName = NULL;
 
     //_texMaterial.clear();
-    std::vector<OSG::TextureObjChunkRecPtr>().swap(_texMaterial);
+    std::vector<OSG::TextureObjChunkUnrecPtr>().swap(_texMaterial);
 
     _polygonChunk = NULL;
     _shadeModelChunk = NULL;
     _twoSidedLightingChunk = NULL;
+
     
 }
 
-void OSG2_Model::internalDraw(const core::visual::VisualParams* vparams, bool transparent)
+void OSGSofaModel::internalDraw(const core::visual::VisualParams* vparams, bool transparent)
 {
     m_vtexcoords.updateIfDirty();
 
@@ -205,13 +209,13 @@ void OSG2_Model::internalDraw(const core::visual::VisualParams* vparams, bool tr
 }
 
 
-bool OSG2_Model::loadTexture(const std::string& filename)
+bool OSGSofaModel::loadTexture(const std::string& filename)
 {
 
     OSG::ImageUnrecPtr image = OSG::Image::create();
     bool read = image->read(filename.c_str());
     if (!read)
-        std::cerr << "OpenSG OSG2_Model_loadTextureSingle(" << this->getName() << "): couldn't create an image from file " << filename << std::endl;
+        std::cerr << "OpenSG OSGSofaModel_loadTextureSingle(" << this->getName() << "): couldn't create an image from file " << filename << std::endl;
     //helper::io::Image *img = helper::io::Image::Create(filename);
     //if (!img)
     //    return false;
@@ -235,7 +239,7 @@ bool OSG2_Model::loadTexture(const std::string& filename)
 }
 
 OSG::Image::PixelFormat
-OSG2_Model::convertSofaToOpenSG(helper::io::Image::ChannelFormat cf)
+OSGSofaModel::convertSofaToOpenSG(helper::io::Image::ChannelFormat cf)
 {
         OSG::Image::PixelFormat pixelFormat = OSG::Image::OSG_INVALID_PF;
         switch (cf)
@@ -255,7 +259,7 @@ OSG2_Model::convertSofaToOpenSG(helper::io::Image::ChannelFormat cf)
 }
 
 OSG::Image::Type 
-OSG2_Model::convertSofaToOpenSG(helper::io::Image::DataType dt)
+OSGSofaModel::convertSofaToOpenSG(helper::io::Image::DataType dt)
 {
       OSG::Image::Type type = OSG::Image::OSG_INVALID_IMAGEDATATYPE;
       switch (dt)
@@ -275,7 +279,7 @@ OSG2_Model::convertSofaToOpenSG(helper::io::Image::DataType dt)
 
 
 // a false result indicated problems during textures loading
-bool OSG2_Model::loadTextures()
+bool OSGSofaModel::loadTextures()
 {
     bool result = true;
 
@@ -289,7 +293,7 @@ bool OSG2_Model::loadTextures()
             activatedTextures.push_back(i);
 
 //if (!activatedTextures.empty())
-//std::cerr << "OSG2_Model : " << this->getName() << " has TEXTURES " << std::endl;
+//std::cerr << "OSGSofaModel : " << this->getName() << " has TEXTURES " << std::endl;
 
     for (std::vector< unsigned int>::iterator i = activatedTextures.begin() ; i < activatedTextures.end(); i++)
     {
@@ -304,7 +308,7 @@ bool OSG2_Model::loadTextures()
             if (!sofa::helper::system::DataRepository.findFile(textureFile))
             {
                 if (i!=activatedTextures.begin()) std::cout << "\n" << std::flush;
-                std::cerr   << "ERROR(OSG2_Model(" << this->getName() << "):Texture \"" << this->materials.getValue()[*i].textureFilename << "\" not found"
+                std::cerr   << "ERROR(OSGSofaModel(" << this->getName() << "):Texture \"" << this->materials.getValue()[*i].textureFilename << "\" not found"
                         << " in material " << this->materials.getValue()[*i].name <<  std::endl;
                 result = false;
                 continue;
@@ -314,7 +318,7 @@ bool OSG2_Model::loadTextures()
         //helper::io::Image *img = helper::io::Image::Create(textureFile);
         //if (!img)
         //{
-        //   std::cerr << "ERROR(OSG2_Model(" << this->getName() << "): couldn't create an image from file " << this->materials.getValue()[*i].textureFilename << std::endl;
+        //   std::cerr << "ERROR(OSGSofaModel(" << this->getName() << "): couldn't create an image from file " << this->materials.getValue()[*i].textureFilename << std::endl;
         //   result = false;
         //   continue;
         //}
@@ -323,7 +327,7 @@ bool OSG2_Model::loadTextures()
 
         bool read = image->read(textureFile.c_str());
         if (read)
-            std::cerr << "OpenSG FILEIO(OSG2_Model(" << this->getName() << "): created an image from file " << this->materials.getValue()[*i].textureFilename << std::endl;
+            std::cerr << "OpenSG FILEIO(OSGSofaModel(" << this->getName() << "): created an image from file " << this->materials.getValue()[*i].textureFilename << std::endl;
 
 
         // temp hack to use sofa io to read png
@@ -342,7 +346,7 @@ bool OSG2_Model::loadTextures()
 
         // OpenSG
 
-        OSG::TextureObjChunkRecPtr matTex  = OSG::TextureObjChunk::create();
+        OSG::TextureObjChunkUnrecPtr matTex  = OSG::TextureObjChunk::create();
         matTex->setImage(image);
         _texMaterial.push_back(matTex);
 
@@ -352,7 +356,7 @@ bool OSG2_Model::loadTextures()
 
         str.clear();
 
-        std::stringstream out; out << _texMaterial.size() << "/" << activatedTextures.size() << " textures loaded for OSG2_Model " << this->getName();
+        std::stringstream out; out << _texMaterial.size() << "/" << activatedTextures.size() << " textures loaded for OSGSofaModel " << this->getName();
         str += out.str();
 
         std::cout << str << std::flush;
@@ -360,7 +364,7 @@ bool OSG2_Model::loadTextures()
     std::cout << std::endl;
 
     if (_texMaterial.size() != activatedTextures.size())
-        std::cerr << "ERROR(OSG2_Model(" << this->getName()<< ")) " << (activatedTextures.size() - _texMaterial.size()) << " textures couldn't be loaded" <<  std::endl;
+        std::cerr << "ERROR(OSGSofaModel(" << this->getName()<< ")) " << (activatedTextures.size() - _texMaterial.size()) << " textures couldn't be loaded" <<  std::endl;
 
 
 
@@ -386,7 +390,7 @@ bool OSG2_Model::loadTextures()
 //                {
 //                    std::cout <<  std::endl;
 //                    serr << "Texture \"" << this->materials.getValue()[i].bumpTextureFilename << "\" not found"
-//                            << " in material " << this->materials.getValue()[i].name << " for OSG2_Model " << this->name
+//                            << " in material " << this->materials.getValue()[i].name << " for OSGSofaModel " << this->name
 //                            << "(\""<< this->fileMesh.getFullPath() << "\")" << sendl;
 //                    break;
 //                }
@@ -396,14 +400,14 @@ bool OSG2_Model::loadTextures()
 //            if (!img)
 //            {
 //                std::cout <<  std::endl;
-//               std::cerr << "Error:OSG2_Model:loadTextures: couldn't create an image from file " << this->materials.getValue()[i].bumpTextureFilename << std::endl;
+//               std::cerr << "Error:OSGSofaModel:loadTextures: couldn't create an image from file " << this->materials.getValue()[i].bumpTextureFilename << std::endl;
 //               return false;
 //            }
 //            helper::gl::Texture * text = new helper::gl::Texture(img, true, true, false, srgbTexturing.getValue());
 //            materialTextureIdMap.insert(std::pair<int, int>(i,textures.size()));
 //            textures.push_back( text );
 //
-//            std::cout << "\r\033[K" << i+1 << "/" << this->materials.getValue().size() << " textures loaded for bump mapping for OSG2_Model " << this->getName()
+//            std::cout << "\r\033[K" << i+1 << "/" << this->materials.getValue().size() << " textures loaded for bump mapping for OSGSofaModel " << this->getName()
 //                    << "(loading "<<textureFile << ")"<< std::flush;
 //       }
 //    }
@@ -411,7 +415,7 @@ bool OSG2_Model::loadTextures()
     return result;
 }
 
-void OSG2_Model::initVisual()
+void OSGSofaModel::initVisual()
 {
     initTextures();
 
@@ -423,16 +427,16 @@ void OSG2_Model::initVisual()
 
 
 //const ResizableExtVector<Coord>& vertices = this->getVertices();
-//serr << "OSG2_Model:: " << this->getName()  << " Vertices " << vertices.size() << sendl;
+//serr << "OSGSofaModel:: " << this->getName()  << " Vertices " << vertices.size() << sendl;
 
 //const ResizableExtVector<Coord>& verticesAgain = this->m_positions.getValue();
 
-//serr << "OSG2_Model::AfterUpdateVisual " << this->getName()  << " M_Positions " << verticesAgain.size() << sendl;
+//serr << "OSGSofaModel::AfterUpdateVisual " << this->getName()  << " M_Positions " << verticesAgain.size() << sendl;
 //if (isUsingTopology())
 //{
-//    serr << "OSG2_Model:: IS USING TOPOLOGY vertices\n" << this->m_vertices.getValue().size() << sendl;
-//    serr << "OSG2_Model:: IS USING TOPOLOGY triangles\n" << this->m_triangles.getValue().size()<< sendl;
-//    serr << "OSG2_Model:: IS USING TOPOLOGY quads\n" << this->m_quads.getValue().size() << sendl;
+//    serr << "OSGSofaModel:: IS USING TOPOLOGY vertices\n" << this->m_vertices.getValue().size() << sendl;
+//    serr << "OSGSofaModel:: IS USING TOPOLOGY triangles\n" << this->m_triangles.getValue().size()<< sendl;
+//    serr << "OSGSofaModel:: IS USING TOPOLOGY quads\n" << this->m_quads.getValue().size() << sendl;
 //}
 
     if ( alphaBlend.getValue() )
@@ -450,7 +454,7 @@ void OSG2_Model::initVisual()
 }
 
 
-void OSG2_Model::createSubgraph()
+void OSGSofaModel::createSubgraph()
 {
     _switchCore = OSG::Switch::create();
     _switchCore->setChoice(OSG::Switch::ALL);
@@ -461,7 +465,7 @@ void OSG2_Model::createSubgraph()
 }
 
 
-void OSG2_Model::updateVertices()
+void OSGSofaModel::updateVertices()
 {
     if (!_polygonPoints) return;
 
@@ -478,7 +482,7 @@ void OSG2_Model::updateVertices()
     }
 }
 
-void OSG2_Model::updateNormals()
+void OSGSofaModel::updateNormals()
 {
     if (!_vertexNormals) return;
 
@@ -498,16 +502,16 @@ void OSG2_Model::updateNormals()
 
 }
 
-void OSG2_Model::updateTrianglesIndicesInGroup(const FaceGroup& fg, OSG::Geometry* geo)
+void OSGSofaModel::updateTrianglesIndicesInGroup(const FaceGroup& fg, OSG::Geometry* geo)
 {
     int numTriInGroup = fg.nbt;
     if (numTriInGroup <= 0) return;
 
     if (!geo) return;
 
-    //std::cerr << "OSG2_Model::updateTrianglesIndicesInGroup() " << std::endl;
+    //std::cerr << "OSGSofaModel::updateTrianglesIndicesInGroup() " << std::endl;
 
-    OSG::OSG2_GeometryRecPtr geoCore = geo;
+    OSGSofaGeometryPtr geoCore = geo;
 
     const ResizableExtVector<Triangle>& triangles = this->getTriangles();
 #if 0  // GV unused
@@ -519,14 +523,14 @@ void OSG2_Model::updateTrianglesIndicesInGroup(const FaceGroup& fg, OSG::Geometr
     const ResizableExtVector<TexCoord>& vtexcoords = this->getVtexcoords();
 #endif
 
-    OSG::OSG2_GeoUInt8PropertyRecPtr polyTypes 
+    OSGSofaGeoUInt8PropertyPtr polyTypes 
     = dynamic_cast<OSG::GeoUInt8Property*>(geoCore->getTypes());
-    OSG::OSG2_GeoUInt32PropertyRecPtr polyLens 
+    OSGSofaGeoUInt32PropertyPtr polyLens 
     = dynamic_cast<OSG::GeoUInt32Property*>(geoCore->getLengths());
 
-    OSG::OSG2_GeoUInt32PropertyRecPtr polyIndices
+    OSGSofaGeoUInt32PropertyPtr polyIndices
     = dynamic_cast<OSG::GeoUInt32Property*>(geoCore->getIndex( OSG::Geometry::PositionsIndex));
-    OSG::OSG2_GeoUInt32PropertyRecPtr normIndices
+    OSGSofaGeoUInt32PropertyPtr normIndices
     = dynamic_cast<OSG::GeoUInt32Property*>(geoCore->getIndex( OSG::Geometry::NormalsIndex));
 
     if (polyTypes->size() == 0 ) return;
@@ -568,7 +572,8 @@ void OSG2_Model::updateTrianglesIndicesInGroup(const FaceGroup& fg, OSG::Geometr
             polyIndices->setValue(t[2], index+2);
         }
     }
-    if (_tangents)
+    if (_bTangents)
+    //if (_tangents)
     {
 
         OSG::calcVertexTangentsProp(geoCore, OSG::Geometry::TexCoordsIndex, 
@@ -579,7 +584,7 @@ void OSG2_Model::updateTrianglesIndicesInGroup(const FaceGroup& fg, OSG::Geometr
 
 }
 
-void OSG2_Model::updateTrianglesIndices()
+void OSGSofaModel::updateTrianglesIndices()
 {
     if (!useTriangles) return;
     if (!_attachNode) return;
@@ -594,11 +599,11 @@ void OSG2_Model::updateTrianglesIndices()
     const ResizableExtVector<Coord>& vertices = this->getVertices();
 #endif
 
-//std::cerr << "OSG2_Model::updateTrianglesIndices" << std::endl;
+//std::cerr << "OSGSofaModel::updateTrianglesIndices" << std::endl;
     if (groups.empty())
     {
 
-//serr << "OSG2_Model:: " << this->getName()  << " updateTrianglesIndices Single"  << sendl;
+//serr << "OSGSofaModel:: " << this->getName()  << " updateTrianglesIndices Single"  << sendl;
 
         FaceGroup fg;
         fg.nbt = triangles.size();
@@ -616,7 +621,7 @@ void OSG2_Model::updateTrianglesIndices()
             else 
             {
                 OSG::NodeCoreUnrecPtr nc = _attachNode->getChild(0)->getCore();
-                OSG::OSG2_GeometryRecPtr geocore 
+                OSGSofaGeometryPtr geocore 
                 = OSG::dynamic_pointer_cast <OSG::Geometry>(nc);
                 updateTrianglesIndicesInGroup( fg, geocore);
 
@@ -627,26 +632,26 @@ void OSG2_Model::updateTrianglesIndices()
     }
     // number of groups the same
     OSG::NodeCoreUnrecPtr geonode;
-    OSG::OSG2_GeometryRecPtr geocore; 
+    OSGSofaGeometryPtr geocore; 
     for (unsigned int i=0; i < groups.size() ; ++i)
     {
           geonode = _attachNode->getChild(i)->getCore();
-          OSG::OSG2_GeometryRecPtr geocore 
+          OSGSofaGeometryPtr geocore 
           = OSG::dynamic_pointer_cast <OSG::Geometry>(geonode);
           updateTrianglesIndicesInGroup(this->groups.getValue()[i], geocore);
     }
 }
 
-void OSG2_Model::updateQuadsIndicesInGroup(const FaceGroup& fg, OSG::Geometry* geo)
+void OSGSofaModel::updateQuadsIndicesInGroup(const FaceGroup& fg, OSG::Geometry* geo)
 {
     int numQuadInGroup = fg.nbq;
     if (numQuadInGroup <= 0) return;
 
     if (!geo) return;
 
-    //std::cerr << "OSG2_Model::updateQuadsIndicesInGroup() " << std::endl;
+    //std::cerr << "OSGSofaModel::updateQuadsIndicesInGroup() " << std::endl;
 
-    OSG::OSG2_GeometryRecPtr geoCore = geo;
+    OSGSofaGeometryPtr geoCore = geo;
 
     const ResizableExtVector<Quad>& quads = this->getQuads();
 
@@ -654,14 +659,14 @@ void OSG2_Model::updateQuadsIndicesInGroup(const FaceGroup& fg, OSG::Geometry* g
     const ResizableExtVector<TexCoord>& vtexcoords = this->getVtexcoords();
 #endif
 
-    OSG::OSG2_GeoUInt8PropertyRecPtr polyTypes 
+    OSGSofaGeoUInt8PropertyPtr polyTypes 
     = dynamic_cast<OSG::GeoUInt8Property*>(geoCore->getTypes());
-    OSG::OSG2_GeoUInt32PropertyRecPtr polyLens 
+    OSGSofaGeoUInt32PropertyPtr polyLens 
     = dynamic_cast<OSG::GeoUInt32Property*>(geoCore->getLengths());
 
-    OSG::OSG2_GeoUInt32PropertyRecPtr polyIndices
+    OSGSofaGeoUInt32PropertyPtr polyIndices
     = dynamic_cast<OSG::GeoUInt32Property*>(geoCore->getIndex( OSG::Geometry::PositionsIndex));
-    OSG::OSG2_GeoUInt32PropertyRecPtr normIndices
+    OSGSofaGeoUInt32PropertyPtr normIndices
     = dynamic_cast<OSG::GeoUInt32Property*>(geoCore->getIndex( OSG::Geometry::NormalsIndex));
 
     if (polyTypes->size() == 0 ) return;
@@ -712,7 +717,7 @@ void OSG2_Model::updateQuadsIndicesInGroup(const FaceGroup& fg, OSG::Geometry* g
 }
 
 
-void OSG2_Model::updateQuadsIndices()
+void OSGSofaModel::updateQuadsIndices()
 {
     if (!useQuads) return;
     if (!_attachNode) return;
@@ -721,7 +726,7 @@ void OSG2_Model::updateQuadsIndices()
 
     //if (_attachNode->getNChildren() != groups.size()) return;
 
-//std::cerr << "OSG2_Model::updateQuadsIndices" << std::endl;
+//std::cerr << "OSGSofaModel::updateQuadsIndices" << std::endl;
 
     const ResizableExtVector<Triangle>& triangles = this->getTriangles();
     const ResizableExtVector<Quad>& quads = this->getQuads();
@@ -732,7 +737,7 @@ void OSG2_Model::updateQuadsIndices()
     if (groups.empty())
     {
 
-//serr << "OSG2_Model:: " << this->getName()  << " updateQuadsIndices Single"  << sendl;
+//serr << "OSGSofaModel:: " << this->getName()  << " updateQuadsIndices Single"  << sendl;
 
         FaceGroup fg;
         fg.nbt = triangles.size();
@@ -750,7 +755,7 @@ void OSG2_Model::updateQuadsIndices()
             else 
             {
                 OSG::NodeCoreUnrecPtr nc = _attachNode->getChild(0)->getCore();
-                OSG::OSG2_GeometryRecPtr geocore 
+                OSGSofaGeometryPtr geocore 
                 = OSG::dynamic_pointer_cast <OSG::Geometry>(nc);
                 updateQuadsIndicesInGroup( fg, geocore);
 
@@ -761,11 +766,11 @@ void OSG2_Model::updateQuadsIndices()
     }
     // number of groups the same
     OSG::NodeCoreUnrecPtr geonode;
-    OSG::OSG2_GeometryRecPtr geocore; 
+    OSGSofaGeometryPtr geocore; 
     for (unsigned int i=0; i < groups.size() ; ++i)
     {
           geonode = _attachNode->getChild(i)->getCore();
-          OSG::OSG2_GeometryRecPtr geocore 
+          OSGSofaGeometryPtr geocore 
           = OSG::dynamic_pointer_cast <OSG::Geometry>(geonode);
           updateQuadsIndicesInGroup(this->groups.getValue()[i], geocore);
     }
@@ -773,7 +778,7 @@ void OSG2_Model::updateQuadsIndices()
 }
 
 // this is called if there are changes
-void OSG2_Model::updateBuffers()
+void OSGSofaModel::updateBuffers()
 {
 
     // false if initVisual has not been called 
@@ -795,7 +800,7 @@ void OSG2_Model::updateBuffers()
 
     if (!_polygonPoints) 
     {
-        std::cerr  << "OSG2_Model : " << "FIRST TIME CREATE" << sendl; 
+        std::cerr  << "OSGSofaModel : " << "FIRST TIME CREATE" << sendl; 
         createGroups();
         return;
     }
@@ -821,10 +826,10 @@ void OSG2_Model::updateBuffers()
 
     if (createVertices || createTriangles || createQuads)
     {
-        //serr << "OSG2_Model : " << "VERTEX SIZE has CHANGED" << sendl; 
-        //serr << "OSG2_Model : " << "VERTEX SIZE " << vertices.size() <<  " " << oldVerticesSize << sendl; 
-        //serr << "OSG2_Model : " << "QUAD SIZE " << quads.size() <<  " " << oldQuadsSize << sendl; 
-        //serr << "OSG2_Model : " << "TRI SIZE " << triangles.size() << " " << oldTrianglesSize  << sendl; 
+        //serr << "OSGSofaModel : " << "VERTEX SIZE has CHANGED" << sendl; 
+        //serr << "OSGSofaModel : " << "VERTEX SIZE " << vertices.size() <<  " " << oldVerticesSize << sendl; 
+        //serr << "OSGSofaModel : " << "QUAD SIZE " << quads.size() <<  " " << oldQuadsSize << sendl; 
+        //serr << "OSGSofaModel : " << "TRI SIZE " << triangles.size() << " " << oldTrianglesSize  << sendl; 
         createGroups();
         return;
     }
@@ -840,7 +845,7 @@ void OSG2_Model::updateBuffers()
     
 }
 
-bool OSG2_Model::createCommon( void )
+bool OSGSofaModel::createCommon( void )
 {
 
     const ResizableExtVector<Coord>& vertices = this->getVertices();
@@ -854,6 +859,9 @@ bool OSG2_Model::createCommon( void )
 
     hasTangents = m_computeTangents.getValue();
 
+    _bTangents = hasTangents;
+
+    /*
     if (!_tangents)
     {
         if (hasTangents)
@@ -870,6 +878,7 @@ bool OSG2_Model::createCommon( void )
             _biTangents->clear();
         }      
     }
+    */
     /*
     // If using SOFA tangents
     if (hasTangents)
@@ -941,7 +950,7 @@ bool OSG2_Model::createCommon( void )
     return true;
 }
 
-void OSG2_Model::createStateChunks( void )
+void OSGSofaModel::createStateChunks( void )
 {
     if (!_polygonChunk)
     {
@@ -971,7 +980,7 @@ void OSG2_Model::createStateChunks( void )
 
 
 
-OSG::NodeTransitPtr OSG2_Model::createGroup(const FaceGroup& fg, OSG::Geometry* geo)
+OSG::NodeTransitPtr OSGSofaModel::createGroup(const FaceGroup& fg, OSG::Geometry* geo)
 {
     const ResizableExtVector<Triangle>& triangles = this->getTriangles();
     const ResizableExtVector<Quad>& quads = this->getQuads();
@@ -984,13 +993,13 @@ OSG::NodeTransitPtr OSG2_Model::createGroup(const FaceGroup& fg, OSG::Geometry* 
     const ResizableExtVector<TexCoord>& vtexcoords = this->getVtexcoords();
 #endif
 
-    OSG::OSG2_GeoUInt8PropertyRecPtr polyTypes;
-    OSG::OSG2_GeoUInt32PropertyRecPtr polyLens;
+    OSGSofaGeoUInt8PropertyPtr polyTypes;
+    OSGSofaGeoUInt32PropertyPtr polyLens;
 
-    OSG::OSG2_GeoUInt32PropertyRecPtr polyIndices;
-    OSG::OSG2_GeoUInt32PropertyRecPtr normIndices;
+    OSGSofaGeoUInt32PropertyPtr polyIndices;
+    OSGSofaGeoUInt32PropertyPtr normIndices;
 
-    OSG::OSG2_GeometryRecPtr geoCore;
+    OSGSofaGeometryPtr geoCore;
     if (geo)
     {
         geoCore = geo;
@@ -1085,16 +1094,17 @@ OSG::NodeTransitPtr OSG2_Model::createGroup(const FaceGroup& fg, OSG::Geometry* 
     // has tangents
     // tangents in texture unit 1
     // bitangents in texture unit 2
-    if (_tangents)
+    if (_bTangents)
+    //if (_tangents)
     {
 
         //geoCore->setTexCoords1(_tangents);
-        geoCore->setProperty(_tangents,  OSG::Geometry::TexCoords1Index  );
-        geoCore->setIndex   (polyIndices,   OSG::Geometry::TexCoords1Index); 
+        //geoCore->setProperty(_tangents,  OSG::Geometry::TexCoords1Index  );
+        //geoCore->setIndex   (polyIndices,   OSG::Geometry::TexCoords1Index); 
 
         //geoCore->setTexCoords2(_biTangents);
-        geoCore->setProperty(_biTangents,  OSG::Geometry::TexCoords2Index  );
-        geoCore->setIndex   (polyIndices,   OSG::Geometry::TexCoords2Index); 
+        //geoCore->setProperty(_biTangents,  OSG::Geometry::TexCoords2Index  );
+        //geoCore->setIndex   (polyIndices,   OSG::Geometry::TexCoords2Index); 
 
         //OSG::calcVertexTangents(geoCore, OSG::Geometry::TexCoordsIndex, 
         //OSG::Geometry::TexCoords1Index, OSG::Geometry::TexCoords2Index); 
@@ -1111,10 +1121,10 @@ OSG::NodeTransitPtr OSG2_Model::createGroup(const FaceGroup& fg, OSG::Geometry* 
     else
         mat = this->materials.getValue()[fg.materialId];
 
-    OSG::SimpleMaterialRecPtr simpleMaterial = OSG::SimpleMaterial::create();
+    OSG::SimpleMaterialUnrecPtr simpleMaterial = OSG::SimpleMaterial::create();
 
-    //OSG::ChunkMaterialRecPtr chunkMaterial = OSG::ChunkMaterial::create();
-    //OSG::MaterialChunkRecPtr matChunk = OSG::MaterialChunk::create();
+    //OSG::ChunkMaterialUnrecPtr chunkMaterial = OSG::ChunkMaterial::create();
+    //OSG::MaterialChunkUnrecPtr matChunk = OSG::MaterialChunk::create();
     
     Vec4f ambient = mat.useAmbient?mat.ambient:Vec4f();
     Vec4f diffuse = mat.useDiffuse?mat.diffuse:Vec4f();
@@ -1166,14 +1176,14 @@ OSG::NodeTransitPtr OSG2_Model::createGroup(const FaceGroup& fg, OSG::Geometry* 
     simpleMaterial->setColorMaterial(GL_NONE);
 
     sofa::core::objectmodel::BaseContext* context = this->getContext();
-    OSG2_Shader* shader = context->core::objectmodel::BaseContext::get<OSG2_Shader>();
+    OSGShader* shader = context->core::objectmodel::BaseContext::get<OSGShader>();
     // ASSUME first shader first
 
     if (!_textureName && mat.useTexture && mat.activated)
     {
         int indexInTextureArray = materialTextureIdMap[fg.materialId];
         
-        OSG::TextureEnvChunkRecPtr texEnv = OSG::TextureEnvChunk::create();
+        OSG::TextureEnvChunkUnrecPtr texEnv = OSG::TextureEnvChunk::create();
         texEnv->setEnvMode(GL_MODULATE);
 
         _texMaterial[indexInTextureArray]->setMinFilter(GL_LINEAR);
@@ -1192,12 +1202,12 @@ OSG::NodeTransitPtr OSG2_Model::createGroup(const FaceGroup& fg, OSG::Geometry* 
 
         if (_textureName) 
         {
-            OSG::TextureEnvChunkRecPtr texEnv = OSG::TextureEnvChunk::create();
+            OSG::TextureEnvChunkUnrecPtr texEnv = OSG::TextureEnvChunk::create();
             texEnv->setEnvMode(GL_MODULATE);
             _textureName->setMinFilter(GL_LINEAR);
             _textureName->setMagFilter(GL_LINEAR);
             //texEnv->setEnvMode(GL_DECAL);
-            serr << "OSG2_Model " << this->getName()  << " using _texture_name" << sendl;
+            serr << "OSGSofaModel " << this->getName()  << " using _texture_name" << sendl;
             simpleMaterial->addChunk(_textureName, 0);
             if (shader) shader->addToMaterial( 0, simpleMaterial );
             simpleMaterial->addChunk(texEnv);
@@ -1211,10 +1221,10 @@ OSG::NodeTransitPtr OSG2_Model::createGroup(const FaceGroup& fg, OSG::Geometry* 
             if (shader)
             {
                 //if (shader->getShaderTextureObjChunk(0))
-            //serr << "OSG2_Model OglTexture found"  << sendl;
-                OSG::TextureEnvChunkRecPtr texEnv = OSG::TextureEnvChunk::create();
+            //serr << "OSGSofaModel OglTexture found"  << sendl;
+                OSG::TextureEnvChunkUnrecPtr texEnv = OSG::TextureEnvChunk::create();
                 texEnv->setEnvMode(GL_MODULATE);
-//serr << "OSG2_Model::addMaterial "  << shader  << sendl;
+//serr << "OSGSofaModel::addMaterial "  << shader  << sendl;
                 shader->addToMaterial( 0, simpleMaterial );
                 simpleMaterial->addChunk(texEnv);
 
@@ -1240,14 +1250,14 @@ OSG::NodeTransitPtr OSG2_Model::createGroup(const FaceGroup& fg, OSG::Geometry* 
     //simpleMaterial->setSortKey(0);
 
     //OSG::VariantMaterialRecPtr variantMaterial = OSG::VariantMaterial::create();
-    OSG::MultiPassMaterialRecPtr multiPassMaterial = OSG::MultiPassMaterial::create();
+    OSG::MultiPassMaterialUnrecPtr multiPassMaterial = OSG::MultiPassMaterial::create();
 
     if (isTransparent)
     {
         OSG::BlendChunkUnrecPtr blend = OSG::BlendChunk::create();
         simpleMaterial->addChunk(blend);
 
-        OSG::SimpleMaterialRecPtr simpleMaterial2 
+        OSG::SimpleMaterialUnrecPtr simpleMaterial2 
         = OSG::dynamic_pointer_cast<OSG::SimpleMaterial>(OSG::deepClone(simpleMaterial));
 
         
@@ -1380,17 +1390,17 @@ OSG::NodeTransitPtr OSG2_Model::createGroup(const FaceGroup& fg, OSG::Geometry* 
 
     if (geo) return OSG::NodeTransitPtr(NULL);
 
-    OSG::OSG2_NodeRecPtr geo_node = OSG::makeNodeFor(geoCore);
+    OSGSofaNodePtr geo_node = OSG::makeNodeFor(geoCore);
     return OSG::NodeTransitPtr(geo_node);
 
 }
 
-void OSG2_Model::createGroups( void )
+void OSGSofaModel::createGroups( void )
 {
     if (!_attachNode) return;
 
     if (!createCommon()) return;
-    //std::cerr << "OSG2_Model : going to create GROUPS" << std::endl;
+    //std::cerr << "OSGSofaModel : going to create GROUPS" << std::endl;
 
     helper::ReadAccessor< Data< helper::vector<FaceGroup> > > groups = this->groups;
 
@@ -1411,7 +1421,7 @@ void OSG2_Model::createGroups( void )
     if (groups.empty())
     {
 
-//serr << "OSG2_Model:: " << this->getName()  << " createGroups Single"  << sendl;
+//serr << "OSGSofaModel:: " << this->getName()  << " createGroups Single"  << sendl;
 
         FaceGroup fg;
         fg.nbt = triangles.size();
@@ -1425,15 +1435,15 @@ void OSG2_Model::createGroups( void )
             // fresh _attachNode
             if (_attachNode->getNChildren() <= 0)
             {
-                OSG::OSG2_NodeRecPtr node = createGroup( fg);
+                OSGSofaNodePtr node = createGroup( fg);
                 _attachNode->addChild(node);
             }
             else 
             {
                 OSG::NodeCoreUnrecPtr nc = _attachNode->getChild(0)->getCore();
-                OSG::OSG2_GeometryRecPtr geocore 
+                OSGSofaGeometryPtr geocore 
                 = OSG::dynamic_pointer_cast <OSG::Geometry>(nc);
-                OSG::OSG2_NodeRecPtr node = createGroup( fg, geocore);
+                OSGSofaNodePtr node = createGroup( fg, geocore);
 
                 // should not be true
                 if (node)
@@ -1451,7 +1461,7 @@ void OSG2_Model::createGroups( void )
         _attachNode->clearChildren();
         for (unsigned int i=0; i < groups.size() ; ++i)
         {
-            OSG::OSG2_NodeRecPtr node = createGroup( this->groups.getValue()[i]);
+            OSGSofaNodePtr node = createGroup( this->groups.getValue()[i]);
             _attachNode->addChild(node);
         }
         return;
@@ -1459,13 +1469,13 @@ void OSG2_Model::createGroups( void )
     }
     // number of groups the same
     OSG::NodeCoreUnrecPtr geonode;
-    OSG::OSG2_GeometryRecPtr geocore; 
+    OSGSofaGeometryPtr geocore; 
     for (unsigned int i=0; i < groups.size() ; ++i)
     {
           geonode = _attachNode->getChild(i)->getCore();
-          OSG::OSG2_GeometryRecPtr geocore 
+          OSGSofaGeometryPtr geocore 
           = OSG::dynamic_pointer_cast <OSG::Geometry>(geonode);
-          OSG::OSG2_NodeRecPtr node = createGroup(this->groups.getValue()[i], geocore);
+          OSGSofaNodePtr node = createGroup(this->groups.getValue()[i], geocore);
 
           // should not be true
           if (node)
@@ -1476,7 +1486,7 @@ void OSG2_Model::createGroups( void )
 }
 
 
-GLenum OSG2_Model::getGLenum(const char* c ) const
+GLenum OSGSofaModel::getGLenum(const char* c ) const
 {
 
     if ( strcmp( c, "GL_ZERO") == 0)
@@ -1517,7 +1527,7 @@ GLenum OSG2_Model::getGLenum(const char* c ) const
     else
     {
         // error: not valid
-        std::cerr   << " OSG2_Model - not valid or not supported openGL enum value: " << c ;
+        std::cerr   << " OSGSofaModel - not valid or not supported openGL enum value: " << c ;
         return GL_ZERO;
     }
 
@@ -1530,7 +1540,7 @@ OSG::Action::ResultE enter(OSG::Node* node)
     return OSG::Action::Continue;
 }
 
-void OSG2_Model::updateOptions()
+void OSGSofaModel::updateOptions()
 {
     if (!_attachNode) return;
     traverse(_attachNode, enter);

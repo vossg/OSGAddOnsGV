@@ -82,13 +82,22 @@
 
 #ifndef OSG2_SOFA_SIMU_THREAD
 
-#define OSG2_NodeRecPtr NodeRecPtr
-#define OSG2_GeoPnt3fPropertyRecPtr GeoPnt3fPropertyRecPtr 
-#define OSG2_GeoVec3fPropertyRecPtr GeoVec3fPropertyRecPtr  
-#define OSG2_GeoPnt2fPropertyRecPtr GeoPnt2fPropertyRecPtr
-#define OSG2_GeometryRecPtr         GeometryRecPtr
-#define OSG2_GeoUInt8PropertyRecPtr GeoUInt8PropertyRecPtr
-#define OSG2_GeoUInt32PropertyRecPtr GeoUInt32PropertyRecPtr
+#define OSG2_NodeRecPtr NodeUnrecPtr
+#define OSG2_GeoPnt3fPropertyRecPtr GeoPnt3fPropertyUnrecPtr 
+#define OSG2_GeoVec3fPropertyRecPtr GeoVec3fPropertyUnrecPtr  
+#define OSG2_GeoPnt2fPropertyRecPtr GeoPnt2fPropertyUnrecPtr
+#define OSG2_GeometryRecPtr         GeometryUnrecPtr
+#define OSG2_GeoUInt8PropertyRecPtr GeoUInt8PropertyUnrecPtr
+#define OSG2_GeoUInt32PropertyRecPtr GeoUInt32PropertyUnrecPtr
+
+typedef OSG::NodeUnrecPtr OSGSofaNodePtr;
+typedef OSG::GeoPnt3fPropertyUnrecPtr OSGSofaGeoPnt3fPropertyPtr;
+typedef OSG::GeoVec3fPropertyUnrecPtr OSGSofaGeoVec3fPropertyPtr;
+typedef OSG::GeoPnt2fPropertyUnrecPtr OSGSofaGeoPnt2fPropertyPtr;
+typedef OSG::GeometryUnrecPtr OSGSofaGeometryPtr;
+typedef OSG::GeoUInt8PropertyUnrecPtr OSGSofaGeoUInt8PropertyPtr;
+typedef OSG::GeoUInt32PropertyUnrecPtr OSGSofaGeoUInt32PropertyPtr;
+
 
 #else
 
@@ -99,6 +108,14 @@
 #define OSG2_GeometryRecPtr         GeometryMTRecPtr
 #define OSG2_GeoUInt8PropertyRecPtr GeoUInt8PropertyMTRecPtr
 #define OSG2_GeoUInt32PropertyRecPtr GeoUInt32PropertyMTRecPtr
+
+typedef OSG::NodeMTRecPtr OSGSofaNodePtr;
+typedef OSG::GeoPnt3fPropertyMTRecPtr OSGSofaGeoPnt3fPropertyPtr;
+typedef OSG::GeoVec3fPropertyMTRecPtr OSGSofaGeoVec3fPropertyPtr;
+typedef OSG::GeoPnt2fPropertyMTRecPtr OSGSofaGeoPnt2fPropertyPtr;
+typedef OSG::GeometryMTRecPtr OSGSofaGeometryPtr;
+typedef OSG::GeoUInt8PropertyMTRecPtr OSGSofaGeoUInt8PropertyPtr;
+typedef OSG::GeoUInt32PropertyMTRecPtr OSGSofaGeoUInt32PropertyPtr;
 
 #endif
 
@@ -113,10 +130,10 @@ BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
  *  using OpenSG 2.0
  *
  */
-class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Model : public VisualModelImpl
+class OSG_CONTRIBSOFA_DLLMAPPING OSGSofaModel : public VisualModelImpl
 {
   public:
-    SOFA_CLASS(OSG2_Model, VisualModelImpl);
+    SOFA_CLASS(OSGSofaModel, VisualModelImpl);
 
   protected:
     Data<bool> premultipliedAlpha, useVBO, writeZTransparent, alphaBlend, depthTest;
@@ -129,26 +146,27 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Model : public VisualModelImpl
     GLenum blendEq, sfactor, dfactor;
 
     // Open SG
-    OSG::OSG2_NodeRecPtr _attachNode;
-    OSG::SwitchRecPtr _switchCore;
+    OSGSofaNodePtr _attachNode;
+    OSG::SwitchUnrecPtr _switchCore;
 
     // shared across aspects
-    OSG::OSG2_GeoPnt3fPropertyRecPtr  _polygonPoints;
-    OSG::OSG2_GeoVec3fPropertyRecPtr  _vertexNormals;
+    OSGSofaGeoPnt3fPropertyPtr  _polygonPoints;
+    OSGSofaGeoVec3fPropertyPtr  _vertexNormals;
 
-    OSG::OSG2_GeoPnt2fPropertyRecPtr  _texCoord2D;
-    OSG::OSG2_GeoVec3fPropertyRecPtr  _tangents;
-    OSG::OSG2_GeoVec3fPropertyRecPtr  _biTangents;
+    OSGSofaGeoPnt2fPropertyPtr  _texCoord2D;
+    OSGSofaGeoVec3fPropertyPtr  _tangents;
+    OSGSofaGeoVec3fPropertyPtr  _biTangents;
+    bool _bTangents;
     
 
     // Chunks
-    OSG::TextureObjChunkRecPtr _textureName;
-    std::vector<OSG::TextureObjChunkRecPtr> _texMaterial;
-    OSG::PolygonChunkRecPtr _polygonChunk;
-    OSG::ShadeModelChunkRecPtr _shadeModelChunk;
-    OSG::TwoSidedLightingChunkRecPtr _twoSidedLightingChunk;
+    OSG::TextureObjChunkUnrecPtr _textureName;
+    std::vector<OSG::TextureObjChunkUnrecPtr> _texMaterial;
+    OSG::PolygonChunkUnrecPtr _polygonChunk;
+    OSG::ShadeModelChunkUnrecPtr _shadeModelChunk;
+    OSG::TwoSidedLightingChunkUnrecPtr _twoSidedLightingChunk;
 
-    //OSG::ClipPlaneChunkRecPtr _clipPlaneChunk[6];
+    //OSG::ClipPlaneChunkUnrecPtr _clipPlaneChunk[6];
 
 
 
@@ -181,9 +199,9 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSG2_Model : public VisualModelImpl
     OSG::Image::PixelFormat convertSofaToOpenSG(helper::io::Image::ChannelFormat cf);
     OSG::Image::Type   convertSofaToOpenSG(helper::io::Image::DataType dt);
 
-    OSG2_Model();
+    OSGSofaModel();
 
-    ~OSG2_Model();
+    ~OSGSofaModel();
   public:
 
     bool loadTexture(const std::string& filename);

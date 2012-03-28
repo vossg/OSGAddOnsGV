@@ -56,202 +56,202 @@ namespace visualmodel
 {
 
 /** SINGLE INT VARIABLE **/
-SOFA_DECL_CLASS(OSG2_IntVariable)
-SOFA_DECL_CLASS(OSG2_Int2Variable)
-SOFA_DECL_CLASS(OSG2_Int3Variable)
-SOFA_DECL_CLASS(OSG2_Int4Variable)
+SOFA_DECL_CLASS(OSGIntVariable)
+SOFA_DECL_CLASS(OSGInt2Variable)
+SOFA_DECL_CLASS(OSGInt3Variable)
+SOFA_DECL_CLASS(OSGInt4Variable)
 
-//Register OSG2_IntVariable in the Object Factory
-int OSG2_IntVariableClass = core::RegisterObject("OSG2_IntVariable")
-.add< OSG2_IntVariable >()
+//Register OSGIntVariable in the Object Factory
+int OSGIntVariableClass = core::RegisterObject("OSGIntVariable")
+.add< OSGIntVariable >()
 ;
-//Register OSG2_Int2Variable in the Object Factory
-int OSG2_Int2VariableClass = core::RegisterObject("OSG2_Int2Variable")
-.add< OSG2_Int2Variable >()
+//Register OSGInt2Variable in the Object Factory
+int OSGInt2VariableClass = core::RegisterObject("OSGInt2Variable")
+.add< OSGInt2Variable >()
 ;
-//Register OSG2_Int3Variable in the Object Factory
-int OSG2_Int3VariableClass = core::RegisterObject("OSG2_Int3Variable")
-.add< OSG2_Int3Variable >()
+//Register OSGInt3Variable in the Object Factory
+int OSGInt3VariableClass = core::RegisterObject("OSGInt3Variable")
+.add< OSGInt3Variable >()
 ;
-//Register OSG2_Int4Variable in the Object Factory
-int OSG2_Int4VariableClass = core::RegisterObject("OSG2_Int4Variable")
-.add< OSG2_Int4Variable >()
+//Register OSGInt4Variable in the Object Factory
+int OSGInt4VariableClass = core::RegisterObject("OSGInt4Variable")
+.add< OSGInt4Variable >()
 ;
 
 /** SINGLE FLOAT VARIABLE **/
 
-SOFA_DECL_CLASS(OSG2_FloatVariable)
-SOFA_DECL_CLASS(OSG2_Float2Variable)
-SOFA_DECL_CLASS(OSG2_Float3Variable)
-SOFA_DECL_CLASS(OSG2_Float4Variable)
+SOFA_DECL_CLASS(OSGFloatVariable)
+SOFA_DECL_CLASS(OSGFloat2Variable)
+SOFA_DECL_CLASS(OSGFloat3Variable)
+SOFA_DECL_CLASS(OSGFloat4Variable)
 
-//Register OSG2_FloatVariable in the Object Factory
-int OSG2_FloatVariableClass = core::RegisterObject("OSG2_FloatVariable")
-.add< OSG2_FloatVariable >()
+//Register OSGFloatVariable in the Object Factory
+int OSGFloatVariableClass = core::RegisterObject("OSGFloatVariable")
+.add< OSGFloatVariable >()
 ;
-//Register OSG2_Float2Variable in the Object Factory
-int OSG2_Float2VariableClass = core::RegisterObject("OSG2_Float2Variable")
-.add< OSG2_Float2Variable >()
+//Register OSGFloat2Variable in the Object Factory
+int OSGFloat2VariableClass = core::RegisterObject("OSGFloat2Variable")
+.add< OSGFloat2Variable >()
 ;
-//Register OSG2_Float3Variable in the Object Factory
-int OSG2_Float3VariableClass = core::RegisterObject("OSG2_Float3Variable")
-.add< OSG2_Float3Variable >()
+//Register OSGFloat3Variable in the Object Factory
+int OSGFloat3VariableClass = core::RegisterObject("OSGFloat3Variable")
+.add< OSGFloat3Variable >()
 ;
-//Register OSG2_Float4Variable in the Object Factory
-int OSG2_Float4VariableClass = core::RegisterObject("OSG2_Float4Variable")
-.add< OSG2_Float4Variable >()
+//Register OSGFloat4Variable in the Object Factory
+int OSGFloat4VariableClass = core::RegisterObject("OSGFloat4Variable")
+.add< OSGFloat4Variable >()
 ;
 
 /** INT VECTOR VARIABLE **/
-SOFA_DECL_CLASS(OSG2_IntVectorVariable)
-SOFA_DECL_CLASS(OSG2_IntVector2Variable)
-SOFA_DECL_CLASS(OSG2_IntVector3Variable)
-SOFA_DECL_CLASS(OSG2_IntVector4Variable)
+SOFA_DECL_CLASS(OSGIntVectorVariable)
+SOFA_DECL_CLASS(OSGIntVector2Variable)
+SOFA_DECL_CLASS(OSGIntVector3Variable)
+SOFA_DECL_CLASS(OSGIntVector4Variable)
 
-//Register OSG2_IntVectorVariable in the Object Factory
-int OSG2_IntVectorVariableClass = core::RegisterObject("OSG2_IntVectorVariable")
-.add< OSG2_IntVectorVariable >()
+//Register OSGIntVectorVariable in the Object Factory
+int OSGIntVectorVariableClass = core::RegisterObject("OSGIntVectorVariable")
+.add< OSGIntVectorVariable >()
 ;
 
-//Register OSG2_IntVector2Variable in the Object Factory
-int OSG2_IntVector2VariableClass = core::RegisterObject("OSG2_IntVector2Variable")
-.add< OSG2_IntVector2Variable >()
+//Register OSGIntVector2Variable in the Object Factory
+int OSGIntVector2VariableClass = core::RegisterObject("OSGIntVector2Variable")
+.add< OSGIntVector2Variable >()
 ;
 
-//Register OSG2_IntVector3Variable in the Object Factory
-int OSG2_IntVector3VariableClass = core::RegisterObject("OSG2_IntVector3Variable")
-.add< OSG2_IntVector3Variable >()
+//Register OSGIntVector3Variable in the Object Factory
+int OSGIntVector3VariableClass = core::RegisterObject("OSGIntVector3Variable")
+.add< OSGIntVector3Variable >()
 ;
 
-//Register OSG2_IntVector4Variable in the Object Factory
-int OSG2_IntVector4VariableClass = core::RegisterObject("OSG2_IntVector4Variable")
-.add< OSG2_IntVector4Variable >()
+//Register OSGIntVector4Variable in the Object Factory
+int OSGIntVector4VariableClass = core::RegisterObject("OSGIntVector4Variable")
+.add< OSGIntVector4Variable >()
 ;
 
 
 /** FLOAT VECTOR VARIABLE **/
-SOFA_DECL_CLASS(OSG2_FloatVectorVariable)
-SOFA_DECL_CLASS(OSG2_FloatVector2Variable)
-SOFA_DECL_CLASS(OSG2_FloatVector3Variable)
-SOFA_DECL_CLASS(OSG2_FloatVector4Variable)
+SOFA_DECL_CLASS(OSGFloatVectorVariable)
+SOFA_DECL_CLASS(OSGFloatVector2Variable)
+SOFA_DECL_CLASS(OSGFloatVector3Variable)
+SOFA_DECL_CLASS(OSGFloatVector4Variable)
 
-//Register OSG2_FloatVectorVariable in the Object Factory
-int OSG2_FloatVectorVariableClass = core::RegisterObject("OSG2_FloatVectorVariable")
-.add< OSG2_FloatVectorVariable >()
+//Register OSGFloatVectorVariable in the Object Factory
+int OSGFloatVectorVariableClass = core::RegisterObject("OSGFloatVectorVariable")
+.add< OSGFloatVectorVariable >()
 ;
 
-//Register OSG2_FloatVector2Variable in the Object Factory
-int OSG2_FloatVector2VariableClass = core::RegisterObject("OSG2_FloatVector2Variable")
-.add< OSG2_FloatVector2Variable >()
+//Register OSGFloatVector2Variable in the Object Factory
+int OSGFloatVector2VariableClass = core::RegisterObject("OSGFloatVector2Variable")
+.add< OSGFloatVector2Variable >()
 ;
 
-//Register OSG2_FloatVector3Variable in the Object Factory
-int OSG2_FloatVector3VariableClass = core::RegisterObject("OSG2_FloatVector3Variable")
-.add< OSG2_FloatVector3Variable >()
+//Register OSGFloatVector3Variable in the Object Factory
+int OSGFloatVector3VariableClass = core::RegisterObject("OSGFloatVector3Variable")
+.add< OSGFloatVector3Variable >()
 ;
-//Register OSG2_FloatVector4Variable in the Object Factory
-int OSG2_FloatVector4VariableClass = core::RegisterObject("OSG2_FloatVector4Variable")
-.add< OSG2_FloatVector4Variable >()
+//Register OSGFloatVector4Variable in the Object Factory
+int OSGFloatVector4VariableClass = core::RegisterObject("OSGFloatVector4Variable")
+.add< OSGFloatVector4Variable >()
 ;
 
 /** FLOAT VECTOR VARIABLE **/
-SOFA_DECL_CLASS(OSG2_Matrix2Variable)
-SOFA_DECL_CLASS(OSG2_Matrix3Variable)
-SOFA_DECL_CLASS(OSG2_Matrix4Variable)
-SOFA_DECL_CLASS(OSG2_Matrix2x3Variable)
-SOFA_DECL_CLASS(OSG2_Matrix3x2Variable)
-SOFA_DECL_CLASS(OSG2_Matrix2x4Variable)
-SOFA_DECL_CLASS(OSG2_Matrix4x2Variable)
-SOFA_DECL_CLASS(OSG2_Matrix3x4Variable)
-SOFA_DECL_CLASS(OSG2_Matrix4x3Variable)
+SOFA_DECL_CLASS(OSGMatrix2Variable)
+SOFA_DECL_CLASS(OSGMatrix3Variable)
+SOFA_DECL_CLASS(OSGMatrix4Variable)
+SOFA_DECL_CLASS(OSGMatrix2x3Variable)
+SOFA_DECL_CLASS(OSGMatrix3x2Variable)
+SOFA_DECL_CLASS(OSGMatrix2x4Variable)
+SOFA_DECL_CLASS(OSGMatrix4x2Variable)
+SOFA_DECL_CLASS(OSGMatrix3x4Variable)
+SOFA_DECL_CLASS(OSGMatrix4x3Variable)
 
-//Register OSG2_Matrix2Variable in the Object Factory
-int OSG2_Matrix2VariableClass = core::RegisterObject("OSG2_Matrix2Variable")
-.add< OSG2_Matrix2Variable >()
+//Register OSGMatrix2Variable in the Object Factory
+int OSGMatrix2VariableClass = core::RegisterObject("OSGMatrix2Variable")
+.add< OSGMatrix2Variable >()
 ;
 
-//Register OSG2_Matrix3Variable in the Object Factory
-int OSG2_Matrix3VariableClass = core::RegisterObject("OSG2_Matrix3Variable")
-.add< OSG2_Matrix3Variable >()
+//Register OSGMatrix3Variable in the Object Factory
+int OSGMatrix3VariableClass = core::RegisterObject("OSGMatrix3Variable")
+.add< OSGMatrix3Variable >()
 ;
 
-//Register OSG2_Matrix4Variable in the Object Factory
-int OSG2_Matrix4VariableClass = core::RegisterObject("OSG2_Matrix4Variable")
-.add< OSG2_Matrix4Variable >()
+//Register OSGMatrix4Variable in the Object Factory
+int OSGMatrix4VariableClass = core::RegisterObject("OSGMatrix4Variable")
+.add< OSGMatrix4Variable >()
 ;
 
-//Register OSG2_Matrix2x3Variable in the Object Factory
-int OSG2_Matrix2x3VariableClass = core::RegisterObject("OSG2_Matrix2x3Variable")
-.add< OSG2_Matrix2x3Variable >()
+//Register OSGMatrix2x3Variable in the Object Factory
+int OSGMatrix2x3VariableClass = core::RegisterObject("OSGMatrix2x3Variable")
+.add< OSGMatrix2x3Variable >()
 ;
 
-//Register OSG2_Matrix3x2Variable in the Object Factory
-int OSG2_Matrix3x2VariableClass = core::RegisterObject("OSG2_Matrix3x2Variable")
-.add< OSG2_Matrix3x2Variable >()
+//Register OSGMatrix3x2Variable in the Object Factory
+int OSGMatrix3x2VariableClass = core::RegisterObject("OSGMatrix3x2Variable")
+.add< OSGMatrix3x2Variable >()
 ;
 
-//Register OSG2_Matrix2x4Variable in the Object Factory
-int OSG2_Matrix2x4VariableClass = core::RegisterObject("OSG2_Matrix2x4Variable")
-.add< OSG2_Matrix2x4Variable >()
+//Register OSGMatrix2x4Variable in the Object Factory
+int OSGMatrix2x4VariableClass = core::RegisterObject("OSGMatrix2x4Variable")
+.add< OSGMatrix2x4Variable >()
 ;
 
-//Register OSG2_Matrix4x2Variable in the Object Factory
-int OSG2_Matrix4x2VariableClass = core::RegisterObject("OSG2_Matrix4x2Variable")
-.add< OSG2_Matrix4x2Variable >()
+//Register OSGMatrix4x2Variable in the Object Factory
+int OSGMatrix4x2VariableClass = core::RegisterObject("OSGMatrix4x2Variable")
+.add< OSGMatrix4x2Variable >()
 ;
 
-//Register OSG2_Matrix2x4Variable in the Object Factory
-int OSG2_Matrix3x4VariableClass = core::RegisterObject("OSG2_Matrix3x4Variable")
-.add< OSG2_Matrix3x4Variable >()
+//Register OSGMatrix2x4Variable in the Object Factory
+int OSGMatrix3x4VariableClass = core::RegisterObject("OSGMatrix3x4Variable")
+.add< OSGMatrix3x4Variable >()
 ;
 
-//Register OSG2_Matrix4x3Variable in the Object Factory
-int OSG2_Matrix4x3VariableClass = core::RegisterObject("OSG2_Matrix4x3Variable")
-.add< OSG2_Matrix4x3Variable >()
+//Register OSGMatrix4x3Variable in the Object Factory
+int OSGMatrix4x3VariableClass = core::RegisterObject("OSGMatrix4x3Variable")
+.add< OSGMatrix4x3Variable >()
 ;
 
 
-OSG2_IntVariable::OSG2_IntVariable()
+OSGIntVariable::OSGIntVariable()
 {
 
 }
 
-OSG2_Int2Variable::OSG2_Int2Variable()
+OSGInt2Variable::OSGInt2Variable()
 {
 
 }
 
-OSG2_Int3Variable::OSG2_Int3Variable()
+OSGInt3Variable::OSGInt3Variable()
 {
 
 }
 
-OSG2_Int4Variable::OSG2_Int4Variable()
+OSGInt4Variable::OSGInt4Variable()
 {
 
 }
 
-void OSG2_IntVariable::initVisual()
+void OSGIntVariable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
     varChunk->addUniformVariable( id.getValue().c_str(), OSG::Int32(value.getValue()) );
 
     OSG::Int32 osgvalue;
     varChunk->getUniformVariable(id.getValue().c_str(), osgvalue);
 
-std::cerr << "OSG2_IntVariable::initVisual" << std::endl;
-std::cerr << "OSG2_IntVariable ::SOFA" << " " << indexShader.getValue() << " " << id.getValue().c_str() << " " << value.getValue() << std::endl;
-std::cerr << "OSG2_IntVariable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
+std::cerr << "OSGIntVariable::initVisual" << std::endl;
+std::cerr << "OSGIntVariable ::SOFA" << " " << indexShader.getValue() << " " << id.getValue().c_str() << " " << value.getValue() << std::endl;
+std::cerr << "OSGIntVariable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
 std::cerr << "Shader : " << shader << std::endl;
 std::cerr << "==========================" << std::endl;
 
 }
 
 
-void OSG2_Int2Variable::initVisual()
+void OSGInt2Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
     OSG::MFInt32 int2;
@@ -264,9 +264,9 @@ void OSG2_Int2Variable::initVisual()
     , int2 ) ;
 }
 
-void OSG2_Int3Variable::initVisual()
+void OSGInt3Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
     OSG::MFInt32 int3;
@@ -279,9 +279,9 @@ void OSG2_Int3Variable::initVisual()
     , int3 ) ;
 }
 
-void OSG2_Int4Variable::initVisual()
+void OSGInt4Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
     OSG::MFInt32 int4;
@@ -296,29 +296,29 @@ void OSG2_Int4Variable::initVisual()
 }
 
 
-OSG2_FloatVariable::OSG2_FloatVariable()
+OSGFloatVariable::OSGFloatVariable()
 {
 
 }
 
-OSG2_Float2Variable::OSG2_Float2Variable()
+OSGFloat2Variable::OSGFloat2Variable()
 {
 
 }
 
-OSG2_Float3Variable::OSG2_Float3Variable()
+OSGFloat3Variable::OSGFloat3Variable()
 {
 
 }
 
-OSG2_Float4Variable::OSG2_Float4Variable()
+OSGFloat4Variable::OSGFloat4Variable()
 {
 
 }
 
-void OSG2_FloatVariable::initVisual()
+void OSGFloatVariable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
     varChunk->addUniformVariable( id.getValue().c_str(), OSG::Real32(value.getValue()) );
 
@@ -326,9 +326,9 @@ void OSG2_FloatVariable::initVisual()
     OSG::Real32 osgvalue;
     varChunk->getUniformVariable(id.getValue().c_str(), osgvalue);
 
-std::cerr << "OSG2_FloatVariable::initVisual" << std::endl;
-std::cerr << "OSG2_FloatVariable ::SOFA" << " " << indexShader.getValue() << " " << id.getValue().c_str() << " " << value.getValue() << std::endl;
-std::cerr << "OSG2_FloatVariable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
+std::cerr << "OSGFloatVariable::initVisual" << std::endl;
+std::cerr << "OSGFloatVariable ::SOFA" << " " << indexShader.getValue() << " " << id.getValue().c_str() << " " << value.getValue() << std::endl;
+std::cerr << "OSGFloatVariable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
 std::cerr << "Shader : " << shader << std::endl;
 std::cerr << "==========================" << std::endl;
 
@@ -336,9 +336,9 @@ std::cerr << "==========================" << std::endl;
 }
 
 
-void OSG2_Float2Variable::initVisual()
+void OSGFloat2Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
     
@@ -348,9 +348,9 @@ void OSG2_Float2Variable::initVisual()
 
 }
 
-void OSG2_Float3Variable::initVisual()
+void OSGFloat3Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
     OSG::MFReal32 float3;
@@ -366,15 +366,15 @@ void OSG2_Float3Variable::initVisual()
     OSG::Vec3f osgvalue;
     varChunk->getUniformVariable(id.getValue().c_str(), osgvalue);
 
-std::cerr << "OSG2_Float3_Variable::initVisual" << std::endl;
-std::cerr << "OSG2_Float3_Variable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
+std::cerr << "OSGFloat3_Variable::initVisual" << std::endl;
+std::cerr << "OSGFloat3_Variable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
 std::cerr << "Shader : " << shader << std::endl;
 std::cerr << "==========================" << std::endl;
 }
 
-void OSG2_Float4Variable::initVisual()
+void OSGFloat4Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
 
@@ -385,35 +385,35 @@ void OSG2_Float4Variable::initVisual()
 }
 
 
-OSG2_IntVectorVariable::OSG2_IntVectorVariable()
+OSGIntVectorVariable::OSGIntVectorVariable()
 {
 
 }
 
-OSG2_IntVector2Variable::OSG2_IntVector2Variable()
+OSGIntVector2Variable::OSGIntVector2Variable()
 {
 
 }
 
-OSG2_IntVector3Variable::OSG2_IntVector3Variable()
+OSGIntVector3Variable::OSGIntVector3Variable()
 {
 
 }
 
-OSG2_IntVector4Variable::OSG2_IntVector4Variable()
+OSGIntVector4Variable::OSGIntVector4Variable()
 {
 
 }
 
 
-void OSG2_IntVectorVariable::init()
+void OSGIntVectorVariable::init()
 {
-    OSG2_Variable<helper::vector<GLint> >::init();
+    OSGVariable<helper::vector<GLint> >::init();
 }
 
-void OSG2_IntVector2Variable::init()
+void OSGIntVector2Variable::init()
 {
-    OSG2_IntVectorVariable::init();
+    OSGIntVectorVariable::init();
     helper::vector<GLint> temp = value.getValue();
     if (value.getValue().size() %2 != 0)
     {
@@ -423,9 +423,9 @@ void OSG2_IntVector2Variable::init()
     }
 }
 
-void OSG2_IntVector3Variable::init()
+void OSGIntVector3Variable::init()
 {
-    OSG2_IntVectorVariable::init();
+    OSGIntVectorVariable::init();
     helper::vector<GLint> temp = value.getValue();
     if (value.getValue().size() %3 != 0)
     {
@@ -435,9 +435,9 @@ void OSG2_IntVector3Variable::init()
     }
 }
 
-void OSG2_IntVector4Variable::init()
+void OSGIntVector4Variable::init()
 {
-    OSG2_IntVectorVariable::init();
+    OSGIntVectorVariable::init();
     helper::vector<GLint> temp = value.getValue();
 
     if (value.getValue().size() %4 != 0)
@@ -448,9 +448,9 @@ void OSG2_IntVector4Variable::init()
     }
 }
 
-void OSG2_IntVectorVariable::initVisual()
+void OSGIntVectorVariable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
     varChunk->addUniformVariable( id.getValue().c_str(), OSG::Int32(value.getValue()[0]) );
@@ -458,9 +458,9 @@ void OSG2_IntVectorVariable::initVisual()
     //shader->setIntVector(indexShader.getValue(), id.getValue().c_str(), value.getValue().size(), &(value.getValue()[0]));
 }
 
-void OSG2_IntVector2Variable::initVisual()
+void OSGIntVector2Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
     OSG::MFInt32 int2;
@@ -475,9 +475,9 @@ void OSG2_IntVector2Variable::initVisual()
     //shader->setIntVector2(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/2, &(value.getValue()[0]));
 }
 
-void OSG2_IntVector3Variable::initVisual()
+void OSGIntVector3Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
     OSG::MFInt32 int3;
@@ -492,9 +492,9 @@ void OSG2_IntVector3Variable::initVisual()
     //shader->setIntVector3(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/3, &(value.getValue()[0]));
 }
 
-void OSG2_IntVector4Variable::initVisual()
+void OSGIntVector4Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
     OSG::MFInt32 int4;
@@ -511,35 +511,35 @@ void OSG2_IntVector4Variable::initVisual()
 }
 
 
-OSG2_FloatVectorVariable::OSG2_FloatVectorVariable()
+OSGFloatVectorVariable::OSGFloatVectorVariable()
 {
 
 }
 
-OSG2_FloatVector2Variable::OSG2_FloatVector2Variable()
+OSGFloatVector2Variable::OSGFloatVector2Variable()
 {
 
 }
 
-OSG2_FloatVector3Variable::OSG2_FloatVector3Variable()
+OSGFloatVector3Variable::OSGFloatVector3Variable()
 {
 
 }
 
-OSG2_FloatVector4Variable::OSG2_FloatVector4Variable()
+OSGFloatVector4Variable::OSGFloatVector4Variable()
 {
 
 }
 
 
-void OSG2_FloatVectorVariable::init()
+void OSGFloatVectorVariable::init()
 {
-    OSG2_Variable<helper::vector<float> >::init();
+    OSGVariable<helper::vector<float> >::init();
 }
 
-void OSG2_FloatVector2Variable::init()
+void OSGFloatVector2Variable::init()
 {
-    OSG2_FloatVectorVariable::init();
+    OSGFloatVectorVariable::init();
     helper::vector<float> temp = value.getValue();
     if (value.getValue().size() %2 != 0)
     {
@@ -549,9 +549,9 @@ void OSG2_FloatVector2Variable::init()
     }
 }
 
-void OSG2_FloatVector3Variable::init()
+void OSGFloatVector3Variable::init()
 {
-    OSG2_FloatVectorVariable::init();
+    OSGFloatVectorVariable::init();
     helper::vector<float> temp = value.getValue();
 
     if (value.getValue().size() %3 != 0)
@@ -562,9 +562,9 @@ void OSG2_FloatVector3Variable::init()
     }
 }
 
-void OSG2_FloatVector4Variable::init()
+void OSGFloatVector4Variable::init()
 {
-    OSG2_FloatVectorVariable::init();
+    OSGFloatVectorVariable::init();
     helper::vector<float> temp = value.getValue();
     std::cerr << this->getName() << " " << value.getValue().size() << std::endl;
     if (value.getValue().size() %4 != 0)
@@ -575,9 +575,9 @@ void OSG2_FloatVector4Variable::init()
     }
 }
 
-void OSG2_FloatVectorVariable::initVisual()
+void OSGFloatVectorVariable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
     varChunk->addUniformVariable( id.getValue().c_str(), 
     OSG::Real32(value.getValue()[0]) );
@@ -585,9 +585,9 @@ void OSG2_FloatVectorVariable::initVisual()
     //shader->setFloatVector(indexShader.getValue(), id.getValue().c_str(), value.getValue().size(), &(value.getValue()[0]));
 }
 
-void OSG2_FloatVector2Variable::initVisual()
+void OSGFloatVector2Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
     varChunk->addUniformVariable( id.getValue().c_str(), 
     OSG::Vec2f(value.getValue()[0],value.getValue()[1] ) );
@@ -595,10 +595,10 @@ void OSG2_FloatVector2Variable::initVisual()
     //shader->setFloatVector2(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/2, &(value.getValue()[0]));
 }
 
-void OSG2_FloatVector3Variable::initVisual()
+void OSGFloatVector3Variable::initVisual()
 {
-    std::cerr << "IN OSG2_FloatVector3Variable::initVisual()" << std::endl;
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    std::cerr << "IN OSGFloatVector3Variable::initVisual()" << std::endl;
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
     OSG::MFVec3f vectormap;
@@ -615,15 +615,15 @@ void OSG2_FloatVector3Variable::initVisual()
     varChunk->addUniformVariable( id.getValue().c_str(), 
     vectormap);
 
-    std::cerr << "OUT OSG2_FloatVector3Variable::initVisual()" << std::endl;
+    std::cerr << "OUT OSGFloatVector3Variable::initVisual()" << std::endl;
 
     //shader->setFloatVector3(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/3, &(value.getValue()[0]));
 }
 
-void OSG2_FloatVector4Variable::initVisual()
+void OSGFloatVector4Variable::initVisual()
 {
-    std::cerr << "IN OSG2_FloatVector4Variable::initVisual() " << id.getValue().c_str() << std::endl;
-    OSG::ShaderProgramVariableChunkRecPtr varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+    std::cerr << "IN OSGFloatVector4Variable::initVisual() " << id.getValue().c_str() << std::endl;
+    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
     if (!varChunk) return;
 
     OSG::MFVec4f vectormap;
@@ -648,19 +648,19 @@ void OSG2_FloatVector4Variable::initVisual()
     //allfloats);
     vectormap);
 
-    std::cerr << "OUT OSG2_FloatVector4Variable::initVisual()" << std::endl;
+    std::cerr << "OUT OSGFloatVector4Variable::initVisual()" << std::endl;
 }
 
 
 //// Matrix /////
-OSG2_Matrix2Variable::OSG2_Matrix2Variable()
+OSGMatrix2Variable::OSGMatrix2Variable()
 {
 
 }
 
-void OSG2_Matrix2Variable::init()
+void OSGMatrix2Variable::init()
 {
-     OSG2_Variable<helper::vector<float> >::init();
+     OSGVariable<helper::vector<float> >::init();
 
      helper::vector<float> temp = value.getValue();
 
@@ -672,19 +672,19 @@ void OSG2_Matrix2Variable::init()
      }
 }
 
-void OSG2_Matrix2Variable::initVisual()
+void OSGMatrix2Variable::initVisual()
 {
     shader->setMatrix2(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/4, transpose.getValue(), &(value.getValue()[0]));
 }
 
-OSG2_Matrix3Variable::OSG2_Matrix3Variable()
+OSGMatrix3Variable::OSGMatrix3Variable()
 {
 
 }
 
-void OSG2_Matrix3Variable::init()
+void OSGMatrix3Variable::init()
 {
-    OSG2_Matrix2Variable::init();
+    OSGMatrix2Variable::init();
 
     helper::vector<float> temp = value.getValue();
 
@@ -696,19 +696,19 @@ void OSG2_Matrix3Variable::init()
     }
 }
 
-void OSG2_Matrix3Variable::initVisual()
+void OSGMatrix3Variable::initVisual()
 {
     shader->setMatrix3(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/9, transpose.getValue(), &(value.getValue()[0]));
 }
 
-OSG2_Matrix4Variable::OSG2_Matrix4Variable()
+OSGMatrix4Variable::OSGMatrix4Variable()
 {
 
 }
 
-void OSG2_Matrix4Variable::init()
+void OSGMatrix4Variable::init()
 {
-    OSG2_Matrix2Variable::init();
+    OSGMatrix2Variable::init();
 
     helper::vector<float> temp = value.getValue();
 
@@ -720,19 +720,19 @@ void OSG2_Matrix4Variable::init()
     }
 }
 
-void OSG2_Matrix4Variable::initVisual()
+void OSGMatrix4Variable::initVisual()
 {
     shader->setMatrix4(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/16, transpose.getValue(), &(value.getValue()[0]));
 }
 
-OSG2_Matrix2x3Variable::OSG2_Matrix2x3Variable()
+OSGMatrix2x3Variable::OSGMatrix2x3Variable()
 {
 
 }
 
-void OSG2_Matrix2x3Variable::init()
+void OSGMatrix2x3Variable::init()
 {
-    OSG2_Matrix2Variable::init();
+    OSGMatrix2Variable::init();
 
      helper::vector<float> temp = value.getValue();
 
@@ -745,20 +745,20 @@ void OSG2_Matrix2x3Variable::init()
      }
 }
 
-void OSG2_Matrix2x3Variable::initVisual()
+void OSGMatrix2x3Variable::initVisual()
 {
     shader->setMatrix2x3(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/6, transpose.getValue(), &(value.getValue()[0]));
 }
 
 
-OSG2_Matrix3x2Variable::OSG2_Matrix3x2Variable()
+OSGMatrix3x2Variable::OSGMatrix3x2Variable()
 {
 
 }
 
-void OSG2_Matrix3x2Variable::init()
+void OSGMatrix3x2Variable::init()
 {
-    OSG2_Matrix2Variable::init();
+    OSGMatrix2Variable::init();
 
      helper::vector<float> temp = value.getValue();
 
@@ -771,19 +771,19 @@ void OSG2_Matrix3x2Variable::init()
      }
 }
 
-void OSG2_Matrix3x2Variable::initVisual()
+void OSGMatrix3x2Variable::initVisual()
 {
     shader->setMatrix3x2(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/6, transpose.getValue(), &(value.getValue()[0]));
 }
 
-OSG2_Matrix2x4Variable::OSG2_Matrix2x4Variable()
+OSGMatrix2x4Variable::OSGMatrix2x4Variable()
 {
 
 }
 
-void OSG2_Matrix2x4Variable::init()
+void OSGMatrix2x4Variable::init()
 {
-    OSG2_Matrix2Variable::init();
+    OSGMatrix2Variable::init();
 
      helper::vector<float> temp = value.getValue();
 
@@ -796,19 +796,19 @@ void OSG2_Matrix2x4Variable::init()
      }
 }
 
-void OSG2_Matrix2x4Variable::initVisual()
+void OSGMatrix2x4Variable::initVisual()
 {
     shader->setMatrix2x4(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/8, transpose.getValue(), &(value.getValue()[0]));
 }
 
-OSG2_Matrix4x2Variable::OSG2_Matrix4x2Variable()
+OSGMatrix4x2Variable::OSGMatrix4x2Variable()
 {
 
 }
 
-void OSG2_Matrix4x2Variable::init()
+void OSGMatrix4x2Variable::init()
 {
-    OSG2_Matrix2Variable::init();
+    OSGMatrix2Variable::init();
 
      helper::vector<float> temp = value.getValue();
 
@@ -821,19 +821,19 @@ void OSG2_Matrix4x2Variable::init()
      }
 }
 
-void OSG2_Matrix4x2Variable::initVisual()
+void OSGMatrix4x2Variable::initVisual()
 {
     //shader->setMatrix4x2(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/8, transpose.getValue(), &(value.getValue()[0]));
 }
 
-OSG2_Matrix3x4Variable::OSG2_Matrix3x4Variable()
+OSGMatrix3x4Variable::OSGMatrix3x4Variable()
 {
 
 }
 
-void OSG2_Matrix3x4Variable::init()
+void OSGMatrix3x4Variable::init()
 {
-    OSG2_Matrix2Variable::init();
+    OSGMatrix2Variable::init();
 
      helper::vector<float> temp = value.getValue();
 
@@ -846,19 +846,19 @@ void OSG2_Matrix3x4Variable::init()
      }
 }
 
-void OSG2_Matrix3x4Variable::initVisual()
+void OSGMatrix3x4Variable::initVisual()
 {
     //shader->setMatrix3x4(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/12, transpose.getValue(), &(value.getValue()[0]));
 }
 
-OSG2_Matrix4x3Variable::OSG2_Matrix4x3Variable()
+OSGMatrix4x3Variable::OSGMatrix4x3Variable()
 {
 
 }
 
-void OSG2_Matrix4x3Variable::init()
+void OSGMatrix4x3Variable::init()
 {
-    OSG2_Matrix2Variable::init();
+    OSGMatrix2Variable::init();
 
      helper::vector<float> temp = value.getValue();
 
@@ -871,7 +871,7 @@ void OSG2_Matrix4x3Variable::init()
      }
 }
 
-void OSG2_Matrix4x3Variable::initVisual()
+void OSGMatrix4x3Variable::initVisual()
 {
     //shader->setMatrix4x3(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/12, transpose.getValue(), &(value.getValue()[0]));
 }

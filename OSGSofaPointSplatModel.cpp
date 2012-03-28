@@ -72,17 +72,17 @@ namespace component
 namespace visualmodel
 {
   
-SOFA_DECL_CLASS(OSG2_PointSplatModel)
+SOFA_DECL_CLASS(OSGPointSplatModel)
 
 int PointSplatModelClass = core::RegisterObject("A simple visualization for a cloud of points.")
-.add< OSG2_PointSplatModel >()
+.add< OSGPointSplatModel >()
 //.addAlias("PointSplat")
 ;
 
 using namespace sofa::defaulttype;
 using namespace sofa::core::topology;
 
-OSG2_PointSplatModel::OSG2_PointSplatModel() //const std::string &name, std::string filename, std::string loader, std::string textureName)
+OSGPointSplatModel::OSGPointSplatModel() //const std::string &name, std::string filename, std::string loader, std::string textureName)
 : radius(initData(&radius, 1.0f, "radius", "Radius of the spheres.")),
 textureSize(initData(&textureSize, 32, "textureSize", "Size of the billboard texture.")),
 alpha(initData(&alpha, 1.0f, "alpha", "Opacity of the billboards. 1.0 is 100% opaque.")),
@@ -97,10 +97,10 @@ pointData(initData(&pointData, "pointData", "scalar field modulating point color
 ,_simpleTexMaterial(NULL)
 ,_attachNode(NULL)
 {
-    std::cerr << "OSG2_PointSplateModel::CONSTRUCTOR" << std::endl;
+    std::cerr << "OSGPointSplateModel::CONSTRUCTOR" << std::endl;
 }
 
-OSG2_PointSplatModel::~OSG2_PointSplatModel()
+OSGPointSplatModel::~OSGPointSplatModel()
 {
     if(texture_data != NULL)
         delete [] texture_data;
@@ -110,7 +110,7 @@ OSG2_PointSplatModel::~OSG2_PointSplatModel()
     _simpleTexMaterial = NULL;
 }
 
-void OSG2_PointSplatModel::init()
+void OSGPointSplatModel::init()
 {
     getContext()->get(_topology);
     if(_topology)
@@ -123,9 +123,9 @@ void OSG2_PointSplatModel::init()
     core::loader::VoxelLoader *loader;
     getContext()->get(loader);
 
-    if (_topology) std::cerr << "OSG2_PointSplatModel topology " << std::endl;
-    if (loader) std::cerr << "OSG2_PointSplatModel loader " << std::endl;
-    if (_mstate) std::cerr << "OSG2_PointSplatModel mstate " << std::endl;
+    if (_topology) std::cerr << "OSGPointSplatModel topology " << std::endl;
+    if (loader) std::cerr << "OSGPointSplatModel loader " << std::endl;
+    if (_mstate) std::cerr << "OSGPointSplatModel mstate " << std::endl;
     if(loader && _mstate)
     {
     std::cerr << "Splat::init" << std::endl;
@@ -157,7 +157,7 @@ void OSG2_PointSplatModel::init()
     updateVisual();
 }
 
-void OSG2_PointSplatModel::reinit()
+void OSGPointSplatModel::reinit()
 {
     if(texture_data != NULL)
         delete [] texture_data;
@@ -257,7 +257,7 @@ void OSG2_PointSplatModel::reinit()
 
 }
 
-void OSG2_PointSplatModel::initVisual()
+void OSGPointSplatModel::initVisual()
 {
 
             //_particles =  OSG::Particles::create();
@@ -309,7 +309,7 @@ void OSG2_PointSplatModel::initVisual()
             //_particles->setMode(OSG::Particles::ModeE::Points);
 }
 
-void OSG2_PointSplatModel::updateVisual()
+void OSGPointSplatModel::updateVisual()
 {
 
 //return;
@@ -334,7 +334,7 @@ std::cerr << "Splat::updateVisual " << nbPoints << std::endl;
 
 }
 
-void OSG2_PointSplatModel::drawTransparent(const core::visual::VisualParams* vparams)
+void OSGPointSplatModel::drawTransparent(const core::visual::VisualParams* vparams)
 {
 return;
     std::cerr << "DRAWTRANSPARENT POINTSPLAT" << std::endl;    
@@ -452,7 +452,7 @@ return;
     glPopAttrib();
 }
 
-//void OSG2_PointSplatModel::handleTopologyChange() 
+//void OSGPointSplatModel::handleTopologyChange() 
 //{
 //  std::list<const TopologyChange *>::const_iterator itBegin=_topology->beginChange();
 //  std::list<const TopologyChange *>::const_iterator itEnd=_topology->endChange();
@@ -478,7 +478,7 @@ return;
 //
 //}
 
-void OSG2_PointSplatModel::setColor(float r, float g, float b, float a)
+void OSGPointSplatModel::setColor(float r, float g, float b, float a)
 {
     this->r = r;
     this->g = g;
@@ -494,7 +494,7 @@ static int hexval(char c)
     else return 0;
 }
 
-void OSG2_PointSplatModel::setColor(std::string color)
+void OSGPointSplatModel::setColor(std::string color)
 {
     if (color.empty()) return;
     float r = 1.0f;

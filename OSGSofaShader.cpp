@@ -63,32 +63,32 @@ namespace visualmodel
 {
 
 
-SOFA_DECL_CLASS(OSG2_Shader)
+SOFA_DECL_CLASS(OSGShader)
 
-//Register OSG2_Shader in the Object Factory
-int OSG2_ShaderClass = core::RegisterObject("OSG2_Shader")
-.add< OSG2_Shader >()
+//Register OSGShader in the Object Factory
+int OSGShaderClass = core::RegisterObject("OSGShader")
+.add< OSGShader >()
 ;
 
 // TODO: geometry shaders
 
-OSG2_Shader::OSG2_Shader()
+OSGShader::OSGShader()
 {
 
 
 }
 
-OSG2_Shader::~OSG2_Shader()
+OSGShader::~OSGShader()
 {
     if (!_shaderChunks.empty())
     {
         //_shaderChunks.clear();
-        std::vector<OSG::ShaderProgramChunkRecPtr>().swap(_shaderChunks);
+        std::vector<OSG::ShaderProgramChunkUnrecPtr>().swap(_shaderChunks);
     }
     if (!_shaderVariableChunks.empty())
     {
         //_shaderVariableChunks.clear();
-        std::vector<OSG::ShaderProgramVariableChunkRecPtr>().swap(_shaderVariableChunks);
+        std::vector<OSG::ShaderProgramVariableChunkUnrecPtr>().swap(_shaderVariableChunks);
     }
     if (!_vertexSource.empty())
     {
@@ -104,12 +104,12 @@ OSG2_Shader::~OSG2_Shader()
     if (!_shaderGroups.empty())
     {
         //_fragmentSource.clear();
-        std::vector<OSG2_ShaderGroup>().swap(_shaderGroups);
+        std::vector<OSGShaderGroup>().swap(_shaderGroups);
     }
 
 }
 
-std::string OSG2_Shader::loadFile(const std::string& file)
+std::string OSGShader::loadFile(const std::string& file)
 {
     std::ifstream fin(file.c_str());
 
@@ -130,7 +130,7 @@ std::string OSG2_Shader::loadFile(const std::string& file)
     return strText;
 }
 
-void OSG2_Shader::initFiles( void )
+void OSGShader::initFiles( void )
 {
     std::string tempStr = vertFilename.getFullPath();
     std::string file;
@@ -146,7 +146,7 @@ void OSG2_Shader::initFiles( void )
 
         if (!helper::system::DataRepository.findFile(file))
         {
-            serr << "OSG2_Shader : vertex shader file " << file <<" was not found." << sendl;
+            serr << "OSGShader : vertex shader file " << file <<" was not found." << sendl;
             return;
         }
         vertexFilenames.push_back( file );
@@ -159,7 +159,7 @@ void OSG2_Shader::initFiles( void )
 
     if (!helper::system::DataRepository.findFile(file))
     {
-        serr << "OSG2_Shader : vertex shader file " << file <<" was not found." << sendl;
+        serr << "OSGShader : vertex shader file " << file <<" was not found." << sendl;
         return;
     }
     vertexFilenames.push_back( file );
@@ -176,7 +176,7 @@ void OSG2_Shader::initFiles( void )
 
         if (!helper::system::DataRepository.findFile(file))
         {
-            serr << "OSG2_Shader : fragment shader file " << file <<" was not found." << sendl;
+            serr << "OSGShader : fragment shader file " << file <<" was not found." << sendl;
             return;
         }
         fragmentFilenames.push_back( file );
@@ -188,7 +188,7 @@ void OSG2_Shader::initFiles( void )
     file = tempStr.substr( oldPos );
     if (!helper::system::DataRepository.findFile(file))
     {
-        serr << "OSG2_Shader : fragment shader file " << file <<" was not found." << sendl;
+        serr << "OSGShader : fragment shader file " << file <<" was not found." << sendl;
         return;
     }
     fragmentFilenames.push_back( file );
@@ -203,7 +203,7 @@ void OSG2_Shader::initFiles( void )
 
         if (fragmentFilenames.size() != vertexFilenames.size())
         {
-            serr << "OSG2_Shader : The number of Vertex shaders is different from the number of Fragment Shaders." << sendl;
+            serr << "OSGShader : The number of Vertex shaders is different from the number of Fragment Shaders." << sendl;
             return;
         }
 
@@ -221,7 +221,7 @@ void OSG2_Shader::initFiles( void )
 
                 if (!helper::system::DataRepository.findFile(file))
                 {
-                        serr << "OSG2_Shader : geometry shader file " << file <<" was not found." << sendl;
+                        serr << "OSGShader : geometry shader file " << file <<" was not found." << sendl;
                         return;
                 }
                 geometryFilenames.push_back( file );
@@ -233,7 +233,7 @@ void OSG2_Shader::initFiles( void )
         file = tempStr.substr( oldPos );
         if (!helper::system::DataRepository.findFile(file))
         {
-                serr << "OSG2_Shader : geometry shader file " << file <<" was not found." << sendl;
+                serr << "OSGShader : geometry shader file " << file <<" was not found." << sendl;
                 return;
         }
         geometryFilenames.push_back( file );
@@ -241,7 +241,7 @@ void OSG2_Shader::initFiles( void )
 
         if (fragmentFilenames.size() != vertexFilenames.size() && geometryFilenames.size() !=  vertexFilenames.size())
         {
-            serr << "OSG2_Shader : The number of indicated shaders is not coherent (not the same number for each triplet." << sendl;
+            serr << "OSGShader : The number of indicated shaders is not coherent (not the same number for each triplet." << sendl;
             return;
         }
 
@@ -252,7 +252,7 @@ void OSG2_Shader::initFiles( void )
     
 }
 
-void OSG2_Shader::replaceProceduralTexture(std::string& source)
+void OSGShader::replaceProceduralTexture(std::string& source)
 {
     // should affect only generalRendering.frag;
     std::string search = "uniform sampler2D perlinPermutationsTexture";
@@ -323,7 +323,7 @@ void OSG2_Shader::replaceProceduralTexture(std::string& source)
 
 }
 
-std::string OSG2_Shader::combineAll(std::string header, const std::string &shaderStage, std::string source)
+std::string OSGShader::combineAll(std::string header, const std::string &shaderStage, std::string source)
 {
 
     std::size_t spos = 1;
@@ -355,9 +355,9 @@ std::string OSG2_Shader::combineAll(std::string header, const std::string &shade
 }
 
 
-void OSG2_Shader::init( void )
+void OSGShader::init( void )
 {
-std::cerr << "OSG2_Shader ::init" << std::endl;
+std::cerr << "OSGShader ::init" << std::endl;
     
     initFiles();
 
@@ -370,7 +370,7 @@ std::cerr << "OSG2_Shader ::init" << std::endl;
 
     if (vertexFilenames.size() != fragmentFilenames.size())
     {
-        std::cerr << "OSG2_Shader: Vertex Shaders != Fragment Shaders" << std::endl;
+        std::cerr << "OSGShader: Vertex Shaders != Fragment Shaders" << std::endl;
     }
 
     for (unsigned int i=0; i < _shaderGroups.size(); ++i)
@@ -395,19 +395,19 @@ std::cerr << "OSG2_Shader ::init" << std::endl;
     //turnOn.setValue(true);
 }
 
-void OSG2_Shader::initShaders(unsigned int  numberOfLights , bool softShadow)
+void OSGShader::initShaders(unsigned int  numberOfLights , bool softShadow)
 {
-    //std::cerr << "OSG2_Shader::initShaders" << std::endl;
+    //std::cerr << "OSGShader::initShaders" << std::endl;
     //system("pause");
 }
 
-void OSG2_Shader::initVisual( void )
+void OSGShader::initVisual( void )
 {
     //OglShader::initVisual();
    
     // By now Macros are collected
     // safe point to construct 
-    std::cerr << "OSG2_Shader::initVisual" << std::endl;
+    std::cerr << "OSGShader::initVisual" << std::endl;
     //system("pause");
 
 #ifdef GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXT
@@ -429,13 +429,13 @@ void OSG2_Shader::initVisual( void )
     {
 
         _shaderGroups[i]._vertexSource = loadFile( vertexFilenames[i].c_str() );
-        OSG::ShaderProgramRecPtr vp = OSG::ShaderProgram::createVertexShader();
+        OSG::ShaderProgramUnrecPtr vp = OSG::ShaderProgram::createVertexShader();
         std::string finalprogram = combineAll(_shaderGroups[i]._macros, "VertexShader",  _shaderGroups[i]._vertexSource);
         vp->setProgram( finalprogram );
         //std::cerr << "=======VERTEX SHADER ===========\n" << finalprogram << std::endl;
         _shaderGroups[i]._shaderChunk->addShader(vp);
 
-        OSG::ShaderProgramRecPtr fp = OSG::ShaderProgram::createFragmentShader();
+        OSG::ShaderProgramUnrecPtr fp = OSG::ShaderProgram::createFragmentShader();
         replaceProceduralTexture(_shaderGroups[i]._fragmentSource);
         finalprogram = combineAll(_shaderGroups[i]._macros, "FragmentShader",  _shaderGroups[i]._fragmentSource);
 
@@ -447,7 +447,7 @@ void OSG2_Shader::initVisual( void )
 
         if (!hasGeometryShader) continue;
 
-        OSG::ShaderProgramRecPtr gp = OSG::ShaderProgram::createGeometryShader();
+        OSG::ShaderProgramUnrecPtr gp = OSG::ShaderProgram::createGeometryShader();
         finalprogram = combineAll(_shaderGroups[i]._macros, "GeometryShader",  _shaderGroups[i]._geometrySource);
         
        
@@ -470,21 +470,21 @@ void OSG2_Shader::initVisual( void )
 }
 
 
-void OSG2_Shader::start( void )
+void OSGShader::start( void )
 {
-//std::cerr << "OSG2_Shader ::start" << std::endl;
+//std::cerr << "OSGShader ::start" << std::endl;
     //OglShader::start();
 
 }
 
-void OSG2_Shader::stop( void )
+void OSGShader::stop( void )
 {
-//std::cerr << "OSG2_Shader ::stop" << std::endl;
+//std::cerr << "OSGShader ::stop" << std::endl;
     //OglShader::stop();
 
 }
 
-bool OSG2_Shader::isActive( void )
+bool OSGShader::isActive( void )
 {
     return true;
 
@@ -492,9 +492,9 @@ bool OSG2_Shader::isActive( void )
 }
 
 
-void OSG2_Shader::addDefineMacro(const unsigned int index, const std::string &name, const std::string &value)
+void OSGShader::addDefineMacro(const unsigned int index, const std::string &name, const std::string &value)
 {
-    std::cerr << "OSG2_Shader::addDefineMacro" << std::endl;
+    std::cerr << "OSGShader::addDefineMacro" << std::endl;
     //shaderVector[index]->AddDefineMacro(name, value);
     //_macros.
     if ( index > _shaderGroups.size() ) return;
@@ -517,7 +517,7 @@ static void light0Active(OSG::DrawEnv *pEnv, OSG::Int32 &iLoc)
     }
 }
 
-void OSG2_Shader::setTexture(const unsigned int index, const char* name, unsigned short unit, OSG::Image* image)
+void OSGShader::setTexture(const unsigned int index, const char* name, unsigned short unit, OSG::Image* image)
 {
     if ( index > _shaderGroups.size() ) return;
 
@@ -546,18 +546,18 @@ std::cerr << "TEXTURE UNIT : " << unit << " NAME " << name << std::endl;
 }
 */
 
-void OSG2_Shader::addTexture(const unsigned int index, const char* name, unsigned short unit, OSG::TextureObjChunk* texture)
+void OSGShader::addTexture(const unsigned int index, const char* name, unsigned short unit, OSG::TextureObjChunk* texture)
 {
     if ( index > _shaderGroups.size() ) return;
-    std::cerr << "OSG2_Shader::addTexture IN" << std::endl;
+    std::cerr << "OSGShader::addTexture IN" << std::endl;
     _shaderGroups[index]._textureChunks.
-    insert(OSG2_ShaderGroup::TextureChunkPair(OSG::UInt16(unit), texture));
+    insert(OSGShaderGroup::TextureChunkPair(OSG::UInt16(unit), texture));
     
     /*bool success = */_shaderGroups[index]._shaderVarChunk->addUniformVariable( name, OSG::UInt16(unit) );
 
 }
 
-void OSG2_Shader::addToMaterial(unsigned int i, OSG::SimpleMaterial* mat) const
+void OSGShader::addToMaterial(unsigned int i, OSG::SimpleMaterial* mat) const
 {
     if (mat)
     {
@@ -568,11 +568,11 @@ void OSG2_Shader::addToMaterial(unsigned int i, OSG::SimpleMaterial* mat) const
         mat->addChunk( getShaderChunk(i) );
         mat->addChunk( getShaderVariableChunk(i) );
         
-        const OSG2_ShaderGroup::TextureChunkMap& amap 
+        const OSGShaderGroup::TextureChunkMap& amap 
         = _shaderGroups[i]._textureChunks;
         if ( amap.size() == 0 ) return;
 
-        OSG2_ShaderGroup::TextureChunkMap::const_iterator itr = amap.begin();
+        OSGShaderGroup::TextureChunkMap::const_iterator itr = amap.begin();
 
         for (; itr != amap.end(); ++itr )
         {
@@ -580,7 +580,7 @@ void OSG2_Shader::addToMaterial(unsigned int i, OSG::SimpleMaterial* mat) const
         //= OSG::dynamic_pointer_cast <OSG::TextureObjChunk>(itr->second);
         //if (cog) exit(1);
 
-//std::cerr << "OSG2_Shader:: addToMaterial : " << mat << " "  << i << " " << itr->first <<  " " << itr->second << "Shader " << this << std::endl;
+//std::cerr << "OSGShader:: addToMaterial : " << mat << " "  << i << " " << itr->first <<  " " << itr->second << "Shader " << this << std::endl;
 //OSG::StateChunk *oldTEX  = mat->find(OSG::TextureObjChunk::getClassType(), itr->first);
    //if(oldTEX != NULL) 
    {
@@ -597,21 +597,21 @@ void OSG2_Shader::addToMaterial(unsigned int i, OSG::SimpleMaterial* mat) const
 }
 
 
-OSG2_ShaderElement::OSG2_ShaderElement()
+OSGShaderElement::OSGShaderElement()
 : id(initData(&id, std::string(""), "id", "Set an ID name"))
 , indexShader(initData(&indexShader, (unsigned int) 0, "indexShader", "Set the index of the desired shader you want to apply this parameter"))
 {
 
 }
 
-void OSG2_ShaderElement::init()
+void OSGShaderElement::init()
 {
     sofa::core::objectmodel::BaseContext* context = this->getContext();
-    shader = context->core::objectmodel::BaseContext::get<OSG2_Shader>();
+    shader = context->core::objectmodel::BaseContext::get<OSGShader>();
 
     if (!shader)
     {
-        serr << "OSG2_ShaderElement: shader not found "<< sendl;
+        serr << "OSGShaderElement: shader not found "<< sendl;
         return;
     }
     if (id.getValue().empty())

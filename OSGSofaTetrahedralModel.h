@@ -65,11 +65,11 @@ BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
  */
 
 template<class DataTypes>
-class OSG2_TetrahedralModel : public core::visual::VisualModel
+class OSGTetrahedralModel : public core::visual::VisualModel
 {
   public:
-    SOFA_CLASS(OSG2_TetrahedralModel, core::visual::VisualModel);
-    //SOFA_CLASS(OSG2_TetrahedralModel, core::visual::VisualModel);
+    SOFA_CLASS(OSGTetrahedralModel, core::visual::VisualModel);
+    //SOFA_CLASS(OSGTetrahedralModel, core::visual::VisualModel);
 
     typedef typename DataTypes::Coord Coord;
     typedef typename DataTypes::VecCoord VecCoord;
@@ -81,25 +81,25 @@ class OSG2_TetrahedralModel : public core::visual::VisualModel
     Data<bool> depthTest;
     Data<bool> blending;
 
-    OSG::NodeRecPtr _attachNode;
+    OSG::NodeUnrecPtr _attachNode;
 
   protected:
-    OSG2_TetrahedralModel();
-    virtual ~OSG2_TetrahedralModel();
+    OSGTetrahedralModel();
+    virtual ~OSGTetrahedralModel();
   public:
     void init();
     void initVisual();
     void computeBBox(const core::ExecParams *);
 
     // OpenSG
-    OSG::NodeRecPtr getAttachNode() const { return _attachNode; }
+    OSG::Node* getAttachNode() const { return _attachNode; }
 
     virtual std::string getTemplateName() const
         {
             return templateName(this);
         }
 
-    static std::string templateName(const OSG2_TetrahedralModel<DataTypes>* = NULL)
+    static std::string templateName(const OSGTetrahedralModel<DataTypes>* = NULL)
         {
             return DataTypes::Name();
         }

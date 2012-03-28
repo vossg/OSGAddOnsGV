@@ -54,40 +54,40 @@ namespace component
 namespace visualmodel
 {
 
-SOFA_DECL_CLASS(OSG2_ShaderDefineMacro)
+SOFA_DECL_CLASS(OSGShaderDefineMacro)
 
-//Register OSG2_IntVariable in the Object Factory
-int OSG2_ShaderDefineMacroClass = core::RegisterObject("OSG2_ShaderDefineMacro")
-.add< OSG2_ShaderDefineMacro >();
+//Register OSGIntVariable in the Object Factory
+int OSGShaderDefineMacroClass = core::RegisterObject("OSGShaderDefineMacro")
+.add< OSGShaderDefineMacro >();
 
-OSG2_ShaderMacro::OSG2_ShaderMacro()
+OSGShaderMacro::OSGShaderMacro()
 {
     
 }
 
-OSG2_ShaderMacro::~OSG2_ShaderMacro()
+OSGShaderMacro::~OSGShaderMacro()
 {
 }
 
-void OSG2_ShaderMacro::init()
+void OSGShaderMacro::init()
 {
-    OSG2_ShaderElement::init();
+    OSGShaderElement::init();
 }
 
-OSG2_ShaderDefineMacro::OSG2_ShaderDefineMacro()
+OSGShaderDefineMacro::OSGShaderDefineMacro()
 : value(initData(&value, (std::string) "", "value", "Set a value for define macro"))
 {
     
 }
 
-OSG2_ShaderDefineMacro::~OSG2_ShaderDefineMacro()
+OSGShaderDefineMacro::~OSGShaderDefineMacro()
 {
 }
 
-void OSG2_ShaderDefineMacro::init()
+void OSGShaderDefineMacro::init()
 {
-    std::cerr << " OSG2_ShaderDefineMacro::init()" << std::endl;
-    OSG2_ShaderMacro::init();
+    std::cerr << " OSGShaderDefineMacro::init()" << std::endl;
+    OSGShaderMacro::init();
     
     shader->addDefineMacro(indexShader.getValue(), id.getValue(), value.getValue());
 }
