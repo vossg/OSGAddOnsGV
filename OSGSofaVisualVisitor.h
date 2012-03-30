@@ -54,7 +54,6 @@
 
 #include "OSGTransform.h"
 #include "OSGShadowStage.h"
-//#include "OSGChunkOverrideGroup.h"
 
 BEGIN_SOFA_SIM_NAMESPACE
 
