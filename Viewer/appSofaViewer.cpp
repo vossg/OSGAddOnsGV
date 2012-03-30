@@ -531,6 +531,7 @@ int main(int argc, char** argv)
 
 
         mgr = OSG::SimpleSceneManager::create();
+        mgr->useOpenSGLogo();
         mgr->setWindow(gwin);
 
         VisualParams* vparams = VisualParams::defaultInstance();
