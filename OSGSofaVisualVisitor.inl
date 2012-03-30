@@ -42,10 +42,11 @@ BEGIN_SOFA_SIM_NAMESPACE
 
 inline
 OSGLightVisitor::OSGLightVisitor(const core::ExecParams *pParams) : 
-     Visitor     (pParams),
-    _pAttachNode (NULL   ),
-    _pParent     (NULL   ),
-    _pShadowStage(NULL   ) 
+     Visitor       (pParams),
+    _pAttachNode   (NULL   ),
+    _pParent       (NULL   ),
+    _pShadowStage  (NULL   ), 
+    _bTurnOffLights(false  ) 
 {
 }
 
@@ -82,6 +83,18 @@ inline
 void OSGLightVisitor::setOSG2Parent(OSG::Node *pParent)
 {
     _pParent = pParent; 
+}
+
+inline
+bool OSGLightVisitor::getTurnOffLights(void) const 
+{
+    return _bTurnOffLights; 
+}
+
+inline
+void OSGLightVisitor::setTurnOffLights(bool off) 
+{
+    _bTurnOffLights = off; 
 }
 
 inline

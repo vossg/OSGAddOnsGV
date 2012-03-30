@@ -121,6 +121,8 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
         pSpot->setBeacon(pSLBeaconNode);
 
         _pAttachNode = pSLNode;
+
+        if (_bTurnOffLights) pSpot->setOn(!_bTurnOffLights);
         
         return;        
     }
@@ -167,6 +169,8 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
         pPoint->setBeacon(pLBeaconNode);
 
         _pAttachNode = pLNode;
+
+        if (_bTurnOffLights) pPoint->setOn(!_bTurnOffLights);
 
         return;        
     }
@@ -224,6 +228,8 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
         //dir->setLightEngine(shadowEngine);
 
         _pAttachNode = pLNode;
+
+        if (_bTurnOffLights) pDir->setOn(!_bTurnOffLights);
 
         return;        
     }

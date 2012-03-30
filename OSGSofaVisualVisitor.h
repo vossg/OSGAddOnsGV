@@ -64,11 +64,16 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGLightVisitor : public Visitor
     OSG::NodeUnrecPtr        _pAttachNode;
     OSG::NodeUnrecPtr        _pParent;
     OSG::ShadowStageUnrecPtr _pShadowStage;
+
+    bool                     _bTurnOffLights;
     
   public:
 
     OSGLightVisitor(const core::ExecParams *pParams);
     virtual ~OSGLightVisitor(void);
+
+    bool             getTurnOffLights(void                     ) const;
+    void             setTurnOffLights(bool                     );
 
     virtual void processVisualModel  (simulation  ::Node        *, 
                                       core::visual::VisualModel *pVisModel);
