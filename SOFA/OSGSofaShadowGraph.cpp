@@ -46,20 +46,16 @@
 #include "OSGSofaShadowGraph.h"
 #include "OSGSofaVisualVisitor.h"
 
-namespace sofa
-{
+BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
 
-namespace component
-{
-
-namespace visualmodel
-{
+using namespace sofa::core::visual;
+using namespace sofa::simulation;
 
 OSGSofaShadowGraph::OSGSofaShadowGraph( void )
 :
-_shadowStage(NULL)
-,_chunkOverrideGroup(NULL)
-,_scene(NULL)
+    _shadowStage        (NULL),
+    _chunkOverrideGroup (NULL),
+    _scene              (NULL)
 {
 
 }
@@ -71,14 +67,15 @@ OSGSofaShadowGraph::~OSGSofaShadowGraph( void )
     _chunkOverrideGroup = NULL;
 }
 
-OSG::NodeTransitPtr 
-OSGSofaShadowGraph::build( sofa::simulation::Node::SPtr root, bool ignoreLights)
+OSG::NodeTransitPtr OSGSofaShadowGraph::build( 
+    Node::SPtr root, 
+    bool       ignoreLights )
 {
     _scene = NULL;
     _chunkOverrideGroup = NULL;
     _shadowStage = NULL;
 
-    sofa::core::visual::VisualParams* vparams = sofa::core::visual::VisualParams::defaultInstance();
+    VisualParams* vparams = VisualParams::defaultInstance();
 
     OSG::NodeUnrecPtr        shadowStageNode;
     
@@ -91,7 +88,8 @@ OSGSofaShadowGraph::build( sofa::simulation::Node::SPtr root, bool ignoreLights)
     // get lights
     if (!ignoreLights)
     {
-        if (!_shadowStage) _shadowStage = OSG::ShadowStage::create();
+        if (!_shadowStage) 
+            _shadowStage = OSG::ShadowStage::create();
         _shadowStage->setMapSize(1024);
         _shadowStage->setShadowSmoothness(0.5f);
         _shadowStage->setShadowMode(OSG::ShadowStage::NO_SHADOW);
@@ -125,9 +123,5 @@ OSGSofaShadowGraph::build( sofa::simulation::Node::SPtr root, bool ignoreLights)
     return OSG::NodeTransitPtr(_scene);
 }
 
+END_SOFA_CMP_VISMODEL_NAMESPACE
 
-} // namespace visualmodel
-
-} // namespace component
-
-} // namespace sofa

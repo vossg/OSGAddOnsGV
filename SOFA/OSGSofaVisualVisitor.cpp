@@ -49,17 +49,12 @@
 #include "OSGSofaPointSplatModel.h"
 #include "OSGSofaClipPlane.h"
 
-//#include "OSGSofaShader.h"
 #include <sofa/component/visualmodel/Light.h>
-//#include <sofa/component/visualmodel/OglShadowShader.h>
 
 #include "OSGSpotLight.h"
 #include "OSGPointLight.h"
 #include "OSGDirectionalLight.h"
 #include "OSGChunkOverrideGroup.h"
-
-//#include "OSGSimpleShadowMapEngine.h"
-//#include "OSGClipPlaneChunk.h"
 
 #include <boost/algorithm/string.hpp>
 
@@ -84,9 +79,7 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
         pSpot->setSpotExponent(pSpotlight->exponent.getValue());
         pSpot->setSpotCutOff  (OSG::osgDegree2Rad(
                                    pSpotlight->cutoff.getValue()));
-        //pSpot->setSpotCutOff(pSpotlight->cutoff.getValue());
         
-        //pSpot->setPosition(pos[0], pos[1], pos[2]);
         const Vector3 &color = pSpotlight->color.getValue();
  
         pSpot->setAmbient (OSG::Color4f(color[0], color[1], color[2], 1.f));
@@ -109,12 +102,6 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
 
         OSG::NodeUnrecPtr pSLNode = OSG::makeNodeFor(pSpot);
 
-        // first time a light is encountered
-        // later lights will be children of the first light
-        //if (!_pAttachNode) _pParent->addChild(sLNode);
-        // the lastest node to which the rest of the scene will be attached
-        //else _pAttachNode->addChild(sLNode);
-
         if(_pAttachNode != NULL) 
             _pAttachNode->addChild(pSLNode);
 
@@ -135,9 +122,6 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
 
         _pAttachNode = pSLNode;
         
-        //if(_pShadowStage != NULL) 
-        //    _pShadowStage->editMFLightNodes()->push_back(_pAttachNode);
-
         return;        
     }
 
@@ -149,7 +133,6 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
 
         OSG::PointLightUnrecPtr pPoint = OSG::PointLight::create();
         
-        //pSpot->setPosition(pos[0], pos[1], pos[2]);
         const Vector3 &color = pPointlight->color.getValue();
 
         pPoint->setAmbient (OSG::Color4f(color[0], color[1], color[2], 1.f));
@@ -163,12 +146,6 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
         const Vector3 &pos = pPointlight->position.getValue();
 
         OSG::NodeUnrecPtr pLNode = OSG::makeNodeFor(pPoint);
-
-        // first time a light is encountered
-        // later lights will be children of the first light
-        //if (!_pAttachNode) _pParent->addChild(pLNode);
-        // the lastest node to which the rest of the scene will be attached
-        //else _pAttachNode->addChild(pLNode);
 
         if(_pAttachNode != NULL) 
             _pAttachNode->addChild(pLNode);
@@ -190,9 +167,6 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
         pPoint->setBeacon(pLBeaconNode);
 
         _pAttachNode = pLNode;
-
-        //if(_pShadowStage) 
-        //    _pShadowStage->editMFLightNodes()->push_back(_pAttachNode);
 
         return;        
     }
@@ -221,11 +195,6 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
 
         OSG::NodeUnrecPtr pLNode = OSG::makeNodeFor(pDir);
 
-        // first time a light is encountered
-        // later lights will be children of the first light
-        //if (!_pAttachNode) _pParent->addChild(pLNode);
-        // the lastest node to which the rest of the scene will be attached
-        //else _pAttachNode->addChild(pLNode);
 
         if(_pAttachNode != NULL)
             _pAttachNode->addChild(pLNode);
@@ -233,7 +202,6 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
         OSG::Matrix m;
 
         m.setIdentity();
-        //m.setTranslate(pos[0], pos[1], pos[2]);
 
         OSG::TransformUnrecPtr pTrans = OSG::Transform::create();
 
@@ -256,9 +224,6 @@ void OSGLightVisitor::processVisualModel(simulation  ::Node        *,
         //dir->setLightEngine(shadowEngine);
 
         _pAttachNode = pLNode;
-
-        //if (_shadowStage) 
-        //    _shadowStage->editMFLightNodes()->push_back(_pAttachNode);
 
         return;        
     }
@@ -284,7 +249,6 @@ void OSGVisualUpdateVisitor::processVisualModel(
     simulation  ::Node        *pNode, 
     core::visual::VisualModel *pVisModel)
 {
-//    pVisModel->updateVisual();
 
     std::cerr << "CLASS_NAME : " << pVisModel->getClassName() << std::endl;
 
@@ -343,9 +307,6 @@ void OSGVisualUpdateVisitor::processVisualModel(
             boost::iequals(pVisModel->getTemplateName(), 
                            "vec3d"                     )   )
     {
-//        std::cerr << "CLASS_NAME : " 
-//                  << pVisModel->getClassName() 
-//                  << std::endl;
 
         std::cerr << "TEMPLATE_NAME : " 
                   << pVisModel->getTemplateName() 
@@ -372,9 +333,6 @@ void OSGVisualUpdateVisitor::processVisualModel(
             boost::iequals(pVisModel->getTemplateName(),
                            "vec3f"                     )   )
     {
-//        std::cerr << "CLASS_NAME : " 
-//                  << pVisModel->getClassName() 
-//                  << std::endl;
 
         std::cerr << "TEMPLATE_NAME : " 
                   << pVisModel->getTemplateName() 
@@ -396,6 +354,7 @@ void OSGVisualUpdateVisitor::processVisualModel(
 
         return;
     }
+    // Not working 
     else if(boost::iequals(pVisModel->getClassName(), "OSGPointSplatModel"))
     {
         OSGPointSplatModel *pPointModel = 

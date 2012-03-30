@@ -95,41 +95,5 @@ void OSGClipPlane::reinit(void)
 {
 }
 
-/*
-void OSGClipPlane::fwdDraw(core::visual::VisualParams*)
-{
-    wasActive = glIsEnabled(GL_CLIP_PLANE0+id.getValue());
-    if (active.getValue())
-    {
-        glGetClipPlane(GL_CLIP_PLANE0+id.getValue(), saveEq);
-        Vector3 p = position.getValue();
-        Vector3 n = normal.getValue();
-        GLdouble c[4] = { (GLdouble) -n[0], (GLdouble)-n[1], (GLdouble)-n[2], (GLdouble)(p*n) };
-        glClipPlane(GL_CLIP_PLANE0+id.getValue(), c);
-        if (!wasActive)
-            glEnable(GL_CLIP_PLANE0+id.getValue());
-    }
-    else
-    {
-        if (wasActive)
-            glDisable(GL_CLIP_PLANE0+id.getValue());
-    }
-}
-
-void OSGClipPlane::bwdDraw(core::visual::VisualParams*)
-{
-    if (active.getValue())
-    {
-        glClipPlane(GL_CLIP_PLANE0+id.getValue(), saveEq);
-        if (!wasActive)
-            glDisable(GL_CLIP_PLANE0+id.getValue());
-    }
-    else
-    {
-        if (wasActive)
-            glEnable(GL_CLIP_PLANE0+id.getValue());
-    }
-}
-*/
 
 END_SOFA_CMP_VISMODEL_NAMESPACE
