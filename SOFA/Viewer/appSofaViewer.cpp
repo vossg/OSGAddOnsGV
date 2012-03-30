@@ -20,8 +20,6 @@
 
 #include <sofa/helper/system/atomic.h>
 
-// OpenSG 2
-//#include "OSGSofaViewer.h"
 #include "OSGSofaVisualModelPolicy.h"
 #include "OSGSofaVisualVisitor.h"
 #include "OSGSofaShadowGraph.h"
@@ -29,23 +27,90 @@
 #include "OSGGLUT.h"
 #include "OSGGLUTWindow.h"
 #include "OSGSimpleGeometry.h"
-//#include "OSGQT4Window.h"
 #include "OSGSimpleSceneManager.h"
-#include "OSGThreadManager.h"
-#include "OSGIntersectAction.h"
-#include "OSGTriangleIterator.h"
+#include "OSGAction.h"
+
+#include <boost/bind.hpp>
 
 
 using namespace sofa::gui;
+using namespace sofa::core::visual;
 using namespace sofa::simulation;
+using sofa::helper::system::DataRepository;
 
-sofa::simulation::Node::SPtr sofa_root;
+Node::SPtr sofa_root;
 
 // The SimpleSceneManager to manage simple applications
 OSG::SimpleSceneManagerRefPtr mgr = NULL;
 sofa::gui::PickHandler        oPick;
 
-enum ACTION_STATE { START_ACTION, DO_ACTION, END_ACTION };
+
+class ShadowStageFinder
+{
+    public:
+
+        ShadowStageFinder():
+            _shadowMode(OSG::ShadowStage::NO_SHADOW) {}
+
+        void setShadowMode(OSG:: UInt32 mode)
+        { _shadowMode = mode; }
+
+
+        OSG::Action::ResultE enter(OSG::Node *node)
+        {   
+            OSG::ShadowStage *stage = 
+                dynamic_cast<OSG::ShadowStage *>(node->getCore());
+        
+            if (stage != NULL)
+            {
+                stage->setShadowMode(_shadowMode);
+                return OSG::Action::Quit;
+            }   
+            return OSG::Action::Continue; 
+        }
+
+    private:
+  
+        OSG::UInt32 _shadowMode;
+                
+
+};
+
+class LightFinder
+{
+    public:
+
+        LightFinder():
+            _mgr(NULL) {}
+
+        ~LightFinder() { _mgr = NULL; }
+
+        void setSSM(OSG::SimpleSceneManager *mgr)
+        { _mgr = mgr; }
+
+
+        OSG::Action::ResultE enter(OSG::Node *node)
+        {   
+            OSG::Light *light = 
+                dynamic_cast<OSG::Light *>(node->getCore());
+        
+            if (light != NULL)
+            {
+                if (_mgr) _mgr->turnHeadlightOff();
+                return OSG::Action::Quit;
+            }   
+            return OSG::Action::Continue; 
+        }
+
+    private:
+  
+        OSG::SimpleSceneManager* _mgr;
+                
+
+};
+
+
+
 
 // forward declaration so we can have the interesting stuff upfront
 int setupGLUT( int *argc, char *argv[] );
@@ -72,8 +137,8 @@ void display( void )
     SReal dt = sofa_root->getDt();
     if (sofa_root->getAnimate())
     {
-        sofa::simulation::getSimulation()->animate(sofa_root.get(), dt);
-        sofa::simulation::getSimulation()->updateVisual(sofa_root.get());
+        getSimulation()->animate(sofa_root.get(), dt);
+        getSimulation()->updateVisual(sofa_root.get());
     }
 
     
@@ -81,23 +146,6 @@ void display( void )
     mgr->redraw();
     glutPostRedisplay();
 }
-
-void startAction(int x, int y)
-{
-}
-
-void doAction(int x, int y)
-{
-}
-
-void endAction(int x, int y)
-{
-}
-
-
-
-
-
 
 void sofaPick( int button, int state, int x, int y )
 {
@@ -127,7 +175,8 @@ void sofaPick( int button, int state, int x, int y )
     dir[1] = d[1]; 
     dir[2] = d[2]; 
 
-    oPick.activateRay(mousepos.screenWidth,mousepos.screenHeight, sofa_root.get());
+    oPick.activateRay(
+            mousepos.screenWidth,mousepos.screenHeight, sofa_root.get());
     oPick.updateRay(pos, dir);
     oPick.updateMouse2D(mousepos);
 
@@ -272,13 +321,15 @@ void mouse( int button, int state, int x, int y )
 // react to keys
 void keyboard(unsigned char k, int x, int y)
 {
+    ShadowStageFinder shadowModeToggle;
+
     switch(k)
     {
         case 27:  
         {
             // clean up global variables
-	        if (sofa_root)
-		        getSimulation()->unload(sofa_root);
+            if (sofa_root)
+                getSimulation()->unload(sofa_root);
             sofa_root = NULL;
 
             mgr   = NULL;
@@ -312,6 +363,60 @@ void keyboard(unsigned char k, int x, int y)
             mgr->setStatistics(!mgr->getStatistics());
         }
         break;
+
+        case '1':
+        {
+            shadowModeToggle.setShadowMode(OSG::ShadowStage::NO_SHADOW);
+            OSG::traverse(mgr->getRoot(), 
+               boost::bind(&ShadowStageFinder::enter, &shadowModeToggle, _1));
+
+        }
+        break;
+
+        case '2':
+        {
+            shadowModeToggle.setShadowMode
+                (OSG::ShadowStage::STD_SHADOW_MAP);
+            OSG::traverse(mgr->getRoot(), 
+               boost::bind(&ShadowStageFinder::enter, &shadowModeToggle, _1));
+        }
+        break;
+
+        case '3':
+        {
+            shadowModeToggle.setShadowMode(
+                    OSG::ShadowStage::PERSPECTIVE_SHADOW_MAP);
+            OSG::traverse(mgr->getRoot(), 
+               boost::bind(&ShadowStageFinder::enter, &shadowModeToggle, _1));
+        }
+        break;
+
+        case '4':
+        {
+            shadowModeToggle.setShadowMode(
+                    OSG::ShadowStage::DITHER_SHADOW_MAP);
+            OSG::traverse(mgr->getRoot(), 
+               boost::bind(&ShadowStageFinder::enter, &shadowModeToggle, _1));
+        }
+        break;
+
+        case '5':
+        {
+            shadowModeToggle.setShadowMode(
+                    OSG::ShadowStage::PCF_SHADOW_MAP);
+            OSG::traverse(mgr->getRoot(), 
+               boost::bind(&ShadowStageFinder::enter, &shadowModeToggle, _1));
+        }
+        break;
+
+        case '6':
+        {
+            shadowModeToggle.setShadowMode(
+                    OSG::ShadowStage::PCSS_SHADOW_MAP);
+            OSG::traverse(mgr->getRoot(), 
+               boost::bind(&ShadowStageFinder::enter, &shadowModeToggle, _1));
+        }
+        break;
     }
 }
 
@@ -343,23 +448,23 @@ int main(int argc, char** argv)
     OSG::osgInit(argc, argv);
 
 
-	sofa::helper::BackTrace::autodump();
+    sofa::helper::BackTrace::autodump();
 
-	sofa::core::ExecParams::defaultInstance()->setAspectID(0);
+    sofa::core::ExecParams::defaultInstance()->setAspectID(0);
 
     // Load visual model policy to replace SOFA visual models with OpenSG
     sofa::gui::qt::viewer::OSGModelPolicy policy;
     policy.load();
   
-	std::string fileName ;
-	std::string sofaDataPath = "";
+    std::string fileName ;
+    std::string sofaDataPath = "";
 
-	std::vector<std::string> files;
+    std::vector<std::string> files;
 
 
-	sofa::helper::parse(&files, "OpenSG with SOFA")
-	.option(&sofaDataPath,'s',"sofapath","sofa path")
-	(argc,argv);
+    sofa::helper::parse(&files, "OpenSG with SOFA")
+    .option(&sofaDataPath,'s',"sofapath","sofa path")
+    (argc,argv);
 
     // GLUT init
     int winid = setupGLUT(&argc, argv);
@@ -370,42 +475,42 @@ int main(int argc, char** argv)
         gwin->init();
 
         // Create a new simulation
-	    sofa::simulation::setSimulation(new sofa::simulation::tree::TreeSimulation());
+        setSimulation(new tree::TreeSimulation());
  
         // Initialize sofa components    
-	    sofa::component::init();
+        sofa::component::init();
 
         // Initialize sofa XML
-	    sofa::simulation::xml::initXml();
-	
-	    if (!files.empty())
-		    fileName = files[0];
+        xml::initXml();
+    
+        if (!files.empty())
+            fileName = files[0];
 
 
         if (sofaDataPath.empty()  == false)
         {
-            sofa::helper::system::DataRepository.addFirstPath(sofaDataPath);
-            sofa::helper::system::DataRepository.addFirstPath(sofaDataPath + "/examples");
-            sofa::helper::system::DataRepository.addFirstPath(sofaDataPath + "/share");
+            DataRepository.addFirstPath(sofaDataPath);
+            DataRepository.addFirstPath(sofaDataPath + "/examples");
+            DataRepository.addFirstPath(sofaDataPath + "/share");
 
         }
 
 
 
 
-	    if (fileName.empty())
-	    {
+        if (fileName.empty())
+        {
             fileName = "Demos/caduceus.scn";
-	    }
-		fileName = sofa::helper::system::DataRepository.getFile(fileName);
+        }
+        fileName = DataRepository.getFile(fileName);
 
-        sofa_root = sofa::core::objectmodel::SPtr_dynamic_cast<sofa::simulation::Node>
-        ( sofa::simulation::getSimulation()->load(fileName.c_str()));
+        sofa_root = sofa::core::objectmodel::SPtr_dynamic_cast<Node>
+        ( getSimulation()->load(fileName.c_str()));
 
-	    if (sofa_root==NULL)
-	    {
-		    sofa_root = sofa::simulation::getSimulation()->createNewGraph("");
-    	}
+        if (sofa_root==NULL)
+        {
+            sofa_root = getSimulation()->createNewGraph("");
+        }
         oPick.setPickingMethod(PickHandler::RAY_CASTING);
 
         RegisterOperation("Attach").add< sofa::gui::AttachOperation  >();
@@ -418,7 +523,7 @@ int main(int argc, char** argv)
         oPick.changeOperation(sofa::gui::MIDDLE, "Incise");
         oPick.changeOperation(sofa::gui::RIGHT,  "Remove");
 
-	    sofa::simulation::getSimulation()->init(sofa_root.get());
+        getSimulation()->init(sofa_root.get());
 
    
         oPick.init(sofa_root.get());
@@ -428,25 +533,34 @@ int main(int argc, char** argv)
         mgr = OSG::SimpleSceneManager::create();
         mgr->setWindow(gwin);
 
-        sofa::core::visual::VisualParams* vparams = sofa::core::visual::VisualParams::defaultInstance();
-        sofa::simulation::OSGVisualInitVisitor init_visitor( vparams);
+        VisualParams* vparams = VisualParams::defaultInstance();
+        OSGVisualInitVisitor init_visitor( vparams);
         sofa_root->execute(&init_visitor);
         
-        sofa::simulation::getSimulation()->reset( sofa_root.get() );
-        sofa::component::visualmodel::OSGSofaShadowGraph shadowGraph; 
+        getSimulation()->reset( sofa_root.get() );
 
-   
+        sofa::component::visualmodel::OSGSofaShadowGraph shadowGraph;
 
         OSG::commitChanges();
 
+        // if ignorelights to build() is set to true
+        // shadow mode will have no effect
+        // as there is no shadow stage
         mgr->setRoot(shadowGraph.build(sofa_root, false).get());
+
+        // if at least a light can be found, turn off mgr's headlight
+        LightFinder lightFinder;
+        lightFinder.setSSM(mgr);
+        OSG::traverse(mgr->getRoot(), 
+            boost::bind(&LightFinder::enter, &lightFinder, _1));
+
         mgr->showAll();
 
     }
     
     glutMainLoop();
 
-	return 0;
+    return 0;
 
 
 }

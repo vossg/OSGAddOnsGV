@@ -85,6 +85,8 @@ OSG::NodeTransitPtr OSGSofaShadowGraph::build(
 
     sofa::simulation::OSGVisualUpdateVisitor vm_visitor( vparams);
     vm_visitor.setChunkOverrideGroupNode(_scene);
+
+    
     // get lights
     if (!ignoreLights)
     {
@@ -93,11 +95,12 @@ OSG::NodeTransitPtr OSGSofaShadowGraph::build(
         _shadowStage->setMapSize(1024);
         _shadowStage->setShadowSmoothness(0.5f);
         _shadowStage->setShadowMode(OSG::ShadowStage::NO_SHADOW);
-        //_shadowStage->setShadowMode(OSG::ShadowStage::STD_SHADOW_MAP);
         _shadowStage->setAutoSearchForLights(true);
         shadowStageNode = OSG::makeNodeFor(_shadowStage);
 
         sofa::simulation::OSGLightVisitor light_visitor( vparams);
+        //light_visitor.setTurnOffLights(ignoreLights);
+
         light_visitor.setOSG2Parent(_scene);
         light_visitor.setOSG2ShadowStage(_shadowStage);
         light_visitor.setAttachNode(_scene);
