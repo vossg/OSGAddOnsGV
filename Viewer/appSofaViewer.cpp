@@ -31,6 +31,7 @@
 #include "OSGAction.h"
 
 #include <boost/bind.hpp>
+#include "data.h"
 
 
 using namespace sofa::gui;
@@ -452,6 +453,7 @@ int main(int argc, char** argv)
 
     sofa::core::ExecParams::defaultInstance()->setAspectID(0);
 
+
     // Load visual model policy to replace SOFA visual models with OpenSG
     sofa::gui::qt::viewer::OSGModelPolicy policy;
     policy.load();
@@ -507,8 +509,16 @@ int main(int argc, char** argv)
         sofa_root = sofa::core::objectmodel::SPtr_dynamic_cast<Node>
         ( getSimulation()->load(fileName.c_str()));
 
+        // load in memory example fluidSPH.scn
         if (sofa_root==NULL)
         {
+            sofa_root = sofa::core::objectmodel::SPtr_dynamic_cast<Node>
+            ( getSimulation()->loadFromMemory(
+            "fluidSPH.scn", fluidSPH_scn, fluidSPH_scn_len));
+        }
+        if (sofa_root==NULL)
+        {
+
             sofa_root = getSimulation()->createNewGraph("");
         }
         oPick.setPickingMethod(PickHandler::RAY_CASTING);
