@@ -145,7 +145,6 @@ void display( void )
     
 
     mgr->redraw();
-    glutPostRedisplay();
 }
 
 void sofaPick( int button, int state, int x, int y )
@@ -451,7 +450,8 @@ int main(int argc, char** argv)
 
     sofa::helper::BackTrace::autodump();
 
-    sofa::core::ExecParams::defaultInstance()->setAspectID(0);
+    //sofa::core::ExecParams::defaultInstance()->setAspectID(0);
+    sofa::core::ExecParams::defaultInstance()->setAspectID(1);
 
 
     // Load visual model policy to replace SOFA visual models with OpenSG
@@ -477,7 +477,11 @@ int main(int argc, char** argv)
         gwin->init();
 
         // Create a new simulation
-        setSimulation(new tree::TreeSimulation());
+        if (!getSimulation())
+        {
+            SLOG << "Simulation is null , setting tree simu" << "\n";
+            setSimulation(new tree::TreeSimulation());
+        }
  
         // Initialize sofa components    
         sofa::component::init();
