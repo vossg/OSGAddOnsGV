@@ -1,3 +1,9 @@
+
+#if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
+//#pragma GCC diagnostic warning "-Wold-style-cast"
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#endif
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -150,7 +156,9 @@ void display( void )
 void sofaPick( int button, int state, int x, int y )
 {
 
+#if 0 // GV unused
     OSG::UInt16 but = OSG::SimpleSceneManager::NoButton;
+#endif
 
     OSG::Window*  win = mgr->getWindow();
     sofa::gui::MousePosition mousepos;

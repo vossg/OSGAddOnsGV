@@ -44,6 +44,7 @@
 
 #include "OSGPythonScriptFileBase.h"
 #include "OSGOSGSceneFileType.h"
+#include "OSGFileContextHandlerMixin.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -52,7 +53,8 @@ OSG_BEGIN_NAMESPACE
            script over as a string.
 */
 
-class OSG_SCRIPTING_DLLMAPPING PythonScriptFile : public PythonScriptFileBase
+class OSG_SCRIPTING_DLLMAPPING PythonScriptFile : 
+    public FileContextHandlerMixin<PythonScriptFileBase, PythonScriptFile>
 {
   protected:
 
@@ -60,8 +62,9 @@ class OSG_SCRIPTING_DLLMAPPING PythonScriptFile : public PythonScriptFileBase
 
   public:
 
-    typedef PythonScriptFileBase Inherited;
-    typedef PythonScriptFile     Self;
+    typedef FileContextHandlerMixin<PythonScriptFileBase, 
+                                    PythonScriptFile    > Inherited;
+    typedef PythonScriptFile                              Self;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -105,7 +108,7 @@ class OSG_SCRIPTING_DLLMAPPING PythonScriptFile : public PythonScriptFileBase
     /*! \name                      Init                                    */
     /*! \{                                                                 */
 
-    void postOSGLoading(void);
+    void postOSGLoading(FileContextAttachment * const pContext);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -132,6 +135,9 @@ class OSG_SCRIPTING_DLLMAPPING PythonScriptFile : public PythonScriptFileBase
     friend class PythonScriptFileBase;
 
     friend struct OSGSceneFileType::PostLoadingDispatcher<PythonScriptFile>;
+
+    friend class FileContextHandlerMixin<PythonScriptFileBase, 
+                                         PythonScriptFile    >;
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const PythonScriptFile &source);

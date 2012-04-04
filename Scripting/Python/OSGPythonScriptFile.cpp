@@ -69,7 +69,7 @@ void PythonScriptFile::initMethod(InitPhase ePhase)
 
     if(ePhase == TypeObject::SystemPost)
     {
-#ifdef WIN32
+#ifdef WIN32_X
         typedef OSGSceneFileType::PostLoadingDispatcher<
                   PythonScriptFile> PLDPythonScriptFile;
 
@@ -77,17 +77,14 @@ void PythonScriptFile::initMethod(InitPhase ePhase)
             PythonScriptFile::getClassType(),
             boost::bind(&PLDPythonScriptFile::dispatch,
                         PLDPythonScriptFile(), _1)); 
-#else
-        OSGSceneFileType::the().registerEndNodeCallback(
-            PythonScriptFile::getClassType(),
-            reinterpret_cast<OSGSceneFileType::Callback>(
-                &PythonScriptFile::postOSGLoading));
 #endif
     }
 }
 
-void PythonScriptFile::postOSGLoading(void)
+void PythonScriptFile::postOSGLoading(FileContextAttachment * const pContext)
 {
+    Inherited::postOSGLoading(pContext);
+
     if(_sfScriptUrl.getValue().empty() == false)
     {
         std::string szFilenameResolved =
