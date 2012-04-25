@@ -410,7 +410,7 @@ void OSGShader::initVisual( void )
     std::cerr << "OSGShader::initVisual" << std::endl;
     //system("pause");
 
-#ifdef GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXT
+#ifdef GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXTX
         GLint maxV;
         glGetIntegerv(GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXT, &maxV);
 
