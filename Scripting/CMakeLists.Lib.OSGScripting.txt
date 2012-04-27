@@ -7,7 +7,8 @@ OSG_SELECT_PROJECT()
 ##############################################################################
 
 # dependencies - OpenSG
-SET(${PROJECT_NAME}_DEP_OSG_LIB OSGDynamics OSGContribCSM OSGEffectGroups)
+#
+SET(${PROJECT_NAME}_DEP_OSG_LIB OSGDynamics)
 SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGGroup OSGUtil OSGWindowGLUT)
 
 # dependencies - External

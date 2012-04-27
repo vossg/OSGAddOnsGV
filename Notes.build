@@ -1,0 +1,23 @@
+
+After building / installing OpenSG
+
+OSGAddOns:
+
+1) Copy CMakeCacheInitial.platform.txt to CMakeCacheIntial.txt
+
+2) Adjust CMake parameters in Support/CMakeCacheInitial.txt
+
+3) create build dir
+
+4) in build dir run 'cmake <OSGAddOns Source>'
+
+5) build
+
+6) install (if required)
+
+
+Note the initial cache adjusted in step 2 will only be read once 
+during the very first cmake run. Changing it and rerunning cmake will
+not include the latest changes. For this you must start over, e.g.
+clear/recreate the build directory or delete the cmake cache inside
+the build directory.

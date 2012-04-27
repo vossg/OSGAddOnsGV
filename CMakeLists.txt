@@ -13,8 +13,11 @@ INCLUDE(ExternalProjectHelper)
 
 SET(OSG_COMPONENTS OSGBase OSGSystem OSGState OSGGroup OSGDrawable OSGWindow
                    OSGText OSGUtil OSGWindowGLUT OSGFileIO OSGImageFileIO
-                   OSGDynamics OSGContribComputeBase OSGContribCSM 
-                   OSGEffectGroups)
+                   OSGDynamics OSGContribCSM OSGEffectGroups)
+
+IF(OSG_ENABLE_CUDA)
+  LIST(APPEND OSG_COMPONENTS OSGContribComputeBase)
+ENDIF(OSG_ENABLE_CUDA)
 
 IF(UNIX)
   IF(APPLE)

@@ -44,7 +44,6 @@
 #include "OSGPythonScript.h"
 
 #include "OSGPyFieldAccessHandler.h"
-#include "OSGComplexSceneManager.h"
 #include "OSGNameAttachment.h"
 #include "OSGLog.h"
 
