@@ -6,11 +6,12 @@ SET(OpenSG_DIR "/home/gerrit/Projects/OpenSG/Separate/svn/OpenSG.install"
 
 # OpenSG Support
 
-SET(OSG_SUPPORT_ROOT 
-    "/home/gerrit/Projects/OpenSG/Separate/svn/OpenSG.Support.install"
-    CACHE PATH "" FORCE)
+# Initialized from OpenSG install, change only if really needed
+#SET(OSG_SUPPORT_ROOT 
+#    "/home/gerrit/Projects/OpenSG/Separate/svn/OpenSG.Support.install"
+#    CACHE PATH "" FORCE)
 
-SET(OSG_USE_OSGSUPPORT_LIBS TRUE CACHE BOOL "" FORCE)
+#SET(OSG_USE_OSGSUPPORT_LIBS TRUE CACHE BOOL "" FORCE)
 
 # If OpenSG was build with CUDA enabled
 
