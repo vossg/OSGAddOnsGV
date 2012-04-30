@@ -1,0 +1,45 @@
+
+# OpenSG
+
+SET(OpenSG_DIR "d:/user/gerrit/Projects/OpenSG/Separate/svn/OpenSG.install" 
+                CACHE PATH "" FORCE)
+
+# Initialized from OpenSG install, change only if really needed
+#SET(BOOST_ROOT "d:/user/gerrit/Projects/OpenSG/Separate/Support/NoMSSec"
+#               CACHE PATH "" FORCE)
+
+# Follow OpenSG Settings
+
+# Initialized from OpenSG install, change only if really needed
+#SET(OSG_DISABLE_MICROSOFT_SECURE_CXXX TRUE CACHE BOOL "" FORCE)
+#SET(OSG_DISABLE_MS_ITERATOR_DEBUGGING TRUE CACHE BOOL "" FORCE)
+
+# OpenSG Support
+
+# Initialized from OpenSG install, change only if really needed
+#SET(OSG_SUPPORT_ROOT 
+#    "d:/user/gerrit/Projects/OpenSG/Separate/svn/OpenSG.Support.install"
+#    CACHE PATH "" FORCE)
+
+#SET(OSG_USE_OSGSUPPORT_LIBS TRUE CACHE BOOL "" FORCE)
+
+# If OpenSG was build with CUDA enabled
+
+#SET(CUDA_TOOLKIT_ROOT_DIR "/home/gerrit/Projects/NVidia/cuda" 
+#                          CACHE PATH "" FORCE)
+
+#SET(OSG_ENABLE_CUDA ON CACHE BOOL "Build OpenSG with CUDA support"  FORCE)
+
+# cmake
+
+SET(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "" FORCE)
+SET(CMAKE_INSTALL_PREFIX 
+    "d:/user/gerrit/Projects/OpenSG/Separate/OSGAddOns.install" 
+    CACHE PATH "" FORCE)
+
+SET(OSG_ENABLE_FCD2CODE OFF CACHE BOOL "" FORCE)
+
+# Sofa
+
+SET(SOFA_ROOT "d:/user/gerrit/Projects/Sofa/Sofa-1.0-rc1"
+              CACHE PATH "" FORCE                           )
