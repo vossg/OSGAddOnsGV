@@ -3,9 +3,10 @@ After building / installing OpenSG
 
 OSGAddOns:
 
-1) Copy CMakeCacheInitial.platform.txt to CMakeCacheIntial.txt
+1) Copy CMakeCacheInitial.txt.platform to CMakeCacheIntial.txt within the
+   source directory.
 
-2) Adjust CMake parameters in Support/CMakeCacheInitial.txt
+2) Adjust CMake parameters in CMakeCacheInitial.txt
 
 3) create build dir
 
