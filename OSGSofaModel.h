@@ -182,12 +182,11 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGSofaModel : public VisualModelImpl
 
     GLenum getGLenum(const char* c ) const;
 
-    OSG::Image::PixelFormat convertSofaToOpenSG(helper::io::Image::ChannelFormat cf);
-    OSG::Image::Type   convertSofaToOpenSG(helper::io::Image::DataType dt);
 
     OSGSofaModel();
 
     ~OSGSofaModel();
+
   public:
 
     bool loadTexture(const std::string& filename);

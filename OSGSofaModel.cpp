@@ -65,18 +65,11 @@
 #include <sstream>
 #include <string.h>
 
-
-namespace sofa
-{
-
-namespace component
-{
-
-namespace visualmodel
-{
+BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
 
 using namespace sofa::defaulttype;
 using namespace sofa::core::loader;
+using namespace sofa::core::visual;
 
 SOFA_DECL_CLASS(OSGSofaModel)
 
@@ -86,19 +79,30 @@ int OSGSofaModelClass = core::RegisterObject("Visual Model for OpenSG 2.0")
 
 
 OSGSofaModel::OSGSofaModel()
-: premultipliedAlpha(initData(&premultipliedAlpha, (bool) false, "premultipliedAlpha", "is alpha premultiplied ?"))
+: premultipliedAlpha(initData(&premultipliedAlpha, (bool) false, 
+"premultipliedAlpha", "is alpha premultiplied ?"))
 #ifndef SOFA_HAVE_GLEW
 , useVBO(initData(&useVBO, (bool) false, "useVBO", "Use VBO for rendering"))
 #else
 , useVBO(initData(&useVBO, (bool) true, "useVBO", "Use VBO for rendering"))
 #endif
-, writeZTransparent(initData(&writeZTransparent, (bool) false, "writeZTransparent", "Write into Z Buffer for Transparent Object"))
-, alphaBlend(initData(&alphaBlend, (bool) false, "alphaBlend", "Enable alpha blending"))
-, depthTest(initData(&depthTest, (bool) true, "depthTest", "Enable depth testing"))
-, cullFace(initData(&cullFace, (int) 0, "cullFace", "Face culling (0 = no culling, 1 = cull back faces, 2 = cull front faces)"))
-, blendEquation( initData(&blendEquation, "blendEquation", "if alpha blending is enabled this specifies how source and destination colors are combined") )
-, sourceFactor( initData(&sourceFactor, "sfactor", "if alpha blending is enabled this specifies how the red, green, blue, and alpha source blending factors are computed") )
-, destFactor( initData(&destFactor, "dfactor", "if alpha blending is enabled this specifies how the red, green, blue, and alpha destination blending factors are computed") )
+, writeZTransparent(initData(&writeZTransparent, (bool) false,
+ "writeZTransparent", "Write into Z Buffer for Transparent Object"))
+, alphaBlend(initData(&alphaBlend, (bool) false, "alphaBlend",
+ "Enable alpha blending"))
+, depthTest(initData(&depthTest, (bool) true, "depthTest", 
+"Enable depth testing"))
+, cullFace(initData(&cullFace, (int) 0, "cullFace",
+ "Face culling (0 = no culling, 1 = cull back faces, 2 = cull front faces)"))
+, blendEquation( initData(&blendEquation, "blendEquation",
+ "if alpha blending is enabled \
+ this specifies how source and destination colors are combined") )
+, sourceFactor( initData(&sourceFactor, "sfactor",
+ "if alpha blending is enabled this specifies how the red, green, blue, \
+and alpha source blending factors are computed") ) \
+, destFactor( initData(&destFactor, "dfactor", \
+ "if alpha blending is enabled this specifies how the red, green, blue, \
+ and alpha destination blending factors are computed") )
 
 // OpenSG 
 ,_attachNode(NULL)
@@ -113,25 +117,31 @@ OSGSofaModel::OSGSofaModel()
 ,_polygonChunk(NULL)
 ,_shadeModelChunk(NULL)
 ,_twoSidedLightingChunk(NULL)
-, tex(NULL), canUseVBO(false), VBOGenDone(false), initDone(false), useTriangles(false), useQuads(false)
+, tex(NULL), canUseVBO(false), VBOGenDone(false), initDone(false)
+, useTriangles(false), useQuads(false)
 , oldVerticesSize(0), oldTrianglesSize(0), oldQuadsSize(0)
 {
 
-    sofa::helper::OptionsGroup* blendEquationOptions = blendEquation.beginEdit();
-    blendEquationOptions->setNames(4,"GL_FUNC_ADD", "GL_FUNC_SUBTRACT", "GL_MIN", "GL_MAX"); // .. add other options
+    sofa::helper::OptionsGroup* blendEquationOptions 
+    = blendEquation.beginEdit();
+    blendEquationOptions->setNames(4,"GL_FUNC_ADD", "GL_FUNC_SUBTRACT", 
+    "GL_MIN", "GL_MAX"); // .. add other options
     blendEquationOptions->setSelectedItem(0);
     //this->f_printLog.setValue(true);
     blendEquation.endEdit();
 
     // alpha blend values
     sofa::helper::OptionsGroup* sourceFactorOptions = sourceFactor.beginEdit();
-    sourceFactorOptions->setNames(4,"GL_ZERO", "GL_ONE", "GL_SRC_ALPHA", "GL_ONE_MINUS_SRC_ALPHA"); // .. add other options
+    sourceFactorOptions->setNames(4,"GL_ZERO", "GL_ONE", "GL_SRC_ALPHA", 
+                         "GL_ONE_MINUS_SRC_ALPHA"); // .. add other options
     sourceFactorOptions->setSelectedItem(2);
     //this->f_printLog.setValue(true);
     sourceFactor.endEdit();
 
     sofa::helper::OptionsGroup* destFactorOptions = destFactor.beginEdit();
-    destFactorOptions->setNames(4,"GL_ZERO", "GL_ONE", "GL_SRC_ALPHA", "GL_ONE_MINUS_SRC_ALPHA"); // .. add other options
+    destFactorOptions->setNames(4,"GL_ZERO", "GL_ONE", "GL_SRC_ALPHA", 
+    "GL_ONE_MINUS_SRC_ALPHA"); // .. add other options
+
     destFactorOptions->setSelectedItem(3);
     //this->f_printLog.setValue(true);
     destFactor.endEdit();
@@ -161,14 +171,15 @@ OSGSofaModel::~OSGSofaModel()
     
 }
 
-void OSGSofaModel::internalDraw(const core::visual::VisualParams* vparams, bool transparent)
+void OSGSofaModel::internalDraw(const VisualParams* vparams, bool transparent)
 {
     m_vtexcoords.updateIfDirty();
 
     //updateBuffers();
     //updateModel();
 
-    helper::ReadAccessor< Data< helper::vector<FaceGroup> > > groups = this->groups;
+    helper::ReadAccessor< Data< helper::vector<FaceGroup> > > groups 
+    = this->groups;
     
     if (vparams->displayFlags().getShowVisualModels()) 
     {
@@ -191,16 +202,20 @@ void OSGSofaModel::internalDraw(const core::visual::VisualParams* vparams, bool 
     {
         if (_polygonChunk) 
         {
-            if (_polygonChunk->getFrontMode() != GL_LINE) _polygonChunk->setFrontMode(GL_LINE);
-            if (_polygonChunk->getBackMode() != GL_LINE) _polygonChunk->setBackMode(GL_LINE);
+            if (_polygonChunk->getFrontMode() != GL_LINE) 
+                _polygonChunk->setFrontMode(GL_LINE);
+            if (_polygonChunk->getBackMode() != GL_LINE) 
+                _polygonChunk->setBackMode(GL_LINE);
         }
     }
     else
     {
         if (_polygonChunk) 
         {
-            if (_polygonChunk->getFrontMode() != GL_FILL) _polygonChunk->setFrontMode(GL_FILL);
-            if (_polygonChunk->getBackMode() != GL_FILL) _polygonChunk->setBackMode(GL_FILL);
+            if (_polygonChunk->getFrontMode() != GL_FILL) 
+                _polygonChunk->setFrontMode(GL_FILL);
+            if (_polygonChunk->getBackMode() != GL_FILL) 
+                _polygonChunk->setBackMode(GL_FILL);
         }
 
     }            
@@ -215,66 +230,19 @@ bool OSGSofaModel::loadTexture(const std::string& filename)
     OSG::ImageUnrecPtr image = OSG::Image::create();
     bool read = image->read(filename.c_str());
     if (!read)
-        std::cerr << "OpenSG OSGSofaModel_loadTextureSingle(" << this->getName() << "): couldn't create an image from file " << filename << std::endl;
-    //helper::io::Image *img = helper::io::Image::Create(filename);
-    //if (!img)
-    //    return false;
-
-
-    //helper::io::Image::ChannelFormat cf = img->getChannelFormat();
-    //helper::io::Image::DataType dt = img->getDataType();
-
-    //OSG::Image::PixelFormat pixelFormat = convertSofaToOpenSG( cf );
-    //OSG::Image::Type type =  convertSofaToOpenSG( dt );
-
-    //image->set(pixelFormat,img->getWidth(),img->getHeight(),img->getDepth(),
-    //               1,1,0.0,img->getPixels(),type);
+    {
+        std::cerr << "OpenSG OSGSofaModel_loadTextureSingle(" 
+        << this->getName() << "): couldn't create an image from file " 
+        << filename << std::endl;
+    }
 
     _textureName = NULL;
     _textureName  = OSG::TextureObjChunk::create();
     _textureName->setImage(image);
 
-    //tex = new helper::gl::Texture(img, true, true, false, srgbTexturing.getValue());
     return true;
 }
 
-OSG::Image::PixelFormat
-OSGSofaModel::convertSofaToOpenSG(helper::io::Image::ChannelFormat cf)
-{
-        OSG::Image::PixelFormat pixelFormat = OSG::Image::OSG_INVALID_PF;
-        switch (cf)
-        {
-            case   helper::io::Image::L :   pixelFormat = OSG::Image::OSG_L_PF; break;
-            case   helper::io::Image::LA :   pixelFormat = OSG::Image::OSG_LA_PF; break;
-            case   helper::io::Image::R :   pixelFormat = OSG::Image::OSG_L_PF; break;
-            case   helper::io::Image::RG :   pixelFormat = OSG::Image::OSG_LA_PF; break;
-            case   helper::io::Image::RGB :   pixelFormat = OSG::Image::OSG_RGB_PF; break;
-            case   helper::io::Image::RGBA :   pixelFormat = OSG::Image::OSG_RGBA_PF; break;
-            case   helper::io::Image::BGR :   pixelFormat = OSG::Image::OSG_BGR_PF; break;
-            case   helper::io::Image::BGRA :   pixelFormat = OSG::Image::OSG_BGRA_PF; break;
-            default: break;
-        };
-
-        return pixelFormat;
-}
-
-OSG::Image::Type 
-OSGSofaModel::convertSofaToOpenSG(helper::io::Image::DataType dt)
-{
-      OSG::Image::Type type = OSG::Image::OSG_INVALID_IMAGEDATATYPE;
-      switch (dt)
-        {
-            case   helper::io::Image::UNORM8 :   type = OSG::Image::OSG_UINT8_IMAGEDATA; break;
-            case   helper::io::Image::UNORM16 :   type = OSG::Image::OSG_UINT16_IMAGEDATA; break;
-            case   helper::io::Image::UINT32 :   type = OSG::Image::OSG_UINT32_IMAGEDATA; break;
-            case   helper::io::Image::HALF :   type = OSG::Image::OSG_FLOAT16_IMAGEDATA; break;
-            case   helper::io::Image::FLOAT :   type = OSG::Image::OSG_FLOAT32_IMAGEDATA; break;
-            //case   helper::io::Image::UCOMPRESSED :   type = OSG::Image::OSG_UINT8_IMAGEDATA; break;
-            default: break;
-        };
-
-        return type;
-}
 
 
 
@@ -330,17 +298,6 @@ bool OSGSofaModel::loadTextures()
             std::cerr << "OpenSG FILEIO(OSGSofaModel(" << this->getName() << "): created an image from file " << this->materials.getValue()[*i].textureFilename << std::endl;
 
 
-        // temp hack to use sofa io to read png
-
-        //helper::io::Image::ChannelFormat cf = img->getChannelFormat();
-        //helper::io::Image::DataType dt = img->getDataType();
-
-        //OSG::Image::PixelFormat pixelFormat = convertSofaToOpenSG( cf );
-        //OSG::Image::Type type =  convertSofaToOpenSG( dt );
-
-        //image->set(pixelFormat,img->getWidth(),img->getHeight(),img->getDepth(),
-        //           1,1,0.0,img->getPixels(),type);
-
         materialTextureIdMap.insert(std::pair<int, int>(*i,_texMaterial.size()));
 
 
@@ -356,7 +313,9 @@ bool OSGSofaModel::loadTextures()
 
         str.clear();
 
-        std::stringstream out; out << _texMaterial.size() << "/" << activatedTextures.size() << " textures loaded for OSGSofaModel " << this->getName();
+        std::stringstream out; out << _texMaterial.size() << "/" 
+        << activatedTextures.size() << " textures loaded for OSGSofaModel " 
+        << this->getName();
         str += out.str();
 
         std::cout << str << std::flush;
@@ -1548,9 +1507,5 @@ void OSGSofaModel::updateOptions()
 }
 
 
-} // namespace visualmodel
-
-} // namespace component
-
-} // namespace sofa
+END_SOFA_CMP_VISMODEL_NAMESPACE
 
