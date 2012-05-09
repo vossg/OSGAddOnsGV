@@ -178,6 +178,12 @@ void OSGModelPolicy::load(void)
                                          "OSGPointSplatModel", 
                                          true,
                                         &_pClassVisualModel_5   );
+
+    sofa::core::ObjectFactory::AddAlias( "LightManager", 
+                                         "OSGSofaLightManager", 
+                                         true,
+                                        &_pClassVisualModel_5   );
+
     
     createStateAliases ();
     createShaderAliases();
@@ -204,8 +210,8 @@ void OSGModelPolicy::unload(void)
     sofa::core::ObjectFactory::ResetAlias("PointSplat", 
                                           _pClassVisualModel_5);
 
-//    sofa::core::ObjectFactory::ResetAlias("OglShadowShader", 
-//                                          _pClassVisualModel);
+    sofa::core::ObjectFactory::ResetAlias("LightManager", 
+                                          _pClassVisualModel_5);
     
     unAliasMap(_mStateMap,  _pStateClass);
     unAliasMap(_mShaderMap, _pShaderClass);
