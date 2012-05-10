@@ -506,9 +506,18 @@ int main(int argc, char** argv)
             DataRepository.addFirstPath(sofaDataPath);
             DataRepository.addFirstPath(sofaDataPath + "/examples");
             DataRepository.addFirstPath(sofaDataPath + "/share");
-
         }
 
+        char *sofaDir = getenv("SOFA_DIR");
+
+        if(sofaDir != NULL)
+        {
+            std::string szSofaDir = sofaDir;
+
+            DataRepository.addFirstPath(szSofaDir);
+            DataRepository.addFirstPath(szSofaDir + "/examples");
+            DataRepository.addFirstPath(szSofaDir + "/share");
+        }
 
 
 
