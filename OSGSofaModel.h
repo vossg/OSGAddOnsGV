@@ -108,6 +108,7 @@ typedef OSG::GeoUInt32PropertyMTRecPtr OSGSofaGeoUInt32PropertyPtr;
 //#define   NB_MAX_TEXTURES 16
  
 BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
+using namespace core::visual;
 
 /**
  *  \brief Main class for rendering 3D model in SOFA.
@@ -122,7 +123,11 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGSofaModel : public VisualModelImpl
     SOFA_CLASS(OSGSofaModel, VisualModelImpl);
 
   protected:
-    Data<bool> premultipliedAlpha, useVBO, writeZTransparent, alphaBlend, depthTest;
+    Data<bool> premultipliedAlpha; 
+    Data<bool> useVBO;
+    Data<bool> writeZTransparent; 
+    Data<bool> alphaBlend;
+    Data<bool> depthTest;
     Data<int> cullFace;
     
     //alpha blend function
@@ -152,15 +157,16 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGSofaModel : public VisualModelImpl
     OSG::ShadeModelChunkUnrecPtr _shadeModelChunk;
     OSG::TwoSidedLightingChunkUnrecPtr _twoSidedLightingChunk;
 
-    //OSG::ClipPlaneChunkUnrecPtr _clipPlaneChunk[6];
 
 
 
-    helper::gl::Texture *tex; //this texture is used only if a texture name is specified in the scn
+    //this texture is used only if a texture name is specified in the scn
+    //helper::gl::Texture *tex; 
 
     bool canUseVBO, VBOGenDone, initDone, useTriangles, useQuads;
     unsigned int oldVerticesSize, oldTrianglesSize, oldQuadsSize;
-    void internalDraw(const core::visual::VisualParams* vparams, bool transparent);
+
+    void internalDraw(const VisualParams* vparams, bool transparent);
 
     void drawGroup(int ig, bool transparent);
     void drawGroups(bool transparent);
@@ -212,11 +218,9 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGSofaModel : public VisualModelImpl
 
 
   public:
-    bool isUseTriangles()   { return useTriangles; }
-    bool isUseQuads()   { return useQuads; }
+    bool isUseTriangles() const { return useTriangles; }
+    bool isUseQuads() const    { return useQuads; }
     bool isUseVbo() { return useVBO.getValue(); }
-
-    //helper::gl::Texture* getTex() const   { return tex; }
 
     // OpenSG
     OSG::Node* getAttachNode() const { return _attachNode; }
