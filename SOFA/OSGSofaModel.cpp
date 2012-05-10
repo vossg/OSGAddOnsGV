@@ -117,7 +117,7 @@ and alpha source blending factors are computed") ) \
 ,_polygonChunk(NULL)
 ,_shadeModelChunk(NULL)
 ,_twoSidedLightingChunk(NULL)
-, tex(NULL), canUseVBO(false), VBOGenDone(false), initDone(false)
+, canUseVBO(false), VBOGenDone(false), initDone(false)
 , useTriangles(false), useQuads(false)
 , oldVerticesSize(0), oldTrianglesSize(0), oldQuadsSize(0)
 {
@@ -149,9 +149,6 @@ and alpha source blending factors are computed") ) \
 
 OSGSofaModel::~OSGSofaModel()
 {
-    if (tex!=NULL) delete tex;
-
-
     _attachNode = NULL;
     _polygonPoints = NULL;
     _vertexNormals = NULL;
