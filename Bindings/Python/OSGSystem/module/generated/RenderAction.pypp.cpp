@@ -679,12 +679,11 @@ void register_RenderAction_class(){
         
         }
         RenderAction_exposer.def_readonly( "statDrawTime", OSG::RenderAction::statDrawTime );
-        RenderAction_exposer.def_readonly( "statNGeometries", OSG::RenderAction::statNGeometries );
+        RenderAction_exposer.def_readonly( "statNChunks", OSG::RenderAction::statNChunks );
         RenderAction_exposer.def_readonly( "statNMatrices", OSG::RenderAction::statNMatrices );
         RenderAction_exposer.def_readonly( "statNShaderParams", OSG::RenderAction::statNShaderParams );
         RenderAction_exposer.def_readonly( "statNShaders", OSG::RenderAction::statNShaders );
         RenderAction_exposer.def_readonly( "statNStates", OSG::RenderAction::statNStates );
-        RenderAction_exposer.def_readonly( "statNTriangles", OSG::RenderAction::statNTriangles );
         RenderAction_exposer.staticmethod( "create" );
         RenderAction_exposer.staticmethod( "getPrototype" );
         RenderAction_exposer.staticmethod( "setPrototype" );

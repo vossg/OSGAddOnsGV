@@ -110,6 +110,16 @@ void register_SceneFileHandlerBase_class(){
                 , ( bp::arg("suffix"), bp::arg("name"), bp::arg("value") ) );
         
         }
+        { //::OSG::SceneFileHandlerBase::popOptions
+        
+            typedef void ( ::OSG::SceneFileHandlerBase::*popOptions_function_type )( ::std::string const & ) ;
+            
+            SceneFileHandlerBase_exposer.def( 
+                "popOptions"
+                , popOptions_function_type( &::OSG::SceneFileHandlerBase::popOptions )
+                , ( bp::arg("suffix") ) );
+        
+        }
         { //::OSG::SceneFileHandlerBase::print
         
             typedef void ( ::OSG::SceneFileHandlerBase::*print_function_type )(  ) ;
@@ -117,6 +127,16 @@ void register_SceneFileHandlerBase_class(){
             SceneFileHandlerBase_exposer.def( 
                 "print"
                 , print_function_type( &::OSG::SceneFileHandlerBase::print ) );
+        
+        }
+        { //::OSG::SceneFileHandlerBase::pushOptions
+        
+            typedef void ( ::OSG::SceneFileHandlerBase::*pushOptions_function_type )( ::std::string const &,bool ) ;
+            
+            SceneFileHandlerBase_exposer.def( 
+                "pushOptions"
+                , pushOptions_function_type( &::OSG::SceneFileHandlerBase::pushOptions )
+                , ( bp::arg("suffix"), bp::arg("copyTop")=(bool)(true) ) );
         
         }
         { //::OSG::SceneFileHandlerBase::setDefaultGraphOp

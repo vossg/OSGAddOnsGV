@@ -62,6 +62,9 @@ void register_ComplexSceneManagerBase_class(){
         bp::scope().attr("ConstantTimeFieldId") = (int)OSG::ComplexSceneManagerBase::ConstantTimeFieldId;
         bp::scope().attr("PausedFieldId") = (int)OSG::ComplexSceneManagerBase::PausedFieldId;
         bp::scope().attr("DumpFrameStartFieldId") = (int)OSG::ComplexSceneManagerBase::DumpFrameStartFieldId;
+        bp::scope().attr("EnableWebServiceFieldId") = (int)OSG::ComplexSceneManagerBase::EnableWebServiceFieldId;
+        bp::scope().attr("WebServicePortFieldId") = (int)OSG::ComplexSceneManagerBase::WebServicePortFieldId;
+        bp::scope().attr("WebServiceRootFieldId") = (int)OSG::ComplexSceneManagerBase::WebServiceRootFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ComplexSceneManagerBase::NextFieldId;
         { //::OSG::ComplexSceneManagerBase::assignGlobals
         
@@ -216,6 +219,15 @@ void register_ComplexSceneManagerBase_class(){
                 , getDumpFrameStart_function_type( &::OSG::ComplexSceneManagerBase::getDumpFrameStart ) );
         
         }
+        { //::OSG::ComplexSceneManagerBase::getEnableWebService
+        
+            typedef bool ( ::OSG::ComplexSceneManagerBase::*getEnableWebService_function_type )(  ) const;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "getEnableWebService"
+                , getEnableWebService_function_type( &::OSG::ComplexSceneManagerBase::getEnableWebService ) );
+        
+        }
         { //::OSG::ComplexSceneManagerBase::getGlobals
         
             typedef ::OSG::FieldContainer * ( ::OSG::ComplexSceneManagerBase::*getGlobals_function_type )( ::OSG::UInt32 const ) const;
@@ -276,6 +288,16 @@ void register_ComplexSceneManagerBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::ComplexSceneManagerBase::getSFEnableWebService
+        
+            typedef ::OSG::SFBool const * ( ::OSG::ComplexSceneManagerBase::*getSFEnableWebService_function_type )(  ) const;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "getSFEnableWebService"
+                , getSFEnableWebService_function_type( &::OSG::ComplexSceneManagerBase::getSFEnableWebService )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::ComplexSceneManagerBase::getSFPaused
         
             typedef ::OSG::SFBool const * ( ::OSG::ComplexSceneManagerBase::*getSFPaused_function_type )(  ) const;
@@ -303,6 +325,26 @@ void register_ComplexSceneManagerBase_class(){
             ComplexSceneManagerBase_exposer.def( 
                 "getSFTimeScale"
                 , getSFTimeScale_function_type( &::OSG::ComplexSceneManagerBase::getSFTimeScale )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ComplexSceneManagerBase::getSFWebServicePort
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::ComplexSceneManagerBase::*getSFWebServicePort_function_type )(  ) const;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "getSFWebServicePort"
+                , getSFWebServicePort_function_type( &::OSG::ComplexSceneManagerBase::getSFWebServicePort )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ComplexSceneManagerBase::getSFWebServiceRoot
+        
+            typedef ::OSG::SFString const * ( ::OSG::ComplexSceneManagerBase::*getSFWebServiceRoot_function_type )(  ) const;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "getSFWebServiceRoot"
+                , getSFWebServiceRoot_function_type( &::OSG::ComplexSceneManagerBase::getSFWebServiceRoot )
                 , bp::return_internal_reference< >() );
         
         }
@@ -344,6 +386,25 @@ void register_ComplexSceneManagerBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::ComplexSceneManagerBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ComplexSceneManagerBase::getWebServicePort
+        
+            typedef ::OSG::UInt32 ( ::OSG::ComplexSceneManagerBase::*getWebServicePort_function_type )(  ) const;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "getWebServicePort"
+                , getWebServicePort_function_type( &::OSG::ComplexSceneManagerBase::getWebServicePort ) );
+        
+        }
+        { //::OSG::ComplexSceneManagerBase::getWebServiceRoot
+        
+            typedef ::std::string const & ( ::OSG::ComplexSceneManagerBase::*getWebServiceRoot_function_type )(  ) const;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "getWebServiceRoot"
+                , getWebServiceRoot_function_type( &::OSG::ComplexSceneManagerBase::getWebServiceRoot )
+                , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
         { //::OSG::ComplexSceneManagerBase::pushToGlobals
@@ -416,6 +477,16 @@ void register_ComplexSceneManagerBase_class(){
                 , ( bp::arg("value") ) );
         
         }
+        { //::OSG::ComplexSceneManagerBase::setEnableWebService
+        
+            typedef void ( ::OSG::ComplexSceneManagerBase::*setEnableWebService_function_type )( bool const ) ;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "setEnableWebService"
+                , setEnableWebService_function_type( &::OSG::ComplexSceneManagerBase::setEnableWebService )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::ComplexSceneManagerBase::setPaused
         
             typedef void ( ::OSG::ComplexSceneManagerBase::*setPaused_function_type )( bool const ) ;
@@ -443,6 +514,26 @@ void register_ComplexSceneManagerBase_class(){
             ComplexSceneManagerBase_exposer.def( 
                 "setTimeScale"
                 , setTimeScale_function_type( &::OSG::ComplexSceneManagerBase::setTimeScale )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ComplexSceneManagerBase::setWebServicePort
+        
+            typedef void ( ::OSG::ComplexSceneManagerBase::*setWebServicePort_function_type )( ::OSG::UInt32 const ) ;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "setWebServicePort"
+                , setWebServicePort_function_type( &::OSG::ComplexSceneManagerBase::setWebServicePort )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ComplexSceneManagerBase::setWebServiceRoot
+        
+            typedef void ( ::OSG::ComplexSceneManagerBase::*setWebServiceRoot_function_type )( ::std::string const & ) ;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "setWebServiceRoot"
+                , setWebServiceRoot_function_type( &::OSG::ComplexSceneManagerBase::setWebServiceRoot )
                 , ( bp::arg("value") ) );
         
         }

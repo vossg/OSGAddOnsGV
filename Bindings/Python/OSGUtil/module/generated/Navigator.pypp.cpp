@@ -64,6 +64,18 @@ struct Navigator_wrapper : OSG::Navigator, bp::wrapper< OSG::Navigator > {
         OSG::Navigator::buttonPress( button, x, y );
     }
 
+    virtual void buttonPress( ::OSG::Int16 button, ::OSG::Int16 x, ::OSG::Int16 y, ::OSG::Int16 width, ::OSG::Int16 height ) {
+        if( bp::override func_buttonPress = this->get_override( "buttonPress" ) )
+            func_buttonPress( button, x, y, width, height );
+        else{
+            this->OSG::Navigator::buttonPress( button, x, y, width, height );
+        }
+    }
+    
+    void default_buttonPress( ::OSG::Int16 button, ::OSG::Int16 x, ::OSG::Int16 y, ::OSG::Int16 width, ::OSG::Int16 height ) {
+        OSG::Navigator::buttonPress( button, x, y, width, height );
+    }
+
     virtual void buttonRelease( ::OSG::Int16 button, ::OSG::Int16 x, ::OSG::Int16 y ) {
         if( bp::override func_buttonRelease = this->get_override( "buttonRelease" ) )
             func_buttonRelease( button, x, y );
@@ -74,6 +86,18 @@ struct Navigator_wrapper : OSG::Navigator, bp::wrapper< OSG::Navigator > {
     
     void default_buttonRelease( ::OSG::Int16 button, ::OSG::Int16 x, ::OSG::Int16 y ) {
         OSG::Navigator::buttonRelease( button, x, y );
+    }
+
+    virtual void buttonRelease( ::OSG::Int16 button, ::OSG::Int16 x, ::OSG::Int16 y, ::OSG::Int16 width, ::OSG::Int16 height ) {
+        if( bp::override func_buttonRelease = this->get_override( "buttonRelease" ) )
+            func_buttonRelease( button, x, y, width, height );
+        else{
+            this->OSG::Navigator::buttonRelease( button, x, y, width, height );
+        }
+    }
+    
+    void default_buttonRelease( ::OSG::Int16 button, ::OSG::Int16 x, ::OSG::Int16 y, ::OSG::Int16 width, ::OSG::Int16 height ) {
+        OSG::Navigator::buttonRelease( button, x, y, width, height );
     }
 
     virtual void idle( ::OSG::Int16 buttons, ::OSG::Int16 x, ::OSG::Int16 y ) {
@@ -88,6 +112,18 @@ struct Navigator_wrapper : OSG::Navigator, bp::wrapper< OSG::Navigator > {
         OSG::Navigator::idle( buttons, x, y );
     }
 
+    virtual void idle( ::OSG::Int16 buttons, ::OSG::Int16 x, ::OSG::Int16 y, ::OSG::Int16 width, ::OSG::Int16 height ) {
+        if( bp::override func_idle = this->get_override( "idle" ) )
+            func_idle( buttons, x, y, width, height );
+        else{
+            this->OSG::Navigator::idle( buttons, x, y, width, height );
+        }
+    }
+    
+    void default_idle( ::OSG::Int16 buttons, ::OSG::Int16 x, ::OSG::Int16 y, ::OSG::Int16 width, ::OSG::Int16 height ) {
+        OSG::Navigator::idle( buttons, x, y, width, height );
+    }
+
     virtual void keyPress( ::OSG::Int16 key, ::OSG::Int16 x, ::OSG::Int16 y ) {
         if( bp::override func_keyPress = this->get_override( "keyPress" ) )
             func_keyPress( key, x, y );
@@ -100,6 +136,18 @@ struct Navigator_wrapper : OSG::Navigator, bp::wrapper< OSG::Navigator > {
         OSG::Navigator::keyPress( key, x, y );
     }
 
+    virtual void keyPress( ::OSG::Int16 key, ::OSG::Int16 x, ::OSG::Int16 y, ::OSG::Int16 width, ::OSG::Int16 height ) {
+        if( bp::override func_keyPress = this->get_override( "keyPress" ) )
+            func_keyPress( key, x, y, width, height );
+        else{
+            this->OSG::Navigator::keyPress( key, x, y, width, height );
+        }
+    }
+    
+    void default_keyPress( ::OSG::Int16 key, ::OSG::Int16 x, ::OSG::Int16 y, ::OSG::Int16 width, ::OSG::Int16 height ) {
+        OSG::Navigator::keyPress( key, x, y, width, height );
+    }
+
     virtual void moveTo( ::OSG::Int16 x, ::OSG::Int16 y ) {
         if( bp::override func_moveTo = this->get_override( "moveTo" ) )
             func_moveTo( x, y );
@@ -110,6 +158,18 @@ struct Navigator_wrapper : OSG::Navigator, bp::wrapper< OSG::Navigator > {
     
     void default_moveTo( ::OSG::Int16 x, ::OSG::Int16 y ) {
         OSG::Navigator::moveTo( x, y );
+    }
+
+    virtual void moveTo( ::OSG::Int16 x, ::OSG::Int16 y, ::OSG::Int16 width, ::OSG::Int16 height ) {
+        if( bp::override func_moveTo = this->get_override( "moveTo" ) )
+            func_moveTo( x, y, width, height );
+        else{
+            this->OSG::Navigator::moveTo( x, y, width, height );
+        }
+    }
+    
+    void default_moveTo( ::OSG::Int16 x, ::OSG::Int16 y, ::OSG::Int16 width, ::OSG::Int16 height ) {
+        OSG::Navigator::moveTo( x, y, width, height );
     }
 
 };
@@ -132,6 +192,18 @@ void register_Navigator_class(){
                 , ( bp::arg("button"), bp::arg("x"), bp::arg("y") ) );
         
         }
+        { //::OSG::Navigator::buttonPress
+        
+            typedef void ( ::OSG::Navigator::*buttonPress_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
+            typedef void ( Navigator_wrapper::*default_buttonPress_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
+            
+            Navigator_exposer.def( 
+                "buttonPress"
+                , buttonPress_function_type(&::OSG::Navigator::buttonPress)
+                , default_buttonPress_function_type(&Navigator_wrapper::default_buttonPress)
+                , ( bp::arg("button"), bp::arg("x"), bp::arg("y"), bp::arg("width"), bp::arg("height") ) );
+        
+        }
         { //::OSG::Navigator::buttonRelease
         
             typedef void ( ::OSG::Navigator::*buttonRelease_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
@@ -144,6 +216,18 @@ void register_Navigator_class(){
                 , ( bp::arg("button"), bp::arg("x"), bp::arg("y") ) );
         
         }
+        { //::OSG::Navigator::buttonRelease
+        
+            typedef void ( ::OSG::Navigator::*buttonRelease_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
+            typedef void ( Navigator_wrapper::*default_buttonRelease_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
+            
+            Navigator_exposer.def( 
+                "buttonRelease"
+                , buttonRelease_function_type(&::OSG::Navigator::buttonRelease)
+                , default_buttonRelease_function_type(&Navigator_wrapper::default_buttonRelease)
+                , ( bp::arg("button"), bp::arg("x"), bp::arg("y"), bp::arg("width"), bp::arg("height") ) );
+        
+        }
         { //::OSG::Navigator::calcFromTo
         
             typedef bool ( ::OSG::Navigator::*calcFromTo_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Real32 &,::OSG::Real32 &,::OSG::Real32 &,::OSG::Real32 & ) ;
@@ -152,6 +236,16 @@ void register_Navigator_class(){
                 "calcFromTo"
                 , calcFromTo_function_type( &::OSG::Navigator::calcFromTo )
                 , ( bp::arg("x"), bp::arg("y"), bp::arg("fromX"), bp::arg("fromY"), bp::arg("toX"), bp::arg("toY") ) );
+        
+        }
+        { //::OSG::Navigator::calcFromTo
+        
+            typedef bool ( ::OSG::Navigator::*calcFromTo_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Real32,::OSG::Real32,::OSG::Real32 &,::OSG::Real32 &,::OSG::Real32 &,::OSG::Real32 & ) ;
+            
+            Navigator_exposer.def( 
+                "calcFromTo"
+                , calcFromTo_function_type( &::OSG::Navigator::calcFromTo )
+                , ( bp::arg("x"), bp::arg("y"), bp::arg("width"), bp::arg("height"), bp::arg("fromX"), bp::arg("fromY"), bp::arg("toX"), bp::arg("toY") ) );
         
         }
         { //::OSG::Navigator::getAbsolute
@@ -375,6 +469,18 @@ void register_Navigator_class(){
                 , ( bp::arg("buttons"), bp::arg("x"), bp::arg("y") ) );
         
         }
+        { //::OSG::Navigator::idle
+        
+            typedef void ( ::OSG::Navigator::*idle_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
+            typedef void ( Navigator_wrapper::*default_idle_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
+            
+            Navigator_exposer.def( 
+                "idle"
+                , idle_function_type(&::OSG::Navigator::idle)
+                , default_idle_function_type(&Navigator_wrapper::default_idle)
+                , ( bp::arg("buttons"), bp::arg("x"), bp::arg("y"), bp::arg("width"), bp::arg("height") ) );
+        
+        }
         { //::OSG::Navigator::keyPress
         
             typedef void ( ::OSG::Navigator::*keyPress_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
@@ -387,6 +493,18 @@ void register_Navigator_class(){
                 , ( bp::arg("key"), bp::arg("x"), bp::arg("y") ) );
         
         }
+        { //::OSG::Navigator::keyPress
+        
+            typedef void ( ::OSG::Navigator::*keyPress_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
+            typedef void ( Navigator_wrapper::*default_keyPress_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
+            
+            Navigator_exposer.def( 
+                "keyPress"
+                , keyPress_function_type(&::OSG::Navigator::keyPress)
+                , default_keyPress_function_type(&Navigator_wrapper::default_keyPress)
+                , ( bp::arg("key"), bp::arg("x"), bp::arg("y"), bp::arg("width"), bp::arg("height") ) );
+        
+        }
         { //::OSG::Navigator::moveTo
         
             typedef void ( ::OSG::Navigator::*moveTo_function_type )( ::OSG::Int16,::OSG::Int16 ) ;
@@ -397,6 +515,18 @@ void register_Navigator_class(){
                 , moveTo_function_type(&::OSG::Navigator::moveTo)
                 , default_moveTo_function_type(&Navigator_wrapper::default_moveTo)
                 , ( bp::arg("x"), bp::arg("y") ) );
+        
+        }
+        { //::OSG::Navigator::moveTo
+        
+            typedef void ( ::OSG::Navigator::*moveTo_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
+            typedef void ( Navigator_wrapper::*default_moveTo_function_type )( ::OSG::Int16,::OSG::Int16,::OSG::Int16,::OSG::Int16 ) ;
+            
+            Navigator_exposer.def( 
+                "moveTo"
+                , moveTo_function_type(&::OSG::Navigator::moveTo)
+                , default_moveTo_function_type(&Navigator_wrapper::default_moveTo)
+                , ( bp::arg("x"), bp::arg("y"), bp::arg("width"), bp::arg("height") ) );
         
         }
         { //::OSG::Navigator::set

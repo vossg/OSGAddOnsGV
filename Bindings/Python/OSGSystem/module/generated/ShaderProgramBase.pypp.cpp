@@ -80,6 +80,7 @@ void register_ShaderProgramBase_class(){
         bp::scope ShaderProgramBase_scope( ShaderProgramBase_exposer );
         bp::scope().attr("ShaderTypeFieldId") = (int)OSG::ShaderProgramBase::ShaderTypeFieldId;
         bp::scope().attr("ProgramFieldId") = (int)OSG::ShaderProgramBase::ProgramFieldId;
+        bp::scope().attr("DefinesFieldId") = (int)OSG::ShaderProgramBase::DefinesFieldId;
         bp::scope().attr("GLIdFieldId") = (int)OSG::ShaderProgramBase::GLIdFieldId;
         bp::scope().attr("VariablesFieldId") = (int)OSG::ShaderProgramBase::VariablesFieldId;
         bp::scope().attr("FeedbackVaryingsFieldId") = (int)OSG::ShaderProgramBase::FeedbackVaryingsFieldId;
@@ -206,6 +207,16 @@ void register_ShaderProgramBase_class(){
                 , getContainerSize_function_type( &::OSG::ShaderProgramBase::getContainerSize ) );
         
         }
+        { //::OSG::ShaderProgramBase::getDefines
+        
+            typedef ::std::string const & ( ::OSG::ShaderProgramBase::*getDefines_function_type )(  ) const;
+            
+            ShaderProgramBase_exposer.def( 
+                "getDefines"
+                , getDefines_function_type( &::OSG::ShaderProgramBase::getDefines )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
         { //::OSG::ShaderProgramBase::getFeedbackVaryings
         
             typedef ::std::string const & ( ::OSG::ShaderProgramBase::*getFeedbackVaryings_function_type )( ::OSG::UInt32 const ) const;
@@ -263,6 +274,16 @@ void register_ShaderProgramBase_class(){
             ShaderProgramBase_exposer.def( 
                 "getSFCgFrontEnd"
                 , getSFCgFrontEnd_function_type( &::OSG::ShaderProgramBase::getSFCgFrontEnd )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ShaderProgramBase::getSFDefines
+        
+            typedef ::OSG::SFString const * ( ::OSG::ShaderProgramBase::*getSFDefines_function_type )(  ) const;
+            
+            ShaderProgramBase_exposer.def( 
+                "getSFDefines"
+                , getSFDefines_function_type( &::OSG::ShaderProgramBase::getSFDefines )
                 , bp::return_internal_reference< >() );
         
         }
@@ -363,6 +384,16 @@ void register_ShaderProgramBase_class(){
             ShaderProgramBase_exposer.def( 
                 "setCgFrontEnd"
                 , setCgFrontEnd_function_type( &::OSG::ShaderProgramBase::setCgFrontEnd )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShaderProgramBase::setDefines
+        
+            typedef void ( ::OSG::ShaderProgramBase::*setDefines_function_type )( ::std::string const & ) ;
+            
+            ShaderProgramBase_exposer.def( 
+                "setDefines"
+                , setDefines_function_type( &::OSG::ShaderProgramBase::setDefines )
                 , ( bp::arg("value") ) );
         
         }

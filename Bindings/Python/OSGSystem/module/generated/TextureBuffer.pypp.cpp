@@ -92,6 +92,16 @@ void register_TextureBuffer_class(){
                 , ( bp::arg("pEnv"), bp::arg("index") ) );
         
         }
+        { //::OSG::TextureBuffer::resizeBuffers
+        
+            typedef void ( ::OSG::TextureBuffer::*resizeBuffers_function_type )( ::OSG::UInt32,::OSG::UInt32 ) ;
+            
+            TextureBuffer_exposer.def( 
+                "resizeBuffers"
+                , resizeBuffers_function_type( &::OSG::TextureBuffer::resizeBuffers )
+                , ( bp::arg("uiWidth"), bp::arg("uiHeight") ) );
+        
+        }
         { //::OSG::TextureBuffer::validate
         
             typedef void ( ::OSG::TextureBuffer::*validate_function_type )( ::OSG::DrawEnv * ) ;

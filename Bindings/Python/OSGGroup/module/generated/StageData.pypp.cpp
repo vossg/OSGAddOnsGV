@@ -72,6 +72,16 @@ void register_StageData_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::StageData::updateData
+        
+            typedef void ( ::OSG::StageData::*updateData_function_type )( ::OSG::FieldContainer *,::OSG::BitVector,::OSG::UInt32 ) ;
+            
+            StageData_exposer.def( 
+                "updateData"
+                , updateData_function_type( &::OSG::StageData::updateData )
+                , ( bp::arg("pStageCore"), bp::arg("whichField"), bp::arg("origin") ) );
+        
+        }
         pyopensg::register_transit< OSG::StageData >::execute();
         bp::implicitly_convertible< OSG::StageData::ObjRecPtr, OSG::StageData* >();
         bp::implicitly_convertible< OSG::StageData::ObjRecPtr, OSG::StageData::ObjCPtr >();

@@ -92,6 +92,16 @@ void register_RenderBuffer_class(){
                 , ( bp::arg("pEnv"), bp::arg("index") ) );
         
         }
+        { //::OSG::RenderBuffer::resizeBuffers
+        
+            typedef void ( ::OSG::RenderBuffer::*resizeBuffers_function_type )( ::OSG::UInt32,::OSG::UInt32 ) ;
+            
+            RenderBuffer_exposer.def( 
+                "resizeBuffers"
+                , resizeBuffers_function_type( &::OSG::RenderBuffer::resizeBuffers )
+                , ( bp::arg("uiWidth"), bp::arg("uiHeight") ) );
+        
+        }
         { //::OSG::RenderBuffer::validate
         
             typedef void ( ::OSG::RenderBuffer::*validate_function_type )( ::OSG::DrawEnv * ) ;

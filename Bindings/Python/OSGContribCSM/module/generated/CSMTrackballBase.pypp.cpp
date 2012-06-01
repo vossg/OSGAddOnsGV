@@ -52,6 +52,7 @@ void register_CSMTrackballBase_class(){
         bp::scope().attr("TransformCenterFieldId") = (int)OSG::CSMTrackballBase::TransformCenterFieldId;
         bp::scope().attr("WorldDiagFieldId") = (int)OSG::CSMTrackballBase::WorldDiagFieldId;
         bp::scope().attr("MouseDataFieldId") = (int)OSG::CSMTrackballBase::MouseDataFieldId;
+        bp::scope().attr("ResetFieldId") = (int)OSG::CSMTrackballBase::ResetFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::CSMTrackballBase::NextFieldId;
         { //::OSG::CSMTrackballBase::copyFromBin
         
@@ -198,6 +199,16 @@ void register_CSMTrackballBase_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
+        { //::OSG::CSMTrackballBase::getReset
+        
+            typedef ::OSG::OSGAny const & ( ::OSG::CSMTrackballBase::*getReset_function_type )(  ) const;
+            
+            CSMTrackballBase_exposer.def( 
+                "getReset"
+                , getReset_function_type( &::OSG::CSMTrackballBase::getReset )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
         { //::OSG::CSMTrackballBase::getRotationMatrixResult
         
             typedef ::OSG::Matrix const & ( ::OSG::CSMTrackballBase::*getRotationMatrixResult_function_type )(  ) const;
@@ -255,6 +266,16 @@ void register_CSMTrackballBase_class(){
             CSMTrackballBase_exposer.def( 
                 "getSFReferencePosition"
                 , getSFReferencePosition_function_type( &::OSG::CSMTrackballBase::getSFReferencePosition )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMTrackballBase::getSFReset
+        
+            typedef ::OSG::SFOSGAny const * ( ::OSG::CSMTrackballBase::*getSFReset_function_type )(  ) const;
+            
+            CSMTrackballBase_exposer.def( 
+                "getSFReset"
+                , getSFReset_function_type( &::OSG::CSMTrackballBase::getSFReset )
                 , bp::return_internal_reference< >() );
         
         }
@@ -394,6 +415,16 @@ void register_CSMTrackballBase_class(){
             CSMTrackballBase_exposer.def( 
                 "setReferencePosition"
                 , setReferencePosition_function_type( &::OSG::CSMTrackballBase::setReferencePosition )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMTrackballBase::setReset
+        
+            typedef void ( ::OSG::CSMTrackballBase::*setReset_function_type )( ::OSG::OSGAny const & ) ;
+            
+            CSMTrackballBase_exposer.def( 
+                "setReset"
+                , setReset_function_type( &::OSG::CSMTrackballBase::setReset )
                 , ( bp::arg("value") ) );
         
         }

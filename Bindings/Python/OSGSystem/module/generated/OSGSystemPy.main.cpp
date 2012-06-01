@@ -70,6 +70,10 @@
 
 #include "generated/ChunkBlockBase.pypp.hpp"
 
+#include "generated/ChunkListHelper.pypp.hpp"
+
+#include "generated/ChunkListHelperBase.pypp.hpp"
+
 #include "generated/ChunkMaterial.pypp.hpp"
 
 #include "generated/ChunkMaterialBase.pypp.hpp"
@@ -105,6 +109,10 @@
 #include "generated/FBOViewport.pypp.hpp"
 
 #include "generated/FBOViewportBase.pypp.hpp"
+
+#include "generated/FileContextAttachment.pypp.hpp"
+
+#include "generated/FileContextAttachmentBase.pypp.hpp"
 
 #include "generated/Foreground.pypp.hpp"
 
@@ -473,9 +481,13 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     register_CameraDecorator_class();
 
+    register_ChunkBlock_class();
+
     register_ChunkBlockBase_class();
 
-    register_ChunkBlock_class();
+    register_ChunkListHelperBase_class();
+
+    register_ChunkListHelper_class();
 
     register_MaterialBase_class();
 
@@ -536,6 +548,10 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     register_FBOViewportBase_class();
 
     register_FBOViewport_class();
+
+    register_FileContextAttachmentBase_class();
+
+    register_FileContextAttachment_class();
 
     register_ForegroundBase_class();
 
@@ -901,6 +917,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::MaterialChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::FileContextAttachment */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FileContextAttachment, OSG::FileContextAttachment::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FileContextAttachment::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::BoostPathAttachment */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::BoostPathAttachment, OSG::BoostPathAttachment::ObjRecPtr>);
@@ -942,6 +964,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableMVec4f, OSG::ShaderVariableMVec4f::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableMVec4f::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::ChunkListHelper */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ChunkListHelper, OSG::ChunkListHelper::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ChunkListHelper::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::CameraDecorator */
 

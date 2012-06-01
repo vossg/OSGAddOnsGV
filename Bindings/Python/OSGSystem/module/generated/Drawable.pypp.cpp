@@ -72,6 +72,7 @@ void register_Drawable_class(){
                 , ( bp::arg("pStat") ) );
         
         }
+        Drawable_exposer.def_readonly( "statNDrawFunctors", OSG::Drawable::statNDrawFunctors );
         Drawable_exposer.def_readonly( "statNGeoBytes", OSG::Drawable::statNGeoBytes );
         Drawable_exposer.def_readonly( "statNLines", OSG::Drawable::statNLines );
         Drawable_exposer.def_readonly( "statNPoints", OSG::Drawable::statNPoints );

@@ -39,7 +39,7 @@ namespace bp = boost::python;
 void register_SimpleSHLChunkFile_class(){
 
     { //::OSG::SimpleSHLChunkFile
-        typedef bp::class_< OSG::SimpleSHLChunkFile, bp::bases< OSG::SimpleSHLChunkFileBase >, OSG::SimpleSHLChunkFile::ObjRecPtr, boost::noncopyable > SimpleSHLChunkFile_exposer_t;
+        typedef bp::class_< OSG::SimpleSHLChunkFile, OSG::SimpleSHLChunkFile::ObjRecPtr, boost::noncopyable > SimpleSHLChunkFile_exposer_t;
         SimpleSHLChunkFile_exposer_t SimpleSHLChunkFile_exposer = SimpleSHLChunkFile_exposer_t( "SimpleSHLChunkFile", bp::no_init );
         bp::scope SimpleSHLChunkFile_scope( SimpleSHLChunkFile_exposer );
         { //::OSG::SimpleSHLChunkFile::changed

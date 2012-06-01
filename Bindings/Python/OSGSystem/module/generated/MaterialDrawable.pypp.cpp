@@ -78,23 +78,23 @@ void register_MaterialDrawable_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
-        { //::OSG::MaterialDrawable::renderActionEnterHandler
+        { //::OSG::MaterialDrawable::renderEnter
         
-            typedef ::OSG::ActionBase::ResultE ( ::OSG::MaterialDrawable::*renderActionEnterHandler_function_type )( ::OSG::Action * ) ;
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::MaterialDrawable::*renderEnter_function_type )( ::OSG::Action * ) ;
             
             MaterialDrawable_exposer.def( 
-                "renderActionEnterHandler"
-                , renderActionEnterHandler_function_type( &::OSG::MaterialDrawable::renderActionEnterHandler )
+                "renderEnter"
+                , renderEnter_function_type( &::OSG::MaterialDrawable::renderEnter )
                 , ( bp::arg("action") ) );
         
         }
-        { //::OSG::MaterialDrawable::renderActionLeaveHandler
+        { //::OSG::MaterialDrawable::renderLeave
         
-            typedef ::OSG::ActionBase::ResultE ( ::OSG::MaterialDrawable::*renderActionLeaveHandler_function_type )( ::OSG::Action * ) ;
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::MaterialDrawable::*renderLeave_function_type )( ::OSG::Action * ) ;
             
             MaterialDrawable_exposer.def( 
-                "renderActionLeaveHandler"
-                , renderActionLeaveHandler_function_type( &::OSG::MaterialDrawable::renderActionLeaveHandler )
+                "renderLeave"
+                , renderLeave_function_type( &::OSG::MaterialDrawable::renderLeave )
                 , ( bp::arg("action") ) );
         
         }

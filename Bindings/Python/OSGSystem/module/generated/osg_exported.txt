@@ -105,6 +105,7 @@ ColorMaskChunk
 RenderOptions
 ShaderExecutableVarChunk
 ChunkMaterialBase
+FileContextAttachment
 MaterialDrawable
 RenderOptionsBase
 ShaderVariableMVec4fBase
@@ -127,6 +128,7 @@ Viewport
 ShaderValueVariable
 StatisticsForeground
 ShaderVariableRealBase
+ChunkListHelper
 LightChunkBase
 FrameBufferAttachment
 TextureBufferBase
@@ -155,6 +157,7 @@ GeoVectorPropertyBase
 ColorMaskChunkBase
 ImageBase
 ShaderVariableBoolBase
+FileContextAttachmentBase
 StringAttributeMapBase
 StereoCameraDecorator
 ShaderVariableOSGBase
@@ -190,5 +193,6 @@ ShaderVariableIntBase
 MultiPassMaterialBase
 ShaderVariableReal
 ShaderVariableOSG
+ChunkListHelperBase
 MultiCore
 ChunkBlock

@@ -1761,8 +1761,8 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@@::
+~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -2555,7 +2555,7 @@
 ~@free_function_t@glDeleteTextures@void (*)( ::GLsizei,::GLuint const * )void (*)( ::GLsizei,::GLuint const * )
 ~@free_function_t@lgammaf@float (*)( float )float (*)( float )
 ~@free_function_t@wmemset@wchar_t * (*)( wchar_t *,wchar_t,::size_t )wchar_t * (*)( wchar_t *,wchar_t,::size_t )
-~@free_function_t@dup3@int (*)( int,int,int )int (*)( int,int,int )
+~@free_function_t@iswctype@int (*)( ::wint_t,::wctype_t )int (*)( ::wint_t,::wctype_t )
 ~@free_function_t@dup2@int (*)( int,int )int (*)( int,int )
 ~@free_function_t@lgammal@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@ceil@double (*)( double )double (*)( double )
@@ -2737,7 +2737,7 @@
 ~@free_function_t@glMap2f@void (*)( ::GLenum,::GLfloat,::GLfloat,::GLint,::GLint,::GLfloat,::GLfloat,::GLint,::GLint,::GLfloat const * )void (*)( ::GLenum,::GLfloat,::GLfloat,::GLint,::GLint,::GLfloat,::GLfloat,::GLint,::GLint,::GLfloat const * )
 ~@free_function_t@fork@::__pid_t (*)(  )::__pid_t (*)(  )
 ~@free_function_t@pthread_condattr_getclock@int (*)( __restrict__ ::pthread_condattr_t const *,__restrict__ ::__clockid_t * )int (*)( __restrict__ ::pthread_condattr_t const *,__restrict__ ::__clockid_t * )
-~@free_function_t@pthread_setschedparam@int (*)( ::pthread_t,int,::sched_param const * )int (*)( ::pthread_t,int,::sched_param const * )
+~@free_function_t@sched_yield@int (*)(  )int (*)(  )
 ~@free_function_t@__finitel@int (*)( long double )int (*)( long double )
 ~@free_function_t@glGetError@::GLenum (*)(  )::GLenum (*)(  )
 ~@free_function_t@glGetTexEnviv@void (*)( ::GLenum,::GLenum,::GLint * )void (*)( ::GLenum,::GLenum,::GLint * )
@@ -3313,7 +3313,6 @@
 ~@free_function_t@__gthread_mutex_timedlock@int (*)( ::__gthread_mutex_t *,::__gthread_time_t const * )int (*)( ::__gthread_mutex_t *,::__gthread_time_t const * )
 ~@free_function_t@glLightfv@void (*)( ::GLenum,::GLenum,::GLfloat const * )void (*)( ::GLenum,::GLenum,::GLfloat const * )
 ~@free_function_t@canonicalize_file_name@char * (*)( char const * )char * (*)( char const * )
-~@free_function_t@sched_yield@int (*)(  )int (*)(  )
 ~@free_function_t@fdatasync@int (*)( int )int (*)( int )
 ~@free_function_t@setns@int (*)( int,int )int (*)( int,int )
 ~@free_function_t@exp10@double (*)( double )double (*)( double )
@@ -3432,6 +3431,7 @@
 ~@free_function_t@_IO_seekoff@::__off64_t (*)( ::_IO_FILE *,::__off64_t,int,int )::__off64_t (*)( ::_IO_FILE *,::__off64_t,int,int )
 ~@free_function_t@strtoull_l@long long unsigned int (*)( __restrict__ char const *,__restrict__ char * *,int,::__locale_t )long long unsigned int (*)( __restrict__ char const *,__restrict__ char * *,int,::__locale_t )
 ~@free_function_t@wcsnlen@::size_t (*)( wchar_t const *,::size_t )::size_t (*)( wchar_t const *,::size_t )
+~@free_function_t@pthread_setschedparam@int (*)( ::pthread_t,int,::sched_param const * )int (*)( ::pthread_t,int,::sched_param const * )
 ~@free_function_t@__builtin_memchr@void * (*)( void const *,int,unsigned int )void * (*)( void const *,int,unsigned int )
 ~@free_function_t@__asprintf@int (*)( __restrict__ char * *,__restrict__ char const *,... )int (*)( __restrict__ char * *,__restrict__ char const *,... )
 ~@free_function_t@free@void (*)( void * )void (*)( void * )
@@ -3802,7 +3802,7 @@
 ~@free_function_t@towupper@::wint_t (*)( ::wint_t )::wint_t (*)( ::wint_t )
 ~@free_function_t@tan@double (*)( double )double (*)( double )
 ~@free_function_t@glEnable@void (*)( ::GLenum )void (*)( ::GLenum )
-~@free_function_t@iswctype@int (*)( ::wint_t,::wctype_t )int (*)( ::wint_t,::wctype_t )
+~@free_function_t@dup3@int (*)( int,int,int )int (*)( int,int,int )
 ~@free_function_t@feof@int (*)( ::FILE * )int (*)( ::FILE * )
 ~@free_function_t@__ldexpl@long double (*)( long double,int )long double (*)( long double,int )
 ~@free_function_t@vfprintf@int (*)( __restrict__ ::FILE *,__restrict__ char const *,::__va_list_tag * )int (*)( __restrict__ ::FILE *,__restrict__ char const *,::__va_list_tag * )

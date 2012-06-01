@@ -27,6 +27,7 @@
 #include <OSGIntersectProxyAttachment.h>
 #include <OSGBoostPathAttachment.h>
 #include <OSGContainerCollection.h>
+#include <OSGFileContextAttachment.h>
 #include <OSGImage.h>
 #include <OSGGeoReferenceAttachment.h>
 #include <OSGMultiPassMaterial.h>
@@ -57,6 +58,7 @@
 #include <OSGDepthChunk.h>
 #include <OSGBlendChunk.h>
 #include <OSGPolygonChunk.h>
+#include <OSGChunkListHelper.h>
 #include <OSGStateChunk.h>
 #include <OSGTextureObjChunk.h>
 #include <OSGLightChunk.h>

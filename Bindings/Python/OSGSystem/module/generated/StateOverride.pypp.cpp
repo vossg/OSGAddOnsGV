@@ -54,6 +54,16 @@ void register_StateOverride_class(){
         }
         { //::OSG::StateOverride::addOverride
         
+            typedef void ( ::OSG::StateOverride::*addOverride_function_type )( ::OSG::UInt32,::OSG::SimpleSHLChunk * ) ;
+            
+            StateOverride_exposer.def( 
+                "addOverride"
+                , addOverride_function_type( &::OSG::StateOverride::addOverride )
+                , ( bp::arg("uiSlot"), bp::arg("pChunk") ) );
+        
+        }
+        { //::OSG::StateOverride::addOverride
+        
             typedef void ( ::OSG::StateOverride::*addOverride_function_type )( ::OSG::UInt32,::OSG::ShaderProgramChunk * ) ;
             
             StateOverride_exposer.def( 
@@ -201,7 +211,7 @@ void register_StateOverride_class(){
         }
         { //::OSG::StateOverride::size
         
-            typedef ::OSG::SizeT ( ::OSG::StateOverride::*size_function_type )(  ) ;
+            typedef ::OSG::SizeT ( ::OSG::StateOverride::*size_function_type )(  ) const;
             
             StateOverride_exposer.def( 
                 "size"
@@ -210,7 +220,7 @@ void register_StateOverride_class(){
         }
         { //::OSG::StateOverride::size32
         
-            typedef ::OSG::UInt32 ( ::OSG::StateOverride::*size32_function_type )(  ) ;
+            typedef ::OSG::UInt32 ( ::OSG::StateOverride::*size32_function_type )(  ) const;
             
             StateOverride_exposer.def( 
                 "size32"

@@ -44,12 +44,12 @@ void register_FrameHandler_class(){
         bp::scope FrameHandler_scope( FrameHandler_exposer );
         { //::OSG::FrameHandler::addTask
         
-            typedef void ( ::OSG::FrameHandler::*addTask_function_type )( ::OSG::FrameTaskInterface * ) ;
+            typedef void ( ::OSG::FrameHandler::*addTask_function_type )( ::OSG::FrameTaskInterface *,bool ) ;
             
             FrameHandler_exposer.def( 
                 "addTask"
                 , addTask_function_type( &::OSG::FrameHandler::addTask )
-                , ( bp::arg("pTask") ) );
+                , ( bp::arg("pTask"), bp::arg("bNoFrameFunction")=(bool)(false) ) );
         
         }
         { //::OSG::FrameHandler::changed

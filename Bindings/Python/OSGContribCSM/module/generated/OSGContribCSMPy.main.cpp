@@ -213,9 +213,9 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
 
     register_DeviceInterfaceSensor_class();
 
-    register_ImageFileBase_class();
-
     register_ImageFile_class();
+
+    register_ImageFileBase_class();
 
     register_InterfaceOptionsBase_class();
 
@@ -233,9 +233,9 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
 
     register_ShaderProgramFile_class();
 
-    register_SimpleSHLChunkFileBase_class();
-
     register_SimpleSHLChunkFile_class();
+
+    register_SimpleSHLChunkFileBase_class();
 
     register_TransformationInterfaceSensorBase_class();
 

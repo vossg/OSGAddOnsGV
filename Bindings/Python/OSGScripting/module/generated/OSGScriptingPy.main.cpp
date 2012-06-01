@@ -97,7 +97,7 @@ BOOST_PYTHON_MODULE(OSGScriptingPy){
 
     register_PythonScript_class();
 
-    register_PythonScriptFileBase_class();
+    register_PythonScriptFile_class();
 
     /** Helpers for OSG::PythonScript */
 
@@ -135,6 +135,6 @@ BOOST_PYTHON_MODULE(OSGScriptingPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::PythonScriptFile::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    register_PythonScriptFile_class();
+    register_PythonScriptFileBase_class();
 }
 

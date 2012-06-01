@@ -60,6 +60,7 @@ void register_CSMViewportBase_class(){
         bp::scope().attr("ForegroundsFieldId") = (int)OSG::CSMViewportBase::ForegroundsFieldId;
         bp::scope().attr("LeftBottomFieldId") = (int)OSG::CSMViewportBase::LeftBottomFieldId;
         bp::scope().attr("RightTopFieldId") = (int)OSG::CSMViewportBase::RightTopFieldId;
+        bp::scope().attr("TravMaskFieldId") = (int)OSG::CSMViewportBase::TravMaskFieldId;
         bp::scope().attr("RenderOptionsFieldId") = (int)OSG::CSMViewportBase::RenderOptionsFieldId;
         bp::scope().attr("StereoModeFieldId") = (int)OSG::CSMViewportBase::StereoModeFieldId;
         bp::scope().attr("PassiveFieldId") = (int)OSG::CSMViewportBase::PassiveFieldId;
@@ -350,6 +351,16 @@ void register_CSMViewportBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::CSMViewportBase::getSFTravMask
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::CSMViewportBase::*getSFTravMask_function_type )(  ) const;
+            
+            CSMViewportBase_exposer.def( 
+                "getSFTravMask"
+                , getSFTravMask_function_type( &::OSG::CSMViewportBase::getSFTravMask )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::CSMViewportBase::getServerId
         
             typedef ::OSG::Int32 ( ::OSG::CSMViewportBase::*getServerId_function_type )(  ) const;
@@ -367,6 +378,15 @@ void register_CSMViewportBase_class(){
                 "getStereoMode"
                 , getStereoMode_function_type( &::OSG::CSMViewportBase::getStereoMode )
                 , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::CSMViewportBase::getTravMask
+        
+            typedef ::OSG::UInt32 ( ::OSG::CSMViewportBase::*getTravMask_function_type )(  ) const;
+            
+            CSMViewportBase_exposer.def( 
+                "getTravMask"
+                , getTravMask_function_type( &::OSG::CSMViewportBase::getTravMask ) );
         
         }
         { //::OSG::CSMViewportBase::getType
@@ -506,6 +526,16 @@ void register_CSMViewportBase_class(){
             CSMViewportBase_exposer.def( 
                 "setStereoMode"
                 , setStereoMode_function_type( &::OSG::CSMViewportBase::setStereoMode )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMViewportBase::setTravMask
+        
+            typedef void ( ::OSG::CSMViewportBase::*setTravMask_function_type )( ::OSG::UInt32 const ) ;
+            
+            CSMViewportBase_exposer.def( 
+                "setTravMask"
+                , setTravMask_function_type( &::OSG::CSMViewportBase::setTravMask )
                 , ( bp::arg("value") ) );
         
         }

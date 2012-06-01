@@ -62,6 +62,25 @@ void register_CSMSceneParameter_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::CSMSceneParameter::frame
+        
+            typedef void ( ::OSG::CSMSceneParameter::*frame_function_type )( ::OSG::Time,::OSG::UInt32 ) ;
+            
+            CSMSceneParameter_exposer.def( 
+                "frame"
+                , frame_function_type( &::OSG::CSMSceneParameter::frame )
+                , ( bp::arg("oTime"), bp::arg("uiFrame") ) );
+        
+        }
+        { //::OSG::CSMSceneParameter::init
+        
+            typedef bool ( ::OSG::CSMSceneParameter::*init_function_type )(  ) ;
+            
+            CSMSceneParameter_exposer.def( 
+                "init"
+                , init_function_type( &::OSG::CSMSceneParameter::init ) );
+        
+        }
         { //::OSG::CSMSceneParameter::reset
         
             typedef void ( ::OSG::CSMSceneParameter::*reset_function_type )(  ) ;

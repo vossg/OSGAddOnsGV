@@ -291,51 +291,6 @@ void register_RenderPartition_class(){
                 , getNear_function_type( &::OSG::RenderPartition::getNear ) );
         
         }
-        { //::OSG::RenderPartition::getNumMatrixChanges
-        
-            typedef ::OSG::UInt32 ( ::OSG::RenderPartition::*getNumMatrixChanges_function_type )(  ) ;
-            
-            RenderPartition_exposer.def( 
-                "getNumMatrixChanges"
-                , getNumMatrixChanges_function_type( &::OSG::RenderPartition::getNumMatrixChanges ) );
-        
-        }
-        { //::OSG::RenderPartition::getNumShaderChanges
-        
-            typedef ::OSG::UInt32 ( ::OSG::RenderPartition::*getNumShaderChanges_function_type )(  ) ;
-            
-            RenderPartition_exposer.def( 
-                "getNumShaderChanges"
-                , getNumShaderChanges_function_type( &::OSG::RenderPartition::getNumShaderChanges ) );
-        
-        }
-        { //::OSG::RenderPartition::getNumShaderParamChanges
-        
-            typedef ::OSG::UInt32 ( ::OSG::RenderPartition::*getNumShaderParamChanges_function_type )(  ) ;
-            
-            RenderPartition_exposer.def( 
-                "getNumShaderParamChanges"
-                , getNumShaderParamChanges_function_type( &::OSG::RenderPartition::getNumShaderParamChanges ) );
-        
-        }
-        { //::OSG::RenderPartition::getNumStateChanges
-        
-            typedef ::OSG::UInt32 ( ::OSG::RenderPartition::*getNumStateChanges_function_type )(  ) ;
-            
-            RenderPartition_exposer.def( 
-                "getNumStateChanges"
-                , getNumStateChanges_function_type( &::OSG::RenderPartition::getNumStateChanges ) );
-        
-        }
-        { //::OSG::RenderPartition::getNumTriangles
-        
-            typedef ::OSG::UInt32 ( ::OSG::RenderPartition::*getNumTriangles_function_type )(  ) ;
-            
-            RenderPartition_exposer.def( 
-                "getNumTriangles"
-                , getNumTriangles_function_type( &::OSG::RenderPartition::getNumTriangles ) );
-        
-        }
         { //::OSG::RenderPartition::getProjection
         
             typedef ::OSG::Matrix4f const & ( ::OSG::RenderPartition::*getProjection_function_type )(  ) ;

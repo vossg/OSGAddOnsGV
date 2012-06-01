@@ -48,6 +48,18 @@ boost::python::list InlineBase_getMFUrl(OSG::InlineBase *self)
    return result;
 }
 
+boost::python::list InlineBase_getMFOptions(OSG::InlineBase *self)
+{
+   boost::python::list result;
+   OSG::MFString const * mf_data = self->getMFOptions();
+   const OSG::UInt32 size(mf_data->size32());
+   for ( OSG::UInt32 i = 0; i < size; ++i )
+   {
+      result.append((*mf_data)[i]);
+   }
+   return result;
+}
+
 void register_InlineBase_class(){
 
     { //::OSG::InlineBase
@@ -58,6 +70,7 @@ void register_InlineBase_class(){
         bp::scope().attr("LoadedFieldId") = (int)OSG::InlineBase::LoadedFieldId;
         bp::scope().attr("RootFieldId") = (int)OSG::InlineBase::RootFieldId;
         bp::scope().attr("GraphOpFieldId") = (int)OSG::InlineBase::GraphOpFieldId;
+        bp::scope().attr("OptionsFieldId") = (int)OSG::InlineBase::OptionsFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::InlineBase::NextFieldId;
         { //::OSG::InlineBase::copyFromBin
         
@@ -174,6 +187,17 @@ void register_InlineBase_class(){
                 , getLoaded_function_type( &::OSG::InlineBase::getLoaded ) );
         
         }
+        { //::OSG::InlineBase::getOptions
+        
+            typedef ::std::string const & ( ::OSG::InlineBase::*getOptions_function_type )( ::OSG::UInt32 const ) const;
+            
+            InlineBase_exposer.def( 
+                "getOptions"
+                , getOptions_function_type( &::OSG::InlineBase::getOptions )
+                , ( bp::arg("index") )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
         { //::OSG::InlineBase::getSFGraphOp
         
             typedef ::OSG::SFString const * ( ::OSG::InlineBase::*getSFGraphOp_function_type )(  ) const;
@@ -252,6 +276,7 @@ void register_InlineBase_class(){
         InlineBase_exposer.staticmethod( "getClassType" );
         InlineBase_exposer.staticmethod( "getClassTypeId" );
         InlineBase_exposer.def("getMFUrl",InlineBase_getMFUrl);
+        InlineBase_exposer.def("getMFOptions",InlineBase_getMFOptions);
     }
 
 }

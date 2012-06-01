@@ -115,7 +115,7 @@ struct PythonScriptFile_wrapper : OSG::PythonScriptFile, bp::wrapper< OSG::Pytho
 void register_PythonScriptFile_class(){
 
     { //::OSG::PythonScriptFile
-        typedef bp::class_< PythonScriptFile_wrapper, bp::bases< OSG::PythonScriptFileBase >, OSG::PythonScriptFile::ObjRecPtr, boost::noncopyable > PythonScriptFile_exposer_t;
+        typedef bp::class_< PythonScriptFile_wrapper, OSG::PythonScriptFile::ObjRecPtr, boost::noncopyable > PythonScriptFile_exposer_t;
         PythonScriptFile_exposer_t PythonScriptFile_exposer = PythonScriptFile_exposer_t( "PythonScriptFile", bp::no_init );
         bp::scope PythonScriptFile_scope( PythonScriptFile_exposer );
         { //::OSG::PythonScriptFile::changed

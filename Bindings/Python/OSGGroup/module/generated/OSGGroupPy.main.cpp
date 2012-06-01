@@ -293,9 +293,9 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     register_GroupingStage_class();
 
-    register_InlineBase_class();
-
     register_Inline_class();
+
+    register_InlineBase_class();
 
     register_InverseTransformBase_class();
 

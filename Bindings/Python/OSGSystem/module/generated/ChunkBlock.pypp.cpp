@@ -39,7 +39,7 @@ namespace bp = boost::python;
 void register_ChunkBlock_class(){
 
     { //::OSG::ChunkBlock
-        typedef bp::class_< OSG::ChunkBlock, bp::bases< OSG::ChunkBlockBase >, OSG::ChunkBlock::ObjRecPtr, boost::noncopyable > ChunkBlock_exposer_t;
+        typedef bp::class_< OSG::ChunkBlock, OSG::ChunkBlock::ObjRecPtr, boost::noncopyable > ChunkBlock_exposer_t;
         ChunkBlock_exposer_t ChunkBlock_exposer = ChunkBlock_exposer_t( "ChunkBlock", bp::no_init );
         bp::scope ChunkBlock_scope( ChunkBlock_exposer );
         { //::OSG::ChunkBlock::addChunk

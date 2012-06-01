@@ -1761,14 +1761,14 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@mpl_@::mpl_
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
-~@namespace_t@boost@::boost
+~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
 ~@namespace_t@boost_concepts@::boost_concepts
-~@namespace_t@__cxxabiv1@::__cxxabiv1
+~@namespace_t@mpl_@::mpl_
+~@namespace_t@boost@::boost
 ~@namespace_t@boost_swap_impl@::boost_swap_impl
 ~@namespace_t@OSG@::OSG
 ~@class_declaration_t@_IO_FILE_plus@::_IO_FILE_plus
@@ -1812,7 +1812,7 @@
 ~@variable_t@_ZTISt7collateIwE@::_ZTISt7collateIwE
 ~@variable_t@_ZTIN5boost6detail15sp_counted_baseE@::_ZTIN5boost6detail15sp_counted_baseE
 ~@variable_t@_ZTIN3OSG10CameraBaseE@::_ZTIN3OSG10CameraBaseE
-~@variable_t@_ZTIN3OSG19SemaphoreCommonBaseE@::_ZTIN3OSG19SemaphoreCommonBaseE
+~@variable_t@_ZTIN3OSG19HardwareContextTaskE@::_ZTIN3OSG19HardwareContextTaskE
 ~@variable_t@_ZTIN3OSG14ClipPlaneChunkE@::_ZTIN3OSG14ClipPlaneChunkE
 ~@variable_t@_ZTIN3OSG17CondVarCommonBaseE@::_ZTIN3OSG17CondVarCommonBaseE
 ~@variable_t@_ZTIN3OSG6WindowE@::_ZTIN3OSG6WindowE
@@ -1901,7 +1901,7 @@
 ~@variable_t@_ZTIN3OSG12MPThreadTypeE@::_ZTIN3OSG12MPThreadTypeE
 ~@variable_t@__environ@::__environ
 ~@variable_t@_ZTISt12ctype_bynameIwE@::_ZTISt12ctype_bynameIwE
-~@variable_t@_ZTIN3OSG16SingleLockPolicyE@::_ZTIN3OSG16SingleLockPolicyE
+~@variable_t@_ZTISt9money_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt9money_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@_ZTIN5boost6assign20assignment_exceptionE@::_ZTIN5boost6assign20assignment_exceptionE
 ~@variable_t@_ZTISt11logic_error@::_ZTISt11logic_error
 ~@variable_t@_ZTISt9basic_iosIcSt11char_traitsIcEE@::_ZTISt9basic_iosIcSt11char_traitsIcEE
@@ -1940,6 +1940,7 @@
 ~@variable_t@_ZTIN3OSG8ViewportE@::_ZTIN3OSG8ViewportE
 ~@variable_t@_ZTIN3OSG10BaseThreadE@::_ZTIN3OSG10BaseThreadE
 ~@variable_t@_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
+~@variable_t@_ZTISt13runtime_error@::_ZTISt13runtime_error
 ~@variable_t@_ZTISt15underflow_error@::_ZTISt15underflow_error
 ~@variable_t@_ZTIN3OSG8StatElemE@::_ZTIN3OSG8StatElemE
 ~@variable_t@_ZTISt14basic_ifstreamIwSt11char_traitsIwEE@::_ZTISt14basic_ifstreamIwSt11char_traitsIwEE
@@ -1986,7 +1987,6 @@
 ~@variable_t@_ZTIN3OSG13ThreadManagerE@::_ZTIN3OSG13ThreadManagerE
 ~@variable_t@_ZTISt8time_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@__daylight@::__daylight
-~@variable_t@_ZTISt9money_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt9money_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@getdate_err@::getdate_err
 ~@variable_t@_ZTIN3OSG9ExceptionE@::_ZTIN3OSG9ExceptionE
 ~@variable_t@in6addr_any@::in6addr_any
@@ -2065,13 +2065,13 @@
 ~@variable_t@_ZTIN3OSG12ViewareaBaseE@::_ZTIN3OSG12ViewareaBaseE
 ~@variable_t@_ZTIN3OSG11OpenGLStateE@::_ZTIN3OSG11OpenGLStateE
 ~@variable_t@_ZTISt14collate_bynameIwE@::_ZTISt14collate_bynameIwE
-~@variable_t@_ZTIN3OSG19HardwareContextTaskE@::_ZTIN3OSG19HardwareContextTaskE
+~@variable_t@_ZTIN3OSG16SingleLockPolicyE@::_ZTIN3OSG16SingleLockPolicyE
 ~@variable_t@_ZTISt15numpunct_bynameIcE@::_ZTISt15numpunct_bynameIcE
 ~@variable_t@opterr@::opterr
 ~@variable_t@_ZTIN3OSG14PointChunkBaseE@::_ZTIN3OSG14PointChunkBaseE
 ~@variable_t@_ZTISt14codecvt_bynameIcc11__mbstate_tE@::_ZTISt14codecvt_bynameIcc11__mbstate_tE
 ~@variable_t@_IO_2_1_stdout_@::_IO_2_1_stdout_
-~@variable_t@_ZTISt13runtime_error@::_ZTISt13runtime_error
+~@variable_t@_ZTIN3OSG19SemaphoreCommonBaseE@::_ZTIN3OSG19SemaphoreCommonBaseE
 ~@variable_t@_ZTISt14basic_ifstreamIcSt11char_traitsIcEE@::_ZTISt14basic_ifstreamIcSt11char_traitsIcEE
 ~@variable_t@_ZTIN3OSG14ExternalThreadE@::_ZTIN3OSG14ExternalThreadE
 ~@variable_t@_ZTIN3OSG6ThreadE@::_ZTIN3OSG6ThreadE

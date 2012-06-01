@@ -128,11 +128,12 @@ void register_CSMDrawerBase_class(){
         }
         { //::OSG::CSMDrawerBase::getAspect
         
-            typedef ::OSG::UInt32 ( ::OSG::CSMDrawerBase::*getAspect_function_type )(  ) const;
+            typedef ::OSG::AspectId const & ( ::OSG::CSMDrawerBase::*getAspect_function_type )(  ) const;
             
             CSMDrawerBase_exposer.def( 
                 "getAspect"
-                , getAspect_function_type( &::OSG::CSMDrawerBase::getAspect ) );
+                , getAspect_function_type( &::OSG::CSMDrawerBase::getAspect )
+                , bp::return_value_policy< bp::return_by_value >() );
         
         }
         { //::OSG::CSMDrawerBase::getBinSize
@@ -194,7 +195,7 @@ void register_CSMDrawerBase_class(){
         }
         { //::OSG::CSMDrawerBase::getSFAspect
         
-            typedef ::OSG::SFUInt32 const * ( ::OSG::CSMDrawerBase::*getSFAspect_function_type )(  ) const;
+            typedef ::OSG::SFAspectId const * ( ::OSG::CSMDrawerBase::*getSFAspect_function_type )(  ) const;
             
             CSMDrawerBase_exposer.def( 
                 "getSFAspect"
@@ -275,7 +276,7 @@ void register_CSMDrawerBase_class(){
         }
         { //::OSG::CSMDrawerBase::setAspect
         
-            typedef void ( ::OSG::CSMDrawerBase::*setAspect_function_type )( ::OSG::UInt32 const ) ;
+            typedef void ( ::OSG::CSMDrawerBase::*setAspect_function_type )( ::OSG::AspectId const & ) ;
             
             CSMDrawerBase_exposer.def( 
                 "setAspect"

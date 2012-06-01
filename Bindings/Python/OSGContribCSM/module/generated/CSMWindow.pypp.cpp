@@ -36,17 +36,6 @@
 using namespace std;
 namespace bp = boost::python;
 
-namespace
-{
-
-OSG::FieldContainerRecPtr
-wrapFindNamedComponent(OSG::CSMWindow* self, const OSG::Char8* szName)
-{
-   return OSG::FieldContainerRecPtr(self->findNamedComponent(szName));
-}
-
-}
-
 void register_CSMWindow_class(){
 
     { //::OSG::CSMWindow
@@ -195,7 +184,6 @@ void register_CSMWindow_class(){
         bp::implicitly_convertible< OSG::CSMWindow::ObjRecPtr, OSG::AttachmentContainer* >();
         bp::implicitly_convertible< OSG::CSMWindow::ObjRecPtr, OSG::AttachmentContainer::ObjRecPtr >();
         bp::implicitly_convertible<OSG::CSMWindow::ObjRecPtr, OSG::AttachmentContainer::ObjCPtr>();
-        CSMWindow_exposer.def("findNamedComponent", wrapFindNamedComponent, (bp::arg("szName")));
     }
 
 }

@@ -62,6 +62,16 @@ void register_FrameBufferObject_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::FrameBufferObject::resizeAll
+        
+            typedef void ( ::OSG::FrameBufferObject::*resizeAll_function_type )( ::OSG::UInt32,::OSG::UInt32 ) ;
+            
+            FrameBufferObject_exposer.def( 
+                "resizeAll"
+                , resizeAll_function_type( &::OSG::FrameBufferObject::resizeAll )
+                , ( bp::arg("uiWidth"), bp::arg("uiHeight") ) );
+        
+        }
         { //::OSG::FrameBufferObject::setColorAttachment
         
             typedef void ( ::OSG::FrameBufferObject::*setColorAttachment_function_type )( ::OSG::FrameBufferAttachment *,::OSG::UInt32 ) ;

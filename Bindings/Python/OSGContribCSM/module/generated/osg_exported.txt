@@ -7,7 +7,6 @@ CSMClusterWindow
 KeySensor
 CSMDrawer
 CSMStatisticsForegroundBase
-KeySensorBase
 ImageFile
 MouseDataInterfaceSensorBase
 SimpleSHLChunkFileBase
@@ -23,6 +22,7 @@ CSMClusterWindowBase
 CSMWindowBase
 CSMGLUTWindowBase
 ShaderProgramFile
+KeySensorBase
 CSMPerspectiveCameraBase
 CSMNativeWindow
 CounterBase

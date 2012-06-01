@@ -115,6 +115,15 @@ void register_State_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::State::getCoreGLChunkLimit
+        
+            typedef ::OSG::UInt32 ( ::OSG::State::*getCoreGLChunkLimit_function_type )(  ) ;
+            
+            State_exposer.def( 
+                "getCoreGLChunkLimit"
+                , getCoreGLChunkLimit_function_type( &::OSG::State::getCoreGLChunkLimit ) );
+        
+        }
         { //::OSG::State::getSortKey
         
             typedef ::OSG::UInt32 ( ::OSG::State::*getSortKey_function_type )( ::OSG::UInt32 ) ;
@@ -132,6 +141,16 @@ void register_State_class(){
             State_exposer.def( 
                 "isTransparent"
                 , isTransparent_function_type( &::OSG::State::isTransparent ) );
+        
+        }
+        { //::OSG::State::setCoreGLChunkLimit
+        
+            typedef void ( ::OSG::State::*setCoreGLChunkLimit_function_type )( ::OSG::UInt32 ) ;
+            
+            State_exposer.def( 
+                "setCoreGLChunkLimit"
+                , setCoreGLChunkLimit_function_type( &::OSG::State::setCoreGLChunkLimit )
+                , ( bp::arg("uiCoreGLChunkLimit") ) );
         
         }
         { //::OSG::State::setDefaultSortKey

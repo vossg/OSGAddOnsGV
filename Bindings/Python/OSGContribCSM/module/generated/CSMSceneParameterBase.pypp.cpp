@@ -36,10 +36,19 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct CSMSceneParameterBase_wrapper : OSG::CSMSceneParameterBase, bp::wrapper< OSG::CSMSceneParameterBase > {
+
+    virtual void frame( ::OSG::Time oTime, ::OSG::UInt32 uiFrame ){
+        bp::override func_frame = this->get_override( "frame" );
+        func_frame( oTime, uiFrame );
+    }
+
+};
+
 void register_CSMSceneParameterBase_class(){
 
     { //::OSG::CSMSceneParameterBase
-        typedef bp::class_< OSG::CSMSceneParameterBase, bp::bases< ::OSG::AttachmentContainer >, boost::noncopyable > CSMSceneParameterBase_exposer_t;
+        typedef bp::class_< CSMSceneParameterBase_wrapper, boost::noncopyable > CSMSceneParameterBase_exposer_t;
         CSMSceneParameterBase_exposer_t CSMSceneParameterBase_exposer = CSMSceneParameterBase_exposer_t( "CSMSceneParameterBase", bp::no_init );
         bp::scope CSMSceneParameterBase_scope( CSMSceneParameterBase_exposer );
         bp::scope().attr("SceneRefFieldId") = (int)OSG::CSMSceneParameterBase::SceneRefFieldId;
@@ -49,6 +58,7 @@ void register_CSMSceneParameterBase_class(){
         bp::scope().attr("SceneCenterFieldId") = (int)OSG::CSMSceneParameterBase::SceneCenterFieldId;
         bp::scope().attr("SceneNearFieldId") = (int)OSG::CSMSceneParameterBase::SceneNearFieldId;
         bp::scope().attr("SceneFarFieldId") = (int)OSG::CSMSceneParameterBase::SceneFarFieldId;
+        bp::scope().attr("ResetFieldId") = (int)OSG::CSMSceneParameterBase::ResetFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::CSMSceneParameterBase::NextFieldId;
         { //::OSG::CSMSceneParameterBase::copyFromBin
         
@@ -165,6 +175,16 @@ void register_CSMSceneParameterBase_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
+        { //::OSG::CSMSceneParameterBase::getReset
+        
+            typedef ::OSG::OSGAny const & ( ::OSG::CSMSceneParameterBase::*getReset_function_type )(  ) const;
+            
+            CSMSceneParameterBase_exposer.def( 
+                "getReset"
+                , getReset_function_type( &::OSG::CSMSceneParameterBase::getReset )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
         { //::OSG::CSMSceneParameterBase::getSFDistScale
         
             typedef ::OSG::SFReal32 const * ( ::OSG::CSMSceneParameterBase::*getSFDistScale_function_type )(  ) const;
@@ -182,6 +202,16 @@ void register_CSMSceneParameterBase_class(){
             CSMSceneParameterBase_exposer.def( 
                 "getSFInitViewPos"
                 , getSFInitViewPos_function_type( &::OSG::CSMSceneParameterBase::getSFInitViewPos )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMSceneParameterBase::getSFReset
+        
+            typedef ::OSG::SFOSGAny const * ( ::OSG::CSMSceneParameterBase::*getSFReset_function_type )(  ) const;
+            
+            CSMSceneParameterBase_exposer.def( 
+                "getSFReset"
+                , getSFReset_function_type( &::OSG::CSMSceneParameterBase::getSFReset )
                 , bp::return_internal_reference< >() );
         
         }
@@ -323,6 +353,16 @@ void register_CSMSceneParameterBase_class(){
                 , ( bp::arg("value") ) );
         
         }
+        { //::OSG::CSMSceneParameterBase::setReset
+        
+            typedef void ( ::OSG::CSMSceneParameterBase::*setReset_function_type )( ::OSG::OSGAny const & ) ;
+            
+            CSMSceneParameterBase_exposer.def( 
+                "setReset"
+                , setReset_function_type( &::OSG::CSMSceneParameterBase::setReset )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::CSMSceneParameterBase::setSceneCenter
         
             typedef void ( ::OSG::CSMSceneParameterBase::*setSceneCenter_function_type )( ::OSG::Pnt3f const & ) ;
@@ -371,6 +411,16 @@ void register_CSMSceneParameterBase_class(){
                 "setSceneRef"
                 , setSceneRef_function_type( &::OSG::CSMSceneParameterBase::setSceneRef )
                 , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::FrameTaskInterface::frame
+        
+            typedef void ( ::OSG::FrameTaskInterface::*frame_function_type )( ::OSG::Time,::OSG::UInt32 ) ;
+            
+            CSMSceneParameterBase_exposer.def( 
+                "frame"
+                , bp::pure_virtual( frame_function_type(&::OSG::FrameTaskInterface::frame) )
+                , ( bp::arg("oTime"), bp::arg("uiFrame") ) );
         
         }
         CSMSceneParameterBase_exposer.staticmethod( "create" );

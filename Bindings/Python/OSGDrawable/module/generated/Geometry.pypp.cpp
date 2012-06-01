@@ -419,13 +419,13 @@ void register_Geometry_class(){
                 , ( bp::arg("value") ) );
         
         }
-        { //::OSG::Geometry::intersect
+        { //::OSG::Geometry::intersectEnter
         
-            typedef ::OSG::ActionBase::ResultE ( ::OSG::Geometry::*intersect_function_type )( ::OSG::Action * ) ;
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::Geometry::*intersectEnter_function_type )( ::OSG::Action * ) ;
             
             Geometry_exposer.def( 
-                "intersect"
-                , intersect_function_type( &::OSG::Geometry::intersect )
+                "intersectEnter"
+                , intersectEnter_function_type( &::OSG::Geometry::intersectEnter )
                 , ( bp::arg("action") ) );
         
         }

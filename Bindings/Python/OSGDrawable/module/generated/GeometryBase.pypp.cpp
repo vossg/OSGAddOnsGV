@@ -80,8 +80,11 @@ void register_GeometryBase_class(){
         bp::scope().attr("PropertiesFieldId") = (int)OSG::GeometryBase::PropertiesFieldId;
         bp::scope().attr("PropIndicesFieldId") = (int)OSG::GeometryBase::PropIndicesFieldId;
         bp::scope().attr("DlistCacheFieldId") = (int)OSG::GeometryBase::DlistCacheFieldId;
+        bp::scope().attr("UseVAOFieldId") = (int)OSG::GeometryBase::UseVAOFieldId;
+        bp::scope().attr("UseAttribCallsFieldId") = (int)OSG::GeometryBase::UseAttribCallsFieldId;
         bp::scope().attr("ClassicGLIdFieldId") = (int)OSG::GeometryBase::ClassicGLIdFieldId;
         bp::scope().attr("AttGLIdFieldId") = (int)OSG::GeometryBase::AttGLIdFieldId;
+        bp::scope().attr("VaoGLIdFieldId") = (int)OSG::GeometryBase::VaoGLIdFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::GeometryBase::NextFieldId;
         { //::OSG::GeometryBase::assignPropIndices
         
@@ -288,6 +291,26 @@ void register_GeometryBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::GeometryBase::getSFUseAttribCalls
+        
+            typedef ::OSG::SFBool const * ( ::OSG::GeometryBase::*getSFUseAttribCalls_function_type )(  ) const;
+            
+            GeometryBase_exposer.def( 
+                "getSFUseAttribCalls"
+                , getSFUseAttribCalls_function_type( &::OSG::GeometryBase::getSFUseAttribCalls )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::GeometryBase::getSFUseVAO
+        
+            typedef ::OSG::SFBool const * ( ::OSG::GeometryBase::*getSFUseVAO_function_type )(  ) const;
+            
+            GeometryBase_exposer.def( 
+                "getSFUseVAO"
+                , getSFUseVAO_function_type( &::OSG::GeometryBase::getSFUseVAO )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::GeometryBase::getType
         
             typedef ::OSG::FieldContainerType & ( ::OSG::GeometryBase::*getType_function_type )(  ) ;
@@ -316,6 +339,24 @@ void register_GeometryBase_class(){
                 "getTypes"
                 , getTypes_function_type( &::OSG::GeometryBase::getTypes )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::GeometryBase::getUseAttribCalls
+        
+            typedef bool ( ::OSG::GeometryBase::*getUseAttribCalls_function_type )(  ) const;
+            
+            GeometryBase_exposer.def( 
+                "getUseAttribCalls"
+                , getUseAttribCalls_function_type( &::OSG::GeometryBase::getUseAttribCalls ) );
+        
+        }
+        { //::OSG::GeometryBase::getUseVAO
+        
+            typedef bool ( ::OSG::GeometryBase::*getUseVAO_function_type )(  ) const;
+            
+            GeometryBase_exposer.def( 
+                "getUseVAO"
+                , getUseVAO_function_type( &::OSG::GeometryBase::getUseVAO ) );
         
         }
         { //::OSG::GeometryBase::pushToPropIndices
@@ -405,6 +446,26 @@ void register_GeometryBase_class(){
             GeometryBase_exposer.def( 
                 "setTypes"
                 , setTypes_function_type( &::OSG::GeometryBase::setTypes )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::GeometryBase::setUseAttribCalls
+        
+            typedef void ( ::OSG::GeometryBase::*setUseAttribCalls_function_type )( bool const ) ;
+            
+            GeometryBase_exposer.def( 
+                "setUseAttribCalls"
+                , setUseAttribCalls_function_type( &::OSG::GeometryBase::setUseAttribCalls )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::GeometryBase::setUseVAO
+        
+            typedef void ( ::OSG::GeometryBase::*setUseVAO_function_type )( bool const ) ;
+            
+            GeometryBase_exposer.def( 
+                "setUseVAO"
+                , setUseVAO_function_type( &::OSG::GeometryBase::setUseVAO )
                 , ( bp::arg("value") ) );
         
         }

@@ -102,7 +102,7 @@ void register_ComplexSceneManager_class(){
         }
         { //::OSG::ComplexSceneManager::findNamedComponent
         
-            typedef ::OSG::FieldContainer * ( ::OSG::ComplexSceneManager::*findNamedComponent_function_type )( ::OSG::Char8 const * ) const;
+            typedef ::OSG::FieldContainer * ( ::OSG::ComplexSceneManager::*findNamedComponent_function_type )( ::OSG::Char8 const * ) ;
             
             ComplexSceneManager_exposer.def( 
                 "findNamedComponent"

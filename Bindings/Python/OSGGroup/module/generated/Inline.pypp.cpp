@@ -39,7 +39,7 @@ namespace bp = boost::python;
 void register_Inline_class(){
 
     { //::OSG::Inline
-        typedef bp::class_< OSG::Inline, bp::bases< OSG::InlineBase >, OSG::Inline::ObjRecPtr, boost::noncopyable > Inline_exposer_t;
+        typedef bp::class_< OSG::Inline, OSG::Inline::ObjRecPtr, boost::noncopyable > Inline_exposer_t;
         Inline_exposer_t Inline_exposer = Inline_exposer_t( "Inline", bp::no_init );
         bp::scope Inline_scope( Inline_exposer );
         { //::OSG::Inline::changed
@@ -62,13 +62,24 @@ void register_Inline_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::Inline::moveRootTo
+        
+            typedef void ( ::OSG::Inline::*moveRootTo_function_type )( ::OSG::Node * ) ;
+            
+            Inline_exposer.def( 
+                "moveRootTo"
+                , moveRootTo_function_type( &::OSG::Inline::moveRootTo )
+                , ( bp::arg("pTarget") ) );
+        
+        }
         { //::OSG::Inline::postOSGLoading
         
-            typedef void ( ::OSG::Inline::*postOSGLoading_function_type )(  ) ;
+            typedef void ( ::OSG::Inline::*postOSGLoading_function_type )( ::OSG::FileContextAttachment * const ) ;
             
             Inline_exposer.def( 
                 "postOSGLoading"
-                , postOSGLoading_function_type( &::OSG::Inline::postOSGLoading ) );
+                , postOSGLoading_function_type( &::OSG::Inline::postOSGLoading )
+                , ( bp::arg("pContext") ) );
         
         }
         pyopensg::register_transit< OSG::Inline >::execute();

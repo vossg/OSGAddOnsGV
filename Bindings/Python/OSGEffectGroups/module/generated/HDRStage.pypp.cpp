@@ -64,12 +64,12 @@ void register_HDRStage_class(){
         }
         { //::OSG::HDRStage::initData
         
-            typedef void ( ::OSG::HDRStage::*initData_function_type )( ::OSG::RenderAction * ) ;
+            typedef void ( ::OSG::HDRStage::*initData_function_type )( ::OSG::RenderAction *,::OSG::Int32,::OSG::Int32 ) ;
             
             HDRStage_exposer.def( 
                 "initData"
                 , initData_function_type( &::OSG::HDRStage::initData )
-                , ( bp::arg("pAction") ) );
+                , ( bp::arg("pAction"), bp::arg("iVPWidth"), bp::arg("iVPHeight") ) );
         
         }
         { //::OSG::HDRStage::postProcess
@@ -80,6 +80,16 @@ void register_HDRStage_class(){
                 "postProcess"
                 , postProcess_function_type( &::OSG::HDRStage::postProcess )
                 , ( bp::arg("arg0") ) );
+        
+        }
+        { //::OSG::HDRStage::updateData
+        
+            typedef void ( ::OSG::HDRStage::*updateData_function_type )( ::OSG::RenderAction *,::OSG::Int32,::OSG::Int32 ) ;
+            
+            HDRStage_exposer.def( 
+                "updateData"
+                , updateData_function_type( &::OSG::HDRStage::updateData )
+                , ( bp::arg("pAction"), bp::arg("iVPWidth"), bp::arg("iVPHeight") ) );
         
         }
         pyopensg::register_transit< OSG::HDRStage >::execute();

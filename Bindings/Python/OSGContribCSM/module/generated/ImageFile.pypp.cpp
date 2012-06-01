@@ -39,7 +39,7 @@ namespace bp = boost::python;
 void register_ImageFile_class(){
 
     { //::OSG::ImageFile
-        typedef bp::class_< OSG::ImageFile, bp::bases< OSG::ImageFileBase >, OSG::ImageFile::ObjRecPtr, boost::noncopyable > ImageFile_exposer_t;
+        typedef bp::class_< OSG::ImageFile, OSG::ImageFile::ObjRecPtr, boost::noncopyable > ImageFile_exposer_t;
         ImageFile_exposer_t ImageFile_exposer = ImageFile_exposer_t( "ImageFile", bp::no_init );
         bp::scope ImageFile_scope( ImageFile_exposer );
         { //::OSG::ImageFile::changed

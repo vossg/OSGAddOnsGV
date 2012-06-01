@@ -42,6 +42,8 @@ void register_PrimeMaterialBase_class(){
         typedef bp::class_< OSG::PrimeMaterialBase, bp::bases< OSG::Material >, boost::noncopyable > PrimeMaterialBase_exposer_t;
         PrimeMaterialBase_exposer_t PrimeMaterialBase_exposer = PrimeMaterialBase_exposer_t( "PrimeMaterialBase", bp::no_init );
         bp::scope PrimeMaterialBase_scope( PrimeMaterialBase_exposer );
+        bp::scope().attr("CoreGLChunkLimitFieldId") = (int)OSG::PrimeMaterialBase::CoreGLChunkLimitFieldId;
+        bp::scope().attr("NextFieldId") = (int)OSG::PrimeMaterialBase::NextFieldId;
         { //::OSG::PrimeMaterialBase::copyFromBin
         
             typedef void ( ::OSG::PrimeMaterialBase::*copyFromBin_function_type )( ::OSG::BinaryDataHandler &,::OSG::ConstFieldMaskArg ) ;
@@ -109,6 +111,25 @@ void register_PrimeMaterialBase_class(){
                 , getContainerSize_function_type( &::OSG::PrimeMaterialBase::getContainerSize ) );
         
         }
+        { //::OSG::PrimeMaterialBase::getCoreGLChunkLimit
+        
+            typedef ::OSG::UInt32 ( ::OSG::PrimeMaterialBase::*getCoreGLChunkLimit_function_type )(  ) const;
+            
+            PrimeMaterialBase_exposer.def( 
+                "getCoreGLChunkLimit"
+                , getCoreGLChunkLimit_function_type( &::OSG::PrimeMaterialBase::getCoreGLChunkLimit ) );
+        
+        }
+        { //::OSG::PrimeMaterialBase::getSFCoreGLChunkLimit
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::PrimeMaterialBase::*getSFCoreGLChunkLimit_function_type )(  ) const;
+            
+            PrimeMaterialBase_exposer.def( 
+                "getSFCoreGLChunkLimit"
+                , getSFCoreGLChunkLimit_function_type( &::OSG::PrimeMaterialBase::getSFCoreGLChunkLimit )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::PrimeMaterialBase::getType
         
             typedef ::OSG::FieldContainerType & ( ::OSG::PrimeMaterialBase::*getType_function_type )(  ) ;
@@ -127,6 +148,16 @@ void register_PrimeMaterialBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::PrimeMaterialBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PrimeMaterialBase::setCoreGLChunkLimit
+        
+            typedef void ( ::OSG::PrimeMaterialBase::*setCoreGLChunkLimit_function_type )( ::OSG::UInt32 const ) ;
+            
+            PrimeMaterialBase_exposer.def( 
+                "setCoreGLChunkLimit"
+                , setCoreGLChunkLimit_function_type( &::OSG::PrimeMaterialBase::setCoreGLChunkLimit )
+                , ( bp::arg("value") ) );
         
         }
         PrimeMaterialBase_exposer.staticmethod( "getClassGroupId" );
