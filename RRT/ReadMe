@@ -1,13 +1,4 @@
 
-Somthing I just hacked together as we needed it for some student projects
-and we have a couple of PS3's lying around which don't do OpenGL under
-Linux right now so before they just sit idle we let them trace some
-rays ;-).
-
-we will slowly improve it over time but if anybody wants to seriously  use it
-let me know.
-
-Currently it just does what I needed it to do, no fancy shading (not even
-shadows yet).
+temporarily removed for major rework. Will be readded later.
 
 gerrit
