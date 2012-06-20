@@ -77,6 +77,8 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGDrawTool : public DrawTool
                                          float                 size, 
                                    const Vec4f                 colour         );
     
+    virtual void drawTriangle(const Vector3&, const Vector3&, const Vector3&, const Vector3&);
+
     virtual void drawTriangles    (const std::vector<Vector3> &points, 
                                    const Vec4f                 colour         );
     virtual void drawTriangles    (const std::vector<Vector3> &points, 

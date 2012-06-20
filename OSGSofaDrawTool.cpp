@@ -167,6 +167,17 @@ void OSGDrawTool::drawLines(const std::vector<Vector3> &points,
 
 //////////////////////////////////////////////////////////////////////////////
 
+void OSGDrawTool::drawTriangle(
+        const Vector3& A,
+        const Vector3& B,
+        const Vector3& C,
+        const Vector3& colour)
+{
+    return;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
 void OSGDrawTool::drawTriangles(const std::vector<Vector3> &points, 
                                 const Vec4f                 colour)
 { 
