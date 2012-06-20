@@ -35,7 +35,6 @@ list(APPEND ${PROJECT_NAME}_HEADERS
 
 list(APPEND ${PROJECT_NAME}_SOURCES
 #Your .cpp sources list here
-#    OSGContribSOFADef.cpp
     OSGSofaClipPlane.cpp
     OSGSofaDrawTool.cpp
     OSGSofaLightManager.cpp
@@ -57,6 +56,8 @@ add_library(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME} 
 #Your depends libs list here	
     ${OpenSG_LIBRARIES}
+    ${Boost_SYSTEM_LIBRARY}
+    ${Boost_THREAD_LIBRARY}
     ${SOFA_LIBRARIES}
 )
 
