@@ -132,6 +132,7 @@ std::string OSGShader::loadFile(const std::string& file)
 
 void OSGShader::initFiles( void )
 {
+#if 0
     std::string tempStr = vertFilename.getFullPath();
     std::string file;
     const std::string SEPARATOR = ";";
@@ -249,7 +250,7 @@ void OSGShader::initFiles( void )
         hasGeometryShader = true;
     }
     
-    
+#endif   
 }
 
 void OSGShader::replaceProceduralTexture(std::string& source)
@@ -357,6 +358,7 @@ std::string OSGShader::combineAll(std::string header, const std::string &shaderS
 
 void OSGShader::init( void )
 {
+#if 0
 std::cerr << "OSGShader ::init" << std::endl;
     
     initFiles();
@@ -390,6 +392,7 @@ std::cerr << "OSGShader ::init" << std::endl;
         }
 
     }
+#endif
 
     //passive.setValue(false);
     //turnOn.setValue(true);
@@ -403,6 +406,7 @@ void OSGShader::initShaders(unsigned int  numberOfLights , bool softShadow)
 
 void OSGShader::initVisual( void )
 {
+#if 0
     //OglShader::initVisual();
    
     // By now Macros are collected
@@ -467,6 +471,7 @@ void OSGShader::initVisual( void )
         
 
     }
+#endif
 }
 
 

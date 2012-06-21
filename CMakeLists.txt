@@ -40,6 +40,8 @@ list(APPEND ${PROJECT_NAME}_SOURCES
     OSGSofaLightManager.cpp
     OSGSofaModel.cpp
     OSGSofaPointSplatModel.cpp
+    OSGSofaShader.cpp
+    OSGSofaShaderMacro.cpp
     OSGSofaShadowGraph.cpp
     OSGSofaTetrahedralModel.cpp
     OSGSofaTexture.cpp
