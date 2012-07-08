@@ -1,7 +1,10 @@
 # CMake's ADD_SUBDIRECTORY only looks for CMakeLists.txt, so we include
 # the real file here
 
-#INCLUDE("CMakeLists.Lib.OSGContribSOFA.txt")
+IF(OSG_BUILD_ACTIVE)
+  INCLUDE("CMakeLists.Lib.OSGContribSOFA.txt")
+  RETURN()
+ENDIF()
 
 ######################################################################
 ## Project specific stuff - defines name, headers, sources and dependencies
