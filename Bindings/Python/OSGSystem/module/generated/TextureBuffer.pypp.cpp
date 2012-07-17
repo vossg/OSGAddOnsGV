@@ -72,6 +72,15 @@ void register_TextureBuffer_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::TextureBuffer::getBufferFormat
+        
+            typedef ::GLenum ( ::OSG::TextureBuffer::*getBufferFormat_function_type )(  ) const;
+            
+            TextureBuffer_exposer.def( 
+                "getBufferFormat"
+                , getBufferFormat_function_type( &::OSG::TextureBuffer::getBufferFormat ) );
+        
+        }
         { //::OSG::TextureBuffer::processPostDeactivate
         
             typedef void ( ::OSG::TextureBuffer::*processPostDeactivate_function_type )( ::OSG::DrawEnv * ) ;

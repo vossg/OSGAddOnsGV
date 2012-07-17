@@ -105,6 +105,16 @@ void register_Pnt2f_class(){
                 , maxDim_function_type( &::OSG::Point< float, 2u >::maxDim ) );
         
         }
+        { //::OSG::Point< float, 2u >::maxDimAbs
+        
+            typedef OSG::Point< float, 2u > exported_class_t;
+            typedef ::OSG::UInt32 ( exported_class_t::*maxDimAbs_function_type )(  ) const;
+            
+            Pnt2f_exposer.def( 
+                "maxDimAbs"
+                , maxDimAbs_function_type( &::OSG::Point< float, 2u >::maxDimAbs ) );
+        
+        }
         { //::OSG::Point< float, 2u >::maxValue
         
             typedef OSG::Point< float, 2u > exported_class_t;

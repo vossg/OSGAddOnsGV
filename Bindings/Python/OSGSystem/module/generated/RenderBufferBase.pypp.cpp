@@ -45,6 +45,9 @@ void register_RenderBufferBase_class(){
         bp::scope().attr("GLIdFieldId") = (int)OSG::RenderBufferBase::GLIdFieldId;
         bp::scope().attr("InternalFormatFieldId") = (int)OSG::RenderBufferBase::InternalFormatFieldId;
         bp::scope().attr("ImageFieldId") = (int)OSG::RenderBufferBase::ImageFieldId;
+        bp::scope().attr("ColorSamplesFieldId") = (int)OSG::RenderBufferBase::ColorSamplesFieldId;
+        bp::scope().attr("CoverageSamplesFieldId") = (int)OSG::RenderBufferBase::CoverageSamplesFieldId;
+        bp::scope().attr("FixedSampleLocationFieldId") = (int)OSG::RenderBufferBase::FixedSampleLocationFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::RenderBufferBase::NextFieldId;
         { //::OSG::RenderBufferBase::copyFromBin
         
@@ -133,6 +136,15 @@ void register_RenderBufferBase_class(){
                 , getClassTypeId_function_type( &::OSG::RenderBufferBase::getClassTypeId ) );
         
         }
+        { //::OSG::RenderBufferBase::getColorSamples
+        
+            typedef ::OSG::UInt32 ( ::OSG::RenderBufferBase::*getColorSamples_function_type )(  ) const;
+            
+            RenderBufferBase_exposer.def( 
+                "getColorSamples"
+                , getColorSamples_function_type( &::OSG::RenderBufferBase::getColorSamples ) );
+        
+        }
         { //::OSG::RenderBufferBase::getContainerSize
         
             typedef ::OSG::UInt32 ( ::OSG::RenderBufferBase::*getContainerSize_function_type )(  ) const;
@@ -140,6 +152,24 @@ void register_RenderBufferBase_class(){
             RenderBufferBase_exposer.def( 
                 "getContainerSize"
                 , getContainerSize_function_type( &::OSG::RenderBufferBase::getContainerSize ) );
+        
+        }
+        { //::OSG::RenderBufferBase::getCoverageSamples
+        
+            typedef ::OSG::UInt32 ( ::OSG::RenderBufferBase::*getCoverageSamples_function_type )(  ) const;
+            
+            RenderBufferBase_exposer.def( 
+                "getCoverageSamples"
+                , getCoverageSamples_function_type( &::OSG::RenderBufferBase::getCoverageSamples ) );
+        
+        }
+        { //::OSG::RenderBufferBase::getFixedSampleLocation
+        
+            typedef bool ( ::OSG::RenderBufferBase::*getFixedSampleLocation_function_type )(  ) const;
+            
+            RenderBufferBase_exposer.def( 
+                "getFixedSampleLocation"
+                , getFixedSampleLocation_function_type( &::OSG::RenderBufferBase::getFixedSampleLocation ) );
         
         }
         { //::OSG::RenderBufferBase::getGLId
@@ -170,6 +200,36 @@ void register_RenderBufferBase_class(){
                 "getInternalFormat"
                 , getInternalFormat_function_type( &::OSG::RenderBufferBase::getInternalFormat )
                 , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
+        { //::OSG::RenderBufferBase::getSFColorSamples
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::RenderBufferBase::*getSFColorSamples_function_type )(  ) const;
+            
+            RenderBufferBase_exposer.def( 
+                "getSFColorSamples"
+                , getSFColorSamples_function_type( &::OSG::RenderBufferBase::getSFColorSamples )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::RenderBufferBase::getSFCoverageSamples
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::RenderBufferBase::*getSFCoverageSamples_function_type )(  ) const;
+            
+            RenderBufferBase_exposer.def( 
+                "getSFCoverageSamples"
+                , getSFCoverageSamples_function_type( &::OSG::RenderBufferBase::getSFCoverageSamples )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::RenderBufferBase::getSFFixedSampleLocation
+        
+            typedef ::OSG::SFBool const * ( ::OSG::RenderBufferBase::*getSFFixedSampleLocation_function_type )(  ) const;
+            
+            RenderBufferBase_exposer.def( 
+                "getSFFixedSampleLocation"
+                , getSFFixedSampleLocation_function_type( &::OSG::RenderBufferBase::getSFFixedSampleLocation )
+                , bp::return_internal_reference< >() );
         
         }
         { //::OSG::RenderBufferBase::getSFGLId
@@ -220,6 +280,36 @@ void register_RenderBufferBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::RenderBufferBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::RenderBufferBase::setColorSamples
+        
+            typedef void ( ::OSG::RenderBufferBase::*setColorSamples_function_type )( ::OSG::UInt32 const ) ;
+            
+            RenderBufferBase_exposer.def( 
+                "setColorSamples"
+                , setColorSamples_function_type( &::OSG::RenderBufferBase::setColorSamples )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::RenderBufferBase::setCoverageSamples
+        
+            typedef void ( ::OSG::RenderBufferBase::*setCoverageSamples_function_type )( ::OSG::UInt32 const ) ;
+            
+            RenderBufferBase_exposer.def( 
+                "setCoverageSamples"
+                , setCoverageSamples_function_type( &::OSG::RenderBufferBase::setCoverageSamples )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::RenderBufferBase::setFixedSampleLocation
+        
+            typedef void ( ::OSG::RenderBufferBase::*setFixedSampleLocation_function_type )( bool const ) ;
+            
+            RenderBufferBase_exposer.def( 
+                "setFixedSampleLocation"
+                , setFixedSampleLocation_function_type( &::OSG::RenderBufferBase::setFixedSampleLocation )
+                , ( bp::arg("value") ) );
         
         }
         { //::OSG::RenderBufferBase::setGLId

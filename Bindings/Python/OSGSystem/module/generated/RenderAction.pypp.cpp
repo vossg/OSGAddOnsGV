@@ -499,6 +499,16 @@ void register_RenderAction_class(){
                 , ( bp::arg("val") ) );
         
         }
+        { //::OSG::RenderAction::setFrustumCulling
+        
+            typedef void ( ::OSG::RenderAction::*setFrustumCulling_function_type )( bool ) ;
+            
+            RenderAction_exposer.def( 
+                "setFrustumCulling"
+                , setFrustumCulling_function_type( &::OSG::RenderAction::setFrustumCulling )
+                , ( bp::arg("val")=(bool)(true) ) );
+        
+        }
         { //::OSG::RenderAction::setKeyGen
         
             typedef void ( ::OSG::RenderAction::*setKeyGen_function_type )( ::OSG::UInt32 ) ;

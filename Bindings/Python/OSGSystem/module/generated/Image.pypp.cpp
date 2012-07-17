@@ -295,6 +295,7 @@ void register_Image_class(){
             .value("OSG_RGBA_DXT1", OSG::Image::OSG_RGBA_DXT1)
             .value("OSG_RGBA_DXT3", OSG::Image::OSG_RGBA_DXT3)
             .value("OSG_RGBA_DXT5", OSG::Image::OSG_RGBA_DXT5)
+            .value("OSG_DEPTH_PF", OSG::Image::OSG_DEPTH_PF)
             .value("OSG_DEPTH_STENCIL_PF", OSG::Image::OSG_DEPTH_STENCIL_PF)
             .value("OSG_ALPHA_INTEGER_PF", OSG::Image::OSG_ALPHA_INTEGER_PF)
             .value("OSG_RGB_INTEGER_PF", OSG::Image::OSG_RGB_INTEGER_PF)

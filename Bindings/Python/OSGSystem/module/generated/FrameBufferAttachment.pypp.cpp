@@ -72,6 +72,15 @@ void register_FrameBufferAttachment_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::FrameBufferAttachment::getBufferFormat
+        
+            typedef ::GLenum ( ::OSG::FrameBufferAttachment::*getBufferFormat_function_type )(  ) const;
+            
+            FrameBufferAttachment_exposer.def( 
+                "getBufferFormat"
+                , getBufferFormat_function_type( &::OSG::FrameBufferAttachment::getBufferFormat ) );
+        
+        }
         { //::OSG::FrameBufferAttachment::processPostDeactivate
         
             typedef void ( ::OSG::FrameBufferAttachment::*processPostDeactivate_function_type )( ::OSG::DrawEnv * ) ;

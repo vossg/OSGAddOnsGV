@@ -1416,7 +1416,7 @@
 ~@typedef_t@PFNGLCLIENTACTIVETEXTUREPROC@::PFNGLCLIENTACTIVETEXTUREPROC
 ~@typedef_t@PFNGLNORMAL3HNVPROC@::PFNGLNORMAL3HNVPROC
 ~@typedef_t@PFNGLCONVOLUTIONPARAMETERFVPROC@::PFNGLCONVOLUTIONPARAMETERFVPROC
-~@typedef_t@PFNGLSECONDARYCOLOR3SVEXTPROC@::PFNGLSECONDARYCOLOR3SVEXTPROC
+~@typedef_t@PFNGLVERTEXATTRIB4IVARBPROC@::PFNGLVERTEXATTRIB4IVARBPROC
 ~@typedef_t@getiterfunc@::getiterfunc
 ~@typedef_t@_Atomic_word@::_Atomic_word
 ~@typedef_t@PFNGLSECONDARYCOLOR3IVEXTPROC@::PFNGLSECONDARYCOLOR3IVEXTPROC
@@ -1772,7 +1772,7 @@
 ~@typedef_t@PFNGLGENQUERIESARBPROC@::PFNGLGENQUERIESARBPROC
 ~@typedef_t@__gthread_key_t@::__gthread_key_t
 ~@typedef_t@PFNGLTEXTURESUBIMAGE1DEXTPROC@::PFNGLTEXTURESUBIMAGE1DEXTPROC
-~@typedef_t@PFNGLVERTEXATTRIB4IVARBPROC@::PFNGLVERTEXATTRIB4IVARBPROC
+~@typedef_t@PFNGLSECONDARYCOLOR3SVEXTPROC@::PFNGLSECONDARYCOLOR3SVEXTPROC
 ~@typedef_t@PFNGLPOINTPARAMETERIVNVPROC@::PFNGLPOINTPARAMETERIVNVPROC
 ~@typedef_t@PFNGLVERTEXSTREAM1DATIPROC@::PFNGLVERTEXSTREAM1DATIPROC
 ~@typedef_t@PFNGLPIXELTEXGENPARAMETERFVSGISPROC@::PFNGLPIXELTEXGENPARAMETERFVSGISPROC
@@ -1848,8 +1848,8 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
+~@namespace_t@@::
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -3983,7 +3983,7 @@
 ~@free_function_t@iswupper@int (*)( ::wint_t )int (*)( ::wint_t )
 ~@free_function_t@wcstold_l@long double (*)( __restrict__ wchar_t const *,__restrict__ wchar_t * *,::__locale_t )long double (*)( __restrict__ wchar_t const *,__restrict__ wchar_t * *,::__locale_t )
 ~@free_function_t@getdate@::tm * (*)( char const * )::tm * (*)( char const * )
-~@free_function_t@pthread_attr_setstack@int (*)( ::pthread_attr_t *,void *,::size_t )int (*)( ::pthread_attr_t *,void *,::size_t )
+~@free_function_t@PyNumber_Xor@::PyObject * (*)( ::PyObject *,::PyObject * )::PyObject * (*)( ::PyObject *,::PyObject * )
 ~@free_function_t@PyString_Encode@::PyObject * (*)( char const *,::Py_ssize_t,char const *,char const * )::PyObject * (*)( char const *,::Py_ssize_t,char const *,char const * )
 ~@free_function_t@sbrk@void * (*)( ::intptr_t )void * (*)( ::intptr_t )
 ~@free_function_t@__modf@double (*)( double,double * )double (*)( double,double * )
@@ -4292,7 +4292,6 @@
 ~@free_function_t@__lrint@long int (*)( double )long int (*)( double )
 ~@free_function_t@setipv4sourcefilter@int (*)( int,::in_addr,::in_addr,::uint32_t,::uint32_t,::in_addr const * )int (*)( int,::in_addr,::in_addr,::uint32_t,::uint32_t,::in_addr const * )
 ~@free_function_t@exp2@double (*)( double )double (*)( double )
-~@free_function_t@PyNumber_Xor@::PyObject * (*)( ::PyObject *,::PyObject * )::PyObject * (*)( ::PyObject *,::PyObject * )
 ~@free_function_t@PyRun_StringFlags@::PyObject * (*)( char const *,int,::PyObject *,::PyObject *,::PyCompilerFlags * )::PyObject * (*)( char const *,int,::PyObject *,::PyObject *,::PyCompilerFlags * )
 ~@free_function_t@PyEval_AcquireLock@void (*)(  )void (*)(  )
 ~@free_function_t@__sinhf@float (*)( float )float (*)( float )
@@ -4809,6 +4808,7 @@
 ~@free_function_t@sethostid@int (*)( long int )int (*)( long int )
 ~@free_function_t@PyTuple_New@::PyObject * (*)( ::Py_ssize_t )::PyObject * (*)( ::Py_ssize_t )
 ~@free_function_t@__stpncpy@char * (*)( __restrict__ char *,__restrict__ char const *,::size_t )char * (*)( __restrict__ char *,__restrict__ char const *,::size_t )
+~@free_function_t@pthread_attr_setstack@int (*)( ::pthread_attr_t *,void *,::size_t )int (*)( ::pthread_attr_t *,void *,::size_t )
 ~@free_function_t@fgetpos64@int (*)( __restrict__ ::FILE *,__restrict__ ::fpos64_t * )int (*)( __restrict__ ::FILE *,__restrict__ ::fpos64_t * )
 ~@free_function_t@Py_GetExecPrefix@char * (*)(  )char * (*)(  )
 ~@free_function_t@PyFunction_GetGlobals@::PyObject * (*)( ::PyObject * )::PyObject * (*)( ::PyObject * )

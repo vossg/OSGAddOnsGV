@@ -72,6 +72,15 @@ void register_RenderBuffer_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::RenderBuffer::getBufferFormat
+        
+            typedef ::GLenum ( ::OSG::RenderBuffer::*getBufferFormat_function_type )(  ) const;
+            
+            RenderBuffer_exposer.def( 
+                "getBufferFormat"
+                , getBufferFormat_function_type( &::OSG::RenderBuffer::getBufferFormat ) );
+        
+        }
         { //::OSG::RenderBuffer::processPostDeactivate
         
             typedef void ( ::OSG::RenderBuffer::*processPostDeactivate_function_type )( ::OSG::DrawEnv * ) ;

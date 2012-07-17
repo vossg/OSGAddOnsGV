@@ -67,6 +67,7 @@ void register_FrameBufferObjectBase_class(){
         FrameBufferObjectBase_exposer_t FrameBufferObjectBase_exposer = FrameBufferObjectBase_exposer_t( "FrameBufferObjectBase", bp::no_init );
         bp::scope FrameBufferObjectBase_scope( FrameBufferObjectBase_exposer );
         bp::scope().attr("GLIdFieldId") = (int)OSG::FrameBufferObjectBase::GLIdFieldId;
+        bp::scope().attr("MultiSampleGLIdFieldId") = (int)OSG::FrameBufferObjectBase::MultiSampleGLIdFieldId;
         bp::scope().attr("ColorAttachmentsFieldId") = (int)OSG::FrameBufferObjectBase::ColorAttachmentsFieldId;
         bp::scope().attr("DrawBuffersFieldId") = (int)OSG::FrameBufferObjectBase::DrawBuffersFieldId;
         bp::scope().attr("DepthAttachmentFieldId") = (int)OSG::FrameBufferObjectBase::DepthAttachmentFieldId;
@@ -74,6 +75,13 @@ void register_FrameBufferObjectBase_class(){
         bp::scope().attr("WidthFieldId") = (int)OSG::FrameBufferObjectBase::WidthFieldId;
         bp::scope().attr("HeightFieldId") = (int)OSG::FrameBufferObjectBase::HeightFieldId;
         bp::scope().attr("PostProcessOnDeactivateFieldId") = (int)OSG::FrameBufferObjectBase::PostProcessOnDeactivateFieldId;
+        bp::scope().attr("EnableMultiSampleFieldId") = (int)OSG::FrameBufferObjectBase::EnableMultiSampleFieldId;
+        bp::scope().attr("ColorSamplesFieldId") = (int)OSG::FrameBufferObjectBase::ColorSamplesFieldId;
+        bp::scope().attr("CoverageSamplesFieldId") = (int)OSG::FrameBufferObjectBase::CoverageSamplesFieldId;
+        bp::scope().attr("FixedSampleLocationFieldId") = (int)OSG::FrameBufferObjectBase::FixedSampleLocationFieldId;
+        bp::scope().attr("MsaaColorAttachmentsFieldId") = (int)OSG::FrameBufferObjectBase::MsaaColorAttachmentsFieldId;
+        bp::scope().attr("MsaaDepthAttachmentFieldId") = (int)OSG::FrameBufferObjectBase::MsaaDepthAttachmentFieldId;
+        bp::scope().attr("MsaaStencilAttachmentFieldId") = (int)OSG::FrameBufferObjectBase::MsaaStencilAttachmentFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::FrameBufferObjectBase::NextFieldId;
         { //::OSG::FrameBufferObjectBase::assignColorAttachments
         
@@ -192,6 +200,15 @@ void register_FrameBufferObjectBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::FrameBufferObjectBase::getColorSamples
+        
+            typedef ::OSG::UInt32 ( ::OSG::FrameBufferObjectBase::*getColorSamples_function_type )(  ) const;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "getColorSamples"
+                , getColorSamples_function_type( &::OSG::FrameBufferObjectBase::getColorSamples ) );
+        
+        }
         { //::OSG::FrameBufferObjectBase::getContainerSize
         
             typedef ::OSG::UInt32 ( ::OSG::FrameBufferObjectBase::*getContainerSize_function_type )(  ) const;
@@ -199,6 +216,15 @@ void register_FrameBufferObjectBase_class(){
             FrameBufferObjectBase_exposer.def( 
                 "getContainerSize"
                 , getContainerSize_function_type( &::OSG::FrameBufferObjectBase::getContainerSize ) );
+        
+        }
+        { //::OSG::FrameBufferObjectBase::getCoverageSamples
+        
+            typedef ::OSG::UInt32 ( ::OSG::FrameBufferObjectBase::*getCoverageSamples_function_type )(  ) const;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "getCoverageSamples"
+                , getCoverageSamples_function_type( &::OSG::FrameBufferObjectBase::getCoverageSamples ) );
         
         }
         { //::OSG::FrameBufferObjectBase::getDepthAttachment
@@ -222,6 +248,24 @@ void register_FrameBufferObjectBase_class(){
                 , bp::return_value_policy< bp::return_by_value >() );
         
         }
+        { //::OSG::FrameBufferObjectBase::getEnableMultiSample
+        
+            typedef bool ( ::OSG::FrameBufferObjectBase::*getEnableMultiSample_function_type )(  ) const;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "getEnableMultiSample"
+                , getEnableMultiSample_function_type( &::OSG::FrameBufferObjectBase::getEnableMultiSample ) );
+        
+        }
+        { //::OSG::FrameBufferObjectBase::getFixedSampleLocation
+        
+            typedef bool ( ::OSG::FrameBufferObjectBase::*getFixedSampleLocation_function_type )(  ) const;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "getFixedSampleLocation"
+                , getFixedSampleLocation_function_type( &::OSG::FrameBufferObjectBase::getFixedSampleLocation ) );
+        
+        }
         { //::OSG::FrameBufferObjectBase::getGLId
         
             typedef ::GLenum const & ( ::OSG::FrameBufferObjectBase::*getGLId_function_type )(  ) const;
@@ -241,6 +285,16 @@ void register_FrameBufferObjectBase_class(){
                 , getHeight_function_type( &::OSG::FrameBufferObjectBase::getHeight ) );
         
         }
+        { //::OSG::FrameBufferObjectBase::getMultiSampleGLId
+        
+            typedef ::GLenum const & ( ::OSG::FrameBufferObjectBase::*getMultiSampleGLId_function_type )(  ) const;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "getMultiSampleGLId"
+                , getMultiSampleGLId_function_type( &::OSG::FrameBufferObjectBase::getMultiSampleGLId )
+                , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
         { //::OSG::FrameBufferObjectBase::getPostProcessOnDeactivate
         
             typedef bool ( ::OSG::FrameBufferObjectBase::*getPostProcessOnDeactivate_function_type )(  ) const;
@@ -250,6 +304,26 @@ void register_FrameBufferObjectBase_class(){
                 , getPostProcessOnDeactivate_function_type( &::OSG::FrameBufferObjectBase::getPostProcessOnDeactivate ) );
         
         }
+        { //::OSG::FrameBufferObjectBase::getSFColorSamples
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::FrameBufferObjectBase::*getSFColorSamples_function_type )(  ) const;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "getSFColorSamples"
+                , getSFColorSamples_function_type( &::OSG::FrameBufferObjectBase::getSFColorSamples )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::FrameBufferObjectBase::getSFCoverageSamples
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::FrameBufferObjectBase::*getSFCoverageSamples_function_type )(  ) const;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "getSFCoverageSamples"
+                , getSFCoverageSamples_function_type( &::OSG::FrameBufferObjectBase::getSFCoverageSamples )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::FrameBufferObjectBase::getSFDepthAttachment
         
             typedef ::OSG::SFUnrecFrameBufferAttachmentPtr const * ( ::OSG::FrameBufferObjectBase::*getSFDepthAttachment_function_type )(  ) const;
@@ -257,6 +331,26 @@ void register_FrameBufferObjectBase_class(){
             FrameBufferObjectBase_exposer.def( 
                 "getSFDepthAttachment"
                 , getSFDepthAttachment_function_type( &::OSG::FrameBufferObjectBase::getSFDepthAttachment )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::FrameBufferObjectBase::getSFEnableMultiSample
+        
+            typedef ::OSG::SFBool const * ( ::OSG::FrameBufferObjectBase::*getSFEnableMultiSample_function_type )(  ) const;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "getSFEnableMultiSample"
+                , getSFEnableMultiSample_function_type( &::OSG::FrameBufferObjectBase::getSFEnableMultiSample )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::FrameBufferObjectBase::getSFFixedSampleLocation
+        
+            typedef ::OSG::SFBool const * ( ::OSG::FrameBufferObjectBase::*getSFFixedSampleLocation_function_type )(  ) const;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "getSFFixedSampleLocation"
+                , getSFFixedSampleLocation_function_type( &::OSG::FrameBufferObjectBase::getSFFixedSampleLocation )
                 , bp::return_internal_reference< >() );
         
         }
@@ -277,6 +371,16 @@ void register_FrameBufferObjectBase_class(){
             FrameBufferObjectBase_exposer.def( 
                 "getSFHeight"
                 , getSFHeight_function_type( &::OSG::FrameBufferObjectBase::getSFHeight )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::FrameBufferObjectBase::getSFMultiSampleGLId
+        
+            typedef ::OSG::SFGLenum const * ( ::OSG::FrameBufferObjectBase::*getSFMultiSampleGLId_function_type )(  ) const;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "getSFMultiSampleGLId"
+                , getSFMultiSampleGLId_function_type( &::OSG::FrameBufferObjectBase::getSFMultiSampleGLId )
                 , bp::return_internal_reference< >() );
         
         }
@@ -379,6 +483,26 @@ void register_FrameBufferObjectBase_class(){
                 , ( bp::arg("value") ) );
         
         }
+        { //::OSG::FrameBufferObjectBase::setColorSamples
+        
+            typedef void ( ::OSG::FrameBufferObjectBase::*setColorSamples_function_type )( ::OSG::UInt32 const ) ;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "setColorSamples"
+                , setColorSamples_function_type( &::OSG::FrameBufferObjectBase::setColorSamples )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::FrameBufferObjectBase::setCoverageSamples
+        
+            typedef void ( ::OSG::FrameBufferObjectBase::*setCoverageSamples_function_type )( ::OSG::UInt32 const ) ;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "setCoverageSamples"
+                , setCoverageSamples_function_type( &::OSG::FrameBufferObjectBase::setCoverageSamples )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::FrameBufferObjectBase::setDepthAttachment
         
             typedef void ( ::OSG::FrameBufferObjectBase::*setDepthAttachment_function_type )( ::OSG::FrameBufferAttachment * const ) ;
@@ -386,6 +510,26 @@ void register_FrameBufferObjectBase_class(){
             FrameBufferObjectBase_exposer.def( 
                 "setDepthAttachment"
                 , setDepthAttachment_function_type( &::OSG::FrameBufferObjectBase::setDepthAttachment )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::FrameBufferObjectBase::setEnableMultiSample
+        
+            typedef void ( ::OSG::FrameBufferObjectBase::*setEnableMultiSample_function_type )( bool const ) ;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "setEnableMultiSample"
+                , setEnableMultiSample_function_type( &::OSG::FrameBufferObjectBase::setEnableMultiSample )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::FrameBufferObjectBase::setFixedSampleLocation
+        
+            typedef void ( ::OSG::FrameBufferObjectBase::*setFixedSampleLocation_function_type )( bool const ) ;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "setFixedSampleLocation"
+                , setFixedSampleLocation_function_type( &::OSG::FrameBufferObjectBase::setFixedSampleLocation )
                 , ( bp::arg("value") ) );
         
         }
@@ -406,6 +550,16 @@ void register_FrameBufferObjectBase_class(){
             FrameBufferObjectBase_exposer.def( 
                 "setHeight"
                 , setHeight_function_type( &::OSG::FrameBufferObjectBase::setHeight )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::FrameBufferObjectBase::setMultiSampleGLId
+        
+            typedef void ( ::OSG::FrameBufferObjectBase::*setMultiSampleGLId_function_type )( ::GLenum const & ) ;
+            
+            FrameBufferObjectBase_exposer.def( 
+                "setMultiSampleGLId"
+                , setMultiSampleGLId_function_type( &::OSG::FrameBufferObjectBase::setMultiSampleGLId )
                 , ( bp::arg("value") ) );
         
         }

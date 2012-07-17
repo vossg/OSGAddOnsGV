@@ -105,6 +105,16 @@ void register_Pnt3f_class(){
                 , maxDim_function_type( &::OSG::Point< float, 3u >::maxDim ) );
         
         }
+        { //::OSG::Point< float, 3u >::maxDimAbs
+        
+            typedef OSG::Point< float, 3u > exported_class_t;
+            typedef ::OSG::UInt32 ( exported_class_t::*maxDimAbs_function_type )(  ) const;
+            
+            Pnt3f_exposer.def( 
+                "maxDimAbs"
+                , maxDimAbs_function_type( &::OSG::Point< float, 3u >::maxDimAbs ) );
+        
+        }
         { //::OSG::Point< float, 3u >::maxValue
         
             typedef OSG::Point< float, 3u > exported_class_t;

@@ -105,6 +105,16 @@ void register_Pnt4d_class(){
                 , maxDim_function_type( &::OSG::Point< double, 4u >::maxDim ) );
         
         }
+        { //::OSG::Point< double, 4u >::maxDimAbs
+        
+            typedef OSG::Point< double, 4u > exported_class_t;
+            typedef ::OSG::UInt32 ( exported_class_t::*maxDimAbs_function_type )(  ) const;
+            
+            Pnt4d_exposer.def( 
+                "maxDimAbs"
+                , maxDimAbs_function_type( &::OSG::Point< double, 4u >::maxDimAbs ) );
+        
+        }
         { //::OSG::Point< double, 4u >::maxValue
         
             typedef OSG::Point< double, 4u > exported_class_t;

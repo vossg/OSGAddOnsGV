@@ -1903,7 +1903,7 @@
 ~@variable_t@_ZTIN5boost9exceptionE@::_ZTIN5boost9exceptionE
 ~@variable_t@_ZTISt10moneypunctIcLb0EE@::_ZTISt10moneypunctIcLb0EE
 ~@variable_t@_ZTIN3OSG10ChangeListE@::_ZTIN3OSG10ChangeListE
-~@variable_t@_ZTIN3OSG19ShadowStageDataBaseE@::_ZTIN3OSG19ShadowStageDataBaseE
+~@variable_t@_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTIN3OSG16ThreadCommonBaseE@::_ZTIN3OSG16ThreadCommonBaseE
 ~@variable_t@_ZTIN3OSG5LightE@::_ZTIN3OSG5LightE
 ~@variable_t@_ZTISt15basic_streambufIwSt11char_traitsIwEE@::_ZTISt15basic_streambufIwSt11char_traitsIwEE
@@ -2153,7 +2153,6 @@
 ~@variable_t@_ZTISt15underflow_error@::_ZTISt15underflow_error
 ~@variable_t@_ZTIN3OSG8StatElemE@::_ZTIN3OSG8StatElemE
 ~@variable_t@_ZTISt14basic_ifstreamIwSt11char_traitsIwEE@::_ZTISt14basic_ifstreamIwSt11char_traitsIwEE
-~@variable_t@_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTISt9type_info@::_ZTISt9type_info
 ~@variable_t@_ZTIN5boost16exception_detail10clone_baseE@::_ZTIN5boost16exception_detail10clone_baseE
 ~@variable_t@_ZTIN3OSG12NodeCoreBaseE@::_ZTIN3OSG12NodeCoreBaseE
@@ -2184,6 +2183,7 @@
 ~@variable_t@timezone@::timezone
 ~@variable_t@_ZTIN3OSG18SimpleSHLChunkBaseE@::_ZTIN3OSG18SimpleSHLChunkBaseE
 ~@variable_t@_ZTIN3OSG13DisplayFilterE@::_ZTIN3OSG13DisplayFilterE
+~@variable_t@_ZTIN3OSG19ShadowStageDataBaseE@::_ZTIN3OSG19ShadowStageDataBaseE
 ~@variable_t@_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE@::_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE
 ~@variable_t@_ZTIN3OSG22ShaderProgramVariablesE@::_ZTIN3OSG22ShaderProgramVariablesE
 ~@variable_t@_ZTIN3OSG26ShaderProgramVariablesBaseE@::_ZTIN3OSG26ShaderProgramVariablesBaseE
@@ -2836,7 +2836,7 @@
 ~@free_function_t@significandf@float (*)( float )float (*)( float )
 ~@free_function_t@localtime_r@::tm * (*)( __restrict__ ::time_t const *,__restrict__ ::tm * )::tm * (*)( __restrict__ ::time_t const *,__restrict__ ::tm * )
 ~@free_function_t@__dremf@float (*)( float,float )float (*)( float,float )
-~@free_function_t@open_memstream@::FILE * (*)( char * *,::size_t * )::FILE * (*)( char * *,::size_t * )
+~@free_function_t@timer_settime@int (*)( ::timer_t,int,__restrict__ ::itimerspec const *,__restrict__ ::itimerspec * )int (*)( ::timer_t,int,__restrict__ ::itimerspec const *,__restrict__ ::itimerspec * )
 ~@free_function_t@setregid@int (*)( ::__gid_t,::__gid_t )int (*)( ::__gid_t,::__gid_t )
 ~@free_function_t@fmaf@float (*)( float,float,float )float (*)( float,float,float )
 ~@free_function_t@putwchar_unlocked@::wint_t (*)( wchar_t )::wint_t (*)( wchar_t )
@@ -3540,7 +3540,7 @@
 ~@free_function_t@ungetwc@::wint_t (*)( ::wint_t,::__FILE * )::wint_t (*)( ::wint_t,::__FILE * )
 ~@free_function_t@futimesat@int (*)( int,char const *,::timeval const * )int (*)( int,char const *,::timeval const * )
 ~@free_function_t@inet6_opt_set_val@int (*)( void *,int,void *,::socklen_t )int (*)( void *,int,void *,::socklen_t )
-~@free_function_t@timer_settime@int (*)( ::timer_t,int,__restrict__ ::itimerspec const *,__restrict__ ::itimerspec * )int (*)( ::timer_t,int,__restrict__ ::itimerspec const *,__restrict__ ::itimerspec * )
+~@free_function_t@open_memstream@::FILE * (*)( char * *,::size_t * )::FILE * (*)( char * *,::size_t * )
 ~@free_function_t@_IO_flockfile@void (*)( ::_IO_FILE * )void (*)( ::_IO_FILE * )
 ~@free_function_t@timer_delete@int (*)( ::timer_t )int (*)( ::timer_t )
 ~@free_function_t@sinh@double (*)( double )double (*)( double )
