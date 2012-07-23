@@ -26,8 +26,10 @@ LIST(APPEND OSG_ADDITIONAL_CONFIGURE_LINES "#cmakedefine OSG_WITH_SOFA 1")
 MESSAGE(STATUS "SOFA Status: SOFA: ${OSG_WITH_SOFA}")
 
 INSTALL(FILES "${_CMAKE_CURRENT_LIST_DIR}/CMake/FindSOFA.cmake"
-        DESTINATION share/OpenSG/cmake)
+        DESTINATION share/OpenSG/cmake
+        COMPONENT development_configuration)
 
 INSTALL(FILES "${_CMAKE_CURRENT_LIST_DIR}/CMake/ConfigurePackages.OSGContribSOFA.cmake"
-        DESTINATION share/OpenSG/cmake)
+        DESTINATION share/OpenSG/cmake
+        COMPONENT development_configuration)
 

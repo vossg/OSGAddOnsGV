@@ -17,10 +17,83 @@ ELSE()
   SET(SOFA_VERSION "")
 ENDIF()
 
-SET(SOFA_LIB_LIST sofacore sofahelper sofadefaulttype sofasimulation
-                  sofatree sofa_base_visual sofa_opengl_visual 
-                  sofa_base_topology sofa_component sofa_graph_component
-                  sofagui)
+SET(SOFA_LIB_LIST sofagui
+                  sofatree
+                  sofacore 
+                  sofahelper 
+                  sofadefaulttype 
+                  sofasimulation
+                   
+                  sofa_base_visual 
+                  sofa_opengl_visual 
+                  sofa_base_topology 
+                  sofa_component 
+                  sofa_graph_component
+                  
+
+#sofaguiglut
+#sofaguimain
+#sofabgl
+#sofaguiqt
+
+#sofaobjectcreator
+#sofa_component_dev
+#sofa_component_base
+#sofa_component_misc
+#sofa_component_common
+#sofa_component_general
+#sofa_component_misc_dev
+#sofa_component_advanced
+#sofa_component_advanced_dev
+#sofa_base_animation_loop
+#sofa_base_collision
+#sofa_base_linear_solver
+#sofa_base_mechanics
+#sofa_deformable
+#sofa_explicit_ode_solver
+#sofa_implicit_ode_solver
+#sofa_loader
+#sofa_mesh_collision
+#sofa_rigid
+#sofa_simple_fem
+#sofa_object_interaction
+#sofa_boundary_condition
+#sofa_constraint
+#sofa_dense_solver
+#sofa_engine
+#sofa_exporter
+#sofa_preconditioner
+#sofa_topology_mapping
+#sofa_user_interaction
+#sofa_validation
+#sofa_haptics
+#sofa_advanced_constraint
+#sofa_advanced_fem
+#sofa_advanced_interaction
+#sofa_eigen2_solver
+#sofa_eulerian_fluid
+#sofa_mjed_fem
+#sofa_non_uniform_fem
+#sofa_non_uniform_fem_dev
+#sofa_sph_fluid
+#sofa_volumetric_data
+#sofa_misc
+#sofa_misc_collision
+#sofa_misc_collision_dev
+#sofa_misc_fem
+#sofa_misc_dev
+#sofa_misc_fem_dev
+#sofa_misc_forcefield
+#sofa_misc_forcefield_dev
+#sofa_misc_mapping
+#sofa_misc_mapping_dev
+#sofa_misc_solver
+#sofa_misc_solver_dev
+#sofa_misc_topology
+#sofa_misc_topology_dev
+#sofa_misc_engine
+
+                  )
 
 IF(APPLE)
 #    FIND_LIBRARY(CG_LIBRARY Cg
@@ -84,7 +157,7 @@ MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
        FIND_LIBRARY(${SOFA_LIB_UC}_LIBRARY_DEBUG 
                     NAMES ${${SOFA_LIB_UC}_NAMES_DEBUG}
                     PATHS ${SOFA_ROOT} ENV SOFA_ROOT
-                    PATH_SUFFIXES LIB)
+                    PATH_SUFFIXES lib)
 
        IF(NOT WIN32)
          IF(${SOFA_LIB_UC}_LIBRARY_DEBUG)
@@ -115,10 +188,15 @@ MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
 
 ENDIF (APPLE)
 
-SET(SOFA_DEFINES SOFA_HAVE_GLEW;SOFA_HAVE_GLEW;SOFA_HAVE_ZLIB;SOFA_HAVE_PNG;
+SET(SOFA_DEFINES SOFA_HAVE_GLEW;SOFA_HAVE_ZLIB;SOFA_HAVE_PNG;
                  SOFA_HAVE_EIGEN2;SOFA_SUPPORT_MAPPED_MASS;
                  SOFA_DUMP_VISITOR_INFO;SOFA_GUI_GLUT;TIXML_USE_STL;
-                 QT_XML_LIB
+                 QT_XML_LIB;SOFA_QT4;SOFA_GUI_QTVIEWER;SOFA_DEBUG;
+                 SOFA_XML;_PARSER_TINYXML;SOFA_GUI_QT;
+                 EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET;
+
+#_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_SECURE_SCL=0;_SCL_SECURE_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;_HAS_ITERATOR_DEBUGGING=0;_REENTRANT;SOFA_DEV;
+
                  CACHE STRING "" FORCE)
 
 MARK_AS_ADVANCED(SOFA_DEFINES)
