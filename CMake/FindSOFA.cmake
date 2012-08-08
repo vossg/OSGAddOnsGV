@@ -29,70 +29,6 @@ SET(SOFA_LIB_LIST sofagui
                   sofa_base_topology 
                   sofa_component 
                   sofa_graph_component
-                  
-
-#sofaguiglut
-#sofaguimain
-#sofabgl
-#sofaguiqt
-
-#sofaobjectcreator
-#sofa_component_dev
-#sofa_component_base
-#sofa_component_misc
-#sofa_component_common
-#sofa_component_general
-#sofa_component_misc_dev
-#sofa_component_advanced
-#sofa_component_advanced_dev
-#sofa_base_animation_loop
-#sofa_base_collision
-#sofa_base_linear_solver
-#sofa_base_mechanics
-#sofa_deformable
-#sofa_explicit_ode_solver
-#sofa_implicit_ode_solver
-#sofa_loader
-#sofa_mesh_collision
-#sofa_rigid
-#sofa_simple_fem
-#sofa_object_interaction
-#sofa_boundary_condition
-#sofa_constraint
-#sofa_dense_solver
-#sofa_engine
-#sofa_exporter
-#sofa_preconditioner
-#sofa_topology_mapping
-#sofa_user_interaction
-#sofa_validation
-#sofa_haptics
-#sofa_advanced_constraint
-#sofa_advanced_fem
-#sofa_advanced_interaction
-#sofa_eigen2_solver
-#sofa_eulerian_fluid
-#sofa_mjed_fem
-#sofa_non_uniform_fem
-#sofa_non_uniform_fem_dev
-#sofa_sph_fluid
-#sofa_volumetric_data
-#sofa_misc
-#sofa_misc_collision
-#sofa_misc_collision_dev
-#sofa_misc_fem
-#sofa_misc_dev
-#sofa_misc_fem_dev
-#sofa_misc_forcefield
-#sofa_misc_forcefield_dev
-#sofa_misc_mapping
-#sofa_misc_mapping_dev
-#sofa_misc_solver
-#sofa_misc_solver_dev
-#sofa_misc_topology
-#sofa_misc_topology_dev
-#sofa_misc_engine
-
                   )
 
 IF(APPLE)
@@ -107,7 +43,7 @@ IF(APPLE)
 #    SET(CG_LIBRARIES_FOUND TRUE)
 ELSE(APPLE)
 
-MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
+#    MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
 
     SET(SOFA_INCLUDE_DIRS)
 
@@ -135,6 +71,14 @@ MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
       LIST(APPEND SOFA_INCLUDE_DIRS ${SOFA_APPS_INCLUDE_DIR})
     ENDIF(SOFA_APPS_INCLUDE_DIR)
 
+    FIND_PATH(SOFA_TINYXML_INCLUDE_DIR tinyxml.h
+        PATHS ${SOFA_ROOT} ENV SOFA_ROOT
+        PATH_SUFFIXES extlibs/tinyxml)
+
+    IF(SOFA_TINYXML_INCLUDE_DIR)
+      LIST(APPEND SOFA_INCLUDE_DIRS ${SOFA_TINYXML_INCLUDE_DIR})
+    ENDIF(SOFA_TINYXML_INCLUDE_DIR)
+
 #    IF(CMAKE_SIZEOF_VOID_P EQUAL 8)
 #      SET(_OSG_CG_PATH_SUFFIXES lib64 lib.x64 lib)
 #    ELSE(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -145,7 +89,7 @@ MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
 
      FOREACH(SOFA_LIB ${SOFA_LIB_LIST})
        STRING(TOUPPER ${SOFA_LIB} SOFA_LIB_UC)
-       MESSAGE("LOOKING FOR : ${SOFA_LIB} # ${SOFA_LIB_UC}")
+#       MESSAGE("LOOKING FOR : ${SOFA_LIB} # ${SOFA_LIB_UC}")
 
        SET(${SOFA_LIB_UC}_NAMES_RELEASE ${SOFA_LIB}${SOFA_VERSION})
        FIND_LIBRARY(${SOFA_LIB_UC}_LIBRARY_RELEASE 
@@ -180,24 +124,39 @@ MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
          ENDIF()
        ENDIF()
 
-       MESSAGE("  GOT Rel : ${${SOFA_LIB_UC}_LIBRARY_RELEASE}")
-       MESSAGE("  GOT Dbg : ${${SOFA_LIB_UC}_LIBRARY_DEBUG}")
-       MESSAGE("  GOT SLF : ${SOFA_LIBS_FOUND}")
+#       MESSAGE("  GOT Rel : ${${SOFA_LIB_UC}_LIBRARY_RELEASE}")
+#       MESSAGE("  GOT Dbg : ${${SOFA_LIB_UC}_LIBRARY_DEBUG}")
+#       MESSAGE("  GOT SLF : ${SOFA_LIBS_FOUND}")
      ENDFOREACH()
 
 
 ENDIF (APPLE)
 
-SET(SOFA_DEFINES SOFA_HAVE_GLEW;SOFA_HAVE_ZLIB;SOFA_HAVE_PNG;
-                 SOFA_HAVE_EIGEN2;SOFA_SUPPORT_MAPPED_MASS;
-                 SOFA_DUMP_VISITOR_INFO;SOFA_GUI_GLUT;TIXML_USE_STL;
-                 QT_XML_LIB;SOFA_QT4;SOFA_GUI_QTVIEWER;SOFA_DEBUG;
-                 SOFA_XML;_PARSER_TINYXML;SOFA_GUI_QT;
-                 EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET;
+SET(SOFA_DEFINES SOFA_DEV;
+                 SOFA_QT4;
+                 SOFA_GUI_QTVIEWER;
+                 SOFA_GUI_GLUT;
+                 FREEGLUT_LIB_PRAGMAS=0;
+                 SOFA_SUPPORT_MAPPED_MASS;
+                 SOFA_DUMP_VISITOR_INFO;
+                 SOFA_HAVE_ZLIB;
+                 SOFA_HAVE_PNG;
+                 SOFA_HAVE_GLEW;
+                 SOFA_HAVE_BOOST;
+                 SOFA_HAVE_EIGEN2;
+                 SOFA_QT4;
+                 SOFA_XML_PARSER_TINYXML;
+                 SOFA_GUI_QT;
+                 EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET
+    CACHE STRING "" FORCE)
 
-#_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_SECURE_SCL=0;_SCL_SECURE_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;_HAS_ITERATOR_DEBUGGING=0;_REENTRANT;SOFA_DEV;
-
-                 CACHE STRING "" FORCE)
+#SOFA_HAVE_GLEW;SOFA_HAVE_ZLIB;SOFA_HAVE_PNG;
+#                 SOFA_HAVE_EIGEN2;SOFA_SUPPORT_MAPPED_MASS;
+#                 SOFA_DUMP_VISITOR_INFO;SOFA_GUI_GLUT;
+#                 QT_XML_LIB;SOFA_QT4;SOFA_GUI_QTVIEWER;SOFA_DEBUG;
+#                 SOFA_XML;SOFA_GUI_QT;SOFA_DEV;
+#                 EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET;
+#                 SOFA_XML_PARSER_TINYXML;
 
 MARK_AS_ADVANCED(SOFA_DEFINES)
 
@@ -209,7 +168,7 @@ FIND_PACKAGE_HANDLE_STANDARD_ARGS(SOFA
                                   SOFA_LIBS_FOUND
                                   SOFA_INCLUDE_DIRS)
 
-MESSAGE("RESULT : fw  : ${SOFA_FRAMEWORK_INCLUDE_DIR}")
-MESSAGE("RESULT : mod : ${SOFA_MODULES_INCLUDE_DIR}")
-MESSAGE("RESULT : app : ${SOFA_APPS_INCLUDE_DIR}")
-MESSAGE("RESULT : inc : ${SOFA_INCLUDE_DIRS}")
+#MESSAGE("RESULT : fw  : ${SOFA_FRAMEWORK_INCLUDE_DIR}")
+#MESSAGE("RESULT : mod : ${SOFA_MODULES_INCLUDE_DIR}")
+#MESSAGE("RESULT : app : ${SOFA_APPS_INCLUDE_DIR}")
+#MESSAGE("RESULT : inc : ${SOFA_INCLUDE_DIRS}")
