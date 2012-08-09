@@ -29,5 +29,5 @@ SET(CMAKE_INSTALL_PREFIX
 
 # Sofa
 
-SET(SOFA_ROOT "/home/gerrit/Projects/Inria/Packaged/Sofa.git"
-              CACHE PATH "" FORCE                           )
+SET(SOFA_ROOT "/home/gerrit/Projects/Inria/gforge/SOFA"
+              CACHE PATH "" FORCE                     )
