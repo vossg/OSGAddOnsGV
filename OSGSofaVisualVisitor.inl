@@ -160,7 +160,7 @@ OSG::Node *OSGVisualUpdateVisitor::getChunkOverrideGroupNode(void) const
 
 inline
 OSGVisualInitVisitor::OSGVisualInitVisitor(const core::ExecParams *pParams) : 
-    Visitor(params) 
+    Visitor(pParams) 
 {
 }
 

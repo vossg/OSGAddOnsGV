@@ -17,10 +17,19 @@ ELSE()
   SET(SOFA_VERSION "")
 ENDIF()
 
-SET(SOFA_LIB_LIST sofacore sofahelper sofadefaulttype sofasimulation
-                  sofatree sofa_base_visual sofa_opengl_visual 
-                  sofa_base_topology sofa_component sofa_graph_component
-                  sofagui)
+SET(SOFA_LIB_LIST sofagui
+                  sofatree
+                  sofacore 
+                  sofahelper 
+                  sofadefaulttype 
+                  sofasimulation
+                   
+                  sofa_base_visual 
+                  sofa_opengl_visual 
+                  sofa_base_topology 
+                  sofa_component 
+                  sofa_graph_component
+                  )
 
 IF(APPLE)
 #    FIND_LIBRARY(CG_LIBRARY Cg
@@ -34,7 +43,7 @@ IF(APPLE)
 #    SET(CG_LIBRARIES_FOUND TRUE)
 ELSE(APPLE)
 
-MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
+#    MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
 
     SET(SOFA_INCLUDE_DIRS)
 
@@ -62,6 +71,14 @@ MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
       LIST(APPEND SOFA_INCLUDE_DIRS ${SOFA_APPS_INCLUDE_DIR})
     ENDIF(SOFA_APPS_INCLUDE_DIR)
 
+    FIND_PATH(SOFA_TINYXML_INCLUDE_DIR tinyxml.h
+        PATHS ${SOFA_ROOT} ENV SOFA_ROOT
+        PATH_SUFFIXES extlibs/tinyxml)
+
+    IF(SOFA_TINYXML_INCLUDE_DIR)
+      LIST(APPEND SOFA_INCLUDE_DIRS ${SOFA_TINYXML_INCLUDE_DIR})
+    ENDIF(SOFA_TINYXML_INCLUDE_DIR)
+
 #    IF(CMAKE_SIZEOF_VOID_P EQUAL 8)
 #      SET(_OSG_CG_PATH_SUFFIXES lib64 lib.x64 lib)
 #    ELSE(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -72,7 +89,7 @@ MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
 
      FOREACH(SOFA_LIB ${SOFA_LIB_LIST})
        STRING(TOUPPER ${SOFA_LIB} SOFA_LIB_UC)
-       MESSAGE("LOOKING FOR : ${SOFA_LIB} # ${SOFA_LIB_UC}")
+#       MESSAGE("LOOKING FOR : ${SOFA_LIB} # ${SOFA_LIB_UC}")
 
        SET(${SOFA_LIB_UC}_NAMES_RELEASE ${SOFA_LIB}${SOFA_VERSION})
        FIND_LIBRARY(${SOFA_LIB_UC}_LIBRARY_RELEASE 
@@ -84,7 +101,7 @@ MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
        FIND_LIBRARY(${SOFA_LIB_UC}_LIBRARY_DEBUG 
                     NAMES ${${SOFA_LIB_UC}_NAMES_DEBUG}
                     PATHS ${SOFA_ROOT} ENV SOFA_ROOT
-                    PATH_SUFFIXES LIB)
+                    PATH_SUFFIXES lib)
 
        IF(NOT WIN32)
          IF(${SOFA_LIB_UC}_LIBRARY_DEBUG)
@@ -107,19 +124,39 @@ MESSAGE("FOOOO ROOT: ${SOFA_ROOT}")
          ENDIF()
        ENDIF()
 
-       MESSAGE("  GOT Rel : ${${SOFA_LIB_UC}_LIBRARY_RELEASE}")
-       MESSAGE("  GOT Dbg : ${${SOFA_LIB_UC}_LIBRARY_DEBUG}")
-       MESSAGE("  GOT SLF : ${SOFA_LIBS_FOUND}")
+#       MESSAGE("  GOT Rel : ${${SOFA_LIB_UC}_LIBRARY_RELEASE}")
+#       MESSAGE("  GOT Dbg : ${${SOFA_LIB_UC}_LIBRARY_DEBUG}")
+#       MESSAGE("  GOT SLF : ${SOFA_LIBS_FOUND}")
      ENDFOREACH()
 
 
 ENDIF (APPLE)
 
-SET(SOFA_DEFINES SOFA_HAVE_GLEW;SOFA_HAVE_GLEW;SOFA_HAVE_ZLIB;SOFA_HAVE_PNG;
-                 SOFA_HAVE_EIGEN2;SOFA_SUPPORT_MAPPED_MASS;
-                 SOFA_DUMP_VISITOR_INFO;SOFA_GUI_GLUT;TIXML_USE_STL;
-                 QT_XML_LIB
-                 CACHE STRING "" FORCE)
+SET(SOFA_DEFINES SOFA_DEV;
+                 SOFA_QT4;
+                 SOFA_GUI_QTVIEWER;
+                 SOFA_GUI_GLUT;
+                 FREEGLUT_LIB_PRAGMAS=0;
+                 SOFA_SUPPORT_MAPPED_MASS;
+                 SOFA_DUMP_VISITOR_INFO;
+                 SOFA_HAVE_ZLIB;
+                 SOFA_HAVE_PNG;
+                 SOFA_HAVE_GLEW;
+                 SOFA_HAVE_BOOST;
+                 SOFA_HAVE_EIGEN2;
+                 SOFA_QT4;
+                 SOFA_XML_PARSER_TINYXML;
+                 SOFA_GUI_QT;
+                 EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET
+    CACHE STRING "" FORCE)
+
+#SOFA_HAVE_GLEW;SOFA_HAVE_ZLIB;SOFA_HAVE_PNG;
+#                 SOFA_HAVE_EIGEN2;SOFA_SUPPORT_MAPPED_MASS;
+#                 SOFA_DUMP_VISITOR_INFO;SOFA_GUI_GLUT;
+#                 QT_XML_LIB;SOFA_QT4;SOFA_GUI_QTVIEWER;SOFA_DEBUG;
+#                 SOFA_XML;SOFA_GUI_QT;SOFA_DEV;
+#                 EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET;
+#                 SOFA_XML_PARSER_TINYXML;
 
 MARK_AS_ADVANCED(SOFA_DEFINES)
 
@@ -131,7 +168,7 @@ FIND_PACKAGE_HANDLE_STANDARD_ARGS(SOFA
                                   SOFA_LIBS_FOUND
                                   SOFA_INCLUDE_DIRS)
 
-MESSAGE("RESULT : fw  : ${SOFA_FRAMEWORK_INCLUDE_DIR}")
-MESSAGE("RESULT : mod : ${SOFA_MODULES_INCLUDE_DIR}")
-MESSAGE("RESULT : app : ${SOFA_APPS_INCLUDE_DIR}")
-MESSAGE("RESULT : inc : ${SOFA_INCLUDE_DIRS}")
+#MESSAGE("RESULT : fw  : ${SOFA_FRAMEWORK_INCLUDE_DIR}")
+#MESSAGE("RESULT : mod : ${SOFA_MODULES_INCLUDE_DIR}")
+#MESSAGE("RESULT : app : ${SOFA_APPS_INCLUDE_DIR}")
+#MESSAGE("RESULT : inc : ${SOFA_INCLUDE_DIRS}")
