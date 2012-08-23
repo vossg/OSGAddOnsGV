@@ -89,7 +89,19 @@ void OSGShaderDefineMacro::init()
     std::cerr << " OSGShaderDefineMacro::init()" << std::endl;
     OSGShaderMacro::init();
     
-    shader->addDefineMacro(indexShader.getValue(), id.getValue(), value.getValue());
+//     if (shader)
+//         shader->addDefineMacro(indexShader.getValue(), id.getValue(), 
+//                                value.getValue());
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        curShader->addDefineMacro(indexShader.getValue(), id.getValue(), 
+                               value.getValue());
+    }
 }
 
 }
