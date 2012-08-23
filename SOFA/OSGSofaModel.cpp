@@ -294,7 +294,28 @@ bool OSGSofaModel::loadTextures()
         if (read)
             std::cerr << "OpenSG FILEIO(OSGSofaModel(" << this->getName() << "): created an image from file " << this->materials.getValue()[*i].textureFilename << std::endl;
 
+#ifdef LIMITE_TEXTURE_SIZE
+        int maxSize = 1024;
 
+        int w = image->getWidth();
+        int h = image->getHeight();
+        if (w > maxSize || h > maxSize)
+        {
+            if (w >= h)
+            {
+                int new_h = (maxSize*h)/w;
+                image->scale(maxSize, new_h, image->getDepth());
+            }
+            else
+            {
+                int new_w = (maxSize*w)/h;
+                image->scale(new_w, h, image->getDepth());
+            }
+        }
+
+
+        std::cerr << "test HC : image width = " << image->getWidth() << ", image height = " << image->getHeight() << std::endl;
+#endif
         materialTextureIdMap.insert(std::pair<int, int>(*i,_texMaterial.size()));
 
 
