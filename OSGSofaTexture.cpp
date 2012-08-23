@@ -490,9 +490,9 @@ void OSGTexture::initVisual(void)
 {
     std::cerr << "OSGTexture::initVisual " << std::endl;
 
-    if(shader != NULL) 
-        std::cerr << "OSGTexture:: HAS SHADER " << std::endl;
-
+//     if(shader != NULL) 
+//         std::cerr << "OSGTexture:: HAS SHADER " << std::endl;
+// 
     //GLint maxTextureUnits;
     //glGetIntegerv(GL_MAX_TEXTURE_UNITS, &maxTextureUnits);
     //MAX_NUMBER_OF_TEXTURE_UNIT = maxTextureUnits;
@@ -580,16 +580,29 @@ std::cerr  << "_pOSGIMAGE : " << _szTextureFilename.getFullPath().c_str() << "\n
 //                       textureUnit.getValue(), 
 //                       _pOSGImage);
 
-    std::cerr << "OSGTexture:: addTexture : " 
-              << indexShader.getValue() << " " 
-              << textureUnit.getValue() << " " 
-              << _pOSGTexture 
-              <<  "Shader " << shader << std::endl;
+//     std::cerr << "OSGTexture:: addTexture : " 
+//               << indexShader.getValue() << " " 
+//               << textureUnit.getValue() << " " 
+//               << _pOSGTexture 
+//               <<  "Shader " << shader << std::endl;
 
-    shader->addTexture( indexShader.getValue(), 
+//     shader->addTexture( indexShader.getValue(), 
+//                         id.getValue().c_str(), 
+//                         textureUnit.getValue(), 
+//                        _pOSGTexture           );
+
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        curShader->addTexture( indexShader.getValue(), 
                         id.getValue().c_str(), 
                         textureUnit.getValue(), 
                        _pOSGTexture           );
+    }
     
     std::cerr << "OUT OSGTexture::initVisual " << std::endl;
 }

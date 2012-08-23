@@ -233,41 +233,84 @@ OSGInt4Variable::OSGInt4Variable()
 
 void OSGIntVariable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
-    varChunk->addUniformVariable( id.getValue().c_str(), OSG::Int32(value.getValue()) );
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
+//     varChunk->addUniformVariable( id.getValue().c_str(), OSG::Int32(value.getValue()) );
+// 
+//     OSG::Int32 osgvalue;
+//     varChunk->getUniformVariable(id.getValue().c_str(), osgvalue);
+// 
+// std::cerr << "OSGIntVariable::initVisual" << std::endl;
+// std::cerr << "OSGIntVariable ::SOFA" << " " << indexShader.getValue() << " " << id.getValue().c_str() << " " << value.getValue() << std::endl;
+// std::cerr << "OSGIntVariable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
+// std::cerr << "Shader : " << shader << std::endl;
+// std::cerr << "==========================" << std::endl;
 
-    OSG::Int32 osgvalue;
-    varChunk->getUniformVariable(id.getValue().c_str(), osgvalue);
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
 
-std::cerr << "OSGIntVariable::initVisual" << std::endl;
-std::cerr << "OSGIntVariable ::SOFA" << " " << indexShader.getValue() << " " << id.getValue().c_str() << " " << value.getValue() << std::endl;
-std::cerr << "OSGIntVariable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
-std::cerr << "Shader : " << shader << std::endl;
-std::cerr << "==========================" << std::endl;
-
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str(), 
+                                          OSG::Int32(value.getValue()) );
+    }
 }
 
 
 void OSGInt2Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
+// 
+//     OSG::MFInt32 int2;
+//     int2.resize(2);
+//     int2[0] =  value.getValue()[0];
+//     int2[1] =  value.getValue()[1];
+// 
+//     varChunk->addUniformVariable( id.getValue().c_str()
+//     //, OSG::MFInt32 < value.getValue()[0], value.getValue()[1] >) ;
+//     , int2 ) ;
+
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
 
     OSG::MFInt32 int2;
     int2.resize(2);
     int2[0] =  value.getValue()[0];
     int2[1] =  value.getValue()[1];
 
-    varChunk->addUniformVariable( id.getValue().c_str()
-    //, OSG::MFInt32 < value.getValue()[0], value.getValue()[1] >) ;
-    , int2 ) ;
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str() , int2 ) ;
+    }
 }
 
 void OSGInt3Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
+// 
+//     OSG::MFInt32 int3;
+//     int3.resize(3);
+//     int3[0] =  value.getValue()[0];
+//     int3[1] =  value.getValue()[1];
+//     int3[2] =  value.getValue()[2];
+// 
+//     varChunk->addUniformVariable( id.getValue().c_str()
+//     , int3 ) ;
+
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
 
     OSG::MFInt32 int3;
     int3.resize(3);
@@ -275,14 +318,34 @@ void OSGInt3Variable::initVisual()
     int3[1] =  value.getValue()[1];
     int3[2] =  value.getValue()[2];
 
-    varChunk->addUniformVariable( id.getValue().c_str()
-    , int3 ) ;
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str() , int3 ) ;
+    }
 }
 
 void OSGInt4Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
+// 
+//     OSG::MFInt32 int4;
+//     int4.resize(4);
+//     int4[0] =  value.getValue()[0];
+//     int4[1] =  value.getValue()[1];
+//     int4[2] =  value.getValue()[2];
+//     int4[3] =  value.getValue()[3];
+// 
+//     varChunk->addUniformVariable( id.getValue().c_str()
+//     , int4 ) ;
+
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
 
     OSG::MFInt32 int4;
     int4.resize(4);
@@ -291,8 +354,15 @@ void OSGInt4Variable::initVisual()
     int4[2] =  value.getValue()[2];
     int4[3] =  value.getValue()[3];
 
-    varChunk->addUniformVariable( id.getValue().c_str()
-    , int4 ) ;
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str() , int4 ) ;
+    }
 }
 
 
@@ -318,70 +388,120 @@ OSGFloat4Variable::OSGFloat4Variable()
 
 void OSGFloatVariable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
-    varChunk->addUniformVariable( id.getValue().c_str(), OSG::Real32(value.getValue()) );
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
+//     varChunk->addUniformVariable( id.getValue().c_str(), OSG::Real32(value.getValue()) );
+// 
+//     std::string osgid;
+//     OSG::Real32 osgvalue;
+//     varChunk->getUniformVariable(id.getValue().c_str(), osgvalue);
+// 
+// std::cerr << "OSGFloatVariable::initVisual" << std::endl;
+// std::cerr << "OSGFloatVariable ::SOFA" << " " << indexShader.getValue() << " " << id.getValue().c_str() << " " << value.getValue() << std::endl;
+// std::cerr << "OSGFloatVariable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
+// std::cerr << "Shader : " << shader << std::endl;
+// std::cerr << "==========================" << std::endl;
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
 
-    std::string osgid;
-    OSG::Real32 osgvalue;
-    varChunk->getUniformVariable(id.getValue().c_str(), osgvalue);
-
-std::cerr << "OSGFloatVariable::initVisual" << std::endl;
-std::cerr << "OSGFloatVariable ::SOFA" << " " << indexShader.getValue() << " " << id.getValue().c_str() << " " << value.getValue() << std::endl;
-std::cerr << "OSGFloatVariable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
-std::cerr << "Shader : " << shader << std::endl;
-std::cerr << "==========================" << std::endl;
-
-    //shader->setFloat(indexShader.getValue(), id.getValue().c_str(), value.getValue());
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str(), 
+                                      OSG::Real32(value.getValue()) );
+    }
 }
 
 
 void OSGFloat2Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
 
     
-    varChunk->addUniformVariable( id.getValue().c_str()
-    , OSG::Vec2f( value.getValue()[0],  value.getValue()[1]) ) ;
     
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str(),
+                   OSG::Vec2f( value.getValue()[0],  value.getValue()[1]) ) ;
+    }
 
 }
 
 void OSGFloat3Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
+// 
+//     OSG::MFReal32 float3;
+//     float3.resize(3);
+//     float3[0] =  value.getValue()[0];
+//     float3[1] =  value.getValue()[1];
+//     float3[2] =  value.getValue()[2];
+// 
+// 
+//     varChunk->addUniformVariable( id.getValue().c_str(), 
+//     OSG::Vec3f(value.getValue()[0], value.getValue()[1], value.getValue()[2], value.getValue()[3]) );
+// 
+//     OSG::Vec3f osgvalue;
+//     varChunk->getUniformVariable(id.getValue().c_str(), osgvalue);
+// 
+// std::cerr << "OSGFloat3_Variable::initVisual" << std::endl;
+// std::cerr << "OSGFloat3_Variable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
+// std::cerr << "Shader : " << shader << std::endl;
+// std::cerr << "==========================" << std::endl;
 
-    OSG::MFReal32 float3;
-    float3.resize(3);
-    float3[0] =  value.getValue()[0];
-    float3[1] =  value.getValue()[1];
-    float3[2] =  value.getValue()[2];
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
 
-
-    varChunk->addUniformVariable( id.getValue().c_str(), 
-    OSG::Vec3f(value.getValue()[0], value.getValue()[1], value.getValue()[2], value.getValue()[3]) );
-
-    OSG::Vec3f osgvalue;
-    varChunk->getUniformVariable(id.getValue().c_str(), osgvalue);
-
-std::cerr << "OSGFloat3_Variable::initVisual" << std::endl;
-std::cerr << "OSGFloat3_Variable ::OPENSG" << " " << indexShader.getValue() << " " <<  id.getValue().c_str() << " " << osgvalue << std::endl;
-std::cerr << "Shader : " << shader << std::endl;
-std::cerr << "==========================" << std::endl;
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str(), 
+                      OSG::Vec3f(value.getValue()[0], value.getValue()[1], 
+                      value.getValue()[2]) );
+    }
 }
 
 void OSGFloat4Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
+// 
+// 
+//     varChunk->addUniformVariable( id.getValue().c_str(), 
+//     OSG::Vec4f(value.getValue()[0], value.getValue()[1], value.getValue()[2], value.getValue()[3]) );
 
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
 
-    varChunk->addUniformVariable( id.getValue().c_str(), 
-    OSG::Vec4f(value.getValue()[0], value.getValue()[1], value.getValue()[2], value.getValue()[3]) );
-
-    //system("pause");
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str(), 
+            OSG::Vec4f(value.getValue()[0], value.getValue()[1], 
+            value.getValue()[2], value.getValue()[3]) );
+    }
 }
 
 
@@ -450,52 +570,88 @@ void OSGIntVector4Variable::init()
 
 void OSGIntVectorVariable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
-
-    varChunk->addUniformVariable( id.getValue().c_str(), OSG::Int32(value.getValue()[0]) );
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
+// 
+//     varChunk->addUniformVariable( id.getValue().c_str(), OSG::Int32(value.getValue()[0]) );
 
     //shader->setIntVector(indexShader.getValue(), id.getValue().c_str(), value.getValue().size(), &(value.getValue()[0]));
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str(), 
+            OSG::Int32(value.getValue()[0]) );
+    }
 }
 
 void OSGIntVector2Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
 
     OSG::MFInt32 int2;
     int2.resize(2);
     int2[0] =  value.getValue()[0];
     int2[1] =  value.getValue()[1];
 
-    varChunk->addUniformVariable( id.getValue().c_str()
-    //, OSG::MFInt32 < value.getValue()[0], value.getValue()[1] >) ;
-    , int2 ) ;
+//     varChunk->addUniformVariable( id.getValue().c_str()
+//     , int2 ) ;
+
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str() , int2 ) ;
+    }
     
     //shader->setIntVector2(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/2, &(value.getValue()[0]));
 }
 
 void OSGIntVector3Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
-
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
+// 
     OSG::MFInt32 int3;
     int3.resize(3);
     int3[0] =  value.getValue()[0];
     int3[1] =  value.getValue()[1];
     int3[2] =  value.getValue()[2];
+// 
+//     varChunk->addUniformVariable( id.getValue().c_str()
+//     , int3 ) ;
 
-    varChunk->addUniformVariable( id.getValue().c_str()
-    , int3 ) ;
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
 
-    //shader->setIntVector3(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/3, &(value.getValue()[0]));
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str() , int3 ) ;
+    }
 }
 
 void OSGIntVector4Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
 
     OSG::MFInt32 int4;
     int4.resize(4);
@@ -504,8 +660,22 @@ void OSGIntVector4Variable::initVisual()
     int4[2] =  value.getValue()[2];
     int4[3] =  value.getValue()[3];
 
-    varChunk->addUniformVariable( id.getValue().c_str()
-    , int4 ) ;
+//     varChunk->addUniformVariable( id.getValue().c_str()
+//     , int4 ) ;
+
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str()
+                                         , int4 ) ;
+    }
 
     //shader->setIntVector4(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/4, &(value.getValue()[0]));
 }
@@ -577,29 +747,56 @@ void OSGFloatVector4Variable::init()
 
 void OSGFloatVectorVariable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
-    varChunk->addUniformVariable( id.getValue().c_str(), 
-    OSG::Real32(value.getValue()[0]) );
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
+//     varChunk->addUniformVariable( id.getValue().c_str(), 
+//     OSG::Real32(value.getValue()[0]) );
 
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str(), 
+                                          OSG::Real32(value.getValue()[0])); 
+    }
     //shader->setFloatVector(indexShader.getValue(), id.getValue().c_str(), value.getValue().size(), &(value.getValue()[0]));
 }
 
 void OSGFloatVector2Variable::initVisual()
 {
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
-    varChunk->addUniformVariable( id.getValue().c_str(), 
-    OSG::Vec2f(value.getValue()[0],value.getValue()[1] ) );
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
+//     varChunk->addUniformVariable( id.getValue().c_str(), 
+//     OSG::Vec2f(value.getValue()[0],value.getValue()[1] ) );
+
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str(), 
+            OSG::Vec2f(value.getValue()[0],value.getValue()[1] ) );
+    }
 
     //shader->setFloatVector2(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/2, &(value.getValue()[0]));
 }
 
 void OSGFloatVector3Variable::initVisual()
 {
-    std::cerr << "IN OSGFloatVector3Variable::initVisual()" << std::endl;
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
+//     std::cerr << "IN OSGFloatVector3Variable::initVisual()" << std::endl;
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
 
     OSG::MFVec3f vectormap;
     vectormap.resize(value.getValue().size() / 3);
@@ -611,9 +808,23 @@ void OSGFloatVector3Variable::initVisual()
         vectormap[i][1] = temp[++count];
         vectormap[i][2] = temp[++count];
     }
+//     varChunk->addUniformVariable( id.getValue().c_str(), 
+//     vectormap);
 
-    varChunk->addUniformVariable( id.getValue().c_str(), 
-    vectormap);
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str(), 
+            vectormap);
+    }
+
 
     std::cerr << "OUT OSGFloatVector3Variable::initVisual()" << std::endl;
 
@@ -622,9 +833,9 @@ void OSGFloatVector3Variable::initVisual()
 
 void OSGFloatVector4Variable::initVisual()
 {
-    std::cerr << "IN OSGFloatVector4Variable::initVisual() " << id.getValue().c_str() << std::endl;
-    OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
-    if (!varChunk) return;
+//     std::cerr << "IN OSGFloatVector4Variable::initVisual() " << id.getValue().c_str() << std::endl;
+//     OSG::ShaderProgramVariableChunk* varChunk = shader->getShaderVariableChunk(indexShader.getValue());
+//     if (!varChunk) return;
 
     OSG::MFVec4f vectormap;
     vectormap.resize(value.getValue().size() / 4);
@@ -644,9 +855,24 @@ void OSGFloatVector4Variable::initVisual()
 
 
 
-    varChunk->addUniformVariable( id.getValue().c_str(), 
-    //allfloats);
-    vectormap);
+//     varChunk->addUniformVariable( id.getValue().c_str(), 
+//     //allfloats);
+//     vectormap);
+
+    OSG::ShaderProgramVariableChunk* varChunk = NULL;
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        varChunk = curShader->getShaderVariableChunk(indexShader.getValue());
+        if (varChunk)
+            varChunk->addUniformVariable( id.getValue().c_str(), 
+                                          //allfloats);
+                                          vectormap);
+    }
 
     std::cerr << "OUT OSGFloatVector4Variable::initVisual()" << std::endl;
 }
@@ -674,7 +900,18 @@ void OSGMatrix2Variable::init()
 
 void OSGMatrix2Variable::initVisual()
 {
-    shader->setMatrix2(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/4, transpose.getValue(), &(value.getValue()[0]));
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        curShader->setMatrix2(indexShader.getValue(), id.getValue().c_str(), 
+                              value.getValue().size()/4, transpose.getValue(), 
+                              &(value.getValue()[0]));
+    }
+    //shader->setMatrix2(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/4, transpose.getValue(), &(value.getValue()[0]));
 }
 
 OSGMatrix3Variable::OSGMatrix3Variable()
@@ -698,7 +935,18 @@ void OSGMatrix3Variable::init()
 
 void OSGMatrix3Variable::initVisual()
 {
-    shader->setMatrix3(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/9, transpose.getValue(), &(value.getValue()[0]));
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        curShader->setMatrix3(indexShader.getValue(), id.getValue().c_str(), 
+                              value.getValue().size()/9, transpose.getValue(),
+                              &(value.getValue()[0]));
+    }
+    //shader->setMatrix3(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/9, transpose.getValue(), &(value.getValue()[0]));
 }
 
 OSGMatrix4Variable::OSGMatrix4Variable()
@@ -722,7 +970,18 @@ void OSGMatrix4Variable::init()
 
 void OSGMatrix4Variable::initVisual()
 {
-    shader->setMatrix4(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/16, transpose.getValue(), &(value.getValue()[0]));
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        curShader->setMatrix4(indexShader.getValue(), id.getValue().c_str(), 
+                              value.getValue().size()/16, transpose.getValue(),
+                              &(value.getValue()[0]));
+    }
+    //shader->setMatrix4(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/16, transpose.getValue(), &(value.getValue()[0]));
 }
 
 OSGMatrix2x3Variable::OSGMatrix2x3Variable()
@@ -747,7 +1006,18 @@ void OSGMatrix2x3Variable::init()
 
 void OSGMatrix2x3Variable::initVisual()
 {
-    shader->setMatrix2x3(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/6, transpose.getValue(), &(value.getValue()[0]));
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        curShader->setMatrix2x3(indexShader.getValue(), id.getValue().c_str(),
+                              value.getValue().size()/6, transpose.getValue(),
+                              &(value.getValue()[0]));
+    }
+    //shader->setMatrix2x3(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/6, transpose.getValue(), &(value.getValue()[0]));
 }
 
 
@@ -773,7 +1043,18 @@ void OSGMatrix3x2Variable::init()
 
 void OSGMatrix3x2Variable::initVisual()
 {
-    shader->setMatrix3x2(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/6, transpose.getValue(), &(value.getValue()[0]));
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        curShader->setMatrix3x2(indexShader.getValue(), id.getValue().c_str(),
+                              value.getValue().size()/6, transpose.getValue(),
+                              &(value.getValue()[0]));
+    }
+    //shader->setMatrix3x2(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/6, transpose.getValue(), &(value.getValue()[0]));
 }
 
 OSGMatrix2x4Variable::OSGMatrix2x4Variable()
@@ -798,7 +1079,18 @@ void OSGMatrix2x4Variable::init()
 
 void OSGMatrix2x4Variable::initVisual()
 {
-    shader->setMatrix2x4(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/8, transpose.getValue(), &(value.getValue()[0]));
+    OSGShader* curShader = NULL;
+
+    for(std::set<OSGShader*>::iterator it = shaders.begin(), 
+                      iend = shaders.end(); it!=iend; ++it)
+    {
+        curShader = *it;
+        if (curShader == NULL) continue;
+        curShader->setMatrix2x4(indexShader.getValue(), id.getValue().c_str(),
+                   value.getValue().size()/8, transpose.getValue(), 
+                   &(value.getValue()[0]));
+    }
+    //shader->setMatrix2x4(indexShader.getValue(), id.getValue().c_str(), value.getValue().size()/8, transpose.getValue(), &(value.getValue()[0]));
 }
 
 OSGMatrix4x2Variable::OSGMatrix4x2Variable()

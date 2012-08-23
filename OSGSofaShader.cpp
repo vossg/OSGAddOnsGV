@@ -44,6 +44,7 @@
 #endif
 
 #include "OSGSofaShader.h"
+#include <sofa/component/visualmodel/CompositingVisualLoop.h>
 #include "OSGSimpleMaterial.h"
 
 #include <sofa/core/visual/VisualParams.h>
@@ -358,41 +359,71 @@ std::string OSGShader::combineAll(std::string header, const std::string &shaderS
 
 void OSGShader::init( void )
 {
-#if 0
 std::cerr << "OSGShader ::init" << std::endl;
+
+    OSG::UInt32 nshaders = 0;
+    nshaders = std::max(nshaders, (OSG::UInt32)vertFilename.getValue().size());
+    nshaders = std::max(nshaders, (OSG::UInt32)fragFilename.getValue().size());
+
+#ifdef GL_GEOMETRY_SHADER_EXT
+    nshaders = std::max(nshaders, (OSG::UInt32)geoFilename.getValue().size());
+#endif
+
+// Not supported currently
+/*
+#ifdef GL_TESS_CONTROL_SHADER
+    nshaders = std::max(nshaders, (OSG::UInt32)tessellationControlFilename.getValue().size());
+#endif
+#ifdef GL_TESS_EVALUATION_SHADER
+    nshaders = std::max(nshaders, (OSG::UInt32)tessellationEvaluationFilename.getValue().size());
+#endif
+*/
+
     
-    initFiles();
+    //initFiles();
+    _shaderGroups.resize(nshaders);
 
-    // vertexFilenames  & fragmentFilenames &  & geometryFilenames should contain the full path names 
-    // got to make sure that vertexFilenames match fragmentFilenames
-    _shaderGroups.resize(vertexFilenames.size());
-
-
-    //bool geometryShader = geometryFilenames.size() > 0;
-
-    if (vertexFilenames.size() != fragmentFilenames.size())
-    {
-        std::cerr << "OSGShader: Vertex Shaders != Fragment Shaders" << std::endl;
-    }
-
-    for (unsigned int i=0; i < _shaderGroups.size(); ++i)
+    for (OSG::UInt32 i=0; i < nshaders; ++i)
     {
         _shaderGroups[i]._shaderChunk = OSG::ShaderProgramChunk::create();
 
-        _shaderGroups[i]._vertexSource = loadFile( vertexFilenames[i].c_str() );
-        //std::cerr << "OSG2ShaderProgram vertex read :: " << vertexFilenames[i] << std::endl;
-
-        _shaderGroups[i]._fragmentSource = loadFile( fragmentFilenames[i].c_str() );
-        //std::cerr << "OSG2ShaderProgram fragment read :: " << fragmentFilenames[i] << std::endl;
-
-        if (hasGeometryShader)
+        if (!vertFilename.getValue().empty())
         {
-            _shaderGroups[i]._geometrySource = loadFile(geometryFilenames[i].c_str() );
-        std::cerr << "OSG2ShaderProgram geometry read :: " << geometryFilenames[i] << std::endl;
+            _shaderGroups[i]._vertexSource 
+            = loadFile(vertFilename.getFullPath(std::min(i,
+                       (OSG::UInt32)vertFilename.getValue().size()-1)));
         }
-
-    }
+        if (!fragFilename.getValue().empty())
+        {
+            _shaderGroups[i]._fragmentSource 
+            = loadFile(fragFilename.getFullPath(std::min(i,
+                       (OSG::UInt32)fragFilename.getValue().size()-1)));
+        }
+#ifdef GL_GEOMETRY_SHADER_EXT
+        if (!geoFilename.getValue().empty())
+        {
+            _shaderGroups[i]._geometrySource 
+            = loadFile(geoFilename.getFullPath(std::min(i,
+                      (OSG::UInt32)geoFilename.getValue().size()-1)));
+        }
 #endif
+
+// Not supported currently
+/* 
+#ifdef GL_TESS_CONTROL_SHADER
+        if (!tessellationControlFilename.getValue().empty())
+        {
+            shaderVector[i]->SetTessellationControlShaderFileName(tessellationControlFilename.getFullPath(std::min(i,(unsigned int)tessellationControlFilename.getValue().size()-1)));
+        }
+#endif
+#ifdef GL_TESS_EVALUATION_SHADER
+        if (!tessellationEvaluationFilename.getValue().empty())
+        {
+            shaderVector[i]->SetTessellationEvaluationShaderFileName(tessellationEvaluationFilename.getFullPath(std::min(i,(unsigned int)tessellationEvaluationFilename.getValue().size()-1)));
+        }
+#endif
+*/
+    }
 
     //passive.setValue(false);
     //turnOn.setValue(true);
@@ -406,7 +437,6 @@ void OSGShader::initShaders(unsigned int  numberOfLights , bool softShadow)
 
 void OSGShader::initVisual( void )
 {
-#if 0
     //OglShader::initVisual();
    
     // By now Macros are collected
@@ -416,14 +446,16 @@ void OSGShader::initVisual( void )
 
 #ifdef GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXTX
         GLint maxV;
-        glGetIntegerv(GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXT, &maxV);
+        //glGetIntegerv(GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXT, &maxV);
+        maxV = 3;
 
         //if (geometryVerticesOut.getValue() < 0 || geometryVerticesOut.getValue() > maxV)
         //{
         //  for (unsigned int i=0 ; i<vertexFilenames.size() ; i++)
         //      geometryVerticesOut.setValue(3);
         //}
-        if (geometryVerticesOut.getValue() < 0 || geometryVerticesOut.getValue() > maxV)
+        if (geometryVerticesOut.getValue() < 0 
+            || geometryVerticesOut.getValue() > maxV)
         {
             geometryVerticesOut.setValue(3);
         }
@@ -431,28 +463,41 @@ void OSGShader::initVisual( void )
     // this is where the actual shader program is created
     for (unsigned int i=0; i < _shaderGroups.size(); ++i)
     {
+        _shaderGroups[i]._vertexSource 
+        = loadFile(vertFilename.getFullPath(std::min(i,
+                  (OSG::UInt32)vertFilename.getValue().size()-1)));
 
-        _shaderGroups[i]._vertexSource = loadFile( vertexFilenames[i].c_str() );
-        OSG::ShaderProgramUnrecPtr vp = OSG::ShaderProgram::createVertexShader();
-        std::string finalprogram = combineAll(_shaderGroups[i]._macros, "VertexShader",  _shaderGroups[i]._vertexSource);
+        OSG::ShaderProgramUnrecPtr vp 
+        = OSG::ShaderProgram::createVertexShader();
+        std::string finalprogram 
+        = combineAll(_shaderGroups[i]._macros, 
+                     "VertexShader",  _shaderGroups[i]._vertexSource);
+
         vp->setProgram( finalprogram );
         //std::cerr << "=======VERTEX SHADER ===========\n" << finalprogram << std::endl;
         _shaderGroups[i]._shaderChunk->addShader(vp);
 
-        OSG::ShaderProgramUnrecPtr fp = OSG::ShaderProgram::createFragmentShader();
+        OSG::ShaderProgramUnrecPtr fp 
+        = OSG::ShaderProgram::createFragmentShader();
         replaceProceduralTexture(_shaderGroups[i]._fragmentSource);
-        finalprogram = combineAll(_shaderGroups[i]._macros, "FragmentShader",  _shaderGroups[i]._fragmentSource);
+
+        finalprogram = combineAll(_shaderGroups[i]._macros, "FragmentShader", 
+                                  _shaderGroups[i]._fragmentSource);
+    
 
         fp->setProgram( finalprogram );
         _shaderGroups[i]._shaderChunk->addShader(fp);
 
-        _shaderGroups[i]._shaderVarChunk =  OSG::ShaderProgramVariableChunk::create();
+        _shaderGroups[i]._shaderVarChunk 
+        = OSG::ShaderProgramVariableChunk::create();
 
 
-        if (!hasGeometryShader) continue;
+        if ( geoFilename.getValue().empty() ) continue;
 
-        OSG::ShaderProgramUnrecPtr gp = OSG::ShaderProgram::createGeometryShader();
-        finalprogram = combineAll(_shaderGroups[i]._macros, "GeometryShader",  _shaderGroups[i]._geometrySource);
+        OSG::ShaderProgramUnrecPtr gp 
+        = OSG::ShaderProgram::createGeometryShader();
+        finalprogram = combineAll(_shaderGroups[i]._macros, "GeometryShader",
+                                  _shaderGroups[i]._geometrySource);
         
        
         if (geometryInputType.getValue() != -1)
@@ -465,13 +510,8 @@ void OSGShader::initVisual( void )
                                     geometryVerticesOut.getValue()); 
 
         gp->setProgram( _shaderGroups[i]._geometrySource );
-        //gp->setProgram( finalprogram );
         _shaderGroups[i]._shaderChunk->addShader(gp);
-
-        
-
     }
-#endif
 }
 
 
@@ -499,10 +539,12 @@ bool OSGShader::isActive( void )
 
 void OSGShader::addDefineMacro(const unsigned int index, const std::string &name, const std::string &value)
 {
-    std::cerr << "OSGShader::addDefineMacro" << std::endl;
     //shaderVector[index]->AddDefineMacro(name, value);
     //_macros.
-    if ( index > _shaderGroups.size() ) return;
+    if ( index >= _shaderGroups.size() ) return;
+    if (index < 0)
+    std::cin.ignore().get();
+    std::cerr << "OSGShader::addDefineMacro " << name << "= " << value << std::endl;
     _shaderGroups[index]._macros += "#define " + name + " " + value + "\n";
     std::cerr <<  _shaderGroups[index]._macros << std::endl;
 }
@@ -604,7 +646,8 @@ void OSGShader::addToMaterial(unsigned int i, OSG::SimpleMaterial* mat) const
 
 OSGShaderElement::OSGShaderElement()
 : id(initData(&id, std::string(""), "id", "Set an ID name"))
-, indexShader(initData(&indexShader, (unsigned int) 0, "indexShader", "Set the index of the desired shader you want to apply this parameter"))
+, indexShader(initData(&indexShader, (unsigned int) 0, "indexShader", 
+"Set the index of the desired shader you want to apply this parameter"))
 {
 
 }
@@ -612,15 +655,50 @@ OSGShaderElement::OSGShaderElement()
 void OSGShaderElement::init()
 {
     sofa::core::objectmodel::BaseContext* context = this->getContext();
-    shader = context->core::objectmodel::BaseContext::get<OSGShader>();
 
-    if (!shader)
-    {
-        serr << "OSGShaderElement: shader not found "<< sendl;
-        return;
-    }
+//     if (!shader)
+//     {
+//         serr << "OSGShaderElement: shader not found "<< sendl;
+//         return;
+//     }
     if (id.getValue().empty())
         id.setValue(this->getName());
+
+
+
+    /*when no multipass is active */
+	sofa::component::visualmodel::CompositingVisualLoop* isMultipass=NULL;
+	//isMultipass= mycontext->core::objectmodel::BaseContext::get<sofa::component::visualmodel::CompositingVisualLoop>();
+	isMultipass= NULL;
+	if(isMultipass == NULL)
+	{
+		shaders.insert(context->core::objectmodel::BaseContext::get<OSGShader>());
+		return;
+	}
+
+    // assume no multipass
+
+// 	sofa::core::objectmodel::TagSet::const_iterator begin = this->getTags().begin(); 
+// 	sofa::core::objectmodel::TagSet::const_iterator end = this->getTags().end();
+// 	sofa::core::objectmodel::TagSet::const_iterator it;
+// 	helper::vector<OglShader*> gotShaders;
+// 
+// 	for (it = begin; it != end; ++it)
+// 	{
+// 		mycontext->core::objectmodel::BaseContext::get<OglShader, helper::vector<OglShader*> >(&gotShaders, (*it));
+// 		for(helper::vector<OglShader*>::iterator it2 = gotShaders.begin(); it2!= gotShaders.end();++it2) //merge into shaders vector 
+// 		{
+// 			shaders.insert(*it2);
+// 			//shaders.push_back(*it2);
+// 		}
+// 	}
+// 
+// 	if (shaders.empty())
+// 	{
+// 		serr << this->getTypeName() <<" \"" << this->getName() << "\": no relevant shader found. please check tags validity"<< sendl;
+// 		return;
+// 	}
+
 }
 
 

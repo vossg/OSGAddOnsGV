@@ -173,7 +173,7 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGShaderElement : public core::visual::ShaderE
     ///Name of element (corresponding with the shader)
     Data<unsigned int> indexShader;
     ///Shader to use the element with
-    OSGShader* shader;
+    helper::set<OSGShader*> shaders;
 
   public:
     OSGShaderElement();
