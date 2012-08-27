@@ -542,8 +542,11 @@ void OSGShader::addDefineMacro(const unsigned int index, const std::string &name
     //shaderVector[index]->AddDefineMacro(name, value);
     //_macros.
     if ( index >= _shaderGroups.size() ) return;
+#if 0 //?? GV
     if (index < 0)
-    std::cin.ignore().get();
+        std::cin.ignore().get();
+#endif 
+
     std::cerr << "OSGShader::addDefineMacro " << name << "= " << value << std::endl;
     _shaderGroups[index]._macros += "#define " + name + " " + value + "\n";
     std::cerr <<  _shaderGroups[index]._macros << std::endl;
