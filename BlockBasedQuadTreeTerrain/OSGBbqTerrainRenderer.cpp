@@ -1242,7 +1242,7 @@ void BbqTerrainRenderer<HeightType,
         {
             // render the node:
 #ifndef GV_TEST
-            setGeoMorphingFactor( node );
+            this->setGeoMorphingFactor( node );
 #else
             _oTerrainShader.setUniform( "geoMorphFactor", 
                                         options.geoMorphFactor );
@@ -1253,7 +1253,7 @@ void BbqTerrainRenderer<HeightType,
             if( options.showBoundingBoxes )
             {
                 glColor3f( 0, 0, 1 );
-                renderBoundingBox( node->boundingBox, options );
+                this->renderBoundingBox( node->boundingBox, options );
             }
             
             if( options.showSwitchDistance )
@@ -1368,7 +1368,7 @@ void BbqTerrainRenderer<HeightType,
         triangleCount += 8 * ( _oDatabaseInfo.heightTileSize - 1 );
     }
     
-    OpenGLGpuBuffer* heightDataVbo = uploadHeightData( node );
+    OpenGLGpuBuffer* heightDataVbo = this->uploadHeightData( node );
     
     assert( heightDataVbo );
     
@@ -1489,7 +1489,7 @@ OpenGLTexture* BbqTerrainRenderer<HeightType,
     
     while( currentNode )
     {
-        texture = uploadTexture( currentNode, pEnv );
+        texture = this->uploadTexture( currentNode, pEnv );
         
         if( texture )
         {
@@ -1527,14 +1527,14 @@ void BbqTerrainRenderer<HeightType,
         1.0f / float( _oDatabaseInfo.heightTileSize - 1 ), 
         1.0f / float( _oDatabaseInfo.heightTileSize - 1 ) );
 
-    OpenGLTexture* texture = uploadTexture( node, pEnv );
+    OpenGLTexture* texture = this->uploadTexture( node, pEnv );
     OpenGLTexture* coarserTexture = 0;
     
     if( texture )
     {
         if( node->parent )
         {
-            coarserTexture = uploadTexture( node->parent, pEnv );
+            coarserTexture = this->uploadTexture( node->parent, pEnv );
             if( coarserTexture )
             {
                 calculateTextureParameters( node, 
