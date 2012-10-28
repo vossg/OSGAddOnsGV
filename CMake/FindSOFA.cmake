@@ -146,6 +146,7 @@ SET(SOFA_DEFINES SOFA_DEV;
                  SOFA_HAVE_EIGEN2;
                  SOFA_QT4;
                  SOFA_XML_PARSER_TINYXML;
+                 TIXML_USE_STL;
                  SOFA_GUI_QT;
                  EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET
     CACHE STRING "" FORCE)
