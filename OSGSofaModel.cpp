@@ -313,8 +313,8 @@ bool OSGSofaModel::loadTextures()
             }
         }
 
-
-        std::cerr << "test HC : image width = " << image->getWidth() << ", image height = " << image->getHeight() << std::endl;
+        // debug info
+//        std::cerr << "image width = " << image->getWidth() << ", image height = " << image->getHeight() << std::endl;
 #endif
         materialTextureIdMap.insert(std::pair<int, int>(*i,_texMaterial.size()));
 
