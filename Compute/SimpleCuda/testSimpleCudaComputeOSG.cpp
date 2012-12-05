@@ -855,6 +855,8 @@ OSG::NodeTransitPtr initPlane(void)
 
     pGeo->setDlistCache(false);
     
+    
+
     pPlaneGeo = pGeo;
 
 
@@ -879,6 +881,13 @@ OSG::NodeTransitPtr initPlane(void)
 
     returnValue->setCore(pMultiCore);
 
+    OSG::commitChanges();
+
+    returnValue->updateVolume();
+
+    returnValue->editVolume().setValid (true);
+    returnValue->editVolume().setStatic(true);
+    
     return returnValue;
 }
 

@@ -915,7 +915,7 @@ bool LwoTagsChunk::read(std::istream &is, LwoDatabase &oDB)
         }
 
 #if 1
-        fprintf(stderr, "read tag : %d (%d) | #%s# (%"PRISize")\n",
+        fprintf(stderr, "read tag : %d (%d) | #%s# (%" PRISize ")\n",
                 rc,
                 uiRead,
                 tmpString.c_str(),
@@ -1724,7 +1724,7 @@ bool LwoSurfChunk::read(std::istream &is, LwoDatabase &oDB)
     _szName = tmpBuf.substr(0, rc);
 
 #if 1
-    fprintf(stderr, "read surf name : %d | %s (%"PRISize")\n",
+    fprintf(stderr, "read surf name : %d | %s (%" PRISize ")\n",
             rc,
             _szName.c_str(),
             _szName.size());
