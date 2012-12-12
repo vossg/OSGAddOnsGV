@@ -49,15 +49,10 @@
 #include "OSGSceneFileHandler.h"
 #include "OSGVolumeDraw.h"
 
-#include "OSGSimpleCudaComputeAlgorithm.h"
 #include "OSGDrawEnv.h"
+#include "OSGSimpleCudaComputeAlgorithm.h"
 
 #include "OSGSimpleCompute.cuh"
-
-#ifdef OSG_WITH_CUDA
-#include <cuda_runtime_api.h>
-#include <cuda_gl_interop.h>
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -90,14 +85,18 @@ void SimpleCudaComputeAlgorithm::dump(
 /*                            Constructors                                 */
 
 SimpleCudaComputeAlgorithm::SimpleCudaComputeAlgorithm(void) :
-    Inherited()
+    Inherited        (    ),
+    cudaBufferResPos (NULL),
+    cudaBufferResNorm(NULL)
 {
 }
 
 SimpleCudaComputeAlgorithm::SimpleCudaComputeAlgorithm(
     const SimpleCudaComputeAlgorithm &source) :
 
-    Inherited(source)
+    Inherited        (source),
+    cudaBufferResPos (NULL  ),
+    cudaBufferResNorm(NULL  )
 {
 }
 
@@ -371,47 +370,83 @@ void SimpleCudaComputeAlgorithm::updateGeoOSGCuda(
     cudaError_t cRes;
     OSG::Window *pWin  = pEnv->getWindow();
 
+    // Pos
+
     pWin->validateGLObject(pnts->getGLId(), pEnv);
 
     OSG::UInt32 uiPntsVBOId = pWin->getGLObjectId(pnts->getGLId());
 
-    cRes = cudaGLRegisterBufferObject(uiPntsVBOId);
+//    cRes = cudaGLRegisterBufferObject(uiPntsVBOId);
+
+    if(cudaBufferResPos == NULL)
+    {
+        cRes = cudaGraphicsGLRegisterBuffer(&cudaBufferResPos, 
+                                            uiPntsVBOId,
+                                            cudaGraphicsRegisterFlagsNone);
+
+        fprintf(stderr, "RegisterResPos %d\n", OSG::UInt32(cRes));
+    }
+
+
+    cRes = cudaGraphicsMapResources(1, &cudaBufferResPos);
 
     if(cRes != cudaSuccess)
     {
-        fprintf(stderr, "RegisterRes %d\n", OSG::UInt32(cRes));
+        fprintf(stderr, "RegisterResPos %d\n", OSG::UInt32(cRes));
     }
 
     void *pMappedPoints = NULL;
+    size_t  mappedSize;
 
-    cRes = cudaGLMapBufferObject(&pMappedPoints, uiPntsVBOId);	 
+//    cRes = cudaGLMapBufferObject(&pMappedPoints, uiPntsVBOId);	 
+
+    cRes = cudaGraphicsResourceGetMappedPointer(&pMappedPoints, 
+                                                &mappedSize,
+                                                 cudaBufferResPos);
 
     if(cRes != cudaSuccess)
     {
-        fprintf(stderr, "MappedPtr, Res : %d\n", 
+        fprintf(stderr, "MappedPtr, ResPos : %d\n", 
                 OSG::UInt32(cRes));
 
     }
 
 
+    // Norm
+
     pWin->validateGLObject(norms->getGLId(), pEnv);
 
     OSG::UInt32 uiNormsVBOId = pWin->getGLObjectId(norms->getGLId());
 
-    cRes = cudaGLRegisterBufferObject(uiNormsVBOId);
+//    cRes = cudaGLRegisterBufferObject(uiNormsVBOId);
+
+    if(cudaBufferResNorm == NULL)
+    {
+        cRes = cudaGraphicsGLRegisterBuffer(&cudaBufferResNorm, 
+                                            uiNormsVBOId,
+                                            cudaGraphicsRegisterFlagsNone);
+
+        fprintf(stderr, "RegisterResNorm %d\n", OSG::UInt32(cRes));
+    }
+
+    cRes = cudaGraphicsMapResources(1, &cudaBufferResNorm);
 
     if(cRes != cudaSuccess)
     {
-        fprintf(stderr, "RegisterRes %d\n", OSG::UInt32(cRes));
+        fprintf(stderr, "RegisterResNorm %d\n", OSG::UInt32(cRes));
     }
 
     void *pMappedNormals = NULL;
 
-    cRes = cudaGLMapBufferObject(&pMappedNormals, uiNormsVBOId);	 
+//    cRes = cudaGLMapBufferObject(&pMappedNormals, uiNormsVBOId);	 
+
+    cRes = cudaGraphicsResourceGetMappedPointer(&pMappedNormals, 
+                                                &mappedSize,
+                                                 cudaBufferResNorm);
 
     if(cRes != cudaSuccess)
     {
-        fprintf(stderr, "MappedPtr, Res : %d\n", 
+        fprintf(stderr, "MappedPtr, ResNorm : %d\n", 
                 OSG::UInt32(cRes));
 
     }
@@ -422,34 +457,41 @@ void SimpleCudaComputeAlgorithm::updateGeoOSGCuda(
                                     pMappedPoints,
                                     pMappedNormals);
 
-    cRes = cudaGLUnmapBufferObject(uiPntsVBOId);
+//    cRes = cudaGLUnmapBufferObject(uiPntsVBOId);
+
+    cRes = cudaGraphicsUnmapResources(1, &cudaBufferResPos);
 
     if(cRes != cudaSuccess)
     {
-        fprintf(stderr, "UnmapRes %d\n", OSG::UInt32(cRes));
+        fprintf(stderr, "UnmapResPos %d\n", OSG::UInt32(cRes));
     }
 
-    cRes = cudaGLUnregisterBufferObject(uiPntsVBOId);
-
-    if(cRes != cudaSuccess)
-    {
-        fprintf(stderr, "UnRegisterRes %d\n", OSG::UInt32(cRes));
-    }
-
-
-    cRes = cudaGLUnmapBufferObject(uiNormsVBOId);
-
-    if(cRes != cudaSuccess)
-    {
-        fprintf(stderr, "UnmapRes %d\n", OSG::UInt32(cRes));
-    }
-
-    cRes = cudaGLUnregisterBufferObject(uiNormsVBOId);
+#if 0
+//    cRes = cudaGLUnregisterBufferObject(uiPntsVBOId);
 
     if(cRes != cudaSuccess)
     {
         fprintf(stderr, "UnRegisterRes %d\n", OSG::UInt32(cRes));
     }
+#endif
+
+//    cRes = cudaGLUnmapBufferObject(uiNormsVBOId);
+
+    cRes = cudaGraphicsUnmapResources(1, &cudaBufferResNorm);
+
+    if(cRes != cudaSuccess)
+    {
+        fprintf(stderr, "UnmapResNorm %d\n", OSG::UInt32(cRes));
+    }
+
+#if 0
+//    cRes = cudaGLUnregisterBufferObject(uiNormsVBOId);
+
+    if(cRes != cudaSuccess)
+    {
+        fprintf(stderr, "UnRegisterRes %d\n", OSG::UInt32(cRes));
+    }
+#endif
 #endif
 }
 

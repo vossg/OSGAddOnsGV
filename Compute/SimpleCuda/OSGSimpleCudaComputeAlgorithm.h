@@ -49,6 +49,11 @@
 #include "OSGActionBase.h"
 #include "OSGDrawTask.h"
 
+#ifdef OSG_WITH_CUDA
+#include <cuda_runtime_api.h>
+#include <cuda_gl_interop.h>
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 class DrawEnv;
@@ -118,6 +123,9 @@ class OSG_CONTRIBCOMPUTE_DLLMAPPING SimpleCudaComputeAlgorithm :
   protected:
 
     typedef SimpleCudaComputeAlgorithmBase Inherited;
+
+    cudaGraphicsResource_t cudaBufferResPos;
+    cudaGraphicsResource_t cudaBufferResNorm;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
