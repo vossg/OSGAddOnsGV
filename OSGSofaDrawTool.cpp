@@ -43,6 +43,7 @@
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
 
+#include <sofa/helper/gl/template.h>
 #include "OSGSofaDrawTool.h"
 //#include <sofa/core/visual/DrawTool.h>
 

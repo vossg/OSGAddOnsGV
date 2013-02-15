@@ -43,8 +43,8 @@
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
 
-#include "OSGSofaClipPlane.h"
 #include <sofa/core/visual/VisualParams.h>
+#include "OSGSofaClipPlane.h"
 #include <sofa/core/ObjectFactory.h>
 
 BEGIN_SOFA_CMP_VISMODEL_NAMESPACE

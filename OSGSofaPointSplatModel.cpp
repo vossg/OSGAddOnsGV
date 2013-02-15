@@ -45,6 +45,7 @@
 
 //Work in Progress - Visualization not working
 
+#include <sofa/core/visual/VisualParams.h>
 #include "OSGSofaPointSplatModel.h"
 #include <map>
 #include <sofa/helper/gl/template.h>
@@ -56,8 +57,6 @@
 #include <sofa/core/topology/TopologyChange.h>
 
 #include <sofa/core/loader/VoxelLoader.h>
-
-#include <sofa/core/visual/VisualParams.h>
 
 #include <sofa/component/topology/TopologyData.inl>
 
