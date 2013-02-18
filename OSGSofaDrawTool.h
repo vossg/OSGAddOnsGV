@@ -59,6 +59,8 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGDrawTool : public DrawTool
     typedef sofa::defaulttype::Vector3     Vector3;
     typedef sofa::defaulttype::Vec<3, int> Vec3i;
     typedef sofa::defaulttype::Vec<2, int> Vec2i;
+    typedef sofa::defaulttype::Vec<3, double> Vec3d;
+ //   typedef sofa::defaulttype::Vec<4, float> Vec4f;
     typedef sofa::defaulttype::Quaternion  Quaternion;
 
 
@@ -68,6 +70,10 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGDrawTool : public DrawTool
     virtual void drawPoints       (const std::vector<Vector3> &points, 
                                          float                 size,  
                                    const Vec4f                 colour         );
+                                   
+    virtual void drawPoints	  (const std::vector< Vec3d > &points, 
+    				   float			size, 
+    				   std::vector< Vec4f > colours);
     
     virtual void drawLines        (const std::vector<Vector3> &points, 
                                          float                 size, 
@@ -103,6 +109,11 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGDrawTool : public DrawTool
     virtual void drawFrame        (const Vector3              &position, 
                                    const Quaternion           &orientation, 
                                    const Vec3f                &size           );
+                                   
+    virtual void drawFrame     (const Vector3 &position, 
+    				const Quaternion &orientation, 
+    				const Vec3f &size, 
+    				const Vec4f &colour );
 
     virtual void drawSpheres      (const std::vector<Vector3> &points, 
                                    const std::vector<float  > &radius, 
@@ -127,6 +138,12 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGDrawTool : public DrawTool
                                          float                 radius, 
                                    const Vec4f                 colour,  
                                          int                   subd   = 16    );
+                                         
+    virtual void drawCapsule   (const Vector3& p1, 
+    				const Vector3 &p2, 
+    				float radius, 
+    				const Vec4f colour,  
+    				int subd=16);
     
     virtual void drawArrow        (const Vector3              &p1, 
                                    const Vector3              &p2, 
@@ -159,6 +176,12 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGDrawTool : public DrawTool
 
     virtual void drawSphere       (const Vector3              &p, 
                                          float                 radius         );
+                                         
+    virtual void writeOverlayText      (int x, 
+    					int y, 
+    					unsigned fontSize, 
+    					const Vec4f &color, 
+    					const char* text );
    
     virtual void clear            (      void                                 );
    

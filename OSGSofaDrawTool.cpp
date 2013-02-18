@@ -104,6 +104,15 @@ void OSGDrawTool::drawPoints(const std::vector<Vector3> &points,
 
 //////////////////////////////////////////////////////////////////////////////
 
+void OSGDrawTool::drawPoints(const std::vector< Vec3d > &points, 
+				float size, 
+				std::vector< Vec4f > colour)
+{
+	return;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
 void OSGDrawTool::drawLines(const std::vector<Vector3> &points, 
                                   float                 size, 
                             const Vec4f                 colour)
@@ -385,6 +394,16 @@ void OSGDrawTool::drawFrame(const Vector3    &position,
 
 //////////////////////////////////////////////////////////////////////////////
 
+void OSGDrawTool::drawFrame(	const Vector3 &position, 
+				const Quaternion &orientation, 
+				const Vec3f &size, 
+				const Vec4f &colour )
+{
+	return;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
 void OSGDrawTool::drawSpheres(const std::vector<Vector3> &points, 
                                     float                 radius, 
                               const Vec4f                 colour)
@@ -587,6 +606,17 @@ void OSGDrawTool::drawCylinder(const Vector3 &p1,
 
     drawCone(p1, p2, radius, radius, colour, subd);
 }
+
+//////////////////////////////////////////////////////////////////////////////
+
+void OSGDrawTool::drawCapsule(	const Vector3& p1, 
+				const Vector3 &p2, 
+				float radius, 
+				const Vec4f colour,  
+				int subd)
+{
+	return;
+}
     
 //////////////////////////////////////////////////////////////////////////////
 
@@ -749,6 +779,17 @@ void OSGDrawTool::resetMaterial(const Vec4f &colour, std::string)
         glDisable(GL_BLEND);
         glDepthMask(1);
     }
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+void OSGDrawTool::writeOverlayText( 	int x, 
+					int y, 
+					unsigned fontSize, 
+					const Vec4f &color, 
+					const char* text )
+{
+	return;
 }
 
 //////////////////////////////////////////////////////////////////////////////
