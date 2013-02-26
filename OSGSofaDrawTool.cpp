@@ -783,12 +783,22 @@ void OSGDrawTool::resetMaterial(const Vec4f &colour, std::string)
 
 //////////////////////////////////////////////////////////////////////////////
 
+void OSGDrawTool::drawBoundingBox( 	const Vector3 &min, 
+			const Vector3 &max )
+{
+//TODO
+	return;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
 void OSGDrawTool::writeOverlayText( 	int x, 
 					int y, 
 					unsigned fontSize, 
 					const Vec4f &color, 
 					const char* text )
 {
+//TODO
 	return;
 }
 

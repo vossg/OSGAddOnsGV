@@ -177,6 +177,8 @@ class OSG_CONTRIBSOFA_DLLMAPPING OSGDrawTool : public DrawTool
     virtual void drawSphere       (const Vector3              &p, 
                                          float                 radius         );
                                          
+    virtual void drawBoundingBox( const Vector3 &min, const Vector3 &max );
+                                         
     virtual void writeOverlayText      (int x, 
     					int y, 
     					unsigned fontSize, 
