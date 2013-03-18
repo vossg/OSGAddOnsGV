@@ -166,6 +166,10 @@
 
 #include "generated/IntersectProxyAttachmentBase.pypp.hpp"
 
+#include "generated/LayeredTextureBuffer.pypp.hpp"
+
+#include "generated/LayeredTextureBufferBase.pypp.hpp"
+
 #include "generated/Light.pypp.hpp"
 
 #include "generated/LightBase.pypp.hpp"
@@ -318,6 +322,10 @@
 
 #include "generated/ShaderVariableMRealBase.pypp.hpp"
 
+#include "generated/ShaderVariableMUInt.pypp.hpp"
+
+#include "generated/ShaderVariableMUIntBase.pypp.hpp"
+
 #include "generated/ShaderVariableMVec2f.pypp.hpp"
 
 #include "generated/ShaderVariableMVec2fBase.pypp.hpp"
@@ -353,6 +361,10 @@
 #include "generated/ShaderVariableString.pypp.hpp"
 
 #include "generated/ShaderVariableStringBase.pypp.hpp"
+
+#include "generated/ShaderVariableUInt.pypp.hpp"
+
+#include "generated/ShaderVariableUIntBase.pypp.hpp"
 
 #include "generated/ShaderVariableVec2f.pypp.hpp"
 
@@ -601,6 +613,10 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     register_IntersectProxyAttachment_class();
 
+    register_LayeredTextureBufferBase_class();
+
+    register_LayeredTextureBuffer_class();
+
     register_LightBase_class();
 
     register_LightEngineBase_class();
@@ -737,6 +753,10 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     register_ShaderVariableMReal_class();
 
+    register_ShaderVariableMUIntBase_class();
+
+    register_ShaderVariableMUInt_class();
+
     register_ShaderVariableMVec2fBase_class();
 
     register_ShaderVariableMVec2f_class();
@@ -772,6 +792,10 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     register_ShaderVariableStringBase_class();
 
     register_ShaderVariableString_class();
+
+    register_ShaderVariableUIntBase_class();
+
+    register_ShaderVariableUInt_class();
 
     register_ShaderVariableVec2fBase_class();
 
@@ -880,6 +904,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PolygonChunk, OSG::PolygonChunk::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::PolygonChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::ShaderVariableMUInt */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableMUInt, OSG::ShaderVariableMUInt::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableMUInt::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::StereoCameraDecorator */
 
@@ -1187,6 +1217,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::SolidBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::LayeredTextureBuffer */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::LayeredTextureBuffer, OSG::LayeredTextureBuffer::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::LayeredTextureBuffer::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::ShaderProgramVariableChunk */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderProgramVariableChunk, OSG::ShaderProgramVariableChunk::ObjRecPtr>);
@@ -1258,6 +1294,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FrameBufferObject, OSG::FrameBufferObject::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::FrameBufferObject::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::ShaderVariableUInt */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableUInt, OSG::ShaderVariableUInt::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableUInt::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::Window */
 

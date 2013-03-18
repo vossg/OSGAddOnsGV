@@ -48,6 +48,18 @@ boost::python::list DisplayFilterStageBase_getMFFilterGroups(OSG::DisplayFilterS
    return result;
 }
 
+boost::python::list DisplayFilterStageBase_getMFForegrounds(OSG::DisplayFilterStageBase *self)
+{
+   boost::python::list result;
+   OSG::MFUnrecForegroundPtr const * mf_data = self->getMFForegrounds();
+   const OSG::UInt32 size(mf_data->size32());
+   for ( OSG::UInt32 i = 0; i < size; ++i )
+   {
+      result.append(OSG::Foreground::ObjRecPtr((*mf_data)[i]));
+   }
+   return result;
+}
+
 void register_DisplayFilterStageBase_class(){
 
     { //::OSG::DisplayFilterStageBase
@@ -60,7 +72,22 @@ void register_DisplayFilterStageBase_class(){
         bp::scope().attr("DistortionFilterFieldId") = (int)OSG::DisplayFilterStageBase::DistortionFilterFieldId;
         bp::scope().attr("FilterGroupsFieldId") = (int)OSG::DisplayFilterStageBase::FilterGroupsFieldId;
         bp::scope().attr("ActiveGroupFieldId") = (int)OSG::DisplayFilterStageBase::ActiveGroupFieldId;
+        bp::scope().attr("EnableMultiSampleFieldId") = (int)OSG::DisplayFilterStageBase::EnableMultiSampleFieldId;
+        bp::scope().attr("ColorSamplesFieldId") = (int)OSG::DisplayFilterStageBase::ColorSamplesFieldId;
+        bp::scope().attr("CoverageSamplesFieldId") = (int)OSG::DisplayFilterStageBase::CoverageSamplesFieldId;
+        bp::scope().attr("FixedSampleLocationFieldId") = (int)OSG::DisplayFilterStageBase::FixedSampleLocationFieldId;
+        bp::scope().attr("ForegroundsFieldId") = (int)OSG::DisplayFilterStageBase::ForegroundsFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::DisplayFilterStageBase::NextFieldId;
+        { //::OSG::DisplayFilterStageBase::addForeground
+        
+            typedef void ( ::OSG::DisplayFilterStageBase::*addForeground_function_type )( ::OSG::Foreground * const ) ;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "addForeground"
+                , addForeground_function_type( &::OSG::DisplayFilterStageBase::addForeground )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::DisplayFilterStageBase::assignFilterGroups
         
             typedef void ( ::OSG::DisplayFilterStageBase::*assignFilterGroups_function_type )( ::OSG::MFUnrecDisplayFilterGroupPtr const & ) ;
@@ -71,6 +98,16 @@ void register_DisplayFilterStageBase_class(){
                 , ( bp::arg("value") ) );
         
         }
+        { //::OSG::DisplayFilterStageBase::assignForegrounds
+        
+            typedef void ( ::OSG::DisplayFilterStageBase::*assignForegrounds_function_type )( ::OSG::MFUnrecForegroundPtr const & ) ;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "assignForegrounds"
+                , assignForegrounds_function_type( &::OSG::DisplayFilterStageBase::assignForegrounds )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::DisplayFilterStageBase::clearFilterGroups
         
             typedef void ( ::OSG::DisplayFilterStageBase::*clearFilterGroups_function_type )(  ) ;
@@ -78,6 +115,15 @@ void register_DisplayFilterStageBase_class(){
             DisplayFilterStageBase_exposer.def( 
                 "clearFilterGroups"
                 , clearFilterGroups_function_type( &::OSG::DisplayFilterStageBase::clearFilterGroups ) );
+        
+        }
+        { //::OSG::DisplayFilterStageBase::clearForegrounds
+        
+            typedef void ( ::OSG::DisplayFilterStageBase::*clearForegrounds_function_type )(  ) ;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "clearForegrounds"
+                , clearForegrounds_function_type( &::OSG::DisplayFilterStageBase::clearForegrounds ) );
         
         }
         { //::OSG::DisplayFilterStageBase::copyFromBin
@@ -196,6 +242,15 @@ void register_DisplayFilterStageBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::DisplayFilterStageBase::getColorSamples
+        
+            typedef ::OSG::UInt32 ( ::OSG::DisplayFilterStageBase::*getColorSamples_function_type )(  ) const;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "getColorSamples"
+                , getColorSamples_function_type( &::OSG::DisplayFilterStageBase::getColorSamples ) );
+        
+        }
         { //::OSG::DisplayFilterStageBase::getContainerSize
         
             typedef ::OSG::UInt32 ( ::OSG::DisplayFilterStageBase::*getContainerSize_function_type )(  ) const;
@@ -203,6 +258,15 @@ void register_DisplayFilterStageBase_class(){
             DisplayFilterStageBase_exposer.def( 
                 "getContainerSize"
                 , getContainerSize_function_type( &::OSG::DisplayFilterStageBase::getContainerSize ) );
+        
+        }
+        { //::OSG::DisplayFilterStageBase::getCoverageSamples
+        
+            typedef ::OSG::UInt32 ( ::OSG::DisplayFilterStageBase::*getCoverageSamples_function_type )(  ) const;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "getCoverageSamples"
+                , getCoverageSamples_function_type( &::OSG::DisplayFilterStageBase::getCoverageSamples ) );
         
         }
         { //::OSG::DisplayFilterStageBase::getDistortionFilter
@@ -215,6 +279,15 @@ void register_DisplayFilterStageBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::DisplayFilterStageBase::getEnableMultiSample
+        
+            typedef bool ( ::OSG::DisplayFilterStageBase::*getEnableMultiSample_function_type )(  ) const;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "getEnableMultiSample"
+                , getEnableMultiSample_function_type( &::OSG::DisplayFilterStageBase::getEnableMultiSample ) );
+        
+        }
         { //::OSG::DisplayFilterStageBase::getFilterGroups
         
             typedef ::OSG::DisplayFilterGroup * ( ::OSG::DisplayFilterStageBase::*getFilterGroups_function_type )( ::OSG::UInt32 const ) const;
@@ -222,6 +295,26 @@ void register_DisplayFilterStageBase_class(){
             DisplayFilterStageBase_exposer.def( 
                 "getFilterGroups"
                 , getFilterGroups_function_type( &::OSG::DisplayFilterStageBase::getFilterGroups )
+                , ( bp::arg("index") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::DisplayFilterStageBase::getFixedSampleLocation
+        
+            typedef bool ( ::OSG::DisplayFilterStageBase::*getFixedSampleLocation_function_type )(  ) const;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "getFixedSampleLocation"
+                , getFixedSampleLocation_function_type( &::OSG::DisplayFilterStageBase::getFixedSampleLocation ) );
+        
+        }
+        { //::OSG::DisplayFilterStageBase::getForegrounds
+        
+            typedef ::OSG::Foreground * ( ::OSG::DisplayFilterStageBase::*getForegrounds_function_type )( ::OSG::UInt32 const ) const;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "getForegrounds"
+                , getForegrounds_function_type( &::OSG::DisplayFilterStageBase::getForegrounds )
                 , ( bp::arg("index") )
                 , bp::return_internal_reference< >() );
         
@@ -266,6 +359,26 @@ void register_DisplayFilterStageBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::DisplayFilterStageBase::getSFColorSamples
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::DisplayFilterStageBase::*getSFColorSamples_function_type )(  ) const;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "getSFColorSamples"
+                , getSFColorSamples_function_type( &::OSG::DisplayFilterStageBase::getSFColorSamples )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::DisplayFilterStageBase::getSFCoverageSamples
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::DisplayFilterStageBase::*getSFCoverageSamples_function_type )(  ) const;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "getSFCoverageSamples"
+                , getSFCoverageSamples_function_type( &::OSG::DisplayFilterStageBase::getSFCoverageSamples )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::DisplayFilterStageBase::getSFDistortionFilter
         
             typedef ::OSG::SFUnrecDistortionDisplayFilterPtr const * ( ::OSG::DisplayFilterStageBase::*getSFDistortionFilter_function_type )(  ) const;
@@ -273,6 +386,26 @@ void register_DisplayFilterStageBase_class(){
             DisplayFilterStageBase_exposer.def( 
                 "getSFDistortionFilter"
                 , getSFDistortionFilter_function_type( &::OSG::DisplayFilterStageBase::getSFDistortionFilter )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::DisplayFilterStageBase::getSFEnableMultiSample
+        
+            typedef ::OSG::SFBool const * ( ::OSG::DisplayFilterStageBase::*getSFEnableMultiSample_function_type )(  ) const;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "getSFEnableMultiSample"
+                , getSFEnableMultiSample_function_type( &::OSG::DisplayFilterStageBase::getSFEnableMultiSample )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::DisplayFilterStageBase::getSFFixedSampleLocation
+        
+            typedef ::OSG::SFBool const * ( ::OSG::DisplayFilterStageBase::*getSFFixedSampleLocation_function_type )(  ) const;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "getSFFixedSampleLocation"
+                , getSFFixedSampleLocation_function_type( &::OSG::DisplayFilterStageBase::getSFFixedSampleLocation )
                 , bp::return_internal_reference< >() );
         
         }
@@ -326,6 +459,16 @@ void register_DisplayFilterStageBase_class(){
                 , ( bp::arg("uiIndex") ) );
         
         }
+        { //::OSG::DisplayFilterStageBase::removeFromForegrounds
+        
+            typedef void ( ::OSG::DisplayFilterStageBase::*removeFromForegrounds_function_type )( ::OSG::UInt32 ) ;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "removeFromForegrounds"
+                , removeFromForegrounds_function_type( &::OSG::DisplayFilterStageBase::removeFromForegrounds )
+                , ( bp::arg("uiIndex") ) );
+        
+        }
         { //::OSG::DisplayFilterStageBase::removeObjFromFilterGroups
         
             typedef void ( ::OSG::DisplayFilterStageBase::*removeObjFromFilterGroups_function_type )( ::OSG::DisplayFilterGroup * const ) ;
@@ -333,6 +476,16 @@ void register_DisplayFilterStageBase_class(){
             DisplayFilterStageBase_exposer.def( 
                 "removeObjFromFilterGroups"
                 , removeObjFromFilterGroups_function_type( &::OSG::DisplayFilterStageBase::removeObjFromFilterGroups )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::DisplayFilterStageBase::removeObjFromForegrounds
+        
+            typedef void ( ::OSG::DisplayFilterStageBase::*removeObjFromForegrounds_function_type )( ::OSG::Foreground * const ) ;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "removeObjFromForegrounds"
+                , removeObjFromForegrounds_function_type( &::OSG::DisplayFilterStageBase::removeObjFromForegrounds )
                 , ( bp::arg("value") ) );
         
         }
@@ -366,6 +519,26 @@ void register_DisplayFilterStageBase_class(){
                 , ( bp::arg("value") ) );
         
         }
+        { //::OSG::DisplayFilterStageBase::setColorSamples
+        
+            typedef void ( ::OSG::DisplayFilterStageBase::*setColorSamples_function_type )( ::OSG::UInt32 const ) ;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "setColorSamples"
+                , setColorSamples_function_type( &::OSG::DisplayFilterStageBase::setColorSamples )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::DisplayFilterStageBase::setCoverageSamples
+        
+            typedef void ( ::OSG::DisplayFilterStageBase::*setCoverageSamples_function_type )( ::OSG::UInt32 const ) ;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "setCoverageSamples"
+                , setCoverageSamples_function_type( &::OSG::DisplayFilterStageBase::setCoverageSamples )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::DisplayFilterStageBase::setDistortionFilter
         
             typedef void ( ::OSG::DisplayFilterStageBase::*setDistortionFilter_function_type )( ::OSG::DistortionDisplayFilter * const ) ;
@@ -373,6 +546,26 @@ void register_DisplayFilterStageBase_class(){
             DisplayFilterStageBase_exposer.def( 
                 "setDistortionFilter"
                 , setDistortionFilter_function_type( &::OSG::DisplayFilterStageBase::setDistortionFilter )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::DisplayFilterStageBase::setEnableMultiSample
+        
+            typedef void ( ::OSG::DisplayFilterStageBase::*setEnableMultiSample_function_type )( bool const ) ;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "setEnableMultiSample"
+                , setEnableMultiSample_function_type( &::OSG::DisplayFilterStageBase::setEnableMultiSample )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::DisplayFilterStageBase::setFixedSampleLocation
+        
+            typedef void ( ::OSG::DisplayFilterStageBase::*setFixedSampleLocation_function_type )( bool const ) ;
+            
+            DisplayFilterStageBase_exposer.def( 
+                "setFixedSampleLocation"
+                , setFixedSampleLocation_function_type( &::OSG::DisplayFilterStageBase::setFixedSampleLocation )
                 , ( bp::arg("value") ) );
         
         }
@@ -393,6 +586,7 @@ void register_DisplayFilterStageBase_class(){
         DisplayFilterStageBase_exposer.staticmethod( "getClassType" );
         DisplayFilterStageBase_exposer.staticmethod( "getClassTypeId" );
         DisplayFilterStageBase_exposer.def("getMFFilterGroups",DisplayFilterStageBase_getMFFilterGroups);
+        DisplayFilterStageBase_exposer.def("getMFForegrounds",DisplayFilterStageBase_getMFForegrounds);
     }
 
 }

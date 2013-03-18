@@ -4,12 +4,12 @@ GeoColor4fProperty
 GeoUInt8Property
 GeoPnt4fProperty
 GeoPnt4dProperty
+GeoUInt16Property
 GeoVec4fProperty
 GeoVec3dProperty
 GeoVec4dProperty
 GeoPnt2fProperty
 GeoPnt2dProperty
-GeoUInt16Property
 ContainerMixinHeadStageDrawableDesc
 GeoVec2fProperty
 GeoUInt32Property
@@ -32,6 +32,7 @@ GeoVectorBufferProperty
 TiledQuadTreeTerrain
 FatBorderChunkBase
 GeoIntegralBufferProperty
+SimpleTexturedMaterialBase
 GeoVectorBufferPropertyBase
 QuadTreeTerrain
 GeoIntegralPropertyBase
@@ -40,7 +41,6 @@ GeoMultiPropertyBase
 GeoIntegralBufferPropertyBase
 GeoVectorBufferRefPropertyBase
 FatBorderChunk
-SimpleTexturedMaterialBase
 KDTreeIntersectProxyAttachment
 GeoIntegralBufferRefPropertyBase
 GeoIntegralBufferRefProperty

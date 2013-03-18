@@ -70,6 +70,7 @@ void register_CSMWindowBase_class(){
         bp::scope().attr("ViewportsFieldId") = (int)OSG::CSMWindowBase::ViewportsFieldId;
         bp::scope().attr("MouseDataFieldId") = (int)OSG::CSMWindowBase::MouseDataFieldId;
         bp::scope().attr("MTouchDataFieldId") = (int)OSG::CSMWindowBase::MTouchDataFieldId;
+        bp::scope().attr("MTouchDataWCFieldId") = (int)OSG::CSMWindowBase::MTouchDataWCFieldId;
         bp::scope().attr("GestureDataFieldId") = (int)OSG::CSMWindowBase::GestureDataFieldId;
         bp::scope().attr("MouseAsMTouchFieldId") = (int)OSG::CSMWindowBase::MouseAsMTouchFieldId;
         bp::scope().attr("SizeFieldId") = (int)OSG::CSMWindowBase::SizeFieldId;
@@ -86,6 +87,7 @@ void register_CSMWindowBase_class(){
         bp::scope().attr("FsaaHintFieldId") = (int)OSG::CSMWindowBase::FsaaHintFieldId;
         bp::scope().attr("RenderOptionsFieldId") = (int)OSG::CSMWindowBase::RenderOptionsFieldId;
         bp::scope().attr("PartitionDrawModeFieldId") = (int)OSG::CSMWindowBase::PartitionDrawModeFieldId;
+        bp::scope().attr("RegisterMainLoopFieldId") = (int)OSG::CSMWindowBase::RegisterMainLoopFieldId;
         bp::scope().attr("DumpContainerFieldId") = (int)OSG::CSMWindowBase::DumpContainerFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::CSMWindowBase::NextFieldId;
         { //::OSG::CSMWindowBase::assignViewports
@@ -268,6 +270,16 @@ void register_CSMWindowBase_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
+        { //::OSG::CSMWindowBase::getMTouchDataWC
+        
+            typedef ::OSG::MTouchData const & ( ::OSG::CSMWindowBase::*getMTouchDataWC_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getMTouchDataWC"
+                , getMTouchDataWC_function_type( &::OSG::CSMWindowBase::getMTouchDataWC )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
         { //::OSG::CSMWindowBase::getMouseAsMTouch
         
             typedef bool ( ::OSG::CSMWindowBase::*getMouseAsMTouch_function_type )(  ) const;
@@ -304,6 +316,15 @@ void register_CSMWindowBase_class(){
                 "getPosition"
                 , getPosition_function_type( &::OSG::CSMWindowBase::getPosition )
                 , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::CSMWindowBase::getRegisterMainLoop
+        
+            typedef bool ( ::OSG::CSMWindowBase::*getRegisterMainLoop_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getRegisterMainLoop"
+                , getRegisterMainLoop_function_type( &::OSG::CSMWindowBase::getRegisterMainLoop ) );
         
         }
         { //::OSG::CSMWindowBase::getRenderOptions
@@ -433,6 +454,16 @@ void register_CSMWindowBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::CSMWindowBase::getSFMTouchDataWC
+        
+            typedef ::OSG::SFMTouchData const * ( ::OSG::CSMWindowBase::*getSFMTouchDataWC_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getSFMTouchDataWC"
+                , getSFMTouchDataWC_function_type( &::OSG::CSMWindowBase::getSFMTouchDataWC )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::CSMWindowBase::getSFMouseAsMTouch
         
             typedef ::OSG::SFBool const * ( ::OSG::CSMWindowBase::*getSFMouseAsMTouch_function_type )(  ) const;
@@ -470,6 +501,16 @@ void register_CSMWindowBase_class(){
             CSMWindowBase_exposer.def( 
                 "getSFPosition"
                 , getSFPosition_function_type( &::OSG::CSMWindowBase::getSFPosition )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMWindowBase::getSFRegisterMainLoop
+        
+            typedef ::OSG::SFBool const * ( ::OSG::CSMWindowBase::*getSFRegisterMainLoop_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getSFRegisterMainLoop"
+                , getSFRegisterMainLoop_function_type( &::OSG::CSMWindowBase::getSFRegisterMainLoop )
                 , bp::return_internal_reference< >() );
         
         }
@@ -684,6 +725,16 @@ void register_CSMWindowBase_class(){
                 , ( bp::arg("value") ) );
         
         }
+        { //::OSG::CSMWindowBase::setMTouchDataWC
+        
+            typedef void ( ::OSG::CSMWindowBase::*setMTouchDataWC_function_type )( ::OSG::MTouchData const & ) ;
+            
+            CSMWindowBase_exposer.def( 
+                "setMTouchDataWC"
+                , setMTouchDataWC_function_type( &::OSG::CSMWindowBase::setMTouchDataWC )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::CSMWindowBase::setMouseAsMTouch
         
             typedef void ( ::OSG::CSMWindowBase::*setMouseAsMTouch_function_type )( bool const ) ;
@@ -721,6 +772,16 @@ void register_CSMWindowBase_class(){
             CSMWindowBase_exposer.def( 
                 "setPosition"
                 , setPosition_function_type( &::OSG::CSMWindowBase::setPosition )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMWindowBase::setRegisterMainLoop
+        
+            typedef void ( ::OSG::CSMWindowBase::*setRegisterMainLoop_function_type )( bool const ) ;
+            
+            CSMWindowBase_exposer.def( 
+                "setRegisterMainLoop"
+                , setRegisterMainLoop_function_type( &::OSG::CSMWindowBase::setRegisterMainLoop )
                 , ( bp::arg("value") ) );
         
         }

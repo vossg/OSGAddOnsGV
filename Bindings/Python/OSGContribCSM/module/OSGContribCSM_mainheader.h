@@ -15,6 +15,7 @@
 #include <OSGCSMSortFirstWinOptions.h>
 #include <OSGImageFile.h>
 #include <OSGCSMClusterWinOptions.h>
+#include <OSGCSMLogger.h>
 #include <OSGCSMMultiWinOptions.h>
 #include <OSGKeySensor.h>
 #include <OSGInterfaceOptions.h>
@@ -23,6 +24,7 @@
 #include <OSGDeviceInterfaceSensor.h>
 #include <OSGCounter.h>
 #include <OSGCSMPassiveWindow.h>
+#include <OSGCSMPassiveWinClearOp.h>
 #include <OSGCSMGLUTWindow.h>
 #include <OSGShaderProgramFile.h>
 #include <OSGSimpleSHLChunkFile.h>

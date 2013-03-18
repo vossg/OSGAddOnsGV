@@ -51,7 +51,7 @@ boost::python::list CSMViewportBase_getMFForegrounds(OSG::CSMViewportBase *self)
 void register_CSMViewportBase_class(){
 
     { //::OSG::CSMViewportBase
-        typedef bp::class_< OSG::CSMViewportBase, bp::bases< ::OSG::FieldContainer >, boost::noncopyable > CSMViewportBase_exposer_t;
+        typedef bp::class_< OSG::CSMViewportBase, bp::bases< ::OSG::AttachmentContainer >, boost::noncopyable > CSMViewportBase_exposer_t;
         CSMViewportBase_exposer_t CSMViewportBase_exposer = CSMViewportBase_exposer_t( "CSMViewportBase", bp::no_init );
         bp::scope CSMViewportBase_scope( CSMViewportBase_exposer );
         bp::scope().attr("RootFieldId") = (int)OSG::CSMViewportBase::RootFieldId;
@@ -65,6 +65,8 @@ void register_CSMViewportBase_class(){
         bp::scope().attr("StereoModeFieldId") = (int)OSG::CSMViewportBase::StereoModeFieldId;
         bp::scope().attr("PassiveFieldId") = (int)OSG::CSMViewportBase::PassiveFieldId;
         bp::scope().attr("ServerIdFieldId") = (int)OSG::CSMViewportBase::ServerIdFieldId;
+        bp::scope().attr("MouseDataVCFieldId") = (int)OSG::CSMViewportBase::MouseDataVCFieldId;
+        bp::scope().attr("MTouchDataVCFieldId") = (int)OSG::CSMViewportBase::MTouchDataVCFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::CSMViewportBase::NextFieldId;
         { //::OSG::CSMViewportBase::assignForegrounds
         
@@ -222,6 +224,26 @@ void register_CSMViewportBase_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
+        { //::OSG::CSMViewportBase::getMTouchDataVC
+        
+            typedef ::OSG::MTouchData const & ( ::OSG::CSMViewportBase::*getMTouchDataVC_function_type )(  ) const;
+            
+            CSMViewportBase_exposer.def( 
+                "getMTouchDataVC"
+                , getMTouchDataVC_function_type( &::OSG::CSMViewportBase::getMTouchDataVC )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::CSMViewportBase::getMouseDataVC
+        
+            typedef ::OSG::MouseData const & ( ::OSG::CSMViewportBase::*getMouseDataVC_function_type )(  ) const;
+            
+            CSMViewportBase_exposer.def( 
+                "getMouseDataVC"
+                , getMouseDataVC_function_type( &::OSG::CSMViewportBase::getMouseDataVC )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
         { //::OSG::CSMViewportBase::getPassive
         
             typedef bool ( ::OSG::CSMViewportBase::*getPassive_function_type )(  ) const;
@@ -288,6 +310,26 @@ void register_CSMViewportBase_class(){
             CSMViewportBase_exposer.def( 
                 "getSFLeftBottom"
                 , getSFLeftBottom_function_type( &::OSG::CSMViewportBase::getSFLeftBottom )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMViewportBase::getSFMTouchDataVC
+        
+            typedef ::OSG::SFMTouchData const * ( ::OSG::CSMViewportBase::*getSFMTouchDataVC_function_type )(  ) const;
+            
+            CSMViewportBase_exposer.def( 
+                "getSFMTouchDataVC"
+                , getSFMTouchDataVC_function_type( &::OSG::CSMViewportBase::getSFMTouchDataVC )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMViewportBase::getSFMouseDataVC
+        
+            typedef ::OSG::SFMouseData const * ( ::OSG::CSMViewportBase::*getSFMouseDataVC_function_type )(  ) const;
+            
+            CSMViewportBase_exposer.def( 
+                "getSFMouseDataVC"
+                , getSFMouseDataVC_function_type( &::OSG::CSMViewportBase::getSFMouseDataVC )
                 , bp::return_internal_reference< >() );
         
         }
@@ -466,6 +508,26 @@ void register_CSMViewportBase_class(){
             CSMViewportBase_exposer.def( 
                 "setLeftBottom"
                 , setLeftBottom_function_type( &::OSG::CSMViewportBase::setLeftBottom )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMViewportBase::setMTouchDataVC
+        
+            typedef void ( ::OSG::CSMViewportBase::*setMTouchDataVC_function_type )( ::OSG::MTouchData const & ) ;
+            
+            CSMViewportBase_exposer.def( 
+                "setMTouchDataVC"
+                , setMTouchDataVC_function_type( &::OSG::CSMViewportBase::setMTouchDataVC )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMViewportBase::setMouseDataVC
+        
+            typedef void ( ::OSG::CSMViewportBase::*setMouseDataVC_function_type )( ::OSG::MouseData const & ) ;
+            
+            CSMViewportBase_exposer.def( 
+                "setMouseDataVC"
+                , setMouseDataVC_function_type( &::OSG::CSMViewportBase::setMouseDataVC )
                 , ( bp::arg("value") ) );
         
         }

@@ -45,6 +45,7 @@ void register_ShaderExecutableVarChunkBase_class(){
         bp::scope().attr("ProgramVarChunksFieldId") = (int)OSG::ShaderExecutableVarChunkBase::ProgramVarChunksFieldId;
         bp::scope().attr("VariablesFieldId") = (int)OSG::ShaderExecutableVarChunkBase::VariablesFieldId;
         bp::scope().attr("VariableLocationsFieldId") = (int)OSG::ShaderExecutableVarChunkBase::VariableLocationsFieldId;
+        bp::scope().attr("ActiveShaderFieldId") = (int)OSG::ShaderExecutableVarChunkBase::ActiveShaderFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ShaderExecutableVarChunkBase::NextFieldId;
         { //::OSG::ShaderExecutableVarChunkBase::copyFromBin
         

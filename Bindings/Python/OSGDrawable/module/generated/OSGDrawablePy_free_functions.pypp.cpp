@@ -95,12 +95,12 @@ void register_free_functions(){
 
     { //::OSG::makeBoxGeo
     
-        typedef ::OSG::GeometryTransitPtr ( *makeBoxGeo_function_type )( ::OSG::Real32,::OSG::Real32,::OSG::Real32,::OSG::UInt16,::OSG::UInt16,::OSG::UInt16 );
+        typedef ::OSG::GeometryTransitPtr ( *makeBoxGeo_function_type )( ::OSG::Real32,::OSG::Real32,::OSG::Real32,::OSG::UInt16,::OSG::UInt16,::OSG::UInt16,bool );
         
         bp::def( 
             "makeBoxGeo"
             , makeBoxGeo_function_type( &::OSG::makeBoxGeo )
-            , ( bp::arg("xsize"), bp::arg("ysize"), bp::arg("zsize"), bp::arg("hor"), bp::arg("vert"), bp::arg("depth") ) );
+            , ( bp::arg("xsize"), bp::arg("ysize"), bp::arg("zsize"), bp::arg("hor"), bp::arg("vert"), bp::arg("depth"), bp::arg("bInv")=(bool)(false) ) );
     
     }
 

@@ -84,6 +84,7 @@ void register_ShadowStageBase_class(){
         bp::scope().attr("BlueFieldId") = (int)OSG::ShadowStageBase::BlueFieldId;
         bp::scope().attr("GreenFieldId") = (int)OSG::ShadowStageBase::GreenFieldId;
         bp::scope().attr("AlphaFieldId") = (int)OSG::ShadowStageBase::AlphaFieldId;
+        bp::scope().attr("BlitZBufferFieldId") = (int)OSG::ShadowStageBase::BlitZBufferFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ShadowStageBase::NextFieldId;
         { //::OSG::ShadowStageBase::assignExcludeNodes
         
@@ -207,6 +208,15 @@ void register_ShadowStageBase_class(){
                 "getBinSize"
                 , getBinSize_function_type( &::OSG::ShadowStageBase::getBinSize )
                 , ( bp::arg("whichField") ) );
+        
+        }
+        { //::OSG::ShadowStageBase::getBlitZBuffer
+        
+            typedef bool ( ::OSG::ShadowStageBase::*getBlitZBuffer_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getBlitZBuffer"
+                , getBlitZBuffer_function_type( &::OSG::ShadowStageBase::getBlitZBuffer ) );
         
         }
         { //::OSG::ShadowStageBase::getBlue
@@ -385,6 +395,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "getSFAutoSearchForLights"
                 , getSFAutoSearchForLights_function_type( &::OSG::ShadowStageBase::getSFAutoSearchForLights )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ShadowStageBase::getSFBlitZBuffer
+        
+            typedef ::OSG::SFBool const * ( ::OSG::ShadowStageBase::*getSFBlitZBuffer_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getSFBlitZBuffer"
+                , getSFBlitZBuffer_function_type( &::OSG::ShadowStageBase::getSFBlitZBuffer )
                 , bp::return_internal_reference< >() );
         
         }
@@ -652,6 +672,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "setAutoSearchForLights"
                 , setAutoSearchForLights_function_type( &::OSG::ShadowStageBase::setAutoSearchForLights )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShadowStageBase::setBlitZBuffer
+        
+            typedef void ( ::OSG::ShadowStageBase::*setBlitZBuffer_function_type )( bool const ) ;
+            
+            ShadowStageBase_exposer.def( 
+                "setBlitZBuffer"
+                , setBlitZBuffer_function_type( &::OSG::ShadowStageBase::setBlitZBuffer )
                 , ( bp::arg("value") ) );
         
         }

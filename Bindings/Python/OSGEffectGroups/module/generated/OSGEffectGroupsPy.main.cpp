@@ -64,6 +64,14 @@
 
 #include "generated/DeferredShadingStageDataBase.pypp.hpp"
 
+#include "generated/DepthPeelingStage.pypp.hpp"
+
+#include "generated/DepthPeelingStageBase.pypp.hpp"
+
+#include "generated/DepthPeelingStageData.pypp.hpp"
+
+#include "generated/DepthPeelingStageDataBase.pypp.hpp"
+
 #include "generated/DisplayFilter.pypp.hpp"
 
 #include "generated/DisplayFilterBase.pypp.hpp"
@@ -186,6 +194,14 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
     register_DeferredShadingStageDataBase_class();
 
     register_DeferredShadingStageData_class();
+
+    register_DepthPeelingStageBase_class();
+
+    register_DepthPeelingStage_class();
+
+    register_DepthPeelingStageDataBase_class();
+
+    register_DepthPeelingStageData_class();
 
     register_DisplayFilterGroupBase_class();
 
@@ -341,6 +357,12 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::PostShaderStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::DepthPeelingStage */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DepthPeelingStage, OSG::DepthPeelingStage::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DepthPeelingStage::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::DSLightChunk */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DSLightChunk, OSG::DSLightChunk::ObjRecPtr>);
@@ -364,6 +386,12 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ColorDisplayFilter, OSG::ColorDisplayFilter::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ColorDisplayFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::DepthPeelingStageData */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DepthPeelingStageData, OSG::DepthPeelingStageData::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DepthPeelingStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ResolutionDisplayFilter */
 

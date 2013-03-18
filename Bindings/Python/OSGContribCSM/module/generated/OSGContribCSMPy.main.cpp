@@ -56,6 +56,10 @@
 
 #include "generated/CSMGLUTWindowBase.pypp.hpp"
 
+#include "generated/CSMLogger.pypp.hpp"
+
+#include "generated/CSMLoggerBase.pypp.hpp"
+
 #include "generated/CSMMultiWinOptions.pypp.hpp"
 
 #include "generated/CSMMultiWinOptionsBase.pypp.hpp"
@@ -63,6 +67,10 @@
 #include "generated/CSMNativeWindow.pypp.hpp"
 
 #include "generated/CSMNativeWindowBase.pypp.hpp"
+
+#include "generated/CSMPassiveWinClearOp.pypp.hpp"
+
+#include "generated/CSMPassiveWinClearOpBase.pypp.hpp"
 
 #include "generated/CSMPassiveWindow.pypp.hpp"
 
@@ -165,6 +173,10 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
 
     register_CSMGLUTWindow_class();
 
+    register_CSMLogger_class();
+
+    register_CSMLoggerBase_class();
+
     register_CSMMultiWinOptionsBase_class();
 
     register_CSMMultiWinOptions_class();
@@ -172,6 +184,10 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
     register_CSMNativeWindowBase_class();
 
     register_CSMNativeWindow_class();
+
+    register_CSMPassiveWinClearOpBase_class();
+
+    register_CSMPassiveWinClearOp_class();
 
     register_CSMPassiveWindowBase_class();
 
@@ -257,6 +273,12 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::CSMStatisticsForeground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::CSMPassiveWinClearOp */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CSMPassiveWinClearOp, OSG::CSMPassiveWinClearOp::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CSMPassiveWinClearOp::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::CSMPerspectiveCamera */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CSMPerspectiveCamera, OSG::CSMPerspectiveCamera::ObjRecPtr>);
@@ -287,11 +309,11 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ImageFile::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::KeySensor */
+    /** Helpers for OSG::CSMLogger */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::KeySensor, OSG::KeySensor::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CSMLogger, OSG::CSMLogger::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::KeySensor::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CSMLogger::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::CSMGLUTWindow */
 
@@ -328,6 +350,12 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Counter, OSG::Counter::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::Counter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::KeySensor */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::KeySensor, OSG::KeySensor::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::KeySensor::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::CSMViewport */
 

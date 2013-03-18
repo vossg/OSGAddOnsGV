@@ -51,6 +51,9 @@ void register_PassiveBackgroundBase_class(){
         typedef bp::class_< PassiveBackgroundBase_wrapper, bp::bases< ::OSG::Background >, boost::noncopyable > PassiveBackgroundBase_exposer_t;
         PassiveBackgroundBase_exposer_t PassiveBackgroundBase_exposer = PassiveBackgroundBase_exposer_t( "PassiveBackgroundBase", bp::no_init );
         bp::scope PassiveBackgroundBase_scope( PassiveBackgroundBase_exposer );
+        bp::scope().attr("ClearFrameBufferObjectFieldId") = (int)OSG::PassiveBackgroundBase::ClearFrameBufferObjectFieldId;
+        bp::scope().attr("ClearCallbackFieldId") = (int)OSG::PassiveBackgroundBase::ClearCallbackFieldId;
+        bp::scope().attr("NextFieldId") = (int)OSG::PassiveBackgroundBase::NextFieldId;
         { //::OSG::PassiveBackgroundBase::copyFromBin
         
             typedef void ( ::OSG::PassiveBackgroundBase::*copyFromBin_function_type )( ::OSG::BinaryDataHandler &,::OSG::ConstFieldMaskArg ) ;
@@ -138,6 +141,15 @@ void register_PassiveBackgroundBase_class(){
                 , getClassTypeId_function_type( &::OSG::PassiveBackgroundBase::getClassTypeId ) );
         
         }
+        { //::OSG::PassiveBackgroundBase::getClearFrameBufferObject
+        
+            typedef bool ( ::OSG::PassiveBackgroundBase::*getClearFrameBufferObject_function_type )(  ) const;
+            
+            PassiveBackgroundBase_exposer.def( 
+                "getClearFrameBufferObject"
+                , getClearFrameBufferObject_function_type( &::OSG::PassiveBackgroundBase::getClearFrameBufferObject ) );
+        
+        }
         { //::OSG::PassiveBackgroundBase::getContainerSize
         
             typedef ::OSG::UInt32 ( ::OSG::PassiveBackgroundBase::*getContainerSize_function_type )(  ) const;
@@ -145,6 +157,16 @@ void register_PassiveBackgroundBase_class(){
             PassiveBackgroundBase_exposer.def( 
                 "getContainerSize"
                 , getContainerSize_function_type( &::OSG::PassiveBackgroundBase::getContainerSize ) );
+        
+        }
+        { //::OSG::PassiveBackgroundBase::getSFClearFrameBufferObject
+        
+            typedef ::OSG::SFBool const * ( ::OSG::PassiveBackgroundBase::*getSFClearFrameBufferObject_function_type )(  ) const;
+            
+            PassiveBackgroundBase_exposer.def( 
+                "getSFClearFrameBufferObject"
+                , getSFClearFrameBufferObject_function_type( &::OSG::PassiveBackgroundBase::getSFClearFrameBufferObject )
+                , bp::return_internal_reference< >() );
         
         }
         { //::OSG::PassiveBackgroundBase::getType
@@ -165,6 +187,16 @@ void register_PassiveBackgroundBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::PassiveBackgroundBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::PassiveBackgroundBase::setClearFrameBufferObject
+        
+            typedef void ( ::OSG::PassiveBackgroundBase::*setClearFrameBufferObject_function_type )( bool const ) ;
+            
+            PassiveBackgroundBase_exposer.def( 
+                "setClearFrameBufferObject"
+                , setClearFrameBufferObject_function_type( &::OSG::PassiveBackgroundBase::setClearFrameBufferObject )
+                , ( bp::arg("value") ) );
         
         }
         { //::OSG::Background::clear

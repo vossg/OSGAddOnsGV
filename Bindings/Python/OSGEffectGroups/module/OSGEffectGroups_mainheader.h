@@ -23,6 +23,8 @@
 #include <OSGPostShaderStage.h>
 #include <OSGHDRStage.h>
 #include <OSGHDRStageData.h>
+#include <OSGDepthPeelingStage.h>
+#include <OSGDepthPeelingStageData.h>
 
 #if defined(Bool)
 #undef Bool

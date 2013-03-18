@@ -59,7 +59,7 @@ void register_PassiveBackground_class(){
             PassiveBackground_exposer.def( 
                 "clear"
                 , clear_function_type( &::OSG::PassiveBackground::clear )
-                , ( bp::arg("arg0") ) );
+                , ( bp::arg("pEnv") ) );
         
         }
         { //::OSG::PassiveBackground::dump
@@ -70,6 +70,16 @@ void register_PassiveBackground_class(){
                 "dump"
                 , dump_function_type( &::OSG::PassiveBackground::dump )
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
+        
+        }
+        { //::OSG::PassiveBackground::setClearCallback
+        
+            typedef void ( ::OSG::PassiveBackground::*setClearCallback_function_type )( ::OSG::RenderFunctor,::std::string ) ;
+            
+            PassiveBackground_exposer.def( 
+                "setClearCallback"
+                , setClearCallback_function_type( &::OSG::PassiveBackground::setClearCallback )
+                , ( bp::arg("func"), bp::arg("createSymbol") ) );
         
         }
         pyopensg::register_transit< OSG::PassiveBackground >::execute();

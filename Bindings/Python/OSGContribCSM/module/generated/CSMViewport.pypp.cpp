@@ -62,6 +62,17 @@ void register_CSMViewport_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::CSMViewport::getViewport
+        
+            typedef ::OSG::Viewport * ( ::OSG::CSMViewport::*getViewport_function_type )( ::OSG::UInt32 ) const;
+            
+            CSMViewport_exposer.def( 
+                "getViewport"
+                , getViewport_function_type( &::OSG::CSMViewport::getViewport )
+                , ( bp::arg("uiIndex") )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::CSMViewport::init
         
             typedef bool ( ::OSG::CSMViewport::*init_function_type )( ::OSG::CSMWindow * ) ;
@@ -81,12 +92,32 @@ void register_CSMViewport_class(){
                 , needsStereoVisual_function_type( &::OSG::CSMViewport::needsStereoVisual ) );
         
         }
+        { //::OSG::CSMViewport::pointInside
+        
+            typedef bool ( ::OSG::CSMViewport::*pointInside_function_type )( ::OSG::Real32,::OSG::Real32 ) const;
+            
+            CSMViewport_exposer.def( 
+                "pointInside"
+                , pointInside_function_type( &::OSG::CSMViewport::pointInside )
+                , ( bp::arg("x"), bp::arg("y") ) );
+        
+        }
+        { //::OSG::CSMViewport::translateWindowViewportAbs
+        
+            typedef ::OSG::Vec2f ( ::OSG::CSMViewport::*translateWindowViewportAbs_function_type )( ::OSG::Real32,::OSG::Real32 ) const;
+            
+            CSMViewport_exposer.def( 
+                "translateWindowViewportAbs"
+                , translateWindowViewportAbs_function_type( &::OSG::CSMViewport::translateWindowViewportAbs )
+                , ( bp::arg("rX"), bp::arg("rY") ) );
+        
+        }
         pyopensg::register_transit< OSG::CSMViewport >::execute();
         bp::implicitly_convertible< OSG::CSMViewport::ObjRecPtr, OSG::CSMViewport* >();
         bp::implicitly_convertible< OSG::CSMViewport::ObjRecPtr, OSG::CSMViewport::ObjCPtr >();
-        bp::implicitly_convertible< OSG::CSMViewport::ObjRecPtr, OSG::FieldContainer* >();
-        bp::implicitly_convertible< OSG::CSMViewport::ObjRecPtr, OSG::FieldContainer::ObjRecPtr >();
-        bp::implicitly_convertible<OSG::CSMViewport::ObjRecPtr, OSG::FieldContainer::ObjCPtr>();
+        bp::implicitly_convertible< OSG::CSMViewport::ObjRecPtr, OSG::AttachmentContainer* >();
+        bp::implicitly_convertible< OSG::CSMViewport::ObjRecPtr, OSG::AttachmentContainer::ObjRecPtr >();
+        bp::implicitly_convertible<OSG::CSMViewport::ObjRecPtr, OSG::AttachmentContainer::ObjCPtr>();
     }
 
 }

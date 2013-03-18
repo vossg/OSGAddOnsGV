@@ -51,6 +51,7 @@ void register_CSMPassiveWindowBase_class(){
         CSMPassiveWindowBase_exposer_t CSMPassiveWindowBase_exposer = CSMPassiveWindowBase_exposer_t( "CSMPassiveWindowBase", bp::no_init );
         bp::scope CSMPassiveWindowBase_scope( CSMPassiveWindowBase_exposer );
         bp::scope().attr("ViewportScaleFieldId") = (int)OSG::CSMPassiveWindowBase::ViewportScaleFieldId;
+        bp::scope().attr("ClearOpFieldId") = (int)OSG::CSMPassiveWindowBase::ClearOpFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::CSMPassiveWindowBase::NextFieldId;
         { //::OSG::CSMPassiveWindowBase::copyFromBin
         
@@ -139,6 +140,16 @@ void register_CSMPassiveWindowBase_class(){
                 , getClassTypeId_function_type( &::OSG::CSMPassiveWindowBase::getClassTypeId ) );
         
         }
+        { //::OSG::CSMPassiveWindowBase::getClearOp
+        
+            typedef ::OSG::CSMPassiveWinClearOp * ( ::OSG::CSMPassiveWindowBase::*getClearOp_function_type )(  ) const;
+            
+            CSMPassiveWindowBase_exposer.def( 
+                "getClearOp"
+                , getClearOp_function_type( &::OSG::CSMPassiveWindowBase::getClearOp )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::CSMPassiveWindowBase::getContainerSize
         
             typedef ::OSG::UInt32 ( ::OSG::CSMPassiveWindowBase::*getContainerSize_function_type )(  ) const;
@@ -146,6 +157,16 @@ void register_CSMPassiveWindowBase_class(){
             CSMPassiveWindowBase_exposer.def( 
                 "getContainerSize"
                 , getContainerSize_function_type( &::OSG::CSMPassiveWindowBase::getContainerSize ) );
+        
+        }
+        { //::OSG::CSMPassiveWindowBase::getSFClearOp
+        
+            typedef ::OSG::SFUnrecCSMPassiveWinClearOpPtr const * ( ::OSG::CSMPassiveWindowBase::*getSFClearOp_function_type )(  ) const;
+            
+            CSMPassiveWindowBase_exposer.def( 
+                "getSFClearOp"
+                , getSFClearOp_function_type( &::OSG::CSMPassiveWindowBase::getSFClearOp )
+                , bp::return_internal_reference< >() );
         
         }
         { //::OSG::CSMPassiveWindowBase::getSFViewportScale
@@ -186,6 +207,16 @@ void register_CSMPassiveWindowBase_class(){
                 "getViewportScale"
                 , getViewportScale_function_type( &::OSG::CSMPassiveWindowBase::getViewportScale )
                 , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::CSMPassiveWindowBase::setClearOp
+        
+            typedef void ( ::OSG::CSMPassiveWindowBase::*setClearOp_function_type )( ::OSG::CSMPassiveWinClearOp * const ) ;
+            
+            CSMPassiveWindowBase_exposer.def( 
+                "setClearOp"
+                , setClearOp_function_type( &::OSG::CSMPassiveWindowBase::setClearOp )
+                , ( bp::arg("value") ) );
         
         }
         { //::OSG::CSMPassiveWindowBase::setViewportScale

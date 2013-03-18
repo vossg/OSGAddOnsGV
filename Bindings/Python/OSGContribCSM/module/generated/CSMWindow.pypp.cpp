@@ -62,6 +62,17 @@ void register_CSMWindow_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::CSMWindow::findViewport
+        
+            typedef ::OSG::CSMViewport * ( ::OSG::CSMWindow::*findViewport_function_type )( ::OSG::Real32,::OSG::Real32 ) const;
+            
+            CSMWindow_exposer.def( 
+                "findViewport"
+                , findViewport_function_type( &::OSG::CSMWindow::findViewport )
+                , ( bp::arg("x"), bp::arg("y") )
+                , bp::return_value_policy< bp::reference_existing_object >() );
+        
+        }
         { //::OSG::CSMWindow::getParent
         
             typedef ::OSG::CSMDrawer * ( ::OSG::CSMWindow::*getParent_function_type )(  ) const;

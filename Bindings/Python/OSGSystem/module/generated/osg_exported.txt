@@ -14,13 +14,13 @@ CameraDecorator
 PerspectiveCameraBase
 MultiCoreBase
 ShaderVariableMRealBase
+ShaderVariableMUInt
 RenderPartitionBase
 ShaderProcVariableBase
 GeoReferenceAttachmentBase
 ShaderProgramChunkBase
 TextureObjChunkBase
 SolidBackgroundBase
-PrimeMaterialBase
 DrawableStatsAttachment
 LightBase
 FBOViewport
@@ -29,6 +29,7 @@ Group
 ShaderVariableVec2fBase
 ChunkOverrideGroup
 ShaderVariableMReal
+FullStateChunkBase
 ShaderVariableStringBase
 GeoProperty
 ShaderProgramVariableChunkBase
@@ -50,6 +51,7 @@ Drawable
 FrameBufferObjectBase
 Camera
 MaterialBase
+ContainerCollection
 MultiPassMaterial
 TreeBuilderBase
 ForegroundBase
@@ -92,10 +94,8 @@ ShaderVariable
 LightChunk
 DepthChunk
 MaterialGroup
-FullStateChunkBase
 ShaderVariableVec2f
 ShaderVariableMatrix
-ContainerCollection
 ShaderVariableString
 TextureBaseChunk
 PolygonChunk
@@ -116,7 +116,7 @@ DepthChunkBase
 ShaderVariableMMatrixBase
 GeoReferenceAttachment
 RenderActionBase
-FullStateChunk
+ShaderVariableUIntBase
 LightEngine
 RenderBuffer
 ShaderProgramChunk
@@ -136,11 +136,14 @@ SimpleSHLVariableChunkBase
 CameraDecoratorBase
 SimpleMaterialBase
 Image
+LayeredTextureBuffer
 IntersectAction
 ShaderVariableMatrixBase
+ShaderVariableUInt
 ShaderExecutableChunk
 GeoVectorProperty
 Action
+FullStateChunk
 IntersectProxyAttachment
 LightEnv
 VariantMaterial
@@ -152,7 +155,6 @@ StringAttributeMap
 ShaderVariablePnt2fBase
 SimpleMaterial
 VariantMaterialBase
-ViewareaBase
 GeoVectorPropertyBase
 ColorMaskChunkBase
 ImageBase
@@ -169,6 +171,7 @@ ActionBase
 ChunkMaterial
 StatisticsForegroundBase
 SwitchMaterialBase
+PrimeMaterialBase
 StatsAttachment
 StateChunk
 ShaderProgramVariablesBase
@@ -191,8 +194,11 @@ RootGroupBase
 StateChunkBase
 ShaderVariableIntBase
 MultiPassMaterialBase
+ShaderVariableMUIntBase
 ShaderVariableReal
+ViewareaBase
 ShaderVariableOSG
 ChunkListHelperBase
 MultiCore
 ChunkBlock
+LayeredTextureBufferBase

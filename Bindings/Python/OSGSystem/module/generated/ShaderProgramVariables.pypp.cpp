@@ -170,6 +170,16 @@ void register_ShaderProgramVariables_class(){
         }
         { //::OSG::ShaderProgramVariables::addUniformVariable
         
+            typedef bool ( ::OSG::ShaderProgramVariables::*addUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::UInt32,::OSG::MFInt32 *,::OSG::MFInt32 * ) ;
+            
+            ShaderProgramVariables_exposer.def( 
+                "addUniformVariable"
+                , addUniformVariable_function_type( &::OSG::ShaderProgramVariables::addUniformVariable )
+                , ( bp::arg("name"), bp::arg("value"), bp::arg("pVarLoc"), bp::arg("pProcVarLoc") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariables::addUniformVariable
+        
             typedef bool ( ::OSG::ShaderProgramVariables::*addUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::Real32,::OSG::MFInt32 *,::OSG::MFInt32 * ) ;
             
             ShaderProgramVariables_exposer.def( 
@@ -241,6 +251,16 @@ void register_ShaderProgramVariables_class(){
         { //::OSG::ShaderProgramVariables::addUniformVariable
         
             typedef bool ( ::OSG::ShaderProgramVariables::*addUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::MFInt32 const &,::OSG::MFInt32 *,::OSG::MFInt32 * ) ;
+            
+            ShaderProgramVariables_exposer.def( 
+                "addUniformVariable"
+                , addUniformVariable_function_type( &::OSG::ShaderProgramVariables::addUniformVariable )
+                , ( bp::arg("name"), bp::arg("value"), bp::arg("pVarLoc"), bp::arg("pProcVarLoc") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariables::addUniformVariable
+        
+            typedef bool ( ::OSG::ShaderProgramVariables::*addUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::MFUInt32 const &,::OSG::MFInt32 *,::OSG::MFInt32 * ) ;
             
             ShaderProgramVariables_exposer.def( 
                 "addUniformVariable"
@@ -377,6 +397,16 @@ void register_ShaderProgramVariables_class(){
         }
         { //::OSG::ShaderProgramVariables::getUniformVariable
         
+            typedef bool ( ::OSG::ShaderProgramVariables::*getUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::UInt32 & ) ;
+            
+            ShaderProgramVariables_exposer.def( 
+                "getUniformVariable"
+                , getUniformVariable_function_type( &::OSG::ShaderProgramVariables::getUniformVariable )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariables::getUniformVariable
+        
             typedef bool ( ::OSG::ShaderProgramVariables::*getUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::Real32 & ) ;
             
             ShaderProgramVariables_exposer.def( 
@@ -448,6 +478,16 @@ void register_ShaderProgramVariables_class(){
         { //::OSG::ShaderProgramVariables::getUniformVariable
         
             typedef bool ( ::OSG::ShaderProgramVariables::*getUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::MFInt32 & ) ;
+            
+            ShaderProgramVariables_exposer.def( 
+                "getUniformVariable"
+                , getUniformVariable_function_type( &::OSG::ShaderProgramVariables::getUniformVariable )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariables::getUniformVariable
+        
+            typedef bool ( ::OSG::ShaderProgramVariables::*getUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::MFUInt32 & ) ;
             
             ShaderProgramVariables_exposer.def( 
                 "getUniformVariable"
@@ -587,6 +627,16 @@ void register_ShaderProgramVariables_class(){
         }
         { //::OSG::ShaderProgramVariables::updateUniformVariable
         
+            typedef bool ( ::OSG::ShaderProgramVariables::*updateUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            ShaderProgramVariables_exposer.def( 
+                "updateUniformVariable"
+                , updateUniformVariable_function_type( &::OSG::ShaderProgramVariables::updateUniformVariable )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariables::updateUniformVariable
+        
             typedef bool ( ::OSG::ShaderProgramVariables::*updateUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::Real32 ) ;
             
             ShaderProgramVariables_exposer.def( 
@@ -658,6 +708,16 @@ void register_ShaderProgramVariables_class(){
         { //::OSG::ShaderProgramVariables::updateUniformVariable
         
             typedef bool ( ::OSG::ShaderProgramVariables::*updateUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::MFInt32 const & ) ;
+            
+            ShaderProgramVariables_exposer.def( 
+                "updateUniformVariable"
+                , updateUniformVariable_function_type( &::OSG::ShaderProgramVariables::updateUniformVariable )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariables::updateUniformVariable
+        
+            typedef bool ( ::OSG::ShaderProgramVariables::*updateUniformVariable_function_type )( ::OSG::Char8 const *,::OSG::MFUInt32 const & ) ;
             
             ShaderProgramVariables_exposer.def( 
                 "updateUniformVariable"

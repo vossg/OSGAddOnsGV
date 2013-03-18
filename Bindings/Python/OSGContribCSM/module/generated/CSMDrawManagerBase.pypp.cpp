@@ -54,6 +54,7 @@ void register_CSMDrawManagerBase_class(){
         typedef bp::class_< OSG::CSMDrawManagerBase, bp::bases< ::OSG::AttachmentContainer >, boost::noncopyable > CSMDrawManagerBase_exposer_t;
         CSMDrawManagerBase_exposer_t CSMDrawManagerBase_exposer = CSMDrawManagerBase_exposer_t( "CSMDrawManagerBase", bp::no_init );
         bp::scope CSMDrawManagerBase_scope( CSMDrawManagerBase_exposer );
+        bp::scope().attr("AppDrawerFieldId") = (int)OSG::CSMDrawManagerBase::AppDrawerFieldId;
         bp::scope().attr("DrawerFieldId") = (int)OSG::CSMDrawManagerBase::DrawerFieldId;
         bp::scope().attr("ParallelFieldId") = (int)OSG::CSMDrawManagerBase::ParallelFieldId;
         bp::scope().attr("SyncBarrierNameFieldId") = (int)OSG::CSMDrawManagerBase::SyncBarrierNameFieldId;
@@ -127,6 +128,16 @@ void register_CSMDrawManagerBase_class(){
                 , ( bp::arg("bFlags")=(::OSG::BitVector)(OSG::FCLocal::All) ) );
         
         }
+        { //::OSG::CSMDrawManagerBase::getAppDrawer
+        
+            typedef ::OSG::CSMDrawer * ( ::OSG::CSMDrawManagerBase::*getAppDrawer_function_type )(  ) const;
+            
+            CSMDrawManagerBase_exposer.def( 
+                "getAppDrawer"
+                , getAppDrawer_function_type( &::OSG::CSMDrawManagerBase::getAppDrawer )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::CSMDrawManagerBase::getBinSize
         
             typedef ::OSG::SizeT ( ::OSG::CSMDrawManagerBase::*getBinSize_function_type )( ::OSG::ConstFieldMaskArg ) ;
@@ -192,6 +203,16 @@ void register_CSMDrawManagerBase_class(){
             CSMDrawManagerBase_exposer.def( 
                 "getParallel"
                 , getParallel_function_type( &::OSG::CSMDrawManagerBase::getParallel ) );
+        
+        }
+        { //::OSG::CSMDrawManagerBase::getSFAppDrawer
+        
+            typedef ::OSG::SFUnrecCSMDrawerPtr const * ( ::OSG::CSMDrawManagerBase::*getSFAppDrawer_function_type )(  ) const;
+            
+            CSMDrawManagerBase_exposer.def( 
+                "getSFAppDrawer"
+                , getSFAppDrawer_function_type( &::OSG::CSMDrawManagerBase::getSFAppDrawer )
+                , bp::return_internal_reference< >() );
         
         }
         { //::OSG::CSMDrawManagerBase::getSFParallel
@@ -291,6 +312,16 @@ void register_CSMDrawManagerBase_class(){
             CSMDrawManagerBase_exposer.def( 
                 "removeObjFromDrawer"
                 , removeObjFromDrawer_function_type( &::OSG::CSMDrawManagerBase::removeObjFromDrawer )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMDrawManagerBase::setAppDrawer
+        
+            typedef void ( ::OSG::CSMDrawManagerBase::*setAppDrawer_function_type )( ::OSG::CSMDrawer * const ) ;
+            
+            CSMDrawManagerBase_exposer.def( 
+                "setAppDrawer"
+                , setAppDrawer_function_type( &::OSG::CSMDrawManagerBase::setAppDrawer )
                 , ( bp::arg("value") ) );
         
         }

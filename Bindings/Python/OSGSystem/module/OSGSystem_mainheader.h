@@ -80,6 +80,7 @@
 #include <OSGFBOViewport.h>
 #include <OSGRenderBuffer.h>
 #include <OSGFrameBufferObject.h>
+#include <OSGLayeredTextureBuffer.h>
 #include <OSGTextureBuffer.h>
 #include <OSGFrameBufferAttachment.h>
 #include <OSGShaderProgramVariables.h>
@@ -92,6 +93,7 @@
 #include <OSGSimpleSHLChunk.h>
 #include <OSGSimpleSHLVariableChunk.h>
 #include <OSGShaderVariableReal.h>
+#include <OSGShaderVariableMUInt.h>
 #include <OSGShaderVariableMVec4f.h>
 #include <OSGShaderVariablePnt3f.h>
 #include <OSGShaderVariableVec2f.h>
@@ -101,6 +103,7 @@
 #include <OSGShaderVariableBool.h>
 #include <OSGShaderVariableMInt.h>
 #include <OSGShaderVariableMatrix.h>
+#include <OSGShaderVariableUInt.h>
 #include <OSGShaderValueVariable.h>
 #include <OSGShaderVariableVec4f.h>
 #include <OSGShaderVariableMVec2f.h>

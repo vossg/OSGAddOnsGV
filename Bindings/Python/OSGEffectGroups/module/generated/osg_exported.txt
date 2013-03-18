@@ -23,6 +23,7 @@ CalibrationPatternFilter
 CheckerboardCalibFilter
 DSLightChunk
 DisplayFilterStageDataBase
+DepthPeelingStageDataBase
 DisplayFilter
 DeferredShadingStageDataBase
 FishEyeProjectorDataBase
@@ -38,7 +39,10 @@ FishEyeProjectorBase
 DistortionDisplayFilterBase
 CalibrationPatternFilterBase
 ShadowStageData
+DepthPeelingStage
 ShadowStageDataBase
 DistortionDisplayFilter
 ColorDisplayFilterBase
 PostShaderStageDataBase
+DepthPeelingStageBase
+DepthPeelingStageData

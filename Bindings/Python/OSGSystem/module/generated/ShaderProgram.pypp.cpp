@@ -379,6 +379,51 @@ void register_ShaderProgram_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::ShaderProgram::getExtIdCgShader
+        
+            typedef ::OSG::UInt32 ( *getExtIdCgShader_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getExtIdCgShader"
+                , getExtIdCgShader_function_type( &::OSG::ShaderProgram::getExtIdCgShader ) );
+        
+        }
+        { //::OSG::ShaderProgram::getExtIdGPUShader4
+        
+            typedef ::OSG::UInt32 ( *getExtIdGPUShader4_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getExtIdGPUShader4"
+                , getExtIdGPUShader4_function_type( &::OSG::ShaderProgram::getExtIdGPUShader4 ) );
+        
+        }
+        { //::OSG::ShaderProgram::getExtIdGeometryShader4
+        
+            typedef ::OSG::UInt32 ( *getExtIdGeometryShader4_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getExtIdGeometryShader4"
+                , getExtIdGeometryShader4_function_type( &::OSG::ShaderProgram::getExtIdGeometryShader4 ) );
+        
+        }
+        { //::OSG::ShaderProgram::getExtIdSHL
+        
+            typedef ::OSG::UInt32 ( *getExtIdSHL_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getExtIdSHL"
+                , getExtIdSHL_function_type( &::OSG::ShaderProgram::getExtIdSHL ) );
+        
+        }
+        { //::OSG::ShaderProgram::getExtIdTransformFeedback2
+        
+            typedef ::OSG::UInt32 ( *getExtIdTransformFeedback2_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getExtIdTransformFeedback2"
+                , getExtIdTransformFeedback2_function_type( &::OSG::ShaderProgram::getExtIdTransformFeedback2 ) );
+        
+        }
         { //::OSG::ShaderProgram::getFuncIdAttachShader
         
             typedef ::OSG::UInt32 ( *getFuncIdAttachShader_function_type )(  );
@@ -622,6 +667,24 @@ void register_ShaderProgram_class(){
                 , getFuncIdUniform1iv_function_type( &::OSG::ShaderProgram::getFuncIdUniform1iv ) );
         
         }
+        { //::OSG::ShaderProgram::getFuncIdUniform1ui
+        
+            typedef ::OSG::UInt32 ( *getFuncIdUniform1ui_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdUniform1ui"
+                , getFuncIdUniform1ui_function_type( &::OSG::ShaderProgram::getFuncIdUniform1ui ) );
+        
+        }
+        { //::OSG::ShaderProgram::getFuncIdUniform1uiv
+        
+            typedef ::OSG::UInt32 ( *getFuncIdUniform1uiv_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdUniform1uiv"
+                , getFuncIdUniform1uiv_function_type( &::OSG::ShaderProgram::getFuncIdUniform1uiv ) );
+        
+        }
         { //::OSG::ShaderProgram::getFuncIdUniform2f
         
             typedef ::OSG::UInt32 ( *getFuncIdUniform2f_function_type )(  );
@@ -656,6 +719,24 @@ void register_ShaderProgram_class(){
             ShaderProgram_exposer.def( 
                 "getFuncIdUniform2iv"
                 , getFuncIdUniform2iv_function_type( &::OSG::ShaderProgram::getFuncIdUniform2iv ) );
+        
+        }
+        { //::OSG::ShaderProgram::getFuncIdUniform2ui
+        
+            typedef ::OSG::UInt32 ( *getFuncIdUniform2ui_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdUniform2ui"
+                , getFuncIdUniform2ui_function_type( &::OSG::ShaderProgram::getFuncIdUniform2ui ) );
+        
+        }
+        { //::OSG::ShaderProgram::getFuncIdUniform2uiv
+        
+            typedef ::OSG::UInt32 ( *getFuncIdUniform2uiv_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdUniform2uiv"
+                , getFuncIdUniform2uiv_function_type( &::OSG::ShaderProgram::getFuncIdUniform2uiv ) );
         
         }
         { //::OSG::ShaderProgram::getFuncIdUniform3f
@@ -694,6 +775,24 @@ void register_ShaderProgram_class(){
                 , getFuncIdUniform3iv_function_type( &::OSG::ShaderProgram::getFuncIdUniform3iv ) );
         
         }
+        { //::OSG::ShaderProgram::getFuncIdUniform3ui
+        
+            typedef ::OSG::UInt32 ( *getFuncIdUniform3ui_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdUniform3ui"
+                , getFuncIdUniform3ui_function_type( &::OSG::ShaderProgram::getFuncIdUniform3ui ) );
+        
+        }
+        { //::OSG::ShaderProgram::getFuncIdUniform3uiv
+        
+            typedef ::OSG::UInt32 ( *getFuncIdUniform3uiv_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdUniform3uiv"
+                , getFuncIdUniform3uiv_function_type( &::OSG::ShaderProgram::getFuncIdUniform3uiv ) );
+        
+        }
         { //::OSG::ShaderProgram::getFuncIdUniform4f
         
             typedef ::OSG::UInt32 ( *getFuncIdUniform4f_function_type )(  );
@@ -728,6 +827,24 @@ void register_ShaderProgram_class(){
             ShaderProgram_exposer.def( 
                 "getFuncIdUniform4iv"
                 , getFuncIdUniform4iv_function_type( &::OSG::ShaderProgram::getFuncIdUniform4iv ) );
+        
+        }
+        { //::OSG::ShaderProgram::getFuncIdUniform4ui
+        
+            typedef ::OSG::UInt32 ( *getFuncIdUniform4ui_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdUniform4ui"
+                , getFuncIdUniform4ui_function_type( &::OSG::ShaderProgram::getFuncIdUniform4ui ) );
+        
+        }
+        { //::OSG::ShaderProgram::getFuncIdUniform4uiv
+        
+            typedef ::OSG::UInt32 ( *getFuncIdUniform4uiv_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdUniform4uiv"
+                , getFuncIdUniform4uiv_function_type( &::OSG::ShaderProgram::getFuncIdUniform4uiv ) );
         
         }
         { //::OSG::ShaderProgram::getFuncIdUniformMatrix2fv
@@ -1065,6 +1182,11 @@ void register_ShaderProgram_class(){
         ShaderProgram_exposer.staticmethod( "createFragmentShader" );
         ShaderProgram_exposer.staticmethod( "createGeometryShader" );
         ShaderProgram_exposer.staticmethod( "createVertexShader" );
+        ShaderProgram_exposer.staticmethod( "getExtIdCgShader" );
+        ShaderProgram_exposer.staticmethod( "getExtIdGPUShader4" );
+        ShaderProgram_exposer.staticmethod( "getExtIdGeometryShader4" );
+        ShaderProgram_exposer.staticmethod( "getExtIdSHL" );
+        ShaderProgram_exposer.staticmethod( "getExtIdTransformFeedback2" );
         ShaderProgram_exposer.staticmethod( "getFuncIdAttachShader" );
         ShaderProgram_exposer.staticmethod( "getFuncIdBeginTransformFeedback" );
         ShaderProgram_exposer.staticmethod( "getFuncIdBindAttribLocation" );
@@ -1092,18 +1214,26 @@ void register_ShaderProgram_class(){
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform1fv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform1i" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform1iv" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdUniform1ui" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdUniform1uiv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform2f" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform2fv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform2i" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform2iv" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdUniform2ui" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdUniform2uiv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform3f" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform3fv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform3i" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform3iv" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdUniform3ui" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdUniform3uiv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform4f" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform4fv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform4i" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform4iv" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdUniform4ui" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdUniform4uiv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniformMatrix2fv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniformMatrix3fv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniformMatrix4fv" );

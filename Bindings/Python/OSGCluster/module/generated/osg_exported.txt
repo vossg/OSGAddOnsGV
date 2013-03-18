@@ -1,8 +1,8 @@
 ClusterServer
 ClusterWindowBase
 MultiDisplayWindow
-ClusterException
-ClusterWindow
 RemoteAspect
-ClusterNetwork
+ClusterException
 MultiDisplayWindowBase
+ClusterWindow
+ClusterNetwork

@@ -42,6 +42,7 @@ void register_StateBase_class(){
         typedef bp::class_< OSG::StateBase, bp::bases< ::OSG::FieldContainer >, boost::noncopyable > StateBase_exposer_t;
         StateBase_exposer_t StateBase_exposer = StateBase_exposer_t( "StateBase", bp::no_init );
         bp::scope StateBase_scope( StateBase_exposer );
+        bp::scope().attr("TransparencyModeFieldId") = (int)OSG::StateBase::TransparencyModeFieldId;
         bp::scope().attr("ChunksFieldId") = (int)OSG::StateBase::ChunksFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::StateBase::NextFieldId;
         { //::OSG::StateBase::copyFromBin
@@ -140,6 +141,25 @@ void register_StateBase_class(){
                 , getContainerSize_function_type( &::OSG::StateBase::getContainerSize ) );
         
         }
+        { //::OSG::StateBase::getSFTransparencyMode
+        
+            typedef ::OSG::SFInt32 const * ( ::OSG::StateBase::*getSFTransparencyMode_function_type )(  ) const;
+            
+            StateBase_exposer.def( 
+                "getSFTransparencyMode"
+                , getSFTransparencyMode_function_type( &::OSG::StateBase::getSFTransparencyMode )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::StateBase::getTransparencyMode
+        
+            typedef ::OSG::Int32 ( ::OSG::StateBase::*getTransparencyMode_function_type )(  ) const;
+            
+            StateBase_exposer.def( 
+                "getTransparencyMode"
+                , getTransparencyMode_function_type( &::OSG::StateBase::getTransparencyMode ) );
+        
+        }
         { //::OSG::StateBase::getType
         
             typedef ::OSG::FieldContainerType & ( ::OSG::StateBase::*getType_function_type )(  ) ;
@@ -158,6 +178,16 @@ void register_StateBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::StateBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::StateBase::setTransparencyMode
+        
+            typedef void ( ::OSG::StateBase::*setTransparencyMode_function_type )( ::OSG::Int32 const ) ;
+            
+            StateBase_exposer.def( 
+                "setTransparencyMode"
+                , setTransparencyMode_function_type( &::OSG::StateBase::setTransparencyMode )
+                , ( bp::arg("value") ) );
         
         }
         StateBase_exposer.staticmethod( "create" );
