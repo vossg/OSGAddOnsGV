@@ -731,6 +731,21 @@ SFUnrecTextureObjChunkPtr *LabelBase::editSFTextureObject  (void)
     return &_sfTextureObject;
 }
 
+//! Get the value of the Label::_sfTextureObject field.
+TextureObjChunk * LabelBase::getTextureObject(void) const
+{
+    return _sfTextureObject.getValue();
+}
+
+//! Set the value of the Label::_sfTextureObject field.
+void LabelBase::setTextureObject(TextureObjChunk * const value)
+{
+    editSField(TextureObjectFieldMask);
+
+    _sfTextureObject.setValue(value);
+}
+
+
 
 
 

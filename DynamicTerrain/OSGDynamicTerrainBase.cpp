@@ -601,6 +601,21 @@ SFUnrecImagePtr     *DynamicTerrainBase::editSFHeightData     (void)
     return &_sfHeightData;
 }
 
+//! Get the value of the DynamicTerrain::_sfHeightData field.
+Image * DynamicTerrainBase::getHeightData(void) const
+{
+    return _sfHeightData.getValue();
+}
+
+//! Set the value of the DynamicTerrain::_sfHeightData field.
+void DynamicTerrainBase::setHeightData(Image * const value)
+{
+    editSField(HeightDataFieldMask);
+
+    _sfHeightData.setValue(value);
+}
+
+
 SFReal32 *DynamicTerrainBase::editSFHeightDataScale(void)
 {
     editSField(HeightDataScaleFieldMask);
@@ -653,6 +668,21 @@ SFUnrecImagePtr     *DynamicTerrainBase::editSFTextureData    (void)
     return &_sfTextureData;
 }
 
+//! Get the value of the DynamicTerrain::_sfTextureData field.
+Image * DynamicTerrainBase::getTextureData(void) const
+{
+    return _sfTextureData.getValue();
+}
+
+//! Set the value of the DynamicTerrain::_sfTextureData field.
+void DynamicTerrainBase::setTextureData(Image * const value)
+{
+    editSField(TextureDataFieldMask);
+
+    _sfTextureData.setValue(value);
+}
+
+
 //! Get the DynamicTerrain::_sfHeightColorTexture field.
 const SFUnrecTextureObjChunkPtr *DynamicTerrainBase::getSFHeightColorTexture(void) const
 {
@@ -665,6 +695,21 @@ SFUnrecTextureObjChunkPtr *DynamicTerrainBase::editSFHeightColorTexture(void)
 
     return &_sfHeightColorTexture;
 }
+
+//! Get the value of the DynamicTerrain::_sfHeightColorTexture field.
+TextureObjChunk * DynamicTerrainBase::getHeightColorTexture(void) const
+{
+    return _sfHeightColorTexture.getValue();
+}
+
+//! Set the value of the DynamicTerrain::_sfHeightColorTexture field.
+void DynamicTerrainBase::setHeightColorTexture(TextureObjChunk * const value)
+{
+    editSField(HeightColorTextureFieldMask);
+
+    _sfHeightColorTexture.setValue(value);
+}
+
 
 SFInt32 *DynamicTerrainBase::editSFSampleUpdateBudget(void)
 {

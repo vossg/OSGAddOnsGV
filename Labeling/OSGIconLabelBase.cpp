@@ -272,6 +272,21 @@ SFUnrecImagePtr     *IconLabelBase::editSFImage          (void)
     return &_sfImage;
 }
 
+//! Get the value of the IconLabel::_sfImage field.
+Image * IconLabelBase::getImage(void) const
+{
+    return _sfImage.getValue();
+}
+
+//! Set the value of the IconLabel::_sfImage field.
+void IconLabelBase::setImage(Image * const value)
+{
+    editSField(ImageFieldMask);
+
+    _sfImage.setValue(value);
+}
+
+
 SFVec2f *IconLabelBase::editSFSize(void)
 {
     editSField(SizeFieldMask);

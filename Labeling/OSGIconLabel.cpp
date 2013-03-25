@@ -49,6 +49,8 @@
 #include "OSGIconLabel.h"
 #include "OSGDrawEnv.h"
 #include "OSGVolume.h"
+#include "OSGImage.h"
+#include "OSGTextureObjChunk.h"
 
 OSG_USING_NAMESPACE
 

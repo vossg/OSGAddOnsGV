@@ -42,7 +42,6 @@
 #pragma once
 #endif
 
-#include "OSGGeoVectorProperty.h"
 #include "OSGBufferPnt3fInterpolatorBase.h"
 
 OSG_BEGIN_NAMESPACE

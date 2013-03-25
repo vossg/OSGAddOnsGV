@@ -400,22 +400,6 @@ void LabelBase::setImportance(const Real32 value)
     _sfImportance.setValue(value);
 }
 
-//! Get the value of the Label::_sfTextureObject field.
-inline
-TextureObjChunk * LabelBase::getTextureObject(void) const
-{
-    return _sfTextureObject.getValue();
-}
-
-//! Set the value of the Label::_sfTextureObject field.
-inline
-void LabelBase::setTextureObject(TextureObjChunk * const value)
-{
-    editSField(TextureObjectFieldMask);
-
-    _sfTextureObject.setValue(value);
-}
-
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline

@@ -100,38 +100,6 @@ void LabelForegroundBase::setImportanceThreshold(const Real32 value)
     _sfImportanceThreshold.setValue(value);
 }
 
-//! Get the value of the LabelForeground::_sfRoot field.
-inline
-Node * LabelForegroundBase::getRoot(void) const
-{
-    return _sfRoot.getValue();
-}
-
-//! Set the value of the LabelForeground::_sfRoot field.
-inline
-void LabelForegroundBase::setRoot(Node * const value)
-{
-    editSField(RootFieldMask);
-
-    _sfRoot.setValue(value);
-}
-
-//! Get the value of the LabelForeground::_sfTextureEnvironment field.
-inline
-TextureEnvChunk * LabelForegroundBase::getTextureEnvironment(void) const
-{
-    return _sfTextureEnvironment.getValue();
-}
-
-//! Set the value of the LabelForeground::_sfTextureEnvironment field.
-inline
-void LabelForegroundBase::setTextureEnvironment(TextureEnvChunk * const value)
-{
-    editSField(TextureEnvironmentFieldMask);
-
-    _sfTextureEnvironment.setValue(value);
-}
-
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline

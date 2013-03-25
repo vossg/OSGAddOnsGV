@@ -99,22 +99,6 @@ void IconLabelBase::setFilename(const std::string &value)
 
     _sfFilename.setValue(value);
 }
-
-//! Get the value of the IconLabel::_sfImage field.
-inline
-Image * IconLabelBase::getImage(void) const
-{
-    return _sfImage.getValue();
-}
-
-//! Set the value of the IconLabel::_sfImage field.
-inline
-void IconLabelBase::setImage(Image * const value)
-{
-    editSField(ImageFieldMask);
-
-    _sfImage.setValue(value);
-}
 //! Get the value of the IconLabel::_sfSize field.
 
 inline

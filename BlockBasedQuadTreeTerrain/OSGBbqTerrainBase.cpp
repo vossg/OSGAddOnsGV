@@ -320,6 +320,21 @@ SFUnrecNodePtr      *BbqTerrainBase::editSFBeacon         (void)
     return &_sfBeacon;
 }
 
+//! Get the value of the BbqTerrain::_sfBeacon field.
+Node * BbqTerrainBase::getBeacon(void) const
+{
+    return _sfBeacon.getValue();
+}
+
+//! Set the value of the BbqTerrain::_sfBeacon field.
+void BbqTerrainBase::setBeacon(Node * const value)
+{
+    editSField(BeaconFieldMask);
+
+    _sfBeacon.setValue(value);
+}
+
+
 //! Get the BbqTerrain::_sfDataSource field.
 const SFUnrecBbqDataSourcePtr *BbqTerrainBase::getSFDataSource(void) const
 {
@@ -332,6 +347,21 @@ SFUnrecBbqDataSourcePtr *BbqTerrainBase::editSFDataSource     (void)
 
     return &_sfDataSource;
 }
+
+//! Get the value of the BbqTerrain::_sfDataSource field.
+BbqDataSource * BbqTerrainBase::getDataSource(void) const
+{
+    return _sfDataSource.getValue();
+}
+
+//! Set the value of the BbqTerrain::_sfDataSource field.
+void BbqTerrainBase::setDataSource(BbqDataSource * const value)
+{
+    editSField(DataSourceFieldMask);
+
+    _sfDataSource.setValue(value);
+}
+
 
 SFUInt32 *BbqTerrainBase::editSFMaxNumResidentNodes(void)
 {

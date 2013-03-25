@@ -292,6 +292,21 @@ SFUnrecNodePtr      *LabelForegroundBase::editSFRoot           (void)
     return &_sfRoot;
 }
 
+//! Get the value of the LabelForeground::_sfRoot field.
+Node * LabelForegroundBase::getRoot(void) const
+{
+    return _sfRoot.getValue();
+}
+
+//! Set the value of the LabelForeground::_sfRoot field.
+void LabelForegroundBase::setRoot(Node * const value)
+{
+    editSField(RootFieldMask);
+
+    _sfRoot.setValue(value);
+}
+
+
 //! Get the LabelForeground::_sfTextureEnvironment field.
 const SFUnrecTextureEnvChunkPtr *LabelForegroundBase::getSFTextureEnvironment(void) const
 {
@@ -304,6 +319,21 @@ SFUnrecTextureEnvChunkPtr *LabelForegroundBase::editSFTextureEnvironment(void)
 
     return &_sfTextureEnvironment;
 }
+
+//! Get the value of the LabelForeground::_sfTextureEnvironment field.
+TextureEnvChunk * LabelForegroundBase::getTextureEnvironment(void) const
+{
+    return _sfTextureEnvironment.getValue();
+}
+
+//! Set the value of the LabelForeground::_sfTextureEnvironment field.
+void LabelForegroundBase::setTextureEnvironment(TextureEnvChunk * const value)
+{
+    editSField(TextureEnvironmentFieldMask);
+
+    _sfTextureEnvironment.setValue(value);
+}
+
 
 
 

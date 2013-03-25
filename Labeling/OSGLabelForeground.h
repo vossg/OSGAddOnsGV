@@ -42,8 +42,6 @@
 #pragma once
 #endif
 
-#include "OSGContribLabelingDef.h"
-#include "OSGTextureEnvChunk.h"
 #include "OSGLabelForegroundBase.h"
 #include "OSGAction.h"
 

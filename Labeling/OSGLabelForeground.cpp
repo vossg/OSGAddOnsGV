@@ -56,6 +56,7 @@
 #include "OSGLabel.h"
 #include "OSGVisitSubTree.h"
 #include "OSGTextureObjChunk.h"
+#include "OSGTextureEnvChunk.h"
 
 
 OSG_USING_NAMESPACE

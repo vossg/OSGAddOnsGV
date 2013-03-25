@@ -51,6 +51,8 @@
 
 #include "OSGDrawEnv.h"
 #include "OSGSimpleCudaComputeAlgorithm.h"
+#include "OSGTypedGeoVectorProperty.h"
+#include "OSGGeometry.h"
 
 #include "OSGSimpleCompute.cuh"
 

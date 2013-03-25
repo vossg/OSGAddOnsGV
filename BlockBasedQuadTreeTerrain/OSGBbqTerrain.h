@@ -42,17 +42,10 @@
 #pragma once
 #endif
 
-#include "OSGNode.h"
 #include "OSGBbqTerrainBase.h"
 #include "OSGAction.h"
-#include "OSGBbqDataSource.h"
 
-#include "OSGTerrainHelper.h"
-#include "OSGBbqNode.h"
 #include "OSGBbqTerrainRenderer.h"
-
-#include "OSGVector.h"
-#include "OSGLock.h"
 
 #include <vector>
 

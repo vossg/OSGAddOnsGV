@@ -42,12 +42,11 @@
 #pragma once
 #endif
 
-#include "OSGContribLabelingDef.h"
 #include "OSGLabelBase.h"
-#include "OSGDrawEnv.h"
 
 OSG_BEGIN_NAMESPACE
 
+class DrawEnv;
 
 /*! \brief Label provides the abstract interface for labels (i.e.
     TextLabel, IconLabel, ...).

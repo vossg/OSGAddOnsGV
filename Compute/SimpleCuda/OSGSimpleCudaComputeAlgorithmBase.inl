@@ -200,22 +200,6 @@ void SimpleCudaComputeAlgorithmBase::setScaleMax(const Real32 value)
     _sfScaleMax.setValue(value);
 }
 
-//! Get the value of the SimpleCudaComputeAlgorithm::_sfTarget field.
-inline
-Geometry * SimpleCudaComputeAlgorithmBase::getTarget(void) const
-{
-    return _sfTarget.getValue();
-}
-
-//! Set the value of the SimpleCudaComputeAlgorithm::_sfTarget field.
-inline
-void SimpleCudaComputeAlgorithmBase::setTarget(Geometry * const value)
-{
-    editSField(TargetFieldMask);
-
-    _sfTarget.setValue(value);
-}
-
 
 #ifdef OSG_MT_CPTR_ASPECT
 inline

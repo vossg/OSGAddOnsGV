@@ -395,6 +395,21 @@ SFUnrecGeometryPtr  *SimpleCudaComputeAlgorithmBase::editSFTarget         (void)
     return &_sfTarget;
 }
 
+//! Get the value of the SimpleCudaComputeAlgorithm::_sfTarget field.
+Geometry * SimpleCudaComputeAlgorithmBase::getTarget(void) const
+{
+    return _sfTarget.getValue();
+}
+
+//! Set the value of the SimpleCudaComputeAlgorithm::_sfTarget field.
+void SimpleCudaComputeAlgorithmBase::setTarget(Geometry * const value)
+{
+    editSField(TargetFieldMask);
+
+    _sfTarget.setValue(value);
+}
+
+
 
 
 

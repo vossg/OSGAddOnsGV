@@ -46,14 +46,11 @@
 
 //----------------------------------------------------------------------------
 
-#include "OSGConfig.h"
 #include "OSGDynamicTerrainBase.h"
-#include "OSGRectangle.h"
-#include "OSGGeometryClipmaps.h"
+
 #include "OSGImageHeightDataSource.h"
 #include "OSGImageTextureDataSource.h"
-#include "OSGTextureEnvChunk.h"
-#include "OSGTextureObjChunk.h"
+#include "OSGGeometryClipmaps.h"
 
 //----------------------------------------------------------------------------
 

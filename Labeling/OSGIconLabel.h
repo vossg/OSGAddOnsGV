@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include "OSGContribLabelingDef.h"
-#include "OSGTextureObjChunk.h"
 #include "OSGIconLabelBase.h"
+#include "OSGTextureObjChunkFields.h"
+
 #include <string>
 #include <map>
 

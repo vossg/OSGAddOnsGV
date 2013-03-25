@@ -345,6 +345,21 @@ SFUnrecGeoVectorPropertyPtr *BufferPnt3fInterpolatorBase::editSFOutValue       (
     return &_sfOutValue;
 }
 
+//! Get the value of the BufferPnt3fInterpolator::_sfOutValue field.
+GeoVectorProperty * BufferPnt3fInterpolatorBase::getOutValue(void) const
+{
+    return _sfOutValue.getValue();
+}
+
+//! Set the value of the BufferPnt3fInterpolator::_sfOutValue field.
+void BufferPnt3fInterpolatorBase::setOutValue(GeoVectorProperty * const value)
+{
+    editSField(OutValueFieldMask);
+
+    _sfOutValue.setValue(value);
+}
+
+
 MFUInt32 *BufferPnt3fInterpolatorBase::editMFResortIndex(void)
 {
     editMField(ResortIndexFieldMask, _mfResortIndex);

@@ -74,38 +74,6 @@ OSG::UInt16 BbqTerrainBase::getClassGroupId(void)
 
 /*------------------------------ get -----------------------------------*/
 
-
-//! Get the value of the BbqTerrain::_sfBeacon field.
-inline
-Node * BbqTerrainBase::getBeacon(void) const
-{
-    return _sfBeacon.getValue();
-}
-
-//! Set the value of the BbqTerrain::_sfBeacon field.
-inline
-void BbqTerrainBase::setBeacon(Node * const value)
-{
-    editSField(BeaconFieldMask);
-
-    _sfBeacon.setValue(value);
-}
-
-//! Get the value of the BbqTerrain::_sfDataSource field.
-inline
-BbqDataSource * BbqTerrainBase::getDataSource(void) const
-{
-    return _sfDataSource.getValue();
-}
-
-//! Set the value of the BbqTerrain::_sfDataSource field.
-inline
-void BbqTerrainBase::setDataSource(BbqDataSource * const value)
-{
-    editSField(DataSourceFieldMask);
-
-    _sfDataSource.setValue(value);
-}
 //! Get the value of the BbqTerrain::_sfMaxNumResidentNodes field.
 
 inline

@@ -45,9 +45,6 @@
 #include <queue>
 
 #include "OSGSimpleCudaComputeAlgorithmBase.h"
-#include "OSGGeometry.h"
-#include "OSGActionBase.h"
-#include "OSGDrawTask.h"
 
 #ifdef OSG_WITH_CUDA
 #include <cuda_runtime_api.h>

@@ -100,22 +100,6 @@ void BufferPnt3fInterpolatorBase::setInValue(const Real32 value)
     _sfInValue.setValue(value);
 }
 
-//! Get the value of the BufferPnt3fInterpolator::_sfOutValue field.
-inline
-GeoVectorProperty * BufferPnt3fInterpolatorBase::getOutValue(void) const
-{
-    return _sfOutValue.getValue();
-}
-
-//! Set the value of the BufferPnt3fInterpolator::_sfOutValue field.
-inline
-void BufferPnt3fInterpolatorBase::setOutValue(GeoVectorProperty * const value)
-{
-    editSField(OutValueFieldMask);
-
-    _sfOutValue.setValue(value);
-}
-
 //! Get the value of the \a index element the BufferPnt3fInterpolator::_mfKey field.
 inline
       Real32  BufferPnt3fInterpolatorBase::getKey(const UInt32 index) const
@@ -130,7 +114,6 @@ Real32 &BufferPnt3fInterpolatorBase::editKey(const UInt32 index)
 
     return _mfKey[index];
 }
-
 
 //! Get the value of the \a index element the BufferPnt3fInterpolator::_mfKeyValue field.
 inline
@@ -147,7 +130,6 @@ Pnt3f &BufferPnt3fInterpolatorBase::editKeyValue(const UInt32 index)
     return _mfKeyValue[index];
 }
 
-
 //! Get the value of the \a index element the BufferPnt3fInterpolator::_mfResortIndex field.
 inline
       UInt32  BufferPnt3fInterpolatorBase::getResortIndex(const UInt32 index) const
@@ -162,7 +144,6 @@ UInt32 &BufferPnt3fInterpolatorBase::editResortIndex(const UInt32 index)
 
     return _mfResortIndex[index];
 }
-
 
 
 #ifdef OSG_MT_CPTR_ASPECT
