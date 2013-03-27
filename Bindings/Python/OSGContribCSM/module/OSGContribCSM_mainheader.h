@@ -1,6 +1,8 @@
 /** Auto-generated temporary file for header containment. */
 #include <PreBoostPython.h>
 #include <pypp_aliases.h>
+#include <OSGRenderOptions.h>
+#include <OSGImageComposer.h>
 #include <OSGCSMWindow.h>
 #include <OSGCSMTrackball.h>
 #include <OSGComplexSceneManager.h>

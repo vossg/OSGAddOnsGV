@@ -36,8 +36,8 @@ TextureGrabForeground
 MatrixCameraDecoratorBase
 TextureGrabForegroundBase
 SimpleTextForeground
-ProjectionCameraDecoratorBase
 GradientBackgroundBase
+ProjectionCameraDecoratorBase
 TextureGrabBackgroundBase
 ColorBufferViewport
 TileCameraDecoratorBase

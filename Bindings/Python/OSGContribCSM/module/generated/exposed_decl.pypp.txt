@@ -780,7 +780,7 @@
 ~@typedef_t@PFNGLENDTRANSFORMFEEDBACKPROC@::PFNGLENDTRANSFORMFEEDBACKPROC
 ~@typedef_t@PFNGLVERTEXATTRIB1DVPROC@::PFNGLVERTEXATTRIB1DVPROC
 ~@typedef_t@PFNGLVERTEXATTRIB2DPROC@::PFNGLVERTEXATTRIB2DPROC
-~@typedef_t@caddr_t@::caddr_t
+~@typedef_t@PFNGLMULTITEXCOORD3DVARBPROC@::PFNGLMULTITEXCOORD3DVARBPROC
 ~@typedef_t@PFNGLGETINSTRUMENTSSGIXPROC@::PFNGLGETINSTRUMENTSSGIXPROC
 ~@typedef_t@PFNGLVERTEXATTRIBS3SVNVPROC@::PFNGLVERTEXATTRIBS3SVNVPROC
 ~@typedef_t@PFNGLVERTEXSTREAM2IVATIPROC@::PFNGLVERTEXSTREAM2IVATIPROC
@@ -1505,7 +1505,7 @@
 ~@typedef_t@PFNGLUNIFORMMATRIX2X4FVPROC@::PFNGLUNIFORMMATRIX2X4FVPROC
 ~@typedef_t@PFNGLLINKPROGRAMPROC@::PFNGLLINKPROGRAMPROC
 ~@typedef_t@PFNGLGETUNIFORMLOCATIONPROC@::PFNGLGETUNIFORMLOCATIONPROC
-~@typedef_t@PFNGLGETDETAILTEXFUNCSGISPROC@::PFNGLGETDETAILTEXFUNCSGISPROC
+~@typedef_t@PFNGLVERTEXATTRIBI4IVEXTPROC@::PFNGLVERTEXATTRIBI4IVEXTPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI4SVEXTPROC@::PFNGLVERTEXATTRIBI4SVEXTPROC
 ~@typedef_t@PFNGLDELETEBUFFERSARBPROC@::PFNGLDELETEBUFFERSARBPROC
 ~@typedef_t@PFNGLIMAGETRANSFORMPARAMETERFVHPPROC@::PFNGLIMAGETRANSFORMPARAMETERFVHPPROC
@@ -1591,7 +1591,7 @@
 ~@typedef_t@ushort@::ushort
 ~@typedef_t@PFNGLCOLOR4UBVERTEX3FVSUNPROC@::PFNGLCOLOR4UBVERTEX3FVSUNPROC
 ~@typedef_t@clockid_t@::clockid_t
-~@typedef_t@PFNGLMULTITEXCOORD3DVARBPROC@::PFNGLMULTITEXCOORD3DVARBPROC
+~@typedef_t@caddr_t@::caddr_t
 ~@typedef_t@PFNGLMAKEBUFFERNONRESIDENTNVPROC@::PFNGLMAKEBUFFERNONRESIDENTNVPROC
 ~@typedef_t@uint16_t@::uint16_t
 ~@typedef_t@PFNGLCONVOLUTIONFILTER2DPROC@::PFNGLCONVOLUTIONFILTER2DPROC
@@ -1719,7 +1719,7 @@
 ~@typedef_t@PFNGLMULTITEXENVFEXTPROC@::PFNGLMULTITEXENVFEXTPROC
 ~@typedef_t@__timezone_ptr_t@::__timezone_ptr_t
 ~@typedef_t@__gid_t@::__gid_t
-~@typedef_t@PFNGLVERTEXATTRIBI4IVEXTPROC@::PFNGLVERTEXATTRIBI4IVEXTPROC
+~@typedef_t@PFNGLGETDETAILTEXFUNCSGISPROC@::PFNGLGETDETAILTEXFUNCSGISPROC
 ~@typedef_t@PFNGLGETCOLORTABLEPARAMETERIVSGIPROC@::PFNGLGETCOLORTABLEPARAMETERIVSGIPROC
 ~@typedef_t@PFNGLGETCOMPRESSEDMULTITEXIMAGEEXTPROC@::PFNGLGETCOMPRESSEDMULTITEXIMAGEEXTPROC
 ~@typedef_t@__daddr_t@::__daddr_t
@@ -1767,8 +1767,8 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@@::
+~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -1826,7 +1826,6 @@
 ~@variable_t@_ZTIN3OSG11PThreadBaseE@::_ZTIN3OSG11PThreadBaseE
 ~@variable_t@_ZTIN3OSG12NoLockPolicyE@::_ZTIN3OSG12NoLockPolicyE
 ~@variable_t@_ZTIN3OSG15GetSFieldHandleINS_17PointerSFieldBaseEEE@::_ZTIN3OSG15GetSFieldHandleINS_17PointerSFieldBaseEEE
-~@variable_t@_ZTIN3OSG19ShaderValueVariableE@::_ZTIN3OSG19ShaderValueVariableE
 ~@variable_t@_ZTISt11logic_error@::_ZTISt11logic_error
 ~@variable_t@_ZTIN3OSG14GetFieldHandleE@::_ZTIN3OSG14GetFieldHandleE
 ~@variable_t@_ZTISt8ios_base@::_ZTISt8ios_base
@@ -1843,7 +1842,7 @@
 ~@variable_t@_ZTIN3OSG20CSMPassiveWinClearOpE@::_ZTIN3OSG20CSMPassiveWinClearOpE
 ~@variable_t@_ZTIN3OSG7XWindowE@::_ZTIN3OSG7XWindowE
 ~@variable_t@_ZTISt13basic_istreamIwSt11char_traitsIwEE@::_ZTISt13basic_istreamIwSt11char_traitsIwEE
-~@variable_t@_ZTIN3OSG12BlockingTaskE@::_ZTIN3OSG12BlockingTaskE
+~@variable_t@_ZTIN3OSG20CSMPassiveWindowBaseE@::_ZTIN3OSG20CSMPassiveWindowBaseE
 ~@variable_t@_ZTIN3OSG20BaseThreadCommonBaseE@::_ZTIN3OSG20BaseThreadCommonBaseE
 ~@variable_t@_ZTIN3OSG25FrameProducerHandlerMixinINS_18CSMDrawManagerBaseEEE@::_ZTIN3OSG25FrameProducerHandlerMixinINS_18CSMDrawManagerBaseEEE
 ~@variable_t@_ZTIN3OSG21DeviceInterfaceSensorE@::_ZTIN3OSG21DeviceInterfaceSensorE
@@ -1930,7 +1929,7 @@
 ~@variable_t@_ZTISt9bad_alloc@::_ZTISt9bad_alloc
 ~@variable_t@_ZTIN3OSG6VolumeE@::_ZTIN3OSG6VolumeE
 ~@variable_t@_ZTIN3OSG18CSMKeySensorHelperE@::_ZTIN3OSG18CSMKeySensorHelperE
-~@variable_t@_ZTIN3OSG20CSMPassiveWindowBaseE@::_ZTIN3OSG20CSMPassiveWindowBaseE
+~@variable_t@_ZTIN3OSG12BlockingTaskE@::_ZTIN3OSG12BlockingTaskE
 ~@variable_t@_ZTINSt8ios_base7failureE@::_ZTINSt8ios_base7failureE
 ~@variable_t@_ZTISt14collate_bynameIcE@::_ZTISt14collate_bynameIcE
 ~@variable_t@_ZTIN3OSG9OutStreamE@::_ZTIN3OSG9OutStreamE
@@ -2013,7 +2012,6 @@
 ~@variable_t@_ZTIN3OSG12MemoryObjectE@::_ZTIN3OSG12MemoryObjectE
 ~@variable_t@_ZTIN3OSG24HardwareContextTaskQueueE@::_ZTIN3OSG24HardwareContextTaskQueueE
 ~@variable_t@program_invocation_name@::program_invocation_name
-~@variable_t@_ZTIN3OSG23ShaderValueVariableBaseE@::_ZTIN3OSG23ShaderValueVariableBaseE
 ~@variable_t@_ZTISt8time_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt8time_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_7CondVarEEE@::_ZTIN3OSG12MPFieldStoreINS_7CondVarEEE
 ~@variable_t@_LIB_VERSION@::_LIB_VERSION
@@ -2526,7 +2524,7 @@
 ~@free_function_t@iswgraph@int (*)( ::wint_t )int (*)( ::wint_t )
 ~@free_function_t@glRasterPos3i@void (*)( ::GLint,::GLint,::GLint )void (*)( ::GLint,::GLint,::GLint )
 ~@free_function_t@nrand48@long int (*)( short unsigned int * )long int (*)( short unsigned int * )
-~@free_function_t@truncate64@int (*)( char const *,::__off64_t )int (*)( char const *,::__off64_t )
+~@free_function_t@putwchar@::wint_t (*)( wchar_t )::wint_t (*)( wchar_t )
 ~@free_function_t@get_current_dir_name@char * (*)(  )char * (*)(  )
 ~@free_function_t@iswdigit_l@int (*)( ::wint_t,::__locale_t )int (*)( ::wint_t,::__locale_t )
 ~@free_function_t@iswalpha@int (*)( ::wint_t )int (*)( ::wint_t )
@@ -3630,7 +3628,7 @@
 ~@free_function_t@textdomain@char * (*)( char const * )char * (*)( char const * )
 ~@free_function_t@glClipPlane@void (*)( ::GLenum,::GLdouble const * )void (*)( ::GLenum,::GLdouble const * )
 ~@free_function_t@glIndexub@void (*)( ::GLubyte )void (*)( ::GLubyte )
-~@free_function_t@putwchar@::wint_t (*)( wchar_t )::wint_t (*)( wchar_t )
+~@free_function_t@truncate64@int (*)( char const *,::__off64_t )int (*)( char const *,::__off64_t )
 ~@free_function_t@mempcpy@void * (*)( __restrict__ void *,__restrict__ void const *,::size_t )void * (*)( __restrict__ void *,__restrict__ void const *,::size_t )
 ~@free_function_t@__cbrtf@float (*)( float )float (*)( float )
 ~@free_function_t@wcpcpy@wchar_t * (*)( __restrict__ wchar_t *,__restrict__ wchar_t const * )wchar_t * (*)( __restrict__ wchar_t *,__restrict__ wchar_t const * )

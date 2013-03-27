@@ -428,7 +428,6 @@
 ~@typedef_t@PFNGLVERTEXATTRIBI1IVEXTPROC@::PFNGLVERTEXATTRIBI1IVEXTPROC
 ~@typedef_t@PFNGLTEXIMAGE4DSGISPROC@::PFNGLTEXIMAGE4DSGISPROC
 ~@typedef_t@PFNGLMATRIXTRANSLATEFEXTPROC@::PFNGLMATRIXTRANSLATEFEXTPROC
-~@typedef_t@PFNGLNORMAL3HVNVPROC@::PFNGLNORMAL3HVNVPROC
 ~@typedef_t@PFNGLDELETEFRAMEBUFFERSEXTPROC@::PFNGLDELETEFRAMEBUFFERSEXTPROC
 ~@typedef_t@PFNGLISTRANSFORMFEEDBACKNVPROC@::PFNGLISTRANSFORMFEEDBACKNVPROC
 ~@typedef_t@PFNGLWINDOWPOS3FVARBPROC@::PFNGLWINDOWPOS3FVARBPROC
@@ -669,7 +668,7 @@
 ~@typedef_t@PFNGLSECONDARYCOLORPOINTEREXTPROC@::PFNGLSECONDARYCOLORPOINTEREXTPROC
 ~@typedef_t@PFNGLFRAGMENTLIGHTMODELIVSGIXPROC@::PFNGLFRAGMENTLIGHTMODELIVSGIXPROC
 ~@typedef_t@PFNGLPROGRAMUNIFORM3FVEXTPROC@::PFNGLPROGRAMUNIFORM3FVEXTPROC
-~@typedef_t@PFNGLDRAWBUFFERSPROC@::PFNGLDRAWBUFFERSPROC
+~@typedef_t@PFNGLNORMAL3HVNVPROC@::PFNGLNORMAL3HVNVPROC
 ~@typedef_t@PFNGLISSHADERPROC@::PFNGLISSHADERPROC
 ~@typedef_t@PFNGLVERTEXATTRIB4SPROC@::PFNGLVERTEXATTRIB4SPROC
 ~@typedef_t@__uint16_t@::__uint16_t
@@ -779,7 +778,7 @@
 ~@typedef_t@PFNGLENDTRANSFORMFEEDBACKPROC@::PFNGLENDTRANSFORMFEEDBACKPROC
 ~@typedef_t@PFNGLVERTEXATTRIB1DVPROC@::PFNGLVERTEXATTRIB1DVPROC
 ~@typedef_t@PFNGLVERTEXATTRIB2DPROC@::PFNGLVERTEXATTRIB2DPROC
-~@typedef_t@PFNGLMULTITEXCOORD3DVARBPROC@::PFNGLMULTITEXCOORD3DVARBPROC
+~@typedef_t@caddr_t@::caddr_t
 ~@typedef_t@PFNGLGETINSTRUMENTSSGIXPROC@::PFNGLGETINSTRUMENTSSGIXPROC
 ~@typedef_t@PFNGLVERTEXATTRIBS3SVNVPROC@::PFNGLVERTEXATTRIBS3SVNVPROC
 ~@typedef_t@PFNGLVERTEXSTREAM2IVATIPROC@::PFNGLVERTEXSTREAM2IVATIPROC
@@ -1022,6 +1021,7 @@
 ~@typedef_t@PFNGLGETTEXTUREPARAMETERFVEXTPROC@::PFNGLGETTEXTUREPARAMETERFVEXTPROC
 ~@typedef_t@PFNGLUNIFORM3FPROC@::PFNGLUNIFORM3FPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI3IEXTPROC@::PFNGLVERTEXATTRIBI3IEXTPROC
+~@typedef_t@PFNGLDRAWBUFFERSPROC@::PFNGLDRAWBUFFERSPROC
 ~@typedef_t@PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC@::PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC
 ~@typedef_t@PFNGLREPLACEMENTCODEUICOLOR4FNORMAL3FVERTEX3FVSUNPROC@::PFNGLREPLACEMENTCODEUICOLOR4FNORMAL3FVERTEX3FVSUNPROC
 ~@typedef_t@PFNGLFOGCOORDFVPROC@::PFNGLFOGCOORDFVPROC
@@ -1588,7 +1588,7 @@
 ~@typedef_t@ushort@::ushort
 ~@typedef_t@PFNGLCOLOR4UBVERTEX3FVSUNPROC@::PFNGLCOLOR4UBVERTEX3FVSUNPROC
 ~@typedef_t@clockid_t@::clockid_t
-~@typedef_t@caddr_t@::caddr_t
+~@typedef_t@PFNGLMULTITEXCOORD3DVARBPROC@::PFNGLMULTITEXCOORD3DVARBPROC
 ~@typedef_t@PFNGLMAKEBUFFERNONRESIDENTNVPROC@::PFNGLMAKEBUFFERNONRESIDENTNVPROC
 ~@typedef_t@uint16_t@::uint16_t
 ~@typedef_t@PFNGLCONVOLUTIONFILTER2DPROC@::PFNGLCONVOLUTIONFILTER2DPROC
@@ -1824,14 +1824,12 @@
 ~@variable_t@_ZTISt5ctypeIcE@::_ZTISt5ctypeIcE
 ~@variable_t@_ZTIN3OSG17StringValueMapperItEE@::_ZTIN3OSG17StringValueMapperItEE
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_4LockEEE@::_ZTIN3OSG12MPFieldStoreINS_4LockEEE
-~@variable_t@_ZTIN3OSG13ShaderProgramE@::_ZTIN3OSG13ShaderProgramE
 ~@variable_t@_ZTIN3OSG8MaterialE@::_ZTIN3OSG8MaterialE
 ~@variable_t@_ZTISt11__timepunctIcE@::_ZTISt11__timepunctIcE
 ~@variable_t@_ZTIN3OSG21GeoVectorPropertyBaseE@::_ZTIN3OSG21GeoVectorPropertyBaseE
 ~@variable_t@_ZTIN3OSG11PThreadBaseE@::_ZTIN3OSG11PThreadBaseE
 ~@variable_t@_ZTIN3OSG15GetSFieldHandleINS_17PointerSFieldBaseEEE@::_ZTIN3OSG15GetSFieldHandleINS_17PointerSFieldBaseEEE
 ~@variable_t@_ZTIN3OSG14AnimTimeSensorE@::_ZTIN3OSG14AnimTimeSensorE
-~@variable_t@_ZTIN3OSG19ShaderValueVariableE@::_ZTIN3OSG19ShaderValueVariableE
 ~@variable_t@_ZTISt11logic_error@::_ZTISt11logic_error
 ~@variable_t@_ZTIN3OSG14GetFieldHandleE@::_ZTIN3OSG14GetFieldHandleE
 ~@variable_t@_ZTIN3OSG24AnimQuaternionDataSourceE@::_ZTIN3OSG24AnimQuaternionDataSourceE
@@ -1845,7 +1843,7 @@
 ~@variable_t@_ZTIN3OSG16ViewportDrawTaskE@::_ZTIN3OSG16ViewportDrawTaskE
 ~@variable_t@_ZTISt7codecvtIwc11__mbstate_tE@::_ZTISt7codecvtIwc11__mbstate_tE
 ~@variable_t@_ZTISt13basic_istreamIwSt11char_traitsIwEE@::_ZTISt13basic_istreamIwSt11char_traitsIwEE
-~@variable_t@_ZTIN3OSG20BaseThreadCommonBaseE@::_ZTIN3OSG20BaseThreadCommonBaseE
+~@variable_t@_ZTIN5boost3any11placeholderE@::_ZTIN5boost3any11placeholderE
 ~@variable_t@_ZTIN3OSG14TimeSensorBaseE@::_ZTIN3OSG14TimeSensorBaseE
 ~@variable_t@_ZTIN3OSG11AnimChannelE@::_ZTIN3OSG11AnimChannelE
 ~@variable_t@_ZTISt13basic_fstreamIcSt11char_traitsIcEE@::_ZTISt13basic_fstreamIcSt11char_traitsIcEE
@@ -1886,7 +1884,7 @@
 ~@variable_t@_ZTIN10__cxxabiv115__forced_unwindE@::_ZTIN10__cxxabiv115__forced_unwindE
 ~@variable_t@_ZTIN3OSG8GeometryE@::_ZTIN3OSG8GeometryE
 ~@variable_t@_ZTIN3OSG15StatsAttachmentE@::_ZTIN3OSG15StatsAttachmentE
-~@variable_t@_ZTIN3OSG26SingleStaticInitLockPolicyE@::_ZTIN3OSG26SingleStaticInitLockPolicyE
+~@variable_t@_ZTIN3OSG30UnskinnedSkinningAlgorithmBaseE@::_ZTIN3OSG30UnskinnedSkinningAlgorithmBaseE
 ~@variable_t@_ZTISt23__codecvt_abstract_baseIwc11__mbstate_tE@::_ZTISt23__codecvt_abstract_baseIwc11__mbstate_tE
 ~@variable_t@_ZTISt23__codecvt_abstract_baseIcc11__mbstate_tE@::_ZTISt23__codecvt_abstract_baseIcc11__mbstate_tE
 ~@variable_t@_ZTIN3OSG15GetSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE@::_ZTIN3OSG15GetSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE
@@ -1896,7 +1894,6 @@
 ~@variable_t@_ZTIN3OSG7BarrierE@::_ZTIN3OSG7BarrierE
 ~@variable_t@_ZTIN3OSG19HardwareContextTaskE@::_ZTIN3OSG19HardwareContextTaskE
 ~@variable_t@_ZTIN3OSG17CondVarCommonBaseE@::_ZTIN3OSG17CondVarCommonBaseE
-~@variable_t@_ZTIN3OSG17RenderOptionsBaseE@::_ZTIN3OSG17RenderOptionsBaseE
 ~@variable_t@_ZTIN3OSG17ContainerIdMapperE@::_ZTIN3OSG17ContainerIdMapperE
 ~@variable_t@_ZTISt12out_of_range@::_ZTISt12out_of_range
 ~@variable_t@_ZTIN3OSG30VRMLCoordinateInterpolatorBaseE@::_ZTIN3OSG30VRMLCoordinateInterpolatorBaseE
@@ -1906,7 +1903,7 @@
 ~@variable_t@_ZTIN3OSG10LogOStreamE@::_ZTIN3OSG10LogOStreamE
 ~@variable_t@_ZTIN3OSG14FrameTaskMixinINS_18ContainerMixinHeadINS_19AnimBlenderTaskDescEEEEE@::_ZTIN3OSG14FrameTaskMixinINS_18ContainerMixinHeadINS_19AnimBlenderTaskDescEEEEE
 ~@variable_t@_ZTISt9type_info@::_ZTISt9type_info
-~@variable_t@_ZTIN3OSG15AnimBlenderBaseE@::_ZTIN3OSG15AnimBlenderBaseE
+~@variable_t@_ZTIN5boost7numeric17positive_overflowE@::_ZTIN5boost7numeric17positive_overflowE
 ~@variable_t@_ZTIN5boost9exceptionE@::_ZTIN5boost9exceptionE
 ~@variable_t@_ZTIN3OSG19StatsAttachmentBaseE@::_ZTIN3OSG19StatsAttachmentBaseE
 ~@variable_t@_ZTIN3OSG15SkinnedGeometryE@::_ZTIN3OSG15SkinnedGeometryE
@@ -1947,7 +1944,6 @@
 ~@variable_t@_ZTIN3OSG27DrawableStatsAttachmentBaseE@::_ZTIN3OSG27DrawableStatsAttachmentBaseE
 ~@variable_t@_sys_nerr@::_sys_nerr
 ~@variable_t@_ZTIN3OSG26VRMLScalarInterpolatorBaseE@::_ZTIN3OSG26VRMLScalarInterpolatorBaseE
-~@variable_t@_ZTIN3OSG14ForegroundBaseE@::_ZTIN3OSG14ForegroundBaseE
 ~@variable_t@_ZTIN3OSG18EditMapFieldHandleE@::_ZTIN3OSG18EditMapFieldHandleE
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_10BaseThreadEEE@::_ZTIN3OSG12MPFieldStoreINS_10BaseThreadEEE
 ~@variable_t@_ZTIN3OSG17AnimMatrixBlenderE@::_ZTIN3OSG17AnimMatrixBlenderE
@@ -1979,14 +1975,13 @@
 ~@variable_t@_ZTIN3OSG7CondVarE@::_ZTIN3OSG7CondVarE
 ~@variable_t@_ZTIN3OSG25GPUSkinningDataAttachmentE@::_ZTIN3OSG25GPUSkinningDataAttachmentE
 ~@variable_t@_ZTIN5boost6system12system_errorE@::_ZTIN5boost6system12system_errorE
-~@variable_t@_ZTIN3OSG8TypeBaseE@::_ZTIN3OSG8TypeBaseE
+~@variable_t@_ZTIN3OSG16SingleLockPolicyE@::_ZTIN3OSG16SingleLockPolicyE
 ~@variable_t@_ZTIN3OSG9ExceptionE@::_ZTIN3OSG9ExceptionE
 ~@variable_t@_ZTIN3OSG13MPCondVarTypeE@::_ZTIN3OSG13MPCondVarTypeE
 ~@variable_t@_ZTIN3OSG13MultiCoreBaseE@::_ZTIN3OSG13MultiCoreBaseE
 ~@variable_t@_ZTIN3OSG25SkeletonSkinningAlgorithmE@::_ZTIN3OSG25SkeletonSkinningAlgorithmE
 ~@variable_t@_ZTIN3OSG18ContainerMixinHeadINS_18NodeCoreSensorDescEEE@::_ZTIN3OSG18ContainerMixinHeadINS_18NodeCoreSensorDescEEE
 ~@variable_t@_ZTIN3OSG18ContainerMixinHeadINS_19AnimBlenderTaskDescEEE@::_ZTIN3OSG18ContainerMixinHeadINS_19AnimBlenderTaskDescEEE
-~@variable_t@_ZTIN3OSG17ShaderProgramBaseE@::_ZTIN3OSG17ShaderProgramBaseE
 ~@variable_t@_ZTIN3OSG23DrawableStatsAttachmentE@::_ZTIN3OSG23DrawableStatsAttachmentE
 ~@variable_t@_ZTIN3OSG13FrustumVolumeE@::_ZTIN3OSG13FrustumVolumeE
 ~@variable_t@_ZTIN3OSG16EditSFieldHandleINS_17PointerSFieldBaseEEE@::_ZTIN3OSG16EditSFieldHandleINS_17PointerSFieldBaseEEE
@@ -1998,7 +1993,6 @@
 ~@variable_t@_ZTIN3OSG18ShaderProcVariableE@::_ZTIN3OSG18ShaderProcVariableE
 ~@variable_t@_ZTIN3OSG8DrawTaskE@::_ZTIN3OSG8DrawTaskE
 ~@variable_t@_ZTISt5ctypeIwE@::_ZTISt5ctypeIwE
-~@variable_t@_ZTIN3OSG10ForegroundE@::_ZTIN3OSG10ForegroundE
 ~@variable_t@_ZTIN3OSG21BaseSkeletonJointBaseE@::_ZTIN3OSG21BaseSkeletonJointBaseE
 ~@variable_t@_ZTIN3OSG14FrameTaskMixinINS_18ContainerMixinHeadINS_18NodeCoreSensorDescEEEEE@::_ZTIN3OSG14FrameTaskMixinINS_18ContainerMixinHeadINS_18NodeCoreSensorDescEEEEE
 ~@variable_t@_ZTIN3OSG18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEE@::_ZTIN3OSG18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEE
@@ -2008,7 +2002,6 @@
 ~@variable_t@_ZTIN3OSG17BarrierCommonBaseE@::_ZTIN3OSG17BarrierCommonBaseE
 ~@variable_t@_IO_2_1_stdin_@::_IO_2_1_stdin_
 ~@variable_t@_ZTISt14overflow_error@::_ZTISt14overflow_error
-~@variable_t@_ZTIN3OSG10CameraBaseE@::_ZTIN3OSG10CameraBaseE
 ~@variable_t@_ZTIN3OSG24AnimKeyFrameTemplateBaseE@::_ZTIN3OSG24AnimKeyFrameTemplateBaseE
 ~@variable_t@_ZTISt14basic_ofstreamIwSt11char_traitsIwEE@::_ZTISt14basic_ofstreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG26ExceptionBinaryDataHandlerE@::_ZTIN3OSG26ExceptionBinaryDataHandlerE
@@ -2021,7 +2014,6 @@
 ~@variable_t@_ZTIN3OSG12MemoryObjectE@::_ZTIN3OSG12MemoryObjectE
 ~@variable_t@_ZTIN3OSG24HardwareContextTaskQueueE@::_ZTIN3OSG24HardwareContextTaskQueueE
 ~@variable_t@program_invocation_name@::program_invocation_name
-~@variable_t@_ZTIN3OSG23ShaderValueVariableBaseE@::_ZTIN3OSG23ShaderValueVariableBaseE
 ~@variable_t@_ZTISt8time_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt8time_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_7CondVarEEE@::_ZTIN3OSG12MPFieldStoreINS_7CondVarEEE
 ~@variable_t@_LIB_VERSION@::_LIB_VERSION
@@ -2036,7 +2028,7 @@
 ~@variable_t@_ZTIN3OSG29CPUSkinningDataAttachmentBaseE@::_ZTIN3OSG29CPUSkinningDataAttachmentBaseE
 ~@variable_t@_ZTISt9money_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt9money_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTISt17moneypunct_bynameIwLb0EE@::_ZTISt17moneypunct_bynameIwLb0EE
-~@variable_t@_ZTIN3OSG30UnskinnedSkinningAlgorithmBaseE@::_ZTIN3OSG30UnskinnedSkinningAlgorithmBaseE
+~@variable_t@_ZTIN3OSG26SingleStaticInitLockPolicyE@::_ZTIN3OSG26SingleStaticInitLockPolicyE
 ~@variable_t@_ZTIN3OSG17StageHandlerMixinINS_18ContainerMixinHeadINS_12SkeletonDescEEEEE@::_ZTIN3OSG17StageHandlerMixinINS_18ContainerMixinHeadINS_12SkeletonDescEEEEE
 ~@variable_t@_ZTISt18basic_stringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt18basic_stringstreamIcSt11char_traitsIcESaIcEE
 ~@variable_t@_ZTIN3OSG24AnimTargetAttachmentBaseE@::_ZTIN3OSG24AnimTargetAttachmentBaseE
@@ -2057,7 +2049,7 @@
 ~@variable_t@_ZTIN5boost6system14error_categoryE@::_ZTIN5boost6system14error_categoryE
 ~@variable_t@_ZTIN3OSG15PThreadLockBaseE@::_ZTIN3OSG15PThreadLockBaseE
 ~@variable_t@_ZTISt17__timepunct_cacheIcE@::_ZTISt17__timepunct_cacheIcE
-~@variable_t@_ZTIN3OSG13ThreadManagerE@::_ZTIN3OSG13ThreadManagerE
+~@variable_t@_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTISt8time_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@_ZTIN3OSG25AnimQuaternionBlenderBaseE@::_ZTIN3OSG25AnimQuaternionBlenderBaseE
 ~@variable_t@getdate_err@::getdate_err
@@ -2072,7 +2064,7 @@
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_7BarrierEEE@::_ZTIN3OSG12MPFieldStoreINS_7BarrierEEE
 ~@variable_t@_ZTIN3OSG14SimplePoolBaseE@::_ZTIN3OSG14SimplePoolBaseE
 ~@variable_t@stdout@::stdout
-~@variable_t@_ZTIN3OSG16SingleLockPolicyE@::_ZTIN3OSG16SingleLockPolicyE
+~@variable_t@_ZTIN3OSG8TypeBaseE@::_ZTIN3OSG8TypeBaseE
 ~@variable_t@_ZTIN3OSG6ActionE@::_ZTIN3OSG6ActionE
 ~@variable_t@_ZTISt19basic_ostringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt19basic_ostringstreamIcSt11char_traitsIcESaIcEE
 ~@variable_t@_ZTISt14basic_ofstreamIcSt11char_traitsIcEE@::_ZTISt14basic_ofstreamIcSt11char_traitsIcEE
@@ -2083,7 +2075,7 @@
 ~@variable_t@_ZTISt14basic_iostreamIwSt11char_traitsIwEE@::_ZTISt14basic_iostreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG8SkeletonE@::_ZTIN3OSG8SkeletonE
 ~@variable_t@_ZTIN3OSG13MPBarrierTypeE@::_ZTIN3OSG13MPBarrierTypeE
-~@variable_t@_ZTIN5boost7numeric17positive_overflowE@::_ZTIN5boost7numeric17positive_overflowE
+~@variable_t@_ZTIN3OSG15AnimBlenderBaseE@::_ZTIN3OSG15AnimBlenderBaseE
 ~@variable_t@_ZTIN3OSG19AttachmentContainerE@::_ZTIN3OSG19AttachmentContainerE
 ~@variable_t@_ZTIN3OSG26VRMLCoordinateInterpolatorE@::_ZTIN3OSG26VRMLCoordinateInterpolatorE
 ~@variable_t@_IO_2_1_stdout_@::_IO_2_1_stdout_
@@ -2136,7 +2128,6 @@
 ~@variable_t@_ZTIN5boost6assign20assignment_exceptionE@::_ZTIN5boost6assign20assignment_exceptionE
 ~@variable_t@_ZTIN3OSG11FactoryBaseE@::_ZTIN3OSG11FactoryBaseE
 ~@variable_t@_ZTIN5boost17bad_function_callE@::_ZTIN5boost17bad_function_callE
-~@variable_t@_ZTIN3OSG6CameraE@::_ZTIN3OSG6CameraE
 ~@variable_t@_ZTIN3OSG12SphereVolumeE@::_ZTIN3OSG12SphereVolumeE
 ~@variable_t@_ZTIN3OSG13StateOverrideE@::_ZTIN3OSG13StateOverrideE
 ~@variable_t@sys_errlist@::sys_errlist
@@ -2173,13 +2164,12 @@
 ~@variable_t@_ZTIN5boost7numeric16bad_numeric_castE@::_ZTIN5boost7numeric16bad_numeric_castE
 ~@variable_t@_ZTIN3OSG13AlgorithmBaseE@::_ZTIN3OSG13AlgorithmBaseE
 ~@variable_t@_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE@::_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE
-~@variable_t@_ZTIN3OSG13RenderOptionsE@::_ZTIN3OSG13RenderOptionsE
 ~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
 ~@variable_t@_ZTIN5boost7numeric17negative_overflowE@::_ZTIN5boost7numeric17negative_overflowE
 ~@variable_t@_IO_2_1_stderr_@::_IO_2_1_stderr_
 ~@variable_t@_ZTIN3OSG10AttachmentE@::_ZTIN3OSG10AttachmentE
 ~@variable_t@_ZTIN3OSG15RenderPartitionE@::_ZTIN3OSG15RenderPartitionE
-~@variable_t@_ZTIN5boost3any11placeholderE@::_ZTIN5boost3any11placeholderE
+~@variable_t@_ZTIN3OSG20BaseThreadCommonBaseE@::_ZTIN3OSG20BaseThreadCommonBaseE
 ~@variable_t@_ZTISt9money_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt9money_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@_ZTIN3OSG11FieldHandleE@::_ZTIN3OSG11FieldHandleE
 ~@variable_t@_ZTISt15time_put_bynameIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt15time_put_bynameIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
@@ -2188,7 +2178,7 @@
 ~@variable_t@_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE@::_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE
 ~@variable_t@_ZTIN3OSG22ShaderProgramVariablesE@::_ZTIN3OSG22ShaderProgramVariablesE
 ~@variable_t@_ZTIN3OSG26ShaderProgramVariablesBaseE@::_ZTIN3OSG26ShaderProgramVariablesBaseE
-~@variable_t@_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
+~@variable_t@_ZTIN3OSG13ThreadManagerE@::_ZTIN3OSG13ThreadManagerE
 ~@variable_t@_ZTISt10moneypunctIwLb1EE@::_ZTISt10moneypunctIwLb1EE
 ~@variable_t@_ZTIN3OSG21SkinningAlgorithmBaseE@::_ZTIN3OSG21SkinningAlgorithmBaseE
 ~@variable_t@_ZTISt17__timepunct_cacheIwE@::_ZTISt17__timepunct_cacheIwE
@@ -2284,8 +2274,8 @@
 ~@class_t@sched_param@::sched_param
 ~@class_t@__locale_struct@::__locale_struct
 ~@namespace_t@std@::std
-~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@@::
+~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -2427,7 +2417,6 @@
 ~@free_function_t@__secure_getenv@char * (*)( char const * )char * (*)( char const * )
 ~@free_function_t@pthread_mutexattr_getprioceiling@int (*)( __restrict__ ::pthread_mutexattr_t const *,__restrict__ int * )int (*)( __restrict__ ::pthread_mutexattr_t const *,__restrict__ int * )
 ~@free_function_t@strerror_r@char * (*)( int,char *,::size_t )char * (*)( int,char *,::size_t )
-~@free_function_t@__fdimf@float (*)( float,float )float (*)( float,float )
 ~@free_function_t@iscntrl@int (*)( int )int (*)( int )
 ~@free_function_t@__builtin_cos@double (*)( double )double (*)( double )
 ~@free_function_t@__atanl@long double (*)( long double )long double (*)( long double )
@@ -2667,6 +2656,7 @@
 ~@free_function_t@wcwidth@int (*)( wchar_t )int (*)( wchar_t )
 ~@free_function_t@__builtin_sin@double (*)( double )double (*)( double )
 ~@free_function_t@glRasterPos2iv@void (*)( ::GLint const * )void (*)( ::GLint const * )
+~@free_function_t@strnlen@::size_t (*)( char const *,::size_t )::size_t (*)( char const *,::size_t )
 ~@free_function_t@dngettext@char * (*)( char const *,char const *,char const *,long unsigned int )char * (*)( char const *,char const *,char const *,long unsigned int )
 ~@free_function_t@glPushAttrib@void (*)( ::GLbitfield )void (*)( ::GLbitfield )
 ~@free_function_t@glLightiv@void (*)( ::GLenum,::GLenum,::GLint const * )void (*)( ::GLenum,::GLenum,::GLint const * )
@@ -2819,7 +2809,7 @@
 ~@free_function_t@glRasterPos2fv@void (*)( ::GLfloat const * )void (*)( ::GLfloat const * )
 ~@free_function_t@getw@int (*)( ::FILE * )int (*)( ::FILE * )
 ~@free_function_t@seteuid@int (*)( ::__uid_t )int (*)( ::__uid_t )
-~@free_function_t@strnlen@::size_t (*)( char const *,::size_t )::size_t (*)( char const *,::size_t )
+~@free_function_t@__builtin_ccosl@complex long double (*)( complex long double )complex long double (*)( complex long double )
 ~@free_function_t@__builtin_ccosh@complex double (*)( complex double )complex double (*)( complex double )
 ~@free_function_t@__builtin_ccosf@complex float (*)( complex float )complex float (*)( complex float )
 ~@free_function_t@iswspace@int (*)( ::wint_t )int (*)( ::wint_t )
@@ -2949,7 +2939,7 @@
 ~@free_function_t@pthread_cond_signal@int (*)( ::pthread_cond_t * )int (*)( ::pthread_cond_t * )
 ~@free_function_t@inet6_rth_getaddr@::in6_addr * (*)( void const *,int )::in6_addr * (*)( void const *,int )
 ~@free_function_t@initstate_r@int (*)( unsigned int,__restrict__ char *,::size_t,__restrict__ ::random_data * )int (*)( unsigned int,__restrict__ char *,::size_t,__restrict__ ::random_data * )
-~@free_function_t@__builtin_ccosl@complex long double (*)( complex long double )complex long double (*)( complex long double )
+~@free_function_t@__fdimf@float (*)( float,float )float (*)( float,float )
 ~@free_function_t@__remainderf@float (*)( float,float )float (*)( float,float )
 ~@free_function_t@__builtin_prefetch@void (*)( void const *,... )void (*)( void const *,... )
 ~@free_function_t@profil@int (*)( short unsigned int *,::size_t,::size_t,unsigned int )int (*)( short unsigned int *,::size_t,::size_t,unsigned int )

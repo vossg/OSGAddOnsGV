@@ -1,6 +1,8 @@
 /** Auto-generated temporary file for header containment. */
 #include <PreBoostPython.h>
 #include <pypp_aliases.h>
+#include <OSGGeometry.h>
+#include <OSGForeground.h>
 #include <OSGDeferredShadingStageData.h>
 #include <OSGDSLightChunk.h>
 #include <OSGDeferredShadingStage.h>

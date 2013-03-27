@@ -1782,17 +1782,18 @@
 ~@typedef_t@PFNGLGETFINALCOMBINERINPUTPARAMETERIVNVPROC@::PFNGLGETFINALCOMBINERINPUTPARAMETERIVNVPROC
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
-~@namespace_t@std@::std
-~@namespace_t@__gnu_cxx@::__gnu_cxx
-~@namespace_t@@::
-~@namespace_t@boost@::boost
-~@namespace_t@pyplusplus@::pyplusplus
-~@namespace_t@__gnu_debug@::__gnu_debug
-~@namespace_t@boost_swap_impl@::boost_swap_impl
-~@namespace_t@mpl_@::mpl_
-~@namespace_t@__cxxabiv1@::__cxxabiv1
-~@namespace_t@boost_concepts@::boost_concepts
-~@namespace_t@OSG@::OSG
+~@free_operator_t@operator delete []@void (*)( void *,void * )void (*)( void *,void * )
+~@free_operator_t@operator delete []@void (*)( void *,::std::nothrow_t const & )void (*)( void *,::std::nothrow_t const & )
+~@free_operator_t@operator delete []@void (*)( void * )void (*)( void * )
+~@free_operator_t@operator new@void * (*)( ::std::size_t,void * )void * (*)( ::std::size_t,void * )
+~@free_operator_t@operator new@void * (*)( ::std::size_t,::std::nothrow_t const & )void * (*)( ::std::size_t,::std::nothrow_t const & )
+~@free_operator_t@operator new@void * (*)( ::std::size_t )void * (*)( ::std::size_t )
+~@free_operator_t@operator delete@void (*)( void *,void * )void (*)( void *,void * )
+~@free_operator_t@operator delete@void (*)( void *,::std::nothrow_t const & )void (*)( void *,::std::nothrow_t const & )
+~@free_operator_t@operator delete@void (*)( void * )void (*)( void * )
+~@free_operator_t@operator new []@void * (*)( ::std::size_t,void * )void * (*)( ::std::size_t,void * )
+~@free_operator_t@operator new []@void * (*)( ::std::size_t,::std::nothrow_t const & )void * (*)( ::std::size_t,::std::nothrow_t const & )
+~@free_operator_t@operator new []@void * (*)( ::std::size_t )void * (*)( ::std::size_t )
 ~@class_declaration_t@_IO_FILE_plus@::_IO_FILE_plus
 ~@class_declaration_t@obstack@::obstack
 ~@class_declaration_t@sigevent@::sigevent
@@ -1847,13 +1848,11 @@
 ~@variable_t@_ZTIN3OSG21GeoVectorPropertyBaseE@::_ZTIN3OSG21GeoVectorPropertyBaseE
 ~@variable_t@_ZTIN3OSG11PThreadBaseE@::_ZTIN3OSG11PThreadBaseE
 ~@variable_t@_ZTIN3OSG15GetSFieldHandleINS_17PointerSFieldBaseEEE@::_ZTIN3OSG15GetSFieldHandleINS_17PointerSFieldBaseEEE
-~@variable_t@_ZTIN3OSG19ShaderValueVariableE@::_ZTIN3OSG19ShaderValueVariableE
 ~@variable_t@_ZTISt11logic_error@::_ZTISt11logic_error
 ~@variable_t@_ZTIN3OSG14GetFieldHandleE@::_ZTIN3OSG14GetFieldHandleE
 ~@variable_t@_ZTISt8ios_base@::_ZTISt8ios_base
 ~@variable_t@_ZTISt14basic_ifstreamIcSt11char_traitsIcEE@::_ZTISt14basic_ifstreamIcSt11char_traitsIcEE
 ~@variable_t@_ZTIN3OSG22TypedGeoVectorPropertyINS_20GeoVec2fPropertyDescEEE@::_ZTIN3OSG22TypedGeoVectorPropertyINS_20GeoVec2fPropertyDescEEE
-~@variable_t@_ZTIN3OSG10BackgroundE@::_ZTIN3OSG10BackgroundE
 ~@variable_t@_ZTIN3OSG13MaterialGroupE@::_ZTIN3OSG13MaterialGroupE
 ~@variable_t@_ZTIN3OSG4LockE@::_ZTIN3OSG4LockE
 ~@variable_t@_ZTIN3OSG20GeoMultiPropertyBaseE@::_ZTIN3OSG20GeoMultiPropertyBaseE
@@ -1882,7 +1881,6 @@
 ~@variable_t@_ZTIN3OSG29GeoIntegralBufferPropertyBaseE@::_ZTIN3OSG29GeoIntegralBufferPropertyBaseE
 ~@variable_t@_ZTIN3OSG14AttachmentBaseE@::_ZTIN3OSG14AttachmentBaseE
 ~@variable_t@_ZTISt15basic_stringbufIwSt11char_traitsIwESaIwEE@::_ZTISt15basic_stringbufIwSt11char_traitsIwESaIwEE
-~@variable_t@_ZTIN3OSG14BackgroundBaseE@::_ZTIN3OSG14BackgroundBaseE
 ~@variable_t@_ZTIN3OSG18PThreadBarrierBaseE@::_ZTIN3OSG18PThreadBarrierBaseE
 ~@variable_t@_ZTIN3OSG15SimpleReusePoolIiNS_14StageIdPoolTagENS_16SingleLockPolicyEEE@::_ZTIN3OSG15SimpleReusePoolIiNS_14StageIdPoolTagENS_16SingleLockPolicyEEE
 ~@variable_t@_ZTISt19basic_istringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt19basic_istringstreamIcSt11char_traitsIcESaIcEE
@@ -1917,7 +1915,6 @@
 ~@variable_t@_ZTIN3OSG7BarrierE@::_ZTIN3OSG7BarrierE
 ~@variable_t@_ZTIN3OSG19HardwareContextTaskE@::_ZTIN3OSG19HardwareContextTaskE
 ~@variable_t@_ZTIN3OSG17CondVarCommonBaseE@::_ZTIN3OSG17CondVarCommonBaseE
-~@variable_t@_ZTIN3OSG17RenderOptionsBaseE@::_ZTIN3OSG17RenderOptionsBaseE
 ~@variable_t@_ZTIN3OSG17ContainerIdMapperE@::_ZTIN3OSG17ContainerIdMapperE
 ~@variable_t@_ZTIN3OSG25ShaderExecutableChunkBaseE@::_ZTIN3OSG25ShaderExecutableChunkBaseE
 ~@variable_t@_ZTIN3OSG24GeoMultiPropertyDataBaseE@::_ZTIN3OSG24GeoMultiPropertyDataBaseE
@@ -1970,7 +1967,6 @@
 ~@variable_t@_ZTIN3OSG27DrawableStatsAttachmentBaseE@::_ZTIN3OSG27DrawableStatsAttachmentBaseE
 ~@variable_t@_sys_nerr@::_sys_nerr
 ~@variable_t@_ZTIN3OSG12LineIteratorE@::_ZTIN3OSG12LineIteratorE
-~@variable_t@_ZTIN3OSG14ForegroundBaseE@::_ZTIN3OSG14ForegroundBaseE
 ~@variable_t@_ZTIN3OSG18EditMapFieldHandleE@::_ZTIN3OSG18EditMapFieldHandleE
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_10BaseThreadEEE@::_ZTIN3OSG12MPFieldStoreINS_10BaseThreadEEE
 ~@variable_t@_ZTIN3OSG19HardwareContextBaseE@::_ZTIN3OSG19HardwareContextBaseE
@@ -2014,7 +2010,6 @@
 ~@variable_t@_ZTIN3OSG18ShaderProcVariableE@::_ZTIN3OSG18ShaderProcVariableE
 ~@variable_t@_ZTIN3OSG8DrawTaskE@::_ZTIN3OSG8DrawTaskE
 ~@variable_t@_ZTISt5ctypeIwE@::_ZTISt5ctypeIwE
-~@variable_t@_ZTIN3OSG10ForegroundE@::_ZTIN3OSG10ForegroundE
 ~@variable_t@signgam@::signgam
 ~@variable_t@_ZTIN3OSG22VertexProgramChunkBaseE@::_ZTIN3OSG22VertexProgramChunkBaseE
 ~@variable_t@_ZTIN3OSG18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEE@::_ZTIN3OSG18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEE
@@ -2028,7 +2023,6 @@
 ~@variable_t@_ZTISt14overflow_error@::_ZTISt14overflow_error
 ~@variable_t@_ZTIN3OSG12CallbackTaskE@::_ZTIN3OSG12CallbackTaskE
 ~@variable_t@_ZTIN3OSG22TypedGeoVectorPropertyINS_20GeoVec3dPropertyDescEEE@::_ZTIN3OSG22TypedGeoVectorPropertyINS_20GeoVec3dPropertyDescEEE
-~@variable_t@_ZTIN3OSG10CameraBaseE@::_ZTIN3OSG10CameraBaseE
 ~@variable_t@_ZTISt14basic_ofstreamIwSt11char_traitsIwEE@::_ZTISt14basic_ofstreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG26ExceptionBinaryDataHandlerE@::_ZTIN3OSG26ExceptionBinaryDataHandlerE
 ~@variable_t@_ZTISt11__timepunctIwE@::_ZTISt11__timepunctIwE
@@ -2043,7 +2037,6 @@
 ~@variable_t@_ZTIN3OSG22TypedGeoVectorPropertyINS_20GeoPnt3fPropertyDescEEE@::_ZTIN3OSG22TypedGeoVectorPropertyINS_20GeoPnt3fPropertyDescEEE
 ~@variable_t@_ZTIN3OSG24HardwareContextTaskQueueE@::_ZTIN3OSG24HardwareContextTaskQueueE
 ~@variable_t@program_invocation_name@::program_invocation_name
-~@variable_t@_ZTIN3OSG23ShaderValueVariableBaseE@::_ZTIN3OSG23ShaderValueVariableBaseE
 ~@variable_t@_ZTISt8time_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt8time_putIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_7CondVarEEE@::_ZTIN3OSG12MPFieldStoreINS_7CondVarEEE
 ~@variable_t@_ZTIN3OSG15TexGenChunkBaseE@::_ZTIN3OSG15TexGenChunkBaseE
@@ -2152,7 +2145,6 @@
 ~@variable_t@_ZTIN3OSG11FactoryBaseE@::_ZTIN3OSG11FactoryBaseE
 ~@variable_t@_ZTIN5boost17bad_function_callE@::_ZTIN5boost17bad_function_callE
 ~@variable_t@_ZTIN3OSG5ImageE@::_ZTIN3OSG5ImageE
-~@variable_t@_ZTIN3OSG6CameraE@::_ZTIN3OSG6CameraE
 ~@variable_t@_ZTIN3OSG13StageDrawableE@::_ZTIN3OSG13StageDrawableE
 ~@variable_t@_ZTIN3OSG12SphereVolumeE@::_ZTIN3OSG12SphereVolumeE
 ~@variable_t@sys_errlist@::sys_errlist
@@ -2187,7 +2179,6 @@
 ~@variable_t@_ZTIN3OSG21ShaderExecutableChunkE@::_ZTIN3OSG21ShaderExecutableChunkE
 ~@variable_t@_ZTIN3OSG15ParticleBSPTreeE@::_ZTIN3OSG15ParticleBSPTreeE
 ~@variable_t@_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE@::_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE
-~@variable_t@_ZTIN3OSG13RenderOptionsE@::_ZTIN3OSG13RenderOptionsE
 ~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
 ~@variable_t@_ZTIN5boost7numeric17negative_overflowE@::_ZTIN5boost7numeric17negative_overflowE
 ~@variable_t@_IO_2_1_stderr_@::_IO_2_1_stderr_
@@ -2295,18 +2286,17 @@
 ~@class_t@ip_opts@::ip_opts
 ~@class_t@sched_param@::sched_param
 ~@class_t@__locale_struct@::__locale_struct
-~@free_operator_t@operator delete []@void (*)( void *,void * )void (*)( void *,void * )
-~@free_operator_t@operator delete []@void (*)( void *,::std::nothrow_t const & )void (*)( void *,::std::nothrow_t const & )
-~@free_operator_t@operator delete []@void (*)( void * )void (*)( void * )
-~@free_operator_t@operator new@void * (*)( ::std::size_t,void * )void * (*)( ::std::size_t,void * )
-~@free_operator_t@operator new@void * (*)( ::std::size_t,::std::nothrow_t const & )void * (*)( ::std::size_t,::std::nothrow_t const & )
-~@free_operator_t@operator new@void * (*)( ::std::size_t )void * (*)( ::std::size_t )
-~@free_operator_t@operator delete@void (*)( void *,void * )void (*)( void *,void * )
-~@free_operator_t@operator delete@void (*)( void *,::std::nothrow_t const & )void (*)( void *,::std::nothrow_t const & )
-~@free_operator_t@operator delete@void (*)( void * )void (*)( void * )
-~@free_operator_t@operator new []@void * (*)( ::std::size_t,void * )void * (*)( ::std::size_t,void * )
-~@free_operator_t@operator new []@void * (*)( ::std::size_t,::std::nothrow_t const & )void * (*)( ::std::size_t,::std::nothrow_t const & )
-~@free_operator_t@operator new []@void * (*)( ::std::size_t )void * (*)( ::std::size_t )
+~@namespace_t@std@::std
+~@namespace_t@@::
+~@namespace_t@__gnu_cxx@::__gnu_cxx
+~@namespace_t@boost@::boost
+~@namespace_t@pyplusplus@::pyplusplus
+~@namespace_t@__gnu_debug@::__gnu_debug
+~@namespace_t@boost_concepts@::boost_concepts
+~@namespace_t@mpl_@::mpl_
+~@namespace_t@__cxxabiv1@::__cxxabiv1
+~@namespace_t@boost_swap_impl@::boost_swap_impl
+~@namespace_t@OSG@::OSG
 ~@free_function_t@glCopyTexImage1D@void (*)( ::GLenum,::GLint,::GLenum,::GLint,::GLint,::GLsizei,::GLint )void (*)( ::GLenum,::GLint,::GLenum,::GLint,::GLint,::GLsizei,::GLint )
 ~@free_function_t@getc_unlocked@int (*)( ::FILE * )int (*)( ::FILE * )
 ~@free_function_t@__fdiml@long double (*)( long double,long double )long double (*)( long double,long double )
@@ -2583,7 +2573,7 @@
 ~@free_function_t@glDeleteTextures@void (*)( ::GLsizei,::GLuint const * )void (*)( ::GLsizei,::GLuint const * )
 ~@free_function_t@lgammaf@float (*)( float )float (*)( float )
 ~@free_function_t@wmemset@wchar_t * (*)( wchar_t *,wchar_t,::size_t )wchar_t * (*)( wchar_t *,wchar_t,::size_t )
-~@free_function_t@dup3@int (*)( int,int,int )int (*)( int,int,int )
+~@free_function_t@iswctype@int (*)( ::wint_t,::wctype_t )int (*)( ::wint_t,::wctype_t )
 ~@free_function_t@dup2@int (*)( int,int )int (*)( int,int )
 ~@free_function_t@lgammal@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@ceil@double (*)( double )double (*)( double )
@@ -3855,7 +3845,7 @@
 ~@free_function_t@towupper@::wint_t (*)( ::wint_t )::wint_t (*)( ::wint_t )
 ~@free_function_t@tan@double (*)( double )double (*)( double )
 ~@free_function_t@glEnable@void (*)( ::GLenum )void (*)( ::GLenum )
-~@free_function_t@iswctype@int (*)( ::wint_t,::wctype_t )int (*)( ::wint_t,::wctype_t )
+~@free_function_t@dup3@int (*)( int,int,int )int (*)( int,int,int )
 ~@free_function_t@feof@int (*)( ::FILE * )int (*)( ::FILE * )
 ~@free_function_t@__ldexpl@long double (*)( long double,int )long double (*)( long double,int )
 ~@free_function_t@vfprintf@int (*)( __restrict__ ::FILE *,__restrict__ char const *,::__va_list_tag * )int (*)( __restrict__ ::FILE *,__restrict__ char const *,::__va_list_tag * )

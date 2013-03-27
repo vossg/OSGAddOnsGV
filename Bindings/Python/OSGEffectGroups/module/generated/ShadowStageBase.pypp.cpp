@@ -85,6 +85,7 @@ void register_ShadowStageBase_class(){
         bp::scope().attr("GreenFieldId") = (int)OSG::ShadowStageBase::GreenFieldId;
         bp::scope().attr("AlphaFieldId") = (int)OSG::ShadowStageBase::AlphaFieldId;
         bp::scope().attr("BlitZBufferFieldId") = (int)OSG::ShadowStageBase::BlitZBufferFieldId;
+        bp::scope().attr("CombineBlendFieldId") = (int)OSG::ShadowStageBase::CombineBlendFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ShadowStageBase::NextFieldId;
         { //::OSG::ShadowStageBase::assignExcludeNodes
         
@@ -256,6 +257,15 @@ void register_ShadowStageBase_class(){
                 , getClassTypeId_function_type( &::OSG::ShadowStageBase::getClassTypeId ) );
         
         }
+        { //::OSG::ShadowStageBase::getCombineBlend
+        
+            typedef bool ( ::OSG::ShadowStageBase::*getCombineBlend_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getCombineBlend"
+                , getCombineBlend_function_type( &::OSG::ShadowStageBase::getCombineBlend ) );
+        
+        }
         { //::OSG::ShadowStageBase::getContainerSize
         
             typedef ::OSG::UInt32 ( ::OSG::ShadowStageBase::*getContainerSize_function_type )(  ) const;
@@ -415,6 +425,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "getSFBlue"
                 , getSFBlue_function_type( &::OSG::ShadowStageBase::getSFBlue )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ShadowStageBase::getSFCombineBlend
+        
+            typedef ::OSG::SFBool const * ( ::OSG::ShadowStageBase::*getSFCombineBlend_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getSFCombineBlend"
+                , getSFCombineBlend_function_type( &::OSG::ShadowStageBase::getSFCombineBlend )
                 , bp::return_internal_reference< >() );
         
         }
@@ -692,6 +712,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "setBlue"
                 , setBlue_function_type( &::OSG::ShadowStageBase::setBlue )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShadowStageBase::setCombineBlend
+        
+            typedef void ( ::OSG::ShadowStageBase::*setCombineBlend_function_type )( bool const ) ;
+            
+            ShadowStageBase_exposer.def( 
+                "setCombineBlend"
+                , setCombineBlend_function_type( &::OSG::ShadowStageBase::setCombineBlend )
                 , ( bp::arg("value") ) );
         
         }

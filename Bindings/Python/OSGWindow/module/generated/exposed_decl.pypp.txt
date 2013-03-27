@@ -1,8 +1,8 @@
 ~@enumeration_t@('/usr/include/bits/fenv.h', 28)@::
 ~@enumeration_t@('/usr/include/pthread.h', 66)@::
-~@enumeration_t@('/usr/include/bits/locale.h', 27)@::
+~@enumeration_t@('/usr/include/bits/fenv.h', 49)@::
 ~@enumeration_t@('/usr/include/bits/socket.h', 202)@::
-~@enumeration_t@('/usr/include/bits/socket.h', 337)@::
+~@enumeration_t@('/usr/include/bits/locale.h', 27)@::
 ~@enumeration_t@('/usr/include/pthread.h', 167)@::
 ~@enumeration_t@_LIB_VERSION_TYPE@::_LIB_VERSION_TYPE
 ~@enumeration_t@('/usr/include/bits/confname.h', 26)@::
@@ -19,13 +19,13 @@
 ~@enumeration_t@('/usr/include/pthread.h', 157)@::
 ~@enumeration_t@('/usr/include/pthread.h', 115)@::
 ~@enumeration_t@('/usr/include/pthread.h', 78)@::
+~@enumeration_t@('/usr/include/bits/socket.h', 337)@::
 ~@enumeration_t@('/usr/include/netinet/in.h', 100)@::
 ~@enumeration_t@__socket_type@::__socket_type
 ~@enumeration_t@__itimer_which@::__itimer_which
 ~@enumeration_t@('/usr/include/bits/confname.h', 73)@::
 ~@enumeration_t@('/usr/include/pthread.h', 44)@::
 ~@enumeration_t@('/usr/include/netinet/in.h', 32)@::
-~@enumeration_t@('/usr/include/bits/fenv.h', 49)@::
 ~@typedef_t@PFNGLSTENCILMASKSEPARATEPROC@::PFNGLSTENCILMASKSEPARATEPROC
 ~@typedef_t@PFNGLMULTITEXPARAMETERIUIVEXTPROC@::PFNGLMULTITEXPARAMETERIUIVEXTPROC
 ~@typedef_t@PFNGLWINDOWPOS2SVARBPROC@::PFNGLWINDOWPOS2SVARBPROC
@@ -768,7 +768,7 @@
 ~@typedef_t@PFNGLUPDATEOBJECTBUFFERATIPROC@::PFNGLUPDATEOBJECTBUFFERATIPROC
 ~@typedef_t@time_t@::time_t
 ~@typedef_t@PFNGLVERTEXATTRIB4FVPROC@::PFNGLVERTEXATTRIB4FVPROC
-~@typedef_t@PFNGLPROGRAMUNIFORMMATRIX4FVEXTPROC@::PFNGLPROGRAMUNIFORMMATRIX4FVEXTPROC
+~@typedef_t@PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC@::PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC
 ~@typedef_t@PFNGLVERTEX4HNVPROC@::PFNGLVERTEX4HNVPROC
 ~@typedef_t@fsblkcnt64_t@::fsblkcnt64_t
 ~@typedef_t@PFNGLGETCOLORTABLEPARAMETERIVPROC@::PFNGLGETCOLORTABLEPARAMETERIVPROC
@@ -1024,7 +1024,7 @@
 ~@typedef_t@PFNGLUNIFORM3FPROC@::PFNGLUNIFORM3FPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI3IEXTPROC@::PFNGLVERTEXATTRIBI3IEXTPROC
 ~@typedef_t@PFNGLDRAWBUFFERSPROC@::PFNGLDRAWBUFFERSPROC
-~@typedef_t@PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC@::PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC
+~@typedef_t@PFNGLPROGRAMUNIFORMMATRIX4FVEXTPROC@::PFNGLPROGRAMUNIFORMMATRIX4FVEXTPROC
 ~@typedef_t@PFNGLREPLACEMENTCODEUICOLOR4FNORMAL3FVERTEX3FVSUNPROC@::PFNGLREPLACEMENTCODEUICOLOR4FNORMAL3FVERTEX3FVSUNPROC
 ~@typedef_t@PFNGLFOGCOORDFVPROC@::PFNGLFOGCOORDFVPROC
 ~@typedef_t@PFNGLUNIFORMMATRIX4FVPROC@::PFNGLUNIFORMMATRIX4FVPROC
@@ -1135,7 +1135,7 @@
 ~@typedef_t@PFNGLGETPROGRAMIVPROC@::PFNGLGETPROGRAMIVPROC
 ~@typedef_t@PFNGLMULTITEXCOORD3SVARBPROC@::PFNGLMULTITEXCOORD3SVARBPROC
 ~@typedef_t@PFNGLGETRENDERBUFFERPARAMETERIVEXTPROC@::PFNGLGETRENDERBUFFERPARAMETERIVEXTPROC
-~@typedef_t@cookie_seek_function_t@::cookie_seek_function_t
+~@typedef_t@PFNGLNAMEDPROGRAMLOCALPARAMETERSI4IVEXTPROC@::PFNGLNAMEDPROGRAMLOCALPARAMETERSI4IVEXTPROC
 ~@typedef_t@PFNGLMULTITEXCOORD2HNVPROC@::PFNGLMULTITEXCOORD2HNVPROC
 ~@typedef_t@PFNGLWINDOWPOS3IPROC@::PFNGLWINDOWPOS3IPROC
 ~@typedef_t@PFNGLCOLORPOINTEREXTPROC@::PFNGLCOLORPOINTEREXTPROC
@@ -1440,7 +1440,7 @@
 ~@typedef_t@PFNGLUNIFORM4UIPROC@::PFNGLUNIFORM4UIPROC
 ~@typedef_t@key_t@::key_t
 ~@typedef_t@PFNGLGETTRANSFORMFEEDBACKVARYINGPROC@::PFNGLGETTRANSFORMFEEDBACKVARYINGPROC
-~@typedef_t@PFNGLNAMEDPROGRAMLOCALPARAMETERSI4IVEXTPROC@::PFNGLNAMEDPROGRAMLOCALPARAMETERSI4IVEXTPROC
+~@typedef_t@cookie_seek_function_t@::cookie_seek_function_t
 ~@typedef_t@PFNGLGETBUFFERPARAMETERIVARBPROC@::PFNGLGETBUFFERPARAMETERIVARBPROC
 ~@typedef_t@PFNGLMULTITEXCOORD1DVPROC@::PFNGLMULTITEXCOORD1DVPROC
 ~@typedef_t@PFNGLREPLACEMENTCODEUSSUNPROC@::PFNGLREPLACEMENTCODEUSSUNPROC
@@ -1785,9 +1785,9 @@
 ~@class_declaration_t@__GLXcontextRec@::__GLXcontextRec
 ~@class_declaration_t@__jmp_buf_tag@::__jmp_buf_tag
 ~@class_declaration_t@__locale_data@::__locale_data
-~@variable_t@_ZTIN3OSG24StereoBufferViewportBaseE@::_ZTIN3OSG24StereoBufferViewportBaseE
-~@variable_t@_ZTIN3OSG9StateBaseE@::_ZTIN3OSG9StateBaseE
 ~@variable_t@_ZTISt15time_get_bynameIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt15time_get_bynameIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
+~@variable_t@_ZTIN3OSG9StateBaseE@::_ZTIN3OSG9StateBaseE
+~@variable_t@_ZTIN3OSG19SemaphoreCommonBaseE@::_ZTIN3OSG19SemaphoreCommonBaseE
 ~@variable_t@_ZTIN3OSG12NoLockPolicyE@::_ZTIN3OSG12NoLockPolicyE
 ~@variable_t@_ZTIN3OSG17PassiveWindowBaseE@::_ZTIN3OSG17PassiveWindowBaseE
 ~@variable_t@_ZTIN3OSG20NamedSplitFinitePoolImNS_25RenderPropertiesSplitInfoENS_23RenderPropertiesPoolTagENS_16SingleLockPolicyEEE@::_ZTIN3OSG20NamedSplitFinitePoolImNS_25RenderPropertiesSplitInfoENS_23RenderPropertiesPoolTagENS_16SingleLockPolicyEEE
@@ -1883,7 +1883,6 @@
 ~@variable_t@_ZTIN3OSG7BarrierE@::_ZTIN3OSG7BarrierE
 ~@variable_t@_ZTIN3OSG19HardwareContextTaskE@::_ZTIN3OSG19HardwareContextTaskE
 ~@variable_t@_ZTIN3OSG17CondVarCommonBaseE@::_ZTIN3OSG17CondVarCommonBaseE
-~@variable_t@_ZTIN3OSG17RenderOptionsBaseE@::_ZTIN3OSG17RenderOptionsBaseE
 ~@variable_t@_ZTIN3OSG17ContainerIdMapperE@::_ZTIN3OSG17ContainerIdMapperE
 ~@variable_t@_ZTISt12out_of_range@::_ZTISt12out_of_range
 ~@variable_t@_ZTIN3OSG20DepthClearBackgroundE@::_ZTIN3OSG20DepthClearBackgroundE
@@ -1952,7 +1951,7 @@
 ~@variable_t@_ZTIN3OSG21HardwareContextThreadE@::_ZTIN3OSG21HardwareContextThreadE
 ~@variable_t@_ZTIN3OSG26ExceptionBinaryDataHandler10WriteErrorE@::_ZTIN3OSG26ExceptionBinaryDataHandler10WriteErrorE
 ~@variable_t@__tzname@::__tzname
-~@variable_t@_ZTIN3OSG19ColorBufferViewportE@::_ZTIN3OSG19ColorBufferViewportE
+~@variable_t@stdin@::stdin
 ~@variable_t@_ZTIN3OSG29ProjectionCameraDecoratorBaseE@::_ZTIN3OSG29ProjectionCameraDecoratorBaseE
 ~@variable_t@_ZTIN3OSG25FieldContainerFactoryBaseE@::_ZTIN3OSG25FieldContainerFactoryBaseE
 ~@variable_t@_ZTIN3OSG7CondVarE@::_ZTIN3OSG7CondVarE
@@ -2044,6 +2043,7 @@
 ~@variable_t@_ZTISt19basic_ostringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt19basic_ostringstreamIcSt11char_traitsIcESaIcEE
 ~@variable_t@_ZTISt14basic_ofstreamIcSt11char_traitsIcEE@::_ZTISt14basic_ofstreamIcSt11char_traitsIcEE
 ~@variable_t@_ZTISt17moneypunct_bynameIcLb0EE@::_ZTISt17moneypunct_bynameIcLb0EE
+~@variable_t@_ZTIN3OSG19ColorBufferViewportE@::_ZTIN3OSG19ColorBufferViewportE
 ~@variable_t@_ZTIN3OSG6MPBaseE@::_ZTIN3OSG6MPBaseE
 ~@variable_t@_ZTIN3OSG24SimpleTextForegroundBaseE@::_ZTIN3OSG24SimpleTextForegroundBaseE
 ~@variable_t@_ZTIN3OSG3LogE@::_ZTIN3OSG3LogE
@@ -2056,7 +2056,6 @@
 ~@variable_t@_ZTIN3OSG23ColorBufferViewportBaseE@::_ZTIN3OSG23ColorBufferViewportBaseE
 ~@variable_t@_IO_2_1_stdout_@::_IO_2_1_stdout_
 ~@variable_t@_ZTIN3OSG6ThreadE@::_ZTIN3OSG6ThreadE
-~@variable_t@stdin@::stdin
 ~@variable_t@_ZTIN3OSG15BasePThreadBaseE@::_ZTIN3OSG15BasePThreadBaseE
 ~@variable_t@program_invocation_short_name@::program_invocation_short_name
 ~@variable_t@_ZTIN3OSG12StatRealElemE@::_ZTIN3OSG12StatRealElemE
@@ -2082,6 +2081,7 @@
 ~@variable_t@_ZTIv@::_ZTIv
 ~@variable_t@_ZTIN3OSG10StateChunkE@::_ZTIN3OSG10StateChunkE
 ~@variable_t@_ZTISt17moneypunct_bynameIwLb1EE@::_ZTISt17moneypunct_bynameIwLb1EE
+~@variable_t@_ZTIN3OSG24StereoBufferViewportBaseE@::_ZTIN3OSG24StereoBufferViewportBaseE
 ~@variable_t@_ZTIN3OSG18ReflexiveContainerE@::_ZTIN3OSG18ReflexiveContainerE
 ~@variable_t@_ZTIN3OSG8InStreamE@::_ZTIN3OSG8InStreamE
 ~@variable_t@daylight@::daylight
@@ -2127,7 +2127,6 @@
 ~@variable_t@_ZTIN5boost7numeric16bad_numeric_castE@::_ZTIN5boost7numeric16bad_numeric_castE
 ~@variable_t@_ZTIN3OSG19CameraDecoratorBaseE@::_ZTIN3OSG19CameraDecoratorBaseE
 ~@variable_t@_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE@::_ZTIN3OSG16ContainerFactoryINS_25FieldContainerFactoryDescEEE
-~@variable_t@_ZTIN3OSG13RenderOptionsE@::_ZTIN3OSG13RenderOptionsE
 ~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
 ~@variable_t@_ZTIN3OSG15EditFieldHandleE@::_ZTIN3OSG15EditFieldHandleE
 ~@variable_t@_IO_2_1_stderr_@::_IO_2_1_stderr_
@@ -2151,7 +2150,6 @@
 ~@variable_t@_ZTIN3OSG11OpenGLStateE@::_ZTIN3OSG11OpenGLStateE
 ~@variable_t@_ZTISt14collate_bynameIwE@::_ZTISt14collate_bynameIwE
 ~@variable_t@_ZTISt10moneypunctIwLb0EE@::_ZTISt10moneypunctIwLb0EE
-~@variable_t@_ZTIN3OSG19SemaphoreCommonBaseE@::_ZTIN3OSG19SemaphoreCommonBaseE
 ~@variable_t@_ZTIN3OSG13SkyBackgroundE@::_ZTIN3OSG13SkyBackgroundE
 ~@variable_t@_ZTIN3OSG19ImageForegroundBaseE@::_ZTIN3OSG19ImageForegroundBaseE
 ~@variable_t@_ZTIN3OSG18FieldContainerTypeE@::_ZTIN3OSG18FieldContainerTypeE
@@ -2388,7 +2386,7 @@
 ~@free_function_t@__atanf@float (*)( float )float (*)( float )
 ~@free_function_t@strtouq@long long unsigned int (*)( __restrict__ char const *,__restrict__ char * *,int )long long unsigned int (*)( __restrict__ char const *,__restrict__ char * *,int )
 ~@free_function_t@btowc@::wint_t (*)( int )::wint_t (*)( int )
-~@free_function_t@strtoul@long unsigned int (*)( __restrict__ char const *,__restrict__ char * *,int )long unsigned int (*)( __restrict__ char const *,__restrict__ char * *,int )
+~@free_function_t@finitef@int (*)( float )int (*)( float )
 ~@free_function_t@sem_unlink@int (*)( char const * )int (*)( char const * )
 ~@free_function_t@finitel@int (*)( long double )int (*)( long double )
 ~@free_function_t@strtol_l@long int (*)( __restrict__ char const *,__restrict__ char * *,int,::__locale_t )long int (*)( __restrict__ char const *,__restrict__ char * *,int,::__locale_t )
@@ -3015,7 +3013,7 @@
 ~@free_function_t@__builtin_expf@float (*)( float )float (*)( float )
 ~@free_function_t@futimes@int (*)( int,::timeval const * )int (*)( int,::timeval const * )
 ~@free_function_t@__significandf@float (*)( float )float (*)( float )
-~@free_function_t@finitef@int (*)( float )int (*)( float )
+~@free_function_t@strtoul@long unsigned int (*)( __restrict__ char const *,__restrict__ char * *,int )long unsigned int (*)( __restrict__ char const *,__restrict__ char * *,int )
 ~@free_function_t@__gthrw_pthread_cond_broadcast@int (*)( ::pthread_cond_t * )int (*)( ::pthread_cond_t * )
 ~@free_function_t@__log2f@float (*)( float )float (*)( float )
 ~@free_function_t@wctrans_l@::wctrans_t (*)( char const *,::__locale_t )::wctrans_t (*)( char const *,::__locale_t )
@@ -3490,7 +3488,7 @@
 ~@free_function_t@glPixelTransferf@void (*)( ::GLenum,::GLfloat )void (*)( ::GLenum,::GLfloat )
 ~@free_function_t@__builtin_ctanhl@complex long double (*)( complex long double )complex long double (*)( complex long double )
 ~@free_function_t@atexit@int (*)( void (*)(  ) * )int (*)( void (*)(  ) * )
-~@free_function_t@fchownat@int (*)( int,char const *,::__uid_t,::__gid_t,int )int (*)( int,char const *,::__uid_t,::__gid_t,int )
+~@free_function_t@quick_exit@void (*)( int )void (*)( int )
 ~@free_function_t@close@int (*)( int )int (*)( int )
 ~@free_function_t@jrand48@long int (*)( short unsigned int * )long int (*)( short unsigned int * )
 ~@free_function_t@strchr@char const * (*)( char const *,int )char const * (*)( char const *,int )
@@ -3872,7 +3870,7 @@
 ~@free_function_t@glRasterPos3s@void (*)( ::GLshort,::GLshort,::GLshort )void (*)( ::GLshort,::GLshort,::GLshort )
 ~@free_function_t@fscanf@int (*)( __restrict__ ::FILE *,__restrict__ char const *,... )int (*)( __restrict__ ::FILE *,__restrict__ char const *,... )
 ~@free_function_t@__builtin_atan@double (*)( double )double (*)( double )
-~@free_function_t@quick_exit@void (*)( int )void (*)( int )
+~@free_function_t@fchownat@int (*)( int,char const *,::__uid_t,::__gid_t,int )int (*)( int,char const *,::__uid_t,::__gid_t,int )
 ~@free_function_t@glIsList@::GLboolean (*)( ::GLuint )::GLboolean (*)( ::GLuint )
 ~@free_function_t@fexecve@int (*)( int,char * const *,char * const * )int (*)( int,char * const *,char * const * )
 ~@free_function_t@__builtin_sinhl@long double (*)( long double )long double (*)( long double )

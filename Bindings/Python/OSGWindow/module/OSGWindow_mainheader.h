@@ -2,6 +2,8 @@
 #include <PreBoostPython.h>
 #include <pypp_aliases.h>
 #include <OSGRenderActionBase.h>
+#include <OSGTextureObjChunk.h>
+#include <OSGPrimeMaterial.h>
 #include <OSGTileableBackground.h>
 #include <OSGSkyBackground.h>
 #include <OSGDepthClearBackground.h>

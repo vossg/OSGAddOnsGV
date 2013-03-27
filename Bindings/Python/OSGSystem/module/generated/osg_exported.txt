@@ -21,6 +21,7 @@ GeoReferenceAttachmentBase
 ShaderProgramChunkBase
 TextureObjChunkBase
 SolidBackgroundBase
+PrimeMaterialBase
 DrawableStatsAttachment
 LightBase
 FBOViewport
@@ -53,6 +54,7 @@ Camera
 MaterialBase
 ContainerCollection
 MultiPassMaterial
+LightEngineBase
 TreeBuilderBase
 ForegroundBase
 ShaderVariableFunctorBase
@@ -171,12 +173,10 @@ ActionBase
 ChunkMaterial
 StatisticsForegroundBase
 SwitchMaterialBase
-PrimeMaterialBase
 StatsAttachment
 StateChunk
 ShaderProgramVariablesBase
 MaterialDrawableBase
-LightEngineBase
 Material
 ShaderVariableBase
 WindowBase

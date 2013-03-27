@@ -3,6 +3,17 @@
 #include <pypp_aliases.h>
 #include <OSGRenderAction.h>
 #include <OSGStageParent.h>
+#include <OSGFrameBufferObject.h>
+#include <OSGTextureBuffer.h>
+#include <OSGTextureObjChunk.h>
+#include <OSGChunkMaterial.h>
+#include <OSGTextureTransformChunk.h>
+#include <OSGShaderProgram.h>
+#include <OSGImage.h>
+#include <OSGForeground.h>
+#include <OSGBlendChunk.h>
+#include <OSGPolygonChunk.h>
+#include <OSGTexGenChunk.h>
 #include <OSGCubeMapGeneratorStageData.h>
 #include <OSGDynamicStateGeneratorStageData.h>
 #include <OSGCubeMapGenerator.h>

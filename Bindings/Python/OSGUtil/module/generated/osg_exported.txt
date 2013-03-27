@@ -10,9 +10,9 @@ PerfMonitorForegroundBase
 SimpleStatisticsForeground
 PerfMonitorForeground
 NavigationManager
-MergeGraphOp
 StripeGraphOp
 VerifyGeoGraphOp
 GeoTypeGraphOp
 PruneGraphOp
+MergeGraphOp
 MaterialMergeGraphOp

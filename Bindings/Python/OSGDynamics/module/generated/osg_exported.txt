@@ -15,7 +15,6 @@ CPUSkinningAlgorithmBase
 AnimBlenderBase
 AnimVec3fBlender
 GPUSkinningAlgorithm
-SkeletonJoint
 AnimBlender
 VRMLOrientationInterpolator
 AnimKeyFrameDataSource
@@ -73,4 +72,5 @@ SkeletonOgreJointBase
 AnimTimeSensorBase
 SkinnedGeometry
 AnimVec3fChannelBase
+SkeletonJoint
 AnimMatrixDataSource

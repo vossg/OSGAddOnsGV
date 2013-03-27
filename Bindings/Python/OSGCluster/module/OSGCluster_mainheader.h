@@ -6,6 +6,7 @@
 #include <OSGClusterServer.h>
 #include <OSGClusterNetwork.h>
 #include <OSGRemoteAspect.h>
+#include <OSGImageComposer.h>
 #include <OSGClusterWindow.h>
 #include <OSGMultiDisplayWindow.h>
 

@@ -1851,15 +1851,15 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@@::
-~@namespace_t@boost@::boost
+~@namespace_t@__gnu_cxx@::__gnu_cxx
+~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
 ~@namespace_t@boost_concepts@::boost_concepts
 ~@namespace_t@mpl_@::mpl_
 ~@namespace_t@osgwrap@::osgwrap
-~@namespace_t@__cxxabiv1@::__cxxabiv1
+~@namespace_t@boost@::boost
 ~@namespace_t@boost_swap_impl@::boost_swap_impl
 ~@namespace_t@OSG@::OSG
 ~@class_declaration_t@PyMemberDef@::PyMemberDef
@@ -4399,7 +4399,7 @@
 ~@free_function_t@__builtin_return_address@void * (*)( unsigned int )void * (*)( unsigned int )
 ~@free_function_t@glIndexdv@void (*)( ::GLdouble const * )void (*)( ::GLdouble const * )
 ~@free_function_t@PyString_Decode@::PyObject * (*)( char const *,::Py_ssize_t,char const *,char const * )::PyObject * (*)( char const *,::Py_ssize_t,char const *,char const * )
-~@free_function_t@PyBuffer_FromReadWriteMemory@::PyObject * (*)( void *,::Py_ssize_t )::PyObject * (*)( void *,::Py_ssize_t )
+~@free_function_t@PyArg_VaParseTupleAndKeywords@int (*)( ::PyObject *,::PyObject *,char const *,char * *,::__va_list_tag * )int (*)( ::PyObject *,::PyObject *,char const *,char * *,::__va_list_tag * )
 ~@free_function_t@PyList_Insert@int (*)( ::PyObject *,::Py_ssize_t,::PyObject * )int (*)( ::PyObject *,::Py_ssize_t,::PyObject * )
 ~@free_function_t@__lgammaf_r@float (*)( float,int * )float (*)( float,int * )
 ~@free_function_t@glClearDepth@void (*)( ::GLclampd )void (*)( ::GLclampd )
@@ -4680,7 +4680,7 @@
 ~@free_function_t@_PyUnicodeUCS4_IsWhitespace@int (*)( ::Py_UNICODE const )int (*)( ::Py_UNICODE const )
 ~@free_function_t@fdimf@float (*)( float,float )float (*)( float,float )
 ~@free_function_t@PyUnicodeUCS4_FromStringAndSize@::PyObject * (*)( char const *,::Py_ssize_t )::PyObject * (*)( char const *,::Py_ssize_t )
-~@free_function_t@PyArg_VaParseTupleAndKeywords@int (*)( ::PyObject *,::PyObject *,char const *,char * *,::__va_list_tag * )int (*)( ::PyObject *,::PyObject *,char const *,char * *,::__va_list_tag * )
+~@free_function_t@PyBuffer_FromReadWriteMemory@::PyObject * (*)( void *,::Py_ssize_t )::PyObject * (*)( void *,::Py_ssize_t )
 ~@free_function_t@bsearch@void * (*)( void const *,void const *,::size_t,::size_t,::__compar_fn_t )void * (*)( void const *,void const *,::size_t,::size_t,::__compar_fn_t )
 ~@free_function_t@fmin@double (*)( double,double )double (*)( double,double )
 ~@free_function_t@PyBuffer_Release@void (*)( ::Py_buffer * )void (*)( ::Py_buffer * )
