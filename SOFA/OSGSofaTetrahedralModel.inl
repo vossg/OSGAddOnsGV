@@ -41,8 +41,8 @@
 #ifndef OSG2_TETRAHEDRALMODEL_INL_
 #define OSG2_TETRAHEDRALMODEL_INL_
 
-#include "OSGSofaTetrahedralModel.h"
 #include "OSGSofaShader.h"
+#include "OSGSofaTetrahedralModel.h"
 
 #include <sofa/helper/gl/GLSLShader.h>
 #include <sofa/defaulttype/BoundingBox.h>
