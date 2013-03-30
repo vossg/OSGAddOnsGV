@@ -43,8 +43,8 @@
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
 
-#include "OSGSofaShadowGraph.h"
 #include "OSGSofaVisualVisitor.h"
+#include "OSGSofaShadowGraph.h"
 
 BEGIN_SOFA_CMP_VISMODEL_NAMESPACE
 
