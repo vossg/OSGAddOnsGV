@@ -44,6 +44,8 @@
 #endif
 
 #include "OSGSofaShader.h"
+#include "OSGShaderProgram.h"
+
 #include <sofa/component/visualmodel/CompositingVisualLoop.h>
 #include "OSGSimpleMaterial.h"
 
