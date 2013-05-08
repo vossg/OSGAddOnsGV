@@ -29,7 +29,7 @@
 #include "OSGSofaVisualModelPolicy.h"
 #include "OSGSofaVisualVisitor.h"
 #include "OSGSofaShadowGraph.h"
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 #include "OSGGLUT.h"
 #include "OSGGLUTWindow.h"
 #include "OSGSimpleGeometry.h"
