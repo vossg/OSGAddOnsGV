@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -367,6 +367,7 @@ LabelBase::TypeObject LabelBase::_type(
     "\tname=\"Label\"\n"
     "\tparent=\"Group\"\n"
     "\tlibrary=\"ContribLabeling\"\n"
+    "    package=\"OSGAddOns\"\n"
     "\tstructure=\"abstract\"\n"
     "\tpointerfieldtypes=\"both\"\n"
     "\tsystemcomponent=\"true\"\n"

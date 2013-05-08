@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -154,16 +154,17 @@ BbqDataSourceBase::TypeObject BbqDataSourceBase::_type(
     "    decoratable=\"false\"\n"
     "    useLocalIncludes=\"false\"\n"
     "    library=\"ContribBbqTerrain\"\n"
-    ">\n"
-    "\t<Field\n"
-    "\t\tname=\"ignoreGeoRef\"\n"
-    "\t\ttype=\"bool\"\n"
-    "\t\tcardinality=\"single\"\n"
-    "\t\tvisibility=\"external\"\n"
-    "\t\tdefaultValue=\"false\"\n"
-    "\t\taccess=\"public\"\n"
-    "\t>\n"
-    "\t</Field>    \n"
+    "    package=\"OSGAddOns\"\n"
+    "    >\n"
+    "  <Field\n"
+    "\t  name=\"ignoreGeoRef\"\n"
+    "\t  type=\"bool\"\n"
+    "\t  cardinality=\"single\"\n"
+    "\t  visibility=\"external\"\n"
+    "\t  defaultValue=\"false\"\n"
+    "\t  access=\"public\"\n"
+    "\t  >\n"
+    "  </Field>    \n"
     "</FieldContainer>\n",
     ""
     );

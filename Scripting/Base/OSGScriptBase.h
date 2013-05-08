@@ -58,7 +58,7 @@
 #endif
 
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 #include "OSGScriptingDef.h"
 
 //#include "OSGBaseTypes.h"

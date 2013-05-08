@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -131,6 +131,7 @@ PyFieldContainerPtrMFieldGetHandleBase::TypeObject PyFieldContainerPtrMFieldGetH
     "   name=\"PyFieldContainerPtrMFieldGetHandle\"\n"
     "   parent=\"FieldContainer\"\n"
     "   library=\"Scripting\"\n"
+    "   package=\"OSGAddOns\"\n"
     "   structure=\"concrete\"\n"
     "   pointerfieldtypes=\"both\"\n"
     "   systemcomponent=\"true\"\n"

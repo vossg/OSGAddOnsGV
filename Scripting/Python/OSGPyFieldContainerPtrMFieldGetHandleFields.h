@@ -54,7 +54,7 @@
 #pragma once
 #endif
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 #include "OSGScriptingDef.h"
 
 #include "OSGFieldContainerFields.h"

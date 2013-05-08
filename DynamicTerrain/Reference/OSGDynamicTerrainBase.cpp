@@ -56,7 +56,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 
 #include "OSGDynamicTerrainBase.h"
 #include "OSGDynamicTerrain.h"

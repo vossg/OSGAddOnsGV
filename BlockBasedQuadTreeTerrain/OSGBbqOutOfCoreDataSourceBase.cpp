@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -194,6 +194,7 @@ BbqOutOfCoreDataSourceBase::TypeObject BbqOutOfCoreDataSourceBase::_type(
     "    decoratable=\"false\"\n"
     "    useLocalIncludes=\"false\"\n"
     "    library=\"ContribBbqTerrain\"\n"
+    "    package=\"OSGAddOns\"\n"
     ">\n"
     "\t<Field\n"
     "\t\tname=\"filename\"\n"

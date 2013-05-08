@@ -58,7 +58,7 @@
 #endif
 
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 #include "OSGWindowDef.h"
 
 #include "OSGBaseTypes.h"

@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -229,6 +229,7 @@ SimpleCudaComputeAlgorithmBase::TypeObject SimpleCudaComputeAlgorithmBase::_type
     "\tname=\"SimpleCudaComputeAlgorithm\"\n"
     "\tparent=\"ComputeAlgorithm\"\n"
     "\tlibrary=\"ContribCompute\"\n"
+    "    package=\"OSGAddOns\"\n"
     "\tpointerfieldtypes=\"both\"\n"
     "\tstructure=\"concrete\"\n"
     "\tsystemcomponent=\"true\"\n"

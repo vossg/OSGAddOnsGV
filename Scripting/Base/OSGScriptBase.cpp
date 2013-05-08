@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -166,6 +166,7 @@ ScriptBase::TypeObject ScriptBase::_type(
     "   name=\"Script\"\n"
     "   parent=\"NodeCore\"\n"
     "   library=\"Scripting\"\n"
+    "   package=\"OSGAddOns\"\n"
     "   mixinparent=\"ScriptParent\"\n"
     "   structure=\"abstract\"\n"
     "   pointerfieldtypes=\"both\"\n"

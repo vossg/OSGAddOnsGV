@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -74,7 +74,8 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 /*! \class OSG::PyFieldContainerPtrMFieldEditHandle
-    A container used to expose a fieldcontainer pointer multi-field edit handle equivalent to Python. 
+    A container used to expose a fieldcontainer pointer multi-field edit handle
+    equivalent to Python.  
     It provides access to the underlying multi-field in a pythonic way.
  */
 
@@ -128,20 +129,23 @@ PyFieldContainerPtrMFieldEditHandleBase::TypeObject PyFieldContainerPtrMFieldEdi
     "<?xml version=\"1.0\" ?>\n"
     "\n"
     "<FieldContainer\n"
-    "   name=\"PyFieldContainerPtrMFieldEditHandle\"\n"
-    "   parent=\"FieldContainer\"\n"
-    "   library=\"Scripting\"\n"
-    "   structure=\"concrete\"\n"
-    "   pointerfieldtypes=\"both\"\n"
-    "   systemcomponent=\"true\"\n"
-    "   parentsystemcomponent=\"true\"\n"
-    "   isNodeCore=\"false\"\n"
-    "   docGroupBase=\"GrpScripting\"\n"
-    "   >\n"
-    "   A container used to expose a fieldcontainer pointer multi-field edit handle equivalent to Python. \n"
-    "   It provides access to the underlying multi-field in a pythonic way.\n"
+    "    name=\"PyFieldContainerPtrMFieldEditHandle\"\n"
+    "    parent=\"FieldContainer\"\n"
+    "    library=\"Scripting\"\n"
+    "    package=\"OSGAddOns\"\n"
+    "    structure=\"concrete\"\n"
+    "    pointerfieldtypes=\"both\"\n"
+    "    systemcomponent=\"true\"\n"
+    "    parentsystemcomponent=\"true\"\n"
+    "    isNodeCore=\"false\"\n"
+    "    docGroupBase=\"GrpScripting\"\n"
+    "    >\n"
+    "  A container used to expose a fieldcontainer pointer multi-field edit handle\n"
+    "  equivalent to Python.  \n"
+    "  It provides access to the underlying multi-field in a pythonic way.\n"
     "</FieldContainer>\n",
-    "A container used to expose a fieldcontainer pointer multi-field edit handle equivalent to Python. \n"
+    "A container used to expose a fieldcontainer pointer multi-field edit handle\n"
+    "equivalent to Python.  \n"
     "It provides access to the underlying multi-field in a pythonic way.\n"
     );
 

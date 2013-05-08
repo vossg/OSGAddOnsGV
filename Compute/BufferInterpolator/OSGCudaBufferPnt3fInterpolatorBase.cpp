@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -121,20 +121,21 @@ CudaBufferPnt3fInterpolatorBase::TypeObject CudaBufferPnt3fInterpolatorBase::_ty
     "<?xml version=\"1.0\"?>\n"
     "\n"
     "<FieldContainer\n"
-    "   name=\"CudaBufferPnt3fInterpolator\"\n"
-    "   parent=\"BufferPnt3fInterpolator\"\n"
-    "   mixinparent=\"CudaBufferPnt3fInterpolatorParent\"\n"
-    "   library=\"ContribCompute\"\n"
-    "   pointerfieldtypes=\"none\"\n"
-    "   structure=\"concrete\"\n"
-    "   systemcomponent=\"true\"\n"
-    "   parentsystemcomponent=\"true\"\n"
-    "   decoratable=\"false\"\n"
-    "   useLocalIncludes=\"false\"\n"
-    "   isNodeCore=\"true\"\n"
-    "   isBundle=\"false\"\n"
-    "   parentFields=\"none\"\n"
-    "   >\n"
+    "    name=\"CudaBufferPnt3fInterpolator\"\n"
+    "    parent=\"BufferPnt3fInterpolator\"\n"
+    "    mixinparent=\"CudaBufferPnt3fInterpolatorParent\"\n"
+    "    library=\"ContribCompute\"\n"
+    "    package=\"OSGAddOns\"\n"
+    "    pointerfieldtypes=\"none\"\n"
+    "    structure=\"concrete\"\n"
+    "    systemcomponent=\"true\"\n"
+    "    parentsystemcomponent=\"true\"\n"
+    "    decoratable=\"false\"\n"
+    "    useLocalIncludes=\"false\"\n"
+    "    isNodeCore=\"true\"\n"
+    "    isBundle=\"false\"\n"
+    "    parentFields=\"none\"\n"
+    "    >\n"
     "</FieldContainer>\n",
     ""
     );

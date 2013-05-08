@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -148,6 +148,7 @@ PythonScriptFileBase::TypeObject PythonScriptFileBase::_type(
     "    name=\"PythonScriptFile\"\n"
     "    parent=\"PythonScript\"\n"
     "    library=\"Scripting\"\n"
+    "    package=\"OSGAddOns\"\n"
     "    structure=\"concrete\"\n"
     "    pointerfieldtypes=\"both\"\n"
     "    systemcomponent=\"true\"\n"

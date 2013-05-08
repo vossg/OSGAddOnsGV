@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -74,7 +74,8 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 /*! \class OSG::PyFieldAccessHandler
-    Dummy fcd to automatically include the PyFieldAccessHandler files into the Python bindings generation process.
+    Dummy fcd to automatically include the PyFieldAccessHandler files into the
+    Python bindings generation process. 
  */
 
 /***************************************************************************\
@@ -127,19 +128,22 @@ PyFieldAccessHandlerBase::TypeObject PyFieldAccessHandlerBase::_type(
     "<?xml version=\"1.0\" ?>\n"
     "\n"
     "<FieldContainer\n"
-    "   name=\"PyFieldAccessHandler\"\n"
-    "   parent=\"FieldContainer\"\n"
-    "   library=\"Scripting\"\n"
-    "   structure=\"concrete\"\n"
-    "   pointerfieldtypes=\"both\"\n"
-    "   systemcomponent=\"true\"\n"
-    "   parentsystemcomponent=\"true\"\n"
-    "   isNodeCore=\"false\"\n"
-    "   docGroupBase=\"GrpScripting\"\n"
-    "   >\n"
-    "   Dummy fcd to automatically include the PyFieldAccessHandler files into the Python bindings generation process.\n"
+    "    name=\"PyFieldAccessHandler\"\n"
+    "    parent=\"FieldContainer\"\n"
+    "    library=\"Scripting\"\n"
+    "    package=\"OSGAddOns\"\n"
+    "    structure=\"concrete\"\n"
+    "    pointerfieldtypes=\"both\"\n"
+    "    systemcomponent=\"true\"\n"
+    "    parentsystemcomponent=\"true\"\n"
+    "    isNodeCore=\"false\"\n"
+    "    docGroupBase=\"GrpScripting\"\n"
+    "    >\n"
+    "  Dummy fcd to automatically include the PyFieldAccessHandler files into the\n"
+    "  Python bindings generation process. \n"
     "</FieldContainer>\n",
-    "Dummy fcd to automatically include the PyFieldAccessHandler files into the Python bindings generation process.\n"
+    "Dummy fcd to automatically include the PyFieldAccessHandler files into the\n"
+    "Python bindings generation process. \n"
     );
 
 /*------------------------------ get -----------------------------------*/

@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -205,6 +205,7 @@ BufferPnt3fInterpolatorBase::TypeObject BufferPnt3fInterpolatorBase::_type(
     "   name=\"BufferPnt3fInterpolator\"\n"
     "   parent=\"NodeCore\"\n"
     "   library=\"ContribCompute\"\n"
+    "   package=\"OSGAddOns\"\n"
     "   pointerfieldtypes=\"none\"\n"
     "   structure=\"concrete\"\n"
     "   systemcomponent=\"true\"\n"

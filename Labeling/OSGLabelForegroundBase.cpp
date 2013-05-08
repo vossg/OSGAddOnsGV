@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -192,6 +192,7 @@ LabelForegroundBase::TypeObject LabelForegroundBase::_type(
     "\tname=\"LabelForeground\"\n"
     "\tparent=\"Foreground\"\n"
     "\tlibrary=\"ContribLabeling\"\n"
+    "    package=\"OSGAddOns\"\n"
     "\tpointerfieldtypes=\"both\"\n"
     "\tstructure=\"concrete\"\n"
     "\tsystemcomponent=\"true\"\n"

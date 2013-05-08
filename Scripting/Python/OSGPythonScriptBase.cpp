@@ -53,7 +53,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 
 
@@ -127,17 +127,18 @@ PythonScriptBase::TypeObject PythonScriptBase::_type(
     "<?xml version=\"1.0\" ?>\n"
     "\n"
     "<FieldContainer\n"
-    "   name=\"PythonScript\"\n"
-    "   parent=\"Script\"\n"
-    "   library=\"Scripting\"\n"
-    "   structure=\"concrete\"\n"
-    "   pointerfieldtypes=\"both\"\n"
-    "   systemcomponent=\"true\"\n"
-    "   parentsystemcomponent=\"true\"\n"
-    "   isNodeCore=\"true\"\n"
-    "   docGroupBase=\"GrpScripting\"\n"
-    "   typeDescAddable=\"true\"\n"
-    "   >\n"
+    "    name=\"PythonScript\"\n"
+    "    parent=\"Script\"\n"
+    "    library=\"Scripting\"\n"
+    "    package=\"OSGAddOns\"\n"
+    "    structure=\"concrete\"\n"
+    "    pointerfieldtypes=\"both\"\n"
+    "    systemcomponent=\"true\"\n"
+    "    parentsystemcomponent=\"true\"\n"
+    "    isNodeCore=\"true\"\n"
+    "    docGroupBase=\"GrpScripting\"\n"
+    "    typeDescAddable=\"true\"\n"
+    "    >\n"
     "</FieldContainer>\n",
     ""
     );
