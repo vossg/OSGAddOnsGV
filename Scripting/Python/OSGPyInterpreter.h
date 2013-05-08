@@ -39,7 +39,7 @@
 #ifndef _OSGPYINTERPRETER_H_
 #define _OSGPYINTERPRETER_H_
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 #include "OSGBaseTypes.h"
 #include "OSGPyFunction.h"
 

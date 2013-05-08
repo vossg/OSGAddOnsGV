@@ -12,7 +12,7 @@
 // GLUT is used for window handling
 #include <OpenSG/OSGGLUT.h>
 // General OpenSG configuration, needed everywhere
-#include <OpenSG/OSGConfig.h>
+#include <OpenSG/OSGAddOnsConfig.h>
 // The Cluster server definition
 #include <OpenSG/OSGClusterServer.h>
 // The GLUT-OpenSG connection class

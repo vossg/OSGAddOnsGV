@@ -45,7 +45,7 @@
 #include <vector>
 #include <utility>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 #include "OSGAction.h"
 #include "OSGRenderActionBase.h"
 #include "OSGSpotLight.h"

@@ -17,7 +17,7 @@
 #define HEIGHT_DATA_UPDATER_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGContribDef.h>
 
 #include "OSGTypes.h"

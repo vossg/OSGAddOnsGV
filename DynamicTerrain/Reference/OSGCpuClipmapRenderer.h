@@ -13,7 +13,7 @@
 #define CPU_CLIPMAP_RENDERER_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGContribDef.h>
 
 #include "OSGClipmapRenderer.h"

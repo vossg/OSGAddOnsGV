@@ -1,4 +1,4 @@
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 
 #include <iostream>
 

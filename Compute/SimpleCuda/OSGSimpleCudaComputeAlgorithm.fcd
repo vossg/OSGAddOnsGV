@@ -4,6 +4,7 @@
 	name="SimpleCudaComputeAlgorithm"
 	parent="ComputeAlgorithm"
 	library="ContribCompute"
+    package="OSGAddOns"
 	pointerfieldtypes="both"
 	structure="concrete"
 	systemcomponent="true"

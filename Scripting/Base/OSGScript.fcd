@@ -4,6 +4,7 @@
    name="Script"
    parent="NodeCore"
    library="Scripting"
+   package="OSGAddOns"
    mixinparent="ScriptParent"
    structure="abstract"
    pointerfieldtypes="both"

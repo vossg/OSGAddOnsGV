@@ -2,7 +2,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #endif
 
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 
 #include <iostream>
 

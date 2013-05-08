@@ -13,7 +13,7 @@
 #define OSG_TOOLS_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGContribDef.h>
 
 #include <string>

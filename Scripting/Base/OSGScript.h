@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 #include "OSGScriptBase.h"
 #include "OSGAction.h"
 

@@ -4,6 +4,7 @@
    name="PyFieldContainerPtrMFieldGetHandle"
    parent="FieldContainer"
    library="Scripting"
+   package="OSGAddOns"
    structure="concrete"
    pointerfieldtypes="both"
    systemcomponent="true"

@@ -1,5 +1,5 @@
 #include <OSGGLUT.h>
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGGLUTWindow.h>
 #include <OSGBaseFunctions.h>

@@ -44,7 +44,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGQuaternion.h>
 #include <OSGRenderAction.h>
 #include <OSGMultiPassMaterial.h>

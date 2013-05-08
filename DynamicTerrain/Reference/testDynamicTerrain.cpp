@@ -3,7 +3,7 @@
 // GLUT is used for window handling
 #include <OSGGLUT.h>
 // General OpenSG configuration, needed everywhere
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 // Methods to create simple geometry: boxes, spheres, tori etc.
 #include <OSGSimpleGeometry.h>
 // The GLUT-OpenSG connection class

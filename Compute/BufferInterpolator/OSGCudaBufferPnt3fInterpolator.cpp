@@ -44,7 +44,7 @@
 #include <cstdio>
 
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 #include "OSGGL.h"
 

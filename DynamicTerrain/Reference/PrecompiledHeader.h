@@ -14,7 +14,7 @@
 
 #include <iostream>
 
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGGL.h>
 #include <OSGAction.h>
 #include <OSGDrawAction.h>

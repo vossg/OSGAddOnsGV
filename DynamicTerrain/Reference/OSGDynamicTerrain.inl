@@ -38,7 +38,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 
 OSG_BEGIN_NAMESPACE
 

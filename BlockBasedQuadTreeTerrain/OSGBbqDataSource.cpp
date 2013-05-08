@@ -43,7 +43,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 
 #include "OSGBbqDataSource.h"
 #include "OSGBbqTerrainNode.h"

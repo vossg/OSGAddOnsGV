@@ -4,6 +4,7 @@
 	name="DynamicTerrain"
 	parent="MaterialDrawable"
 	library="Contrib"
+    package="OSGAddOns"
 	pointerfieldtypes="none"
 	structure="concrete"
 	systemcomponent="true"

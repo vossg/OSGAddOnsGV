@@ -21,7 +21,7 @@
 #include <OpenSG/OSGGLUT.h>
 
 // General OpenSG configuration, needed everywhere
-#include <OpenSG/OSGConfig.h>
+#include <OpenSG/OSGAddOnsConfig.h>
 
 // Methods to create simple geometry: boxes, spheres, tori etc.
 #include <OpenSG/OSGSimpleGeometry.h>

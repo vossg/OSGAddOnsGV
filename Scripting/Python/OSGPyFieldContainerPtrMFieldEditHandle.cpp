@@ -43,7 +43,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 #include "OSGPointerType.h"
 
 #include "OSGPyFieldContainerPtrMFieldEditHandle.h"

@@ -4,6 +4,7 @@
    name="BufferPnt3fInterpolator"
    parent="NodeCore"
    library="ContribCompute"
+   package="OSGAddOns"
    pointerfieldtypes="none"
    structure="concrete"
    systemcomponent="true"

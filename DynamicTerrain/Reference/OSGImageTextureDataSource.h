@@ -13,7 +13,7 @@
 #define OSG_TEXTURE_DATA_SOURCE_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGContribDef.h>
 
 #include <OSGImage.h>

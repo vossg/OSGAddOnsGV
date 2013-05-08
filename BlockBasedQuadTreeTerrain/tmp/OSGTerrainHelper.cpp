@@ -1,5 +1,5 @@
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 #ifndef GL_GLEXT_PROTOTYPES
 # define GL_GLEXT_PROTOTYPES
@@ -10,7 +10,7 @@
 #endif
 
 #ifdef WIN32
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 #include <GL/glew.h>
 #endif
 

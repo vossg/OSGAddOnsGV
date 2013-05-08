@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 
 <FieldContainer
-   name="CudaBufferPnt3fInterpolator"
-   parent="BufferPnt3fInterpolator"
-   mixinparent="CudaBufferPnt3fInterpolatorParent"
-   library="ContribCompute"
-   pointerfieldtypes="none"
-   structure="concrete"
-   systemcomponent="true"
-   parentsystemcomponent="true"
-   decoratable="false"
-   useLocalIncludes="false"
-   isNodeCore="true"
-   isBundle="false"
-   parentFields="none"
-   >
+    name="CudaBufferPnt3fInterpolator"
+    parent="BufferPnt3fInterpolator"
+    mixinparent="CudaBufferPnt3fInterpolatorParent"
+    library="ContribCompute"
+    package="OSGAddOns"
+    pointerfieldtypes="none"
+    structure="concrete"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    decoratable="false"
+    useLocalIncludes="false"
+    isNodeCore="true"
+    isBundle="false"
+    parentFields="none"
+    >
 </FieldContainer>

@@ -38,7 +38,7 @@
 
 #include "OSGPyFunction.h"
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 #include <boost/version.hpp>
 #include <boost/python.hpp>

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include <OSGGLUT.h>
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 
 #include <OSGSimpleGeometry.h>
 #include <OSGGLUTWindow.h>

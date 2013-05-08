@@ -4,6 +4,7 @@
     name="PythonScriptFile"
     parent="PythonScript"
     library="Scripting"
+    package="OSGAddOns"
     structure="concrete"
     pointerfieldtypes="both"
     systemcomponent="true"

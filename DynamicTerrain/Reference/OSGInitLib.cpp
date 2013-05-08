@@ -1,4 +1,4 @@
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGBaseFunctions.h>
 #include <OSGFieldContainer.h>
 #include <OSGFieldContainerFactory.h>

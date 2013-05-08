@@ -46,7 +46,7 @@
 
 //-------------------------------------------------------------------------------------------------
 
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGContribDef.h>
 
 #include <OSGDynamicTerrainBase.h>

@@ -10,6 +10,7 @@
     decoratable="false"
     useLocalIncludes="false"
     library="ContribBbqTerrain"
+    package="OSGAddOns"
 >
 	<Field
 		name="filename"

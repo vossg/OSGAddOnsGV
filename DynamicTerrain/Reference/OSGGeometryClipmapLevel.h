@@ -13,7 +13,7 @@
 #define GEOMETRY_CLIPMAP_LEVEL_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGContribDef.h>
 
 #include <OSGBaseTypes.h>

@@ -4,6 +4,7 @@
 	name="Label"
 	parent="Group"
 	library="ContribLabeling"
+    package="OSGAddOns"
 	structure="abstract"
 	pointerfieldtypes="both"
 	systemcomponent="true"

@@ -4,6 +4,7 @@
 	name="ShadowStage"
 	parent="Stage"
 	library="Window"
+    package="OSGAddOns"
 	pointerfieldtypes="both"
 	structure="concrete"
 	systemcomponent="true"

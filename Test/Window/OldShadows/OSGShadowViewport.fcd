@@ -4,6 +4,7 @@
 	name="ShadowViewport"
 	parent="StereoBufferViewport"
 	library="Window"
+    package="OSGAddOns"
 	pointerfieldtypes="both"
 	structure="concrete"
 	systemcomponent="true"

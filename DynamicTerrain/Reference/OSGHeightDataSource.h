@@ -13,7 +13,7 @@
 #define HEIGHT_DATA_SOURCE_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGContribDef.h>
 
 #include "OSGRectangle.h"

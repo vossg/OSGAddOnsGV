@@ -15,7 +15,7 @@
 #define QAEB_RENDERER_INCLUDED
 
 //-------------------------------------------------------------------------------------------------
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGContribDef.h>
 
 #include <OSGFrustumVolume.h>

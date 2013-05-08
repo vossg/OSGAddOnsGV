@@ -44,7 +44,7 @@
 
 #include <cstdlib>
 #include <cstdio>
-#include <OSGConfig.h>
+#include <OSGAddOnsConfig.h>
 #include <OSGImage.h>
 #include <OSGTextureChunk.h>
 #include <OSGIntersectAction.h>

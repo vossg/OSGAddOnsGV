@@ -39,7 +39,7 @@
 #ifndef _OSGPYFUNCTION_H_
 #define _OSGPYFUNCTION_H_
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 #include "OSGScriptingDef.h"
 
 #include <boost/python/object.hpp>

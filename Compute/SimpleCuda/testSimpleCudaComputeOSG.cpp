@@ -1,5 +1,5 @@
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 #include <iostream>
 
@@ -557,9 +557,9 @@ void display(void)
     if(uiUpdateMode == OSG::SimpleCudaComputeAlgorithm::UpdateOSG)
     {
         updateGeoOSG();
-        updateVertexNormalsGeo(pNormalGeo,
-                               0.01,
-                               pPlaneGeo);
+//        updateVertexNormalsGeo(pNormalGeo,
+//                               0.01,
+//                               pPlaneGeo);
     }
     else if(uiUpdateMode == OSG::SimpleCudaComputeAlgorithm::UpdateOSGMappedExt)
     {
@@ -1012,7 +1012,7 @@ OSG::NodeTransitPtr initPlane(void)
 
     OSG::GeometryUnrecPtr pGeo = OSG::Geometry::create();
 
-    pGeo->setUseVAO   (false);
+//    pGeo->setUseVAO   (false);
     pGeo->setMaterial (pMat );
     pGeo->setPositions(pnts );
     pGeo->setNormals  (norms);

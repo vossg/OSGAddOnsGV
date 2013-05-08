@@ -4,6 +4,7 @@
 	name="LabelForeground"
 	parent="Foreground"
 	library="ContribLabeling"
+    package="OSGAddOns"
 	pointerfieldtypes="both"
 	structure="concrete"
 	systemcomponent="true"

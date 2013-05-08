@@ -39,7 +39,7 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "OSGConfig.h"
+#include "OSGAddOnsConfig.h"
 
 #include "OSGRenderAction.h"
 #include "OSGIntersectAction.h"
