@@ -62,6 +62,16 @@ void register_SimpleMaterial_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::SimpleMaterial::fill
+        
+            typedef void ( ::OSG::SimpleMaterial::*fill_function_type )( ::OSG::ChunkBlock * ) ;
+            
+            SimpleMaterial_exposer.def( 
+                "fill"
+                , fill_function_type( &::OSG::SimpleMaterial::fill )
+                , ( bp::arg("pBlock") ) );
+        
+        }
         { //::OSG::SimpleMaterial::isTransparent
         
             typedef bool ( ::OSG::SimpleMaterial::*isTransparent_function_type )(  ) const;

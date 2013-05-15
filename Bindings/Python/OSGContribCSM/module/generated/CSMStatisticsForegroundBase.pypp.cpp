@@ -62,6 +62,7 @@ void register_CSMStatisticsForegroundBase_class(){
         bp::scope CSMStatisticsForegroundBase_scope( CSMStatisticsForegroundBase_exposer );
         bp::scope().attr("SizeFieldId") = (int)OSG::CSMStatisticsForegroundBase::SizeFieldId;
         bp::scope().attr("ColorFieldId") = (int)OSG::CSMStatisticsForegroundBase::ColorFieldId;
+        bp::scope().attr("BgColorFieldId") = (int)OSG::CSMStatisticsForegroundBase::BgColorFieldId;
         bp::scope().attr("ElementsFieldId") = (int)OSG::CSMStatisticsForegroundBase::ElementsFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::CSMStatisticsForegroundBase::NextFieldId;
         { //::OSG::CSMStatisticsForegroundBase::copyFromBin
@@ -111,6 +112,16 @@ void register_CSMStatisticsForegroundBase_class(){
                 "createLocal"
                 , createLocal_function_type( &::OSG::CSMStatisticsForegroundBase::createLocal )
                 , ( bp::arg("bFlags")=(::OSG::BitVector)(OSG::FCLocal::All) ) );
+        
+        }
+        { //::OSG::CSMStatisticsForegroundBase::getBgColor
+        
+            typedef ::OSG::Color4f const & ( ::OSG::CSMStatisticsForegroundBase::*getBgColor_function_type )(  ) const;
+            
+            CSMStatisticsForegroundBase_exposer.def( 
+                "getBgColor"
+                , getBgColor_function_type( &::OSG::CSMStatisticsForegroundBase::getBgColor )
+                , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
         { //::OSG::CSMStatisticsForegroundBase::getBinSize
@@ -181,6 +192,16 @@ void register_CSMStatisticsForegroundBase_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
+        { //::OSG::CSMStatisticsForegroundBase::getSFBgColor
+        
+            typedef ::OSG::SFColor4f const * ( ::OSG::CSMStatisticsForegroundBase::*getSFBgColor_function_type )(  ) const;
+            
+            CSMStatisticsForegroundBase_exposer.def( 
+                "getSFBgColor"
+                , getSFBgColor_function_type( &::OSG::CSMStatisticsForegroundBase::getSFBgColor )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::CSMStatisticsForegroundBase::getSFColor
         
             typedef ::OSG::SFColor4f const * ( ::OSG::CSMStatisticsForegroundBase::*getSFColor_function_type )(  ) const;
@@ -228,6 +249,16 @@ void register_CSMStatisticsForegroundBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::CSMStatisticsForegroundBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMStatisticsForegroundBase::setBgColor
+        
+            typedef void ( ::OSG::CSMStatisticsForegroundBase::*setBgColor_function_type )( ::OSG::Color4f const & ) ;
+            
+            CSMStatisticsForegroundBase_exposer.def( 
+                "setBgColor"
+                , setBgColor_function_type( &::OSG::CSMStatisticsForegroundBase::setBgColor )
+                , ( bp::arg("value") ) );
         
         }
         { //::OSG::CSMStatisticsForegroundBase::setColor

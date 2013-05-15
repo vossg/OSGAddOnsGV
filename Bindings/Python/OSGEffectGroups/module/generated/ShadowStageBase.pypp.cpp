@@ -66,6 +66,7 @@ void register_ShadowStageBase_class(){
         typedef bp::class_< OSG::ShadowStageBase, bp::bases< ::OSG::Stage >, boost::noncopyable > ShadowStageBase_exposer_t;
         ShadowStageBase_exposer_t ShadowStageBase_exposer = ShadowStageBase_exposer_t( "ShadowStageBase", bp::no_init );
         bp::scope ShadowStageBase_scope( ShadowStageBase_exposer );
+        bp::scope().attr("BufferFormatFieldId") = (int)OSG::ShadowStageBase::BufferFormatFieldId;
         bp::scope().attr("OffBiasFieldId") = (int)OSG::ShadowStageBase::OffBiasFieldId;
         bp::scope().attr("OffFactorFieldId") = (int)OSG::ShadowStageBase::OffFactorFieldId;
         bp::scope().attr("MapSizeFieldId") = (int)OSG::ShadowStageBase::MapSizeFieldId;
@@ -227,6 +228,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "getBlue"
                 , getBlue_function_type( &::OSG::ShadowStageBase::getBlue ) );
+        
+        }
+        { //::OSG::ShadowStageBase::getBufferFormat
+        
+            typedef ::GLenum const & ( ::OSG::ShadowStageBase::*getBufferFormat_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getBufferFormat"
+                , getBufferFormat_function_type( &::OSG::ShadowStageBase::getBufferFormat )
+                , bp::return_value_policy< bp::return_by_value >() );
         
         }
         { //::OSG::ShadowStageBase::getClassGroupId
@@ -425,6 +436,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "getSFBlue"
                 , getSFBlue_function_type( &::OSG::ShadowStageBase::getSFBlue )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ShadowStageBase::getSFBufferFormat
+        
+            typedef ::OSG::SFGLenum const * ( ::OSG::ShadowStageBase::*getSFBufferFormat_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getSFBufferFormat"
+                , getSFBufferFormat_function_type( &::OSG::ShadowStageBase::getSFBufferFormat )
                 , bp::return_internal_reference< >() );
         
         }
@@ -712,6 +733,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "setBlue"
                 , setBlue_function_type( &::OSG::ShadowStageBase::setBlue )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShadowStageBase::setBufferFormat
+        
+            typedef void ( ::OSG::ShadowStageBase::*setBufferFormat_function_type )( ::GLenum const & ) ;
+            
+            ShadowStageBase_exposer.def( 
+                "setBufferFormat"
+                , setBufferFormat_function_type( &::OSG::ShadowStageBase::setBufferFormat )
                 , ( bp::arg("value") ) );
         
         }

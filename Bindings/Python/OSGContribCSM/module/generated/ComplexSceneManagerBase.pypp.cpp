@@ -65,6 +65,7 @@ void register_ComplexSceneManagerBase_class(){
         bp::scope().attr("EnableWebServiceFieldId") = (int)OSG::ComplexSceneManagerBase::EnableWebServiceFieldId;
         bp::scope().attr("WebServicePortFieldId") = (int)OSG::ComplexSceneManagerBase::WebServicePortFieldId;
         bp::scope().attr("WebServiceRootFieldId") = (int)OSG::ComplexSceneManagerBase::WebServiceRootFieldId;
+        bp::scope().attr("WaitKeyAfterFrameFieldId") = (int)OSG::ComplexSceneManagerBase::WaitKeyAfterFrameFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ComplexSceneManagerBase::NextFieldId;
         { //::OSG::ComplexSceneManagerBase::assignGlobals
         
@@ -328,6 +329,16 @@ void register_ComplexSceneManagerBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::ComplexSceneManagerBase::getSFWaitKeyAfterFrame
+        
+            typedef ::OSG::SFBool const * ( ::OSG::ComplexSceneManagerBase::*getSFWaitKeyAfterFrame_function_type )(  ) const;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "getSFWaitKeyAfterFrame"
+                , getSFWaitKeyAfterFrame_function_type( &::OSG::ComplexSceneManagerBase::getSFWaitKeyAfterFrame )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::ComplexSceneManagerBase::getSFWebServicePort
         
             typedef ::OSG::SFUInt32 const * ( ::OSG::ComplexSceneManagerBase::*getSFWebServicePort_function_type )(  ) const;
@@ -386,6 +397,15 @@ void register_ComplexSceneManagerBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::ComplexSceneManagerBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ComplexSceneManagerBase::getWaitKeyAfterFrame
+        
+            typedef bool ( ::OSG::ComplexSceneManagerBase::*getWaitKeyAfterFrame_function_type )(  ) const;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "getWaitKeyAfterFrame"
+                , getWaitKeyAfterFrame_function_type( &::OSG::ComplexSceneManagerBase::getWaitKeyAfterFrame ) );
         
         }
         { //::OSG::ComplexSceneManagerBase::getWebServicePort
@@ -514,6 +534,16 @@ void register_ComplexSceneManagerBase_class(){
             ComplexSceneManagerBase_exposer.def( 
                 "setTimeScale"
                 , setTimeScale_function_type( &::OSG::ComplexSceneManagerBase::setTimeScale )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ComplexSceneManagerBase::setWaitKeyAfterFrame
+        
+            typedef void ( ::OSG::ComplexSceneManagerBase::*setWaitKeyAfterFrame_function_type )( bool const ) ;
+            
+            ComplexSceneManagerBase_exposer.def( 
+                "setWaitKeyAfterFrame"
+                , setWaitKeyAfterFrame_function_type( &::OSG::ComplexSceneManagerBase::setWaitKeyAfterFrame )
                 , ( bp::arg("value") ) );
         
         }

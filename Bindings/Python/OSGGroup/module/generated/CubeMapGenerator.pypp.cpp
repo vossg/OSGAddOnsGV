@@ -99,7 +99,7 @@ void register_CubeMapGenerator_class(){
         }
         { //::OSG::CubeMapGenerator::initData
         
-            typedef ::OSG::CubeMapGeneratorStageData * ( ::OSG::CubeMapGenerator::*initData_function_type )( ::OSG::RenderActionBase * ) ;
+            typedef ::OSG::CubeMapGeneratorStageData * ( ::OSG::CubeMapGenerator::*initData_function_type )( ::OSG::RenderAction * ) ;
             
             CubeMapGenerator_exposer.def( 
                 "initData"

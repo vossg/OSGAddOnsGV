@@ -105,6 +105,16 @@ void register_ChunkMaterial_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::ChunkMaterial::fill
+        
+            typedef void ( ::OSG::ChunkMaterial::*fill_function_type )( ::OSG::ChunkBlock * ) ;
+            
+            ChunkMaterial_exposer.def( 
+                "fill"
+                , fill_function_type( &::OSG::ChunkMaterial::fill )
+                , ( bp::arg("pBlock") ) );
+        
+        }
         { //::OSG::ChunkMaterial::find
         
             typedef ::OSG::Int32 ( ::OSG::ChunkMaterial::*find_function_type )( ::OSG::StateChunk * ) const;

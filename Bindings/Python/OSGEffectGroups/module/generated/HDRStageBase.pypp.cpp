@@ -48,6 +48,7 @@ void register_HDRStageBase_class(){
         bp::scope().attr("EffectAmountFieldId") = (int)OSG::HDRStageBase::EffectAmountFieldId;
         bp::scope().attr("GammaFieldId") = (int)OSG::HDRStageBase::GammaFieldId;
         bp::scope().attr("BufferFormatFieldId") = (int)OSG::HDRStageBase::BufferFormatFieldId;
+        bp::scope().attr("CombineBlendFieldId") = (int)OSG::HDRStageBase::CombineBlendFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::HDRStageBase::NextFieldId;
         { //::OSG::HDRStageBase::copyFromBin
         
@@ -164,6 +165,15 @@ void register_HDRStageBase_class(){
                 , getClassTypeId_function_type( &::OSG::HDRStageBase::getClassTypeId ) );
         
         }
+        { //::OSG::HDRStageBase::getCombineBlend
+        
+            typedef bool ( ::OSG::HDRStageBase::*getCombineBlend_function_type )(  ) const;
+            
+            HDRStageBase_exposer.def( 
+                "getCombineBlend"
+                , getCombineBlend_function_type( &::OSG::HDRStageBase::getCombineBlend ) );
+        
+        }
         { //::OSG::HDRStageBase::getContainerSize
         
             typedef ::OSG::UInt32 ( ::OSG::HDRStageBase::*getContainerSize_function_type )(  ) const;
@@ -227,6 +237,16 @@ void register_HDRStageBase_class(){
             HDRStageBase_exposer.def( 
                 "getSFBufferFormat"
                 , getSFBufferFormat_function_type( &::OSG::HDRStageBase::getSFBufferFormat )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::HDRStageBase::getSFCombineBlend
+        
+            typedef ::OSG::SFBool const * ( ::OSG::HDRStageBase::*getSFCombineBlend_function_type )(  ) const;
+            
+            HDRStageBase_exposer.def( 
+                "getSFCombineBlend"
+                , getSFCombineBlend_function_type( &::OSG::HDRStageBase::getSFCombineBlend )
                 , bp::return_internal_reference< >() );
         
         }
@@ -307,6 +327,16 @@ void register_HDRStageBase_class(){
             HDRStageBase_exposer.def( 
                 "setBufferFormat"
                 , setBufferFormat_function_type( &::OSG::HDRStageBase::setBufferFormat )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::HDRStageBase::setCombineBlend
+        
+            typedef void ( ::OSG::HDRStageBase::*setCombineBlend_function_type )( bool const ) ;
+            
+            HDRStageBase_exposer.def( 
+                "setCombineBlend"
+                , setCombineBlend_function_type( &::OSG::HDRStageBase::setCombineBlend )
                 , ( bp::arg("value") ) );
         
         }

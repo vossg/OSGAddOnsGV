@@ -42,7 +42,8 @@ void register_TextureObjRefChunkBase_class(){
         typedef bp::class_< OSG::TextureObjRefChunkBase, bp::bases< ::OSG::TextureBaseChunk >, boost::noncopyable > TextureObjRefChunkBase_exposer_t;
         TextureObjRefChunkBase_exposer_t TextureObjRefChunkBase_exposer = TextureObjRefChunkBase_exposer_t( "TextureObjRefChunkBase", bp::no_init );
         bp::scope TextureObjRefChunkBase_scope( TextureObjRefChunkBase_exposer );
-        bp::scope().attr("GLIdFieldId") = (int)OSG::TextureObjRefChunkBase::GLIdFieldId;
+        bp::scope().attr("OsgGLIdFieldId") = (int)OSG::TextureObjRefChunkBase::OsgGLIdFieldId;
+        bp::scope().attr("OglGLIdFieldId") = (int)OSG::TextureObjRefChunkBase::OglGLIdFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::TextureObjRefChunkBase::NextFieldId;
         { //::OSG::TextureObjRefChunkBase::copyFromBin
         
@@ -140,23 +141,43 @@ void register_TextureObjRefChunkBase_class(){
                 , getContainerSize_function_type( &::OSG::TextureObjRefChunkBase::getContainerSize ) );
         
         }
-        { //::OSG::TextureObjRefChunkBase::getGLId
+        { //::OSG::TextureObjRefChunkBase::getOglGLId
         
-            typedef ::GLenum const & ( ::OSG::TextureObjRefChunkBase::*getGLId_function_type )(  ) const;
+            typedef ::GLenum const & ( ::OSG::TextureObjRefChunkBase::*getOglGLId_function_type )(  ) const;
             
             TextureObjRefChunkBase_exposer.def( 
-                "getGLId"
-                , getGLId_function_type( &::OSG::TextureObjRefChunkBase::getGLId )
+                "getOglGLId"
+                , getOglGLId_function_type( &::OSG::TextureObjRefChunkBase::getOglGLId )
                 , bp::return_value_policy< bp::return_by_value >() );
         
         }
-        { //::OSG::TextureObjRefChunkBase::getSFGLId
+        { //::OSG::TextureObjRefChunkBase::getOsgGLId
         
-            typedef ::OSG::SFGLenum const * ( ::OSG::TextureObjRefChunkBase::*getSFGLId_function_type )(  ) const;
+            typedef ::GLenum const & ( ::OSG::TextureObjRefChunkBase::*getOsgGLId_function_type )(  ) const;
             
             TextureObjRefChunkBase_exposer.def( 
-                "getSFGLId"
-                , getSFGLId_function_type( &::OSG::TextureObjRefChunkBase::getSFGLId )
+                "getOsgGLId"
+                , getOsgGLId_function_type( &::OSG::TextureObjRefChunkBase::getOsgGLId )
+                , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
+        { //::OSG::TextureObjRefChunkBase::getSFOglGLId
+        
+            typedef ::OSG::SFGLenum const * ( ::OSG::TextureObjRefChunkBase::*getSFOglGLId_function_type )(  ) const;
+            
+            TextureObjRefChunkBase_exposer.def( 
+                "getSFOglGLId"
+                , getSFOglGLId_function_type( &::OSG::TextureObjRefChunkBase::getSFOglGLId )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::TextureObjRefChunkBase::getSFOsgGLId
+        
+            typedef ::OSG::SFGLenum const * ( ::OSG::TextureObjRefChunkBase::*getSFOsgGLId_function_type )(  ) const;
+            
+            TextureObjRefChunkBase_exposer.def( 
+                "getSFOsgGLId"
+                , getSFOsgGLId_function_type( &::OSG::TextureObjRefChunkBase::getSFOsgGLId )
                 , bp::return_internal_reference< >() );
         
         }
@@ -180,13 +201,23 @@ void register_TextureObjRefChunkBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
-        { //::OSG::TextureObjRefChunkBase::setGLId
+        { //::OSG::TextureObjRefChunkBase::setOglGLId
         
-            typedef void ( ::OSG::TextureObjRefChunkBase::*setGLId_function_type )( ::GLenum const & ) ;
+            typedef void ( ::OSG::TextureObjRefChunkBase::*setOglGLId_function_type )( ::GLenum const & ) ;
             
             TextureObjRefChunkBase_exposer.def( 
-                "setGLId"
-                , setGLId_function_type( &::OSG::TextureObjRefChunkBase::setGLId )
+                "setOglGLId"
+                , setOglGLId_function_type( &::OSG::TextureObjRefChunkBase::setOglGLId )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::TextureObjRefChunkBase::setOsgGLId
+        
+            typedef void ( ::OSG::TextureObjRefChunkBase::*setOsgGLId_function_type )( ::GLenum const & ) ;
+            
+            TextureObjRefChunkBase_exposer.def( 
+                "setOsgGLId"
+                , setOsgGLId_function_type( &::OSG::TextureObjRefChunkBase::setOsgGLId )
                 , ( bp::arg("value") ) );
         
         }
