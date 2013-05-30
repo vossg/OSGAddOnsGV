@@ -20,6 +20,7 @@ ShaderProcVariableBase
 GeoReferenceAttachmentBase
 ShaderProgramChunkBase
 TextureObjChunkBase
+ShaderVariablePnt2f
 SolidBackgroundBase
 PrimeMaterialBase
 DrawableStatsAttachment
@@ -112,7 +113,6 @@ MaterialDrawable
 RenderOptionsBase
 ShaderVariableMVec4fBase
 BoostPathAttachment
-ShaderVariablePnt2f
 RenderPartition
 DepthChunkBase
 ShaderVariableMMatrixBase

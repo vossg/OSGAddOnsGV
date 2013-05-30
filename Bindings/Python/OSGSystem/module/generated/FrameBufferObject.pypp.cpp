@@ -42,6 +42,16 @@ void register_FrameBufferObject_class(){
         typedef bp::class_< OSG::FrameBufferObject, bp::bases< OSG::FrameBufferObjectBase >, OSG::FrameBufferObject::ObjRecPtr, boost::noncopyable > FrameBufferObject_exposer_t;
         FrameBufferObject_exposer_t FrameBufferObject_exposer = FrameBufferObject_exposer_t( "FrameBufferObject", bp::no_init );
         bp::scope FrameBufferObject_scope( FrameBufferObject_exposer );
+        { //::OSG::FrameBufferObject::activateFBOById
+        
+            typedef void ( *activateFBOById_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 );
+            
+            FrameBufferObject_exposer.def( 
+                "activateFBOById"
+                , activateFBOById_function_type( &::OSG::FrameBufferObject::activateFBOById )
+                , ( bp::arg("pEnv"), bp::arg("uiOSGId") ) );
+        
+        }
         { //::OSG::FrameBufferObject::changed
         
             typedef void ( ::OSG::FrameBufferObject::*changed_function_type )( ::OSG::ConstFieldMaskArg,::OSG::UInt32,::OSG::BitVector ) ;
@@ -50,6 +60,16 @@ void register_FrameBufferObject_class(){
                 "changed"
                 , changed_function_type( &::OSG::FrameBufferObject::changed )
                 , ( bp::arg("whichField"), bp::arg("origin"), bp::arg("detail") ) );
+        
+        }
+        { //::OSG::FrameBufferObject::deactivateFBOById
+        
+            typedef void ( *deactivateFBOById_function_type )( ::OSG::DrawEnv * );
+            
+            FrameBufferObject_exposer.def( 
+                "deactivateFBOById"
+                , deactivateFBOById_function_type( &::OSG::FrameBufferObject::deactivateFBOById )
+                , ( bp::arg("pEnv") ) );
         
         }
         { //::OSG::FrameBufferObject::dump
@@ -92,6 +112,8 @@ void register_FrameBufferObject_class(){
                 , ( bp::arg("uiWidth"), bp::arg("uiHeight") ) );
         
         }
+        FrameBufferObject_exposer.staticmethod( "activateFBOById" );
+        FrameBufferObject_exposer.staticmethod( "deactivateFBOById" );
         pyopensg::register_transit< OSG::FrameBufferObject >::execute();
         bp::implicitly_convertible< OSG::FrameBufferObject::ObjRecPtr, OSG::FrameBufferObject* >();
         bp::implicitly_convertible< OSG::FrameBufferObject::ObjRecPtr, OSG::FrameBufferObject::ObjCPtr >();

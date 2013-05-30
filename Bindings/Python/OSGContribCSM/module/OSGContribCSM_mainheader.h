@@ -19,6 +19,8 @@
 #include <OSGCSMClusterWinOptions.h>
 #include <OSGCSMLogger.h>
 #include <OSGCSMMultiWinOptions.h>
+#include <OSGShaderProgramFile.h>
+#include <OSGSimpleSHLChunkFile.h>
 #include <OSGKeySensor.h>
 #include <OSGInterfaceOptions.h>
 #include <OSGMouseDataInterfaceSensor.h>
@@ -28,8 +30,6 @@
 #include <OSGCSMPassiveWindow.h>
 #include <OSGCSMPassiveWinClearOp.h>
 #include <OSGCSMGLUTWindow.h>
-#include <OSGShaderProgramFile.h>
-#include <OSGSimpleSHLChunkFile.h>
 
 #if defined(Bool)
 #undef Bool

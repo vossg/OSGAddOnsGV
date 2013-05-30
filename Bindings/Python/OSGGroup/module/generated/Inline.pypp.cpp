@@ -62,6 +62,16 @@ void register_Inline_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::Inline::getRoot
+        
+            typedef ::OSG::Node * ( ::OSG::Inline::*getRoot_function_type )(  ) const;
+            
+            Inline_exposer.def( 
+                "getRoot"
+                , getRoot_function_type( &::OSG::Inline::getRoot )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::Inline::moveRootTo
         
             typedef void ( ::OSG::Inline::*moveRootTo_function_type )( ::OSG::Node * ) ;

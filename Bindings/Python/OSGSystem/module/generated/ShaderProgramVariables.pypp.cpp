@@ -565,16 +565,6 @@ void register_ShaderProgramVariables_class(){
                 , markAllChanged_function_type( &::OSG::ShaderProgramVariables::markAllChanged ) );
         
         }
-        { //::OSG::ShaderProgramVariables::merge
-        
-            typedef void ( ::OSG::ShaderProgramVariables::*merge_function_type )( ::OSG::ShaderProgramVariables *,::OSG::MFInt32 *,::OSG::MFInt32 * ) ;
-            
-            ShaderProgramVariables_exposer.def( 
-                "merge"
-                , merge_function_type( &::OSG::ShaderProgramVariables::merge )
-                , ( bp::arg("pVars"), bp::arg("pVarLoc"), bp::arg("pProcVarLoc") ) );
-        
-        }
         { //::OSG::ShaderProgramVariables::subProceduralVariable
         
             typedef void ( ::OSG::ShaderProgramVariables::*subProceduralVariable_function_type )( ::OSG::UInt32 ) ;

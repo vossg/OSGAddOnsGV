@@ -43,7 +43,6 @@ void register_ShaderVariableBase_class(){
         ShaderVariableBase_exposer_t ShaderVariableBase_exposer = ShaderVariableBase_exposer_t( "ShaderVariableBase", bp::no_init );
         bp::scope ShaderVariableBase_scope( ShaderVariableBase_exposer );
         bp::scope().attr("NameFieldId") = (int)OSG::ShaderVariableBase::NameFieldId;
-        bp::scope().attr("ParentsFieldId") = (int)OSG::ShaderVariableBase::ParentsFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ShaderVariableBase::NextFieldId;
         { //::OSG::ShaderVariableBase::copyFromBin
         

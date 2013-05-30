@@ -87,6 +87,7 @@ void register_ShadowStageBase_class(){
         bp::scope().attr("AlphaFieldId") = (int)OSG::ShadowStageBase::AlphaFieldId;
         bp::scope().attr("BlitZBufferFieldId") = (int)OSG::ShadowStageBase::BlitZBufferFieldId;
         bp::scope().attr("CombineBlendFieldId") = (int)OSG::ShadowStageBase::CombineBlendFieldId;
+        bp::scope().attr("RenderPropertyMaskFieldId") = (int)OSG::ShadowStageBase::RenderPropertyMaskFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ShadowStageBase::NextFieldId;
         { //::OSG::ShadowStageBase::assignExcludeNodes
         
@@ -389,6 +390,16 @@ void register_ShadowStageBase_class(){
                 , getRed_function_type( &::OSG::ShadowStageBase::getRed ) );
         
         }
+        { //::OSG::ShadowStageBase::getRenderPropertyMask
+        
+            typedef ::OSG::RenderPropBitVector const & ( ::OSG::ShadowStageBase::*getRenderPropertyMask_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getRenderPropertyMask"
+                , getRenderPropertyMask_function_type( &::OSG::ShadowStageBase::getRenderPropertyMask )
+                , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
         { //::OSG::ShadowStageBase::getSFAlpha
         
             typedef ::OSG::SFBool const * ( ::OSG::ShadowStageBase::*getSFAlpha_function_type )(  ) const;
@@ -546,6 +557,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "getSFRed"
                 , getSFRed_function_type( &::OSG::ShadowStageBase::getSFRed )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ShadowStageBase::getSFRenderPropertyMask
+        
+            typedef ::OSG::SFRenderPropBitVector const * ( ::OSG::ShadowStageBase::*getSFRenderPropertyMask_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getSFRenderPropertyMask"
+                , getSFRenderPropertyMask_function_type( &::OSG::ShadowStageBase::getSFRenderPropertyMask )
                 , bp::return_internal_reference< >() );
         
         }
@@ -843,6 +864,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "setRed"
                 , setRed_function_type( &::OSG::ShadowStageBase::setRed )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShadowStageBase::setRenderPropertyMask
+        
+            typedef void ( ::OSG::ShadowStageBase::*setRenderPropertyMask_function_type )( ::OSG::RenderPropBitVector const & ) ;
+            
+            ShadowStageBase_exposer.def( 
+                "setRenderPropertyMask"
+                , setRenderPropertyMask_function_type( &::OSG::ShadowStageBase::setRenderPropertyMask )
                 , ( bp::arg("value") ) );
         
         }

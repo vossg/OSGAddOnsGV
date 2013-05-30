@@ -43,6 +43,7 @@ void register_ShaderProcVariableBase_class(){
         ShaderProcVariableBase_exposer_t ShaderProcVariableBase_exposer = ShaderProcVariableBase_exposer_t( "ShaderProcVariableBase", bp::no_init );
         bp::scope ShaderProcVariableBase_scope( ShaderProcVariableBase_exposer );
         bp::scope().attr("DependencyFieldId") = (int)OSG::ShaderProcVariableBase::DependencyFieldId;
+        bp::scope().attr("ParentsFieldId") = (int)OSG::ShaderProcVariableBase::ParentsFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ShaderProcVariableBase::NextFieldId;
         { //::OSG::ShaderProcVariableBase::copyFromBin
         

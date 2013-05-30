@@ -237,6 +237,15 @@ void register_Volume_class(){
                 , ( bp::arg("volume") ) );
         
         }
+        { //::OSG::Volume::invalidate
+        
+            typedef void ( ::OSG::Volume::*invalidate_function_type )(  ) ;
+            
+            Volume_exposer.def( 
+                "invalidate"
+                , invalidate_function_type( &::OSG::Volume::invalidate ) );
+        
+        }
         { //::OSG::Volume::isEmpty
         
             typedef bool ( ::OSG::Volume::*isEmpty_function_type )(  ) const;
@@ -253,6 +262,15 @@ void register_Volume_class(){
             Volume_exposer.def( 
                 "isInfinite"
                 , isInfinite_function_type( &::OSG::Volume::isInfinite ) );
+        
+        }
+        { //::OSG::Volume::isInvalidated
+        
+            typedef bool ( ::OSG::Volume::*isInvalidated_function_type )(  ) const;
+            
+            Volume_exposer.def( 
+                "isInvalidated"
+                , isInvalidated_function_type( &::OSG::Volume::isInvalidated ) );
         
         }
         { //::OSG::Volume::isOnSurface

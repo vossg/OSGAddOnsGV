@@ -61,6 +61,16 @@ void register_RenderActionBase_class(){
         typedef bp::class_< RenderActionBase_wrapper, boost::noncopyable > RenderActionBase_exposer_t;
         RenderActionBase_exposer_t RenderActionBase_exposer = RenderActionBase_exposer_t( "RenderActionBase", bp::no_init );
         bp::scope RenderActionBase_scope( RenderActionBase_exposer );
+        { //::OSG::RenderActionBase::addRenderProperties
+        
+            typedef void ( ::OSG::RenderActionBase::*addRenderProperties_function_type )( long unsigned int ) ;
+            
+            RenderActionBase_exposer.def( 
+                "addRenderProperties"
+                , addRenderProperties_function_type( &::OSG::RenderActionBase::addRenderProperties )
+                , ( bp::arg("oProp") ) );
+        
+        }
         { //::OSG::RenderActionBase::frameInit
         
             typedef void ( ::OSG::RenderActionBase::*frameInit_function_type )(  ) ;
@@ -494,6 +504,16 @@ void register_RenderActionBase_class(){
                 "stop"
                 , stop_function_type( &::OSG::RenderActionBase::stop )
                 , ( bp::arg("res") ) );
+        
+        }
+        { //::OSG::RenderActionBase::subRenderProperties
+        
+            typedef void ( ::OSG::RenderActionBase::*subRenderProperties_function_type )( long unsigned int ) ;
+            
+            RenderActionBase_exposer.def( 
+                "subRenderProperties"
+                , subRenderProperties_function_type( &::OSG::RenderActionBase::subRenderProperties )
+                , ( bp::arg("oProp") ) );
         
         }
         RenderActionBase_exposer.def_readonly( "statTravTime", OSG::RenderActionBase::statTravTime );
