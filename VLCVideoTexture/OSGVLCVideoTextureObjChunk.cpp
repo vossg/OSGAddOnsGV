@@ -255,6 +255,17 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
 {
     libvlc_media_t *m;
     
+    char const *vlc_master_argv[] =
+    {       
+        "-I", "dumy",      // No special interface
+        "--ignore-config", // Don't use VLC's config
+        "--quiet",         // should deactivate the console outputs
+        "--no-xlib",       // tell VLC to not use Xlib   
+        "--logfile=vlc_log.txt",
+        "--transform-type=hflip",  // not working 
+        "--no-video-title-show", // no titles
+    };
+
     char const *vlc_argv[] =
     {       
         "-I", "dumy",      // No special interface
@@ -266,12 +277,21 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
         "--transform-type=hflip",  // not working 
         "--no-video-title-show", // no titles
     };
-    int vlc_argc = sizeof(vlc_argv) / sizeof(*vlc_argv);
+
+    int vlc_master_argc = sizeof(vlc_master_argv) / sizeof(*vlc_master_argv);
+    int vlc_argc        = sizeof(vlc_argv       ) / sizeof(*vlc_argv       );
          
     // Initialize libVLC   
     if (libvlc==NULL) 
     {
-        libvlc = libvlc_new(vlc_argc, vlc_argv);
+        if(this->getIsMaster() == true)
+        {
+            libvlc = libvlc_new(vlc_master_argc, vlc_master_argv);
+        }
+        else
+        {
+            libvlc = libvlc_new(vlc_argc, vlc_argv);
+        }
     } 
     else 
     {
