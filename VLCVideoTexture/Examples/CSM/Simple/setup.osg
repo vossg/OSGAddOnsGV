@@ -1,0 +1,68 @@
+#OSG V1.0 
+
+ContainerCollection
+{
+  containers
+  [
+    DEF ForeGnd2 ImageForeground
+    {
+      images
+      [
+        ImageFile
+        {
+          url "/tmp/TUM_Create_SU_farbig_RGB.jpg"
+        }
+      ]
+
+      positions 
+      [
+        0 0
+      ]
+
+      scales
+      [
+        0.5 0.5
+      ]
+    }
+
+    DEF FG0 PolygonForeground
+    {
+      material   ChunkMaterial
+      {
+        chunks
+        [
+          MaterialChunk  
+          { 
+            diffuse      1.0 1.0 1.0 1.0
+          }
+
+          TextureObjChunk
+          {
+            image ImageFile
+            {
+              url "../../Tutorial/Data/front.jpg"
+            }
+
+            minFilter GL_NEAREST_MIPMAP_NEAREST #GL_LINEAR_MIPMAP_LINEAR
+            magFilter GL_LINEAR
+            wrapS     GL_REPEAT
+            wrapT     GL_REPEAT
+          }
+
+          TextureEnvChunk
+          {
+            envMode GL_REPLACE
+          }
+        ]
+      }
+
+      normalizedX TRUE
+      normalizedY TRUE
+
+      tile FALSE
+      texCoords [ 0.0 0.0 0.0  1.0 0.0 0.0   1.0 1.0 0.0   0.0 1.0 0.0 ]
+      positions [ 0.1 0.05 0.9 0.05 0.9 0.2 0.1 0.2 ]
+    }
+  ]
+}
+

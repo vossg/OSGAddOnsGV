@@ -1,0 +1,184 @@
+#OSG V1.0 
+Node
+{
+    children
+    [
+        Node
+        {
+            children
+            [
+                Node
+                {
+                    children
+                    [
+                        Node
+                        {
+                            children
+                            [
+                            ]
+                            core Geometry
+                            {
+                                useAttribCalls FALSE
+                                useVAO TRUE
+                                dlistCache TRUE
+                                propIndices
+                                [
+                                    DEF GeoUInt32Property479 GeoUInt32Property
+                                    {
+                                        values #6
+                                        [
+0, 1, 2, 0, 2, 3
+                                        ]
+                                        usage 268435456
+                                        useVBO TRUE
+                                        ignore FALSE
+                                        internal FALSE
+                                        attachments [ ] 
+                                    }
+                                    NULL
+                                    GeoUInt32Property
+                                    {
+                                        values #6
+                                        [
+0, 1, 2, 3, 4, 5
+                                        ]
+                                        usage 268435456
+                                        useVBO TRUE
+                                        ignore FALSE
+                                        internal FALSE
+                                        attachments [ ] 
+                                    }
+                                    NULL
+                                    NULL
+                                    NULL
+                                    NULL
+                                    NULL
+                                    USE GeoUInt32Property479
+                                    NULL
+                                    NULL
+                                    NULL
+                                    NULL
+                                    NULL
+                                    NULL
+                                    NULL
+                                ]
+                                properties
+                                [
+                                    GeoPnt3fProperty
+                                    {
+                                        values #4
+                                        [
+-1 -1 -1, 1 -1 -1, 1 1 -1, -1 1 -1
+                                        ]
+                                        usage 268435457
+                                        useVBO TRUE
+                                        ignore FALSE
+                                        internal FALSE
+                                        attachments
+                                        [
+                                        ]
+                                    }
+                                    NULL
+                                    GeoVec3fProperty
+                                    {
+                                        values #6
+                                        [
+0 0 1, 0 0 1, 0 0 1, 0 0 1, 0 0 1, 0 0 1
+                                        ]
+                                        usage 268435458
+                                        useVBO TRUE
+                                        ignore FALSE
+                                        internal FALSE
+                                        attachments [ ] 
+                                    }
+                                    NULL
+                                    NULL
+                                    NULL
+                                    NULL
+                                    NULL
+                                    GeoVec2fProperty
+                                    {
+                                        values #4
+                                        [
+0 0, 1 0, 1 1, 0 1
+                                        ]
+                                        usage 268435460
+                                        useVBO TRUE
+                                        ignore FALSE
+                                        internal FALSE
+                                        attachments
+                                        [
+                                        ]
+                                    }
+                                ]
+                                lengths GeoUInt32Property
+                                {
+                                    values #1
+                                    [
+6
+                                    ]
+                                    usage 268435456
+                                    useVBO TRUE
+                                    ignore FALSE
+                                    internal FALSE
+                                    attachments [ ] 
+                                }
+                                types GeoUInt8Property
+                                {
+                                    values #1
+                                    [
+4
+                                    ]
+                                    usage 268435456
+                                    useVBO TRUE
+                                    ignore FALSE
+                                    internal FALSE
+                                    attachments [ ] 
+                                }
+                                material DEF ChunkMaterial484 ChunkMaterial
+                                {
+                                    slots #0
+                                    [
+
+                                    ]
+                                    chunks
+                                    [
+#                                        TextureObjChunk
+#                                        {
+#                                          image ImageFile
+#                                          {
+#                                            url "tree.jpg"
+#                                          }
+#                                        }
+                                        VLCVideoTextureObjChunk
+                                        {
+                                          url "/tmp/TheBigBangTheoryS01E17.avi"
+                                          width 624
+                                          height 352
+                                        }                                       
+
+                                        TextureEnvChunk
+                                        {
+                                          envMode GL_REPLACE
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                    core MaterialGroup
+                    {
+                        material USE ChunkMaterial484
+                    }
+                }
+            ]
+            core Group
+            {
+            }
+        }
+    ]
+    core Group
+    {
+        attachments [ ] 
+    }
+}

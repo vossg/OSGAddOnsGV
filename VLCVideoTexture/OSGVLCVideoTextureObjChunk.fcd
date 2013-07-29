@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+    name="VLCVideoTextureObjChunk"
+    parent="TextureObjChunk"
+    mixinparent="DynamicTextureObjParent"
+    library="VLCVideoTexture"
+    package="OSGAddOns"
+    pointerfieldtypes="both"
+    structure="concrete"
+    systemcomponent="true"
+    parentsystemcomponent="true"
+    decoratable="false"
+    >
+  <Field
+      name="status"
+      type="Int32"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+    video status like pause play
+  </Field>
+  <Field
+      name="timestamp"
+      type="Int64"
+      defaultValue="-1"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+    video time stamp or -1 if not used
+  </Field>
+  <Field
+      name="updatefreq"
+      type="Int64"
+      defaultValue="2000"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+    video sync update frequency in ms
+  </Field>
+  <Field
+      name="url"
+      type="std::string"
+      defaultValue='"n"'
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+    URL of the Video
+  </Field>
+  <Field
+      name="width"
+      type="Int32"
+      defaultValue="32"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+    video render width
+  </Field>
+  <Field
+      name="height"
+      type="Int32"
+      defaultValue="32"
+      cardinality="single"
+      visibility="external"
+      access="public"
+      >
+    video render height
+  </Field>    
+  <Field
+      name="isMaster"
+      type="bool"
+      cardinality="single"
+      visibility="external"
+      defaultValue="true"
+      access="public"
+      fieldFlags="FClusterLocal"
+      >
+    master of cluster playback
+  </Field>
+</FieldContainer>

@@ -1,0 +1,12 @@
+#OSG V1.0 
+
+Node
+{
+  travMask 0x7FFFFFFF
+  
+  core Inline                           
+  {
+    graphOp "none"
+    url "/home/gerrit/Projects/OpenSG/svn/OpenSG.build/ISO2/AllCountries.osb" 
+  }
+}
