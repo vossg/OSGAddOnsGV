@@ -46,8 +46,43 @@
 #include "OSGConfig.h"
 
 #include "OSGVLCVideoTextureObjChunk.h"
+#include "OSGClusterServer.h"
 
 OSG_BEGIN_NAMESPACE
+
+namespace
+{
+    bool initVLCTexObjClusterServer(void)
+    {
+        fprintf(stderr, "initVLCTexObjClusterServer\n");
+
+        FieldContainer          *pProtoFC    = 
+            VLCVideoTextureObjChunk::getClassType().getPrototype();
+
+        VLCVideoTextureObjChunk *pVideoProto = 
+            dynamic_cast<VLCVideoTextureObjChunk*>(pProtoFC);
+
+        if(pVideoProto != NULL)
+        {
+            pVideoProto->setIsMaster(false);
+        }
+
+        fprintf(stderr, "got %p/%p\n",
+                pProtoFC,
+                pVideoProto);
+
+        return true;
+    }
+
+    bool regInitVLCTexObjClusterServer(void)
+    {
+        ClusterServer::addInitFunction(&initVLCTexObjClusterServer);
+
+        return true;
+    }
+
+    StaticInitFuncWrapper oWrapper(&regInitVLCTexObjClusterServer);
+}
 
 // Documentation for this class is emitted in the
 // OSGVLCVideoTextureObjChunkBase.cpp file.

@@ -218,8 +218,10 @@ int main(int argc,char **argv)
     try
     {
         // init OpenSG
-        OSG::osgInit(argc, argv);
+        OSG::osgInit            (argc, argv);
+        OSG::ClusterServer::init(argc, argv);
 
+#if 0
         OSG::FieldContainer          *pProtoFC    = 
             OSG::VLCVideoTextureObjChunk::getClassType().getPrototype();
 
@@ -234,6 +236,7 @@ int main(int argc,char **argv)
         fprintf(stderr, "got %p/%p\n",
                 pProtoFC,
                 pVideoProto);
+#endif
 
         OSG::setVBOUsageOnPropertyProtos(true);
 
