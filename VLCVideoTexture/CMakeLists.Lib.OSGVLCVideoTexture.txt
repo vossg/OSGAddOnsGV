@@ -17,8 +17,8 @@ ENDIF()
 # dependencies - OpenSG
 SET(${PROJECT_NAME}_DEP_OSG_LIB OSGState 
                                 OSGDynamics 
-                                OSGCluster 
-                                OSGContribCSM)
+                                OSGCluster) 
+                                #OSGContribCSM)
 
 # SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB )
 

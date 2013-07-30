@@ -123,6 +123,7 @@ VLCVideoTextureObjChunk::VLCVideoTextureObjChunk(void) :
     libvlc = NULL;
     vlcmediaplayer = NULL;
     needsUpdate = false;
+    needsRestart = false;
     vlcmediaplayer = NULL;
 }
 
@@ -134,6 +135,7 @@ VLCVideoTextureObjChunk::VLCVideoTextureObjChunk(
     libvlc = NULL;
     vlcmediaplayer = NULL;
     needsUpdate = false;
+    needsRestart = false;
     vlcmediaplayer = NULL;
 }
 
@@ -152,7 +154,7 @@ void VLCVideoTextureObjChunk::changed(ConstFieldMaskArg whichField,
 
     if (0x0000 != (whichField & UrlFieldMask)) {
         // init VLC internal structures
-        if (getUrl().length()>1) {            
+        if (getUrl().length()>0) {            
             createVLCInstance();            
         }
     } else
@@ -167,7 +169,7 @@ void VLCVideoTextureObjChunk::changed(ConstFieldMaskArg whichField,
     }
 
     if (0x0000 != (whichField & StatusFieldMask)) {
-        // update VLC
+        // update VLC        
     }
 
     if (0x0000 != (whichField & TimestampFieldMask)) {
@@ -190,6 +192,7 @@ void VLCVideoTextureObjChunk::dump(      UInt32    ,
 
 void VLCVideoTextureObjChunk::frame(Time oTime, UInt32 uiFrame)
 {
+    
     VLCVideoTextureObjChunk::triggerUpdate();
 }
 
@@ -212,6 +215,11 @@ void VLCVideoTextureObjChunk::triggerUpdate(void)
                     allVideoTextures[i]->self->ctx.lock->release();
                     allVideoTextures[i]->self->checkForSync();
                     
+                }
+
+                if (allVideoTextures[i]->self->needsRestart)
+                {
+                    allVideoTextures[i]->self->playAgain();                    
                 }
             } else {
                 if (toDel<0) toDel=i;                                    
@@ -273,6 +281,17 @@ static void vlc_display(void *data, void *id)
 }
 
 
+static void vlc_event(const libvlc_event_t* _event, void *data)
+{
+    ctxStruct *_ctx = static_cast<ctxStruct *>(data);
+    if (_ctx->idstr==NULL) return;
+
+    if( _event->type == libvlc_MediaPlayerEndReached )
+    {
+       _ctx->self->needsRestart = true;
+    }    
+}
+
 static std::string getVideoID()
 {
     static int number=0;
@@ -290,43 +309,21 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
 {
     libvlc_media_t *m;
     
-    char const *vlc_master_argv[] =
-    {       
-        "-I", "dumy",      // No special interface
-        "--ignore-config", // Don't use VLC's config
-        "--quiet",         // should deactivate the console outputs
-        "--no-xlib",       // tell VLC to not use Xlib   
-        "--logfile=vlc_log.txt",
-        "--transform-type=hflip",  // not working 
-        "--no-video-title-show", // no titles
-    };
-
     char const *vlc_argv[] =
     {       
         "-I", "dumy",      // No special interface
-        "--ignore-config", // Don't use VLC's config
-        "--no-audio",      // skip any audio track TODO: add audio output
+        "--ignore-config", // Don't use VLC's config        
         "--quiet",         // should deactivate the console outputs
-        "--no-xlib",       // tell VLC to not use Xlib   
-        "--logfile=vlc_log.txt",
-        "--transform-type=hflip",  // not working 
+        "--no-xlib",       // tell VLC to not use Xlib                   
         "--no-video-title-show", // no titles
     };
-
-    int vlc_master_argc = sizeof(vlc_master_argv) / sizeof(*vlc_master_argv);
+        
     int vlc_argc        = sizeof(vlc_argv       ) / sizeof(*vlc_argv       );
          
     // Initialize libVLC   
     if (libvlc==NULL) 
-    {
-        if(this->getIsMaster() == true)
-        {
-            libvlc = libvlc_new(vlc_master_argc, vlc_master_argv);
-        }
-        else
-        {
-            libvlc = libvlc_new(vlc_argc, vlc_argv);
-        }
+    {        
+        libvlc = libvlc_new(vlc_argc, vlc_argv);        
     } 
     else 
     {
@@ -337,7 +334,7 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
             libvlc_media_player_release(vlcmediaplayer);
             vlcmediaplayer = NULL;
             ctx.videothread->runFunction(NULL,NULL); // reset thread structure: isInititialized=false
-            ctx.videothread = NULL;
+            ctx.videothread = NULL;            
         }
     }
     m = libvlc_media_new_path(libvlc, getUrl().c_str());
@@ -346,7 +343,7 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
     libvlc_media_release(m);
 
     ctx.idstr = strdup((std::string("video")+getVideoID()).c_str());
-    ctx.videothread = NULL;        
+    ctx.videothread = NULL;            
     ctx.img = Image::create();
     ctx.img->set(OSG::Image::OSG_BGR_PF,getWidth(), getHeight());
     ctx.lock = Lock::create();
@@ -356,8 +353,13 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
     ctx.self = this;
 
 
+    vlceventmgr = libvlc_media_player_event_manager( vlcmediaplayer );
+    // attach event to defined event handler callback
+    libvlc_event_attach( vlceventmgr, libvlc_MediaPlayerEndReached, vlc_event, &ctx);
+
     libvlc_video_set_callbacks(vlcmediaplayer, vlc_lock, vlc_unlock, vlc_display, &ctx);
     libvlc_video_set_format(vlcmediaplayer, "RV24", getWidth(), getHeight(), getWidth()*3);
+    if (getIsMaster()==false) libvlc_audio_set_mute(vlcmediaplayer, 1);
     
     libvlc_media_player_play(vlcmediaplayer);
     libvlc_media_player_set_time(vlcmediaplayer, start_time);
@@ -420,6 +422,13 @@ void VLCVideoTextureObjChunk::play(void)
     libvlc_media_player_play(vlcmediaplayer);
 }
 
+void VLCVideoTextureObjChunk::playAgain(void)
+{
+    if ((libvlc == NULL) || (vlcmediaplayer == NULL)) return;      
+    libvlc_media_player_stop(vlcmediaplayer);    
+    libvlc_media_player_play(vlcmediaplayer);
+    needsRestart = false;
+}
 
 void VLCVideoTextureObjChunk::checkForSync(void)
 {
@@ -433,7 +442,7 @@ void VLCVideoTextureObjChunk::checkForSync(void)
         if (OSG::getTimeStampMsecs(now-lastSync) > getUpdatefreq()) 
         {
             lastSync=now;
-            setTimestamp(libvlc_media_player_get_time(vlcmediaplayer));
+            setTimestamp(libvlc_media_player_get_time(vlcmediaplayer)+NETWORK_LATENCY);
             commitChanges();
         }
     }
@@ -443,9 +452,9 @@ void VLCVideoTextureObjChunk::updateTime(void)
 {
     if ((libvlc == NULL) || (vlcmediaplayer == NULL)) return;    
     if (libvlc_media_player_is_playing(vlcmediaplayer)!=1) return;
-    // only update if > 300 ms offset
+    // only update if > MIN_TIME_DIFF ms offset
     long test=labs(libvlc_media_player_get_time(vlcmediaplayer)-this->getTimestamp());
-    if (test>300)
+    if (test>MIN_TIME_DIFF)
     {
         libvlc_media_player_set_time(vlcmediaplayer, this->getTimestamp());
         SLOG << "resyncing video: " << test << std::endl;

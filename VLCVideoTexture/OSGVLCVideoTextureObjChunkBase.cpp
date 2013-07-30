@@ -94,7 +94,7 @@ OSG_BEGIN_NAMESPACE
 */
 
 /*! \var std::string     VLCVideoTextureObjChunkBase::_sfUrl
-    URL of the Video
+    URL of the video to play
 */
 
 /*! \var Int32           VLCVideoTextureObjChunkBase::_sfWidth
@@ -182,7 +182,7 @@ void VLCVideoTextureObjChunkBase::classDescInserter(TypeObject &oType)
     pDesc = new SFString::Description(
         SFString::getClassType(),
         "url",
-        "URL of the Video\n",
+        "URL of the video to play\n",
         UrlFieldId, UrlFieldMask,
         false,
         (Field::SFDefaultFlags | Field::FStdAccess),
@@ -286,12 +286,12 @@ VLCVideoTextureObjChunkBase::TypeObject VLCVideoTextureObjChunkBase::_type(
     "  <Field\n"
     "      name=\"url\"\n"
     "      type=\"std::string\"\n"
-    "      defaultValue='\"n\"'\n"
+    "      defaultValue='\"\"'\n"
     "      cardinality=\"single\"\n"
     "      visibility=\"external\"\n"
     "      access=\"public\"\n"
     "      >\n"
-    "    URL of the Video\n"
+    "    URL of the video to play\n"
     "  </Field>\n"
     "  <Field\n"
     "      name=\"width\"\n"
@@ -684,7 +684,7 @@ VLCVideoTextureObjChunkBase::VLCVideoTextureObjChunkBase(void) :
     _sfStatus                 (),
     _sfTimestamp              (Int64(-1)),
     _sfUpdatefreq             (Int64(2000)),
-    _sfUrl                    (std::string("n")),
+    _sfUrl                    (std::string("")),
     _sfWidth                  (Int32(32)),
     _sfHeight                 (Int32(32)),
     _sfIsMaster               (bool(true))

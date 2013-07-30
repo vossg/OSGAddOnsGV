@@ -44,12 +44,12 @@
   <Field
       name="url"
       type="std::string"
-      defaultValue='"n"'
+      defaultValue='""'
       cardinality="single"
       visibility="external"
       access="public"
       >
-    URL of the Video
+    URL of the video to play
   </Field>
   <Field
       name="width"

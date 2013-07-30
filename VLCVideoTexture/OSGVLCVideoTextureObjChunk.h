@@ -54,12 +54,19 @@ OSG_BEGIN_NAMESPACE
            PageVLCVideoTextureVideoTextureObjChunk for a description.
 */
 
+// -- Experimental --
+// compensate the latency (ms) of the network transfer of time stamps
+const static long NETWORK_LATENCY=100;
+// only resync if time difference is larger than (ms)
+const static long MIN_TIME_DIFF=300;
+
+
 
 struct ctxStruct
 {
     char                    *idstr;
     ImageRefPtr              img;        
-    ExternalThreadRefPtr     videothread;      
+    ExternalThreadRefPtr     videothread;          
     LockRefPtr               lock;
     VLCVideoTextureObjChunk *self;
 };
@@ -117,12 +124,14 @@ class OSG_VLCVIDEOTEXTURE_DLLMAPPING VLCVideoTextureObjChunk :
     bool isPlaying(void);
     void pause(void);
     void play(void);
+    void playAgain(void); 
 
     void checkForSync(void); 
 
     void updateTime(void);
 
     bool needsUpdate;
+    bool needsRestart;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -172,6 +181,8 @@ class OSG_VLCVIDEOTEXTURE_DLLMAPPING VLCVideoTextureObjChunk :
     bool createVLCInstance(libvlc_time_t start_time=0, bool play=true);
     void cleanVLC(void);
     void resizeVideo(void);
+
+    libvlc_event_manager_t *vlceventmgr;
 
 
     OSG::TimeStamp lastSync;

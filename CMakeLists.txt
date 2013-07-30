@@ -46,7 +46,7 @@ SET(OSG_PYTHON_MODULE_BASE_DIR "${CMAKE_SOURCE_DIR}/Bindings/Python"
 OSG_INIT(${OSG_COMPONENTS})
 
 IF(WIN32)
-  OSG_CONFIGURE_GLEW()
+#  OSG_CONFIGURE_GLEW()
 ENDIF(WIN32)
 
 SET(CFG_NAME OSGAddOns)
@@ -56,7 +56,6 @@ INCLUDE(CMakeLists.PackagePrepare.cmake)
 # MAIN BUILD STEPS
 ##############################################################################
 
-SET(OSG_EXCLUDE_FROM_BUILD 
-    ./WebInterface/CMakeLists.Lib.OSGContribWebInterface.txt)
+#SET(OSG_EXCLUDE_FROM_BUILD ./WebInterface/CMakeLists.Lib.OSGContribWebInterface.txt)
 
 OSG_COLLECT_LIBS(FALSE)
