@@ -23,7 +23,7 @@ SET(OpenSG_DIR "d:/user/gerrit/Projects/OpenSG/Separate/svn/OpenSG.install"
 
 #SET(OSG_USE_OSGSUPPORT_LIBS TRUE CACHE BOOL "" FORCE)
 
-# If OpenSG was build with CUDA enabled
+# !! If OpenSG was build with CUDA enabled !!
 
 #SET(CUDA_TOOLKIT_ROOT_DIR "/home/gerrit/Projects/NVidia/cuda" 
 #                          CACHE PATH "" FORCE)
