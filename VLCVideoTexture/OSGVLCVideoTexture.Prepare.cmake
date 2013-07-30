@@ -22,7 +22,7 @@ ENDIF()
 LIST(APPEND OSG_ADDITIONAL_CONFIGURE_LINES "#cmakedefine OSG_WITH_VLC 1")
 
 INSTALL(
-  FILES "${_CMAKE_CURR_LIST_DIR}/CMake/FindLibVLC.cmake"
+  FILES "${_CMAKE_CURR_LIST_DIR}/CMake/FindLIBVLC.cmake"
   DESTINATION share/OpenSG/cmake
   COMPONENT development_configuration)
 
