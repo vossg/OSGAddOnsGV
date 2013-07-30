@@ -48,6 +48,7 @@
 
 #include <vlc/vlc.h>
 
+
 OSG_BEGIN_NAMESPACE
 
 /*! \brief VLCVideoTextureObjChunk class. See \ref

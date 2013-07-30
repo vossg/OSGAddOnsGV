@@ -313,7 +313,7 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
     {       
         "-I", "dumy",      // No special interface
         "--ignore-config", // Don't use VLC's config        
-        "--quiet",         // should deactivate the console outputs
+        "--quiet",         // deactivates VLCs console outputs
         "--no-xlib",       // tell VLC to not use Xlib                   
         "--no-video-title-show", // no titles
     };
@@ -338,6 +338,7 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
         }
     }
     m = libvlc_media_new_path(libvlc, getUrl().c_str());
+   
     vlcmediaplayer = libvlc_media_player_new_from_media(m);
    
     libvlc_media_release(m);
@@ -361,6 +362,20 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
     libvlc_video_set_format(vlcmediaplayer, "RV24", getWidth(), getHeight(), getWidth()*3);
     if (getIsMaster()==false) libvlc_audio_set_mute(vlcmediaplayer, 1);
     
+#if 0
+    {
+        SLOG << "available filters:" << std::endl;
+        libvlc_module_description_t *list = libvlc_video_filter_list_get(libvlc);
+        libvlc_module_description_t *iter = list;
+        while(iter!=NULL) {
+            SLOG << iter->psz_name << std::endl;
+            iter = iter->p_next;
+        }                
+        libvlc_module_description_list_release(list);
+    }
+#endif
+        
+
     libvlc_media_player_play(vlcmediaplayer);
     libvlc_media_player_set_time(vlcmediaplayer, start_time);
     if (!play) libvlc_media_player_pause(vlcmediaplayer); //not working?
