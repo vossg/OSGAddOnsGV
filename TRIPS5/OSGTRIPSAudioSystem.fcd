@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="TRIPSAudioSystem"
+	parent="NodeCore"
+	library="TRIPS"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+Audio Node that holds information about Listener and a List of Sounds
+	<Field
+		name="listenerposition"
+		type="Pnt3f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0.0f, 0.0f, 0.0f"
+		access="public"
+	>
+	global Listener Position
+	</Field>
+	<Field
+		name="listenerlookat"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Lookat Vector of Listener
+	</Field>
+	<Field
+		name="listenerup"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Up Vector of Listener
+	</Field>
+	<Field
+		name="listeneroffset"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Offset to Camera to Listener
+	</Field>
+	<Field
+		name="usevelocity"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Switch for automatic Velocity
+	</Field>
+	<Field
+		name="velocity"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Velocity of Listener needed for doppler-effect
+	</Field>
+	<Field
+		name="lastframetime"
+		type="Time"
+		cardinality="single"
+		visibility="internal"
+		access="public"
+	>
+	Timer for Velocity calculation
+	</Field>
+	<Field
+		name="lastlistenerposition"
+		type="Pnt3f"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="0.0f, 0.0f, 0.0f"
+		access="public"
+	>
+	last Listener Position
+	</Field>
+	<Field
+		name="soundlist"
+		category="pointer"
+		type="TRIPSSound"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	List of Sounds
+	</Field>
+	<Field
+		name="timesoundlist"
+		category="pointer"
+		type="TRIPSSound"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	List of timed Sounds
+	</Field>
+	<Field
+		name="reverbtype"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Reverb Environment
+	</Field>
+	<Field
+		name="audiotimer"
+		type="Time"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Timer
+	</Field>
+	<Field
+		name="audioinit"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	AutoInit TRUE / FALSE
+	</Field>
+	<Field
+		name="audiomode"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+		defaultValue="-1"
+		access="public"
+	>
+	AudioMode ACTIVE / MUTE
+	</Field>
+	<Field
+		name="audiodriver"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	AudioDriver EAX / DSound / OSS ...
+	</Field>
+	<Field
+		name="speakermode"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Speaker mode DOLBYDIGITAL / STEREO / HEADPHONES ..
+	</Field>
+</FieldContainer>

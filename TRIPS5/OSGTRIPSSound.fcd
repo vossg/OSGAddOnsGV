@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="TRIPSSound"
+	parent="AttachmentContainer"
+	library="TRIPS"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+	<Field
+		name="soundID"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	ID to identify a special Sound
+	</Field>
+	<Field
+		name="filename"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	FileName of the Sound
+	</Field>
+	<Field
+		name="beacon"
+		category="weakpointer"
+    type="Node"		
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Pointer to a Node that holds 3D Position of the Sound
+	</Field>
+	<Field
+		name="usevelocity"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Switch for automatic Velocity
+	</Field>
+	<Field
+		name="lastsoundposition"
+		type="Pnt3f"
+		cardinality="single"
+		visibility="internal"
+		access="public"
+	>
+	last Sound Position
+	</Field>
+	<Field
+		name="velocity"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Velocity of Sound needed for doppler-effect
+	</Field>
+	<Field
+		name="is3D"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Defines if Sound is 3D
+	</Field>	
+	<Field
+		name="channel"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Channel Number in the FMOD Sound pool
+	</Field>
+	<Field
+		name="soundVolume"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	soundvolume 0 to 255
+	</Field>
+	<Field
+		name="minDistance"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1.0"
+		access="public"
+	>
+	Minimum audible distance of a Sound
+	</Field>
+	<Field
+		name="maxDistance"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1000000000.0f  "
+		access="public"
+	>
+	Minimum audible distance of a Sound
+	</Field>
+	<Field
+		name="soundtoplay"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Trigger what Sound to play
+	</Field>
+	<Field
+		name="playmode"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	used for different playback modes
+	</Field>
+	<Field
+		name="playmodeparameter1"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	used for different playback modes
+	</Field>
+	<Field
+		name="playmodeparameter2"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	used for different playback modes
+	</Field>
+	<Field
+		name="playmodeparameter3"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	used for different playback modes
+	</Field>
+	<Field
+		name="audio"
+		category="pointer"
+		type="TRIPSAudioSystem"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Points to Audio Context
+	</Field>
+</FieldContainer>
