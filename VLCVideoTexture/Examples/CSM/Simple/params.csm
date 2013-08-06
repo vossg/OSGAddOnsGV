@@ -1,5 +1,0 @@
---global ../Common/default-setup.osg
-#--system ../Common/system-native.osg
---system ../Common/system-native-cluster-multi-wall.osg
---data   plane.osg
---global ../Common/simple_mouse.osg

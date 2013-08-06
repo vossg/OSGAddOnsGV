@@ -333,7 +333,9 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
             libvlc_media_player_stop(vlcmediaplayer);    
             libvlc_media_player_release(vlcmediaplayer);
             vlcmediaplayer = NULL;
-            ctx.videothread->runFunction(NULL,NULL); // reset thread structure: isInititialized=false
+            if (ctx.videothread!=NULL) {
+                ctx.videothread->runFunction(NULL,NULL); // reset thread structure: isInititialized=false
+            }
             ctx.videothread = NULL;            
         }
     }
