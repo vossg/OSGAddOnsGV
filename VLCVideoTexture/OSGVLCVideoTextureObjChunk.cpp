@@ -191,45 +191,26 @@ void VLCVideoTextureObjChunk::dump(      UInt32    ,
 }
 
 void VLCVideoTextureObjChunk::frame(Time oTime, UInt32 uiFrame)
-{
-    
-    VLCVideoTextureObjChunk::triggerUpdate();
-}
-
-void VLCVideoTextureObjChunk::triggerUpdate(void)
-{
-    // update all video textures    
-    int toDel = -1;
-    for (unsigned int i=0; i<allVideoTextures.size(); i++)
+{    
+    // trigger update
+    if (ctx.idstr!=NULL) 
     {
-        if (allVideoTextures[i]!=NULL)
+        if (needsUpdate) 
         {
-            if (allVideoTextures[i]->idstr!=NULL) 
-            {
-                if (allVideoTextures[i]->self->needsUpdate) 
-                {
-                    allVideoTextures[i]->self->ctx.lock->acquire();
-                    GLenum id = allVideoTextures[i]->self->_sfGLId.getValue();
-                    Window::refreshGLObject(id);
-                    allVideoTextures[i]->self->needsUpdate = false;
-                    allVideoTextures[i]->self->ctx.lock->release();
-                    allVideoTextures[i]->self->checkForSync();
-                    
-                }
-
-                if (allVideoTextures[i]->self->needsRestart)
-                {
-                    allVideoTextures[i]->self->playAgain();                    
-                }
-            } else {
-                if (toDel<0) toDel=i;                                    
-            }
+            ctx.lock->acquire();
+            GLenum id = _sfGLId.getValue();
+            Window::refreshGLObject(id);
+            needsUpdate = false;
+            ctx.lock->release();
+            checkForSync();                    
         }
-    }    
-    if (toDel>-1) allVideoTextures.erase(allVideoTextures.begin()+toDel); // delete them one by one ...
-
-   
+        if (needsRestart)
+        {
+            playAgain();                    
+        }
+    } 
 }
+
 
 void VLCVideoTextureObjChunk::activate(DrawEnv *pEnv, UInt32 idx)
 {
@@ -383,7 +364,7 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
     if (!play) libvlc_media_player_pause(vlcmediaplayer); //not working?
     
     // add to static list
-    allVideoTextures.push_back(&ctx);
+    //allVideoTextures.push_back(&ctx);
 
     lastSync=OSG::getTimeStamp();
 

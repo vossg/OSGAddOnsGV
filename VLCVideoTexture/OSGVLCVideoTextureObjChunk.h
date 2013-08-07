@@ -72,7 +72,6 @@ struct ctxStruct
     VLCVideoTextureObjChunk *self;
 };
 
-static std::vector<ctxStruct*> allVideoTextures;
 
 
 class OSG_VLCVIDEOTEXTURE_DLLMAPPING VLCVideoTextureObjChunk : 
@@ -106,8 +105,6 @@ class OSG_VLCVIDEOTEXTURE_DLLMAPPING VLCVideoTextureObjChunk :
 
     virtual void frame(Time oTime, UInt32 uiFrame);
 
-    // update via static method
-    static void triggerUpdate(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
