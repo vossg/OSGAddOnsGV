@@ -36,6 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
+#pragma GCC diagnostic warning "-Wold-style-cast"
+#endif
+
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
@@ -133,6 +137,8 @@ void TRIPSSound::play(TRIPSSound::PlayModeType mode)
          m_channel->stop();
       }      
       break;
+       default:
+           break;
    }
    
    

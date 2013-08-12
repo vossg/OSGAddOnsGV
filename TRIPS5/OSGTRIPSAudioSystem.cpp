@@ -36,6 +36,10 @@
 *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
+#pragma GCC diagnostic warning "-Wold-style-cast"
+#endif
+
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
@@ -234,8 +238,10 @@ void TRIPSAudioSystem::changed(ConstFieldMaskArg whichField,
       TimeStamp nowtime      = getTimeStamp();
       TimeStamp iCounterFreq = getTimeStampFreq();
 
-      Real32 deltatime = (Real32)(nowtime - (Real32)getLastframetime()) / (Real32)iCounterFreq;;
-      setLastframetime((Time)nowtime);
+      Real32 deltatime = Real32(nowtime - Real32(getLastframetime())) / 
+          Real32(iCounterFreq);
+
+      setLastframetime(Time(nowtime));
       
 
 		if (getUsevelocity()) {
@@ -410,7 +416,7 @@ void TRIPSAudioSystem::init_FMOD()
 	if (FMOD_System == NULL) {
 		SINFO << "FMOD_System init" << std::endl;
 		FMOD_RESULT  result;
-		unsigned int version;
+//		unsigned int version;
 
 		// init FMOD system
 		if (FMOD::System_Create(&FMOD_System) != FMOD_OK) {
@@ -501,7 +507,7 @@ void TRIPSAudioSystem::init_FMOD()
 
 
          // SETUP SPEAKERS
-         FMOD_System->setSpeakerMode((FMOD_SPEAKERMODE)getSpeakermode());
+         FMOD_System->setSpeakerMode(FMOD_SPEAKERMODE(getSpeakermode()));
          switch (getSpeakermode()) 
          {
          case FMOD_SPEAKERMODE_MONO:
@@ -539,7 +545,7 @@ void TRIPSAudioSystem::init_FMOD()
          FMOD_System->setDriver(0); //was: -1 ??
 
          // INITIALIZE
-         result = FMOD_System->init(64, (FMOD_INITFLAGS)(FMOD_INIT_NORMAL), 0);
+         result = FMOD_System->init(64, FMOD_INITFLAGS(FMOD_INIT_NORMAL), 0);
          if (result != FMOD_OK) {
             SFATAL << "*TRIPS* Init ERROR: " << FMOD_ErrorString[result] << std::endl;            
             FMOD_System=NULL;            
