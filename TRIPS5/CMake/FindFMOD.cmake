@@ -11,10 +11,12 @@ IF(FMOD_LIBRARY AND FMOD_INCLUDE_DIR)
 SET(FMOD_FIND_QUIETLY TRUE)
 ENDIF(FMOD_LIBRARY AND FMOD_INCLUDE_DIR)
 
-
 FIND_PATH(FMOD_INCLUDE_DIR
           fmod.hpp
           PATHS $ENV{FMOD_DIR}/include
+                $ENV{FMOD_DIR}/inc
+                ${FMOD_DIR}/include
+                ${FMOD_DIR}/inc
                 /usr/local/include
                 /usr/include
                 /sw/include
@@ -26,7 +28,7 @@ FIND_PATH(FMOD_INCLUDE_DIR
 IF(WIN32)
 ELSEIF(LINUX)
   IF(OSG_PLATFORM_64)
-    SET(_FMOD_LIBNAMES libfmodex64)
+    SET(_FMOD_LIBNAMES libfmodex64.so)
   ENDIF()
 ELSEIF(APPLE)
 ENDIF()
@@ -34,6 +36,7 @@ ENDIF()
 FIND_LIBRARY(FMOD_LIBRARY
              NAMES ${_FMOD_LIBNAMES}
              PATHS $ENV{FMOD_DIR}/lib
+                   ${FMOD_DIR}/lib
                    /usr/local/lib
                    /usr/lib
                    /usr/local/X11R6/lib
@@ -57,6 +60,8 @@ ELSE(FMOD_LIBRARY AND FMOD_INCLUDE_DIR)
 
   IF(NOT FMOD_FIND_QUIETLY)
     MESSAGE(STATUS "Warning: Unable to find FMOD!")
+    MESSAGE(STATUS "set FMOD_DIR to point to the include/lib dir location!")
+    SET(FMOD_DIR "FMOD_DIR-NOTFOUND" CACHE PATH "")
   ENDIF(NOT FMOD_FIND_QUIETLY)
 
 ENDIF(FMOD_LIBRARY AND FMOD_INCLUDE_DIR)
