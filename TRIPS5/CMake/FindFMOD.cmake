@@ -25,7 +25,12 @@ FIND_PATH(FMOD_INCLUDE_DIR
                 /opt/include
                 PATH_SUFFIXES fmod fmod3)
 
-IF(WIN32)
+IF(WIN32)  
+  IF(OSG_PLATFORM_64)
+    SET(_FMOD_LIBNAMES fmodex64_vc.lib)
+  ELSE(OSG_PLATFORM_64)
+    SET(_FMOD_LIBNAMES fmodex_vc.lib)
+  ENDIF()
 ELSEIF(LINUX)
   IF(OSG_PLATFORM_64)
     SET(_FMOD_LIBNAMES libfmodex64.so)
