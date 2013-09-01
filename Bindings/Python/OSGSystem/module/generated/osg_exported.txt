@@ -25,18 +25,16 @@ SolidBackgroundBase
 PrimeMaterialBase
 DrawableStatsAttachment
 LightBase
-FBOViewport
 State
 Group
 ShaderVariableVec2fBase
 ChunkOverrideGroup
 ShaderVariableMReal
-FullStateChunkBase
 ShaderVariableStringBase
 GeoProperty
+MaterialGroup
 ShaderProgramVariableChunkBase
 ShaderProgramVariableChunk
-BlendChunk
 RootGroup
 RenderTreeNode
 ShaderVariableMVec2fBase
@@ -44,7 +42,6 @@ IntersectProxyAttachmentBase
 MatrixCameraBase
 Window
 GraphOpFactoryBase
-SimpleSHLChunk
 ShaderProgram
 Viewarea
 FrameBufferObject
@@ -81,10 +78,12 @@ CompositeMaterial
 GeoPropertyBase
 ShaderVariableVec4fBase
 ImageFileType
+FBOViewport
 Foreground
 ShaderVariableInt
 TextureBaseChunkBase
 ShaderVariablePnt3fBase
+BlendChunk
 ShaderVariableBool
 GroupBase
 SimpleSHLVariableChunk
@@ -96,7 +95,6 @@ MatrixCamera
 ShaderVariable
 LightChunk
 DepthChunk
-MaterialGroup
 ShaderVariableVec2f
 ShaderVariableMatrix
 ShaderVariableString
@@ -173,6 +171,7 @@ ActionBase
 ChunkMaterial
 StatisticsForegroundBase
 SwitchMaterialBase
+FullStateChunkBase
 StatsAttachment
 StateChunk
 ShaderProgramVariablesBase
@@ -186,6 +185,7 @@ MaterialChunkBase
 PolygonChunkBase
 MaterialGroupBase
 ShaderVariableMMatrix
+SimpleSHLChunk
 SceneFileType
 ShaderProcVariable
 StatsAttachmentBase

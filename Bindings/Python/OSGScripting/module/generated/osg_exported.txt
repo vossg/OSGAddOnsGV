@@ -9,7 +9,7 @@ PyFieldContainerPtrMFieldGetHandle
 ScriptBase
 PythonScriptBase
 Script
+PyFieldContainerPtrMFieldEditHandleBase
 PyFieldContainerPtrMFieldEditHandle
 PythonScriptFile
-PyFieldContainerPtrMFieldEditHandleBase
 PyFieldAccessHandler

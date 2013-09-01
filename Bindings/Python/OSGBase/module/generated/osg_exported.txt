@@ -14,7 +14,6 @@ Vec3f
 Vec4d
 VecStorage2d
 VecStorage2f
-VecStorage4d
 FieldContainerFactory
 ConnectionFactory
 Quaternion
@@ -22,13 +21,14 @@ Vec2ub
 Vec2d
 StatElemDesc_StatIntOnceElem
 Vec3d
+Vec4f
 Vec3ub
 HardwareContextParent
 Vec4ub
-Vec4f
 StatElemDesc_StatRealElem
 VecStorage3d
 VecStorage3f
+VecStorage4d
 VecStorage4f
 PerfMonitor
 Color3ub
@@ -47,7 +47,6 @@ StatElemDescBase
 PerfMonitorBase
 Attachment
 DataType
-ExceptionBinaryDataHandler
 MapHelperBase
 ConnectorAttachment
 ChangeList
@@ -56,11 +55,10 @@ ReflexiveContainer
 MapHelper
 MemoryObject
 FieldDescriptionBase
-CylinderVolume
+ExceptionBinaryDataHandler
 HardwareContextBase
 ExternalThread
 NestedSampleInfo
-ConnectorAttachmentBase
 HardwareContext
 AttachmentBase
 FieldContainer
@@ -68,6 +66,7 @@ FrustumVolume
 GlobalsAttachment
 Plane
 NodeCoreBase
+ConnectorAttachmentBase
 PolytopeVolume
 SocketException
 Node
@@ -79,6 +78,7 @@ FieldType
 Line
 BoxVolume
 Exception
+CylinderVolume
 SphereVolume
 Volume
 StatCollector

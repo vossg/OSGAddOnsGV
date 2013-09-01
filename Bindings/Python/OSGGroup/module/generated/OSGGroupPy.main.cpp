@@ -413,12 +413,6 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiSwitch::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::Billboard */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Billboard, OSG::Billboard::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Billboard::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
     /** Helpers for OSG::ComponentTransform */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ComponentTransform, OSG::ComponentTransform::ObjRecPtr>);
@@ -521,11 +515,11 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::LookAtTransformationElement::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::DistanceLOD */
+    /** Helpers for OSG::Billboard */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DistanceLOD, OSG::DistanceLOD::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Billboard, OSG::Billboard::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DistanceLOD::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Billboard::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::Switch */
 
@@ -580,6 +574,12 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ScaleTransformationElement, OSG::ScaleTransformationElement::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ScaleTransformationElement::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::DistanceLOD */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DistanceLOD, OSG::DistanceLOD::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DistanceLOD::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::VisitSubTree */
 

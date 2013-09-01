@@ -2,11 +2,11 @@
 #include <PreBoostPython.h>
 #include <pypp_aliases.h>
 #include <OSGScript.h>
-#include <OSGPyFieldContainerPtrMFieldEditHandle.h>
-#include <OSGPythonScriptFile.h>
-#include <OSGPythonScript.h>
-#include <OSGPyFieldContainerPtrMFieldGetHandle.h>
 #include <OSGPyFieldAccessHandler.h>
+#include <OSGPyFieldContainerPtrMFieldGetHandle.h>
+#include <OSGPythonScript.h>
+#include <OSGPythonScriptFile.h>
+#include <OSGPyFieldContainerPtrMFieldEditHandle.h>
 
 #if defined(Bool)
 #undef Bool

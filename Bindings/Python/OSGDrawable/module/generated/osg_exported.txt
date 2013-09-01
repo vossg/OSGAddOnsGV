@@ -1,3 +1,4 @@
+GeoPnt3dProperty
 GeoVec3fProperty
 StageDrawableParent
 GeoColor4fProperty
@@ -15,7 +16,6 @@ GeoVec2fProperty
 GeoUInt32Property
 GeoVec2dProperty
 GeoColor3fProperty
-GeoPnt3dProperty
 GeoPnt3fProperty
 GeoIntegralProperty
 SurfaceBase

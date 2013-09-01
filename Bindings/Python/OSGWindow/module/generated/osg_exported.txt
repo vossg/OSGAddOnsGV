@@ -19,6 +19,7 @@ DepthClearBackgroundBase
 GrabForeground
 FileGrabForeground
 OffCenterPerspectiveCamera
+ProjectionCameraDecoratorBase
 ShearedStereoCameraDecorator
 OrthographicCamera
 PolygonBackgroundBase
@@ -29,6 +30,7 @@ MatrixCameraDecorator
 DepthClearBackground
 PassiveWindow
 OffCenterPerspectiveCameraBase
+StereoBufferViewport
 ImageForegroundBase
 ProjectionCameraDecorator
 PolygonForeground
@@ -37,12 +39,10 @@ MatrixCameraDecoratorBase
 TextureGrabForegroundBase
 SimpleTextForeground
 GradientBackgroundBase
-ProjectionCameraDecoratorBase
 TextureGrabBackgroundBase
 ColorBufferViewport
 TileCameraDecoratorBase
 SkyBackground
-StereoBufferViewport
 TextureBackground
 PassiveViewportBase
 ShearedStereoCameraDecoratorBase

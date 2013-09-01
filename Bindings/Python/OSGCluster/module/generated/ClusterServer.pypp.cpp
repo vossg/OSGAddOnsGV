@@ -42,6 +42,26 @@ void register_ClusterServer_class(){
         typedef bp::class_< OSG::ClusterServer, boost::noncopyable > ClusterServer_exposer_t;
         ClusterServer_exposer_t ClusterServer_exposer = ClusterServer_exposer_t( "ClusterServer", bp::init< OSG::Window *, std::string const &, bp::optional< std::string const &, std::string const &, OSG::UInt32, std::string const & > >(( bp::arg("window"), bp::arg("serviceName"), bp::arg("connectionType")="StreamSock", bp::arg("address")="", bp::arg("servicePort")=(::OSG::UInt32)(8437), bp::arg("serviceGroup")="" )) );
         bp::scope ClusterServer_scope( ClusterServer_exposer );
+        { //::OSG::ClusterServer::addExitFunction
+        
+            typedef void ( *addExitFunction_function_type )( ::OSG::ExitFuncF );
+            
+            ClusterServer_exposer.def( 
+                "addExitFunction"
+                , addExitFunction_function_type( &::OSG::ClusterServer::addExitFunction )
+                , ( bp::arg("exitFunc") ) );
+        
+        }
+        { //::OSG::ClusterServer::addInitFunction
+        
+            typedef void ( *addInitFunction_function_type )( ::OSG::InitFuncF );
+            
+            ClusterServer_exposer.def( 
+                "addInitFunction"
+                , addInitFunction_function_type( &::OSG::ClusterServer::addInitFunction )
+                , ( bp::arg("initFunc") ) );
+        
+        }
         { //::OSG::ClusterServer::doRender
         
             typedef void ( ::OSG::ClusterServer::*doRender_function_type )( ::OSG::RenderActionBase * ) ;
@@ -69,6 +89,15 @@ void register_ClusterServer_class(){
                 "doSync"
                 , doSync_function_type( &::OSG::ClusterServer::doSync )
                 , ( bp::arg("applyToChangelist") ) );
+        
+        }
+        { //::OSG::ClusterServer::exit
+        
+            typedef bool ( *exit_function_type )(  );
+            
+            ClusterServer_exposer.def( 
+                "exit"
+                , exit_function_type( &::OSG::ClusterServer::exit ) );
         
         }
         { //::OSG::ClusterServer::getClusterWindow
@@ -110,6 +139,16 @@ void register_ClusterServer_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::ClusterServer::init
+        
+            typedef bool ( *init_function_type )( ::OSG::Int32,::OSG::Char8 * * );
+            
+            ClusterServer_exposer.def( 
+                "init"
+                , init_function_type( &::OSG::ClusterServer::init )
+                , ( bp::arg("argc"), bp::arg("argv") ) );
+        
+        }
         { //::OSG::ClusterServer::render
         
             typedef void ( ::OSG::ClusterServer::*render_function_type )( ::OSG::RenderActionBase * ) ;
@@ -148,6 +187,10 @@ void register_ClusterServer_class(){
                 , stop_function_type( &::OSG::ClusterServer::stop ) );
         
         }
+        ClusterServer_exposer.staticmethod( "addExitFunction" );
+        ClusterServer_exposer.staticmethod( "addInitFunction" );
+        ClusterServer_exposer.staticmethod( "exit" );
+        ClusterServer_exposer.staticmethod( "init" );
     }
 
 }

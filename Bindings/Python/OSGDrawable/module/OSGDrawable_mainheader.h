@@ -15,18 +15,18 @@
 #include <OSGStageDrawable.h>
 #include <OSGGeometry.h>
 #include <OSGGeoMultiProperty.h>
-#include <OSGGeoIntegralBufferRefProperty.h>
-#include <OSGGeoVectorBufferProperty.h>
 #include <OSGGeoMultiPropertyData.h>
+#include <OSGGeoVectorBufferProperty.h>
+#include <OSGGeoIntegralBufferProperty.h>
 #include <OSGGeoIntegralProperty.h>
 #include <OSGGeoVectorBufferRefProperty.h>
-#include <OSGGeoIntegralBufferProperty.h>
+#include <OSGGeoIntegralBufferRefProperty.h>
 #include <OSGKDTreeIntersectProxyAttachment.h>
-#include <OSGSurface.h>
 #include <OSGFatBorderChunk.h>
+#include <OSGSurface.h>
 #include <OSGParticles.h>
-#include <OSGQuadTreeTerrain.h>
 #include <OSGTiledQuadTreeTerrain.h>
+#include <OSGQuadTreeTerrain.h>
 
 #if defined(Bool)
 #undef Bool

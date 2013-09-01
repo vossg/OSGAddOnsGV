@@ -303,11 +303,11 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::SimpleSHLChunkFile::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::ImageFile */
+    /** Helpers for OSG::CSMMultiWinOptions */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ImageFile, OSG::ImageFile::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CSMMultiWinOptions, OSG::CSMMultiWinOptions::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ImageFile::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CSMMultiWinOptions::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::CSMLogger */
 
@@ -381,11 +381,11 @@ BOOST_PYTHON_MODULE(OSGContribCSMPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::CSMSceneParameter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::CSMMultiWinOptions */
+    /** Helpers for OSG::ImageFile */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CSMMultiWinOptions, OSG::CSMMultiWinOptions::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ImageFile, OSG::ImageFile::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CSMMultiWinOptions::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ImageFile::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::CSMClusterWinOptions */
 

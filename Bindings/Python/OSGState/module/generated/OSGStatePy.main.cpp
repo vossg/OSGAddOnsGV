@@ -223,29 +223,23 @@ BOOST_PYTHON_MODULE(OSGStatePy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::StencilChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::TextureSelectChunk */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TextureSelectChunk, OSG::TextureSelectChunk::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TextureSelectChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
     /** Helpers for OSG::TwoSidedLightingChunk */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TwoSidedLightingChunk, OSG::TwoSidedLightingChunk::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::TwoSidedLightingChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::TextureSelectChunk */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TextureSelectChunk, OSG::TextureSelectChunk::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TextureSelectChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::TextureTransformChunk */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TextureTransformChunk, OSG::TextureTransformChunk::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::TextureTransformChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
-    /** Helpers for OSG::ProgramChunk */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ProgramChunk, OSG::ProgramChunk::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ProgramChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::LineChunk */
 
@@ -283,11 +277,11 @@ BOOST_PYTHON_MODULE(OSGStatePy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShadeModelChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::FogChunk */
+    /** Helpers for OSG::ProgramChunk */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FogChunk, OSG::FogChunk::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ProgramChunk, OSG::ProgramChunk::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FogChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ProgramChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::RegisterCombinersChunk */
 
@@ -318,6 +312,12 @@ BOOST_PYTHON_MODULE(OSGStatePy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::LightModelChunk, OSG::LightModelChunk::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::LightModelChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::FogChunk */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FogChunk, OSG::FogChunk::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FogChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     register_VertexProgramChunk_class();
 }

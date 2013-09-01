@@ -11,7 +11,6 @@ CSMStatisticsForegroundBase
 KeySensorBase
 ImageFile
 MouseDataInterfaceSensorBase
-SimpleSHLChunkFileBase
 ImageFileBase
 InterfaceOptions
 CSMMultiWinOptions
@@ -24,6 +23,8 @@ CSMClusterWindowBase
 CSMWindowBase
 CSMGLUTWindowBase
 ShaderProgramFile
+SimpleSHLChunkFileBase
+DeviceInterfaceSensor
 CSMPerspectiveCameraBase
 CSMNativeWindow
 CounterBase
@@ -42,7 +43,6 @@ CSMNativeWindowBase
 CSMClusterWinOptionsBase
 CSMDrawerBase
 MouseDataInterfaceSensor
-DeviceInterfaceSensor
 CSMPassiveWinClearOp
 DeviceInterfaceSensorBase
 ComplexSceneManagerBase

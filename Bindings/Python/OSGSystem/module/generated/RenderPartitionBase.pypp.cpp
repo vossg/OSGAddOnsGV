@@ -76,7 +76,6 @@ void register_RenderPartitionBase_class(){
             .value("StateSorting", OSG::RenderPartitionBase::StateSorting)
             .value("TransformSorting", OSG::RenderPartitionBase::TransformSorting)
             .value("SimpleCallback", OSG::RenderPartitionBase::SimpleCallback)
-            .value("OcclusionCulling", OSG::RenderPartitionBase::OcclusionCulling)
             .export_values()
             ;
         bp::enum_< OSG::RenderPartitionBase::SetupBit>("SetupBit")

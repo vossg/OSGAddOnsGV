@@ -93,7 +93,7 @@ struct ImageFileType_wrapper : OSG::ImageFileType, bp::wrapper< OSG::ImageFileTy
         return OSG::ImageFileType::read( boost::python::ptr(pImage), boost::ref(is), mimetype );
     }
 
-    virtual ::OSG::UInt64 restoreData( ::OSG::Image * pImage, ::OSG::UChar8 const * buffer, ::OSG::Int32 memSize=-0x00000000000000001 ) {
+    virtual ::OSG::UInt64 restoreData( ::OSG::Image * pImage, ::OSG::UChar8 const * buffer, ::OSG::Int32 memSize=-0x00000000000000001 ) const  {
         if( bp::override func_restoreData = this->get_override( "restoreData" ) )
             return func_restoreData( boost::python::ptr(pImage), buffer, memSize );
         else{
@@ -101,11 +101,11 @@ struct ImageFileType_wrapper : OSG::ImageFileType, bp::wrapper< OSG::ImageFileTy
         }
     }
     
-    ::OSG::UInt64 default_restoreData( ::OSG::Image * pImage, ::OSG::UChar8 const * buffer, ::OSG::Int32 memSize=-0x00000000000000001 ) {
+    ::OSG::UInt64 default_restoreData( ::OSG::Image * pImage, ::OSG::UChar8 const * buffer, ::OSG::Int32 memSize=-0x00000000000000001 ) const  {
         return OSG::ImageFileType::restoreData( boost::python::ptr(pImage), buffer, memSize );
     }
 
-    virtual ::OSG::UInt64 storeData( ::OSG::Image const * pImage, ::OSG::UChar8 * buffer, ::OSG::Int32 memSize=-0x00000000000000001 ) {
+    virtual ::OSG::UInt64 storeData( ::OSG::Image const * pImage, ::OSG::UChar8 * buffer, ::OSG::Int32 memSize=-0x00000000000000001 ) const  {
         if( bp::override func_storeData = this->get_override( "storeData" ) )
             return func_storeData( boost::python::ptr(pImage), buffer, memSize );
         else{
@@ -113,7 +113,7 @@ struct ImageFileType_wrapper : OSG::ImageFileType, bp::wrapper< OSG::ImageFileTy
         }
     }
     
-    ::OSG::UInt64 default_storeData( ::OSG::Image const * pImage, ::OSG::UChar8 * buffer, ::OSG::Int32 memSize=-0x00000000000000001 ) {
+    ::OSG::UInt64 default_storeData( ::OSG::Image const * pImage, ::OSG::UChar8 * buffer, ::OSG::Int32 memSize=-0x00000000000000001 ) const  {
         return OSG::ImageFileType::storeData( boost::python::ptr(pImage), buffer, memSize );
     }
 
@@ -273,8 +273,8 @@ void register_ImageFileType_class(){
         }
         { //::OSG::ImageFileType::restoreData
         
-            typedef ::OSG::UInt64 ( ::OSG::ImageFileType::*restoreData_function_type )( ::OSG::Image *,::OSG::UChar8 const *,::OSG::Int32 ) ;
-            typedef ::OSG::UInt64 ( ImageFileType_wrapper::*default_restoreData_function_type )( ::OSG::Image *,::OSG::UChar8 const *,::OSG::Int32 ) ;
+            typedef ::OSG::UInt64 ( ::OSG::ImageFileType::*restoreData_function_type )( ::OSG::Image *,::OSG::UChar8 const *,::OSG::Int32 ) const;
+            typedef ::OSG::UInt64 ( ImageFileType_wrapper::*default_restoreData_function_type )( ::OSG::Image *,::OSG::UChar8 const *,::OSG::Int32 ) const;
             
             ImageFileType_exposer.def( 
                 "restoreData"
@@ -305,8 +305,8 @@ void register_ImageFileType_class(){
         }
         { //::OSG::ImageFileType::storeData
         
-            typedef ::OSG::UInt64 ( ::OSG::ImageFileType::*storeData_function_type )( ::OSG::Image const *,::OSG::UChar8 *,::OSG::Int32 ) ;
-            typedef ::OSG::UInt64 ( ImageFileType_wrapper::*default_storeData_function_type )( ::OSG::Image const *,::OSG::UChar8 *,::OSG::Int32 ) ;
+            typedef ::OSG::UInt64 ( ::OSG::ImageFileType::*storeData_function_type )( ::OSG::Image const *,::OSG::UChar8 *,::OSG::Int32 ) const;
+            typedef ::OSG::UInt64 ( ImageFileType_wrapper::*default_storeData_function_type )( ::OSG::Image const *,::OSG::UChar8 *,::OSG::Int32 ) const;
             
             ImageFileType_exposer.def( 
                 "storeData"
