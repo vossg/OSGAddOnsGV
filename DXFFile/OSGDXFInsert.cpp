@@ -218,8 +218,11 @@ DXFResult DXFInsert::endEntity(void)
                 beginEditCP(ctrafoCoreP);
 #endif
                 {
+					OSG::Quaternion rot(OSG::Vec3f(0,0,1),OSG::Pi * _rotationAngle/180);
+					ctrafoCoreP->setRotation(rot);
                     ctrafoCoreP->setTranslation(_insertionPoint + offset);
                     ctrafoCoreP->setScale(_scaleFactor);
+					
                 }
 #if 0
                 endEditCP(ctrafoCoreP);
@@ -253,13 +256,13 @@ DXFResult DXFInsert::endEntity(void)
         // Warn for details not implemented or assured yet! TODO: better
         // implement missing features!
         
-        if(fabs(_rotationAngle) > Eps)
+        /*if(fabs(_rotationAngle) > Eps)
             FWARNING(("DXF Loader: before line %d: "
                       "DXFInsert does not yet support ROTATION "
                       "(group code 50). "
                       "Most likely the graphics are incorrect!\n",
                       DXFRecord::getLineNumber()
-                     ));
+                     ));*/
         if(_scaleFactor != Vec3f(1.0,1.0,1.0))
             FWARNING(("DXF Loader: before line %d: "
                       "DXFInsert may not interpret SCALING "
