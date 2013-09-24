@@ -251,6 +251,7 @@ DXFVertex::DXFVertex(void) :
     _entityTypeName = "VERTEX"; 
 
     registerToParentEntityType("ENTITY:POLYLINE");
+    registerToParentEntityType("ENTITY:LWPOLYLINE");
     // TODO: are VERTEX entities used in any other entity than POLYLINE?
 //  registerToParentEntityType("ENTITY:<OTHER>");
 

@@ -45,7 +45,10 @@
 
 #include "OSGConfig.h"
 
+#include "OSGDXFSpline.h"
 #include "OSGDXFHeader.h"
+#include "OSGFieldContainer.h"
+#include "OSGBaseFunctions.h"
 
 OSG_USING_NAMESPACE
 
@@ -53,19 +56,14 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class DXFHeader
+/*! \class DXFSpline
     \ingroup GrpSystemFileIO
 
-  Parses the file section between the groups (0,SECTION), (2,HEADER) and
-  (0,ENDSEC). As far as implemented, DXF header variables are evaluated.
+  Parses and evaluates the file section between the groups (0,POLYLINE) and
+  (0,SEQEND). Exactly speaking any group with code 0 besides (0,VERTEX) ends
+  the polyline.
 
-  Currently theres only an output to show the AutoCAD release version (header
-  variable $ACADVER).
- 
-  \todo Check, which other variables are relevant for the OpenSG import - and
-  then implement them...
-
- */
+*/
 
 /***************************************************************************\
  *                               Types                                     *
@@ -78,12 +76,9 @@ OSG_USING_NAMESPACE
 /*! Pointer to singleton of this class. There is exactly one instance for each
  * derived class which can be instantiated.
  */
+DXFSpline *DXFSpline::_the = new DXFSpline();
 
-Real32 DXFHeader::_angBase = 0;
-Int32  DXFHeader::_angDir  = 0;
-DXFHeader *DXFHeader::_the = new DXFHeader();
-
-/* \var VARTYPE DXFHeader::_VARNAME
+/* \var VARTYPE DXFSpline::_VARNAME
     variable documentation
  */
 
@@ -108,71 +103,113 @@ DXFHeader *DXFHeader::_the = new DXFHeader();
 
 /*================================ PRIVATE ================================*/
 
-/*! Evaluate HEADER variables. Only a few are implemented exemplarically. The
- * others are unknown and will be ignored by the parser.
+
+/*! Evaluate records for POLYLINE entities with the following group codes:
+ *  - 66 -- Obsolete, ignore if present
+ *  - 10, 20 -- always 0
+ *  - 30 -- Polyline's elevation (in OCS when 2D, WCS when 3D)
  */
-
-DXFResult DXFHeader::evalRecord(void)
+DXFResult DXFSpline::evalRecord(void)
 {
-    DXFResult state = DXFStateUnknown;  
-
-    if(DXFRecord::getGroupCode() == 9)
+    DXFResult state = DXFStateContinue;
+    switch( DXFRecord::getGroupCode() )
     {
-        _headerVariable = DXFRecord::getValueStr();
-        state = DXFStateContinue;
-    }
-    else
-    {
-        if(_headerVariable == "$ACADVER")
-        {
-            if(DXFRecord::getGroupCode() == 1)
-            {
-                FINFO(("DXF Loader: AutoCAD File Version '%s'\n",
-                       DXFRecord::getValueStr().c_str()));
-                // TODO: check, whether version is implemented...
-                state = DXFStateContinue;
-            }
-        }
-		else if(_headerVariable == "$ANGBASE")
-		{
-			_angBase = DXFRecord::getValueDbl();
-		}
-		else if(_headerVariable == "$ANGDIR")
-		{
-			_angDir = DXFRecord::getValueInt();
-		}
-//      else if(_headerVariable == "$EXTMIN")
-//      {
-//          // Fill Pnt3f extmin with values from 3 records containing
-//          // coordinate data 
-//          state = DXFStateContinue;
-//      }
-//      else if ...
+        case 10:
+			_centerPoint[0]= DXFRecord::getValueDbl();
+			break;
+        case 20:
+			_centerPoint[1]= DXFRecord::getValueDbl();
+            break;
+        case 30:
+            _elevation =     DXFRecord::getValueDbl();
+            break;
+		case 40:
+			_radius =        DXFRecord::getValueDbl();
+			break;
+		case 50:
+			_startAngle =    DXFRecord::getValueDbl();
+			break;
+		case 51:
+			_endAngle =      DXFRecord::getValueDbl();
+			break;
+        case 66:    // obsolete, ignore if present
+            break;
+        default:
+            state = DXFStateUnknown;
     }
     if(state == DXFStateUnknown)
         state = Inherited::evalRecord();
     return state;
 }
 
-/*! \todo
- *  Any global preparations needed here?
+/*!  \todo
+ *  check and make sure not to have bad memory leaks here!
  */
-
-DXFResult DXFHeader::beginEntity(void)
-{
+DXFResult DXFSpline::beginEntity(void)
+{   
     DXFResult state;
-
     state = Inherited::beginEntity();
 
+    _centerPoint.setNull();
+    beginGeometry();
+    
     return state;
 }
 
-/*! \todo
- * There might be work for correctly interpret the HEADER section.
+/*! Create OpenSG polyline or surface geometry from VERTEX data. 
+ *
+ *  If the POLYLINE entity represents a polyline (not a mesh) and there is a
+ *  Geometry with the same color and line settings in the layer, the polyline
+ *  will be added to it's core as one GL_LINE_STRIP primitive whereas meshes
+ *  always are created as a new Geometry Node (Done in
+ *  DXFEntitiesEntry::flushGeometry)
+ *
+ *  \todo
+ *  color and line settings are not checked yet)
  */
 
-DXFResult DXFHeader::endEntity(void)
+DXFResult DXFSpline::endEntity(void)
 {
+	float angleBase = DXFHeader::getAngBase();
+	int dir = DXFHeader::getAngDir();
+	double x, y, z;
+	if(dir) //clockwise
+	{
+		_startAngle= 360 - _startAngle;
+		_endAngle  =  360 - _endAngle;
+	}
+	_startAngle += 360;
+	_endAngle += 360;
+	while(_startAngle > _endAngle)
+	{
+		_endAngle += 360;
+	}
+	x= _centerPoint[0] + _radius * cos(osgDegree2Rad(_startAngle));
+	y= _centerPoint[1] + _radius * sin(osgDegree2Rad(_startAngle));
+	z = _centerPoint[2];
+	_pointsP->push_back(OSG::Pnt3f(x,y,z));
+	int div = 10;
+	int num = abs(_endAngle - _startAngle) / div;
+
+	for(int i=1;i<num-1;i++)
+	{
+		x= _centerPoint[0] + _radius * cos(osgDegree2Rad(_startAngle + div * i));
+		y= _centerPoint[1] + _radius * sin(osgDegree2Rad(_startAngle + div * i));
+		z = _centerPoint[2];
+		_pointsP->push_back(OSG::Pnt3f(x,y,z));
+	}
+	x= _centerPoint[0] + _radius * cos(osgDegree2Rad(_endAngle));
+	y= _centerPoint[1] + _radius * sin(osgDegree2Rad(_endAngle));
+	z = _centerPoint[2];
+	_pointsP->push_back(OSG::Pnt3f(x,y,z));
+	_faceTypeP->clear();
+	_faceLengthP->clear();
+    _faceTypeP  ->push_back(GL_LINE_STRIP);
+    _faceLengthP->push_back(num);
+
+    flushGeometry(false);
+    endGeometry();
+        
     return DXFStateContinue;
 }
 
@@ -180,25 +217,28 @@ DXFResult DXFHeader::endEntity(void)
 
 /*------------------------- constructors ----------------------------------*/
 
-/*! Add SECTION:HEADER entity to DXF hierarchy as child of FILE:FILE (see
- *  DXFFile).
+/*! Add ENTITY:POLYLINE entity type to DXF hierarchy as child of
+ *  SECTION:ENTITIES (see DXFEntities) and BLOCKSENTRY:BLOCK (see DXFBlock).
  */
-DXFHeader::DXFHeader(void) :
-     Inherited     (  ),
-    _headerVariable("")
+DXFSpline::DXFSpline(void) :
+    Inherited(),
+    _elevation(0.0),
+	_radius(0.0),
+	_startAngle(0),
+	_endAngle(0),
+	_centerPoint(0.0, 0.0, 0.0)
 {
-    _entityClassName = "SECTION";   
-    _entityTypeName  = "HEADER";
+    _entityTypeName    = "SPLINE";
 
-    registerToParentEntityType("FILE:FILE");
+    registerToParentEntityType("SECTION:ENTITIES");
+    registerToParentEntityType("BLOCKSENTRY:BLOCK");
 }
 
 /*-------------------------- destructor -----------------------------------*/
 
 /*! Does nothing.
  */
-
-DXFHeader::~DXFHeader(void)
+DXFSpline::~DXFSpline(void)
 {
 }
 

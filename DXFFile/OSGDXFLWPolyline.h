@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDXFHEADER_H_
-#define _OSGDXFHEADER_H_
+#ifndef _OSGDXFLWPolyline_H_
+#define _OSGDXFLWPolyline_H_
 
 //---------------------------------------------------------------------------
 //  Includes
@@ -47,7 +47,7 @@
 #include "OSGDXFFileDef.h"
 
 #include "OSGDXFEntityBase.h"
-#include "OSGDXFEntityBase.h"
+#include "OSGDXFEntitiesEntry.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -63,13 +63,12 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \brief Handles the HEADER section entry in the DXF file structure.
+/*! \brief Handles the LWPolyline entry in the DXF file strucure.
  */
 
-class OSG_DXFFILE_DLLMAPPING DXFHeader : public DXFEntityBase
+class OSG_DXFFILE_DLLMAPPING DXFLWPolyline : public DXFEntitiesEntry
 {
     /*==========================  PUBLIC  =================================*/
-
   public:
     
     /*---------------------------------------------------------------------*/
@@ -81,9 +80,8 @@ class OSG_DXFFILE_DLLMAPPING DXFHeader : public DXFEntityBase
     /*! \name                      Get                                     */
     /*! \{                                                                 */
     
-    static const Char8 *getClassname(void) { return "DXFHeader"; }
-	static const Real32 getAngBase(void) {return _angBase;}
-	static const Int32  getAngDir(void ) {return _angDir; }
+    static const Char8 *getClassname(void) { return "DXFLWPolyline"; }
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
@@ -93,21 +91,25 @@ class OSG_DXFFILE_DLLMAPPING DXFHeader : public DXFEntityBase
     /*! \name                    Destructor                                */
     /*! \{                                                                 */
 
-    virtual ~DXFHeader(void);
+    virtual ~DXFLWPolyline(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    static DXFHeader *_the;
+    static DXFLWPolyline *_the;
 
-    std::string _headerVariable;
-	static Real32 _angBase;
-	static Int32  _angDir;
-    // To get parsing of header variables efficient, you may use a map holding
-    // callback pointers to respective evaluation functions like:
-    // std::map<std:.string,<evalfuntype>>
+    // Data for (some) LWPolyline groups
+    Real32   _elevation;        // 10, 20, 30 (only 30 has a meaning) TODO
+
+	Int32    _numVertices;     // number of vertices;
+	Pnt3f    _curVertice;   // the vertices vector;
+	std::vector<Pnt3f> _plyVertices;
+    // 70: LWPolyline flags are read to DXFEntitiesEntry::_flags
+    // 66: Obsolete, (explicitly) ignored
+    // Group codes implemented by DXFEntitiesEntry: 39, 210, 220, 230
+    // Group codes not implemented: 40, 41, 71, 72, 73, 74, 75
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -119,13 +121,13 @@ class OSG_DXFFILE_DLLMAPPING DXFHeader : public DXFEntityBase
 
   private:
 
-    typedef DXFEntityBase Inherited;
+    typedef DXFEntitiesEntry Inherited;
     
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    DXFHeader(void);
+    DXFLWPolyline(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -133,7 +135,6 @@ class OSG_DXFFILE_DLLMAPPING DXFHeader : public DXFEntityBase
     /*! \{                                                                 */
 
     virtual DXFResult evalRecord (void);
-
     virtual DXFResult beginEntity(void);
     virtual DXFResult endEntity  (void);
 
@@ -141,11 +142,11 @@ class OSG_DXFFILE_DLLMAPPING DXFHeader : public DXFEntityBase
     /*---------------------------------------------------------------------*/
 
     /*!\brief prohibit default function (move to 'public' if needed) */
-    DXFHeader(const DXFHeader &source);
+    DXFLWPolyline(const DXFLWPolyline &source);
     /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const DXFHeader &source);
+    void operator =(const DXFLWPolyline &source);
 };
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGDXFHEADER_H_ */
+#endif /* _OSGDXFLWPolyline_H_ */

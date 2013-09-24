@@ -464,25 +464,42 @@ void DXFRecord::init(void)
         _valueTypeMap[102] = DXFTypeString;
         _valueTypeMap[105] = DXFTypeHex;
     }
-    //-------------------------------------------------------------------------
-    // 140 - 147 : Double precision scalar floating-point value  
-    for(i = 140; i <= 147; ++i)
+	
+	//-------------------------------------------------------------------------
+    // 140 - 147 : Double precision floating-point value  
+    for(i = 110; i <= 139; ++i)
     {
         _valueTypeMap[i] = DXFTypeDouble;
     }
+
     //-------------------------------------------------------------------------
-    // 170 - 175 : 16-bit integer value  
-    for(i = 170; i <= 175; ++i)
+    // 140 - 149 : Double precision scalar floating-point value  
+    for(i = 140; i <= 149; ++i)
+    {
+        _valueTypeMap[i] = DXFTypeDouble;
+    }
+
+	//-------------------------------------------------------------------------
+    // 160 - 169 : Double precision scalar floating-point value  
+    for(i = 160; i <= 169; ++i)
+    {
+        _valueTypeMap[i] = DXFTypeInt32; //should be 64, currently is 32 ?
+    }
+	
+    //-------------------------------------------------------------------------
+    // 170 - 179 : 16-bit integer value  
+    for(i = 170; i <= 179; ++i)
     {
         _valueTypeMap[i] = DXFTypeInt16;
     }
     //-------------------------------------------------------------------------
     // 176 - 179 : unknown type (DIMSTYLE codes, not documented in "Group Code
     //                           Value Types") TODO
-    for(i = 176; i <= 179; ++i)
-    {
-        _valueTypeMap[i] = DXFTypeUnknown;
-    }
+    //for(i = 176; i <= 179; ++i)
+    //{
+    //   _valueTypeMap[i] = DXFTypeUnknown;
+    //}
+
     //-------------------------------------------------------------------------
     // 210 - 239 : Float (not documented in "Group Code Value Types")
     for(i = 210; i <= 239; ++i)
@@ -492,15 +509,23 @@ void DXFRecord::init(void)
     //-------------------------------------------------------------------------
     // 270 - 279 : unknown type (DIMSTYLE codes, not documented in "Group Code
     //                           Value Types") TODO
+	//-------------------------------------------------------------------------
+    // 270 - 279 : 16-bit integer value  
     for(i = 270; i <= 279; ++i)
     {
-        _valueTypeMap[i] = DXFTypeUnknown;
+        _valueTypeMap[i] = DXFTypeInt16;
     }
     //-------------------------------------------------------------------------
     // 280 - 289 : 8-bit integer value  
     for(i = 280; i <= 289; ++i)
     {
-        _valueTypeMap[i] = DXFTypeInt8;
+        _valueTypeMap[i] = DXFTypeInt16;
+    }
+	//-------------------------------------------------------------------------
+    // 290 - 299 : boolean value  
+    for(i = 290; i <= 299; ++i)
+    {
+        _valueTypeMap[i] = DXFTypeInt8; //should be boolean value ?
     }
     //-------------------------------------------------------------------------
     //  300 - 309 : Arbitrary text string
@@ -530,13 +555,13 @@ void DXFRecord::init(void)
     // 370 - 379 : 8-bit integer value  
     for(i = 370; i <= 379; ++i)
     {
-        _valueTypeMap[i] = DXFTypeInt8;
+        _valueTypeMap[i] = DXFTypeInt16;
     }
     //-------------------------------------------------------------------------
     // 380 - 389 : 8-bit integer value  
     for(i = 380; i <= 389; ++i)
     {
-        _valueTypeMap[i] = DXFTypeInt8;
+        _valueTypeMap[i] = DXFTypeInt16;
     }
     //-------------------------------------------------------------------------
     //  390 - 399 : String representing hex object IDs
@@ -556,6 +581,48 @@ void DXFRecord::init(void)
     {
         _valueTypeMap[i] = DXFTypeString;
     }
+	//-------------------------------------------------------------------------
+    //  420 - 429 : String
+    for(i = 420; i <= 429; ++i)
+    {
+        _valueTypeMap[i] = DXFTypeInt32;
+    }
+	//-------------------------------------------------------------------------
+    //  430 - 439 : String
+    for(i = 430; i <= 439; ++i)
+    {
+        _valueTypeMap[i] = DXFTypeString;
+    }
+	//-------------------------------------------------------------------------
+    //  440 - 449 : String
+    for(i = 440; i <= 449; ++i)
+    {
+        _valueTypeMap[i] = DXFTypeInt32;
+    }
+	//-------------------------------------------------------------------------
+    //  450 - 459 : String
+    for(i = 450; i <= 459; ++i)
+    {
+        _valueTypeMap[i] = DXFTypeInt32; //should be long 64 ?
+    }
+	//-------------------------------------------------------------------------
+    //  460 - 469 : String
+    for(i = 460; i <= 469; ++i)
+    {
+        _valueTypeMap[i] = DXFTypeDouble; //should be long 64
+    }
+	//-------------------------------------------------------------------------
+    //  470 - 479 : String
+    for(i = 470; i <= 479; ++i)
+    {
+        _valueTypeMap[i] = DXFTypeString;
+    }
+	//-------------------------------------------------------------------------
+    //  String
+    {
+        _valueTypeMap[480] = DXFTypeHex;
+        _valueTypeMap[481] = DXFTypeHex;
+    }
     //-------------------------------------------------------------------------
     //       999 : Comment (string)
     {
@@ -568,10 +635,10 @@ void DXFRecord::init(void)
         _valueTypeMap[i] = DXFTypeString;
     }
     //-------------------------------------------------------------------------
-    // 1010-1059 : Floating-point value
+    // 1010-1059 : Double-precision Floating-point value
     for(i = 1010; i <= 1059; ++i)
     {
-        _valueTypeMap[i] = DXFTypeFloat;
+        _valueTypeMap[i] = DXFTypeDouble;
     }
 
     //-------------------------------------------------------------------------

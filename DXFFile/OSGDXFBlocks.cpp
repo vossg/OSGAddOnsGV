@@ -49,6 +49,7 @@
 
 #include "OSGTransform.h"
 #include "OSGNameAttachment.h"
+#include "OSGGeometry.h"
 //#include <OSGSimpleAttachments.h>   // only for setName()
 
 OSG_USING_NAMESPACE
@@ -378,6 +379,11 @@ DXFResult DXFBlock::evalRecord(void)
             // TODO: check, whether both name entries for the block are
             // identical? What if not? ERROR?
             _blockName = DXFRecord::getValueStr();
+			if(_blockName == std::string("Rectangular Mullion - 64 x 128 rectangular-V2-Level 1"))
+			{
+				std::cout << "here" << std::endl;
+
+			}
             break;
         case 10:
             _basePoint[0] = DXFRecord::getValueDbl();
@@ -402,7 +408,11 @@ DXFResult DXFBlock::beginEntity(void)
 {
     DXFResult state;
     state = Inherited::beginEntity();
-    
+    if(_blockName == std::string("Rectangular Mullion - 64 x 128 rectangular-V2-Level 1"))
+	{
+		std::cout << "here" << std::endl;
+
+	}
     // clear DXFBlocks data
     _layerName = "";
     _blockName = "";
@@ -432,7 +442,28 @@ DXFResult DXFBlock::endEntity(void)
     StringToNodePtrMap::iterator itr = _blocksMapP->begin();
 
     setName(_blockNodeP, _entityTypeName + "=" + _blockName);
+	if(_blockName == std::string("Rectangular Mullion - 64 x 128 rectangular-V2-Level 1"))
+	{
+		std::cout << "here" << std::endl;
+		std::cout << _blockNodeP->getNChildren() << std::endl;
+		for(int i=0;i<_blockNodeP->getNChildren();i++)
+		{
+			OSG::Node* p = _blockNodeP->getChild(i);
+			std::string name = OSG::getName(p);
+			std::cout << name << std::endl;
+			 Geometry* geoCore = dynamic_cast<Geometry *>(p->getCore());
+			 GeoPnt3dProperty *pointsP =  
+			  dynamic_cast<GeoPnt3dProperty *>(geoCore->getPositions());
+			 for(int i=0;i<pointsP->size();i++)
+			 {
+				 std::cout << pointsP->getValue(i) << std::endl;
+			 }
+			 Transform* transformCore = dynamic_cast<Transform *>(_blockNodeP->getCore());
+			 std::cout << transformCore->getMatrix() << std::endl;
 
+		}
+
+	}
     while(itr != _blocksMapP->end())
     {
         itr = _blocksMapP->find(_blockName);

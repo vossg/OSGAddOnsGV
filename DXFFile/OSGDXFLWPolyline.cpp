@@ -45,7 +45,9 @@
 
 #include "OSGConfig.h"
 
-#include "OSGDXFHeader.h"
+#include "OSGDXFLWPolyline.h"
+
+#include "OSGFieldContainer.h"
 
 OSG_USING_NAMESPACE
 
@@ -53,19 +55,14 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-/*! \class DXFHeader
+/*! \class DXFLWPolyline
     \ingroup GrpSystemFileIO
 
-  Parses the file section between the groups (0,SECTION), (2,HEADER) and
-  (0,ENDSEC). As far as implemented, DXF header variables are evaluated.
+  Parses and evaluates the file section between the groups (0,LWPolyline) and
+  (0,SEQEND). Exactly speaking any group with code 0 besides (0,VERTEX) ends
+  the LWPolyline.
 
-  Currently theres only an output to show the AutoCAD release version (header
-  variable $ACADVER).
- 
-  \todo Check, which other variables are relevant for the OpenSG import - and
-  then implement them...
-
- */
+*/
 
 /***************************************************************************\
  *                               Types                                     *
@@ -78,12 +75,9 @@ OSG_USING_NAMESPACE
 /*! Pointer to singleton of this class. There is exactly one instance for each
  * derived class which can be instantiated.
  */
+DXFLWPolyline *DXFLWPolyline::_the = new DXFLWPolyline();
 
-Real32 DXFHeader::_angBase = 0;
-Int32  DXFHeader::_angDir  = 0;
-DXFHeader *DXFHeader::_the = new DXFHeader();
-
-/* \var VARTYPE DXFHeader::_VARNAME
+/* \var VARTYPE DXFLWPolyline::_VARNAME
     variable documentation
  */
 
@@ -108,71 +102,102 @@ DXFHeader *DXFHeader::_the = new DXFHeader();
 
 /*================================ PRIVATE ================================*/
 
-/*! Evaluate HEADER variables. Only a few are implemented exemplarically. The
- * others are unknown and will be ignored by the parser.
+
+/*! Evaluate records for LWPolyline entities with the following group codes:
+ *  - 66 -- Obsolete, ignore if present
+ *  - 10, 20 -- always 0
+ *  - 30 -- LWPolyline's elevation (in OCS when 2D, WCS when 3D)
  */
-
-DXFResult DXFHeader::evalRecord(void)
+DXFResult DXFLWPolyline::evalRecord(void)
 {
-    DXFResult state = DXFStateUnknown;  
-
-    if(DXFRecord::getGroupCode() == 9)
+     DXFResult state = DXFStateContinue;
+    switch( DXFRecord::getGroupCode() )
     {
-        _headerVariable = DXFRecord::getValueStr();
-        state = DXFStateContinue;
-    }
-    else
-    {
-        if(_headerVariable == "$ACADVER")
-        {
-            if(DXFRecord::getGroupCode() == 1)
-            {
-                FINFO(("DXF Loader: AutoCAD File Version '%s'\n",
-                       DXFRecord::getValueStr().c_str()));
-                // TODO: check, whether version is implemented...
-                state = DXFStateContinue;
-            }
-        }
-		else if(_headerVariable == "$ANGBASE")
-		{
-			_angBase = DXFRecord::getValueDbl();
-		}
-		else if(_headerVariable == "$ANGDIR")
-		{
-			_angDir = DXFRecord::getValueInt();
-		}
-//      else if(_headerVariable == "$EXTMIN")
-//      {
-//          // Fill Pnt3f extmin with values from 3 records containing
-//          // coordinate data 
-//          state = DXFStateContinue;
-//      }
-//      else if ...
+        case 10:
+			_curVertice[0] = DXFRecord::getValueDbl();
+			break;
+        case 20:
+			_curVertice[1] = DXFRecord::getValueDbl();
+			_plyVertices.push_back(_curVertice);
+            break;
+        case 30:
+            _elevation = DXFRecord::getValueDbl();
+            break;
+        case 66:    // obsolete, ignore if present
+            break;
+		case 90:
+			_numVertices = DXFRecord::getValueInt();
+			break;
+        default:
+            state = DXFStateUnknown;
     }
     if(state == DXFStateUnknown)
         state = Inherited::evalRecord();
     return state;
 }
 
-/*! \todo
- *  Any global preparations needed here?
+/*!  \todo
+ *  check and make sure not to have bad memory leaks here!
  */
-
-DXFResult DXFHeader::beginEntity(void)
-{
-    DXFResult state;
-
+DXFResult DXFLWPolyline::beginEntity(void)
+{   
+     DXFResult state;
     state = Inherited::beginEntity();
 
+    _elevation = 0.0;
+	_numVertices = 0;
+	_curVertice.setNull();
+
+    beginGeometry();
+    
     return state;
 }
 
-/*! \todo
- * There might be work for correctly interpret the HEADER section.
+/*! Create OpenSG LWPolyline or surface geometry from VERTEX data. 
+ *
+ *  If the LWPolyline entity represents a LWPolyline (not a mesh) and there is a
+ *  Geometry with the same color and line settings in the layer, the LWPolyline
+ *  will be added to it's core as one GL_LINE_STRIP primitive whereas meshes
+ *  always are created as a new Geometry Node (Done in
+ *  DXFEntitiesEntry::flushGeometry)
+ *
+ *  \todo
+ *  color and line settings are not checked yet)
  */
 
-DXFResult DXFHeader::endEntity(void)
+DXFResult DXFLWPolyline::endEntity(void)
 {
+     if(_flags & 1) // 1 for closed
+    {
+		_pointsP->resize(_plyVertices.size());
+		for(int i=0;i<_plyVertices.size();i++)
+		{
+			_pointsP->setValue(_plyVertices.at(i), i);
+		}
+		_faceTypeP->push_back(GL_LINE_STRIP);
+		_faceLengthP->push_back(_numVertices);
+		_plyVertices.clear();
+		flushGeometry(true); //only line
+		endGeometry();
+	}
+    else  if(_flags & 128)// 128 for plinegen, currently ignore, do the same as 1
+    {
+        _pointsP->resize(_plyVertices.size());
+		for(int i=0;i<_plyVertices.size();i++)
+		{
+			_pointsP->setValue(_plyVertices.at(i), i);
+		}
+		_faceTypeP->push_back(GL_LINE_STRIP);
+		_faceLengthP->push_back(_numVertices);
+		_plyVertices.clear();
+        flushGeometry(true); //only line
+		endGeometry();
+    }
+	else // 0
+	{
+	}
+
+        
     return DXFStateContinue;
 }
 
@@ -180,25 +205,24 @@ DXFResult DXFHeader::endEntity(void)
 
 /*------------------------- constructors ----------------------------------*/
 
-/*! Add SECTION:HEADER entity to DXF hierarchy as child of FILE:FILE (see
- *  DXFFile).
+/*! Add ENTITY:LWPolyline entity type to DXF hierarchy as child of
+ *  SECTION:ENTITIES (see DXFEntities) and BLOCKSENTRY:BLOCK (see DXFBlock).
  */
-DXFHeader::DXFHeader(void) :
-     Inherited     (  ),
-    _headerVariable("")
+DXFLWPolyline::DXFLWPolyline(void) :
+    Inherited(),
+    _elevation(0.0)
 {
-    _entityClassName = "SECTION";   
-    _entityTypeName  = "HEADER";
+    _entityTypeName    = "LWPOLYLINE";
 
-    registerToParentEntityType("FILE:FILE");
+    registerToParentEntityType("SECTION:ENTITIES");
+    registerToParentEntityType("BLOCKSENTRY:BLOCK");
 }
 
 /*-------------------------- destructor -----------------------------------*/
 
 /*! Does nothing.
  */
-
-DXFHeader::~DXFHeader(void)
+DXFLWPolyline::~DXFLWPolyline(void)
 {
 }
 

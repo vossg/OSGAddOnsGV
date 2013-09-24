@@ -47,6 +47,9 @@
 
 #include "OSGDXFInsert.h"
 
+#include "OSGNameAttachment.h"
+#include "OSGGeometry.h"
+#include "OSGTransform.h"
 #include <OSGComponentTransform.h>
 
 OSG_USING_NAMESPACE
@@ -133,10 +136,14 @@ DXFResult DXFInsert::evalRecord(void)
         case 30:            
             _insertionPoint[2] = DXFRecord::getValueDbl();
             break;
-        case 41:            
-        case 42:            
+        case 41:
+            _scaleFactor[0] = DXFRecord::getValueDbl();
+            break;            
+        case 42:
+            _scaleFactor[1] = DXFRecord::getValueDbl();
+            break;            
         case 43:            
-            _scaleFactor[DXFRecord::getGroupCode()-41] = DXFRecord::getValueDbl();
+            _scaleFactor[2] = DXFRecord::getValueDbl();
             break;
         case 50:            
             _rotationAngle = DXFRecord::getValueDbl();
@@ -218,11 +225,35 @@ DXFResult DXFInsert::endEntity(void)
                 beginEditCP(ctrafoCoreP);
 #endif
                 {
-					OSG::Quaternion rot(OSG::Vec3f(0,0,1),OSG::Pi * _rotationAngle/180);
-					ctrafoCoreP->setRotation(rot);
+					if(_blockName == std::string("Rectangular Mullion - 64 x 128 rectangular-V2-Level 1"))
+					{
+						std::cout << "here" << std::endl;
+						std::cout << blockNodeP->getCore() << std::endl;
+						std::cout << blockNodeP->getNChildren() << std::endl;
+						std::cout << "here" << std::endl;
+						std::cout << blockNodeP->getNChildren() << std::endl;
+						for(int i=0;i<blockNodeP->getNChildren();i++)
+						{
+							OSG::Node* p = blockNodeP->getChild(i);
+							std::string name = OSG::getName(p);
+							std::cout << name << std::endl;
+							 Geometry* geoCore = dynamic_cast<Geometry *>(p->getCore());
+							 GeoPnt3dProperty *pointsP =  
+							  dynamic_cast<GeoPnt3dProperty *>(geoCore->getPositions());
+							 for(int i=0;i<pointsP->size();i++)
+							 {
+								 std::cout << pointsP->getValue(i) << std::endl;
+							 }
+							 Transform* transformCore = dynamic_cast<Transform *>(blockNodeP->getCore());
+							 std::cout << transformCore->getMatrix() << std::endl;
+							 //_rotationAngle = 180;
+						}
+					}
                     ctrafoCoreP->setTranslation(_insertionPoint + offset);
-                    ctrafoCoreP->setScale(_scaleFactor);
-					
+					//OSG::Quaternion rot(OSG::Vec3f(0,0,1),osgDegree2Rad(_rotationAngle));
+                    //ctrafoCoreP->setScale(_scaleFactor);
+					//ctrafoCoreP->setRotation(rot);
+					std::cout << ctrafoCoreP->getMatrix() << std::endl;
                 }
 #if 0
                 endEditCP(ctrafoCoreP);
@@ -263,13 +294,13 @@ DXFResult DXFInsert::endEntity(void)
                       "Most likely the graphics are incorrect!\n",
                       DXFRecord::getLineNumber()
                      ));*/
-        if(_scaleFactor != Vec3f(1.0,1.0,1.0))
+        /*if(_scaleFactor != Vec3f(1.0,1.0,1.0))
             FWARNING(("DXF Loader: before line %d: "
                       "DXFInsert may not interpret SCALING "
                       "(group codes 41, 42, 43) correctly."
                       "Graphics may be incorrect!\n",
                       DXFRecord::getLineNumber()
-                     ));
+                     ));*/
         
         if(_columnCount != 1 || _rowCount != 1)
             FWARNING(("DXF Loader: before line %d: "
@@ -297,7 +328,14 @@ DXFResult DXFInsert::endEntity(void)
                   _layerName.c_str()
                   ));
     }
-    
+    //set back to default value;
+	_insertionPoint.setNull(),
+    _scaleFactor[0]=_scaleFactor[1]=_scaleFactor[2]=1.0;
+    _rotationAngle=0.0;
+    _columnCount=1;
+    _rowCount=1;
+    _columnSpacing=0.0;
+    _rowSpacing=0.0;
     return DXFStateContinue;
 }
 
