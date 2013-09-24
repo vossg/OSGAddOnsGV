@@ -454,13 +454,15 @@ DXFResult DXFBlock::endEntity(void)
 			 Geometry* geoCore = dynamic_cast<Geometry *>(p->getCore());
 			 GeoPnt3dProperty *pointsP =  
 			  dynamic_cast<GeoPnt3dProperty *>(geoCore->getPositions());
-			 for(int i=0;i<pointsP->size();i++)
-			 {
-				 std::cout << pointsP->getValue(i) << std::endl;
-			 }
+			 //for(int i=0;i<pointsP->size();i++)
+			 //{
+				// /*float x = pointsP->getValue(i).x() * -1.0;
+				// float y = pointsP->getValue(i).y();
+				// float z = pointsP->getValue(i).z();
+				// pointsP->setValue(OSG::Pnt3f(x,y,z),i);*/
+				// std::cout << pointsP->getValue(i) << std::endl;
+			 //}
 			 Transform* transformCore = dynamic_cast<Transform *>(_blockNodeP->getCore());
-			 std::cout << transformCore->getMatrix() << std::endl;
-
 		}
 
 	}

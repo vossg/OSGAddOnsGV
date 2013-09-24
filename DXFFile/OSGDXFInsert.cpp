@@ -46,7 +46,7 @@
 #include "OSGConfig.h"
 
 #include "OSGDXFInsert.h"
-
+#include "OSGMatrix.h"
 #include "OSGNameAttachment.h"
 #include "OSGGeometry.h"
 #include "OSGTransform.h"
@@ -197,7 +197,8 @@ DXFResult DXFInsert::beginEntity(void)
 DXFResult DXFInsert::endEntity(void)
 {
     NodeUnrecPtr                ctrafoNodeP = NULL;
-    ComponentTransformUnrecPtr  ctrafoCoreP = NULL;
+//    ComponentTransformUnrecPtr  ctrafoCoreP = NULL;
+    TransformUnrecPtr           ctrafoCoreP = NULL;
     NodeUnrecPtr                blockNodeP  = NULL;
 
     Node                       *parentNodeP = getParentNode();
@@ -219,41 +220,41 @@ DXFResult DXFInsert::endEntity(void)
                 // TODO: find out about DXF insert semantics!
 
                 ctrafoNodeP = Node::create();
-                ctrafoCoreP = ComponentTransform::create();
+                ctrafoCoreP = Transform::create();
                 
 #if 0
                 beginEditCP(ctrafoCoreP);
 #endif
                 {
-					if(_blockName == std::string("Rectangular Mullion - 64 x 128 rectangular-V2-Level 1"))
+					if(_blockName == std::string("Rectangular Mullion - 64 x 128 rectangular-V1-Level 1"))
 					{
-						std::cout << "here" << std::endl;
-						std::cout << blockNodeP->getCore() << std::endl;
 						std::cout << blockNodeP->getNChildren() << std::endl;
-						std::cout << "here" << std::endl;
-						std::cout << blockNodeP->getNChildren() << std::endl;
-						for(int i=0;i<blockNodeP->getNChildren();i++)
-						{
-							OSG::Node* p = blockNodeP->getChild(i);
-							std::string name = OSG::getName(p);
-							std::cout << name << std::endl;
-							 Geometry* geoCore = dynamic_cast<Geometry *>(p->getCore());
-							 GeoPnt3dProperty *pointsP =  
-							  dynamic_cast<GeoPnt3dProperty *>(geoCore->getPositions());
-							 for(int i=0;i<pointsP->size();i++)
-							 {
-								 std::cout << pointsP->getValue(i) << std::endl;
-							 }
-							 Transform* transformCore = dynamic_cast<Transform *>(blockNodeP->getCore());
-							 std::cout << transformCore->getMatrix() << std::endl;
-							 //_rotationAngle = 180;
-						}
 					}
-                    ctrafoCoreP->setTranslation(_insertionPoint + offset);
-					//OSG::Quaternion rot(OSG::Vec3f(0,0,1),osgDegree2Rad(_rotationAngle));
-                    //ctrafoCoreP->setScale(_scaleFactor);
-					//ctrafoCoreP->setRotation(rot);
-					std::cout << ctrafoCoreP->getMatrix() << std::endl;
+					OSG::TransformationMatrix<Real32> transMat;
+					transMat.setIdentity();
+		
+					transMat.setTranslate(_insertionPoint + offset);
+
+					OSG::TransformationMatrix<Real32> rotMat;
+					rotMat.setIdentity();
+					OSG::Quaternion rot(OSG::Vec3f(0,0,1),osgDegree2Rad(_rotationAngle));
+					rotMat.setRotate(rot);
+					OSG::TransformationMatrix<Real32> scaleMat;
+					scaleMat.setIdentity();
+					scaleMat.setScale(_scaleFactor);
+					
+					OSG::Vec3f vin(-40, 65, 0);
+					OSG::Vec3f vout;
+					transMat.mult(rotMat);
+					transMat.mult(scaleMat);
+					if(_extrusionDirection[2]<0)
+					{
+						transMat[0][0] *= -1.0;
+						transMat[1][0] *= -1.0;
+						transMat[2][0] *= -1.0;
+						transMat[3][0] *= -1.0;
+					}
+					ctrafoCoreP->setMatrix(transMat);
                 }
 #if 0
                 endEditCP(ctrafoCoreP);
@@ -336,6 +337,9 @@ DXFResult DXFInsert::endEntity(void)
     _rowCount=1;
     _columnSpacing=0.0;
     _rowSpacing=0.0;
+	_extrusionDirection[0]=0;
+	_extrusionDirection[1]=0;
+	_extrusionDirection[2]=1;
     return DXFStateContinue;
 }
 
