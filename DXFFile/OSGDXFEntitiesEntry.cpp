@@ -131,6 +131,8 @@ DXFResult DXFEntitiesEntry::evalRecord(void)
         case 230:
             _extrusionDirection[2] = DXFRecord::getValueDbl();
             break;
+		case 420:
+			_trueColor = DXFRecord::getValueInt();
         default:
             state = DXFStateUnknown;
     }
@@ -452,7 +454,8 @@ DXFEntitiesEntry::DXFEntitiesEntry(void) :
     _colorNumber(256),
     _linetypeScale(1.0),
     _thickness(0.0),
-    _extrusionDirection(0.0, 0.0, 1.0)
+    _extrusionDirection(0.0, 0.0, 1.0),
+	_trueColor(-1)
 {
     _entityClassName = "ENTITY";
 

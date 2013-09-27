@@ -164,7 +164,8 @@ DXFResult DXFLayer::endEntity(void)
 #if 0
     endEditCP(mtrl);
 #endif
-
+	
+	std::cout << _colorNumber << "  "<< _name << std::endl;
     // put layer group together
     MaterialGroupUnrecPtr mgrp=MaterialGroup::create();
 

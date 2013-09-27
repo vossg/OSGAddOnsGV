@@ -118,7 +118,7 @@ DXFBlocks *DXFBlocks::_the = new DXFBlocks();
 void DXFBlocks::dispatch(void)
 {
     EntityTypeMap::iterator itr;
-
+	std::cout << DXFRecord::getValueStr() << std::endl;
     // There must be a keyword!  // TODO: raus! DXFRecord::getValueType() < 0
     // wird schon in DXFEntityBase::read() gecheckt!!!
     if(DXFRecord::getValueStr().empty())
@@ -369,6 +369,7 @@ Node *DXFBlock::getNode(void)
 DXFResult DXFBlock::evalRecord(void)
 {
     DXFResult state = DXFStateContinue;
+	std::cout << DXFRecord::getLineNumber() << " " << DXFRecord::getGroupCode() << std::endl;
     switch( DXFRecord::getGroupCode() )
     {
         case 8:

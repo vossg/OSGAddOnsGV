@@ -171,7 +171,6 @@ class OSG_DXFFILE_DLLMAPPING DXFEntityBase
     /*! \{                                                                 */
     
     static Color3f getColor(Int16 colorNumber);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */

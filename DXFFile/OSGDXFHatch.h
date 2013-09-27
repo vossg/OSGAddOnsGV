@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDXFENTITIESENTRY_H_
-#define _OSGDXFENTITIESENTRY_H_
+#ifndef _OSGDXFHatch_H_
+#define _OSGDXFHatch_H_
 
 //---------------------------------------------------------------------------
 //  Includes
@@ -47,9 +47,7 @@
 #include "OSGDXFFileDef.h"
 
 #include "OSGDXFEntityBase.h"
-
-#include "OSGMatrix.h"  // for arbitraryAxisAlgorithm
-#include "OSGVector.h"  // for arbitraryAxisAlgorithm
+#include "OSGDXFEntitiesEntry.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -65,25 +63,69 @@ OSG_BEGIN_NAMESPACE
 //  Class
 //---------------------------------------------------------------------------
 
-/*! \brief Base class for all entries inside a ENTITIES entity.
+/*! \brief Handles the POLYLINE entry in the DXF file strucure.
  */
+struct DXFHatchBoundaryPathDataPolyLine
+{
+	Int32 isClosedFlag;
+	Int32 numOFPolyVertices;
+	Real32 startX;
+	Real32 startY;
+	Int32  bulge;
+};
+struct DXFHatchBoundaryPathDataLine
+{
+	Real32 startX;
+	Real32 startY;
+	Real32 endX;
+	Real32 endY;
+};
+struct DXFHatchBoundaryPathDataArc
+{
+	Real32 centerX;
+	Real32 centerY;
+	Real32 radius;
+	Real32 startAngle;
+	Real32 endAngle;
+	Int32  isCounterClockWise;
+};
+struct  DXFHatchBoundaryPathData
+{
+	
+	//here put the codes for ellipse and spline
+	 Int32 _pathTypeFlag;
+	 Int32 _numOfEdge;
+	 Int32 _edgeType_Or_hasBulgeFlag;
+	 std::vector<DXFHatchBoundaryPathDataPolyLine> polyLineEdges;
+	 std::vector<DXFHatchBoundaryPathDataLine> lineEdges;
+	 std::vector<DXFHatchBoundaryPathDataArc> arcEdges;
+	 DXFHatchBoundaryPathData(void);
+};
+struct DXFHatchPatternData
+{
+	Real32 patternLineAngle;
+	Real32 patternBasePX;
+	Real32 patternBasePY;
+	Int32  patternLineOffsetX;
+	Int32  patternLineOffsetY;
+	Int32  numDashLenItems;
+	Real32 dashLength;
+};
 
-class OSG_DXFFILE_DLLMAPPING DXFEntitiesEntry : public DXFEntityBase
+class OSG_DXFFILE_DLLMAPPING DXFHatch : public DXFEntitiesEntry
 {
     /*==========================  PUBLIC  =================================*/
-
   public:
     
     /*---------------------------------------------------------------------*/
-    /*! \name                      Get                                     */
+    /*! \name                    Helper                                    */
     /*! \{                                                                 */
-    
-    static  const Char8 *getClassname(void) { return "DXFEntitiesEntry"; }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Set                                     */
+    /*! \name                      Get                                     */
     /*! \{                                                                 */
+    static const Char8 *getClassname(void) { return "DXFHatch"; }
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -91,70 +133,70 @@ class OSG_DXFFILE_DLLMAPPING DXFEntitiesEntry : public DXFEntityBase
   protected:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    DXFEntitiesEntry(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                    Destructor                                */
     /*! \{                                                                 */
 
-    virtual ~DXFEntitiesEntry(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Helper                                  */
-    /*! \{                                                                 */
-
-    static Matrix arbitraryAxisAlgorithm(const Vec3f &normal); // TODO:
-                                                               // woanders
-                                                               // sammeln? 
-
-    Node      *getParentNode(void             );
-    DXFResult  beginGeometry(void             );
-    DXFResult  endGeometry  (void             );
-    void       flushGeometry(bool forceNewNode);
-
-
+    virtual ~DXFHatch(void);
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    // Data for common group codes for entities
-    std::string _layerName;             // 8
-    std::string _linetypeName;          // 6
-    Int16       _colorNumber;           // 62
-    Real32      _linetypeScale;         // 48
-    Real32      _thickness;             // 39
-    Vec3f       _extrusionDirection;    // 210, 220, 230
-	Int32		_trueColor;				//420
-    // OpenSG data
+    static DXFHatch *_the;
+    // Data for Arc
+    Real32   _elevation;        // 10, 20, 30 (only 30 has a meaning) TODO
+	Int32    _solidFillFlag;
+	
+	Int32   _numOfBoundaryPath;
+	std::vector<DXFHatchBoundaryPathData> hatchBoundaryDataLoops;
+
+	Int32  _numOfPatternLine;
+	std::vector<DXFHatchPatternData> hatchPatternData;
+
+	Int32   _numSeedPoints;
+	Real32  _seedPntX;
+	Real32  _seedPntY;
+    // 70: Polyline flags are read to DXFEntitiesEntry::_flags
+    // 66: Obsolete, (explicitly) ignored
+    // Group codes implemented by DXFEntitiesEntry: 39, 210, 220, 230
+    // Group codes not implemented: 40, 41, 71, 72, 73, 74, 75
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Parsing                                  */
     /*! \{                                                                 */
     
-    virtual DXFResult evalRecord (void);
-    virtual DXFResult beginEntity(void);
-//  virtual DXFResult endEntity(void);
-
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
 
   private:
 
-    typedef DXFEntityBase Inherited;
+    typedef DXFEntitiesEntry Inherited;
     
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    DXFHatch(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Parsing                                  */
+    /*! \{                                                                 */
+
+    virtual DXFResult evalRecord (void);
+    virtual DXFResult beginEntity(void);
+    virtual DXFResult endEntity  (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+
     /*!\brief prohibit default function (move to 'public' if needed) */
-    DXFEntitiesEntry(const DXFEntitiesEntry &source);
+    DXFHatch(const DXFHatch &source);
     /*!\brief prohibit default function (move to 'public' if needed) */
-    void operator =(const DXFEntitiesEntry &source);
+    void operator =(const DXFHatch &source);
 };
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGDXFENTITIESENTRY_H_ */
+#endif /* _OSGDXFHatch_H_ */

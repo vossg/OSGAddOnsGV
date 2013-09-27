@@ -239,7 +239,6 @@ Color3f DXFEntityBase::getColor(Int16 colorNumber)
     int a=0;
     int b=0;
     int c=0;
-
     if( colorNumber < 0 )
     {
         color = Color3f( 1.0, 1.0, 1.0);  // TODO: colorNumber < 0 means
@@ -261,7 +260,6 @@ Color3f DXFEntityBase::getColor(Int16 colorNumber)
             a, b, c));
     return color;   
 }
-
 /*! Return OpenSG Node this entity type is currently working on, if any,
  *  otherwise return NullFC. To be overloaded where necessary!
  */
@@ -305,9 +303,12 @@ void DXFEntityBase::read(DXFEntityBase *parent)
 //          _state = DXFStateError;
 //          break;
 //      }
-        
-        if(DXFRecord::getGroupCode() == 0)
+		if(DXFRecord::getGroupCode() == 0)
         {
+			if(DXFRecord::getValueStr() == std::string("HATCH"))
+			{
+				std::cout << "here" << std::endl;
+			}
             dispatch(); // modifies _state
         }   
         else if( _state != DXFStateIgnore)

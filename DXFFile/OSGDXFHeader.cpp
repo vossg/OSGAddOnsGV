@@ -81,6 +81,7 @@ OSG_USING_NAMESPACE
 
 Real32 DXFHeader::_angBase = 0;
 Int32  DXFHeader::_angDir  = 0;
+Int32  DXFHeader::_ceColor = 0;
 DXFHeader *DXFHeader::_the = new DXFHeader();
 
 /* \var VARTYPE DXFHeader::_VARNAME
@@ -140,6 +141,10 @@ DXFResult DXFHeader::evalRecord(void)
 		else if(_headerVariable == "$ANGDIR")
 		{
 			_angDir = DXFRecord::getValueInt();
+		}
+		else if(_headerVariable == "$CECOLOR")
+		{
+			_ceColor = DXFRecord::getValueInt();
 		}
 //      else if(_headerVariable == "$EXTMIN")
 //      {

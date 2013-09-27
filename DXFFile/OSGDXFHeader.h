@@ -105,6 +105,7 @@ class OSG_DXFFILE_DLLMAPPING DXFHeader : public DXFEntityBase
     std::string _headerVariable;
 	static Real32 _angBase;
 	static Int32  _angDir;
+	static Int32  _ceColor;
     // To get parsing of header variables efficient, you may use a map holding
     // callback pointers to respective evaluation functions like:
     // std::map<std:.string,<evalfuntype>>
