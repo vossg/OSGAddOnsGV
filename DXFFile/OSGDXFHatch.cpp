@@ -49,7 +49,10 @@
 #include "OSGDXFHeader.h"
 #include "OSGFieldContainer.h"
 #include "OSGBaseFunctions.h"
-
+#include "OSGGeoOptimization.h"
+#include "OSGMaterialGroup.h"
+#include "OSGMaterial.h"
+#include "OSGSimpleMaterial.h"
 OSG_USING_NAMESPACE
 
 
@@ -114,7 +117,7 @@ DXFResult DXFHatch::evalRecord(void)
     DXFResult state = DXFStateContinue;
 	int index = hatchBoundaryDataLoops.size();
 	int edgeIndex=0;
-	std::cout << DXFRecord::getGroupCode() << "  " << DXFRecord::getLineNumber() << std::endl;
+	//std::cout << DXFRecord::getGroupCode() << "  " << DXFRecord::getLineNumber() << std::endl;
     switch( DXFRecord::getGroupCode() )
     {
         case 30:
@@ -146,7 +149,6 @@ DXFResult DXFHatch::evalRecord(void)
 			hatchBoundaryDataLoops[index-1]._numOfEdge = DXFRecord::getValueInt();
 			break;
 		case 72:
-			hatchBoundaryDataLoops[index-1]._edgeType_Or_hasBulgeFlag = DXFRecord::getValueInt();
 			if(hatchBoundaryDataLoops[index-1]._pathTypeFlag ==2)
 			{
 				edgeIndex = hatchBoundaryDataLoops[index-1].polyLineEdges.size();
@@ -155,17 +157,19 @@ DXFResult DXFHatch::evalRecord(void)
 			}
 			else
 			{
-			switch (hatchBoundaryDataLoops[index-1]._edgeType_Or_hasBulgeFlag)
+			Int32 tempEdgeType = DXFRecord::getValueInt();
+			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size(); 
+			switch (tempEdgeType)
 				{
 				case 1:
-					edgeIndex = hatchBoundaryDataLoops[index-1].lineEdges.size();
-					DXFHatchBoundaryPathDataLine lineEdge;
-					hatchBoundaryDataLoops[index-1].lineEdges.push_back(lineEdge);
+					DXFHatchBoundaryPathDataEdge lineEdge;
+					lineEdge.edgeType_Or_hasBulgeFlag =tempEdgeType;
+					hatchBoundaryDataLoops[index-1].edges.push_back(lineEdge);
 					break;
 				case 2:
-					edgeIndex = hatchBoundaryDataLoops[index-1].arcEdges.size();
-					DXFHatchBoundaryPathDataArc arcEdge;
-					hatchBoundaryDataLoops[index-1].arcEdges.push_back(arcEdge);
+					DXFHatchBoundaryPathDataEdge arcEdge;
+					arcEdge.edgeType_Or_hasBulgeFlag =tempEdgeType;
+					hatchBoundaryDataLoops[index-1].edges.push_back(arcEdge);
 					break;
 				case 3:
 					break;
@@ -188,15 +192,14 @@ DXFResult DXFHatch::evalRecord(void)
 				}
 				else
 				{
-					switch (hatchBoundaryDataLoops[index-1]._edgeType_Or_hasBulgeFlag)
+					edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+					switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
 					{
 					case 1:
-						edgeIndex = hatchBoundaryDataLoops[index-1].lineEdges.size() -1;
-						hatchBoundaryDataLoops[index-1].lineEdges[edgeIndex].startX = DXFRecord::getValueDbl();
+						hatchBoundaryDataLoops[index-1].edges[edgeIndex].startX = DXFRecord::getValueDbl();
 						break;
 					case 2:
-						edgeIndex = hatchBoundaryDataLoops[index-1].arcEdges.size() -1;
-						hatchBoundaryDataLoops[index-1].arcEdges[edgeIndex].centerX = DXFRecord::getValueDbl();
+						hatchBoundaryDataLoops[index-1].edges[edgeIndex].startX = DXFRecord::getValueDbl();
 						break;
 					case 3:
 						break;
@@ -220,15 +223,14 @@ DXFResult DXFHatch::evalRecord(void)
 				}
 				else
 				{
-					switch (hatchBoundaryDataLoops[index-1]._edgeType_Or_hasBulgeFlag)
+					edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+					switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
 					{
 					case 1:
-						edgeIndex = hatchBoundaryDataLoops[index-1].lineEdges.size() -1;
-						hatchBoundaryDataLoops[index-1].lineEdges[edgeIndex].startY = DXFRecord::getValueDbl();
+						hatchBoundaryDataLoops[index-1].edges[edgeIndex].startY = DXFRecord::getValueDbl();
 						break;
 					case 2:
-						edgeIndex = hatchBoundaryDataLoops[index-1].arcEdges.size() -1;
-						hatchBoundaryDataLoops[index-1].arcEdges[edgeIndex].centerY = DXFRecord::getValueDbl();
+						hatchBoundaryDataLoops[index-1].edges[edgeIndex].startY = DXFRecord::getValueDbl();
 						break;
 					case 3:
 						break;
@@ -239,11 +241,12 @@ DXFResult DXFHatch::evalRecord(void)
 			}
 			break;
 		case 11:
-			switch (hatchBoundaryDataLoops[index-1]._edgeType_Or_hasBulgeFlag)
+			
+			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
 			{
 			case 1:
-				edgeIndex = hatchBoundaryDataLoops[index-1].lineEdges.size() -1;
-				hatchBoundaryDataLoops[index-1].lineEdges[edgeIndex].endX = DXFRecord::getValueDbl();
+				hatchBoundaryDataLoops[index-1].edges[edgeIndex].endX = DXFRecord::getValueDbl();
 				break;
 			case 2:
 				break;
@@ -254,11 +257,13 @@ DXFResult DXFHatch::evalRecord(void)
 			}
 			break;
 		case 21:
-			switch (hatchBoundaryDataLoops[index-1]._edgeType_Or_hasBulgeFlag)
+			
+			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
 			{
 			case 1:
-				edgeIndex = hatchBoundaryDataLoops[index-1].lineEdges.size() -1;
-				hatchBoundaryDataLoops[index-1].lineEdges[edgeIndex].endY = DXFRecord::getValueDbl();
+				edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+				hatchBoundaryDataLoops[index-1].edges[edgeIndex].endY = DXFRecord::getValueDbl();
 				break;
 			case 2:
 				break;
@@ -269,14 +274,14 @@ DXFResult DXFHatch::evalRecord(void)
 			}
 			break;
 		case 40:
-			switch (hatchBoundaryDataLoops[index-1]._edgeType_Or_hasBulgeFlag)
+			
+			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
 			{
 			case 1:
-				
 				break;
 			case 2:
-				edgeIndex = hatchBoundaryDataLoops[index-1].arcEdges.size() -1;
-				hatchBoundaryDataLoops[index-1].arcEdges[edgeIndex].radius = DXFRecord::getValueDbl();
+				hatchBoundaryDataLoops[index-1].edges[edgeIndex].radius = DXFRecord::getValueDbl();
 				break;
 			case 3:
 				break;
@@ -285,14 +290,15 @@ DXFResult DXFHatch::evalRecord(void)
 			}
 			break;
 		case 50:
-			switch (hatchBoundaryDataLoops[index-1]._edgeType_Or_hasBulgeFlag)
+			
+			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
 			{
 			case 1:
 				
 				break;
 			case 2:
-				edgeIndex = hatchBoundaryDataLoops[index-1].arcEdges.size() -1;
-				hatchBoundaryDataLoops[index-1].arcEdges[edgeIndex].startAngle = DXFRecord::getValueDbl();
+				hatchBoundaryDataLoops[index-1].edges[edgeIndex].startAngle = DXFRecord::getValueDbl();
 				break;
 			case 3:
 				break;
@@ -301,14 +307,15 @@ DXFResult DXFHatch::evalRecord(void)
 			}
 			break;
 		case 51:
-			switch (hatchBoundaryDataLoops[index-1]._edgeType_Or_hasBulgeFlag)
+			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
 			{
 			case 1:
 				
 				break;
 			case 2:
-				edgeIndex = hatchBoundaryDataLoops[index-1].arcEdges.size() -1;
-				hatchBoundaryDataLoops[index-1].arcEdges[edgeIndex].endAngle = DXFRecord::getValueDbl();
+				edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+				hatchBoundaryDataLoops[index-1].edges[edgeIndex].endAngle = DXFRecord::getValueDbl();
 				break;
 			case 3:
 				break;
@@ -317,14 +324,13 @@ DXFResult DXFHatch::evalRecord(void)
 			}
 			break;
 		case 73:
-			switch (hatchBoundaryDataLoops[index-1]._edgeType_Or_hasBulgeFlag)
+			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
 			{
 			case 1:
-				
 				break;
 			case 2:
-				edgeIndex = hatchBoundaryDataLoops[index-1].arcEdges.size() -1;
-				hatchBoundaryDataLoops[index].arcEdges[edgeIndex].isCounterClockWise = DXFRecord::getValueDbl();
+				hatchBoundaryDataLoops[index].edges[edgeIndex].isCounterClockWise = DXFRecord::getValueDbl();
 				break;
 			case 3:
 				break;
@@ -374,6 +380,15 @@ DXFResult DXFHatch::endEntity(void)
 	_faceTypeP->clear();
 	_faceLengthP->clear();
 
+	OSG::Color3f color;
+	StringToNodePtrMap::iterator itr = _layersMapP->find(this->_layerName);
+	if(itr!= _layersMapP->end())
+	{
+		OSG::NodeRefPtr layerNodePtr = itr->second;
+		OSG::MaterialGroupRefPtr mgrp = dynamic_cast<OSG::MaterialGroup*>(layerNodePtr->getCore());
+		OSG::SimpleMaterialRefPtr mat = dynamic_cast<OSG::SimpleMaterial*>(mgrp->getMaterial());
+		color =	mat->getDiffuse();
+	}
 	for(int i=0;i<this->hatchBoundaryDataLoops.size();i++)
 	{
 		DXFHatchBoundaryPathData& pathData = hatchBoundaryDataLoops.at(i);
@@ -386,78 +401,84 @@ DXFResult DXFHatch::endEntity(void)
 					pathData.polyLineEdges.at(j).startY,
 					_elevation);
 				_pointsP->push_back(startp);
+				_colorsP->push_back(color);
 			}
 			_faceTypeP->push_back(GL_LINE_STRIP);
 			_faceLengthP->push_back(pathData.polyLineEdges.size());
 		}
-
-		if(pathData.lineEdges.size()>0)
+		int verticesNum =0;
+		if(pathData.edges.size()>0)
 		{
-			for(int j=0;j<pathData.lineEdges.size();j++)
+			for(int j=0;j<pathData.edges.size();j++)
 			{
-				if(j==0)
+				if(pathData.edges[j].edgeType_Or_hasBulgeFlag == 1)
 				{
-					Pnt3f startp(pathData.lineEdges.at(0).startX,
-						pathData.lineEdges.at(0).startY,
+					Pnt3f endp(pathData.edges.at(j).endX,
+						pathData.edges.at(j).endY,
 						_elevation);
-					_pointsP->push_back(startp);
+					_pointsP->push_back(endp);
+					_colorsP->push_back(color);
+					std::cout << endp << std::endl;
+					verticesNum ++;
 				}
-				Pnt3f endp(pathData.lineEdges.at(j).endX,
-					pathData.lineEdges.at(j).endY,
-					_elevation);
-				_pointsP->push_back(endp);
-			}
-			_faceTypeP->push_back(GL_LINE_STRIP);
-			_faceLengthP->push_back(pathData.lineEdges.size()+1);
-		}
-
-		if(pathData.arcEdges.size()>0)
-		{
-			int arcEdgeSize=0;
-			for(int j=0;j<pathData.arcEdges.size();j++)
-			{
-				float angleBase = DXFHeader::getAngBase();
-				int dir = DXFHeader::getAngDir();
-				double x, y, z;
-				Real32 tempStartAngle = pathData.arcEdges.at(j).startAngle;
-				Real32 tempEndAngle = pathData.arcEdges.at(j).endAngle;
-				Real32 tempRadius = pathData.arcEdges.at(j).radius;
-				if(dir) //clockwise
+				else if(pathData.edges[j].edgeType_Or_hasBulgeFlag == 2)
 				{
-					tempStartAngle= 360 - tempStartAngle;
-					tempEndAngle  =  360 - tempEndAngle;
-				}
-				tempStartAngle += 360;
-				tempEndAngle += 360;
-				while(tempStartAngle > tempEndAngle)
-				{
+					float angleBase = DXFHeader::getAngBase();
+					int dir = DXFHeader::getAngDir();
+					double x, y, z;
+					Real32 tempStartAngle = pathData.edges.at(j).startAngle;
+					Real32 tempEndAngle = pathData.edges.at(j).endAngle;
+					Real32 tempRadius = pathData.edges.at(j).radius;
+					if(dir) //clockwise 
+					{
+						tempStartAngle= 360 - tempStartAngle;
+						tempEndAngle  =  360 - tempEndAngle;
+					}
+					tempStartAngle += 360;
 					tempEndAngle += 360;
-				}
-				x= pathData.arcEdges.at(j).centerX + tempRadius * cos(osgDegree2Rad(tempStartAngle));
-				y= pathData.arcEdges.at(j).centerY + tempRadius * sin(osgDegree2Rad(tempStartAngle));
-				z = 0;
-				_pointsP->push_back(OSG::Pnt3f(x,y,z));
-				int div = 10;
-				int num = abs(tempEndAngle - tempStartAngle) / div;
-				arcEdgeSize += num;
-				for(int i=1;i<num-1;i++)
-				{
-					x= pathData.arcEdges.at(j).centerX  + tempRadius * cos(osgDegree2Rad(tempStartAngle + div * i));
-					y= pathData.arcEdges.at(j).centerY + tempRadius * sin(osgDegree2Rad(tempStartAngle + div * i));
+					while(tempStartAngle > tempEndAngle)
+					{
+						tempEndAngle += 360;
+					}
+					x= pathData.edges.at(j).startX + tempRadius * cos(osgDegree2Rad(tempStartAngle));
+					y= pathData.edges.at(j).startY + tempRadius * sin(osgDegree2Rad(tempStartAngle));
+					z = 0;
+					//ignore the first one as it is the end point of the last edge
+					//only when it it j==0, add it
+					if(j==0)
+					{
+						_pointsP->push_back(OSG::Pnt3f(x,y,z));
+						_colorsP->push_back(color);
+						verticesNum ++;
+						std::cout << x << "  " << y << "  " << z << std::endl;
+					}
+					int div = 10;
+					int num = abs(tempEndAngle - tempStartAngle) / div;
+					for(int i=1;i<num-1;i++)
+					{
+						x= pathData.edges.at(j).startX  + tempRadius * cos(osgDegree2Rad(tempStartAngle + div * i));
+						y= pathData.edges.at(j).startY + tempRadius * sin(osgDegree2Rad(tempStartAngle + div * i));
+						z = 0;
+						_pointsP->push_back(OSG::Pnt3f(x,y,z));
+						_colorsP->push_back(color);
+						verticesNum ++;
+						std::cout << x << " " << y << "  " << z << std::endl;
+					}
+					x= pathData.edges.at(j).startX  + tempRadius * cos(osgDegree2Rad(tempEndAngle));
+					y= pathData.edges.at(j).startY  + tempRadius * sin(osgDegree2Rad(tempEndAngle));
 					z = 0;
 					_pointsP->push_back(OSG::Pnt3f(x,y,z));
+					_colorsP->push_back(color);
+					std::cout << x << "  " << y << "  " << z << std::endl;
+					verticesNum ++;
 				}
-				x= pathData.arcEdges.at(j).centerX  + tempRadius * cos(osgDegree2Rad(tempEndAngle));
-				y= pathData.arcEdges.at(j).centerY  + tempRadius * sin(osgDegree2Rad(tempEndAngle));
-				z = 0;
-				_pointsP->push_back(OSG::Pnt3f(x,y,z));
 			}
-			_faceTypeP->push_back(GL_LINE_STRIP);
-			_faceLengthP->push_back(arcEdgeSize);
 		}
+			_faceTypeP->push_back(GL_POLYGON);
+			_faceLengthP->push_back(verticesNum);
 	}
 
-	flushGeometry(false);
+	flushGeometry(true);
 	endGeometry();
 
     _elevation = 0;
@@ -608,5 +629,4 @@ DXFHatchBoundaryPathData::DXFHatchBoundaryPathData()
 {
 	_pathTypeFlag = 0;
 	_numOfEdge = 0;
-	_edgeType_Or_hasBulgeFlag = 1;
 }

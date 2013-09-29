@@ -73,17 +73,14 @@ struct DXFHatchBoundaryPathDataPolyLine
 	Real32 startY;
 	Int32  bulge;
 };
-struct DXFHatchBoundaryPathDataLine
+
+struct DXFHatchBoundaryPathDataEdge
 {
-	Real32 startX;
-	Real32 startY;
+	Int32 edgeType_Or_hasBulgeFlag;
+	Real32 startX; //also centerX
+	Real32 startY; //also centerY
 	Real32 endX;
 	Real32 endY;
-};
-struct DXFHatchBoundaryPathDataArc
-{
-	Real32 centerX;
-	Real32 centerY;
 	Real32 radius;
 	Real32 startAngle;
 	Real32 endAngle;
@@ -95,10 +92,8 @@ struct  DXFHatchBoundaryPathData
 	//here put the codes for ellipse and spline
 	 Int32 _pathTypeFlag;
 	 Int32 _numOfEdge;
-	 Int32 _edgeType_Or_hasBulgeFlag;
 	 std::vector<DXFHatchBoundaryPathDataPolyLine> polyLineEdges;
-	 std::vector<DXFHatchBoundaryPathDataLine> lineEdges;
-	 std::vector<DXFHatchBoundaryPathDataArc> arcEdges;
+	 std::vector<DXFHatchBoundaryPathDataEdge> edges;
 	 DXFHatchBoundaryPathData(void);
 };
 struct DXFHatchPatternData
@@ -198,5 +193,4 @@ class OSG_DXFFILE_DLLMAPPING DXFHatch : public DXFEntitiesEntry
 };
 
 OSG_END_NAMESPACE
-
 #endif /* _OSGDXFHatch_H_ */

@@ -50,7 +50,7 @@
 #include "OSGMaterialGroup.h"
 #include "OSGSimpleMaterial.h"
 #include "OSGNameAttachment.h"
-
+#include "OSGPolygonChunk.h"
 OSG_USING_NAMESPACE
 
 /***************************************************************************\
@@ -152,6 +152,11 @@ DXFResult DXFLayer::endEntity(void)
 
     // prepare material
     SimpleMaterialUnrecPtr mtrl = SimpleMaterial::create();
+
+	OSG::PolygonChunkRefPtr pChunk = OSG::PolygonChunk::create();
+	pChunk->setFrontMode(GL_LINE);
+	mtrl->addChunk(pChunk);
+
 #if 0
     beginEditCP(mtrl);
 #endif

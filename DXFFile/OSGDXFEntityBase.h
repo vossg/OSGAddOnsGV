@@ -206,8 +206,11 @@ class OSG_DXFFILE_DLLMAPPING DXFEntityBase
     static NodeUnrecPtr               _activeNodeP;
 
     static GeoPnt3dPropertyUnrecPtr   _pointsP;
+	static GeoColor3fPropertyUnrecPtr _colorsP;
     static MFPnt3d                   *_pointsF;
     static MFPnt3d::iterator          _pointsIt;
+    static MFColor3f                   *_colorsF;
+    static MFColor3f::iterator          _colorsIt;
 
     static GeoUInt32PropertyUnrecPtr  _pointIndicesP;
     static MFUInt32                  *_pointIndicesF;
