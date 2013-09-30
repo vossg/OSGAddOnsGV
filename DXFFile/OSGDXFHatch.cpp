@@ -401,7 +401,6 @@ DXFResult DXFHatch::endEntity(void)
 					pathData.polyLineEdges.at(j).startY,
 					_elevation);
 				_pointsP->push_back(startp);
-				_colorsP->push_back(color);
 			}
 			_faceTypeP->push_back(GL_LINE_STRIP);
 			_faceLengthP->push_back(pathData.polyLineEdges.size());
@@ -417,7 +416,6 @@ DXFResult DXFHatch::endEntity(void)
 						pathData.edges.at(j).endY,
 						_elevation);
 					_pointsP->push_back(endp);
-					_colorsP->push_back(color);
 					std::cout << endp << std::endl;
 					verticesNum ++;
 				}
@@ -448,7 +446,6 @@ DXFResult DXFHatch::endEntity(void)
 					if(j==0)
 					{
 						_pointsP->push_back(OSG::Pnt3f(x,y,z));
-						_colorsP->push_back(color);
 						verticesNum ++;
 						std::cout << x << "  " << y << "  " << z << std::endl;
 					}
@@ -460,7 +457,6 @@ DXFResult DXFHatch::endEntity(void)
 						y= pathData.edges.at(j).startY + tempRadius * sin(osgDegree2Rad(tempStartAngle + div * i));
 						z = 0;
 						_pointsP->push_back(OSG::Pnt3f(x,y,z));
-						_colorsP->push_back(color);
 						verticesNum ++;
 						std::cout << x << " " << y << "  " << z << std::endl;
 					}
@@ -468,7 +464,6 @@ DXFResult DXFHatch::endEntity(void)
 					y= pathData.edges.at(j).startY  + tempRadius * sin(osgDegree2Rad(tempEndAngle));
 					z = 0;
 					_pointsP->push_back(OSG::Pnt3f(x,y,z));
-					_colorsP->push_back(color);
 					std::cout << x << "  " << y << "  " << z << std::endl;
 					verticesNum ++;
 				}

@@ -51,6 +51,7 @@
 #include "OSGNameAttachment.h"
 #include "OSGGeoOptimization.h"
 #include "OSGMaterialGroup.h"
+#include "OSGSimpleMaterial.h"
 //#include "OSGSimpleAttachments.h"
 
 OSG_USING_NAMESPACE
@@ -238,7 +239,6 @@ DXFResult DXFEntitiesEntry::beginGeometry(void)
     // gesetzt werden: Geometrieknoten des Layers!
 
     _pointsP       = GeoPnt3dProperty ::create();
-	_colorsP       = GeoColor3fProperty::create();
     _pointIndicesP = GeoUInt32Property::create();  // for meshes
     _faceLengthP   = GeoUInt32Property::create();
     _faceTypeP     = GeoUInt8Property ::create();
@@ -286,7 +286,6 @@ DXFResult DXFEntitiesEntry::endGeometry(void)
 #endif
 
     _pointsP       = NULL;
-	_colorsP       = NULL;
     _pointIndicesP = NULL;
     _faceTypeP     = NULL;
     _faceLengthP   = NULL;
@@ -356,16 +355,34 @@ void DXFEntitiesEntry::flushGeometry(bool forceNewNode)
 #endif
         {
             geoCore->setPositions(_pointsP);
-			//geoCore->setColors(_colorsP);
             geoCore->setLengths  (_faceLengthP);
             geoCore->setTypes    (_faceTypeP);
-			/*StringToNodePtrMap::iterator itr = _layersMapP->find(this->_layerName);
+			StringToNodePtrMap::iterator itr = _layersMapP->find(this->_layerName);
 			if(itr!= _layersMapP->end())
 			{
 				OSG::NodeRefPtr layerNodePtr = itr->second;
 				OSG::MaterialGroupRefPtr mgrp = dynamic_cast<OSG::MaterialGroup*>(layerNodePtr->getCore());
-				geoCore->setMaterial(mgrp->getMaterial());
-			}*/
+				OSG::SimpleMaterialRefPtr mat = dynamic_cast<OSG::SimpleMaterial*>(mgrp->getMaterial());
+				OSG::SimpleMaterialRefPtr newMat = OSG::SimpleMaterial::create();
+				if(this->_trueColor >=0)
+				{
+					OSG::Color3f newColor;
+					Int32 b = (this->_trueColor & 0xff);
+					newColor[2] = ((float)(b) / (float)(256.0));
+					Int32 g = (this->_trueColor >> 8) & 0xff;
+					newColor[1] = ((float)(g) / (float)(256.0));
+					Int32 r = (this->_trueColor >> 16) & 0xff;
+					newColor[0] = ((float) r/ (float)(256.0));
+					newMat->setDiffuse(newColor);
+					newMat->setLit(false);
+					OSG::setName(newMat, "testMat");
+				}
+				else
+				{
+					newMat->setDiffuse(mat->getDiffuse());
+				}
+				geoCore->setMaterial(newMat);
+			}
             if(_pointIndicesP->size() > 0)
                 geoCore->setIndices(_pointIndicesP);    
         }
@@ -387,12 +404,6 @@ void DXFEntitiesEntry::flushGeometry(bool forceNewNode)
         // Here we don't have indexed geometry, thus we only have to
         // copy the positions, lengths and types
         
-		GeoColor3fProperty *colorsP =  
-			dynamic_cast<GeoColor3fProperty *>(geoCore->getColors());
-
-        MFColor3f *colorsF =  colorsP->editFieldPtr();
-        _colorsF         = _colorsP->editFieldPtr();
-
         GeoPnt3dProperty *pointsP =  
             dynamic_cast<GeoPnt3dProperty *>(geoCore->getPositions());
 
@@ -419,12 +430,7 @@ void DXFEntitiesEntry::flushGeometry(bool forceNewNode)
                 itr != _pointsF->end();
                 ++itr)
                 pointsF->push_back(*itr);
-            
-			for(MFColor3f::iterator itr = _colorsF->begin();
-                itr != _colorsF->end();
-                ++itr)
-                colorsF->push_back(*itr);
-
+        
             for(MFUInt32::iterator itr = _faceLengthF->begin();
                 itr != _faceLengthF->end();
                 ++itr)
@@ -454,12 +460,9 @@ void DXFEntitiesEntry::flushGeometry(bool forceNewNode)
         endEditCP(geoCore);
 #endif
     }
-	if(_pointsP->size() != _colorsP->size())
-	{
-		std::cout << "here" << std::endl;
-	}
-	//makeSingleIndexed(geoCore);
-	//makeIndexedTriangles(geoCore, true);
+	/*makeSingleIndexed(geoCore);
+	makeIndexedTriangles(geoCore, true);
+	makeIndexedTrianglesConcave(geoCore, true);*/
 }
 
 

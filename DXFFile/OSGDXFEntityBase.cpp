@@ -130,11 +130,8 @@ NodeUnrecPtr               DXFEntityBase::_rootNodeP         = NULL;
 NodeUnrecPtr               DXFEntityBase::_activeNodeP       = NULL;
 
 GeoPnt3dPropertyUnrecPtr   DXFEntityBase::_pointsP           = NULL;
-GeoColor3fPropertyUnrecPtr DXFEntityBase::_colorsP           = NULL;
 MFPnt3d                   *DXFEntityBase::_pointsF           = NULL;
-MFColor3f                 *DXFEntityBase::_colorsF           = NULL;
 MFPnt3d::iterator          DXFEntityBase::_pointsIt;
-MFColor3f::iterator        DXFEntityBase::_colorsIt;
 
 GeoUInt32PropertyUnrecPtr  DXFEntityBase::_pointIndicesP     = NULL;
 MFUInt32                  *DXFEntityBase::_pointIndicesF     = NULL;
@@ -695,8 +692,6 @@ void DXFEntityBase::cleanup(void)
     DXFEntityBase::_activeNodeP       = NULL;
 
     DXFEntityBase::_pointsP           = NULL;
-
-	DXFEntityBase::_colorsP           = NULL;
 
     DXFEntityBase::_pointIndicesP     = NULL;
 
