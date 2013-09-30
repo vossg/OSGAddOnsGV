@@ -361,12 +361,22 @@ void DXFEntitiesEntry::flushGeometry(bool forceNewNode)
 			if(itr!= _layersMapP->end())
 			{
 				OSG::NodeRefPtr layerNodePtr = itr->second;
+				OSG::GroupRefPtr mgrp = dynamic_cast<OSG::Group*>(layerNodePtr->getCore());
+				OSG::SimpleMaterialRefPtr mat = dynamic_cast<
+                          OSG::SimpleMaterial*>(
+                              mgrp->findAttachment(
+                                  OSG::SimpleMaterial::getClassType()));
+
+#if 0
 				OSG::MaterialGroupRefPtr mgrp = dynamic_cast<OSG::MaterialGroup*>(layerNodePtr->getCore());
 				OSG::SimpleMaterialRefPtr mat = dynamic_cast<OSG::SimpleMaterial*>(mgrp->getMaterial());
-				OSG::SimpleMaterialRefPtr newMat = OSG::SimpleMaterial::create();
+#endif
+
 				if(this->_trueColor >=0)
-				{
-					OSG::Color3f newColor;
+				{	
+                    OSG::SimpleMaterialRefPtr newMat = OSG::SimpleMaterial::create();
+
+                    OSG::Color3f newColor;
 					Int32 b = (this->_trueColor & 0xff);
 					newColor[2] = (float(b) / float(256.0));
 					Int32 g = (this->_trueColor >> 8) & 0xff;
@@ -376,12 +386,14 @@ void DXFEntitiesEntry::flushGeometry(bool forceNewNode)
 					newMat->setDiffuse(newColor);
 					newMat->setLit(false);
 					OSG::setName(newMat, "testMat");
+
+                    geoCore->setMaterial(newMat);
 				}
 				else
 				{
-					newMat->setDiffuse(mat->getDiffuse());
+//					newMat->setDiffuse(mat->getDiffuse());
+                    geoCore->setMaterial(mat);
 				}
-				geoCore->setMaterial(newMat);
 			}
             if(_pointIndicesP->size() > 0)
                 geoCore->setIndices(_pointIndicesP);    
@@ -462,7 +474,9 @@ void DXFEntitiesEntry::flushGeometry(bool forceNewNode)
     }
 	/*makeSingleIndexed(geoCore);
 	makeIndexedTriangles(geoCore, true);
-	makeIndexedTrianglesConcave(geoCore, true);*/
+      */
+
+    makeIndexedTrianglesConcave(geoCore, true);
 }
 
 

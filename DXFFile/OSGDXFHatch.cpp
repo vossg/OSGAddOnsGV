@@ -385,8 +385,15 @@ DXFResult DXFHatch::endEntity(void)
 	if(itr!= _layersMapP->end())
 	{
 		OSG::NodeRefPtr layerNodePtr = itr->second;
+#if 0
 		OSG::MaterialGroupRefPtr mgrp = dynamic_cast<OSG::MaterialGroup*>(layerNodePtr->getCore());
 		OSG::SimpleMaterialRefPtr mat = dynamic_cast<OSG::SimpleMaterial*>(mgrp->getMaterial());
+#endif
+        OSG::GroupRefPtr mgrp = dynamic_cast<OSG::Group*>(layerNodePtr->getCore());
+        OSG::SimpleMaterialRefPtr mat = dynamic_cast<
+                  OSG::SimpleMaterial*>(
+                      mgrp->findAttachment(
+                          OSG::SimpleMaterial::getClassType()));
 		color =	mat->getDiffuse();
 	}
 	for(SizeT i=0;i<this->hatchBoundaryDataLoops.size();i++)

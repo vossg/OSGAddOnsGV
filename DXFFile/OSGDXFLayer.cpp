@@ -172,13 +172,14 @@ DXFResult DXFLayer::endEntity(void)
 	
 	std::cout << _colorNumber << "  "<< _name << std::endl;
     // put layer group together
-    MaterialGroupUnrecPtr mgrp=MaterialGroup::create();
+    GroupUnrecPtr mgrp=Group::create();
 
 #if 0
     beginEditCP(mgrp);
 #endif
     {
-        mgrp->setMaterial(mtrl);
+//        mgrp->setMaterial(mtrl);
+        mgrp->addAttachment(mtrl);
     }
 #if 0
     endEditCP  (mgrp);
