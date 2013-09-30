@@ -138,7 +138,7 @@ DXFResult DXFHatch::evalRecord(void)
 			break;
 	 //============= here begins the boundary path data
 		case 92:
-			if(hatchBoundaryDataLoops.size() < _numOfBoundaryPath)
+			if(hatchBoundaryDataLoops.size() < SizeT(_numOfBoundaryPath))
 			{
 				DXFHatchBoundaryPathData tempPathData;
 				hatchBoundaryDataLoops.push_back(tempPathData);
@@ -389,13 +389,13 @@ DXFResult DXFHatch::endEntity(void)
 		OSG::SimpleMaterialRefPtr mat = dynamic_cast<OSG::SimpleMaterial*>(mgrp->getMaterial());
 		color =	mat->getDiffuse();
 	}
-	for(int i=0;i<this->hatchBoundaryDataLoops.size();i++)
+	for(SizeT i=0;i<this->hatchBoundaryDataLoops.size();i++)
 	{
 		DXFHatchBoundaryPathData& pathData = hatchBoundaryDataLoops.at(i);
 		
 		if(pathData.polyLineEdges.size()>0)
 		{
-			for(int j=0;j<pathData.polyLineEdges.size();j++)
+			for(SizeT j=0;j<pathData.polyLineEdges.size();j++)
 			{
 				Pnt3f startp(pathData.polyLineEdges.at(j).startX,
 					pathData.polyLineEdges.at(j).startY,
@@ -408,7 +408,7 @@ DXFResult DXFHatch::endEntity(void)
 		int verticesNum =0;
 		if(pathData.edges.size()>0)
 		{
-			for(int j=0;j<pathData.edges.size();j++)
+			for(SizeT j=0;j<pathData.edges.size();j++)
 			{
 				if(pathData.edges[j].edgeType_Or_hasBulgeFlag == 1)
 				{
@@ -421,7 +421,7 @@ DXFResult DXFHatch::endEntity(void)
 				}
 				else if(pathData.edges[j].edgeType_Or_hasBulgeFlag == 2)
 				{
-					float angleBase = DXFHeader::getAngBase();
+//					float angleBase = DXFHeader::getAngBase();
 					int dir = DXFHeader::getAngDir();
 					double x, y, z;
 					Real32 tempStartAngle = pathData.edges.at(j).startAngle;

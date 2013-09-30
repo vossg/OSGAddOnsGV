@@ -170,7 +170,7 @@ DXFResult DXFArc::beginEntity(void)
 
 DXFResult DXFArc::endEntity(void)
 {
-	float angleBase = DXFHeader::getAngBase();
+//	float angleBase = DXFHeader::getAngBase();
 	int dir = DXFHeader::getAngDir();
 	double x, y, z;
 	if(dir) //clockwise

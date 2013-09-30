@@ -82,8 +82,8 @@ class OSG_DXFFILE_DLLMAPPING DXFHeader : public DXFEntityBase
     /*! \{                                                                 */
     
     static const Char8 *getClassname(void) { return "DXFHeader"; }
-	static const Real32 getAngBase(void) {return _angBase;}
-	static const Int32  getAngDir(void ) {return _angDir; }
+	static       Real32 getAngBase(void) {return _angBase;}
+	static       Int32  getAngDir(void ) {return _angDir; }
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 

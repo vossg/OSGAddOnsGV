@@ -170,7 +170,7 @@ DXFResult DXFLWPolyline::endEntity(void)
      if(_flags & 1) // 1 for closed
     {
 		_pointsP->resize(_plyVertices.size());
-		for(int i=0;i<_plyVertices.size();i++)
+		for(SizeT i=0;i<_plyVertices.size();i++)
 		{
 			_pointsP->setValue(_plyVertices.at(i), i);
 		}
@@ -183,7 +183,7 @@ DXFResult DXFLWPolyline::endEntity(void)
     else  if(_flags & 128)// 128 for plinegen, currently ignore, do the same as 1
     {
         _pointsP->resize(_plyVertices.size());
-		for(int i=0;i<_plyVertices.size();i++)
+		for(SizeT i=0;i<_plyVertices.size();i++)
 		{
 			_pointsP->setValue(_plyVertices.at(i), i);
 		}

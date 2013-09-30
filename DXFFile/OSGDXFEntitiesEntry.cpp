@@ -368,11 +368,11 @@ void DXFEntitiesEntry::flushGeometry(bool forceNewNode)
 				{
 					OSG::Color3f newColor;
 					Int32 b = (this->_trueColor & 0xff);
-					newColor[2] = ((float)(b) / (float)(256.0));
+					newColor[2] = (float(b) / float(256.0));
 					Int32 g = (this->_trueColor >> 8) & 0xff;
-					newColor[1] = ((float)(g) / (float)(256.0));
+					newColor[1] = (float(g) / float(256.0));
 					Int32 r = (this->_trueColor >> 16) & 0xff;
-					newColor[0] = ((float) r/ (float)(256.0));
+					newColor[0] = (float(r)/ float(256.0));
 					newMat->setDiffuse(newColor);
 					newMat->setLit(false);
 					OSG::setName(newMat, "testMat");

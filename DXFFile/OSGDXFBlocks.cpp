@@ -447,14 +447,15 @@ DXFResult DXFBlock::endEntity(void)
 	{
 		std::cout << "here" << std::endl;
 		std::cout << _blockNodeP->getNChildren() << std::endl;
-		for(int i=0;i<_blockNodeP->getNChildren();i++)
+		for(UInt32 i=0;i<_blockNodeP->getNChildren();i++)
 		{
 			OSG::Node* p = _blockNodeP->getChild(i);
 			std::string name = OSG::getName(p);
 			std::cout << name << std::endl;
-			 Geometry* geoCore = dynamic_cast<Geometry *>(p->getCore());
-			 GeoPnt3dProperty *pointsP =  
-			  dynamic_cast<GeoPnt3dProperty *>(geoCore->getPositions());
+            //Geometry* geoCore = dynamic_cast<Geometry *>(p->getCore());
+
+			 //GeoPnt3dProperty *pointsP =  
+			 // dynamic_cast<GeoPnt3dProperty *>(geoCore->getPositions());
 			 //for(int i=0;i<pointsP->size();i++)
 			 //{
 				// /*float x = pointsP->getValue(i).x() * -1.0;
@@ -463,7 +464,7 @@ DXFResult DXFBlock::endEntity(void)
 				// pointsP->setValue(OSG::Pnt3f(x,y,z),i);*/
 				// std::cout << pointsP->getValue(i) << std::endl;
 			 //}
-			 Transform* transformCore = dynamic_cast<Transform *>(_blockNodeP->getCore());
+			 //Transform* transformCore = dynamic_cast<Transform *>(_blockNodeP->getCore());
 		}
 
 	}
