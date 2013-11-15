@@ -55,7 +55,8 @@ struct CudBuff3fIDesc
     typedef FieldContainer::TypeObject    TypeObject;
     typedef ComputeElementIdPool          ElementIdPool;
 
-    typedef HardwareContextBase::Inherited DataSlotHandler;
+    typedef RenderActionBase::Inherited    DataSlotHandler;
+    typedef HardwareContextBase::Inherited ContextDataSlotHandler;
 };
 
 typedef ComputeElementHandlerMixin< 
