@@ -320,6 +320,10 @@ bool VLCVideoTextureObjChunk::createVLCInstance(libvlc_time_t start_time,
             ctx.videothread = NULL;            
         }
     }
+    if (libvlc == NULL) {
+        SFATAL << "libvlc creation failed (plugin folder?)" << std::endl;
+        return false;
+    }
     m = libvlc_media_new_path(libvlc, getUrl().c_str());
    
     vlcmediaplayer = libvlc_media_player_new_from_media(m);
