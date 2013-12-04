@@ -304,20 +304,20 @@ class OSG_VLCVIDEOTEXTURE_DLLMAPPING VLCVideoTextureObjChunkBase : public Dynami
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleStatus          (void) const;
-    EditFieldHandlePtr editHandleStatus         (void);
-    GetFieldHandlePtr  getHandleTimestamp       (void) const;
-    EditFieldHandlePtr editHandleTimestamp      (void);
-    GetFieldHandlePtr  getHandleUpdatefreq      (void) const;
-    EditFieldHandlePtr editHandleUpdatefreq     (void);
-    GetFieldHandlePtr  getHandleUrl             (void) const;
-    EditFieldHandlePtr editHandleUrl            (void);
-    GetFieldHandlePtr  getHandleWidth           (void) const;
-    EditFieldHandlePtr editHandleWidth          (void);
-    GetFieldHandlePtr  getHandleHeight          (void) const;
-    EditFieldHandlePtr editHandleHeight         (void);
-    GetFieldHandlePtr  getHandleIsMaster        (void) const;
-    EditFieldHandlePtr editHandleIsMaster       (void);
+     GetFieldHandlePtr  getHandleStatus          (void) const;
+     EditFieldHandlePtr editHandleStatus         (void);
+     GetFieldHandlePtr  getHandleTimestamp       (void) const;
+     EditFieldHandlePtr editHandleTimestamp      (void);
+     GetFieldHandlePtr  getHandleUpdatefreq      (void) const;
+     EditFieldHandlePtr editHandleUpdatefreq     (void);
+     GetFieldHandlePtr  getHandleUrl             (void) const;
+     EditFieldHandlePtr editHandleUrl            (void);
+     GetFieldHandlePtr  getHandleWidth           (void) const;
+     EditFieldHandlePtr editHandleWidth          (void);
+     GetFieldHandlePtr  getHandleHeight          (void) const;
+     EditFieldHandlePtr editHandleHeight         (void);
+     GetFieldHandlePtr  getHandleIsMaster        (void) const;
+     EditFieldHandlePtr editHandleIsMaster       (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

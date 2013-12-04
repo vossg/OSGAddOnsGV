@@ -294,18 +294,18 @@ class OSG_CONTRIBCOMPUTE_DLLMAPPING SimpleCudaComputeAlgorithmBase : public Comp
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleMode            (void) const;
-    EditFieldHandlePtr editHandleMode           (void);
-    GetFieldHandlePtr  getHandleIntensity       (void) const;
-    EditFieldHandlePtr editHandleIntensity      (void);
-    GetFieldHandlePtr  getHandleScale           (void) const;
-    EditFieldHandlePtr editHandleScale          (void);
-    GetFieldHandlePtr  getHandleScaleStep       (void) const;
-    EditFieldHandlePtr editHandleScaleStep      (void);
-    GetFieldHandlePtr  getHandleScaleMax        (void) const;
-    EditFieldHandlePtr editHandleScaleMax       (void);
-    GetFieldHandlePtr  getHandleTarget          (void) const;
-    EditFieldHandlePtr editHandleTarget         (void);
+     GetFieldHandlePtr  getHandleMode            (void) const;
+     EditFieldHandlePtr editHandleMode           (void);
+     GetFieldHandlePtr  getHandleIntensity       (void) const;
+     EditFieldHandlePtr editHandleIntensity      (void);
+     GetFieldHandlePtr  getHandleScale           (void) const;
+     EditFieldHandlePtr editHandleScale          (void);
+     GetFieldHandlePtr  getHandleScaleStep       (void) const;
+     EditFieldHandlePtr editHandleScaleStep      (void);
+     GetFieldHandlePtr  getHandleScaleMax        (void) const;
+     EditFieldHandlePtr editHandleScaleMax       (void);
+     GetFieldHandlePtr  getHandleTarget          (void) const;
+     EditFieldHandlePtr editHandleTarget         (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

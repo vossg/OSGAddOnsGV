@@ -259,12 +259,12 @@ class OSG_CONTRIBLABELING_DLLMAPPING IconLabelBase : public Label
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleFilename        (void) const;
-    EditFieldHandlePtr editHandleFilename       (void);
-    GetFieldHandlePtr  getHandleImage           (void) const;
-    EditFieldHandlePtr editHandleImage          (void);
-    GetFieldHandlePtr  getHandleSize            (void) const;
-    EditFieldHandlePtr editHandleSize           (void);
+     GetFieldHandlePtr  getHandleFilename        (void) const;
+     EditFieldHandlePtr editHandleFilename       (void);
+     GetFieldHandlePtr  getHandleImage           (void) const;
+     EditFieldHandlePtr editHandleImage          (void);
+     GetFieldHandlePtr  getHandleSize            (void) const;
+     EditFieldHandlePtr editHandleSize           (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

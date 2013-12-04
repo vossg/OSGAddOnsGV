@@ -280,16 +280,16 @@ class OSG_CONTRIBCOMPUTE_DLLMAPPING BufferPnt3fInterpolatorBase : public NodeCor
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleInValue         (void) const;
-    EditFieldHandlePtr editHandleInValue        (void);
-    GetFieldHandlePtr  getHandleKey             (void) const;
-    EditFieldHandlePtr editHandleKey            (void);
-    GetFieldHandlePtr  getHandleKeyValue        (void) const;
-    EditFieldHandlePtr editHandleKeyValue       (void);
-    GetFieldHandlePtr  getHandleOutValue        (void) const;
-    EditFieldHandlePtr editHandleOutValue       (void);
-    GetFieldHandlePtr  getHandleResortIndex     (void) const;
-    EditFieldHandlePtr editHandleResortIndex    (void);
+     GetFieldHandlePtr  getHandleInValue         (void) const;
+     EditFieldHandlePtr editHandleInValue        (void);
+     GetFieldHandlePtr  getHandleKey             (void) const;
+     EditFieldHandlePtr editHandleKey            (void);
+     GetFieldHandlePtr  getHandleKeyValue        (void) const;
+     EditFieldHandlePtr editHandleKeyValue       (void);
+     GetFieldHandlePtr  getHandleOutValue        (void) const;
+     EditFieldHandlePtr editHandleOutValue       (void);
+     GetFieldHandlePtr  getHandleResortIndex     (void) const;
+     EditFieldHandlePtr editHandleResortIndex    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

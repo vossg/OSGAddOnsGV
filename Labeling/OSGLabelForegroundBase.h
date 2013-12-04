@@ -252,12 +252,12 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelForegroundBase : public Foreground
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleImportanceThreshold (void) const;
-    EditFieldHandlePtr editHandleImportanceThreshold(void);
-    GetFieldHandlePtr  getHandleRoot            (void) const;
-    EditFieldHandlePtr editHandleRoot           (void);
-    GetFieldHandlePtr  getHandleTextureEnvironment (void) const;
-    EditFieldHandlePtr editHandleTextureEnvironment(void);
+     GetFieldHandlePtr  getHandleImportanceThreshold (void) const;
+     EditFieldHandlePtr editHandleImportanceThreshold(void);
+     GetFieldHandlePtr  getHandleRoot            (void) const;
+     EditFieldHandlePtr editHandleRoot           (void);
+     GetFieldHandlePtr  getHandleTextureEnvironment (void) const;
+     EditFieldHandlePtr editHandleTextureEnvironment(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

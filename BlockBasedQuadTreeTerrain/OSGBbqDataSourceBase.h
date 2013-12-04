@@ -202,8 +202,8 @@ class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqDataSourceBase : public FieldContainer
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleIgnoreGeoRef    (void) const;
-    EditFieldHandlePtr editHandleIgnoreGeoRef   (void);
+     GetFieldHandlePtr  getHandleIgnoreGeoRef    (void) const;
+     EditFieldHandlePtr editHandleIgnoreGeoRef   (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

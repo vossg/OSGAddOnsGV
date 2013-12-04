@@ -360,34 +360,34 @@ class OSG_CONTRIBLABELING_DLLMAPPING LabelBase : public Group
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandlePosition        (void) const;
-    EditFieldHandlePtr editHandlePosition       (void);
-    GetFieldHandlePtr  getHandlePixelOffset     (void) const;
-    EditFieldHandlePtr editHandlePixelOffset    (void);
-    GetFieldHandlePtr  getHandleOrientation     (void) const;
-    EditFieldHandlePtr editHandleOrientation    (void);
-    GetFieldHandlePtr  getHandleHorizontalAlign (void) const;
-    EditFieldHandlePtr editHandleHorizontalAlign(void);
-    GetFieldHandlePtr  getHandleVerticalAlign   (void) const;
-    EditFieldHandlePtr editHandleVerticalAlign  (void);
-    GetFieldHandlePtr  getHandleMargin          (void) const;
-    EditFieldHandlePtr editHandleMargin         (void);
-    GetFieldHandlePtr  getHandleColor           (void) const;
-    EditFieldHandlePtr editHandleColor          (void);
-    GetFieldHandlePtr  getHandleBgColor         (void) const;
-    EditFieldHandlePtr editHandleBgColor        (void);
-    GetFieldHandlePtr  getHandleShadowColor     (void) const;
-    EditFieldHandlePtr editHandleShadowColor    (void);
-    GetFieldHandlePtr  getHandleShadowOffset    (void) const;
-    EditFieldHandlePtr editHandleShadowOffset   (void);
-    GetFieldHandlePtr  getHandleBorderColor     (void) const;
-    EditFieldHandlePtr editHandleBorderColor    (void);
-    GetFieldHandlePtr  getHandleBorderOffset    (void) const;
-    EditFieldHandlePtr editHandleBorderOffset   (void);
-    GetFieldHandlePtr  getHandleImportance      (void) const;
-    EditFieldHandlePtr editHandleImportance     (void);
-    GetFieldHandlePtr  getHandleTextureObject   (void) const;
-    EditFieldHandlePtr editHandleTextureObject  (void);
+     GetFieldHandlePtr  getHandlePosition        (void) const;
+     EditFieldHandlePtr editHandlePosition       (void);
+     GetFieldHandlePtr  getHandlePixelOffset     (void) const;
+     EditFieldHandlePtr editHandlePixelOffset    (void);
+     GetFieldHandlePtr  getHandleOrientation     (void) const;
+     EditFieldHandlePtr editHandleOrientation    (void);
+     GetFieldHandlePtr  getHandleHorizontalAlign (void) const;
+     EditFieldHandlePtr editHandleHorizontalAlign(void);
+     GetFieldHandlePtr  getHandleVerticalAlign   (void) const;
+     EditFieldHandlePtr editHandleVerticalAlign  (void);
+     GetFieldHandlePtr  getHandleMargin          (void) const;
+     EditFieldHandlePtr editHandleMargin         (void);
+     GetFieldHandlePtr  getHandleColor           (void) const;
+     EditFieldHandlePtr editHandleColor          (void);
+     GetFieldHandlePtr  getHandleBgColor         (void) const;
+     EditFieldHandlePtr editHandleBgColor        (void);
+     GetFieldHandlePtr  getHandleShadowColor     (void) const;
+     EditFieldHandlePtr editHandleShadowColor    (void);
+     GetFieldHandlePtr  getHandleShadowOffset    (void) const;
+     EditFieldHandlePtr editHandleShadowOffset   (void);
+     GetFieldHandlePtr  getHandleBorderColor     (void) const;
+     EditFieldHandlePtr editHandleBorderColor    (void);
+     GetFieldHandlePtr  getHandleBorderOffset    (void) const;
+     EditFieldHandlePtr editHandleBorderOffset   (void);
+     GetFieldHandlePtr  getHandleImportance      (void) const;
+     EditFieldHandlePtr editHandleImportance     (void);
+     GetFieldHandlePtr  getHandleTextureObject   (void) const;
+     EditFieldHandlePtr editHandleTextureObject  (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

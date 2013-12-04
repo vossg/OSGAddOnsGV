@@ -217,10 +217,10 @@ class OSG_SCRIPTING_DLLMAPPING ScriptBase : public ScriptParent
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandlePriority        (void) const;
-    EditFieldHandlePtr editHandlePriority       (void);
-    GetFieldHandlePtr  getHandleScript          (void) const;
-    EditFieldHandlePtr editHandleScript         (void);
+     GetFieldHandlePtr  getHandlePriority        (void) const;
+     EditFieldHandlePtr editHandlePriority       (void);
+     GetFieldHandlePtr  getHandleScript          (void) const;
+     EditFieldHandlePtr editHandleScript         (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

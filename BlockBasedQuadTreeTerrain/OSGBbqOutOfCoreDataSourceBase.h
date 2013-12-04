@@ -266,14 +266,14 @@ class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqOutOfCoreDataSourceBase : public BbqDa
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleFilename        (void) const;
-    EditFieldHandlePtr editHandleFilename       (void);
-    GetFieldHandlePtr  getHandleHeightScale     (void) const;
-    EditFieldHandlePtr editHandleHeightScale    (void);
-    GetFieldHandlePtr  getHandleHeightOffset    (void) const;
-    EditFieldHandlePtr editHandleHeightOffset   (void);
-    GetFieldHandlePtr  getHandleSampleSpacing   (void) const;
-    EditFieldHandlePtr editHandleSampleSpacing  (void);
+     GetFieldHandlePtr  getHandleFilename        (void) const;
+     EditFieldHandlePtr editHandleFilename       (void);
+     GetFieldHandlePtr  getHandleHeightScale     (void) const;
+     EditFieldHandlePtr editHandleHeightScale    (void);
+     GetFieldHandlePtr  getHandleHeightOffset    (void) const;
+     EditFieldHandlePtr editHandleHeightOffset   (void);
+     GetFieldHandlePtr  getHandleSampleSpacing   (void) const;
+     EditFieldHandlePtr editHandleSampleSpacing  (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

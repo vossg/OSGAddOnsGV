@@ -293,18 +293,18 @@ class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqTerrainBase : public StageDrawable
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleBeacon          (void) const;
-    EditFieldHandlePtr editHandleBeacon         (void);
-    GetFieldHandlePtr  getHandleDataSource      (void) const;
-    EditFieldHandlePtr editHandleDataSource     (void);
-    GetFieldHandlePtr  getHandleMaxNumResidentNodes (void) const;
-    EditFieldHandlePtr editHandleMaxNumResidentNodes(void);
-    GetFieldHandlePtr  getHandleScreenSpaceError (void) const;
-    EditFieldHandlePtr editHandleScreenSpaceError(void);
-    GetFieldHandlePtr  getHandleEnableSkirts    (void) const;
-    EditFieldHandlePtr editHandleEnableSkirts   (void);
-    GetFieldHandlePtr  getHandleShowSwitchDistance (void) const;
-    EditFieldHandlePtr editHandleShowSwitchDistance(void);
+     GetFieldHandlePtr  getHandleBeacon          (void) const;
+     EditFieldHandlePtr editHandleBeacon         (void);
+     GetFieldHandlePtr  getHandleDataSource      (void) const;
+     EditFieldHandlePtr editHandleDataSource     (void);
+     GetFieldHandlePtr  getHandleMaxNumResidentNodes (void) const;
+     EditFieldHandlePtr editHandleMaxNumResidentNodes(void);
+     GetFieldHandlePtr  getHandleScreenSpaceError (void) const;
+     EditFieldHandlePtr editHandleScreenSpaceError(void);
+     GetFieldHandlePtr  getHandleEnableSkirts    (void) const;
+     EditFieldHandlePtr editHandleEnableSkirts   (void);
+     GetFieldHandlePtr  getHandleShowSwitchDistance (void) const;
+     EditFieldHandlePtr editHandleShowSwitchDistance(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

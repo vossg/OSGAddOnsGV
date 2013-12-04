@@ -424,40 +424,40 @@ class OSG_CONTRIBDYNAMICTERRAIN_DLLMAPPING DynamicTerrainBase : public MaterialD
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleLevelSize       (void) const;
-    EditFieldHandlePtr editHandleLevelSize      (void);
-    GetFieldHandlePtr  getHandleHeightData      (void) const;
-    EditFieldHandlePtr editHandleHeightData     (void);
-    GetFieldHandlePtr  getHandleHeightDataScale (void) const;
-    EditFieldHandlePtr editHandleHeightDataScale(void);
-    GetFieldHandlePtr  getHandleHeightDataOffset (void) const;
-    EditFieldHandlePtr editHandleHeightDataOffset(void);
-    GetFieldHandlePtr  getHandleSampleDistance  (void) const;
-    EditFieldHandlePtr editHandleSampleDistance (void);
-    GetFieldHandlePtr  getHandleTextureData     (void) const;
-    EditFieldHandlePtr editHandleTextureData    (void);
-    GetFieldHandlePtr  getHandleHeightColorTexture (void) const;
-    EditFieldHandlePtr editHandleHeightColorTexture(void);
-    GetFieldHandlePtr  getHandleSampleUpdateBudget (void) const;
-    EditFieldHandlePtr editHandleSampleUpdateBudget(void);
-    GetFieldHandlePtr  getHandleEnableFrustumCulling (void) const;
-    EditFieldHandlePtr editHandleEnableFrustumCulling(void);
-    GetFieldHandlePtr  getHandleUseGpuRenderer  (void) const;
-    EditFieldHandlePtr editHandleUseGpuRenderer (void);
-    GetFieldHandlePtr  getHandleUseVboExtension (void) const;
-    EditFieldHandlePtr editHandleUseVboExtension(void);
-    GetFieldHandlePtr  getHandleEnableSmoothTransition (void) const;
-    EditFieldHandlePtr editHandleEnableSmoothTransition(void);
-    GetFieldHandlePtr  getHandleShowBoundingBoxes (void) const;
-    EditFieldHandlePtr editHandleShowBoundingBoxes(void);
-    GetFieldHandlePtr  getHandleShowTransitionRegions (void) const;
-    EditFieldHandlePtr editHandleShowTransitionRegions(void);
-    GetFieldHandlePtr  getHandleDisableUpdate   (void) const;
-    EditFieldHandlePtr editHandleDisableUpdate  (void);
-    GetFieldHandlePtr  getHandleCpuVertexProgram (void) const;
-    EditFieldHandlePtr editHandleCpuVertexProgram(void);
-    GetFieldHandlePtr  getHandleCpuFragmentProgram (void) const;
-    EditFieldHandlePtr editHandleCpuFragmentProgram(void);
+     GetFieldHandlePtr  getHandleLevelSize       (void) const;
+     EditFieldHandlePtr editHandleLevelSize      (void);
+     GetFieldHandlePtr  getHandleHeightData      (void) const;
+     EditFieldHandlePtr editHandleHeightData     (void);
+     GetFieldHandlePtr  getHandleHeightDataScale (void) const;
+     EditFieldHandlePtr editHandleHeightDataScale(void);
+     GetFieldHandlePtr  getHandleHeightDataOffset (void) const;
+     EditFieldHandlePtr editHandleHeightDataOffset(void);
+     GetFieldHandlePtr  getHandleSampleDistance  (void) const;
+     EditFieldHandlePtr editHandleSampleDistance (void);
+     GetFieldHandlePtr  getHandleTextureData     (void) const;
+     EditFieldHandlePtr editHandleTextureData    (void);
+     GetFieldHandlePtr  getHandleHeightColorTexture (void) const;
+     EditFieldHandlePtr editHandleHeightColorTexture(void);
+     GetFieldHandlePtr  getHandleSampleUpdateBudget (void) const;
+     EditFieldHandlePtr editHandleSampleUpdateBudget(void);
+     GetFieldHandlePtr  getHandleEnableFrustumCulling (void) const;
+     EditFieldHandlePtr editHandleEnableFrustumCulling(void);
+     GetFieldHandlePtr  getHandleUseGpuRenderer  (void) const;
+     EditFieldHandlePtr editHandleUseGpuRenderer (void);
+     GetFieldHandlePtr  getHandleUseVboExtension (void) const;
+     EditFieldHandlePtr editHandleUseVboExtension(void);
+     GetFieldHandlePtr  getHandleEnableSmoothTransition (void) const;
+     EditFieldHandlePtr editHandleEnableSmoothTransition(void);
+     GetFieldHandlePtr  getHandleShowBoundingBoxes (void) const;
+     EditFieldHandlePtr editHandleShowBoundingBoxes(void);
+     GetFieldHandlePtr  getHandleShowTransitionRegions (void) const;
+     EditFieldHandlePtr editHandleShowTransitionRegions(void);
+     GetFieldHandlePtr  getHandleDisableUpdate   (void) const;
+     EditFieldHandlePtr editHandleDisableUpdate  (void);
+     GetFieldHandlePtr  getHandleCpuVertexProgram (void) const;
+     EditFieldHandlePtr editHandleCpuVertexProgram(void);
+     GetFieldHandlePtr  getHandleCpuFragmentProgram (void) const;
+     EditFieldHandlePtr editHandleCpuFragmentProgram(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

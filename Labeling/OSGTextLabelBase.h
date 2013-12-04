@@ -254,12 +254,12 @@ class OSG_CONTRIBLABELING_DLLMAPPING TextLabelBase : public Label
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleText            (void) const;
-    EditFieldHandlePtr editHandleText           (void);
-    GetFieldHandlePtr  getHandleSize            (void) const;
-    EditFieldHandlePtr editHandleSize           (void);
-    GetFieldHandlePtr  getHandleFamily          (void) const;
-    EditFieldHandlePtr editHandleFamily         (void);
+     GetFieldHandlePtr  getHandleText            (void) const;
+     EditFieldHandlePtr editHandleText           (void);
+     GetFieldHandlePtr  getHandleSize            (void) const;
+     EditFieldHandlePtr editHandleSize           (void);
+     GetFieldHandlePtr  getHandleFamily          (void) const;
+     EditFieldHandlePtr editHandleFamily         (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -237,8 +237,8 @@ class OSG_SCRIPTING_DLLMAPPING PythonScriptFileBase : public PythonScript
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleScriptUrl       (void) const;
-    EditFieldHandlePtr editHandleScriptUrl      (void);
+     GetFieldHandlePtr  getHandleScriptUrl       (void) const;
+     EditFieldHandlePtr editHandleScriptUrl      (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
