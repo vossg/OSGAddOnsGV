@@ -241,7 +241,7 @@
 ~@typedef_t@GLclampf@::GLclampf
 ~@typedef_t@__key_t@::__key_t
 ~@typedef_t@GLclampd@::GLclampd
-~@typedef_t@PFNGLSECONDARYCOLOR3IPROC@::PFNGLSECONDARYCOLOR3IPROC
+~@typedef_t@PFNGLMULTITEXGENDVEXTPROC@::PFNGLMULTITEXGENDVEXTPROC
 ~@typedef_t@dev_t@::dev_t
 ~@typedef_t@PFNGLSEPARABLEFILTER2DEXTPROC@::PFNGLSEPARABLEFILTER2DEXTPROC
 ~@typedef_t@PFNGLGETNAMEDPROGRAMSTRINGEXTPROC@::PFNGLGETNAMEDPROGRAMSTRINGEXTPROC
@@ -628,7 +628,7 @@
 ~@typedef_t@PFNGLBINORMALPOINTEREXTPROC@::PFNGLBINORMALPOINTEREXTPROC
 ~@typedef_t@PFNGLGETINTEGERUI64VNVPROC@::PFNGLGETINTEGERUI64VNVPROC
 ~@typedef_t@PFNGLSWIZZLEEXTPROC@::PFNGLSWIZZLEEXTPROC
-~@typedef_t@GLhandleARB@::GLhandleARB
+~@typedef_t@PFNGLPOINTPARAMETERIPROC@::PFNGLPOINTPARAMETERIPROC
 ~@typedef_t@PFNGLTEXTUREIMAGE3DEXTPROC@::PFNGLTEXTUREIMAGE3DEXTPROC
 ~@typedef_t@PFNGLENABLEVERTEXATTRIBARRAYPROC@::PFNGLENABLEVERTEXATTRIBARRAYPROC
 ~@typedef_t@PFNGLUNIFORMMATRIX4FVARBPROC@::PFNGLUNIFORMMATRIX4FVARBPROC
@@ -1009,7 +1009,7 @@
 ~@typedef_t@PFNGLMAPPARAMETERIVNVPROC@::PFNGLMAPPARAMETERIVNVPROC
 ~@typedef_t@PFNGLTEXTURELIGHTEXTPROC@::PFNGLTEXTURELIGHTEXTPROC
 ~@typedef_t@PFNGLPROGRAMENVPARAMETER4DVARBPROC@::PFNGLPROGRAMENVPARAMETER4DVARBPROC
-~@typedef_t@PFNGLPOINTPARAMETERIPROC@::PFNGLPOINTPARAMETERIPROC
+~@typedef_t@GLhandleARB@::GLhandleARB
 ~@typedef_t@PFNGLVERTEXSTREAM2SATIPROC@::PFNGLVERTEXSTREAM2SATIPROC
 ~@typedef_t@PFNGLVERTEXATTRIB1DNVPROC@::PFNGLVERTEXATTRIB1DNVPROC
 ~@typedef_t@__rlim64_t@::__rlim64_t
@@ -1328,7 +1328,7 @@
 ~@typedef_t@PFNGLCOPYTEXIMAGE1DEXTPROC@::PFNGLCOPYTEXIMAGE1DEXTPROC
 ~@typedef_t@PFNGLGETTEXBUMPPARAMETERFVATIPROC@::PFNGLGETTEXBUMPPARAMETERFVATIPROC
 ~@typedef_t@PFNGLGETNAMEDPROGRAMLOCALPARAMETERFVEXTPROC@::PFNGLGETNAMEDPROGRAMLOCALPARAMETERFVEXTPROC
-~@typedef_t@PFNGLMULTITEXGENDVEXTPROC@::PFNGLMULTITEXGENDVEXTPROC
+~@typedef_t@PFNGLSECONDARYCOLOR3IPROC@::PFNGLSECONDARYCOLOR3IPROC
 ~@typedef_t@fexcept_t@::fexcept_t
 ~@typedef_t@PFNGLTEXTURECOLORMASKSGISPROC@::PFNGLTEXTURECOLORMASKSGISPROC
 ~@typedef_t@PFNGLUNIFORM3FVARBPROC@::PFNGLUNIFORM3FVARBPROC
@@ -1770,15 +1770,15 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
+~@namespace_t@@::
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
-~@namespace_t@boost_concepts@::boost_concepts
+~@namespace_t@boost_swap_impl@::boost_swap_impl
 ~@namespace_t@mpl_@::mpl_
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
-~@namespace_t@boost_swap_impl@::boost_swap_impl
+~@namespace_t@boost_concepts@::boost_concepts
 ~@namespace_t@OSG@::OSG
 ~@class_declaration_t@_IO_FILE_plus@::_IO_FILE_plus
 ~@class_declaration_t@obstack@::obstack
@@ -1799,7 +1799,7 @@
 ~@variable_t@_ZTIN3OSG15DistanceLODBaseE@::_ZTIN3OSG15DistanceLODBaseE
 ~@variable_t@_ZTISd@::_ZTISd
 ~@variable_t@_ZTIN3OSG6WindowE@::_ZTIN3OSG6WindowE
-~@variable_t@_ZTIN3OSG15StatIntOnceElemE@::_ZTIN3OSG15StatIntOnceElemE
+~@variable_t@_ZTIN3OSG10ActionBaseE@::_ZTIN3OSG10ActionBaseE
 ~@variable_t@_ZTISi@::_ZTISi
 ~@variable_t@_ZTISo@::_ZTISo
 ~@variable_t@_ZTIN3OSG16EditSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE@::_ZTIN3OSG16EditSFieldHandleINS_6SFieldISt3mapImPNS_13PrimeMaterialESt4lessImESaISt4pairIKmS4_EEELi0EEEEE
@@ -1856,6 +1856,7 @@
 ~@variable_t@_ZTISt13basic_istreamIwSt11char_traitsIwEE@::_ZTISt13basic_istreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG21ShaderShadowMapEngineE@::_ZTIN3OSG21ShaderShadowMapEngineE
 ~@variable_t@_ZTIN3OSG20BaseThreadCommonBaseE@::_ZTIN3OSG20BaseThreadCommonBaseE
+~@variable_t@_ZTIN3OSG13TraversalDataE@::_ZTIN3OSG13TraversalDataE
 ~@variable_t@_ZTISt13basic_fstreamIcSt11char_traitsIcEE@::_ZTISt13basic_fstreamIcSt11char_traitsIcEE
 ~@variable_t@_ZTIN3OSG11TexGenChunkE@::_ZTIN3OSG11TexGenChunkE
 ~@variable_t@_ZTISt8messagesIwE@::_ZTISt8messagesIwE
@@ -2022,6 +2023,7 @@
 ~@variable_t@_ZTISt15numpunct_bynameIcE@::_ZTISt15numpunct_bynameIcE
 ~@variable_t@opterr@::opterr
 ~@variable_t@_ZTISt14codecvt_bynameIcc11__mbstate_tE@::_ZTISt14codecvt_bynameIcc11__mbstate_tE
+~@variable_t@_ZTISt13runtime_error@::_ZTISt13runtime_error
 ~@variable_t@_ZTIN3OSG12StatTimeElemE@::_ZTIN3OSG12StatTimeElemE
 ~@variable_t@_ZTIN3OSG18ShaderProcVariableE@::_ZTIN3OSG18ShaderProcVariableE
 ~@variable_t@_ZTIN3OSG8DrawTaskE@::_ZTIN3OSG8DrawTaskE
@@ -2106,7 +2108,7 @@
 ~@variable_t@_ZTISt7num_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTIN3OSG20InverseTransformBaseE@::_ZTIN3OSG20InverseTransformBaseE
 ~@variable_t@_ZTIN3OSG9TransformE@::_ZTIN3OSG9TransformE
-~@variable_t@_ZTIN3OSG10ActionBaseE@::_ZTIN3OSG10ActionBaseE
+~@variable_t@_ZTIN3OSG15StatIntOnceElemE@::_ZTIN3OSG15StatIntOnceElemE
 ~@variable_t@_ZTIN3OSG8ViewareaE@::_ZTIN3OSG8ViewareaE
 ~@variable_t@_ZTIN3OSG12ViewportBaseE@::_ZTIN3OSG12ViewportBaseE
 ~@variable_t@_ZTIN3OSG11LightEngineE@::_ZTIN3OSG11LightEngineE
@@ -2198,6 +2200,7 @@
 ~@variable_t@_ZTIN3OSG12NodeCoreBaseE@::_ZTIN3OSG12NodeCoreBaseE
 ~@variable_t@_ZTIN3OSG9NamedPoolImEE@::_ZTIN3OSG9NamedPoolImEE
 ~@variable_t@_ZTINSt6locale5facetE@::_ZTINSt6locale5facetE
+~@variable_t@_ZTIN3OSG25TraversalDataHandlerMixinINS_18ContainerMixinHeadINS_19ShadowMapEngineDescEEEEE@::_ZTIN3OSG25TraversalDataHandlerMixinINS_18ContainerMixinHeadINS_19ShadowMapEngineDescEEEEE
 ~@variable_t@_ZTIN3OSG22ComponentTransformBaseE@::_ZTIN3OSG22ComponentTransformBaseE
 ~@variable_t@_ZTIN3OSG21FactoryControllerBaseE@::_ZTIN3OSG21FactoryControllerBaseE
 ~@variable_t@_ZTIN3OSG12MPFieldStoreINS_9SemaphoreEEE@::_ZTIN3OSG12MPFieldStoreINS_9SemaphoreEEE
@@ -2205,10 +2208,11 @@
 ~@variable_t@_ZTISt10moneypunctIcLb1EE@::_ZTISt10moneypunctIcLb1EE
 ~@variable_t@_ZTISt8numpunctIcE@::_ZTISt8numpunctIcE
 ~@variable_t@_ZTIN3OSG8LockPoolE@::_ZTIN3OSG8LockPoolE
-~@variable_t@_ZTISt13runtime_error@::_ZTISt13runtime_error
+~@variable_t@_ZTIN3OSG25TraversalDataHandlerMixinINS_18ContainerMixinHeadINS_12DynStateDescEEEEE@::_ZTIN3OSG25TraversalDataHandlerMixinINS_18ContainerMixinHeadINS_12DynStateDescEEEEE
 ~@variable_t@_ZTIN3OSG17StageHandlerMixinINS_18ContainerMixinHeadINS_12DynStateDescEEEEE@::_ZTIN3OSG17StageHandlerMixinINS_18ContainerMixinHeadINS_12DynStateDescEEEEE
 ~@variable_t@_ZTIN3OSG15GetMFieldHandleINS_17PointerMFieldBaseEEE@::_ZTIN3OSG15GetMFieldHandleINS_17PointerMFieldBaseEEE
 ~@variable_t@_ZTIN5boost7numeric16bad_numeric_castE@::_ZTIN5boost7numeric16bad_numeric_castE
+~@variable_t@_ZTIN3OSG17TraversalDataBaseE@::_ZTIN3OSG17TraversalDataBaseE
 ~@variable_t@_ZTIN3OSG13AlgorithmBaseE@::_ZTIN3OSG13AlgorithmBaseE
 ~@variable_t@_ZTIN3OSG9RootGroupE@::_ZTIN3OSG9RootGroupE
 ~@variable_t@_ZTIN3OSG25DynamicStateGeneratorBaseE@::_ZTIN3OSG25DynamicStateGeneratorBaseE
@@ -2240,6 +2244,7 @@
 ~@variable_t@_ZTISt10moneypunctIwLb0EE@::_ZTISt10moneypunctIwLb0EE
 ~@variable_t@_ZTIN3OSG31LookAtTransformationElementBaseE@::_ZTIN3OSG31LookAtTransformationElementBaseE
 ~@variable_t@_ZTIN3OSG18FieldContainerTypeE@::_ZTIN3OSG18FieldContainerTypeE
+~@variable_t@_ZTIN3OSG25TraversalDataHandlerMixinINS_18ContainerMixinHeadINS_9StageDescEEEEE@::_ZTIN3OSG25TraversalDataHandlerMixinINS_18ContainerMixinHeadINS_9StageDescEEEEE
 ~@variable_t@_ZTIN3OSG17GroupingStageBaseE@::_ZTIN3OSG17GroupingStageBaseE
 ~@variable_t@_ZTISt9money_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt9money_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTIN3OSG34DynamicStateGeneratorStageDataBaseE@::_ZTIN3OSG34DynamicStateGeneratorStageDataBaseE

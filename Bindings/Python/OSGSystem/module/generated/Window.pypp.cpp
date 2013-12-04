@@ -580,12 +580,12 @@ void register_Window_class(){
         }
         { //::OSG::Window::validateGLObject
         
-            typedef ::OSG::UInt32 ( ::OSG::Window::*validateGLObject_function_type )( ::OSG::UInt32,::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            typedef ::OSG::UInt32 ( ::OSG::Window::*validateGLObject_function_type )( ::OSG::UInt32,::OSG::DrawEnv *,::OSG::UInt64 ) ;
             
             Window_exposer.def( 
                 "validateGLObject"
                 , validateGLObject_function_type( &::OSG::Window::validateGLObject )
-                , ( bp::arg("osgId"), bp::arg("pEnv"), bp::arg("uiOptions")=(::OSG::UInt32)(0) ) );
+                , ( bp::arg("osgId"), bp::arg("pEnv"), bp::arg("uiOptions")=(::OSG::UInt64)(0) ) );
         
         }
         Window_exposer.staticmethod( "getExtensionIdX" );

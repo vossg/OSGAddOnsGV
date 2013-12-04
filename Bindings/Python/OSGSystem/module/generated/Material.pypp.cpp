@@ -106,9 +106,9 @@ void register_Material_class(){
         bp::register_ptr_to_python< OSG::Material::ObjRecPtr >();
         bp::implicitly_convertible< OSG::Material::ObjRecPtr, OSG::Material* >();
         bp::implicitly_convertible< OSG::Material::ObjRecPtr, OSG::Material::ObjCPtr >();
-        bp::implicitly_convertible< OSG::Material::ObjRecPtr, OSG::AttachmentContainer* >();
-        bp::implicitly_convertible< OSG::Material::ObjRecPtr, OSG::AttachmentContainer::ObjRecPtr >();
-        bp::implicitly_convertible<OSG::Material::ObjRecPtr, OSG::AttachmentContainer::ObjCPtr>();
+        bp::implicitly_convertible< OSG::Material::ObjRecPtr, OSG::Attachment* >();
+        bp::implicitly_convertible< OSG::Material::ObjRecPtr, OSG::Attachment::ObjRecPtr >();
+        bp::implicitly_convertible<OSG::Material::ObjRecPtr, OSG::Attachment::ObjCPtr>();
     }
 
 }

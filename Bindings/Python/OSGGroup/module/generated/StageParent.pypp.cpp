@@ -103,7 +103,7 @@ struct StageHandlerMixin_less__OSG_scope_ContainerMixinHead_less__OSG_scope_Stag
 void register_StageParent_class(){
 
     { //::OSG::StageHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > >
-        typedef bp::class_< StageHandlerMixin_less__OSG_scope_ContainerMixinHead_less__OSG_scope_StageDesc__greater___greater__wrapper, bp::bases< OSG::TraversalValidationHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > > >, boost::noncopyable > StageParent_exposer_t;
+        typedef bp::class_< StageHandlerMixin_less__OSG_scope_ContainerMixinHead_less__OSG_scope_StageDesc__greater___greater__wrapper, boost::noncopyable > StageParent_exposer_t;
         StageParent_exposer_t StageParent_exposer = StageParent_exposer_t( "StageParent", bp::no_init );
         bp::scope StageParent_scope( StageParent_exposer );
         bp::enum_< OSG::StageHandlerMixin<OSG::ContainerMixinHead<OSG::StageDesc> >::GroupMode>("GroupMode")
@@ -202,17 +202,6 @@ void register_StageParent_class(){
                 "pushPartition"
                 , pushPartition_function_type( &::OSG::StageHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > >::pushPartition )
                 , ( bp::arg("pAction"), bp::arg("uiCopyOnPush")=(::OSG::UInt32)(0), bp::arg("eMode")=OSG::RenderPartitionBase::StateSorting ) );
-        
-        }
-        { //::OSG::StageHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > >::setData
-        
-            typedef OSG::StageHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > > exported_class_t;
-            typedef void ( exported_class_t::*setData_function_type )( ::OSG::StageData *,::OSG::Int32,::OSG::RenderActionBase * ) ;
-            
-            StageParent_exposer.def( 
-                "setData"
-                , setData_function_type( &::OSG::StageHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > >::setData )
-                , ( bp::arg("pData"), bp::arg("iDataSlotId"), bp::arg("pAction") ) );
         
         }
         { //::OSG::StageHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > >::validateOnEnter

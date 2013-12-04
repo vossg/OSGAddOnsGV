@@ -46,6 +46,7 @@ void register_DrawableStatsAttachmentBase_class(){
         bp::scope().attr("PointsFieldId") = (int)OSG::DrawableStatsAttachmentBase::PointsFieldId;
         bp::scope().attr("LinesFieldId") = (int)OSG::DrawableStatsAttachmentBase::LinesFieldId;
         bp::scope().attr("TrianglesFieldId") = (int)OSG::DrawableStatsAttachmentBase::TrianglesFieldId;
+        bp::scope().attr("PatchesFieldId") = (int)OSG::DrawableStatsAttachmentBase::PatchesFieldId;
         bp::scope().attr("ProcessedAttributeBytesFieldId") = (int)OSG::DrawableStatsAttachmentBase::ProcessedAttributeBytesFieldId;
         bp::scope().attr("StoredAttributeBytesFieldId") = (int)OSG::DrawableStatsAttachmentBase::StoredAttributeBytesFieldId;
         bp::scope().attr("ValidFieldId") = (int)OSG::DrawableStatsAttachmentBase::ValidFieldId;
@@ -155,6 +156,15 @@ void register_DrawableStatsAttachmentBase_class(){
                 , getLines_function_type( &::OSG::DrawableStatsAttachmentBase::getLines ) );
         
         }
+        { //::OSG::DrawableStatsAttachmentBase::getPatches
+        
+            typedef ::OSG::UInt32 ( ::OSG::DrawableStatsAttachmentBase::*getPatches_function_type )(  ) const;
+            
+            DrawableStatsAttachmentBase_exposer.def( 
+                "getPatches"
+                , getPatches_function_type( &::OSG::DrawableStatsAttachmentBase::getPatches ) );
+        
+        }
         { //::OSG::DrawableStatsAttachmentBase::getPoints
         
             typedef ::OSG::UInt32 ( ::OSG::DrawableStatsAttachmentBase::*getPoints_function_type )(  ) const;
@@ -180,6 +190,16 @@ void register_DrawableStatsAttachmentBase_class(){
             DrawableStatsAttachmentBase_exposer.def( 
                 "getSFLines"
                 , getSFLines_function_type( &::OSG::DrawableStatsAttachmentBase::getSFLines )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::DrawableStatsAttachmentBase::getSFPatches
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::DrawableStatsAttachmentBase::*getSFPatches_function_type )(  ) const;
+            
+            DrawableStatsAttachmentBase_exposer.def( 
+                "getSFPatches"
+                , getSFPatches_function_type( &::OSG::DrawableStatsAttachmentBase::getSFPatches )
                 , bp::return_internal_reference< >() );
         
         }
@@ -306,6 +326,16 @@ void register_DrawableStatsAttachmentBase_class(){
             DrawableStatsAttachmentBase_exposer.def( 
                 "setLines"
                 , setLines_function_type( &::OSG::DrawableStatsAttachmentBase::setLines )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::DrawableStatsAttachmentBase::setPatches
+        
+            typedef void ( ::OSG::DrawableStatsAttachmentBase::*setPatches_function_type )( ::OSG::UInt32 const ) ;
+            
+            DrawableStatsAttachmentBase_exposer.def( 
+                "setPatches"
+                , setPatches_function_type( &::OSG::DrawableStatsAttachmentBase::setPatches )
                 , ( bp::arg("value") ) );
         
         }

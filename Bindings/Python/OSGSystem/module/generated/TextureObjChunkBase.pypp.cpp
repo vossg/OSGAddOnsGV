@@ -36,10 +36,16 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct TextureObjChunkBase_wrapper : OSG::TextureObjChunkBase, bp::wrapper< OSG::TextureObjChunkBase > {
+
+
+
+};
+
 void register_TextureObjChunkBase_class(){
 
     { //::OSG::TextureObjChunkBase
-        typedef bp::class_< OSG::TextureObjChunkBase, bp::bases< OSG::TextureBaseChunk >, boost::noncopyable > TextureObjChunkBase_exposer_t;
+        typedef bp::class_< TextureObjChunkBase_wrapper, bp::bases< OSG::TextureBaseChunk >, boost::noncopyable > TextureObjChunkBase_exposer_t;
         TextureObjChunkBase_exposer_t TextureObjChunkBase_exposer = TextureObjChunkBase_exposer_t( "TextureObjChunkBase", bp::no_init );
         bp::scope TextureObjChunkBase_scope( TextureObjChunkBase_exposer );
         bp::scope().attr("ImageFieldId") = (int)OSG::TextureObjChunkBase::ImageFieldId;
@@ -950,6 +956,35 @@ void register_TextureObjChunkBase_class(){
                 "setWrapT"
                 , setWrapT_function_type( &::OSG::TextureObjChunkBase::setWrapT )
                 , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::TextureBaseChunk::determineInternalFormat
+        
+            typedef ::GLenum ( ::OSG::TextureBaseChunk::*determineInternalFormat_function_type )(  ) ;
+            
+            TextureObjChunkBase_exposer.def( 
+                "determineInternalFormat"
+                , determineInternalFormat_function_type( &::OSG::TextureBaseChunk::determineInternalFormat ) );
+        
+        }
+        { //::OSG::TextureBaseChunk::getOpenGLId
+        
+            typedef ::OSG::Int32 ( ::OSG::TextureBaseChunk::*getOpenGLId_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureObjChunkBase_exposer.def( 
+                "getOpenGLId"
+                , getOpenGLId_function_type( &::OSG::TextureBaseChunk::getOpenGLId )
+                , ( bp::arg("pEnv") ) );
+        
+        }
+        { //::OSG::TextureBaseChunk::validate
+        
+            typedef void ( ::OSG::TextureBaseChunk::*validate_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureObjChunkBase_exposer.def( 
+                "validate"
+                , validate_function_type( &::OSG::TextureBaseChunk::validate )
+                , ( bp::arg("pEnv") ) );
         
         }
         TextureObjChunkBase_exposer.staticmethod( "create" );

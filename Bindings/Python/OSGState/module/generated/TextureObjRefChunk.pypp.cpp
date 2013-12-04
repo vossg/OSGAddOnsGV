@@ -52,6 +52,15 @@ void register_TextureObjRefChunk_class(){
                 , ( bp::arg("whichField"), bp::arg("origin"), bp::arg("details") ) );
         
         }
+        { //::OSG::TextureObjRefChunk::determineInternalFormat
+        
+            typedef ::GLenum ( ::OSG::TextureObjRefChunk::*determineInternalFormat_function_type )(  ) ;
+            
+            TextureObjRefChunk_exposer.def( 
+                "determineInternalFormat"
+                , determineInternalFormat_function_type( &::OSG::TextureObjRefChunk::determineInternalFormat ) );
+        
+        }
         { //::OSG::TextureObjRefChunk::dump
         
             typedef void ( ::OSG::TextureObjRefChunk::*dump_function_type )( ::OSG::UInt32,long unsigned int const ) const;
@@ -60,6 +69,16 @@ void register_TextureObjRefChunk_class(){
                 "dump"
                 , dump_function_type( &::OSG::TextureObjRefChunk::dump )
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
+        
+        }
+        { //::OSG::TextureObjRefChunk::getOpenGLId
+        
+            typedef ::OSG::Int32 ( ::OSG::TextureObjRefChunk::*getOpenGLId_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureObjRefChunk_exposer.def( 
+                "getOpenGLId"
+                , getOpenGLId_function_type( &::OSG::TextureObjRefChunk::getOpenGLId )
+                , ( bp::arg("pEnv") ) );
         
         }
         { //::OSG::TextureObjRefChunk::isTransparent
@@ -79,6 +98,16 @@ void register_TextureObjRefChunk_class(){
                 "switchCost"
                 , switchCost_function_type( &::OSG::TextureObjRefChunk::switchCost )
                 , ( bp::arg("chunk") ) );
+        
+        }
+        { //::OSG::TextureObjRefChunk::validate
+        
+            typedef void ( ::OSG::TextureObjRefChunk::*validate_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureObjRefChunk_exposer.def( 
+                "validate"
+                , validate_function_type( &::OSG::TextureObjRefChunk::validate )
+                , ( bp::arg("pEnv") ) );
         
         }
         pyopensg::register_transit< OSG::TextureObjRefChunk >::execute();

@@ -52,6 +52,15 @@ void register_TextureSelectChunk_class(){
                 , ( bp::arg("whichField"), bp::arg("origin"), bp::arg("details") ) );
         
         }
+        { //::OSG::TextureSelectChunk::determineInternalFormat
+        
+            typedef ::GLenum ( ::OSG::TextureSelectChunk::*determineInternalFormat_function_type )(  ) ;
+            
+            TextureSelectChunk_exposer.def( 
+                "determineInternalFormat"
+                , determineInternalFormat_function_type( &::OSG::TextureSelectChunk::determineInternalFormat ) );
+        
+        }
         { //::OSG::TextureSelectChunk::dump
         
             typedef void ( ::OSG::TextureSelectChunk::*dump_function_type )( ::OSG::UInt32,long unsigned int const ) const;
@@ -60,6 +69,16 @@ void register_TextureSelectChunk_class(){
                 "dump"
                 , dump_function_type( &::OSG::TextureSelectChunk::dump )
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
+        
+        }
+        { //::OSG::TextureSelectChunk::getOpenGLId
+        
+            typedef ::OSG::Int32 ( ::OSG::TextureSelectChunk::*getOpenGLId_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureSelectChunk_exposer.def( 
+                "getOpenGLId"
+                , getOpenGLId_function_type( &::OSG::TextureSelectChunk::getOpenGLId )
+                , ( bp::arg("pEnv") ) );
         
         }
         { //::OSG::TextureSelectChunk::isTransparent
@@ -79,6 +98,16 @@ void register_TextureSelectChunk_class(){
                 "switchCost"
                 , switchCost_function_type( &::OSG::TextureSelectChunk::switchCost )
                 , ( bp::arg("chunk") ) );
+        
+        }
+        { //::OSG::TextureSelectChunk::validate
+        
+            typedef void ( ::OSG::TextureSelectChunk::*validate_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureSelectChunk_exposer.def( 
+                "validate"
+                , validate_function_type( &::OSG::TextureSelectChunk::validate )
+                , ( bp::arg("pEnv") ) );
         
         }
         pyopensg::register_transit< OSG::TextureSelectChunk >::execute();

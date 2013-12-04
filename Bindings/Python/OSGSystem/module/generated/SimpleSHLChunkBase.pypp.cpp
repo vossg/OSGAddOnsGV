@@ -43,6 +43,8 @@ void register_SimpleSHLChunkBase_class(){
         SimpleSHLChunkBase_exposer_t SimpleSHLChunkBase_exposer = SimpleSHLChunkBase_exposer_t( "SimpleSHLChunkBase", bp::no_init );
         bp::scope SimpleSHLChunkBase_scope( SimpleSHLChunkBase_exposer );
         bp::scope().attr("VertexProgramFieldId") = (int)OSG::SimpleSHLChunkBase::VertexProgramFieldId;
+        bp::scope().attr("TessControlProgramFieldId") = (int)OSG::SimpleSHLChunkBase::TessControlProgramFieldId;
+        bp::scope().attr("TessEvaluationProgramFieldId") = (int)OSG::SimpleSHLChunkBase::TessEvaluationProgramFieldId;
         bp::scope().attr("GeometryProgramFieldId") = (int)OSG::SimpleSHLChunkBase::GeometryProgramFieldId;
         bp::scope().attr("FragmentProgramFieldId") = (int)OSG::SimpleSHLChunkBase::FragmentProgramFieldId;
         bp::scope().attr("CgFrontEndFieldId") = (int)OSG::SimpleSHLChunkBase::CgFrontEndFieldId;
@@ -245,6 +247,26 @@ void register_SimpleSHLChunkBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::SimpleSHLChunkBase::getSFTessControlProgram
+        
+            typedef ::OSG::SFString const * ( ::OSG::SimpleSHLChunkBase::*getSFTessControlProgram_function_type )(  ) const;
+            
+            SimpleSHLChunkBase_exposer.def( 
+                "getSFTessControlProgram"
+                , getSFTessControlProgram_function_type( &::OSG::SimpleSHLChunkBase::getSFTessControlProgram )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::SimpleSHLChunkBase::getSFTessEvaluationProgram
+        
+            typedef ::OSG::SFString const * ( ::OSG::SimpleSHLChunkBase::*getSFTessEvaluationProgram_function_type )(  ) const;
+            
+            SimpleSHLChunkBase_exposer.def( 
+                "getSFTessEvaluationProgram"
+                , getSFTessEvaluationProgram_function_type( &::OSG::SimpleSHLChunkBase::getSFTessEvaluationProgram )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::SimpleSHLChunkBase::getSFVariables
         
             typedef ::OSG::SFUnrecChildShaderProgramVariablesPtr const * ( ::OSG::SimpleSHLChunkBase::*getSFVariables_function_type )(  ) const;
@@ -263,6 +285,26 @@ void register_SimpleSHLChunkBase_class(){
                 "getSFVertexProgram"
                 , getSFVertexProgram_function_type( &::OSG::SimpleSHLChunkBase::getSFVertexProgram )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::SimpleSHLChunkBase::getTessControlProgram
+        
+            typedef ::std::string const & ( ::OSG::SimpleSHLChunkBase::*getTessControlProgram_function_type )(  ) const;
+            
+            SimpleSHLChunkBase_exposer.def( 
+                "getTessControlProgram"
+                , getTessControlProgram_function_type( &::OSG::SimpleSHLChunkBase::getTessControlProgram )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::OSG::SimpleSHLChunkBase::getTessEvaluationProgram
+        
+            typedef ::std::string const & ( ::OSG::SimpleSHLChunkBase::*getTessEvaluationProgram_function_type )(  ) const;
+            
+            SimpleSHLChunkBase_exposer.def( 
+                "getTessEvaluationProgram"
+                , getTessEvaluationProgram_function_type( &::OSG::SimpleSHLChunkBase::getTessEvaluationProgram )
+                , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
         { //::OSG::SimpleSHLChunkBase::getType
@@ -352,6 +394,26 @@ void register_SimpleSHLChunkBase_class(){
             SimpleSHLChunkBase_exposer.def( 
                 "setPointSize"
                 , setPointSize_function_type( &::OSG::SimpleSHLChunkBase::setPointSize )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::SimpleSHLChunkBase::setTessControlProgram
+        
+            typedef void ( ::OSG::SimpleSHLChunkBase::*setTessControlProgram_function_type )( ::std::string const & ) ;
+            
+            SimpleSHLChunkBase_exposer.def( 
+                "setTessControlProgram"
+                , setTessControlProgram_function_type( &::OSG::SimpleSHLChunkBase::setTessControlProgram )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::SimpleSHLChunkBase::setTessEvaluationProgram
+        
+            typedef void ( ::OSG::SimpleSHLChunkBase::*setTessEvaluationProgram_function_type )( ::std::string const & ) ;
+            
+            SimpleSHLChunkBase_exposer.def( 
+                "setTessEvaluationProgram"
+                , setTessEvaluationProgram_function_type( &::OSG::SimpleSHLChunkBase::setTessEvaluationProgram )
                 , ( bp::arg("value") ) );
         
         }

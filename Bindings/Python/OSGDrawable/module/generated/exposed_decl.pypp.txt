@@ -107,6 +107,7 @@
 ~@typedef_t@PFNGLNAMEDFRAMEBUFFERTEXTURE3DEXTPROC@::PFNGLNAMEDFRAMEBUFFERTEXTURE3DEXTPROC
 ~@typedef_t@PFNGLFINISHASYNCSGIXPROC@::PFNGLFINISHASYNCSGIXPROC
 ~@typedef_t@PFNGLCONVOLUTIONPARAMETERFPROC@::PFNGLCONVOLUTIONPARAMETERFPROC
+~@typedef_t@PFNGLVDPAUMAPSURFACESNVPROC@::PFNGLVDPAUMAPSURFACESNVPROC
 ~@typedef_t@off_t@::off_t
 ~@typedef_t@PFNGLBINDBUFFERRANGEEXTPROC@::PFNGLBINDBUFFERRANGEEXTPROC
 ~@typedef_t@PFNGLTEXSUBIMAGE1DEXTPROC@::PFNGLTEXSUBIMAGE1DEXTPROC
@@ -1403,7 +1404,6 @@
 ~@typedef_t@PFNGLTEXCOORD2FCOLOR4FNORMAL3FVERTEX3FSUNPROC@::PFNGLTEXCOORD2FCOLOR4FNORMAL3FVERTEX3FSUNPROC
 ~@typedef_t@PFNGLTEXTUREBUFFEREXTPROC@::PFNGLTEXTUREBUFFEREXTPROC
 ~@typedef_t@PFNGLTEXTUREPARAMETERIIVEXTPROC@::PFNGLTEXTUREPARAMETERIIVEXTPROC
-~@typedef_t@PFNGLGETSHADERINFOLOGPROC@::PFNGLGETSHADERINFOLOGPROC
 ~@typedef_t@PFNGLCOMPRESSEDTEXIMAGE3DPROC@::PFNGLCOMPRESSEDTEXIMAGE3DPROC
 ~@typedef_t@PFNGLBUFFERSUBDATAARBPROC@::PFNGLBUFFERSUBDATAARBPROC
 ~@typedef_t@PFNGLVERTEXATTRIB4NUBVARBPROC@::PFNGLVERTEXATTRIB4NUBVARBPROC
@@ -1431,7 +1431,7 @@
 ~@typedef_t@PFNGLINDEXPOINTEREXTPROC@::PFNGLINDEXPOINTEREXTPROC
 ~@typedef_t@PFNGLMULTITEXCOORD4HVNVPROC@::PFNGLMULTITEXCOORD4HVNVPROC
 ~@typedef_t@PFNGLCOPYTEXTUREIMAGE1DEXTPROC@::PFNGLCOPYTEXTUREIMAGE1DEXTPROC
-~@typedef_t@PFNGLVDPAUMAPSURFACESNVPROC@::PFNGLVDPAUMAPSURFACESNVPROC
+~@typedef_t@PFNGLGETSHADERINFOLOGPROC@::PFNGLGETSHADERINFOLOGPROC
 ~@typedef_t@PFNGLCOLOR4UBVERTEX2FSUNPROC@::PFNGLCOLOR4UBVERTEX2FSUNPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI2IPROC@::PFNGLVERTEXATTRIBI2IPROC
 ~@typedef_t@PFNGLGETMINMAXPARAMETERIVPROC@::PFNGLGETMINMAXPARAMETERIVPROC
@@ -1868,6 +1868,7 @@
 ~@variable_t@_ZTIN3OSG22TypedGeoVectorPropertyINS_22GeoColor4fPropertyDescEEE@::_ZTIN3OSG22TypedGeoVectorPropertyINS_22GeoColor4fPropertyDescEEE
 ~@variable_t@_ZTISt13basic_istreamIwSt11char_traitsIwEE@::_ZTISt13basic_istreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG20BaseThreadCommonBaseE@::_ZTIN3OSG20BaseThreadCommonBaseE
+~@variable_t@_ZTIN3OSG13TraversalDataE@::_ZTIN3OSG13TraversalDataE
 ~@variable_t@_ZTISt13basic_fstreamIcSt11char_traitsIcEE@::_ZTISt13basic_fstreamIcSt11char_traitsIcEE
 ~@variable_t@_ZTIN3OSG11TexGenChunkE@::_ZTIN3OSG11TexGenChunkE
 ~@variable_t@_ZTISt8messagesIwE@::_ZTISt8messagesIwE
@@ -2064,6 +2065,7 @@
 ~@variable_t@_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@_ZTIN3OSG14FieldContainerE@::_ZTIN3OSG14FieldContainerE
 ~@variable_t@_ZTIN3OSG30KDTreeIntersectProxyAttachmentE@::_ZTIN3OSG30KDTreeIntersectProxyAttachmentE
+~@variable_t@_ZTIN3OSG25TraversalDataHandlerMixinINS_18ContainerMixinHeadINS_17StageDrawableDescEEEEE@::_ZTIN3OSG25TraversalDataHandlerMixinINS_18ContainerMixinHeadINS_17StageDrawableDescEEEEE
 ~@variable_t@sys_nerr@::sys_nerr
 ~@variable_t@_ZTIN3OSG13ChunkMaterialE@::_ZTIN3OSG13ChunkMaterialE
 ~@variable_t@_ZTISt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE
@@ -2071,6 +2073,7 @@
 ~@variable_t@_ZTISt12out_of_range@::_ZTISt12out_of_range
 ~@variable_t@_ZTIN5boost6system14error_categoryE@::_ZTIN5boost6system14error_categoryE
 ~@variable_t@_ZTIN3OSG15PThreadLockBaseE@::_ZTIN3OSG15PThreadLockBaseE
+~@variable_t@_ZTIN3OSG10AttachmentE@::_ZTIN3OSG10AttachmentE
 ~@variable_t@_ZTISt17__timepunct_cacheIcE@::_ZTISt17__timepunct_cacheIcE
 ~@variable_t@_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTISt8time_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE
@@ -2111,6 +2114,7 @@
 ~@variable_t@__timezone@::__timezone
 ~@variable_t@_ZTIN5boost6detail15sp_counted_baseE@::_ZTIN5boost6detail15sp_counted_baseE
 ~@variable_t@_ZTISt17moneypunct_bynameIcLb1EE@::_ZTISt17moneypunct_bynameIcLb1EE
+~@variable_t@_ZTIN3OSG12GeoInstancerE@::_ZTIN3OSG12GeoInstancerE
 ~@variable_t@_ZTIN3OSG25ShaderAttrIndexMapperBaseE@::_ZTIN3OSG25ShaderAttrIndexMapperBaseE
 ~@variable_t@_ZTISt21__ctype_abstract_baseIwE@::_ZTISt21__ctype_abstract_baseIwE
 ~@variable_t@_ZTIN3OSG13DataSlotMixinINS_18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEEEE@::_ZTIN3OSG13DataSlotMixinINS_18ContainerMixinHeadINS_27HardwareContextDataSlotDescEEEEE
@@ -2175,6 +2179,7 @@
 ~@variable_t@_ZTIN3OSG19GeoIntegralPropertyE@::_ZTIN3OSG19GeoIntegralPropertyE
 ~@variable_t@_ZTIN3OSG15GetMFieldHandleINS_17PointerMFieldBaseEEE@::_ZTIN3OSG15GetMFieldHandleINS_17PointerMFieldBaseEEE
 ~@variable_t@_ZTIN5boost7numeric16bad_numeric_castE@::_ZTIN5boost7numeric16bad_numeric_castE
+~@variable_t@_ZTIN3OSG17TraversalDataBaseE@::_ZTIN3OSG17TraversalDataBaseE
 ~@variable_t@_ZTIN3OSG15QuadTreeTerrainE@::_ZTIN3OSG15QuadTreeTerrainE
 ~@variable_t@_ZTINSt8ios_base7failureE@::_ZTINSt8ios_base7failureE
 ~@variable_t@_ZTIN3OSG21ShaderExecutableChunkE@::_ZTIN3OSG21ShaderExecutableChunkE
@@ -2183,7 +2188,7 @@
 ~@variable_t@_ZTIN3OSG25FieldConnectorFactoryBaseE@::_ZTIN3OSG25FieldConnectorFactoryBaseE
 ~@variable_t@_ZTIN5boost7numeric17negative_overflowE@::_ZTIN5boost7numeric17negative_overflowE
 ~@variable_t@_IO_2_1_stderr_@::_IO_2_1_stderr_
-~@variable_t@_ZTIN3OSG10AttachmentE@::_ZTIN3OSG10AttachmentE
+~@variable_t@_ZTIN3OSG16GeoInstancerBaseE@::_ZTIN3OSG16GeoInstancerBaseE
 ~@variable_t@_ZTIN5boost3any11placeholderE@::_ZTIN5boost3any11placeholderE
 ~@variable_t@_ZTISt9money_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt9money_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@_ZTIN3OSG11FieldHandleE@::_ZTIN3OSG11FieldHandleE

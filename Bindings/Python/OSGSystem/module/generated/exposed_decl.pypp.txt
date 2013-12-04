@@ -1854,8 +1854,8 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
+~@namespace_t@@::
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -1972,6 +1972,7 @@
 ~@variable_t@_ZTISt13basic_istreamIwSt11char_traitsIwEE@::_ZTISt13basic_istreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG20BaseThreadCommonBaseE@::_ZTIN3OSG20BaseThreadCommonBaseE
 ~@variable_t@PyUnicode_Type@::PyUnicode_Type
+~@variable_t@_ZTIN3OSG13TraversalDataE@::_ZTIN3OSG13TraversalDataE
 ~@variable_t@PyExc_UnicodeEncodeError@::PyExc_UnicodeEncodeError
 ~@variable_t@_ZTISt13basic_fstreamIcSt11char_traitsIcEE@::_ZTISt13basic_fstreamIcSt11char_traitsIcEE
 ~@variable_t@_ZTISt8messagesIwE@::_ZTISt8messagesIwE
@@ -2145,7 +2146,7 @@
 ~@variable_t@_ZTIN3OSG9BoxVolumeE@::_ZTIN3OSG9BoxVolumeE
 ~@variable_t@_ZTIN3OSG17GeoVectorPropertyE@::_ZTIN3OSG17GeoVectorPropertyE
 ~@variable_t@_ZTIN3OSG24LayeredTextureBufferBaseE@::_ZTIN3OSG24LayeredTextureBufferBaseE
-~@variable_t@PyExc_AssertionError@::PyExc_AssertionError
+~@variable_t@_ZTIN3OSG18ShaderProgramChunkE@::_ZTIN3OSG18ShaderProgramChunkE
 ~@variable_t@PyExc_GeneratorExit@::PyExc_GeneratorExit
 ~@variable_t@_ZTIN3OSG14SimpleMaterialE@::_ZTIN3OSG14SimpleMaterialE
 ~@variable_t@_ZTISt10moneypunctIcLb1EE@::_ZTISt10moneypunctIcLb1EE
@@ -2188,7 +2189,7 @@
 ~@variable_t@_ZTIN3OSG13DataSlotMixinINS_9MixinHeadINS_18RenderDataSlotDescEEEEE@::_ZTIN3OSG13DataSlotMixinINS_9MixinHeadINS_18RenderDataSlotDescEEEEE
 ~@variable_t@_ZTIN3OSG25FrameBufferAttachmentBaseE@::_ZTIN3OSG25FrameBufferAttachmentBaseE
 ~@variable_t@PyGetSetDescr_Type@::PyGetSetDescr_Type
-~@variable_t@_ZTIN3OSG18ShaderProgramChunkE@::_ZTIN3OSG18ShaderProgramChunkE
+~@variable_t@PyExc_AssertionError@::PyExc_AssertionError
 ~@variable_t@_ZTIN3OSG21ShaderVariableMMatrixE@::_ZTIN3OSG21ShaderVariableMMatrixE
 ~@variable_t@_ZTIN3OSG23DrawableStatsAttachmentE@::_ZTIN3OSG23DrawableStatsAttachmentE
 ~@variable_t@_ZTIN3OSG13FrustumVolumeE@::_ZTIN3OSG13FrustumVolumeE
@@ -2475,6 +2476,7 @@
 ~@variable_t@PyCallIter_Type@::PyCallIter_Type
 ~@variable_t@_ZTIN5boost7numeric16bad_numeric_castE@::_ZTIN5boost7numeric16bad_numeric_castE
 ~@variable_t@PyExc_UserWarning@::PyExc_UserWarning
+~@variable_t@_ZTIN3OSG17TraversalDataBaseE@::_ZTIN3OSG17TraversalDataBaseE
 ~@variable_t@_ZTIN3OSG9RootGroupE@::_ZTIN3OSG9RootGroupE
 ~@variable_t@_ZTIN5boost6python15instance_holderE@::_ZTIN5boost6python15instance_holderE
 ~@variable_t@_ZTIN3OSG21ShaderExecutableChunkE@::_ZTIN3OSG21ShaderExecutableChunkE

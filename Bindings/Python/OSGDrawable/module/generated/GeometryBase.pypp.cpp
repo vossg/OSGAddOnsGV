@@ -79,6 +79,7 @@ void register_GeometryBase_class(){
         bp::scope().attr("LengthsFieldId") = (int)OSG::GeometryBase::LengthsFieldId;
         bp::scope().attr("PropertiesFieldId") = (int)OSG::GeometryBase::PropertiesFieldId;
         bp::scope().attr("PropIndicesFieldId") = (int)OSG::GeometryBase::PropIndicesFieldId;
+        bp::scope().attr("PatchVerticesFieldId") = (int)OSG::GeometryBase::PatchVerticesFieldId;
         bp::scope().attr("DlistCacheFieldId") = (int)OSG::GeometryBase::DlistCacheFieldId;
         bp::scope().attr("UseVAOFieldId") = (int)OSG::GeometryBase::UseVAOFieldId;
         bp::scope().attr("UseAttribCallsFieldId") = (int)OSG::GeometryBase::UseAttribCallsFieldId;
@@ -239,6 +240,15 @@ void register_GeometryBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::GeometryBase::getPatchVertices
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeometryBase::*getPatchVertices_function_type )(  ) const;
+            
+            GeometryBase_exposer.def( 
+                "getPatchVertices"
+                , getPatchVertices_function_type( &::OSG::GeometryBase::getPatchVertices ) );
+        
+        }
         { //::OSG::GeometryBase::getPropIndices
         
             typedef ::OSG::GeoIntegralProperty * ( ::OSG::GeometryBase::*getPropIndices_function_type )( ::OSG::UInt32 const ) const;
@@ -278,6 +288,16 @@ void register_GeometryBase_class(){
             GeometryBase_exposer.def( 
                 "getSFLengths"
                 , getSFLengths_function_type( &::OSG::GeometryBase::getSFLengths )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::GeometryBase::getSFPatchVertices
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::GeometryBase::*getSFPatchVertices_function_type )(  ) const;
+            
+            GeometryBase_exposer.def( 
+                "getSFPatchVertices"
+                , getSFPatchVertices_function_type( &::OSG::GeometryBase::getSFPatchVertices )
                 , bp::return_internal_reference< >() );
         
         }
@@ -436,6 +456,16 @@ void register_GeometryBase_class(){
             GeometryBase_exposer.def( 
                 "setLengths"
                 , setLengths_function_type( &::OSG::GeometryBase::setLengths )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::GeometryBase::setPatchVertices
+        
+            typedef void ( ::OSG::GeometryBase::*setPatchVertices_function_type )( ::OSG::UInt32 const ) ;
+            
+            GeometryBase_exposer.def( 
+                "setPatchVertices"
+                , setPatchVertices_function_type( &::OSG::GeometryBase::setPatchVertices )
                 , ( bp::arg("value") ) );
         
         }

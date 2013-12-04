@@ -1130,7 +1130,7 @@
 ~@typedef_t@PFNGLGETVARIANTPOINTERVEXTPROC@::PFNGLGETVARIANTPOINTERVEXTPROC
 ~@typedef_t@PFNGLGETNAMEDBUFFERSUBDATAEXTPROC@::PFNGLGETNAMEDBUFFERSUBDATAEXTPROC
 ~@typedef_t@PFNGLBINDBUFFEROFFSETEXTPROC@::PFNGLBINDBUFFEROFFSETEXTPROC
-~@typedef_t@PFNGLGETNAMEDBUFFERPARAMETERUI64VNVPROC@::PFNGLGETNAMEDBUFFERPARAMETERUI64VNVPROC
+~@typedef_t@PFNGLCOMPRESSEDMULTITEXIMAGE3DEXTPROC@::PFNGLCOMPRESSEDMULTITEXIMAGE3DEXTPROC
 ~@typedef_t@__loff_t@::__loff_t
 ~@typedef_t@PFNGLGETPROGRAMIVPROC@::PFNGLGETPROGRAMIVPROC
 ~@typedef_t@PFNGLMULTITEXCOORD3SVARBPROC@::PFNGLMULTITEXCOORD3SVARBPROC
@@ -1398,7 +1398,7 @@
 ~@typedef_t@PFNGLRESIZEBUFFERSMESAPROC@::PFNGLRESIZEBUFFERSMESAPROC
 ~@typedef_t@PFNGLGETSHADERSOURCEPROC@::PFNGLGETSHADERSOURCEPROC
 ~@typedef_t@fsfilcnt64_t@::fsfilcnt64_t
-~@typedef_t@PFNGLCOMPRESSEDMULTITEXIMAGE3DEXTPROC@::PFNGLCOMPRESSEDMULTITEXIMAGE3DEXTPROC
+~@typedef_t@PFNGLGETNAMEDBUFFERPARAMETERUI64VNVPROC@::PFNGLGETNAMEDBUFFERPARAMETERUI64VNVPROC
 ~@typedef_t@PFNGLCOMPRESSEDTEXTURESUBIMAGE1DEXTPROC@::PFNGLCOMPRESSEDTEXTURESUBIMAGE1DEXTPROC
 ~@typedef_t@int_least64_t@::int_least64_t
 ~@typedef_t@PFNGLFOGCOORDFVEXTPROC@::PFNGLFOGCOORDFVEXTPROC
@@ -1767,8 +1767,8 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
+~@namespace_t@@::
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -2026,7 +2026,7 @@
 ~@variable_t@_ZTIN5boost6system14error_categoryE@::_ZTIN5boost6system14error_categoryE
 ~@variable_t@_ZTIN3OSG15PThreadLockBaseE@::_ZTIN3OSG15PThreadLockBaseE
 ~@variable_t@_ZTISt17__timepunct_cacheIcE@::_ZTISt17__timepunct_cacheIcE
-~@variable_t@_ZTIN3OSG13ThreadManagerE@::_ZTIN3OSG13ThreadManagerE
+~@variable_t@_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTISt8time_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@getdate_err@::getdate_err
 ~@variable_t@_ZTISt13bad_exception@::_ZTISt13bad_exception
@@ -2141,7 +2141,7 @@
 ~@variable_t@_ZTISt15time_put_bynameIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt15time_put_bynameIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@timezone@::timezone
 ~@variable_t@_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE@::_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE
-~@variable_t@_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
+~@variable_t@_ZTIN3OSG13ThreadManagerE@::_ZTIN3OSG13ThreadManagerE
 ~@variable_t@_ZTISt10moneypunctIwLb1EE@::_ZTISt10moneypunctIwLb1EE
 ~@variable_t@_ZTISt17__timepunct_cacheIwE@::_ZTISt17__timepunct_cacheIwE
 ~@variable_t@_ZTIN3OSG16VerifyGeoGraphOpE@::_ZTIN3OSG16VerifyGeoGraphOpE

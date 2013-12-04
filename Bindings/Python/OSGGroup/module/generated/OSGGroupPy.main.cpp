@@ -223,10 +223,6 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
 
     register_Algorithm_class();
 
-    register_StageContainerParent_class();
-
-    register_StageParentBase_class();
-
     register_StageParent_class();
 
     register_StageBase_class();
@@ -252,6 +248,8 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
     register_ComponentTransformBase_class();
 
     register_ComponentTransform_class();
+
+    register_StageContainerParent_class();
 
     register_DynamicStateGeneratorBase_class();
 
@@ -392,6 +390,8 @@ BOOST_PYTHON_MODULE(OSGGroupPy){
     register_TranslationTransformationElementBase_class();
 
     register_TranslationTransformationElement_class();
+
+    register_StageParentBase_class();
 
     register_VisitSubTreeBase_class();
 

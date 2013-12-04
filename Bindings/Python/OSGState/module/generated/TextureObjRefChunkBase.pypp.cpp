@@ -36,14 +36,34 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct TextureObjRefChunkBase_wrapper : OSG::TextureObjRefChunkBase, bp::wrapper< OSG::TextureObjRefChunkBase > {
+
+    virtual ::GLenum determineInternalFormat(  ){
+        bp::override func_determineInternalFormat = this->get_override( "determineInternalFormat" );
+        return func_determineInternalFormat(  );
+    }
+
+    virtual ::OSG::Int32 getOpenGLId( ::OSG::DrawEnv * pEnv ){
+        bp::override func_getOpenGLId = this->get_override( "getOpenGLId" );
+        return func_getOpenGLId( boost::python::ptr(pEnv) );
+    }
+
+    virtual void validate( ::OSG::DrawEnv * pEnv ){
+        bp::override func_validate = this->get_override( "validate" );
+        func_validate( boost::python::ptr(pEnv) );
+    }
+
+};
+
 void register_TextureObjRefChunkBase_class(){
 
     { //::OSG::TextureObjRefChunkBase
-        typedef bp::class_< OSG::TextureObjRefChunkBase, bp::bases< ::OSG::TextureBaseChunk >, boost::noncopyable > TextureObjRefChunkBase_exposer_t;
+        typedef bp::class_< TextureObjRefChunkBase_wrapper, bp::bases< ::OSG::TextureBaseChunk >, boost::noncopyable > TextureObjRefChunkBase_exposer_t;
         TextureObjRefChunkBase_exposer_t TextureObjRefChunkBase_exposer = TextureObjRefChunkBase_exposer_t( "TextureObjRefChunkBase", bp::no_init );
         bp::scope TextureObjRefChunkBase_scope( TextureObjRefChunkBase_exposer );
         bp::scope().attr("OsgGLIdFieldId") = (int)OSG::TextureObjRefChunkBase::OsgGLIdFieldId;
         bp::scope().attr("OglGLIdFieldId") = (int)OSG::TextureObjRefChunkBase::OglGLIdFieldId;
+        bp::scope().attr("InternalFormatFieldId") = (int)OSG::TextureObjRefChunkBase::InternalFormatFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::TextureObjRefChunkBase::NextFieldId;
         { //::OSG::TextureObjRefChunkBase::copyFromBin
         
@@ -141,6 +161,16 @@ void register_TextureObjRefChunkBase_class(){
                 , getContainerSize_function_type( &::OSG::TextureObjRefChunkBase::getContainerSize ) );
         
         }
+        { //::OSG::TextureObjRefChunkBase::getInternalFormat
+        
+            typedef ::GLenum const & ( ::OSG::TextureObjRefChunkBase::*getInternalFormat_function_type )(  ) const;
+            
+            TextureObjRefChunkBase_exposer.def( 
+                "getInternalFormat"
+                , getInternalFormat_function_type( &::OSG::TextureObjRefChunkBase::getInternalFormat )
+                , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
         { //::OSG::TextureObjRefChunkBase::getOglGLId
         
             typedef ::GLenum const & ( ::OSG::TextureObjRefChunkBase::*getOglGLId_function_type )(  ) const;
@@ -159,6 +189,16 @@ void register_TextureObjRefChunkBase_class(){
                 "getOsgGLId"
                 , getOsgGLId_function_type( &::OSG::TextureObjRefChunkBase::getOsgGLId )
                 , bp::return_value_policy< bp::return_by_value >() );
+        
+        }
+        { //::OSG::TextureObjRefChunkBase::getSFInternalFormat
+        
+            typedef ::OSG::SFGLenum const * ( ::OSG::TextureObjRefChunkBase::*getSFInternalFormat_function_type )(  ) const;
+            
+            TextureObjRefChunkBase_exposer.def( 
+                "getSFInternalFormat"
+                , getSFInternalFormat_function_type( &::OSG::TextureObjRefChunkBase::getSFInternalFormat )
+                , bp::return_internal_reference< >() );
         
         }
         { //::OSG::TextureObjRefChunkBase::getSFOglGLId
@@ -201,6 +241,16 @@ void register_TextureObjRefChunkBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::TextureObjRefChunkBase::setInternalFormat
+        
+            typedef void ( ::OSG::TextureObjRefChunkBase::*setInternalFormat_function_type )( ::GLenum const & ) ;
+            
+            TextureObjRefChunkBase_exposer.def( 
+                "setInternalFormat"
+                , setInternalFormat_function_type( &::OSG::TextureObjRefChunkBase::setInternalFormat )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::TextureObjRefChunkBase::setOglGLId
         
             typedef void ( ::OSG::TextureObjRefChunkBase::*setOglGLId_function_type )( ::GLenum const & ) ;
@@ -219,6 +269,35 @@ void register_TextureObjRefChunkBase_class(){
                 "setOsgGLId"
                 , setOsgGLId_function_type( &::OSG::TextureObjRefChunkBase::setOsgGLId )
                 , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::TextureBaseChunk::determineInternalFormat
+        
+            typedef ::GLenum ( ::OSG::TextureBaseChunk::*determineInternalFormat_function_type )(  ) ;
+            
+            TextureObjRefChunkBase_exposer.def( 
+                "determineInternalFormat"
+                , bp::pure_virtual( determineInternalFormat_function_type(&::OSG::TextureBaseChunk::determineInternalFormat) ) );
+        
+        }
+        { //::OSG::TextureBaseChunk::getOpenGLId
+        
+            typedef ::OSG::Int32 ( ::OSG::TextureBaseChunk::*getOpenGLId_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureObjRefChunkBase_exposer.def( 
+                "getOpenGLId"
+                , bp::pure_virtual( getOpenGLId_function_type(&::OSG::TextureBaseChunk::getOpenGLId) )
+                , ( bp::arg("pEnv") ) );
+        
+        }
+        { //::OSG::TextureBaseChunk::validate
+        
+            typedef void ( ::OSG::TextureBaseChunk::*validate_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureObjRefChunkBase_exposer.def( 
+                "validate"
+                , bp::pure_virtual( validate_function_type(&::OSG::TextureBaseChunk::validate) )
+                , ( bp::arg("pEnv") ) );
         
         }
         TextureObjRefChunkBase_exposer.staticmethod( "create" );

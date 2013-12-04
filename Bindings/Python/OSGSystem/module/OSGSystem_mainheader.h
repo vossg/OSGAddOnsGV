@@ -27,6 +27,7 @@
 #include <OSGIntersectProxyAttachment.h>
 #include <OSGBoostPathAttachment.h>
 #include <OSGContainerCollection.h>
+#include <OSGTraversalData.h>
 #include <OSGFileContextAttachment.h>
 #include <OSGGeoReferenceAttachment.h>
 #include <OSGImage.h>

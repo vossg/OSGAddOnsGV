@@ -1769,8 +1769,8 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@@::
+~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -2843,7 +2843,7 @@
 ~@free_function_t@glMaterialf@void (*)( ::GLenum,::GLenum,::GLfloat )void (*)( ::GLenum,::GLenum,::GLfloat )
 ~@free_function_t@__mbrlen@::size_t (*)( __restrict__ char const *,::size_t,__restrict__ ::mbstate_t * )::size_t (*)( __restrict__ char const *,::size_t,__restrict__ ::mbstate_t * )
 ~@free_function_t@strtold@long double (*)( __restrict__ char const *,__restrict__ char * * )long double (*)( __restrict__ char const *,__restrict__ char * * )
-~@free_function_t@abort@void (*)(  )void (*)(  )
+~@free_function_t@swprintf@int (*)( __restrict__ wchar_t *,::size_t,__restrict__ wchar_t const *,... )int (*)( __restrict__ wchar_t *,::size_t,__restrict__ wchar_t const *,... )
 ~@free_function_t@__logl@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@__logb@double (*)( double )double (*)( double )
 ~@free_function_t@strtoll@long long int (*)( __restrict__ char const *,__restrict__ char * *,int )long long int (*)( __restrict__ char const *,__restrict__ char * *,int )
@@ -3777,7 +3777,7 @@
 ~@free_function_t@strftime_l@::size_t (*)( __restrict__ char *,::size_t,__restrict__ char const *,__restrict__ ::tm const *,::__locale_t )::size_t (*)( __restrict__ char *,::size_t,__restrict__ char const *,__restrict__ ::tm const *,::__locale_t )
 ~@free_function_t@__floorl@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@mkostemps@int (*)( char *,int,int )int (*)( char *,int,int )
-~@free_function_t@swprintf@int (*)( __restrict__ wchar_t *,::size_t,__restrict__ wchar_t const *,... )int (*)( __restrict__ wchar_t *,::size_t,__restrict__ wchar_t const *,... )
+~@free_function_t@abort@void (*)(  )void (*)(  )
 ~@free_function_t@__gthrw_pthread_mutex_trylock@int (*)( ::pthread_mutex_t * )int (*)( ::pthread_mutex_t * )
 ~@free_function_t@wprintf@int (*)( __restrict__ wchar_t const *,... )int (*)( __restrict__ wchar_t const *,... )
 ~@free_function_t@glRasterPos2s@void (*)( ::GLshort,::GLshort )void (*)( ::GLshort,::GLshort )

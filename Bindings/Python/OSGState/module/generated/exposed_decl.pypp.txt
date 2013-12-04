@@ -1767,12 +1767,12 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
+~@namespace_t@mpl_@::mpl_
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
-~@namespace_t@mpl_@::mpl_
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@boost_concepts@::boost_concepts
 ~@namespace_t@OSG@::OSG
@@ -1972,7 +1972,7 @@
 ~@variable_t@_ZTISt8numpunctIcE@::_ZTISt8numpunctIcE
 ~@variable_t@_ZTIN5boost6system14error_categoryE@::_ZTIN5boost6system14error_categoryE
 ~@variable_t@_ZTIN3OSG20BaseThreadCommonBaseE@::_ZTIN3OSG20BaseThreadCommonBaseE
-~@variable_t@_ZTIN3OSG9BoxVolumeE@::_ZTIN3OSG9BoxVolumeE
+~@variable_t@_ZTIN3OSG21TextureImageChunkBaseE@::_ZTIN3OSG21TextureImageChunkBaseE
 ~@variable_t@_ZTIN3OSG15PThreadLockBaseE@::_ZTIN3OSG15PThreadLockBaseE
 ~@variable_t@_ZTIN3OSG18TransformChunkBaseE@::_ZTIN3OSG18TransformChunkBaseE
 ~@variable_t@_ZTISt17__timepunct_cacheIcE@::_ZTISt17__timepunct_cacheIcE
@@ -1983,7 +1983,7 @@
 ~@variable_t@_ZTIN3OSG11TexGenChunkE@::_ZTIN3OSG11TexGenChunkE
 ~@variable_t@_ZTISt13bad_exception@::_ZTISt13bad_exception
 ~@variable_t@_ZTISt8messagesIwE@::_ZTISt8messagesIwE
-~@variable_t@program_invocation_name@::program_invocation_name
+~@variable_t@_ZTIN3OSG17TextureImageChunkE@::_ZTIN3OSG17TextureImageChunkE
 ~@variable_t@_ZTIN3OSG18PThreadCondVarBaseE@::_ZTIN3OSG18PThreadCondVarBaseE
 ~@variable_t@_ZTIN3OSG25FieldContainerFactoryBaseE@::_ZTIN3OSG25FieldContainerFactoryBaseE
 ~@variable_t@_ZTISt7num_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt7num_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
@@ -2019,9 +2019,11 @@
 ~@variable_t@_ZTIN3OSG15ShadeModelChunkE@::_ZTIN3OSG15ShadeModelChunkE
 ~@variable_t@_ZTISt8numpunctIwE@::_ZTISt8numpunctIwE
 ~@variable_t@_ZTIN5boost3any11placeholderE@::_ZTIN5boost3any11placeholderE
+~@variable_t@program_invocation_name@::program_invocation_name
 ~@variable_t@_ZTISt9money_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt9money_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@_ZTISt19basic_ostringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt19basic_ostringstreamIcSt11char_traitsIcESaIcEE
 ~@variable_t@_ZTISt14basic_ofstreamIcSt11char_traitsIcEE@::_ZTISt14basic_ofstreamIcSt11char_traitsIcEE
+~@variable_t@_ZTIN3OSG9BoxVolumeE@::_ZTIN3OSG9BoxVolumeE
 ~@variable_t@_ZTIN5boost6system12system_errorE@::_ZTIN5boost6system12system_errorE
 ~@variable_t@_ZTIN3OSG16SingleLockPolicyE@::_ZTIN3OSG16SingleLockPolicyE
 ~@variable_t@_ZTISt17moneypunct_bynameIcLb0EE@::_ZTISt17moneypunct_bynameIcLb0EE

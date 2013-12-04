@@ -48,6 +48,10 @@
 
 #include "generated/GeoColor4fProperty.pypp.hpp"
 
+#include "generated/GeoInstancer.pypp.hpp"
+
+#include "generated/GeoInstancerBase.pypp.hpp"
+
 #include "generated/GeoIntegralBufferProperty.pypp.hpp"
 
 #include "generated/GeoIntegralBufferPropertyBase.pypp.hpp"
@@ -164,6 +168,10 @@ BOOST_PYTHON_MODULE(OSGDrawablePy){
     register_FatBorderChunkBase_class();
 
     register_FatBorderChunk_class();
+
+    register_GeoInstancerBase_class();
+
+    register_GeoInstancer_class();
 
     register_GeoIntegralPropertyBase_class();
 
@@ -326,6 +334,12 @@ BOOST_PYTHON_MODULE(OSGDrawablePy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TiledQuadTreeTerrain, OSG::TiledQuadTreeTerrain::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::TiledQuadTreeTerrain::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::GeoInstancer */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::GeoInstancer, OSG::GeoInstancer::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::GeoInstancer::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::KDTreeIntersectProxyAttachment */
 

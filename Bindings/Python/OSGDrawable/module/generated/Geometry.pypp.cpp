@@ -228,6 +228,24 @@ void register_Geometry_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::Geometry::getFuncIdDrawArraysInstanced
+        
+            typedef ::OSG::UInt32 ( *getFuncIdDrawArraysInstanced_function_type )(  );
+            
+            Geometry_exposer.def( 
+                "getFuncIdDrawArraysInstanced"
+                , getFuncIdDrawArraysInstanced_function_type( &::OSG::Geometry::getFuncIdDrawArraysInstanced ) );
+        
+        }
+        { //::OSG::Geometry::getFuncIdDrawElementsInstanced
+        
+            typedef ::OSG::UInt32 ( *getFuncIdDrawElementsInstanced_function_type )(  );
+            
+            Geometry_exposer.def( 
+                "getFuncIdDrawElementsInstanced"
+                , getFuncIdDrawElementsInstanced_function_type( &::OSG::Geometry::getFuncIdDrawElementsInstanced ) );
+        
+        }
         { //::OSG::Geometry::getIndex
         
             typedef ::OSG::GeoIntegralProperty * ( ::OSG::Geometry::*getIndex_function_type )( ::OSG::UInt16 ) const;
@@ -657,6 +675,8 @@ void register_Geometry_class(){
                 , ( bp::arg("value") ) );
         
         }
+        Geometry_exposer.staticmethod( "getFuncIdDrawArraysInstanced" );
+        Geometry_exposer.staticmethod( "getFuncIdDrawElementsInstanced" );
         Geometry_exposer.staticmethod( "getPumpGroupStorage" );
         Geometry_exposer.staticmethod( "mapType" );
         pyopensg::register_transit< OSG::Geometry >::execute();

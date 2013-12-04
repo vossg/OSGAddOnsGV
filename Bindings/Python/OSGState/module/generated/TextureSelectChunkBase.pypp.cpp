@@ -36,6 +36,25 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct TextureSelectChunkBase_wrapper : OSG::TextureSelectChunkBase, bp::wrapper< OSG::TextureSelectChunkBase > {
+
+    virtual ::GLenum determineInternalFormat(  ){
+        bp::override func_determineInternalFormat = this->get_override( "determineInternalFormat" );
+        return func_determineInternalFormat(  );
+    }
+
+    virtual ::OSG::Int32 getOpenGLId( ::OSG::DrawEnv * pEnv ){
+        bp::override func_getOpenGLId = this->get_override( "getOpenGLId" );
+        return func_getOpenGLId( boost::python::ptr(pEnv) );
+    }
+
+    virtual void validate( ::OSG::DrawEnv * pEnv ){
+        bp::override func_validate = this->get_override( "validate" );
+        func_validate( boost::python::ptr(pEnv) );
+    }
+
+};
+
 boost::python::list TextureSelectChunkBase_getMFTextures(OSG::TextureSelectChunkBase *self)
 {
    boost::python::list result;
@@ -51,7 +70,7 @@ boost::python::list TextureSelectChunkBase_getMFTextures(OSG::TextureSelectChunk
 void register_TextureSelectChunkBase_class(){
 
     { //::OSG::TextureSelectChunkBase
-        typedef bp::class_< OSG::TextureSelectChunkBase, bp::bases< ::OSG::TextureBaseChunk >, boost::noncopyable > TextureSelectChunkBase_exposer_t;
+        typedef bp::class_< TextureSelectChunkBase_wrapper, bp::bases< ::OSG::TextureBaseChunk >, boost::noncopyable > TextureSelectChunkBase_exposer_t;
         TextureSelectChunkBase_exposer_t TextureSelectChunkBase_exposer = TextureSelectChunkBase_exposer_t( "TextureSelectChunkBase", bp::no_init );
         bp::scope TextureSelectChunkBase_scope( TextureSelectChunkBase_exposer );
         bp::scope().attr("ChoiceFieldId") = (int)OSG::TextureSelectChunkBase::ChoiceFieldId;
@@ -260,6 +279,35 @@ void register_TextureSelectChunkBase_class(){
                 "setChoice"
                 , setChoice_function_type( &::OSG::TextureSelectChunkBase::setChoice )
                 , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::TextureBaseChunk::determineInternalFormat
+        
+            typedef ::GLenum ( ::OSG::TextureBaseChunk::*determineInternalFormat_function_type )(  ) ;
+            
+            TextureSelectChunkBase_exposer.def( 
+                "determineInternalFormat"
+                , bp::pure_virtual( determineInternalFormat_function_type(&::OSG::TextureBaseChunk::determineInternalFormat) ) );
+        
+        }
+        { //::OSG::TextureBaseChunk::getOpenGLId
+        
+            typedef ::OSG::Int32 ( ::OSG::TextureBaseChunk::*getOpenGLId_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureSelectChunkBase_exposer.def( 
+                "getOpenGLId"
+                , bp::pure_virtual( getOpenGLId_function_type(&::OSG::TextureBaseChunk::getOpenGLId) )
+                , ( bp::arg("pEnv") ) );
+        
+        }
+        { //::OSG::TextureBaseChunk::validate
+        
+            typedef void ( ::OSG::TextureBaseChunk::*validate_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureSelectChunkBase_exposer.def( 
+                "validate"
+                , bp::pure_virtual( validate_function_type(&::OSG::TextureBaseChunk::validate) )
+                , ( bp::arg("pEnv") ) );
         
         }
         TextureSelectChunkBase_exposer.staticmethod( "create" );

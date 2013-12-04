@@ -24,9 +24,11 @@ Geometry
 StageDrawable
 GeoMultiPropertyDataBase
 TiledQuadTreeTerrainBase
+GeoInstancer
 StageDrawableBase
 GeoVectorBufferRefProperty
 GeoMultiPropertyData
+GeoInstancerBase
 Particles
 GeoVectorBufferProperty
 TiledQuadTreeTerrain

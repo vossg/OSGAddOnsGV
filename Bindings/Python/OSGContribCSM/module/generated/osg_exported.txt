@@ -43,9 +43,9 @@ CSMNativeWindowBase
 CSMClusterWinOptionsBase
 CSMDrawerBase
 MouseDataInterfaceSensor
+ComplexSceneManagerBase
 CSMPassiveWinClearOp
 DeviceInterfaceSensorBase
-ComplexSceneManagerBase
 CSMPassiveWinClearOpBase
 CSMGLUTWindow
 CSMSortFirstWinOptions

@@ -92,6 +92,10 @@
 
 #include "generated/TextureEnvChunkBase.pypp.hpp"
 
+#include "generated/TextureImageChunk.pypp.hpp"
+
+#include "generated/TextureImageChunkBase.pypp.hpp"
+
 #include "generated/TextureObjRefChunk.pypp.hpp"
 
 #include "generated/TextureObjRefChunkBase.pypp.hpp"
@@ -176,6 +180,10 @@ BOOST_PYTHON_MODULE(OSGStatePy){
     register_TextureEnvChunkBase_class();
 
     register_TextureEnvChunk_class();
+
+    register_TextureImageChunkBase_class();
+
+    register_TextureImageChunk_class();
 
     register_TextureObjRefChunkBase_class();
 
@@ -312,6 +320,12 @@ BOOST_PYTHON_MODULE(OSGStatePy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::LightModelChunk, OSG::LightModelChunk::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::LightModelChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::TextureImageChunk */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TextureImageChunk, OSG::TextureImageChunk::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TextureImageChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::FogChunk */
 

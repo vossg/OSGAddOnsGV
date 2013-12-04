@@ -44,6 +44,7 @@ void register_InterfaceOptionsBase_class(){
         bp::scope InterfaceOptionsBase_scope( InterfaceOptionsBase_exposer );
         bp::scope().attr("ParentFieldId") = (int)OSG::InterfaceOptionsBase::ParentFieldId;
         bp::scope().attr("NapTimeFieldId") = (int)OSG::InterfaceOptionsBase::NapTimeFieldId;
+        bp::scope().attr("BufferSizeFieldId") = (int)OSG::InterfaceOptionsBase::BufferSizeFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::InterfaceOptionsBase::NextFieldId;
         { //::OSG::InterfaceOptionsBase::copyFromBin
         
@@ -104,6 +105,15 @@ void register_InterfaceOptionsBase_class(){
                 , ( bp::arg("whichField") ) );
         
         }
+        { //::OSG::InterfaceOptionsBase::getBufferSize
+        
+            typedef ::OSG::UInt32 ( ::OSG::InterfaceOptionsBase::*getBufferSize_function_type )(  ) const;
+            
+            InterfaceOptionsBase_exposer.def( 
+                "getBufferSize"
+                , getBufferSize_function_type( &::OSG::InterfaceOptionsBase::getBufferSize ) );
+        
+        }
         { //::OSG::InterfaceOptionsBase::getClassGroupId
         
             typedef ::OSG::UInt16 ( *getClassGroupId_function_type )(  );
@@ -150,6 +160,16 @@ void register_InterfaceOptionsBase_class(){
                 , getNapTime_function_type( &::OSG::InterfaceOptionsBase::getNapTime ) );
         
         }
+        { //::OSG::InterfaceOptionsBase::getSFBufferSize
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::InterfaceOptionsBase::*getSFBufferSize_function_type )(  ) const;
+            
+            InterfaceOptionsBase_exposer.def( 
+                "getSFBufferSize"
+                , getSFBufferSize_function_type( &::OSG::InterfaceOptionsBase::getSFBufferSize )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::InterfaceOptionsBase::getSFNapTime
         
             typedef ::OSG::SFUInt32 const * ( ::OSG::InterfaceOptionsBase::*getSFNapTime_function_type )(  ) const;
@@ -178,6 +198,16 @@ void register_InterfaceOptionsBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::InterfaceOptionsBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::InterfaceOptionsBase::setBufferSize
+        
+            typedef void ( ::OSG::InterfaceOptionsBase::*setBufferSize_function_type )( ::OSG::UInt32 const ) ;
+            
+            InterfaceOptionsBase_exposer.def( 
+                "setBufferSize"
+                , setBufferSize_function_type( &::OSG::InterfaceOptionsBase::setBufferSize )
+                , ( bp::arg("value") ) );
         
         }
         { //::OSG::InterfaceOptionsBase::setNapTime

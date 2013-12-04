@@ -13,6 +13,7 @@ BoostPathAttachmentBase
 CameraDecorator
 PerspectiveCameraBase
 MultiCoreBase
+DepthChunk
 ShaderVariableMRealBase
 ShaderVariableMUInt
 RenderPartitionBase
@@ -94,7 +95,6 @@ PrimeMaterial
 MatrixCamera
 ShaderVariable
 LightChunk
-DepthChunk
 ShaderVariableVec2f
 ShaderVariableMatrix
 ShaderVariableString
@@ -111,6 +111,7 @@ MaterialDrawable
 RenderOptionsBase
 ShaderVariableMVec4fBase
 BoostPathAttachment
+IntersectAction
 RenderPartition
 DepthChunkBase
 ShaderVariableMMatrixBase
@@ -137,7 +138,6 @@ CameraDecoratorBase
 SimpleMaterialBase
 Image
 LayeredTextureBuffer
-IntersectAction
 ShaderVariableMatrixBase
 ShaderVariableUInt
 ShaderExecutableChunk
@@ -164,6 +164,7 @@ StringAttributeMapBase
 StereoCameraDecorator
 ShaderVariableOSGBase
 ChunkBlockBase
+TraversalDataBase
 TextureBuffer
 ShaderVariableMVec3fBase
 Background
@@ -201,4 +202,5 @@ ShaderVariableOSG
 ChunkListHelperBase
 MultiCore
 ChunkBlock
+TraversalData
 LayeredTextureBufferBase

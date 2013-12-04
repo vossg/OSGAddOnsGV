@@ -48,6 +48,30 @@ boost::python::list ShaderProgramChunkBase_getMFVertexShader(OSG::ShaderProgramC
    return result;
 }
 
+boost::python::list ShaderProgramChunkBase_getMFTessControlShader(OSG::ShaderProgramChunkBase *self)
+{
+   boost::python::list result;
+   OSG::MFUnrecShaderProgramPtr const * mf_data = self->getMFTessControlShader();
+   const OSG::UInt32 size(mf_data->size32());
+   for ( OSG::UInt32 i = 0; i < size; ++i )
+   {
+      result.append(OSG::ShaderProgram::ObjRecPtr((*mf_data)[i]));
+   }
+   return result;
+}
+
+boost::python::list ShaderProgramChunkBase_getMFTessEvaluationShader(OSG::ShaderProgramChunkBase *self)
+{
+   boost::python::list result;
+   OSG::MFUnrecShaderProgramPtr const * mf_data = self->getMFTessEvaluationShader();
+   const OSG::UInt32 size(mf_data->size32());
+   for ( OSG::UInt32 i = 0; i < size; ++i )
+   {
+      result.append(OSG::ShaderProgram::ObjRecPtr((*mf_data)[i]));
+   }
+   return result;
+}
+
 boost::python::list ShaderProgramChunkBase_getMFGeometryShader(OSG::ShaderProgramChunkBase *self)
 {
    boost::python::list result;
@@ -79,6 +103,8 @@ void register_ShaderProgramChunkBase_class(){
         ShaderProgramChunkBase_exposer_t ShaderProgramChunkBase_exposer = ShaderProgramChunkBase_exposer_t( "ShaderProgramChunkBase", bp::no_init );
         bp::scope ShaderProgramChunkBase_scope( ShaderProgramChunkBase_exposer );
         bp::scope().attr("VertexShaderFieldId") = (int)OSG::ShaderProgramChunkBase::VertexShaderFieldId;
+        bp::scope().attr("TessControlShaderFieldId") = (int)OSG::ShaderProgramChunkBase::TessControlShaderFieldId;
+        bp::scope().attr("TessEvaluationShaderFieldId") = (int)OSG::ShaderProgramChunkBase::TessEvaluationShaderFieldId;
         bp::scope().attr("GeometryShaderFieldId") = (int)OSG::ShaderProgramChunkBase::GeometryShaderFieldId;
         bp::scope().attr("FragmentShaderFieldId") = (int)OSG::ShaderProgramChunkBase::FragmentShaderFieldId;
         bp::scope().attr("GeometryVerticesOutFieldId") = (int)OSG::ShaderProgramChunkBase::GeometryVerticesOutFieldId;
@@ -102,6 +128,26 @@ void register_ShaderProgramChunkBase_class(){
             ShaderProgramChunkBase_exposer.def( 
                 "addGeometryShader"
                 , addGeometryShader_function_type( &::OSG::ShaderProgramChunkBase::addGeometryShader )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShaderProgramChunkBase::addTessControlShader
+        
+            typedef void ( ::OSG::ShaderProgramChunkBase::*addTessControlShader_function_type )( ::OSG::ShaderProgram * const ) ;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "addTessControlShader"
+                , addTessControlShader_function_type( &::OSG::ShaderProgramChunkBase::addTessControlShader )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShaderProgramChunkBase::addTessEvaluationShader
+        
+            typedef void ( ::OSG::ShaderProgramChunkBase::*addTessEvaluationShader_function_type )( ::OSG::ShaderProgram * const ) ;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "addTessEvaluationShader"
+                , addTessEvaluationShader_function_type( &::OSG::ShaderProgramChunkBase::addTessEvaluationShader )
                 , ( bp::arg("value") ) );
         
         }
@@ -135,6 +181,26 @@ void register_ShaderProgramChunkBase_class(){
                 , ( bp::arg("value") ) );
         
         }
+        { //::OSG::ShaderProgramChunkBase::assignTessControlShader
+        
+            typedef void ( ::OSG::ShaderProgramChunkBase::*assignTessControlShader_function_type )( ::OSG::MFUnrecShaderProgramPtr const & ) ;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "assignTessControlShader"
+                , assignTessControlShader_function_type( &::OSG::ShaderProgramChunkBase::assignTessControlShader )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShaderProgramChunkBase::assignTessEvaluationShader
+        
+            typedef void ( ::OSG::ShaderProgramChunkBase::*assignTessEvaluationShader_function_type )( ::OSG::MFUnrecShaderProgramPtr const & ) ;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "assignTessEvaluationShader"
+                , assignTessEvaluationShader_function_type( &::OSG::ShaderProgramChunkBase::assignTessEvaluationShader )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::ShaderProgramChunkBase::assignVertexShader
         
             typedef void ( ::OSG::ShaderProgramChunkBase::*assignVertexShader_function_type )( ::OSG::MFUnrecShaderProgramPtr const & ) ;
@@ -161,6 +227,24 @@ void register_ShaderProgramChunkBase_class(){
             ShaderProgramChunkBase_exposer.def( 
                 "clearGeometryShaders"
                 , clearGeometryShaders_function_type( &::OSG::ShaderProgramChunkBase::clearGeometryShaders ) );
+        
+        }
+        { //::OSG::ShaderProgramChunkBase::clearTessControlShaders
+        
+            typedef void ( ::OSG::ShaderProgramChunkBase::*clearTessControlShaders_function_type )(  ) ;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "clearTessControlShaders"
+                , clearTessControlShaders_function_type( &::OSG::ShaderProgramChunkBase::clearTessControlShaders ) );
+        
+        }
+        { //::OSG::ShaderProgramChunkBase::clearTessEvaluationShaders
+        
+            typedef void ( ::OSG::ShaderProgramChunkBase::*clearTessEvaluationShaders_function_type )(  ) ;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "clearTessEvaluationShaders"
+                , clearTessEvaluationShaders_function_type( &::OSG::ShaderProgramChunkBase::clearTessEvaluationShaders ) );
         
         }
         { //::OSG::ShaderProgramChunkBase::clearVertexShaders
@@ -349,6 +433,28 @@ void register_ShaderProgramChunkBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::ShaderProgramChunkBase::getTessControlShader
+        
+            typedef ::OSG::ShaderProgram * ( ::OSG::ShaderProgramChunkBase::*getTessControlShader_function_type )( ::OSG::UInt32 const ) const;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "getTessControlShader"
+                , getTessControlShader_function_type( &::OSG::ShaderProgramChunkBase::getTessControlShader )
+                , ( bp::arg("index") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ShaderProgramChunkBase::getTessEvaluationShader
+        
+            typedef ::OSG::ShaderProgram * ( ::OSG::ShaderProgramChunkBase::*getTessEvaluationShader_function_type )( ::OSG::UInt32 const ) const;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "getTessEvaluationShader"
+                , getTessEvaluationShader_function_type( &::OSG::ShaderProgramChunkBase::getTessEvaluationShader )
+                , ( bp::arg("index") )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::ShaderProgramChunkBase::getType
         
             typedef ::OSG::FieldContainerType & ( ::OSG::ShaderProgramChunkBase::*getType_function_type )(  ) ;
@@ -397,6 +503,26 @@ void register_ShaderProgramChunkBase_class(){
             ShaderProgramChunkBase_exposer.def( 
                 "removeObjFromGeometryShader"
                 , removeObjFromGeometryShader_function_type( &::OSG::ShaderProgramChunkBase::removeObjFromGeometryShader )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShaderProgramChunkBase::removeObjFromTessControlShader
+        
+            typedef void ( ::OSG::ShaderProgramChunkBase::*removeObjFromTessControlShader_function_type )( ::OSG::ShaderProgram * const ) ;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "removeObjFromTessControlShader"
+                , removeObjFromTessControlShader_function_type( &::OSG::ShaderProgramChunkBase::removeObjFromTessControlShader )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShaderProgramChunkBase::removeObjFromTessEvaluationShader
+        
+            typedef void ( ::OSG::ShaderProgramChunkBase::*removeObjFromTessEvaluationShader_function_type )( ::OSG::ShaderProgram * const ) ;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "removeObjFromTessEvaluationShader"
+                , removeObjFromTessEvaluationShader_function_type( &::OSG::ShaderProgramChunkBase::removeObjFromTessEvaluationShader )
                 , ( bp::arg("value") ) );
         
         }
@@ -460,6 +586,26 @@ void register_ShaderProgramChunkBase_class(){
                 , ( bp::arg("uiIndex") ) );
         
         }
+        { //::OSG::ShaderProgramChunkBase::subTessControlShader
+        
+            typedef void ( ::OSG::ShaderProgramChunkBase::*subTessControlShader_function_type )( ::OSG::UInt32 ) ;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "subTessControlShader"
+                , subTessControlShader_function_type( &::OSG::ShaderProgramChunkBase::subTessControlShader )
+                , ( bp::arg("uiIndex") ) );
+        
+        }
+        { //::OSG::ShaderProgramChunkBase::subTessEvaluationShader
+        
+            typedef void ( ::OSG::ShaderProgramChunkBase::*subTessEvaluationShader_function_type )( ::OSG::UInt32 ) ;
+            
+            ShaderProgramChunkBase_exposer.def( 
+                "subTessEvaluationShader"
+                , subTessEvaluationShader_function_type( &::OSG::ShaderProgramChunkBase::subTessEvaluationShader )
+                , ( bp::arg("uiIndex") ) );
+        
+        }
         { //::OSG::ShaderProgramChunkBase::subVertexShader
         
             typedef void ( ::OSG::ShaderProgramChunkBase::*subVertexShader_function_type )( ::OSG::UInt32 ) ;
@@ -477,6 +623,8 @@ void register_ShaderProgramChunkBase_class(){
         ShaderProgramChunkBase_exposer.staticmethod( "getClassType" );
         ShaderProgramChunkBase_exposer.staticmethod( "getClassTypeId" );
         ShaderProgramChunkBase_exposer.def("getMFVertexShader",ShaderProgramChunkBase_getMFVertexShader);
+        ShaderProgramChunkBase_exposer.def("getMFTessControlShader",ShaderProgramChunkBase_getMFTessControlShader);
+        ShaderProgramChunkBase_exposer.def("getMFTessEvaluationShader",ShaderProgramChunkBase_getMFTessEvaluationShader);
         ShaderProgramChunkBase_exposer.def("getMFGeometryShader",ShaderProgramChunkBase_getMFGeometryShader);
         ShaderProgramChunkBase_exposer.def("getMFFragmentShader",ShaderProgramChunkBase_getMFFragmentShader);
     }

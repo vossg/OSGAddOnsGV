@@ -214,6 +214,8 @@
 
 #include "generated/MultiPassMaterialBase.pypp.hpp"
 
+#include "generated/NodeStore.pypp.hpp"
+
 #include "generated/OSGSystemPy_free_functions.pypp.hpp"
 
 #include "generated/PerspectiveCamera.pypp.hpp"
@@ -438,6 +440,10 @@
 
 #include "generated/TextureObjChunkBase.pypp.hpp"
 
+#include "generated/TraversalData.pypp.hpp"
+
+#include "generated/TraversalDataBase.pypp.hpp"
+
 #include "generated/TreeBuilderBase.pypp.hpp"
 
 #include "generated/VariantMaterial.pypp.hpp"
@@ -464,6 +470,8 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     register_ProgramVarChunkStore_class();
 
     register_ProgramChunkStore_class();
+
+    register_NodeStore_class();
 
     register_ActionBase_class();
 
@@ -867,6 +875,10 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     register_TextureObjChunk_class();
 
+    register_TraversalDataBase_class();
+
+    register_TraversalData_class();
+
     register_TreeBuilderBase_class();
 
     register_VariantMaterial_class();
@@ -1055,6 +1067,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::FBOViewport::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::MultiCore */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::MultiCore, OSG::MultiCore::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiCore::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::ShaderVariableMVec3f */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableMVec3f, OSG::ShaderVariableMVec3f::ObjRecPtr>);
@@ -1181,6 +1199,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::Foreground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::ShaderVariableMReal */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableMReal, OSG::ShaderVariableMReal::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableMReal::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::SimpleSHLChunk */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SimpleSHLChunk, OSG::SimpleSHLChunk::ObjRecPtr>);
@@ -1271,11 +1295,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::PrimeMaterial::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::MultiCore */
+    /** Helpers for OSG::Camera */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::MultiCore, OSG::MultiCore::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Camera, OSG::Camera::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiCore::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Camera::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::RenderOptions */
 
@@ -1318,12 +1342,6 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableBool, OSG::ShaderVariableBool::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableBool::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
-    /** Helpers for OSG::Camera */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Camera, OSG::Camera::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Camera::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::GeoVectorProperty */
 
@@ -1385,11 +1403,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::Drawable::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::ShaderVariableMReal */
+    /** Helpers for OSG::TraversalData */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableMReal, OSG::ShaderVariableMReal::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TraversalData, OSG::TraversalData::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableMReal::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TraversalData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ShaderVariableVec2f */
 

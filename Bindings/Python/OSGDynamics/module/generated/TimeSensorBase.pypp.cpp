@@ -60,6 +60,7 @@ void register_TimeSensorBase_class(){
         bp::scope().attr("CycleTimeFieldId") = (int)OSG::TimeSensorBase::CycleTimeFieldId;
         bp::scope().attr("TimeFieldId") = (int)OSG::TimeSensorBase::TimeFieldId;
         bp::scope().attr("CycleIntervalFieldId") = (int)OSG::TimeSensorBase::CycleIntervalFieldId;
+        bp::scope().attr("ChangeFractionByFieldId") = (int)OSG::TimeSensorBase::ChangeFractionByFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::TimeSensorBase::NextFieldId;
         { //::OSG::TimeSensorBase::copyFromBin
         
@@ -118,6 +119,16 @@ void register_TimeSensorBase_class(){
                 "getBinSize"
                 , getBinSize_function_type( &::OSG::TimeSensorBase::getBinSize )
                 , ( bp::arg("whichField") ) );
+        
+        }
+        { //::OSG::TimeSensorBase::getChangeFractionBy
+        
+            typedef ::OSG::Time const & ( ::OSG::TimeSensorBase::*getChangeFractionBy_function_type )(  ) const;
+            
+            TimeSensorBase_exposer.def( 
+                "getChangeFractionBy"
+                , getChangeFractionBy_function_type( &::OSG::TimeSensorBase::getChangeFractionBy )
+                , bp::return_value_policy< bp::return_by_value >() );
         
         }
         { //::OSG::TimeSensorBase::getClassGroupId
@@ -211,6 +222,16 @@ void register_TimeSensorBase_class(){
             TimeSensorBase_exposer.def( 
                 "getLoop"
                 , getLoop_function_type( &::OSG::TimeSensorBase::getLoop ) );
+        
+        }
+        { //::OSG::TimeSensorBase::getSFChangeFractionBy
+        
+            typedef ::OSG::SFTime const * ( ::OSG::TimeSensorBase::*getSFChangeFractionBy_function_type )(  ) const;
+            
+            TimeSensorBase_exposer.def( 
+                "getSFChangeFractionBy"
+                , getSFChangeFractionBy_function_type( &::OSG::TimeSensorBase::getSFChangeFractionBy )
+                , bp::return_internal_reference< >() );
         
         }
         { //::OSG::TimeSensorBase::getSFCycleInterval
@@ -351,6 +372,16 @@ void register_TimeSensorBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::TimeSensorBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::TimeSensorBase::setChangeFractionBy
+        
+            typedef void ( ::OSG::TimeSensorBase::*setChangeFractionBy_function_type )( ::OSG::Time const & ) ;
+            
+            TimeSensorBase_exposer.def( 
+                "setChangeFractionBy"
+                , setChangeFractionBy_function_type( &::OSG::TimeSensorBase::setChangeFractionBy )
+                , ( bp::arg("value") ) );
         
         }
         { //::OSG::TimeSensorBase::setCycleInterval

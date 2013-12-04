@@ -70,6 +70,15 @@ void register_TextureObjChunk_class(){
                 , ( bp::arg("internalFormat"), bp::arg("externalFormat") ) );
         
         }
+        { //::OSG::TextureObjChunk::determineInternalFormat
+        
+            typedef ::GLenum ( ::OSG::TextureObjChunk::*determineInternalFormat_function_type )(  ) ;
+            
+            TextureObjChunk_exposer.def( 
+                "determineInternalFormat"
+                , determineInternalFormat_function_type( &::OSG::TextureObjChunk::determineInternalFormat ) );
+        
+        }
         { //::OSG::TextureObjChunk::determineTextureTarget
         
             typedef ::GLenum ( ::OSG::TextureObjChunk::*determineTextureTarget_function_type )( ::OSG::Window * ) const;
@@ -88,6 +97,16 @@ void register_TextureObjChunk_class(){
                 "dump"
                 , dump_function_type( &::OSG::TextureObjChunk::dump )
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
+        
+        }
+        { //::OSG::TextureObjChunk::getOpenGLId
+        
+            typedef ::OSG::Int32 ( ::OSG::TextureObjChunk::*getOpenGLId_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureObjChunk_exposer.def( 
+                "getOpenGLId"
+                , getOpenGLId_function_type( &::OSG::TextureObjChunk::getOpenGLId )
+                , ( bp::arg("pEnv") ) );
         
         }
         { //::OSG::TextureObjChunk::imageContentChanged
@@ -126,6 +145,16 @@ void register_TextureObjChunk_class(){
                 "switchCost"
                 , switchCost_function_type( &::OSG::TextureObjChunk::switchCost )
                 , ( bp::arg("chunk") ) );
+        
+        }
+        { //::OSG::TextureObjChunk::validate
+        
+            typedef void ( ::OSG::TextureObjChunk::*validate_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureObjChunk_exposer.def( 
+                "validate"
+                , validate_function_type( &::OSG::TextureObjChunk::validate )
+                , ( bp::arg("pEnv") ) );
         
         }
         TextureObjChunk_exposer.def_readonly( "statNTexBytes", OSG::TextureObjChunk::statNTexBytes );

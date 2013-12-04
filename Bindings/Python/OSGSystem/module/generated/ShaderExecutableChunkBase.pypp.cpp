@@ -55,6 +55,8 @@ void register_ShaderExecutableChunkBase_class(){
         ShaderExecutableChunkBase_exposer_t ShaderExecutableChunkBase_exposer = ShaderExecutableChunkBase_exposer_t( "ShaderExecutableChunkBase", bp::no_init );
         bp::scope ShaderExecutableChunkBase_scope( ShaderExecutableChunkBase_exposer );
         bp::scope().attr("VertexShaderFieldId") = (int)OSG::ShaderExecutableChunkBase::VertexShaderFieldId;
+        bp::scope().attr("TessControlShaderFieldId") = (int)OSG::ShaderExecutableChunkBase::TessControlShaderFieldId;
+        bp::scope().attr("TessEvaluationShaderFieldId") = (int)OSG::ShaderExecutableChunkBase::TessEvaluationShaderFieldId;
         bp::scope().attr("GeometryShaderFieldId") = (int)OSG::ShaderExecutableChunkBase::GeometryShaderFieldId;
         bp::scope().attr("FragmentShaderFieldId") = (int)OSG::ShaderExecutableChunkBase::FragmentShaderFieldId;
         bp::scope().attr("VariablesFieldId") = (int)OSG::ShaderExecutableChunkBase::VariablesFieldId;

@@ -173,17 +173,6 @@ void register_StageDrawableParent_class(){
                 , ( bp::arg("pAction"), bp::arg("uiCopyOnPush")=(::OSG::UInt32)(0), bp::arg("eMode")=OSG::RenderPartitionBase::StateSorting ) );
         
         }
-        { //::OSG::StageHandlerMixin< OSG::ContainerMixinHead< OSG::StageDrawableDesc > >::setData
-        
-            typedef OSG::StageHandlerMixin< OSG::ContainerMixinHead< OSG::StageDrawableDesc > > exported_class_t;
-            typedef void ( exported_class_t::*setData_function_type )( ::OSG::StageData *,::OSG::Int32,::OSG::RenderActionBase * ) ;
-            
-            StageDrawableParent_exposer.def( 
-                "setData"
-                , setData_function_type( &::OSG::StageHandlerMixin< OSG::ContainerMixinHead< OSG::StageDrawableDesc > >::setData )
-                , ( bp::arg("pData"), bp::arg("iDataSlotId"), bp::arg("pAction") ) );
-        
-        }
         { //::OSG::StageHandlerMixin< OSG::ContainerMixinHead< OSG::StageDrawableDesc > >::validateOnEnter
         
             typedef OSG::StageHandlerMixin< OSG::ContainerMixinHead< OSG::StageDrawableDesc > > exported_class_t;

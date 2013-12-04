@@ -54,7 +54,7 @@ void register_StageData_class(){
         }
         { //::OSG::StageData::copyFrom
         
-            typedef void ( ::OSG::StageData::*copyFrom_function_type )( ::OSG::StageData * ) ;
+            typedef void ( ::OSG::StageData::*copyFrom_function_type )( ::OSG::TraversalData * ) ;
             
             StageData_exposer.def( 
                 "copyFrom"
@@ -85,9 +85,9 @@ void register_StageData_class(){
         pyopensg::register_transit< OSG::StageData >::execute();
         bp::implicitly_convertible< OSG::StageData::ObjRecPtr, OSG::StageData* >();
         bp::implicitly_convertible< OSG::StageData::ObjRecPtr, OSG::StageData::ObjCPtr >();
-        bp::implicitly_convertible< OSG::StageData::ObjRecPtr, OSG::FieldContainer* >();
-        bp::implicitly_convertible< OSG::StageData::ObjRecPtr, OSG::FieldContainer::ObjRecPtr >();
-        bp::implicitly_convertible<OSG::StageData::ObjRecPtr, OSG::FieldContainer::ObjCPtr>();
+        bp::implicitly_convertible< OSG::StageData::ObjRecPtr, OSG::TraversalData* >();
+        bp::implicitly_convertible< OSG::StageData::ObjRecPtr, OSG::TraversalData::ObjRecPtr >();
+        bp::implicitly_convertible<OSG::StageData::ObjRecPtr, OSG::TraversalData::ObjCPtr>();
     }
 
 }

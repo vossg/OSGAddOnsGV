@@ -20,6 +20,7 @@
 #include <OSGTextureEnvChunk.h>
 #include <OSGRegisterCombinersChunk.h>
 #include <OSGTextureSelectChunk.h>
+#include <OSGTextureImageChunk.h>
 #include <OSGTextureObjRefChunk.h>
 
 #if defined(Bool)

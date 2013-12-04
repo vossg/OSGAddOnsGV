@@ -14,6 +14,7 @@
 #include <OSGSimpleTexturedMaterial.h>
 #include <OSGStageDrawable.h>
 #include <OSGGeometry.h>
+#include <OSGGeoInstancer.h>
 #include <OSGGeoMultiProperty.h>
 #include <OSGGeoMultiPropertyData.h>
 #include <OSGGeoVectorBufferProperty.h>

@@ -72,6 +72,15 @@ void register_TextureBaseChunk_class(){
                 , ( bp::arg("whichField"), bp::arg("origin"), bp::arg("details") ) );
         
         }
+        { //::OSG::TextureBaseChunk::determineInternalFormat
+        
+            typedef ::GLenum ( ::OSG::TextureBaseChunk::*determineInternalFormat_function_type )(  ) ;
+            
+            TextureBaseChunk_exposer.def( 
+                "determineInternalFormat"
+                , determineInternalFormat_function_type( &::OSG::TextureBaseChunk::determineInternalFormat ) );
+        
+        }
         { //::OSG::TextureBaseChunk::dump
         
             typedef void ( ::OSG::TextureBaseChunk::*dump_function_type )( ::OSG::UInt32,long unsigned int const ) const;
@@ -99,6 +108,16 @@ void register_TextureBaseChunk_class(){
                 "getClass"
                 , getClass_function_type( &::OSG::TextureBaseChunk::getClass )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::TextureBaseChunk::getOpenGLId
+        
+            typedef ::OSG::Int32 ( ::OSG::TextureBaseChunk::*getOpenGLId_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureBaseChunk_exposer.def( 
+                "getOpenGLId"
+                , getOpenGLId_function_type( &::OSG::TextureBaseChunk::getOpenGLId )
+                , ( bp::arg("pEnv") ) );
         
         }
         { //::OSG::TextureBaseChunk::getStaticClass
@@ -137,6 +156,16 @@ void register_TextureBaseChunk_class(){
             TextureBaseChunk_exposer.def( 
                 "isCubeTexture"
                 , isCubeTexture_function_type( &::OSG::TextureBaseChunk::isCubeTexture ) );
+        
+        }
+        { //::OSG::TextureBaseChunk::validate
+        
+            typedef void ( ::OSG::TextureBaseChunk::*validate_function_type )( ::OSG::DrawEnv * ) ;
+            
+            TextureBaseChunk_exposer.def( 
+                "validate"
+                , validate_function_type( &::OSG::TextureBaseChunk::validate )
+                , ( bp::arg("pEnv") ) );
         
         }
         TextureBaseChunk_exposer.staticmethod( "activateTexture" );

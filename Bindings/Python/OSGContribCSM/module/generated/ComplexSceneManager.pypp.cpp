@@ -54,7 +54,7 @@ bool wrapInit(OSG::ComplexSceneManager* csm, bp::list pythonArgv)
       argv[i] = bp::extract<char*>(pythonArgv[i]);
    }
 
-   return csm->init(argc, &argv[0]);
+   return csm->startFrom(argc, &argv[0]);
 }
 
 void wrapSetMainloop(OSG::ComplexSceneManager* csm, bp::object fMainLoop)
@@ -166,6 +166,16 @@ void register_ComplexSceneManager_class(){
                 "startFrom"
                 , startFrom_function_type( &::OSG::ComplexSceneManager::startFrom )
                 , ( bp::arg("szParamFilename") ) );
+        
+        }
+        { //::OSG::ComplexSceneManager::startFrom
+        
+            typedef bool ( ::OSG::ComplexSceneManager::*startFrom_function_type )( int,char * * ) ;
+            
+            ComplexSceneManager_exposer.def( 
+                "startFrom"
+                , startFrom_function_type( &::OSG::ComplexSceneManager::startFrom )
+                , ( bp::arg("argc"), bp::arg("argv") ) );
         
         }
         { //::OSG::ComplexSceneManager::terminate

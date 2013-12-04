@@ -39,7 +39,7 @@ namespace bp = boost::python;
 void register_MaterialBase_class(){
 
     { //::OSG::MaterialBase
-        typedef bp::class_< OSG::MaterialBase, bp::bases< ::OSG::AttachmentContainer >, boost::noncopyable > MaterialBase_exposer_t;
+        typedef bp::class_< OSG::MaterialBase, bp::bases< ::OSG::Attachment >, boost::noncopyable > MaterialBase_exposer_t;
         MaterialBase_exposer_t MaterialBase_exposer = MaterialBase_exposer_t( "MaterialBase", bp::no_init );
         bp::scope MaterialBase_scope( MaterialBase_exposer );
         bp::scope().attr("SortKeyFieldId") = (int)OSG::MaterialBase::SortKeyFieldId;

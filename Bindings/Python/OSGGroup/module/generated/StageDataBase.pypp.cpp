@@ -39,7 +39,7 @@ namespace bp = boost::python;
 void register_StageDataBase_class(){
 
     { //::OSG::StageDataBase
-        typedef bp::class_< OSG::StageDataBase, bp::bases< ::OSG::FieldContainer >, boost::noncopyable > StageDataBase_exposer_t;
+        typedef bp::class_< OSG::StageDataBase, bp::bases< ::OSG::TraversalData >, boost::noncopyable > StageDataBase_exposer_t;
         StageDataBase_exposer_t StageDataBase_exposer = StageDataBase_exposer_t( "StageDataBase", bp::no_init );
         bp::scope StageDataBase_scope( StageDataBase_exposer );
         bp::scope().attr("PartitionRangeBeginFieldId") = (int)OSG::StageDataBase::PartitionRangeBeginFieldId;

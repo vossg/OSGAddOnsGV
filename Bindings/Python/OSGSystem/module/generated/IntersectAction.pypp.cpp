@@ -148,6 +148,16 @@ void register_IntersectAction_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::IntersectAction::getHitPath
+        
+            typedef ::std::vector< OSG::Node* > const & ( ::OSG::IntersectAction::*getHitPath_function_type )(  ) const;
+            
+            IntersectAction_exposer.def( 
+                "getHitPath"
+                , getHitPath_function_type( &::OSG::IntersectAction::getHitPath )
+                , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
         { //::OSG::IntersectAction::getHitPoint
         
             typedef ::OSG::Pnt3f ( ::OSG::IntersectAction::*getHitPoint_function_type )(  ) const;

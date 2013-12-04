@@ -145,17 +145,6 @@ void register_StageParentBase_class(){
                 , ( bp::arg("whichField"), bp::arg("origin"), bp::arg("details") ) );
         
         }
-        { //::OSG::TraversalValidationHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > >::clearDestroyedFunctorFor
-        
-            typedef OSG::TraversalValidationHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > > exported_class_t;
-            typedef void ( exported_class_t::*clearDestroyedFunctorFor_function_type )( ::OSG::RenderActionBaseParent * ) ;
-            
-            StageParentBase_exposer.def( 
-                "clearDestroyedFunctorFor"
-                , clearDestroyedFunctorFor_function_type( &::OSG::TraversalValidationHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > >::clearDestroyedFunctorFor )
-                , ( bp::arg("pHandler") ) );
-        
-        }
         { //::OSG::TraversalValidationHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > >::clearDestroyedFunctors
         
             typedef OSG::TraversalValidationHandlerMixin< OSG::ContainerMixinHead< OSG::StageDesc > > exported_class_t;
