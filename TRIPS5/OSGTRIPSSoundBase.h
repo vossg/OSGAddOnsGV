@@ -2,11 +2,11 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2013 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ * contact: dirk@opensg.org, gerrit.voss@vossg.org, carsten_neumann@gmx.net  *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -74,6 +74,7 @@
 #include "OSGTRIPSSoundFields.h"
 
 OSG_BEGIN_NAMESPACE
+
 
 class TRIPSSound;
 
@@ -333,7 +334,7 @@ class OSG_TRIPS_DLLMAPPING TRIPSSoundBase : public AttachmentContainer
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual SizeT getBinSize (ConstFieldMaskArg  whichField);
+    virtual SizeT  getBinSize (ConstFieldMaskArg  whichField);
     virtual void   copyToBin  (BinaryDataHandler &pMem,
                                ConstFieldMaskArg  whichField);
     virtual void   copyFromBin(BinaryDataHandler &pMem,
@@ -426,40 +427,40 @@ class OSG_TRIPS_DLLMAPPING TRIPSSoundBase : public AttachmentContainer
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleSoundID         (void) const;
-    EditFieldHandlePtr editHandleSoundID        (void);
-    GetFieldHandlePtr  getHandleFilename        (void) const;
-    EditFieldHandlePtr editHandleFilename       (void);
-    GetFieldHandlePtr  getHandleBeacon          (void) const;
-    EditFieldHandlePtr editHandleBeacon         (void);
-    GetFieldHandlePtr  getHandleUsevelocity     (void) const;
-    EditFieldHandlePtr editHandleUsevelocity    (void);
-    GetFieldHandlePtr  getHandleLastsoundposition (void) const;
-    EditFieldHandlePtr editHandleLastsoundposition(void);
-    GetFieldHandlePtr  getHandleVelocity        (void) const;
-    EditFieldHandlePtr editHandleVelocity       (void);
-    GetFieldHandlePtr  getHandleIs3D            (void) const;
-    EditFieldHandlePtr editHandleIs3D           (void);
-    GetFieldHandlePtr  getHandleChannel         (void) const;
-    EditFieldHandlePtr editHandleChannel        (void);
-    GetFieldHandlePtr  getHandleSoundVolume     (void) const;
-    EditFieldHandlePtr editHandleSoundVolume    (void);
-    GetFieldHandlePtr  getHandleMinDistance     (void) const;
-    EditFieldHandlePtr editHandleMinDistance    (void);
-    GetFieldHandlePtr  getHandleMaxDistance     (void) const;
-    EditFieldHandlePtr editHandleMaxDistance    (void);
-    GetFieldHandlePtr  getHandleSoundtoplay     (void) const;
-    EditFieldHandlePtr editHandleSoundtoplay    (void);
-    GetFieldHandlePtr  getHandlePlaymode        (void) const;
-    EditFieldHandlePtr editHandlePlaymode       (void);
-    GetFieldHandlePtr  getHandlePlaymodeparameter1 (void) const;
-    EditFieldHandlePtr editHandlePlaymodeparameter1(void);
-    GetFieldHandlePtr  getHandlePlaymodeparameter2 (void) const;
-    EditFieldHandlePtr editHandlePlaymodeparameter2(void);
-    GetFieldHandlePtr  getHandlePlaymodeparameter3 (void) const;
-    EditFieldHandlePtr editHandlePlaymodeparameter3(void);
-    GetFieldHandlePtr  getHandleAudio           (void) const;
-    EditFieldHandlePtr editHandleAudio          (void);
+     GetFieldHandlePtr  getHandleSoundID         (void) const;
+     EditFieldHandlePtr editHandleSoundID        (void);
+     GetFieldHandlePtr  getHandleFilename        (void) const;
+     EditFieldHandlePtr editHandleFilename       (void);
+     GetFieldHandlePtr  getHandleBeacon          (void) const;
+     EditFieldHandlePtr editHandleBeacon         (void);
+     GetFieldHandlePtr  getHandleUsevelocity     (void) const;
+     EditFieldHandlePtr editHandleUsevelocity    (void);
+     GetFieldHandlePtr  getHandleLastsoundposition (void) const;
+     EditFieldHandlePtr editHandleLastsoundposition(void);
+     GetFieldHandlePtr  getHandleVelocity        (void) const;
+     EditFieldHandlePtr editHandleVelocity       (void);
+     GetFieldHandlePtr  getHandleIs3D            (void) const;
+     EditFieldHandlePtr editHandleIs3D           (void);
+     GetFieldHandlePtr  getHandleChannel         (void) const;
+     EditFieldHandlePtr editHandleChannel        (void);
+     GetFieldHandlePtr  getHandleSoundVolume     (void) const;
+     EditFieldHandlePtr editHandleSoundVolume    (void);
+     GetFieldHandlePtr  getHandleMinDistance     (void) const;
+     EditFieldHandlePtr editHandleMinDistance    (void);
+     GetFieldHandlePtr  getHandleMaxDistance     (void) const;
+     EditFieldHandlePtr editHandleMaxDistance    (void);
+     GetFieldHandlePtr  getHandleSoundtoplay     (void) const;
+     EditFieldHandlePtr editHandleSoundtoplay    (void);
+     GetFieldHandlePtr  getHandlePlaymode        (void) const;
+     EditFieldHandlePtr editHandlePlaymode       (void);
+     GetFieldHandlePtr  getHandlePlaymodeparameter1 (void) const;
+     EditFieldHandlePtr editHandlePlaymodeparameter1(void);
+     GetFieldHandlePtr  getHandlePlaymodeparameter2 (void) const;
+     EditFieldHandlePtr editHandlePlaymodeparameter2(void);
+     GetFieldHandlePtr  getHandlePlaymodeparameter3 (void) const;
+     EditFieldHandlePtr editHandlePlaymodeparameter3(void);
+     GetFieldHandlePtr  getHandleAudio           (void) const;
+     EditFieldHandlePtr editHandleAudio          (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

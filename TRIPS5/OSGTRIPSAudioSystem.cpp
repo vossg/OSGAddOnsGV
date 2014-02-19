@@ -644,15 +644,17 @@ Int32 TRIPSAudioSystem::readIniFile(void)
 	std::string command, value;
 	Vec3f offset;
 	
-	inifile="trips.ini";
+	inifile = getInifilename();
+	if (inifile.length()<1) inifile="trips.ini";
 	std::ifstream ini(inifile.c_str());
-	if (ini==0) {
+	if (ini.fail()) {
+		SFATAL << "Cannot find " << inifile.c_str() << ", trying trips.ini ..." << std::endl;
 		inifile="trips.ini";
 		std::ifstream ini(inifile.c_str());
 	}
 	
-	if (ini==0) { 
-		SFATAL << "Cannot find TRIPS.INI! Must be in same dir than application" << std::endl;
+	if (ini.fail()) { 
+		SFATAL << "Cannot find " << inifile.c_str() << "! Must be in same dir as application" << std::endl;
 		return 0;
 	}
 	while (!ini.eof()){

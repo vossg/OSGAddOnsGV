@@ -2,9 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2013 by the OpenSG Forum                 *
  *                                                                           *
- *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ * contact: dirk@opensg.org, gerrit.voss@vossg.org, carsten_neumann@gmx.net  *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -49,6 +49,7 @@
 \*****************************************************************************/
 
 OSG_BEGIN_NAMESPACE
+
 
 
 //! access the type of the class
@@ -122,22 +123,6 @@ void TRIPSSoundBase::setFilename(const std::string &value)
     editSField(FilenameFieldMask);
 
     _sfFilename.setValue(value);
-}
-
-//! Get the value of the TRIPSSound::_sfBeacon field.
-inline
-Node * TRIPSSoundBase::getBeacon(void) const
-{
-    return _sfBeacon.getValue();
-}
-
-//! Set the value of the TRIPSSound::_sfBeacon field.
-inline
-void TRIPSSoundBase::setBeacon(Node * const value)
-{
-    editSField(BeaconFieldMask);
-
-    _sfBeacon.setValue(value);
 }
 //! Get the value of the TRIPSSound::_sfUsevelocity field.
 
@@ -463,22 +448,6 @@ void TRIPSSoundBase::setPlaymodeparameter3(const Int32 value)
     editSField(Playmodeparameter3FieldMask);
 
     _sfPlaymodeparameter3.setValue(value);
-}
-
-//! Get the value of the TRIPSSound::_sfAudio field.
-inline
-TRIPSAudioSystem * TRIPSSoundBase::getAudio(void) const
-{
-    return _sfAudio.getValue();
-}
-
-//! Set the value of the TRIPSSound::_sfAudio field.
-inline
-void TRIPSSoundBase::setAudio(TRIPSAudioSystem * const value)
-{
-    editSField(AudioFieldMask);
-
-    _sfAudio.setValue(value);
 }
 
 

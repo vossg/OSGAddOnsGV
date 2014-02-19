@@ -2,11 +2,11 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2013 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ * contact: dirk@opensg.org, gerrit.voss@vossg.org, carsten_neumann@gmx.net  *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -146,24 +146,32 @@ OSG_BEGIN_NAMESPACE
     Speaker mode DOLBYDIGITAL / STEREO / HEADPHONES ..
 */
 
+/*! \var std::string     TRIPSAudioSystemBase::_sfInifilename
+    filename for ini or trips.ini if not set
+*/
+
 
 /***************************************************************************\
  *                      FieldType/FieldTrait Instantiation                 *
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<TRIPSAudioSystem *>::_type("TRIPSAudioSystemPtr", "NodeCorePtr");
+PointerType FieldTraits<TRIPSAudioSystem *, nsOSG>::_type(
+    "TRIPSAudioSystemPtr", 
+    "NodeCorePtr", 
+    TRIPSAudioSystem::getClassType(),
+    nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(TRIPSAudioSystem *)
+OSG_FIELDTRAITS_GETTYPE_NS(TRIPSAudioSystem *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            TRIPSAudioSystem *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            TRIPSAudioSystem *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -365,6 +373,18 @@ void TRIPSAudioSystemBase::classDescInserter(TypeObject &oType)
         static_cast<FieldGetMethodSig >(&TRIPSAudioSystem::getHandleSpeakermode));
 
     oType.addInitialDesc(pDesc);
+
+    pDesc = new SFString::Description(
+        SFString::getClassType(),
+        "inifilename",
+        "filename for ini or trips.ini if not set\n",
+        InifilenameFieldId, InifilenameFieldMask,
+        false,
+        (Field::FClusterLocal),
+        static_cast<FieldEditMethodSig>(&TRIPSAudioSystem::editHandleInifilename),
+        static_cast<FieldGetMethodSig >(&TRIPSAudioSystem::getHandleInifilename));
+
+    oType.addInitialDesc(pDesc);
 }
 
 
@@ -372,7 +392,7 @@ TRIPSAudioSystemBase::TypeObject TRIPSAudioSystemBase::_type(
     TRIPSAudioSystemBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&TRIPSAudioSystemBase::createEmptyLocal),
     TRIPSAudioSystem::initMethod,
     TRIPSAudioSystem::exitMethod,
@@ -543,6 +563,17 @@ TRIPSAudioSystemBase::TypeObject TRIPSAudioSystemBase::_type(
     "\t>\n"
     "\tSpeaker mode DOLBYDIGITAL / STEREO / HEADPHONES ..\n"
     "\t</Field>\n"
+    "  <Field\n"
+    "\t\tname=\"inifilename\"\n"
+    "\t\ttype=\"std::string\"\n"
+    "\t\tcardinality=\"single\"\n"
+    "\t\tvisibility=\"external\"\n"
+    "    defaultValue=\"\"\n"
+    "\t\taccess=\"public\"\n"
+    "    fieldFlags=\"FClusterLocal\"\n"
+    "\t>\n"
+    "    filename for ini or trips.ini if not set\n"
+    "  </Field>\n"
     "</FieldContainer>\n",
     "Audio Node that holds information about Listener and a List of Sounds\n"
     );
@@ -683,6 +714,10 @@ MFUnrecTRIPSSoundPtr *TRIPSAudioSystemBase::editMFSoundlist      (void)
 
     return &_mfSoundlist;
 }
+TRIPSSound * TRIPSAudioSystemBase::getSoundlist(const UInt32 index) const
+{
+    return _mfSoundlist[index];
+}
 
 //! Get the TRIPSAudioSystem::_mfTimesoundlist field.
 const MFUnrecTRIPSSoundPtr *TRIPSAudioSystemBase::getMFTimesoundlist(void) const
@@ -695,6 +730,10 @@ MFUnrecTRIPSSoundPtr *TRIPSAudioSystemBase::editMFTimesoundlist  (void)
     editMField(TimesoundlistFieldMask, _mfTimesoundlist);
 
     return &_mfTimesoundlist;
+}
+TRIPSSound * TRIPSAudioSystemBase::getTimesoundlist(const UInt32 index) const
+{
+    return _mfTimesoundlist[index];
 }
 
 SFInt32 *TRIPSAudioSystemBase::editSFReverbtype(void)
@@ -772,6 +811,19 @@ SFUInt16 *TRIPSAudioSystemBase::editSFSpeakermode(void)
 const SFUInt16 *TRIPSAudioSystemBase::getSFSpeakermode(void) const
 {
     return &_sfSpeakermode;
+}
+
+
+SFString *TRIPSAudioSystemBase::editSFInifilename(void)
+{
+    editSField(InifilenameFieldMask);
+
+    return &_sfInifilename;
+}
+
+const SFString *TRIPSAudioSystemBase::getSFInifilename(void) const
+{
+    return &_sfInifilename;
 }
 
 
@@ -955,6 +1007,10 @@ SizeT TRIPSAudioSystemBase::getBinSize(ConstFieldMaskArg whichField)
     {
         returnValue += _sfSpeakermode.getBinSize();
     }
+    if(FieldBits::NoField != (InifilenameFieldMask & whichField))
+    {
+        returnValue += _sfInifilename.getBinSize();
+    }
 
     return returnValue;
 }
@@ -1027,6 +1083,10 @@ void TRIPSAudioSystemBase::copyToBin(BinaryDataHandler &pMem,
     if(FieldBits::NoField != (SpeakermodeFieldMask & whichField))
     {
         _sfSpeakermode.copyToBin(pMem);
+    }
+    if(FieldBits::NoField != (InifilenameFieldMask & whichField))
+    {
+        _sfInifilename.copyToBin(pMem);
     }
 }
 
@@ -1114,6 +1174,11 @@ void TRIPSAudioSystemBase::copyFromBin(BinaryDataHandler &pMem,
     {
         editSField(SpeakermodeFieldMask);
         _sfSpeakermode.copyFromBin(pMem);
+    }
+    if(FieldBits::NoField != (InifilenameFieldMask & whichField))
+    {
+        editSField(InifilenameFieldMask);
+        _sfInifilename.copyFromBin(pMem);
     }
 }
 
@@ -1255,7 +1320,8 @@ TRIPSAudioSystemBase::TRIPSAudioSystemBase(void) :
     _sfAudioinit              (bool(true)),
     _sfAudiomode              (UInt16(-1)),
     _sfAudiodriver            (),
-    _sfSpeakermode            ()
+    _sfSpeakermode            (),
+    _sfInifilename            ()
 {
 }
 
@@ -1276,7 +1342,8 @@ TRIPSAudioSystemBase::TRIPSAudioSystemBase(const TRIPSAudioSystemBase &source) :
     _sfAudioinit              (source._sfAudioinit              ),
     _sfAudiomode              (source._sfAudiomode              ),
     _sfAudiodriver            (source._sfAudiodriver            ),
-    _sfSpeakermode            (source._sfSpeakermode            )
+    _sfSpeakermode            (source._sfSpeakermode            ),
+    _sfInifilename            (source._sfInifilename            )
 {
 }
 
@@ -1741,6 +1808,31 @@ EditFieldHandlePtr TRIPSAudioSystemBase::editHandleSpeakermode    (void)
 
 
     editSField(SpeakermodeFieldMask);
+
+    return returnValue;
+}
+
+GetFieldHandlePtr TRIPSAudioSystemBase::getHandleInifilename     (void) const
+{
+    SFString::GetHandlePtr returnValue(
+        new  SFString::GetHandle(
+             &_sfInifilename,
+             this->getType().getFieldDesc(InifilenameFieldId),
+             const_cast<TRIPSAudioSystemBase *>(this)));
+
+    return returnValue;
+}
+
+EditFieldHandlePtr TRIPSAudioSystemBase::editHandleInifilename    (void)
+{
+    SFString::EditHandlePtr returnValue(
+        new  SFString::EditHandle(
+             &_sfInifilename,
+             this->getType().getFieldDesc(InifilenameFieldId),
+             this));
+
+
+    editSField(InifilenameFieldMask);
 
     return returnValue;
 }

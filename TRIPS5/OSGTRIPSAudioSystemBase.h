@@ -2,11 +2,11 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2013 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ * contact: dirk@opensg.org, gerrit.voss@vossg.org, carsten_neumann@gmx.net  *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -74,6 +74,7 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class TRIPSAudioSystem;
 
 //! \brief TRIPSAudioSystem Base Class.
@@ -112,7 +113,8 @@ class OSG_TRIPS_DLLMAPPING TRIPSAudioSystemBase : public NodeCore
         AudiomodeFieldId = AudioinitFieldId + 1,
         AudiodriverFieldId = AudiomodeFieldId + 1,
         SpeakermodeFieldId = AudiodriverFieldId + 1,
-        NextFieldId = SpeakermodeFieldId + 1
+        InifilenameFieldId = SpeakermodeFieldId + 1,
+        NextFieldId = InifilenameFieldId + 1
     };
 
     static const OSG::BitVector ListenerpositionFieldMask =
@@ -147,6 +149,8 @@ class OSG_TRIPS_DLLMAPPING TRIPSAudioSystemBase : public NodeCore
         (TypeTraits<BitVector>::One << AudiodriverFieldId);
     static const OSG::BitVector SpeakermodeFieldMask =
         (TypeTraits<BitVector>::One << SpeakermodeFieldId);
+    static const OSG::BitVector InifilenameFieldMask =
+        (TypeTraits<BitVector>::One << InifilenameFieldId);
     static const OSG::BitVector NextFieldMask =
         (TypeTraits<BitVector>::One << NextFieldId);
         
@@ -166,6 +170,7 @@ class OSG_TRIPS_DLLMAPPING TRIPSAudioSystemBase : public NodeCore
     typedef SFUInt16          SFAudiomodeType;
     typedef SFUInt16          SFAudiodriverType;
     typedef SFUInt16          SFSpeakermodeType;
+    typedef SFString          SFInifilenameType;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -237,6 +242,9 @@ class OSG_TRIPS_DLLMAPPING TRIPSAudioSystemBase : public NodeCore
                   SFUInt16            *editSFSpeakermode    (void);
             const SFUInt16            *getSFSpeakermode     (void) const;
 
+                  SFString            *editSFInifilename    (void);
+            const SFString            *getSFInifilename     (void) const;
+
 
                   Pnt3f               &editListenerposition(void);
             const Pnt3f               &getListenerposition (void) const;
@@ -284,6 +292,9 @@ class OSG_TRIPS_DLLMAPPING TRIPSAudioSystemBase : public NodeCore
                   UInt16              &editSpeakermode    (void);
                   UInt16               getSpeakermode     (void) const;
 
+                  std::string         &editInifilename    (void);
+            const std::string         &getInifilename     (void) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
@@ -303,6 +314,7 @@ class OSG_TRIPS_DLLMAPPING TRIPSAudioSystemBase : public NodeCore
             void setAudiomode      (const UInt16 value);
             void setAudiodriver    (const UInt16 value);
             void setSpeakermode    (const UInt16 value);
+            void setInifilename    (const std::string &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -331,7 +343,7 @@ class OSG_TRIPS_DLLMAPPING TRIPSAudioSystemBase : public NodeCore
     /*! \name                   Binary Access                              */
     /*! \{                                                                 */
 
-    virtual SizeT getBinSize (ConstFieldMaskArg  whichField);
+    virtual SizeT  getBinSize (ConstFieldMaskArg  whichField);
     virtual void   copyToBin  (BinaryDataHandler &pMem,
                                ConstFieldMaskArg  whichField);
     virtual void   copyFromBin(BinaryDataHandler &pMem,
@@ -395,6 +407,7 @@ class OSG_TRIPS_DLLMAPPING TRIPSAudioSystemBase : public NodeCore
     SFUInt16          _sfAudiomode;
     SFUInt16          _sfAudiodriver;
     SFUInt16          _sfSpeakermode;
+    SFString          _sfInifilename;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -423,38 +436,40 @@ class OSG_TRIPS_DLLMAPPING TRIPSAudioSystemBase : public NodeCore
     /*! \name                    Generic Field Access                      */
     /*! \{                                                                 */
 
-    GetFieldHandlePtr  getHandleListenerposition (void) const;
-    EditFieldHandlePtr editHandleListenerposition(void);
-    GetFieldHandlePtr  getHandleListenerlookat  (void) const;
-    EditFieldHandlePtr editHandleListenerlookat (void);
-    GetFieldHandlePtr  getHandleListenerup      (void) const;
-    EditFieldHandlePtr editHandleListenerup     (void);
-    GetFieldHandlePtr  getHandleListeneroffset  (void) const;
-    EditFieldHandlePtr editHandleListeneroffset (void);
-    GetFieldHandlePtr  getHandleUsevelocity     (void) const;
-    EditFieldHandlePtr editHandleUsevelocity    (void);
-    GetFieldHandlePtr  getHandleVelocity        (void) const;
-    EditFieldHandlePtr editHandleVelocity       (void);
-    GetFieldHandlePtr  getHandleLastframetime   (void) const;
-    EditFieldHandlePtr editHandleLastframetime  (void);
-    GetFieldHandlePtr  getHandleLastlistenerposition (void) const;
-    EditFieldHandlePtr editHandleLastlistenerposition(void);
-    GetFieldHandlePtr  getHandleSoundlist       (void) const;
-    EditFieldHandlePtr editHandleSoundlist      (void);
-    GetFieldHandlePtr  getHandleTimesoundlist   (void) const;
-    EditFieldHandlePtr editHandleTimesoundlist  (void);
-    GetFieldHandlePtr  getHandleReverbtype      (void) const;
-    EditFieldHandlePtr editHandleReverbtype     (void);
-    GetFieldHandlePtr  getHandleAudiotimer      (void) const;
-    EditFieldHandlePtr editHandleAudiotimer     (void);
-    GetFieldHandlePtr  getHandleAudioinit       (void) const;
-    EditFieldHandlePtr editHandleAudioinit      (void);
-    GetFieldHandlePtr  getHandleAudiomode       (void) const;
-    EditFieldHandlePtr editHandleAudiomode      (void);
-    GetFieldHandlePtr  getHandleAudiodriver     (void) const;
-    EditFieldHandlePtr editHandleAudiodriver    (void);
-    GetFieldHandlePtr  getHandleSpeakermode     (void) const;
-    EditFieldHandlePtr editHandleSpeakermode    (void);
+     GetFieldHandlePtr  getHandleListenerposition (void) const;
+     EditFieldHandlePtr editHandleListenerposition(void);
+     GetFieldHandlePtr  getHandleListenerlookat  (void) const;
+     EditFieldHandlePtr editHandleListenerlookat (void);
+     GetFieldHandlePtr  getHandleListenerup      (void) const;
+     EditFieldHandlePtr editHandleListenerup     (void);
+     GetFieldHandlePtr  getHandleListeneroffset  (void) const;
+     EditFieldHandlePtr editHandleListeneroffset (void);
+     GetFieldHandlePtr  getHandleUsevelocity     (void) const;
+     EditFieldHandlePtr editHandleUsevelocity    (void);
+     GetFieldHandlePtr  getHandleVelocity        (void) const;
+     EditFieldHandlePtr editHandleVelocity       (void);
+     GetFieldHandlePtr  getHandleLastframetime   (void) const;
+     EditFieldHandlePtr editHandleLastframetime  (void);
+     GetFieldHandlePtr  getHandleLastlistenerposition (void) const;
+     EditFieldHandlePtr editHandleLastlistenerposition(void);
+     GetFieldHandlePtr  getHandleSoundlist       (void) const;
+     EditFieldHandlePtr editHandleSoundlist      (void);
+     GetFieldHandlePtr  getHandleTimesoundlist   (void) const;
+     EditFieldHandlePtr editHandleTimesoundlist  (void);
+     GetFieldHandlePtr  getHandleReverbtype      (void) const;
+     EditFieldHandlePtr editHandleReverbtype     (void);
+     GetFieldHandlePtr  getHandleAudiotimer      (void) const;
+     EditFieldHandlePtr editHandleAudiotimer     (void);
+     GetFieldHandlePtr  getHandleAudioinit       (void) const;
+     EditFieldHandlePtr editHandleAudioinit      (void);
+     GetFieldHandlePtr  getHandleAudiomode       (void) const;
+     EditFieldHandlePtr editHandleAudiomode      (void);
+     GetFieldHandlePtr  getHandleAudiodriver     (void) const;
+     EditFieldHandlePtr editHandleAudiodriver    (void);
+     GetFieldHandlePtr  getHandleSpeakermode     (void) const;
+     EditFieldHandlePtr editHandleSpeakermode    (void);
+     GetFieldHandlePtr  getHandleInifilename     (void) const;
+     EditFieldHandlePtr editHandleInifilename    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

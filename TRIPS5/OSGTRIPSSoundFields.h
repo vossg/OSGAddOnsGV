@@ -2,11 +2,11 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2013 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ * contact: dirk@opensg.org, gerrit.voss@vossg.org, carsten_neumann@gmx.net  *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -64,24 +64,24 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class TRIPSSound;
 
 OSG_GEN_CONTAINERPTR(TRIPSSound);
-
 /*! \ingroup GrpTRIPSFieldTraits
     \ingroup GrpLibOSGTRIPS
  */
 template <>
-struct FieldTraits<TRIPSSound *> :
-    public FieldTraitsFCPtrBase<TRIPSSound *>
+struct FieldTraits<TRIPSSound *, nsOSG> :
+    public FieldTraitsFCPtrBase<TRIPSSound *, nsOSG>
 {
   private:
 
-    static DataType             _type;
+    static PointerType             _type;
 
   public:
 
-    typedef FieldTraits<TRIPSSound *>  Self;
+    typedef FieldTraits<TRIPSSound *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<TRIPSSound *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFTRIPSSoundPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFTRIPSSoundPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<TRIPSSound *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSSound *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecTRIPSSoundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSSound *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSSound *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecTRIPSSoundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSSound *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSSound *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakTRIPSSoundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSSound *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSSound *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdTRIPSSoundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSSound *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSSound *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecTRIPSSoundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSSound *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSSound *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecTRIPSSoundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSSound *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSSound *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakTRIPSSoundPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSSound *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSSound *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdTRIPSSoundPtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<TRIPSSound *, 0>::getMName<NoRefCountPolicy>(void)
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpTRIPSFieldSFields */
 typedef PointerSField<TRIPSSound *,
-                      RecordedRefCountPolicy  > SFRecTRIPSSoundPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecTRIPSSoundPtr;
 /*! \ingroup GrpTRIPSFieldSFields */
 typedef PointerSField<TRIPSSound *,
-                      UnrecordedRefCountPolicy> SFUnrecTRIPSSoundPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecTRIPSSoundPtr;
 /*! \ingroup GrpTRIPSFieldSFields */
 typedef PointerSField<TRIPSSound *,
-                      WeakRefCountPolicy      > SFWeakTRIPSSoundPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakTRIPSSoundPtr;
 /*! \ingroup GrpTRIPSFieldSFields */
 typedef PointerSField<TRIPSSound *,
-                      NoRefCountPolicy        > SFUncountedTRIPSSoundPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedTRIPSSoundPtr;
 
 
 /*! \ingroup GrpTRIPSFieldMFields */
 typedef PointerMField<TRIPSSound *,
-                      RecordedRefCountPolicy  > MFRecTRIPSSoundPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecTRIPSSoundPtr;
 /*! \ingroup GrpTRIPSFieldMFields */
 typedef PointerMField<TRIPSSound *,
-                      UnrecordedRefCountPolicy> MFUnrecTRIPSSoundPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecTRIPSSoundPtr;
 /*! \ingroup GrpTRIPSFieldMFields */
 typedef PointerMField<TRIPSSound *,
-                      WeakRefCountPolicy      > MFWeakTRIPSSoundPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakTRIPSSoundPtr;
 /*! \ingroup GrpTRIPSFieldMFields */
 typedef PointerMField<TRIPSSound *,
-                      NoRefCountPolicy        > MFUncountedTRIPSSoundPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedTRIPSSoundPtr;
 
 
 

@@ -2,9 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2013 by the OpenSG Forum                 *
  *                                                                           *
- *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ * contact: dirk@opensg.org, gerrit.voss@vossg.org, carsten_neumann@gmx.net  *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -49,6 +49,7 @@
 \*****************************************************************************/
 
 OSG_BEGIN_NAMESPACE
+
 
 
 //! access the type of the class
@@ -423,20 +424,33 @@ void TRIPSAudioSystemBase::setSpeakermode(const UInt16 value)
 
     _sfSpeakermode.setValue(value);
 }
+//! Get the value of the TRIPSAudioSystem::_sfInifilename field.
 
-//! Get the value of the \a index element the TRIPSAudioSystem::_mfSoundlist field.
 inline
-TRIPSSound * TRIPSAudioSystemBase::getSoundlist(const UInt32 index) const
+std::string &TRIPSAudioSystemBase::editInifilename(void)
 {
-    return _mfSoundlist[index];
+    editSField(InifilenameFieldMask);
+
+    return _sfInifilename.getValue();
 }
 
-//! Get the value of the \a index element the TRIPSAudioSystem::_mfTimesoundlist field.
+//! Get the value of the TRIPSAudioSystem::_sfInifilename field.
 inline
-TRIPSSound * TRIPSAudioSystemBase::getTimesoundlist(const UInt32 index) const
+const std::string &TRIPSAudioSystemBase::getInifilename(void) const
 {
-    return _mfTimesoundlist[index];
+    return _sfInifilename.getValue();
 }
+
+//! Set the value of the TRIPSAudioSystem::_sfInifilename field.
+inline
+void TRIPSAudioSystemBase::setInifilename(const std::string &value)
+{
+    editSField(InifilenameFieldMask);
+
+    _sfInifilename.setValue(value);
+}
+
+
 
 
 #ifdef OSG_MT_CPTR_ASPECT
@@ -502,6 +516,9 @@ void TRIPSAudioSystemBase::execSync (      TRIPSAudioSystemBase *pFrom,
 
     if(FieldBits::NoField != (SpeakermodeFieldMask & whichField))
         _sfSpeakermode.syncWith(pFrom->_sfSpeakermode);
+
+    if(FieldBits::NoField != (InifilenameFieldMask & whichField))
+        _sfInifilename.syncWith(pFrom->_sfInifilename);
 }
 #endif
 

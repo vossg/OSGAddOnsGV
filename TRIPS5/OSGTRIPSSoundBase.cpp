@@ -2,11 +2,11 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2013 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ * contact: dirk@opensg.org, gerrit.voss@vossg.org, carsten_neumann@gmx.net  *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -157,18 +157,22 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldTraits<TRIPSSound *>::_type("TRIPSSoundPtr", "AttachmentContainerPtr");
+PointerType FieldTraits<TRIPSSound *, nsOSG>::_type(
+    "TRIPSSoundPtr", 
+    "AttachmentContainerPtr", 
+    TRIPSSound::getClassType(),
+    nsOSG);
 #endif
 
-OSG_FIELDTRAITS_GETTYPE(TRIPSSound *)
+OSG_FIELDTRAITS_GETTYPE_NS(TRIPSSound *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            TRIPSSound *,
-                           0);
+                           nsOSG);
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            TRIPSSound *,
-                           0);
+                           nsOSG);
 
 /***************************************************************************\
  *                         Field Description                               *
@@ -389,7 +393,7 @@ TRIPSSoundBase::TypeObject TRIPSSoundBase::_type(
     TRIPSSoundBase::getClassname(),
     Inherited::getClassname(),
     "NULL",
-    0,
+    nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&TRIPSSoundBase::createEmptyLocal),
     TRIPSSound::initMethod,
     TRIPSSound::exitMethod,
@@ -629,6 +633,21 @@ SFWeakNodePtr       *TRIPSSoundBase::editSFBeacon         (void)
     return &_sfBeacon;
 }
 
+//! Get the value of the TRIPSSound::_sfBeacon field.
+Node * TRIPSSoundBase::getBeacon(void) const
+{
+    return _sfBeacon.getValue();
+}
+
+//! Set the value of the TRIPSSound::_sfBeacon field.
+void TRIPSSoundBase::setBeacon(Node * const value)
+{
+    editSField(BeaconFieldMask);
+
+    _sfBeacon.setValue(value);
+}
+
+
 SFBool *TRIPSSoundBase::editSFUsevelocity(void)
 {
     editSField(UsevelocityFieldMask);
@@ -810,6 +829,21 @@ SFUnrecTRIPSAudioSystemPtr *TRIPSSoundBase::editSFAudio          (void)
 
     return &_sfAudio;
 }
+
+//! Get the value of the TRIPSSound::_sfAudio field.
+TRIPSAudioSystem * TRIPSSoundBase::getAudio(void) const
+{
+    return _sfAudio.getValue();
+}
+
+//! Set the value of the TRIPSSound::_sfAudio field.
+void TRIPSSoundBase::setAudio(TRIPSAudioSystem * const value)
+{
+    editSField(AudioFieldMask);
+
+    _sfAudio.setValue(value);
+}
+
 
 
 

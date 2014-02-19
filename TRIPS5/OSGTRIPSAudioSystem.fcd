@@ -162,4 +162,15 @@ Audio Node that holds information about Listener and a List of Sounds
 	>
 	Speaker mode DOLBYDIGITAL / STEREO / HEADPHONES ..
 	</Field>
+  <Field
+		name="inifilename"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+    defaultValue=""
+		access="public"
+    fieldFlags="FClusterLocal"
+	>
+    filename for ini or trips.ini if not set
+  </Field>
 </FieldContainer>

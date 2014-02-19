@@ -2,11 +2,11 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *               Copyright (C) 2000-2006 by the OpenSG Forum                 *
+ *               Copyright (C) 2000-2013 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ * contact: dirk@opensg.org, gerrit.voss@vossg.org, carsten_neumann@gmx.net  *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -64,24 +64,24 @@
 
 OSG_BEGIN_NAMESPACE
 
+
 class TRIPSAudioSystem;
 
 OSG_GEN_CONTAINERPTR(TRIPSAudioSystem);
-
 /*! \ingroup GrpTRIPSFieldTraits
     \ingroup GrpLibOSGTRIPS
  */
 template <>
-struct FieldTraits<TRIPSAudioSystem *> :
-    public FieldTraitsFCPtrBase<TRIPSAudioSystem *>
+struct FieldTraits<TRIPSAudioSystem *, nsOSG> :
+    public FieldTraitsFCPtrBase<TRIPSAudioSystem *, nsOSG>
 {
   private:
 
-    static DataType             _type;
+    static PointerType             _type;
 
   public:
 
-    typedef FieldTraits<TRIPSAudioSystem *>  Self;
+    typedef FieldTraits<TRIPSAudioSystem *, nsOSG>  Self;
 
     enum                        { Convertible = NotConvertible };
 
@@ -90,57 +90,55 @@ struct FieldTraits<TRIPSAudioSystem *> :
     template<typename RefCountPolicy> inline
     static const Char8    *getSName     (void);
 
-//    static const char *getSName(void) { return "SFTRIPSAudioSystemPtr"; }
     template<typename RefCountPolicy> inline
     static const Char8    *getMName     (void);
 
-//    static const char *getMName(void) { return "MFTRIPSAudioSystemPtr"; }
 };
 
 template<> inline
-const Char8 *FieldTraits<TRIPSAudioSystem *, 0>::getSName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSAudioSystem *, nsOSG>::getSName<RecordedRefCountPolicy>(void)
 {
     return "SFRecTRIPSAudioSystemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSAudioSystem *, 0>::getSName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSAudioSystem *, nsOSG>::getSName<UnrecordedRefCountPolicy>(void)
 {
     return "SFUnrecTRIPSAudioSystemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSAudioSystem *, 0>::getSName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSAudioSystem *, nsOSG>::getSName<WeakRefCountPolicy>(void)
 {
     return "SFWeakTRIPSAudioSystemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSAudioSystem *, 0>::getSName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSAudioSystem *, nsOSG>::getSName<NoRefCountPolicy>(void)
 {
     return "SFUnrefdTRIPSAudioSystemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSAudioSystem *, 0>::getMName<RecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSAudioSystem *, nsOSG>::getMName<RecordedRefCountPolicy>(void)
 {
     return "MFRecTRIPSAudioSystemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSAudioSystem *, 0>::getMName<UnrecordedRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSAudioSystem *, nsOSG>::getMName<UnrecordedRefCountPolicy>(void)
 {
     return "MFUnrecTRIPSAudioSystemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSAudioSystem *, 0>::getMName<WeakRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSAudioSystem *, nsOSG>::getMName<WeakRefCountPolicy>(void)
 {
     return "MFWeakTRIPSAudioSystemPtr"; 
 }
 
 template<> inline
-const Char8 *FieldTraits<TRIPSAudioSystem *, 0>::getMName<NoRefCountPolicy>(void)
+const Char8 *FieldTraits<TRIPSAudioSystem *, nsOSG>::getMName<NoRefCountPolicy>(void)
 {
     return "MFUnrefdTRIPSAudioSystemPtr"; 
 }
@@ -149,30 +147,30 @@ const Char8 *FieldTraits<TRIPSAudioSystem *, 0>::getMName<NoRefCountPolicy>(void
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /*! \ingroup GrpTRIPSFieldSFields */
 typedef PointerSField<TRIPSAudioSystem *,
-                      RecordedRefCountPolicy  > SFRecTRIPSAudioSystemPtr;
+                      RecordedRefCountPolicy, nsOSG  > SFRecTRIPSAudioSystemPtr;
 /*! \ingroup GrpTRIPSFieldSFields */
 typedef PointerSField<TRIPSAudioSystem *,
-                      UnrecordedRefCountPolicy> SFUnrecTRIPSAudioSystemPtr;
+                      UnrecordedRefCountPolicy, nsOSG> SFUnrecTRIPSAudioSystemPtr;
 /*! \ingroup GrpTRIPSFieldSFields */
 typedef PointerSField<TRIPSAudioSystem *,
-                      WeakRefCountPolicy      > SFWeakTRIPSAudioSystemPtr;
+                      WeakRefCountPolicy, nsOSG      > SFWeakTRIPSAudioSystemPtr;
 /*! \ingroup GrpTRIPSFieldSFields */
 typedef PointerSField<TRIPSAudioSystem *,
-                      NoRefCountPolicy        > SFUncountedTRIPSAudioSystemPtr;
+                      NoRefCountPolicy, nsOSG        > SFUncountedTRIPSAudioSystemPtr;
 
 
 /*! \ingroup GrpTRIPSFieldMFields */
 typedef PointerMField<TRIPSAudioSystem *,
-                      RecordedRefCountPolicy  > MFRecTRIPSAudioSystemPtr;
+                      RecordedRefCountPolicy, nsOSG  > MFRecTRIPSAudioSystemPtr;
 /*! \ingroup GrpTRIPSFieldMFields */
 typedef PointerMField<TRIPSAudioSystem *,
-                      UnrecordedRefCountPolicy> MFUnrecTRIPSAudioSystemPtr;
+                      UnrecordedRefCountPolicy, nsOSG> MFUnrecTRIPSAudioSystemPtr;
 /*! \ingroup GrpTRIPSFieldMFields */
 typedef PointerMField<TRIPSAudioSystem *,
-                      WeakRefCountPolicy      > MFWeakTRIPSAudioSystemPtr;
+                      WeakRefCountPolicy, nsOSG      > MFWeakTRIPSAudioSystemPtr;
 /*! \ingroup GrpTRIPSFieldMFields */
 typedef PointerMField<TRIPSAudioSystem *,
-                      NoRefCountPolicy        > MFUncountedTRIPSAudioSystemPtr;
+                      NoRefCountPolicy, nsOSG        > MFUncountedTRIPSAudioSystemPtr;
 
 
 
