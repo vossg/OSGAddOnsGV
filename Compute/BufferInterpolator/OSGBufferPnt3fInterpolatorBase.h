@@ -165,15 +165,15 @@ class OSG_CONTRIBCOMPUTE_DLLMAPPING BufferPnt3fInterpolatorBase : public NodeCor
                   Real32              &editInValue        (void);
                   Real32               getInValue         (void) const;
 
-                  Real32              &editKey            (const UInt32 index);
+            MFReal32           ::reference       editKey            (const UInt32 index);
                   Real32               getKey             (const UInt32 index) const;
 
-                  Pnt3f               &editKeyValue       (const UInt32 index);
+            MFPnt3f            ::reference       editKeyValue       (const UInt32 index);
             const Pnt3f               &getKeyValue        (const UInt32 index) const;
 
                   GeoVectorProperty * getOutValue       (void) const;
 
-                  UInt32              &editResortIndex    (const UInt32 index);
+            MFUInt32           ::reference       editResortIndex    (const UInt32 index);
                   UInt32               getResortIndex     (const UInt32 index) const;
 
     /*! \}                                                                 */

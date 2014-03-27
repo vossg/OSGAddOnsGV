@@ -108,7 +108,7 @@ inline
 }
 
 inline
-Real32 &BufferPnt3fInterpolatorBase::editKey(const UInt32 index)
+MFReal32           ::reference BufferPnt3fInterpolatorBase::editKey(const UInt32 index)
 {
     editMField(KeyFieldMask, _mfKey);
 
@@ -123,7 +123,7 @@ const Pnt3f &BufferPnt3fInterpolatorBase::getKeyValue(const UInt32 index) const
 }
 
 inline
-Pnt3f &BufferPnt3fInterpolatorBase::editKeyValue(const UInt32 index)
+MFPnt3f            ::reference BufferPnt3fInterpolatorBase::editKeyValue(const UInt32 index)
 {
     editMField(KeyValueFieldMask, _mfKeyValue);
 
@@ -138,7 +138,7 @@ inline
 }
 
 inline
-UInt32 &BufferPnt3fInterpolatorBase::editResortIndex(const UInt32 index)
+MFUInt32           ::reference BufferPnt3fInterpolatorBase::editResortIndex(const UInt32 index)
 {
     editMField(ResortIndexFieldMask, _mfResortIndex);
 
