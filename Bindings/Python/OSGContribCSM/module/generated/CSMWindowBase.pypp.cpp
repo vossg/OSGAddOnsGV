@@ -89,6 +89,7 @@ void register_CSMWindowBase_class(){
         bp::scope().attr("PartitionDrawModeFieldId") = (int)OSG::CSMWindowBase::PartitionDrawModeFieldId;
         bp::scope().attr("RegisterMainLoopFieldId") = (int)OSG::CSMWindowBase::RegisterMainLoopFieldId;
         bp::scope().attr("DumpContainerFieldId") = (int)OSG::CSMWindowBase::DumpContainerFieldId;
+        bp::scope().attr("WindowStateFieldId") = (int)OSG::CSMWindowBase::WindowStateFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::CSMWindowBase::NextFieldId;
         { //::OSG::CSMWindowBase::assignViewports
         
@@ -564,6 +565,16 @@ void register_CSMWindowBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::CSMWindowBase::getSFWindowState
+        
+            typedef ::OSG::SFInt32 const * ( ::OSG::CSMWindowBase::*getSFWindowState_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getSFWindowState"
+                , getSFWindowState_function_type( &::OSG::CSMWindowBase::getSFWindowState )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::CSMWindowBase::getSize
         
             typedef ::OSG::Vec2f const & ( ::OSG::CSMWindowBase::*getSize_function_type )(  ) const;
@@ -603,6 +614,15 @@ void register_CSMWindowBase_class(){
                 , getViewports_function_type( &::OSG::CSMWindowBase::getViewports )
                 , ( bp::arg("index") )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::CSMWindowBase::getWindowState
+        
+            typedef ::OSG::Int32 ( ::OSG::CSMWindowBase::*getWindowState_function_type )(  ) const;
+            
+            CSMWindowBase_exposer.def( 
+                "getWindowState"
+                , getWindowState_function_type( &::OSG::CSMWindowBase::getWindowState ) );
         
         }
         { //::OSG::CSMWindowBase::pushToViewports
@@ -832,6 +852,16 @@ void register_CSMWindowBase_class(){
             CSMWindowBase_exposer.def( 
                 "setSize"
                 , setSize_function_type( &::OSG::CSMWindowBase::setSize )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::CSMWindowBase::setWindowState
+        
+            typedef void ( ::OSG::CSMWindowBase::*setWindowState_function_type )( ::OSG::Int32 const ) ;
+            
+            CSMWindowBase_exposer.def( 
+                "setWindowState"
+                , setWindowState_function_type( &::OSG::CSMWindowBase::setWindowState )
                 , ( bp::arg("value") ) );
         
         }

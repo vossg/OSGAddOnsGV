@@ -50,6 +50,7 @@ void register_HardwareContext_class(){
             ;
         bp::enum_< OSG::HardwareContext::OpenGLFeatures>("OpenGLFeatures")
             .value("HasAttribAliasing", OSG::HardwareContext::HasAttribAliasing)
+            .value("HasVAODListProblems", OSG::HardwareContext::HasVAODListProblems)
             .export_values()
             ;
         { //::OSG::HardwareContext::changed
@@ -88,6 +89,15 @@ void register_HardwareContext_class(){
             HardwareContext_exposer.def( 
                 "hasAttribAliasing"
                 , hasAttribAliasing_function_type( &::OSG::HardwareContext::hasAttribAliasing ) );
+        
+        }
+        { //::OSG::HardwareContext::hasVAODListProblems
+        
+            typedef bool ( ::OSG::HardwareContext::*hasVAODListProblems_function_type )(  ) const;
+            
+            HardwareContext_exposer.def( 
+                "hasVAODListProblems"
+                , hasVAODListProblems_function_type( &::OSG::HardwareContext::hasVAODListProblems ) );
         
         }
         { //::OSG::HardwareContext::setCudaInit

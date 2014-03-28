@@ -50,6 +50,8 @@ void register_GeoVectorPropertyBase_class(){
         typedef bp::class_< GeoVectorPropertyBase_wrapper, bp::bases< OSG::GeoProperty >, boost::noncopyable > GeoVectorPropertyBase_exposer_t;
         GeoVectorPropertyBase_exposer_t GeoVectorPropertyBase_exposer = GeoVectorPropertyBase_exposer_t( "GeoVectorPropertyBase", bp::no_init );
         bp::scope GeoVectorPropertyBase_scope( GeoVectorPropertyBase_exposer );
+        bp::scope().attr("DivisorFieldId") = (int)OSG::GeoVectorPropertyBase::DivisorFieldId;
+        bp::scope().attr("NextFieldId") = (int)OSG::GeoVectorPropertyBase::NextFieldId;
         { //::OSG::GeoVectorPropertyBase::copyFromBin
         
             typedef void ( ::OSG::GeoVectorPropertyBase::*copyFromBin_function_type )( ::OSG::BinaryDataHandler &,::OSG::ConstFieldMaskArg ) ;
@@ -117,6 +119,25 @@ void register_GeoVectorPropertyBase_class(){
                 , getContainerSize_function_type( &::OSG::GeoVectorPropertyBase::getContainerSize ) );
         
         }
+        { //::OSG::GeoVectorPropertyBase::getDivisor
+        
+            typedef ::OSG::UInt32 ( ::OSG::GeoVectorPropertyBase::*getDivisor_function_type )(  ) const;
+            
+            GeoVectorPropertyBase_exposer.def( 
+                "getDivisor"
+                , getDivisor_function_type( &::OSG::GeoVectorPropertyBase::getDivisor ) );
+        
+        }
+        { //::OSG::GeoVectorPropertyBase::getSFDivisor
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::GeoVectorPropertyBase::*getSFDivisor_function_type )(  ) const;
+            
+            GeoVectorPropertyBase_exposer.def( 
+                "getSFDivisor"
+                , getSFDivisor_function_type( &::OSG::GeoVectorPropertyBase::getSFDivisor )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::GeoVectorPropertyBase::getType
         
             typedef ::OSG::FieldContainerType & ( ::OSG::GeoVectorPropertyBase::*getType_function_type )(  ) ;
@@ -135,6 +156,16 @@ void register_GeoVectorPropertyBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::GeoVectorPropertyBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::GeoVectorPropertyBase::setDivisor
+        
+            typedef void ( ::OSG::GeoVectorPropertyBase::*setDivisor_function_type )( ::OSG::UInt32 const ) ;
+            
+            GeoVectorPropertyBase_exposer.def( 
+                "setDivisor"
+                , setDivisor_function_type( &::OSG::GeoVectorPropertyBase::setDivisor )
+                , ( bp::arg("value") ) );
         
         }
         { //::OSG::GeoProperty::clone
