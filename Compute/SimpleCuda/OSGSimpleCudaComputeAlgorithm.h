@@ -121,8 +121,10 @@ class OSG_CONTRIBCOMPUTE_DLLMAPPING SimpleCudaComputeAlgorithm :
 
     typedef SimpleCudaComputeAlgorithmBase Inherited;
 
+#ifdef OSG_WITH_CUDA
     cudaGraphicsResource_t cudaBufferResPos;
     cudaGraphicsResource_t cudaBufferResNorm;
+#endif
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

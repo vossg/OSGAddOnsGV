@@ -87,18 +87,24 @@ void SimpleCudaComputeAlgorithm::dump(
 /*                            Constructors                                 */
 
 SimpleCudaComputeAlgorithm::SimpleCudaComputeAlgorithm(void) :
-    Inherited        (    ),
+    Inherited        (    )
+#ifdef OSG_WITH_CUDA
+                           ,
     cudaBufferResPos (NULL),
     cudaBufferResNorm(NULL)
+#endif
 {
 }
 
 SimpleCudaComputeAlgorithm::SimpleCudaComputeAlgorithm(
     const SimpleCudaComputeAlgorithm &source) :
 
-    Inherited        (source),
+    Inherited        (source)
+#ifdef OSG_WITH_CUDA
+                            ,
     cudaBufferResPos (NULL  ),
     cudaBufferResNorm(NULL  )
+#endif
 {
 }
 
