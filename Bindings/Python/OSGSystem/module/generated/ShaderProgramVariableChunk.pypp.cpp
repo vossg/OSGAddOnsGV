@@ -20,6 +20,7 @@
 
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
+#pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -124,6 +125,16 @@ void register_ShaderProgramVariableChunk_class(){
                 "addParent"
                 , addParent_function_type( &::OSG::ShaderProgramVariableChunk::addParent )
                 , ( bp::arg("pParent"), bp::arg("uiParentFieldId") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariableChunk::addUniformBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariableChunk::*addUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            ShaderProgramVariableChunk_exposer.def( 
+                "addUniformBlock"
+                , addUniformBlock_function_type( &::OSG::ShaderProgramVariableChunk::addUniformBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::ShaderProgramVariableChunk::addUniformVariable
@@ -292,6 +303,16 @@ void register_ShaderProgramVariableChunk_class(){
                 , getStaticClassId_function_type( &::OSG::ShaderProgramVariableChunk::getStaticClassId ) );
         
         }
+        { //::OSG::ShaderProgramVariableChunk::getUniformBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariableChunk::*getUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 & ) ;
+            
+            ShaderProgramVariableChunk_exposer.def( 
+                "getUniformBlock"
+                , getUniformBlock_function_type( &::OSG::ShaderProgramVariableChunk::getUniformBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
         { //::OSG::ShaderProgramVariableChunk::getUniformVariable
         
             typedef boost::python::tuple ( *getUniformVariable_Point_less__float_comma__3u__greater__function_type )( ::OSG::ShaderProgramVariableChunk &,::OSG::Char8 const * );
@@ -401,6 +422,16 @@ void register_ShaderProgramVariableChunk_class(){
                 , ( bp::arg("pParent") ) );
         
         }
+        { //::OSG::ShaderProgramVariableChunk::subUniformBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariableChunk::*subUniformBlock_function_type )( ::OSG::Char8 const * ) ;
+            
+            ShaderProgramVariableChunk_exposer.def( 
+                "subUniformBlock"
+                , subUniformBlock_function_type( &::OSG::ShaderProgramVariableChunk::subUniformBlock )
+                , ( bp::arg("name") ) );
+        
+        }
         { //::OSG::ShaderProgramVariableChunk::subUniformVariable
         
             typedef bool ( ::OSG::ShaderProgramVariableChunk::*subUniformVariable_function_type )( ::OSG::Char8 const * ) ;
@@ -409,6 +440,16 @@ void register_ShaderProgramVariableChunk_class(){
                 "subUniformVariable"
                 , subUniformVariable_function_type( &::OSG::ShaderProgramVariableChunk::subUniformVariable )
                 , ( bp::arg("name") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariableChunk::updateUniformBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariableChunk::*updateUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            ShaderProgramVariableChunk_exposer.def( 
+                "updateUniformBlock"
+                , updateUniformBlock_function_type( &::OSG::ShaderProgramVariableChunk::updateUniformBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::ShaderProgramVariableChunk::updateUniformVariable

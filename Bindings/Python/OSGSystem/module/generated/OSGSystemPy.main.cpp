@@ -19,6 +19,7 @@
 
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
+#pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -368,6 +369,10 @@
 
 #include "generated/ShaderVariableUIntBase.pypp.hpp"
 
+#include "generated/ShaderVariableUniformBlock.pypp.hpp"
+
+#include "generated/ShaderVariableUniformBlockBase.pypp.hpp"
+
 #include "generated/ShaderVariableVec2f.pypp.hpp"
 
 #include "generated/ShaderVariableVec2fBase.pypp.hpp"
@@ -445,6 +450,14 @@
 #include "generated/TraversalDataBase.pypp.hpp"
 
 #include "generated/TreeBuilderBase.pypp.hpp"
+
+#include "generated/UniformBufferObjChunk.pypp.hpp"
+
+#include "generated/UniformBufferObjChunkBase.pypp.hpp"
+
+#include "generated/UniformBufferObjStd140Chunk.pypp.hpp"
+
+#include "generated/UniformBufferObjStd140ChunkBase.pypp.hpp"
 
 #include "generated/VariantMaterial.pypp.hpp"
 
@@ -805,6 +818,10 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     register_ShaderVariableUInt_class();
 
+    register_ShaderVariableUniformBlockBase_class();
+
+    register_ShaderVariableUniformBlock_class();
+
     register_ShaderVariableVec2fBase_class();
 
     register_ShaderVariableVec2f_class();
@@ -880,6 +897,14 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     register_TraversalData_class();
 
     register_TreeBuilderBase_class();
+
+    register_UniformBufferObjChunkBase_class();
+
+    register_UniformBufferObjChunk_class();
+
+    register_UniformBufferObjStd140ChunkBase_class();
+
+    register_UniformBufferObjStd140Chunk_class();
 
     register_VariantMaterial_class();
 
@@ -1025,6 +1050,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::MatrixCamera::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::RenderBuffer */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::RenderBuffer, OSG::RenderBuffer::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::RenderBuffer::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::FullStateChunk */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FullStateChunk, OSG::FullStateChunk::ObjRecPtr>);
@@ -1067,11 +1098,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::FBOViewport::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::MultiCore */
+    /** Helpers for OSG::UniformBufferObjChunk */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::MultiCore, OSG::MultiCore::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::UniformBufferObjChunk, OSG::UniformBufferObjChunk::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiCore::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::UniformBufferObjChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ShaderVariableMVec3f */
 
@@ -1211,6 +1242,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::SimpleSHLChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::UniformBufferObjStd140Chunk */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::UniformBufferObjStd140Chunk, OSG::UniformBufferObjStd140Chunk::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::UniformBufferObjStd140Chunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::SimpleMaterial */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SimpleMaterial, OSG::SimpleMaterial::ObjRecPtr>);
@@ -1295,11 +1332,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::PrimeMaterial::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::Camera */
+    /** Helpers for OSG::MultiCore */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Camera, OSG::Camera::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::MultiCore, OSG::MultiCore::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Camera::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiCore::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::RenderOptions */
 
@@ -1343,6 +1380,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableBool::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::Camera */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Camera, OSG::Camera::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Camera::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::GeoVectorProperty */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::GeoVectorProperty, OSG::GeoVectorProperty::ObjRecPtr>);
@@ -1361,11 +1404,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::Background::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::RenderBuffer */
+    /** Helpers for OSG::ShaderVariableUniformBlock */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::RenderBuffer, OSG::RenderBuffer::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableUniformBlock, OSG::ShaderVariableUniformBlock::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::RenderBuffer::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableUniformBlock::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ShaderVariableString */
 

@@ -20,6 +20,7 @@
 
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
+#pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -36,10 +37,18 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct RenderBufferBase_wrapper : OSG::RenderBufferBase, bp::wrapper< OSG::RenderBufferBase > {
+
+    void resizeBuffers( ::OSG::UInt32 uiWidth, ::OSG::UInt32 uiHeight ){
+        OSG::FrameBufferAttachment::resizeBuffers( uiWidth, uiHeight );
+    }
+
+};
+
 void register_RenderBufferBase_class(){
 
     { //::OSG::RenderBufferBase
-        typedef bp::class_< OSG::RenderBufferBase, bp::bases< OSG::FrameBufferAttachment >, boost::noncopyable > RenderBufferBase_exposer_t;
+        typedef bp::class_< RenderBufferBase_wrapper, bp::bases< OSG::FrameBufferAttachment >, boost::noncopyable > RenderBufferBase_exposer_t;
         RenderBufferBase_exposer_t RenderBufferBase_exposer = RenderBufferBase_exposer_t( "RenderBufferBase", bp::no_init );
         bp::scope RenderBufferBase_scope( RenderBufferBase_exposer );
         bp::scope().attr("GLIdFieldId") = (int)OSG::RenderBufferBase::GLIdFieldId;
@@ -340,6 +349,65 @@ void register_RenderBufferBase_class(){
                 "setInternalFormat"
                 , setInternalFormat_function_type( &::OSG::RenderBufferBase::setInternalFormat )
                 , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::FrameBufferAttachment::bind
+        
+            typedef void ( ::OSG::FrameBufferAttachment::*bind_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            
+            RenderBufferBase_exposer.def( 
+                "bind"
+                , bind_function_type( &::OSG::FrameBufferAttachment::bind )
+                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
+        
+        }
+        { //::OSG::FrameBufferAttachment::getBufferFormat
+        
+            typedef ::GLenum ( ::OSG::FrameBufferAttachment::*getBufferFormat_function_type )(  ) const;
+            
+            RenderBufferBase_exposer.def( 
+                "getBufferFormat"
+                , getBufferFormat_function_type( &::OSG::FrameBufferAttachment::getBufferFormat ) );
+        
+        }
+        { //::OSG::FrameBufferAttachment::processPostDeactivate
+        
+            typedef void ( ::OSG::FrameBufferAttachment::*processPostDeactivate_function_type )( ::OSG::DrawEnv * ) ;
+            
+            RenderBufferBase_exposer.def( 
+                "processPostDeactivate"
+                , processPostDeactivate_function_type( &::OSG::FrameBufferAttachment::processPostDeactivate )
+                , ( bp::arg("pEnv") ) );
+        
+        }
+        { //::OSG::FrameBufferAttachment::processPreDeactivate
+        
+            typedef void ( ::OSG::FrameBufferAttachment::*processPreDeactivate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            
+            RenderBufferBase_exposer.def( 
+                "processPreDeactivate"
+                , processPreDeactivate_function_type( &::OSG::FrameBufferAttachment::processPreDeactivate )
+                , ( bp::arg("pEnv"), bp::arg("index") ) );
+        
+        }
+        { //::OSG::FrameBufferAttachment::resizeBuffers
+        
+            typedef void ( RenderBufferBase_wrapper::*resizeBuffers_function_type )( ::OSG::UInt32,::OSG::UInt32 ) ;
+            
+            RenderBufferBase_exposer.def( 
+                "resizeBuffers"
+                , resizeBuffers_function_type( &RenderBufferBase_wrapper::resizeBuffers )
+                , ( bp::arg("uiWidth"), bp::arg("uiHeight") ) );
+        
+        }
+        { //::OSG::FrameBufferAttachment::validate
+        
+            typedef void ( ::OSG::FrameBufferAttachment::*validate_function_type )( ::OSG::DrawEnv * ) ;
+            
+            RenderBufferBase_exposer.def( 
+                "validate"
+                , validate_function_type( &::OSG::FrameBufferAttachment::validate )
+                , ( bp::arg("pEnv") ) );
         
         }
         RenderBufferBase_exposer.staticmethod( "create" );

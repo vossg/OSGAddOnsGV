@@ -20,6 +20,7 @@
 
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
+#pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -212,6 +213,16 @@ void register_ShaderProgram_class(){
                 "addParent"
                 , addParent_function_type( &::OSG::ShaderProgram::addParent )
                 , ( bp::arg("pParent"), bp::arg("uiParentFieldId") ) );
+        
+        }
+        { //::OSG::ShaderProgram::addUniformBlock
+        
+            typedef bool ( ::OSG::ShaderProgram::*addUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            ShaderProgram_exposer.def( 
+                "addUniformBlock"
+                , addUniformBlock_function_type( &::OSG::ShaderProgram::addUniformBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::ShaderProgram::addUniformVariable
@@ -424,6 +435,15 @@ void register_ShaderProgram_class(){
                 , getExtIdTransformFeedback2_function_type( &::OSG::ShaderProgram::getExtIdTransformFeedback2 ) );
         
         }
+        { //::OSG::ShaderProgram::getExtIdUniformBufferObject
+        
+            typedef ::OSG::UInt32 ( *getExtIdUniformBufferObject_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getExtIdUniformBufferObject"
+                , getExtIdUniformBufferObject_function_type( &::OSG::ShaderProgram::getExtIdUniformBufferObject ) );
+        
+        }
         { //::OSG::ShaderProgram::getFuncIdAttachShader
         
             typedef ::OSG::UInt32 ( *getFuncIdAttachShader_function_type )(  );
@@ -548,6 +568,15 @@ void register_ShaderProgram_class(){
             ShaderProgram_exposer.def( 
                 "getFuncIdGetShaderiv"
                 , getFuncIdGetShaderiv_function_type( &::OSG::ShaderProgram::getFuncIdGetShaderiv ) );
+        
+        }
+        { //::OSG::ShaderProgram::getFuncIdGetUniformBlockIndex
+        
+            typedef ::OSG::UInt32 ( *getFuncIdGetUniformBlockIndex_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdGetUniformBlockIndex"
+                , getFuncIdGetUniformBlockIndex_function_type( &::OSG::ShaderProgram::getFuncIdGetUniformBlockIndex ) );
         
         }
         { //::OSG::ShaderProgram::getFuncIdGetUniformLocation
@@ -847,6 +876,15 @@ void register_ShaderProgram_class(){
                 , getFuncIdUniform4uiv_function_type( &::OSG::ShaderProgram::getFuncIdUniform4uiv ) );
         
         }
+        { //::OSG::ShaderProgram::getFuncIdUniformBlockBinding
+        
+            typedef ::OSG::UInt32 ( *getFuncIdUniformBlockBinding_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdUniformBlockBinding"
+                , getFuncIdUniformBlockBinding_function_type( &::OSG::ShaderProgram::getFuncIdUniformBlockBinding ) );
+        
+        }
         { //::OSG::ShaderProgram::getFuncIdUniformMatrix2fv
         
             typedef ::OSG::UInt32 ( *getFuncIdUniformMatrix2fv_function_type )(  );
@@ -899,6 +937,16 @@ void register_ShaderProgram_class(){
             ShaderProgram_exposer.def( 
                 "getProgramId"
                 , getProgramId_function_type( &::OSG::ShaderProgram::getProgramId ) );
+        
+        }
+        { //::OSG::ShaderProgram::getUniformBlock
+        
+            typedef bool ( ::OSG::ShaderProgram::*getUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 & ) ;
+            
+            ShaderProgram_exposer.def( 
+                "getUniformBlock"
+                , getUniformBlock_function_type( &::OSG::ShaderProgram::getUniformBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::ShaderProgram::getUniformVariable
@@ -1069,6 +1117,16 @@ void register_ShaderProgram_class(){
                 , ( bp::arg("name") ) );
         
         }
+        { //::OSG::ShaderProgram::subUniformBlock
+        
+            typedef bool ( ::OSG::ShaderProgram::*subUniformBlock_function_type )( ::OSG::Char8 const * ) ;
+            
+            ShaderProgram_exposer.def( 
+                "subUniformBlock"
+                , subUniformBlock_function_type( &::OSG::ShaderProgram::subUniformBlock )
+                , ( bp::arg("name") ) );
+        
+        }
         { //::OSG::ShaderProgram::subUniformVariable
         
             typedef bool ( ::OSG::ShaderProgram::*subUniformVariable_function_type )( ::OSG::Char8 const * ) ;
@@ -1077,6 +1135,16 @@ void register_ShaderProgram_class(){
                 "subUniformVariable"
                 , subUniformVariable_function_type( &::OSG::ShaderProgram::subUniformVariable )
                 , ( bp::arg("name") ) );
+        
+        }
+        { //::OSG::ShaderProgram::updateUniformBlock
+        
+            typedef bool ( ::OSG::ShaderProgram::*updateUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            ShaderProgram_exposer.def( 
+                "updateUniformBlock"
+                , updateUniformBlock_function_type( &::OSG::ShaderProgram::updateUniformBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::ShaderProgram::updateUniformVariable
@@ -1187,6 +1255,7 @@ void register_ShaderProgram_class(){
         ShaderProgram_exposer.staticmethod( "getExtIdGeometryShader4" );
         ShaderProgram_exposer.staticmethod( "getExtIdSHL" );
         ShaderProgram_exposer.staticmethod( "getExtIdTransformFeedback2" );
+        ShaderProgram_exposer.staticmethod( "getExtIdUniformBufferObject" );
         ShaderProgram_exposer.staticmethod( "getFuncIdAttachShader" );
         ShaderProgram_exposer.staticmethod( "getFuncIdBeginTransformFeedback" );
         ShaderProgram_exposer.staticmethod( "getFuncIdBindAttribLocation" );
@@ -1201,6 +1270,7 @@ void register_ShaderProgram_class(){
         ShaderProgram_exposer.staticmethod( "getFuncIdGetProgramiv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetShaderInfoLog" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetShaderiv" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdGetUniformBlockIndex" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetUniformLocation" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetUniformfv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetUniformiv" );
@@ -1234,6 +1304,7 @@ void register_ShaderProgram_class(){
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform4iv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform4ui" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform4uiv" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdUniformBlockBinding" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniformMatrix2fv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniformMatrix3fv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniformMatrix4fv" );

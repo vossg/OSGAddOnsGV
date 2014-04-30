@@ -53,6 +53,7 @@
 #include <OSGLightEngine.h>
 #include <OSGGeoProperty.h>
 #include <OSGGeoVectorProperty.h>
+#include <OSGUniformBufferObjStd140Chunk.h>
 #include <OSGChunkListHelper.h>
 #include <OSGColorMaskChunk.h>
 #include <OSGState.h>
@@ -65,6 +66,7 @@
 #include <OSGMaterialChunk.h>
 #include <OSGTextureBaseChunk.h>
 #include <OSGFullStateChunk.h>
+#include <OSGUniformBufferObjChunk.h>
 #include <OSGDepthChunk.h>
 #include <OSGShaderProgram.h>
 #include <OSGShaderProgramVariables.h>
@@ -89,6 +91,7 @@
 #include <OSGShaderVariableMatrix.h>
 #include <OSGShaderVariableMReal.h>
 #include <OSGShaderVariableUInt.h>
+#include <OSGShaderVariableUniformBlock.h>
 #include <OSGShaderVariableString.h>
 #include <OSGShaderVariableVec2f.h>
 #include <OSGShaderVariableMUInt.h>

@@ -16,13 +16,13 @@
 ~@enumeration_t@('/usr/include/pthread.h', 32)@::
 ~@enumeration_t@('/usr/include/pthread.h', 113)@::
 ~@enumeration_t@('/usr/include/pthread.h', 198)@::
-~@enumeration_t@('/usr/include/pthread.h', 164)@::
+~@enumeration_t@__codecvt_result@::__codecvt_result
 ~@enumeration_t@('/usr/include/ctype.h', 47)@::
 ~@enumeration_t@('/usr/include/netinet/in.h', 31)@::
 ~@enumeration_t@('/usr/include/pthread.h', 174)@::
 ~@enumeration_t@('/usr/include/bits/confname.h', 25)@::
 ~@enumeration_t@('/usr/include/pthread.h', 42)@::
-~@enumeration_t@__codecvt_result@::__codecvt_result
+~@enumeration_t@('/usr/include/pthread.h', 164)@::
 ~@enumeration_t@__itimer_which@::__itimer_which
 ~@enumeration_t@('/usr/include/math.h', 190)@::
 ~@enumeration_t@('/usr/include/wctype.h', 71)@::
@@ -1854,15 +1854,15 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
+~@namespace_t@mpl_@::mpl_
 ~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
-~@namespace_t@boost@::boost
+~@namespace_t@__cxxabiv1@::__cxxabiv1
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
 ~@namespace_t@boost_concepts@::boost_concepts
-~@namespace_t@mpl_@::mpl_
 ~@namespace_t@osgwrap@::osgwrap
-~@namespace_t@__cxxabiv1@::__cxxabiv1
+~@namespace_t@boost@::boost
 ~@namespace_t@boost_swap_impl@::boost_swap_impl
 ~@namespace_t@OSG@::OSG
 ~@class_declaration_t@PyMemberDef@::PyMemberDef
@@ -1962,6 +1962,7 @@
 ~@variable_t@_ZTIN3OSG23ShaderVariableVec2fBaseE@::_ZTIN3OSG23ShaderVariableVec2fBaseE
 ~@variable_t@_ZTISt14codecvt_bynameIwc11__mbstate_tE@::_ZTISt14codecvt_bynameIwc11__mbstate_tE
 ~@variable_t@_ZTIN3OSG22ShaderProgramChunkBaseE@::_ZTIN3OSG22ShaderProgramChunkBaseE
+~@variable_t@_ZTIN3OSG13RootGroupBaseE@::_ZTIN3OSG13RootGroupBaseE
 ~@variable_t@_ZTIN3OSG15TextureObjChunkE@::_ZTIN3OSG15TextureObjChunkE
 ~@variable_t@_ZTIN3OSG6CameraE@::_ZTIN3OSG6CameraE
 ~@variable_t@PyTuple_Type@::PyTuple_Type
@@ -1977,7 +1978,7 @@
 ~@variable_t@_ZTISt13basic_fstreamIcSt11char_traitsIcEE@::_ZTISt13basic_fstreamIcSt11char_traitsIcEE
 ~@variable_t@_ZTISt8messagesIwE@::_ZTISt8messagesIwE
 ~@variable_t@_ZTIN3OSG26ShaderProgramVariableChunkE@::_ZTIN3OSG26ShaderProgramVariableChunkE
-~@variable_t@_ZTIN3OSG13RootGroupBaseE@::_ZTIN3OSG13RootGroupBaseE
+~@variable_t@_Py_ctype_table@::_Py_ctype_table
 ~@variable_t@_ZTIN3OSG10BlendChunkE@::_ZTIN3OSG10BlendChunkE
 ~@variable_t@PyModule_Type@::PyModule_Type
 ~@variable_t@PyDictIterItem_Type@::PyDictIterItem_Type
@@ -1987,6 +1988,7 @@
 ~@variable_t@_ZTIN3OSG10LogOStreamE@::_ZTIN3OSG10LogOStreamE
 ~@variable_t@_ZTIN3OSG6LogBufE@::_ZTIN3OSG6LogBufE
 ~@variable_t@_ZTIN3OSG14MPLockPoolTypeE@::_ZTIN3OSG14MPLockPoolTypeE
+~@variable_t@_ZTIN3OSG19HardwareContextBaseE@::_ZTIN3OSG19HardwareContextBaseE
 ~@variable_t@_ZTIN3OSG10CameraBaseE@::_ZTIN3OSG10CameraBaseE
 ~@variable_t@_ZTISt13basic_fstreamIwSt11char_traitsIwEE@::_ZTISt13basic_fstreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTISt15basic_streambufIcSt11char_traitsIcEE@::_ZTISt15basic_streambufIcSt11char_traitsIcEE
@@ -1994,7 +1996,6 @@
 ~@variable_t@_ZTIN3OSG20ShaderVariableMVec2fE@::_ZTIN3OSG20ShaderVariableMVec2fE
 ~@variable_t@_ZTIN3OSG12CallbackTaskE@::_ZTIN3OSG12CallbackTaskE
 ~@variable_t@PyExc_UnicodeWarning@::PyExc_UnicodeWarning
-~@variable_t@_Py_ctype_table@::_Py_ctype_table
 ~@variable_t@_ZTIN3OSG21MultiPassMaterialBaseE@::_ZTIN3OSG21MultiPassMaterialBaseE
 ~@variable_t@PyTraceBack_Type@::PyTraceBack_Type
 ~@variable_t@_ZTIN3OSG15ChunkListHelperE@::_ZTIN3OSG15ChunkListHelperE
@@ -2012,6 +2013,7 @@
 ~@variable_t@_ZTIN5boost16exception_detail20error_info_containerE@::_ZTIN5boost16exception_detail20error_info_containerE
 ~@variable_t@Py_InspectFlag@::Py_InspectFlag
 ~@variable_t@_Py_Ticker@::_Py_Ticker
+~@variable_t@_ZTIN3OSG21UniformBufferObjChunkE@::_ZTIN3OSG21UniformBufferObjChunkE
 ~@variable_t@_ZTIN3OSG22ReflexiveContainerTypeE@::_ZTIN3OSG22ReflexiveContainerTypeE
 ~@variable_t@_ZTIN3OSG12ViewareaBaseE@::_ZTIN3OSG12ViewareaBaseE
 ~@variable_t@_ZTISt10bad_typeid@::_ZTISt10bad_typeid
@@ -2079,6 +2081,7 @@
 ~@variable_t@_ZTIN3OSG10ChangeListE@::_ZTIN3OSG10ChangeListE
 ~@variable_t@PyDictIterKey_Type@::PyDictIterKey_Type
 ~@variable_t@_ZTIN3OSG16ThreadCommonBaseE@::_ZTIN3OSG16ThreadCommonBaseE
+~@variable_t@_ZTIN3OSG27UniformBufferObjStd140ChunkE@::_ZTIN3OSG27UniformBufferObjStd140ChunkE
 ~@variable_t@_ZTIN3OSG5LightE@::_ZTIN3OSG5LightE
 ~@variable_t@Py_HashRandomizationFlag@::Py_HashRandomizationFlag
 ~@variable_t@_ZTISt15basic_streambufIwSt11char_traitsIwEE@::_ZTISt15basic_streambufIwSt11char_traitsIwEE
@@ -2140,7 +2143,7 @@
 ~@variable_t@_ZTIN3OSG6ThreadE@::_ZTIN3OSG6ThreadE
 ~@variable_t@_ZTIN3OSG17MultiPassMaterialE@::_ZTIN3OSG17MultiPassMaterialE
 ~@variable_t@_ZTIN3OSG18ShaderVariableUIntE@::_ZTIN3OSG18ShaderVariableUIntE
-~@variable_t@_ZTIN3OSG19HardwareContextBaseE@::_ZTIN3OSG19HardwareContextBaseE
+~@variable_t@_ZTIN3OSG25UniformBufferObjChunkBaseE@::_ZTIN3OSG25UniformBufferObjChunkBaseE
 ~@variable_t@_ZTISt19basic_istringstreamIwSt11char_traitsIwESaIwEE@::_ZTISt19basic_istringstreamIwSt11char_traitsIwESaIwEE
 ~@variable_t@_ZTIN3OSG14WindowDrawTaskE@::_ZTIN3OSG14WindowDrawTaskE
 ~@variable_t@_ZTIN3OSG9BoxVolumeE@::_ZTIN3OSG9BoxVolumeE
@@ -2228,6 +2231,7 @@
 ~@variable_t@PyExc_UnicodeDecodeError@::PyExc_UnicodeDecodeError
 ~@variable_t@_ZTISt14basic_ofstreamIwSt11char_traitsIwEE@::_ZTISt14basic_ofstreamIwSt11char_traitsIwEE
 ~@variable_t@Py_DebugFlag@::Py_DebugFlag
+~@variable_t@_ZTIN3OSG26ShaderVariableUniformBlockE@::_ZTIN3OSG26ShaderVariableUniformBlockE
 ~@variable_t@_ZTIN5boost16exception_detail10clone_baseE@::_ZTIN5boost16exception_detail10clone_baseE
 ~@variable_t@_PyThreadState_GetFrame@::_PyThreadState_GetFrame
 ~@variable_t@PyExc_OSError@::PyExc_OSError
@@ -2301,6 +2305,7 @@
 ~@variable_t@PyExc_UnicodeError@::PyExc_UnicodeError
 ~@variable_t@PyExc_FutureWarning@::PyExc_FutureWarning
 ~@variable_t@_ZTIN3OSG21ShaderVariableOSGBaseE@::_ZTIN3OSG21ShaderVariableOSGBaseE
+~@variable_t@_ZTIN3OSG31UniformBufferObjStd140ChunkBaseE@::_ZTIN3OSG31UniformBufferObjStd140ChunkBaseE
 ~@variable_t@optopt@::optopt
 ~@variable_t@_ZTIN3OSG16PolygonChunkBaseE@::_ZTIN3OSG16PolygonChunkBaseE
 ~@variable_t@_ZTIN5boost6system14error_categoryE@::_ZTIN5boost6system14error_categoryE
@@ -2355,6 +2360,7 @@
 ~@variable_t@_ZTIN3OSG12MatrixCameraE@::_ZTIN3OSG12MatrixCameraE
 ~@variable_t@_ZTIN3OSG23ShaderVariableMRealBaseE@::_ZTIN3OSG23ShaderVariableMRealBaseE
 ~@variable_t@_PyTrash_delete_nesting@::_PyTrash_delete_nesting
+~@variable_t@_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE@::_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE
 ~@variable_t@_IO_2_1_stdout_@::_IO_2_1_stdout_
 ~@variable_t@PyExc_KeyError@::PyExc_KeyError
 ~@variable_t@PySeqIter_Type@::PySeqIter_Type
@@ -2500,7 +2506,7 @@
 ~@variable_t@_ZTIN3OSG15FBOViewportBaseE@::_ZTIN3OSG15FBOViewportBaseE
 ~@variable_t@_Py_SwappedOp@::_Py_SwappedOp
 ~@variable_t@PyExc_RecursionErrorInst@::PyExc_RecursionErrorInst
-~@variable_t@_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE@::_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE
+~@variable_t@_ZTIN3OSG30ShaderVariableUniformBlockBaseE@::_ZTIN3OSG30ShaderVariableUniformBlockBaseE
 ~@variable_t@_ZTIN3OSG22ShaderProgramVariablesE@::_ZTIN3OSG22ShaderProgramVariablesE
 ~@variable_t@_ZTIN3OSG26ShaderProgramVariablesBaseE@::_ZTIN3OSG26ShaderProgramVariablesBaseE
 ~@variable_t@_ZTIN3OSG21ChunkListHandlerMixinINS_25ChunkBlockListHandlerDescEEE@::_ZTIN3OSG21ChunkListHandlerMixinINS_25ChunkBlockListHandlerDescEEE
@@ -4026,7 +4032,7 @@
 ~@free_function_t@PyString_Encode@::PyObject * (*)( char const *,::Py_ssize_t,char const *,char const * )::PyObject * (*)( char const *,::Py_ssize_t,char const *,char const * )
 ~@free_function_t@sbrk@void * (*)( ::intptr_t )void * (*)( ::intptr_t )
 ~@free_function_t@__modf@double (*)( double,double * )double (*)( double,double * )
-~@free_function_t@tolower_l@int (*)( int,::__locale_t )int (*)( int,::__locale_t )
+~@free_function_t@__significand@double (*)( double )double (*)( double )
 ~@free_function_t@PyArg_VaParse@int (*)( ::PyObject *,char const *,::__va_list_tag * )int (*)( ::PyObject *,char const *,::__va_list_tag * )
 ~@free_function_t@_IO_vfscanf@int (*)( __restrict__ ::_IO_FILE *,__restrict__ char const *,::__va_list_tag *,__restrict__ int * )int (*)( __restrict__ ::_IO_FILE *,__restrict__ char const *,::__va_list_tag *,__restrict__ int * )
 ~@free_function_t@PyCapsule_New@::PyObject * (*)( void *,char const *,::PyCapsule_Destructor )::PyObject * (*)( void *,char const *,::PyCapsule_Destructor )
@@ -5159,7 +5165,7 @@
 ~@free_function_t@nextafterf@float (*)( float,float )float (*)( float,float )
 ~@free_function_t@lcong48_r@int (*)( short unsigned int *,::drand48_data * )int (*)( short unsigned int *,::drand48_data * )
 ~@free_function_t@__llround@long long int (*)( double )long long int (*)( double )
-~@free_function_t@__significand@double (*)( double )double (*)( double )
+~@free_function_t@tolower_l@int (*)( int,::__locale_t )int (*)( int,::__locale_t )
 ~@free_function_t@stpcpy@char * (*)( __restrict__ char *,__restrict__ char const * )char * (*)( __restrict__ char *,__restrict__ char const * )
 ~@free_function_t@fegetround@int (*)(  )int (*)(  )
 ~@free_function_t@glRectfv@void (*)( ::GLfloat const *,::GLfloat const * )void (*)( ::GLfloat const *,::GLfloat const * )

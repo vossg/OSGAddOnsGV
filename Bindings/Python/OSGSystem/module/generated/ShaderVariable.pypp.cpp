@@ -20,6 +20,7 @@
 
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
+#pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -77,6 +78,7 @@ void register_ShaderVariable_class(){
             .value("SHVTypeMString", OSG::ShaderVariable::SHVTypeMString)
             .value("SHVTypeOSG", OSG::ShaderVariable::SHVTypeOSG)
             .value("SHVTypeFunctor", OSG::ShaderVariable::SHVTypeFunctor)
+            .value("SHVTypeUniformBlock", OSG::ShaderVariable::SHVTypeUniformBlock)
             .export_values()
             ;
         { //::OSG::ShaderVariable::changed

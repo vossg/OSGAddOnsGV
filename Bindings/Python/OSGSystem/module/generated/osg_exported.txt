@@ -17,6 +17,7 @@ DepthChunk
 ShaderVariableMRealBase
 ShaderVariableMUInt
 RenderPartitionBase
+UniformBufferObjStd140Chunk
 ShaderProcVariableBase
 GeoReferenceAttachmentBase
 ShaderProgramChunkBase
@@ -26,6 +27,7 @@ SolidBackgroundBase
 PrimeMaterialBase
 DrawableStatsAttachment
 LightBase
+ShaderVariableUniformBlock
 State
 Group
 ShaderVariableVec2fBase
@@ -102,7 +104,6 @@ TextureBaseChunk
 PolygonChunk
 SolidBackground
 FrameBufferAttachmentBase
-ColorMaskChunk
 RenderOptions
 ShaderExecutableVarChunk
 ChunkMaterialBase
@@ -111,6 +112,7 @@ MaterialDrawable
 RenderOptionsBase
 ShaderVariableMVec4fBase
 BoostPathAttachment
+UniformBufferObjChunk
 IntersectAction
 RenderPartition
 DepthChunkBase
@@ -119,7 +121,6 @@ GeoReferenceAttachment
 RenderActionBase
 ShaderVariableUIntBase
 LightEngine
-RenderBuffer
 ShaderProgramChunk
 StateBase
 ShaderExecutableChunkBase
@@ -133,11 +134,13 @@ ChunkListHelper
 LightChunkBase
 FrameBufferAttachment
 TextureBufferBase
+UniformBufferObjStd140ChunkBase
 SimpleSHLVariableChunkBase
 CameraDecoratorBase
 SimpleMaterialBase
 Image
 LayeredTextureBuffer
+ColorMaskChunk
 ShaderVariableMatrixBase
 ShaderVariableUInt
 ShaderExecutableChunk
@@ -169,6 +172,7 @@ TextureBuffer
 ShaderVariableMVec3fBase
 Background
 ActionBase
+UniformBufferObjChunkBase
 ChunkMaterial
 StatisticsForegroundBase
 SwitchMaterialBase
@@ -191,6 +195,7 @@ SceneFileType
 ShaderProcVariable
 StatsAttachmentBase
 ViewportBase
+ShaderVariableUniformBlockBase
 RootGroupBase
 StateChunkBase
 ShaderVariableIntBase
@@ -198,6 +203,7 @@ MultiPassMaterialBase
 ShaderVariableMUIntBase
 ShaderVariableReal
 ViewareaBase
+RenderBuffer
 ShaderVariableOSG
 ChunkListHelperBase
 MultiCore

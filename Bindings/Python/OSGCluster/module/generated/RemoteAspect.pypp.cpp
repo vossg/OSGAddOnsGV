@@ -20,6 +20,7 @@
 
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
+#pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -134,6 +135,7 @@ void register_RemoteAspect_class(){
                 , ( bp::arg("typeId"), bp::arg("mask") ) );
         
         }
+        RemoteAspect_exposer.def_readonly( "statSyncTime", OSG::RemoteAspect::statSyncTime );
         RemoteAspect_exposer.staticmethod( "addFieldFilter" );
         RemoteAspect_exposer.staticmethod( "subFieldFilter" );
         RemoteAspect_exposer.def("registerCreated", wrapRegisterCreated, (bp::arg("type"), bp::arg("func")));

@@ -1770,15 +1770,15 @@
 ~@typedef_t@_G_int32_t@::_G_int32_t
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
-~@namespace_t@@::
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
+~@namespace_t@@::
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
-~@namespace_t@boost_concepts@::boost_concepts
+~@namespace_t@boost_swap_impl@::boost_swap_impl
 ~@namespace_t@mpl_@::mpl_
 ~@namespace_t@__cxxabiv1@::__cxxabiv1
-~@namespace_t@boost_swap_impl@::boost_swap_impl
+~@namespace_t@boost_concepts@::boost_concepts
 ~@namespace_t@OSG@::OSG
 ~@class_declaration_t@_IO_FILE_plus@::_IO_FILE_plus
 ~@class_declaration_t@obstack@::obstack
@@ -3011,6 +3011,7 @@
 ~@free_function_t@asctime_r@char * (*)( __restrict__ ::tm const *,__restrict__ char * )char * (*)( __restrict__ ::tm const *,__restrict__ char * )
 ~@free_function_t@getpeername@int (*)( int,__restrict__ ::sockaddr *,__restrict__ ::socklen_t * )int (*)( int,__restrict__ ::sockaddr *,__restrict__ ::socklen_t * )
 ~@free_function_t@remainder@double (*)( double,double )double (*)( double,double )
+~@free_function_t@finite@int (*)( double )int (*)( double )
 ~@free_function_t@toupper_l@int (*)( int,::__locale_t )int (*)( int,::__locale_t )
 ~@free_function_t@expm1@double (*)( double )double (*)( double )
 ~@free_function_t@__uflow@int (*)( ::_IO_FILE * )int (*)( ::_IO_FILE * )
@@ -3280,7 +3281,7 @@
 ~@free_function_t@glIsTexture@::GLboolean (*)( ::GLuint )::GLboolean (*)( ::GLuint )
 ~@free_function_t@pthread_cond_destroy@int (*)( ::pthread_cond_t * )int (*)( ::pthread_cond_t * )
 ~@free_function_t@_IO_seekpos@::__off64_t (*)( ::_IO_FILE *,::__off64_t,int )::__off64_t (*)( ::_IO_FILE *,::__off64_t,int )
-~@free_function_t@pthread_attr_setaffinity_np@int (*)( ::pthread_attr_t *,::size_t,::cpu_set_t const * )int (*)( ::pthread_attr_t *,::size_t,::cpu_set_t const * )
+~@free_function_t@__nanl@long double (*)( char const * )long double (*)( char const * )
 ~@free_function_t@__expl@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@glColor4usv@void (*)( ::GLushort const * )void (*)( ::GLushort const * )
 ~@free_function_t@__expf@float (*)( float )float (*)( float )
@@ -3459,7 +3460,7 @@
 ~@free_function_t@strcoll@int (*)( char const *,char const * )int (*)( char const *,char const * )
 ~@free_function_t@ynl@long double (*)( int,long double )long double (*)( int,long double )
 ~@free_function_t@ldexp@double (*)( double,int )double (*)( double,int )
-~@free_function_t@finite@int (*)( double )int (*)( double )
+~@free_function_t@gets@char * (*)( char * )char * (*)( char * )
 ~@free_function_t@ynf@float (*)( int,float )float (*)( int,float )
 ~@free_function_t@__gthrw_pthread_mutex_unlock@int (*)( ::pthread_mutex_t * )int (*)( ::pthread_mutex_t * )
 ~@free_function_t@fmod@double (*)( double,double )double (*)( double,double )
@@ -4104,7 +4105,7 @@
 ~@free_function_t@recvmsg@::ssize_t (*)( int,::msghdr *,int )::ssize_t (*)( int,::msghdr *,int )
 ~@free_function_t@glSelectBuffer@void (*)( ::GLsizei,::GLuint * )void (*)( ::GLsizei,::GLuint * )
 ~@free_function_t@pthread_mutex_timedlock@int (*)( __restrict__ ::pthread_mutex_t *,__restrict__ ::timespec const * )int (*)( __restrict__ ::pthread_mutex_t *,__restrict__ ::timespec const * )
-~@free_function_t@gets@char * (*)( char * )char * (*)( char * )
+~@free_function_t@pthread_attr_setaffinity_np@int (*)( ::pthread_attr_t *,::size_t,::cpu_set_t const * )int (*)( ::pthread_attr_t *,::size_t,::cpu_set_t const * )
 ~@free_function_t@setstate@char * (*)( char * )char * (*)( char * )
 ~@free_function_t@pthread_mutexattr_getrobust@int (*)( ::pthread_mutexattr_t const *,int * )int (*)( ::pthread_mutexattr_t const *,int * )
 ~@free_function_t@__gthread_once@int (*)( ::__gthread_once_t *,void (*)(  ) * )int (*)( ::__gthread_once_t *,void (*)(  ) * )
@@ -4200,7 +4201,6 @@
 ~@free_function_t@__gthread_yield@int (*)(  )int (*)(  )
 ~@free_function_t@__builtin_frexpf@float (*)( float,int * )float (*)( float,int * )
 ~@free_function_t@sscanf@int (*)( __restrict__ char const *,__restrict__ char const *,... )int (*)( __restrict__ char const *,__restrict__ char const *,... )
-~@free_function_t@__nanl@long double (*)( char const * )long double (*)( char const * )
 ~@free_function_t@strndup@char * (*)( char const *,::size_t )char * (*)( char const *,::size_t )
 ~@free_function_t@inet6_option_space@int (*)( int )int (*)( int )
 ~@free_function_t@asinh@double (*)( double )double (*)( double )
