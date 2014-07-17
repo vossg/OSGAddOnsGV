@@ -86,7 +86,8 @@ void register_GeometryBase_class(){
         bp::scope().attr("UseAttribCallsFieldId") = (int)OSG::GeometryBase::UseAttribCallsFieldId;
         bp::scope().attr("ClassicGLIdFieldId") = (int)OSG::GeometryBase::ClassicGLIdFieldId;
         bp::scope().attr("AttGLIdFieldId") = (int)OSG::GeometryBase::AttGLIdFieldId;
-        bp::scope().attr("VaoGLIdFieldId") = (int)OSG::GeometryBase::VaoGLIdFieldId;
+        bp::scope().attr("ClassicVaoGLIdFieldId") = (int)OSG::GeometryBase::ClassicVaoGLIdFieldId;
+        bp::scope().attr("AttribVaoGLIdFieldId") = (int)OSG::GeometryBase::AttribVaoGLIdFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::GeometryBase::NextFieldId;
         { //::OSG::GeometryBase::assignPropIndices
         
