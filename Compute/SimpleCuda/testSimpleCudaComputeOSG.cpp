@@ -83,9 +83,10 @@ OSG::CallbackDrawTaskRefPtr pGeoUpdateCudaCallback = NULL;
 
 OSG::UInt32 uiUpdateMode = OSG::SimpleCudaComputeAlgorithm::UpdateOSG;
 
+#ifdef OSG_WITH_CUDA
 cudaGraphicsResource_t cudaBufferResPos  = NULL;
 cudaGraphicsResource_t cudaBufferResNorm = NULL;
-
+#endif
 
 void updateGeoOSGMappedCallback(OSG::HardwareContext *pContext, 
                                 OSG::DrawEnv         *pEnv)
