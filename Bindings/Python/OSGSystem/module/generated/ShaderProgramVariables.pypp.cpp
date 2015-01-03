@@ -577,6 +577,16 @@ void register_ShaderProgramVariables_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::ShaderProgramVariables::hasUniformVariable
+        
+            typedef bool ( ::OSG::ShaderProgramVariables::*hasUniformVariable_function_type )( ::OSG::Char8 const * ) ;
+            
+            ShaderProgramVariables_exposer.def( 
+                "hasUniformVariable"
+                , hasUniformVariable_function_type( &::OSG::ShaderProgramVariables::hasUniformVariable )
+                , ( bp::arg("name") ) );
+        
+        }
         { //::OSG::ShaderProgramVariables::markAllChanged
         
             typedef void ( ::OSG::ShaderProgramVariables::*markAllChanged_function_type )(  ) ;

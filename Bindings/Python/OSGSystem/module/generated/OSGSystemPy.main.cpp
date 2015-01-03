@@ -1098,6 +1098,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::FBOViewport::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::MultiCore */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::MultiCore, OSG::MultiCore::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiCore::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::UniformBufferObjChunk */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::UniformBufferObjChunk, OSG::UniformBufferObjChunk::ObjRecPtr>);
@@ -1332,11 +1338,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::PrimeMaterial::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::MultiCore */
+    /** Helpers for OSG::Camera */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::MultiCore, OSG::MultiCore::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Camera, OSG::Camera::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiCore::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Camera::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::RenderOptions */
 
@@ -1379,12 +1385,6 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableBool, OSG::ShaderVariableBool::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableBool::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
-    /** Helpers for OSG::Camera */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::Camera, OSG::Camera::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::Camera::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::GeoVectorProperty */
 

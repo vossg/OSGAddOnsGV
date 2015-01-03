@@ -268,11 +268,11 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::TileableBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::PassiveBackground */
+    /** Helpers for OSG::PassiveViewport */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PassiveBackground, OSG::PassiveBackground::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PassiveViewport, OSG::PassiveViewport::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PassiveBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PassiveViewport::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::MatrixCameraDecorator */
 
@@ -316,17 +316,17 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::OrthographicCamera::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::PassiveViewport */
-
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PassiveViewport, OSG::PassiveViewport::ObjRecPtr>);
-
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PassiveViewport::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
-
     /** Helpers for OSG::StereoBufferViewport */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::StereoBufferViewport, OSG::StereoBufferViewport::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::StereoBufferViewport::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::PassiveBackground */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PassiveBackground, OSG::PassiveBackground::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PassiveBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ProjectionCameraDecorator */
 

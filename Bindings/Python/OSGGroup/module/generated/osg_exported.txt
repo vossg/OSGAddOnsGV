@@ -57,6 +57,7 @@ StackedTransformBase
 RangeLOD
 ShaderShadowMapEngineBase
 ScaleTransformationElementBase
+RangeLODBase
 DynamicStateGeneratorBase
 AlgorithmBase
 InlineBase
@@ -78,7 +79,6 @@ ProxyGroupBase
 CubeMapGeneratorStageData
 StageDataBase
 SkewTransformationElementBase
-RangeLODBase
 SpotLightBase
 InverseTransformBase
 TransformationElement

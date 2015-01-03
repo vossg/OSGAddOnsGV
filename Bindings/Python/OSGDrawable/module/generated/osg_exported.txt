@@ -21,15 +21,16 @@ GeoIntegralProperty
 SurfaceBase
 GeoMultiProperty
 Geometry
+GeoVectorBufferRefProperty
 StageDrawable
 GeoMultiPropertyDataBase
 TiledQuadTreeTerrainBase
 GeoInstancer
 StageDrawableBase
-GeoVectorBufferRefProperty
 GeoMultiPropertyData
 GeoInstancerBase
 Particles
+FresnelMaterial
 GeoVectorBufferProperty
 TiledQuadTreeTerrain
 FatBorderChunkBase
@@ -43,6 +44,7 @@ GeoMultiPropertyBase
 GeoIntegralBufferPropertyBase
 GeoVectorBufferRefPropertyBase
 FatBorderChunk
+FresnelMaterialBase
 KDTreeIntersectProxyAttachment
 GeoIntegralBufferRefPropertyBase
 GeoIntegralBufferRefProperty

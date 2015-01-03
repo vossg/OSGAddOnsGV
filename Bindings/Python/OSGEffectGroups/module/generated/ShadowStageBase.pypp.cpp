@@ -89,6 +89,10 @@ void register_ShadowStageBase_class(){
         bp::scope().attr("BlitZBufferFieldId") = (int)OSG::ShadowStageBase::BlitZBufferFieldId;
         bp::scope().attr("CombineBlendFieldId") = (int)OSG::ShadowStageBase::CombineBlendFieldId;
         bp::scope().attr("RenderPropertyMaskFieldId") = (int)OSG::ShadowStageBase::RenderPropertyMaskFieldId;
+        bp::scope().attr("EnableMultiSampleFieldId") = (int)OSG::ShadowStageBase::EnableMultiSampleFieldId;
+        bp::scope().attr("ColorSamplesFieldId") = (int)OSG::ShadowStageBase::ColorSamplesFieldId;
+        bp::scope().attr("CoverageSamplesFieldId") = (int)OSG::ShadowStageBase::CoverageSamplesFieldId;
+        bp::scope().attr("FixedSampleLocationFieldId") = (int)OSG::ShadowStageBase::FixedSampleLocationFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ShadowStageBase::NextFieldId;
         { //::OSG::ShadowStageBase::assignExcludeNodes
         
@@ -270,6 +274,15 @@ void register_ShadowStageBase_class(){
                 , getClassTypeId_function_type( &::OSG::ShadowStageBase::getClassTypeId ) );
         
         }
+        { //::OSG::ShadowStageBase::getColorSamples
+        
+            typedef ::OSG::UInt32 ( ::OSG::ShadowStageBase::*getColorSamples_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getColorSamples"
+                , getColorSamples_function_type( &::OSG::ShadowStageBase::getColorSamples ) );
+        
+        }
         { //::OSG::ShadowStageBase::getCombineBlend
         
             typedef bool ( ::OSG::ShadowStageBase::*getCombineBlend_function_type )(  ) const;
@@ -288,6 +301,15 @@ void register_ShadowStageBase_class(){
                 , getContainerSize_function_type( &::OSG::ShadowStageBase::getContainerSize ) );
         
         }
+        { //::OSG::ShadowStageBase::getCoverageSamples
+        
+            typedef ::OSG::UInt32 ( ::OSG::ShadowStageBase::*getCoverageSamples_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getCoverageSamples"
+                , getCoverageSamples_function_type( &::OSG::ShadowStageBase::getCoverageSamples ) );
+        
+        }
         { //::OSG::ShadowStageBase::getDisableOccludedLights
         
             typedef bool ( ::OSG::ShadowStageBase::*getDisableOccludedLights_function_type )(  ) const;
@@ -295,6 +317,15 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "getDisableOccludedLights"
                 , getDisableOccludedLights_function_type( &::OSG::ShadowStageBase::getDisableOccludedLights ) );
+        
+        }
+        { //::OSG::ShadowStageBase::getEnableMultiSample
+        
+            typedef bool ( ::OSG::ShadowStageBase::*getEnableMultiSample_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getEnableMultiSample"
+                , getEnableMultiSample_function_type( &::OSG::ShadowStageBase::getEnableMultiSample ) );
         
         }
         { //::OSG::ShadowStageBase::getExcludeNodes
@@ -315,6 +346,15 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "getFboOn"
                 , getFboOn_function_type( &::OSG::ShadowStageBase::getFboOn ) );
+        
+        }
+        { //::OSG::ShadowStageBase::getFixedSampleLocation
+        
+            typedef bool ( ::OSG::ShadowStageBase::*getFixedSampleLocation_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getFixedSampleLocation"
+                , getFixedSampleLocation_function_type( &::OSG::ShadowStageBase::getFixedSampleLocation ) );
         
         }
         { //::OSG::ShadowStageBase::getGlobalShadowIntensity
@@ -461,6 +501,16 @@ void register_ShadowStageBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::ShadowStageBase::getSFColorSamples
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::ShadowStageBase::*getSFColorSamples_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getSFColorSamples"
+                , getSFColorSamples_function_type( &::OSG::ShadowStageBase::getSFColorSamples )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::ShadowStageBase::getSFCombineBlend
         
             typedef ::OSG::SFBool const * ( ::OSG::ShadowStageBase::*getSFCombineBlend_function_type )(  ) const;
@@ -468,6 +518,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "getSFCombineBlend"
                 , getSFCombineBlend_function_type( &::OSG::ShadowStageBase::getSFCombineBlend )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ShadowStageBase::getSFCoverageSamples
+        
+            typedef ::OSG::SFUInt32 const * ( ::OSG::ShadowStageBase::*getSFCoverageSamples_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getSFCoverageSamples"
+                , getSFCoverageSamples_function_type( &::OSG::ShadowStageBase::getSFCoverageSamples )
                 , bp::return_internal_reference< >() );
         
         }
@@ -481,6 +541,16 @@ void register_ShadowStageBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::ShadowStageBase::getSFEnableMultiSample
+        
+            typedef ::OSG::SFBool const * ( ::OSG::ShadowStageBase::*getSFEnableMultiSample_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getSFEnableMultiSample"
+                , getSFEnableMultiSample_function_type( &::OSG::ShadowStageBase::getSFEnableMultiSample )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::OSG::ShadowStageBase::getSFFboOn
         
             typedef ::OSG::SFBool const * ( ::OSG::ShadowStageBase::*getSFFboOn_function_type )(  ) const;
@@ -488,6 +558,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "getSFFboOn"
                 , getSFFboOn_function_type( &::OSG::ShadowStageBase::getSFFboOn )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ShadowStageBase::getSFFixedSampleLocation
+        
+            typedef ::OSG::SFBool const * ( ::OSG::ShadowStageBase::*getSFFixedSampleLocation_function_type )(  ) const;
+            
+            ShadowStageBase_exposer.def( 
+                "getSFFixedSampleLocation"
+                , getSFFixedSampleLocation_function_type( &::OSG::ShadowStageBase::getSFFixedSampleLocation )
                 , bp::return_internal_reference< >() );
         
         }
@@ -768,6 +848,16 @@ void register_ShadowStageBase_class(){
                 , ( bp::arg("value") ) );
         
         }
+        { //::OSG::ShadowStageBase::setColorSamples
+        
+            typedef void ( ::OSG::ShadowStageBase::*setColorSamples_function_type )( ::OSG::UInt32 const ) ;
+            
+            ShadowStageBase_exposer.def( 
+                "setColorSamples"
+                , setColorSamples_function_type( &::OSG::ShadowStageBase::setColorSamples )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::ShadowStageBase::setCombineBlend
         
             typedef void ( ::OSG::ShadowStageBase::*setCombineBlend_function_type )( bool const ) ;
@@ -775,6 +865,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "setCombineBlend"
                 , setCombineBlend_function_type( &::OSG::ShadowStageBase::setCombineBlend )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShadowStageBase::setCoverageSamples
+        
+            typedef void ( ::OSG::ShadowStageBase::*setCoverageSamples_function_type )( ::OSG::UInt32 const ) ;
+            
+            ShadowStageBase_exposer.def( 
+                "setCoverageSamples"
+                , setCoverageSamples_function_type( &::OSG::ShadowStageBase::setCoverageSamples )
                 , ( bp::arg("value") ) );
         
         }
@@ -788,6 +888,16 @@ void register_ShadowStageBase_class(){
                 , ( bp::arg("value") ) );
         
         }
+        { //::OSG::ShadowStageBase::setEnableMultiSample
+        
+            typedef void ( ::OSG::ShadowStageBase::*setEnableMultiSample_function_type )( bool const ) ;
+            
+            ShadowStageBase_exposer.def( 
+                "setEnableMultiSample"
+                , setEnableMultiSample_function_type( &::OSG::ShadowStageBase::setEnableMultiSample )
+                , ( bp::arg("value") ) );
+        
+        }
         { //::OSG::ShadowStageBase::setFboOn
         
             typedef void ( ::OSG::ShadowStageBase::*setFboOn_function_type )( bool const ) ;
@@ -795,6 +905,16 @@ void register_ShadowStageBase_class(){
             ShadowStageBase_exposer.def( 
                 "setFboOn"
                 , setFboOn_function_type( &::OSG::ShadowStageBase::setFboOn )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShadowStageBase::setFixedSampleLocation
+        
+            typedef void ( ::OSG::ShadowStageBase::*setFixedSampleLocation_function_type )( bool const ) ;
+            
+            ShadowStageBase_exposer.def( 
+                "setFixedSampleLocation"
+                , setFixedSampleLocation_function_type( &::OSG::ShadowStageBase::setFixedSampleLocation )
                 , ( bp::arg("value") ) );
         
         }

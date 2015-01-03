@@ -42,8 +42,8 @@
 #include <OSGSocketException.h>
 #include <OSGPerfMonitor.h>
 #include <OSGHardwareContextParent.h>
-#include <OSGAttachment.h>
 #include <OSGMapHelper.h>
+#include <OSGAttachment.h>
 #include <OSGConnectorAttachment.h>
 #include <OSGNodeCore.h>
 #include <OSGGlobalsAttachment.h>

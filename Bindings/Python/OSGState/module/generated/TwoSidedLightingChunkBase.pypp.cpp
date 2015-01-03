@@ -37,10 +37,16 @@
 using namespace std;
 namespace bp = boost::python;
 
+struct TwoSidedLightingChunkBase_wrapper : OSG::TwoSidedLightingChunkBase, bp::wrapper< OSG::TwoSidedLightingChunkBase > {
+
+
+
+};
+
 void register_TwoSidedLightingChunkBase_class(){
 
     { //::OSG::TwoSidedLightingChunkBase
-        typedef bp::class_< OSG::TwoSidedLightingChunkBase, bp::bases< ::OSG::StateChunk >, boost::noncopyable > TwoSidedLightingChunkBase_exposer_t;
+        typedef bp::class_< TwoSidedLightingChunkBase_wrapper, bp::bases< ::OSG::StateChunk >, boost::noncopyable > TwoSidedLightingChunkBase_exposer_t;
         TwoSidedLightingChunkBase_exposer_t TwoSidedLightingChunkBase_exposer = TwoSidedLightingChunkBase_exposer_t( "TwoSidedLightingChunkBase", bp::no_init );
         bp::scope TwoSidedLightingChunkBase_scope( TwoSidedLightingChunkBase_exposer );
         { //::OSG::TwoSidedLightingChunkBase::copyFromBin
@@ -157,6 +163,36 @@ void register_TwoSidedLightingChunkBase_class(){
                 "getType"
                 , getType_function_type( &::OSG::TwoSidedLightingChunkBase::getType )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::StateChunk::activate
+        
+            typedef void ( ::OSG::StateChunk::*activate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            
+            TwoSidedLightingChunkBase_exposer.def( 
+                "activate"
+                , activate_function_type( &::OSG::StateChunk::activate )
+                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
+        
+        }
+        { //::OSG::StateChunk::changeFrom
+        
+            typedef void ( ::OSG::StateChunk::*changeFrom_function_type )( ::OSG::DrawEnv *,::OSG::StateChunk *,::OSG::UInt32 ) ;
+            
+            TwoSidedLightingChunkBase_exposer.def( 
+                "changeFrom"
+                , changeFrom_function_type( &::OSG::StateChunk::changeFrom )
+                , ( bp::arg("pEnv"), bp::arg("pOld"), bp::arg("index")=(::OSG::UInt32)(0) ) );
+        
+        }
+        { //::OSG::StateChunk::deactivate
+        
+            typedef void ( ::OSG::StateChunk::*deactivate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            
+            TwoSidedLightingChunkBase_exposer.def( 
+                "deactivate"
+                , deactivate_function_type( &::OSG::StateChunk::deactivate )
+                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
         
         }
         TwoSidedLightingChunkBase_exposer.staticmethod( "create" );

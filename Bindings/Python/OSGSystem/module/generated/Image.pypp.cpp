@@ -500,6 +500,16 @@ void register_Image_class(){
                 , getComponents_function_type( &::OSG::Image::getComponents ) );
         
         }
+        { //::OSG::Image::getHash
+        
+            typedef ::OSG::SizeT ( ::OSG::Image::*getHash_function_type )( bool ) const;
+            
+            Image_exposer.def( 
+                "getHash"
+                , getHash_function_type( &::OSG::Image::getHash )
+                , ( bp::arg("force")=(bool)(false) ) );
+        
+        }
         { //::OSG::Image::getSize
         
             typedef long unsigned int ( ::OSG::Image::*getSize_function_type )( bool,bool,bool ) const;

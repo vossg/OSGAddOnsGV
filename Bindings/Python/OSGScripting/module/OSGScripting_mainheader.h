@@ -3,10 +3,10 @@
 #include <pypp_aliases.h>
 #include <OSGScript.h>
 #include <OSGPyFieldAccessHandler.h>
-#include <OSGPyFieldContainerPtrMFieldGetHandle.h>
 #include <OSGPythonScript.h>
 #include <OSGPythonScriptFile.h>
 #include <OSGPyFieldContainerPtrMFieldEditHandle.h>
+#include <OSGPyFieldContainerPtrMFieldGetHandle.h>
 
 #if defined(Bool)
 #undef Bool

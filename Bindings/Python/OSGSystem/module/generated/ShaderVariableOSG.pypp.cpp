@@ -54,6 +54,7 @@ void register_ShaderVariableOSG_class(){
             .value("OSGInvViewMatrix", OSG::ShaderVariableOSG::OSGInvViewMatrix)
             .value("OSGProjectionMatrix", OSG::ShaderVariableOSG::OSGProjectionMatrix)
             .value("OSGModelViewMatrix", OSG::ShaderVariableOSG::OSGModelViewMatrix)
+            .value("OSGViewportSize", OSG::ShaderVariableOSG::OSGViewportSize)
             .value("OSGStereoLeftEye", OSG::ShaderVariableOSG::OSGStereoLeftEye)
             .value("OSGDrawerId", OSG::ShaderVariableOSG::OSGDrawerId)
             .value("OSGDrawableId", OSG::ShaderVariableOSG::OSGDrawableId)

@@ -55,12 +55,12 @@ void register_QuadTreeTerrain_class(){
         }
         { //::OSG::QuadTreeTerrain::doRenderEnter
         
-            typedef ::OSG::ActionBase::ResultE ( ::OSG::QuadTreeTerrain::*doRenderEnter_function_type )( ::OSG::FrustumVolume const &,::OSG::Matrix,::OSG::Matrix ) ;
+            typedef ::OSG::ActionBase::ResultE ( ::OSG::QuadTreeTerrain::*doRenderEnter_function_type )( ::OSG::RenderAction * ) ;
             
             QuadTreeTerrain_exposer.def( 
                 "doRenderEnter"
                 , doRenderEnter_function_type( &::OSG::QuadTreeTerrain::doRenderEnter )
-                , ( bp::arg("frustum"), bp::arg("camera"), bp::arg("toworld") ) );
+                , ( bp::arg("ra") ) );
         
         }
         { //::OSG::QuadTreeTerrain::dump

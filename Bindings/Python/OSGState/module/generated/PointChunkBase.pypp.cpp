@@ -37,16 +37,10 @@
 using namespace std;
 namespace bp = boost::python;
 
-struct PointChunkBase_wrapper : OSG::PointChunkBase, bp::wrapper< OSG::PointChunkBase > {
-
-
-
-};
-
 void register_PointChunkBase_class(){
 
     { //::OSG::PointChunkBase
-        typedef bp::class_< PointChunkBase_wrapper, bp::bases< ::OSG::StateChunk >, boost::noncopyable > PointChunkBase_exposer_t;
+        typedef bp::class_< OSG::PointChunkBase, bp::bases< ::OSG::StateChunk >, boost::noncopyable > PointChunkBase_exposer_t;
         PointChunkBase_exposer_t PointChunkBase_exposer = PointChunkBase_exposer_t( "PointChunkBase", bp::no_init );
         bp::scope PointChunkBase_scope( PointChunkBase_exposer );
         bp::scope().attr("SizeFieldId") = (int)OSG::PointChunkBase::SizeFieldId;
@@ -465,36 +459,6 @@ void register_PointChunkBase_class(){
                 "setSprite"
                 , setSprite_function_type( &::OSG::PointChunkBase::setSprite )
                 , ( bp::arg("value") ) );
-        
-        }
-        { //::OSG::StateChunk::activate
-        
-            typedef void ( ::OSG::StateChunk::*activate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
-            
-            PointChunkBase_exposer.def( 
-                "activate"
-                , activate_function_type( &::OSG::StateChunk::activate )
-                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
-        
-        }
-        { //::OSG::StateChunk::changeFrom
-        
-            typedef void ( ::OSG::StateChunk::*changeFrom_function_type )( ::OSG::DrawEnv *,::OSG::StateChunk *,::OSG::UInt32 ) ;
-            
-            PointChunkBase_exposer.def( 
-                "changeFrom"
-                , changeFrom_function_type( &::OSG::StateChunk::changeFrom )
-                , ( bp::arg("pEnv"), bp::arg("pOld"), bp::arg("index")=(::OSG::UInt32)(0) ) );
-        
-        }
-        { //::OSG::StateChunk::deactivate
-        
-            typedef void ( ::OSG::StateChunk::*deactivate_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
-            
-            PointChunkBase_exposer.def( 
-                "deactivate"
-                , deactivate_function_type( &::OSG::StateChunk::deactivate )
-                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
         
         }
         PointChunkBase_exposer.staticmethod( "create" );

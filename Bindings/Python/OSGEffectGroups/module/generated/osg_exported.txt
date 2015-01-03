@@ -12,7 +12,9 @@ ShadowStageBase
 DisplayFilterGroupBase
 ShadowStage
 DisplayFilterStageData
+ResolutionDisplayFilter
 FishEyeProjectorData
+DeferredShadingStageDataBase
 FogStage
 DeferredShadingStage
 DepthPeelingStageBase
@@ -27,14 +29,12 @@ ColorDisplayFilter
 DisplayFilterStageDataBase
 DepthPeelingStageDataBase
 DisplayFilter
-DeferredShadingStageDataBase
 FishEyeProjectorDataBase
 DisplayFilterBase
 CheckerboardCalibFilterBase
 DisplayFilterStage
 DisplayFilterGroup
 DeferredShadingStageData
-ResolutionDisplayFilter
 FogStageData
 FishEyeProjectorBase
 DistortionDisplayFilterBase

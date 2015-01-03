@@ -111,6 +111,16 @@ void register_ShaderExecutableChunk_class(){
                 , ( bp::arg("pChunk") ) );
         
         }
+        { //::OSG::ShaderExecutableChunk::updateObjectDependencies
+        
+            typedef void ( ::OSG::ShaderExecutableChunk::*updateObjectDependencies_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            
+            ShaderExecutableChunk_exposer.def( 
+                "updateObjectDependencies"
+                , updateObjectDependencies_function_type( &::OSG::ShaderExecutableChunk::updateObjectDependencies )
+                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
+        
+        }
         ShaderExecutableChunk_exposer.staticmethod( "getStaticClass" );
         ShaderExecutableChunk_exposer.staticmethod( "getStaticClassId" );
         pyopensg::register_transit< OSG::ShaderExecutableChunk >::execute();

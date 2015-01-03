@@ -148,6 +148,26 @@ void register_ChunkMaterial_class(){
                 , bp::return_value_policy< bp::reference_existing_object >() );
         
         }
+        { //::OSG::ChunkMaterial::getChunkSlot
+        
+            typedef bool ( ::OSG::ChunkMaterial::*getChunkSlot_function_type )( ::OSG::StateChunk *,::OSG::Int32 & ) const;
+            
+            ChunkMaterial_exposer.def( 
+                "getChunkSlot"
+                , getChunkSlot_function_type( &::OSG::ChunkMaterial::getChunkSlot )
+                , ( bp::arg("chunk"), bp::arg("slot") ) );
+        
+        }
+        { //::OSG::ChunkMaterial::insertChunk
+        
+            typedef bool ( ::OSG::ChunkMaterial::*insertChunk_function_type )( ::OSG::StateChunk *,::OSG::UInt32,::OSG::Int32 ) ;
+            
+            ChunkMaterial_exposer.def( 
+                "insertChunk"
+                , insertChunk_function_type( &::OSG::ChunkMaterial::insertChunk )
+                , ( bp::arg("chunk"), bp::arg("chunkIndex"), bp::arg("slot")=(::OSG::Int32)(OSG::State::AutoSlotReplace) ) );
+        
+        }
         { //::OSG::ChunkMaterial::isTransparent
         
             typedef bool ( ::OSG::ChunkMaterial::*isTransparent_function_type )(  ) const;
@@ -164,6 +184,16 @@ void register_ChunkMaterial_class(){
             ChunkMaterial_exposer.def( 
                 "rebuildState"
                 , rebuildState_function_type( &::OSG::ChunkMaterial::rebuildState ) );
+        
+        }
+        { //::OSG::ChunkMaterial::setChunkSlot
+        
+            typedef bool ( ::OSG::ChunkMaterial::*setChunkSlot_function_type )( ::OSG::StateChunk *,::OSG::Int32 ) ;
+            
+            ChunkMaterial_exposer.def( 
+                "setChunkSlot"
+                , setChunkSlot_function_type( &::OSG::ChunkMaterial::setChunkSlot )
+                , ( bp::arg("chunk"), bp::arg("slot") ) );
         
         }
         { //::OSG::ChunkMaterial::subChunk

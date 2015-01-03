@@ -129,6 +129,16 @@ void register_StateChunk_class(){
                 , ( bp::arg("chunk") ) );
         
         }
+        { //::OSG::StateChunk::updateObjectDependencies
+        
+            typedef void ( ::OSG::StateChunk::*updateObjectDependencies_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            
+            StateChunk_exposer.def( 
+                "updateObjectDependencies"
+                , updateObjectDependencies_function_type( &::OSG::StateChunk::updateObjectDependencies )
+                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
+        
+        }
         StateChunk_exposer.staticmethod( "getStaticClass" );
         StateChunk_exposer.staticmethod( "getStaticClassId" );
         pyopensg::register_transit< OSG::StateChunk >::execute();

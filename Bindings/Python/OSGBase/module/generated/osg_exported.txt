@@ -47,6 +47,7 @@ StatElemDescBase
 PerfMonitorBase
 Attachment
 DataType
+ExceptionBinaryDataHandler
 MapHelperBase
 ConnectorAttachment
 ChangeList
@@ -55,10 +56,10 @@ ReflexiveContainer
 MapHelper
 MemoryObject
 FieldDescriptionBase
-ExceptionBinaryDataHandler
 HardwareContextBase
 ExternalThread
 NestedSampleInfo
+ConnectorAttachmentBase
 HardwareContext
 AttachmentBase
 FieldContainer
@@ -66,7 +67,6 @@ FrustumVolume
 GlobalsAttachment
 Plane
 NodeCoreBase
-ConnectorAttachmentBase
 PolytopeVolume
 SocketException
 Node

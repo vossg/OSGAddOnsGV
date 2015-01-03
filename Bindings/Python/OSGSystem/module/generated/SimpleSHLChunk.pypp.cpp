@@ -453,6 +453,16 @@ void register_SimpleSHLChunk_class(){
                 , ( bp::arg("inst"), bp::arg("name") ) );
         
         }
+        { //::OSG::SimpleSHLChunk::hasUniformVariable
+        
+            typedef bool ( ::OSG::SimpleSHLChunk::*hasUniformVariable_function_type )( ::OSG::Char8 const * ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "hasUniformVariable"
+                , hasUniformVariable_function_type( &::OSG::SimpleSHLChunk::hasUniformVariable )
+                , ( bp::arg("name") ) );
+        
+        }
         { //::OSG::SimpleSHLChunk::readFragmentProgram
         
             typedef bool ( ::OSG::SimpleSHLChunk::*readFragmentProgram_function_type )( ::OSG::Char8 const * ) ;
@@ -470,6 +480,26 @@ void register_SimpleSHLChunk_class(){
             SimpleSHLChunk_exposer.def( 
                 "readGeometryProgram"
                 , readGeometryProgram_function_type( &::OSG::SimpleSHLChunk::readGeometryProgram )
+                , ( bp::arg("file") ) );
+        
+        }
+        { //::OSG::SimpleSHLChunk::readTessControlProgram
+        
+            typedef bool ( ::OSG::SimpleSHLChunk::*readTessControlProgram_function_type )( ::OSG::Char8 const * ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "readTessControlProgram"
+                , readTessControlProgram_function_type( &::OSG::SimpleSHLChunk::readTessControlProgram )
+                , ( bp::arg("file") ) );
+        
+        }
+        { //::OSG::SimpleSHLChunk::readTessEvaluationProgram
+        
+            typedef bool ( ::OSG::SimpleSHLChunk::*readTessEvaluationProgram_function_type )( ::OSG::Char8 const * ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "readTessEvaluationProgram"
+                , readTessEvaluationProgram_function_type( &::OSG::SimpleSHLChunk::readTessEvaluationProgram )
                 , ( bp::arg("file") ) );
         
         }
@@ -501,6 +531,16 @@ void register_SimpleSHLChunk_class(){
                 "subUniformVariable"
                 , subUniformVariable_function_type( &::OSG::SimpleSHLChunk::subUniformVariable )
                 , ( bp::arg("name") ) );
+        
+        }
+        { //::OSG::SimpleSHLChunk::updateObjectDependencies
+        
+            typedef void ( ::OSG::SimpleSHLChunk::*updateObjectDependencies_function_type )( ::OSG::DrawEnv *,::OSG::UInt32 ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "updateObjectDependencies"
+                , updateObjectDependencies_function_type( &::OSG::SimpleSHLChunk::updateObjectDependencies )
+                , ( bp::arg("pEnv"), bp::arg("index")=(::OSG::UInt32)(0) ) );
         
         }
         { //::OSG::SimpleSHLChunk::updateParameters

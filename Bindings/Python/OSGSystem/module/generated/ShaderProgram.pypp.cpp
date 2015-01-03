@@ -534,6 +534,15 @@ void register_ShaderProgram_class(){
                 , getFuncIdEndTransformFeedback_function_type( &::OSG::ShaderProgram::getFuncIdEndTransformFeedback ) );
         
         }
+        { //::OSG::ShaderProgram::getFuncIdGetActiveAttrib
+        
+            typedef ::OSG::UInt32 ( *getFuncIdGetActiveAttrib_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdGetActiveAttrib"
+                , getFuncIdGetActiveAttrib_function_type( &::OSG::ShaderProgram::getFuncIdGetActiveAttrib ) );
+        
+        }
         { //::OSG::ShaderProgram::getFuncIdGetProgramInfoLog
         
             typedef ::OSG::UInt32 ( *getFuncIdGetProgramInfoLog_function_type )(  );
@@ -1266,6 +1275,7 @@ void register_ShaderProgram_class(){
         ShaderProgram_exposer.staticmethod( "getFuncIdDeleteProgram" );
         ShaderProgram_exposer.staticmethod( "getFuncIdDeleteShader" );
         ShaderProgram_exposer.staticmethod( "getFuncIdEndTransformFeedback" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdGetActiveAttrib" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetProgramInfoLog" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetProgramiv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetShaderInfoLog" );

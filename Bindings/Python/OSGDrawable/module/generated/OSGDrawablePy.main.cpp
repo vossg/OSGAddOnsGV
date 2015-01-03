@@ -45,6 +45,10 @@
 
 #include "generated/FatBorderChunkBase.pypp.hpp"
 
+#include "generated/FresnelMaterial.pypp.hpp"
+
+#include "generated/FresnelMaterialBase.pypp.hpp"
+
 #include "generated/GeoColor3fProperty.pypp.hpp"
 
 #include "generated/GeoColor4fProperty.pypp.hpp"
@@ -169,6 +173,10 @@ BOOST_PYTHON_MODULE(OSGDrawablePy){
     register_FatBorderChunkBase_class();
 
     register_FatBorderChunk_class();
+
+    register_FresnelMaterialBase_class();
+
+    register_FresnelMaterial_class();
 
     register_GeoInstancerBase_class();
 
@@ -341,6 +349,12 @@ BOOST_PYTHON_MODULE(OSGDrawablePy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::GeoInstancer, OSG::GeoInstancer::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::GeoInstancer::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::FresnelMaterial */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FresnelMaterial, OSG::FresnelMaterial::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FresnelMaterial::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::KDTreeIntersectProxyAttachment */
 

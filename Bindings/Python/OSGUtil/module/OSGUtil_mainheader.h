@@ -20,8 +20,8 @@
 #include <OSGNavigator.h>
 #include <OSGNavigationManager.h>
 #include <OSGSimpleSceneManager.h>
-#include <OSGSimpleStatisticsForeground.h>
 #include <OSGPerfMonitorForeground.h>
+#include <OSGSimpleStatisticsForeground.h>
 
 #if defined(Bool)
 #undef Bool
