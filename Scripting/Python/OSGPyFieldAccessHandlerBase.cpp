@@ -99,11 +99,11 @@ OSG_FIELDTRAITS_GETTYPE_NS(PyFieldAccessHandler *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            PyFieldAccessHandler *,
-                           nsOSG);
+                           nsOSG)
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            PyFieldAccessHandler *,
-                           nsOSG);
+                           nsOSG)
 
 /***************************************************************************\
  *                         Field Description                               *

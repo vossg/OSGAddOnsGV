@@ -51,7 +51,7 @@ void GeometryClipmapLevel::dumpIt(void)
     fprintf(stderr, "index %d\n", index);
     fprintf(stderr, "block origin %d %d\n", blockOrigin[0], blockOrigin[1]);
     fprintf(stderr, "sample origin %d %d\n", sampleOrigin[0], sampleOrigin[1]);
-    fprintf(stderr, "texdata %p\n", textureData.get());
+    fprintf(stderr, "texdata %p\n", static_cast<void *>(textureData.get()));
     fprintf(stderr, "sampleSpacing %d\n", sampleSpacing);
     
     char tmp[256];

@@ -484,10 +484,10 @@ bool LwoChunk::addChild(LwoChunk *pChild)
 
     fprintf(stderr, "Add %hu (%p) (%s) to %hu (%p) (%s)\n",
             uiChildOpCode,
-            pChild,
+            static_cast<void *>(pChild),
             szChildDesc,
             uiCurrOpCode,
-            this,
+            static_cast<void *>(this),
             szCurrDesc);
 #endif
 
@@ -1453,7 +1453,7 @@ NodeTransitPtr LwoLayrChunk::convertToNode(LwoDatabase &oDB)
                 if(pSurf != NULL)
                 {
                     fprintf(stderr, "use surface %p %s (%d) | %d\n",
-                            pSurf,
+                            static_cast<void *>(pSurf),
                             pSurf->getName().c_str(),
                             _vPolys[k]._vPolyTags[i],
                             UInt32(pSurf->getSidedness()));

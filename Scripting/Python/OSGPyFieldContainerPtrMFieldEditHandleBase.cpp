@@ -100,11 +100,11 @@ OSG_FIELDTRAITS_GETTYPE_NS(PyFieldContainerPtrMFieldEditHandle *, nsOSG)
 
 OSG_EXPORT_PTR_SFIELD_FULL(PointerSField,
                            PyFieldContainerPtrMFieldEditHandle *,
-                           nsOSG);
+                           nsOSG)
 
 OSG_EXPORT_PTR_MFIELD_FULL(PointerMField,
                            PyFieldContainerPtrMFieldEditHandle *,
-                           nsOSG);
+                           nsOSG)
 
 /***************************************************************************\
  *                         Field Description                               *

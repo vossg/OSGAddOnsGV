@@ -62,7 +62,7 @@ template<class T> inline
 T osgSqr(T val)
 {
     return val * val;
-};
+}
 
 inline
 unsigned int getNextPowerOf2( unsigned int x )
