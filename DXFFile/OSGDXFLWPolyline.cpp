@@ -209,8 +209,11 @@ DXFResult DXFLWPolyline::endEntity(void)
  *  SECTION:ENTITIES (see DXFEntities) and BLOCKSENTRY:BLOCK (see DXFBlock).
  */
 DXFLWPolyline::DXFLWPolyline(void) :
-    Inherited(),
-    _elevation(0.0)
+     Inherited  (   ),
+    _elevation  (0.0),
+    _numVertices(0  ),
+    _curVertice (   ),
+    _plyVertices(   )
 {
     _entityTypeName    = "LWPOLYLINE";
 

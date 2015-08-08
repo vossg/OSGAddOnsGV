@@ -47,16 +47,33 @@ OSG_BEGIN_NAMESPACE
 template<class HeightType, class HeightDeltaType, class TextureType> inline
 BbqTerrainNode<HeightType, 
                HeightDeltaType,
-               TextureType    >::BbqTerrainNode(void):
-    maxHeightError   (0         ),
-    data             (          ),
-    parent           (NULL      )
+               TextureType    >::BbqTerrainNode(void) :
+                   BbqTerrainNodeBase(          ),
+                   maxHeightError    (0         ),
+                   data              (          ),
+                   parent            (NULL      )
 {
     children[0] = 
         children[1] = 
         children[2] = 
         children[3] = NULL;
 }
+
+template<class HeightType, class HeightDeltaType, class TextureType> inline
+BbqTerrainNode<HeightType, 
+               HeightDeltaType,
+               TextureType    >::BbqTerrainNode(const BbqTerrainNode &other) :
+                   BbqTerrainNodeBase(other               ),
+                   maxHeightError    (other.maxHeightError),
+                   data              (other.data          ),
+                   parent            (other.parent        )
+{
+    children[0] = other.children[0];
+    children[1] = other.children[1];
+    children[2] = other.children[2];
+    children[3] = other.children[3];
+}
+
 
 template<class HeightType, class HeightDeltaType, class TextureType> inline
 BbqTerrainNode<HeightType, 

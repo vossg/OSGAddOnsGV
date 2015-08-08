@@ -112,7 +112,19 @@ const char* DefaultFragmentProgramText =
 Color3f			getDebugColor( int index );	
 
 
-CpuClipmapRenderer::CpuClipmapRenderer()
+CpuClipmapRenderer::CpuClipmapRenderer() :
+    levels_                (     ),
+#ifdef OLD_GEOCLIP
+    terrainShader_         (     ),
+#else
+    _pTerrainShader        (NULL ),
+#endif
+    testBuffer_            (     ),
+    useVertexBufferObjects_(false),
+    programTextChanged_    (true ),
+    vertexProgramText_     (     ),
+    fragmentProgramText_   (     )
+
 {
 #ifndef OLD_GEOCLIP
     _pTerrainShader = NULL;
@@ -463,13 +475,13 @@ void CpuClipmapRenderer::onBuildVertices( GeometryClipmapLevel& level, const Geo
     
     const Pnt2i worldSampleCount = geoClipmaps_->getWorldSampleCount();
     
-    for( int y = blockRect.y0; y < blockRect.y1; ++y )
+    for( int y = blockRect._y0; y < blockRect._y1; ++y )
     {
-        const int index = y * levelSampleCount + blockRect.x0;
+        const int index = y * levelSampleCount + blockRect._x0;
         const float* samplePtr = &level.heightmap.samples[ index ];
         OpenGLTerrainVertex* vertexPtr = &levelRenderData.vertices[ index ];
         
-        for( int x = blockRect.x0; x < blockRect.x1; ++x )
+        for( int x = blockRect._x0; x < blockRect._x1; ++x )
         {
             // todo: make this incremental
             samplePos = level.blockPosToSamplePos( Pnt2i( x, y ) );
@@ -500,12 +512,12 @@ void CpuClipmapRenderer::onBuildVertices( GeometryClipmapLevel& level, const Geo
 #endif
         
         // todo: make this faster
-        for( int y = blockRect.y0; y < blockRect.y1; ++y )
+        for( int y = blockRect._y0; y < blockRect._y1; ++y )
         {
-            const int index = y * levelSampleCount + blockRect.x0;
+            const int index = y * levelSampleCount + blockRect._x0;
             OpenGLTerrainVertex* vertexPtr = &levelRenderData.vertices[ index ];
             
-            for( int x = blockRect.x0; x < blockRect.x1; ++x, ++vertexPtr )
+            for( int x = blockRect._x0; x < blockRect._x1; ++x, ++vertexPtr )
             {
                 // todo: make this incremental
                 Pnt2i samplePos = level.blockPosToSamplePos( Pnt2i( x, y ) );
@@ -569,9 +581,9 @@ void CpuClipmapRenderer::onBuildVertices( GeometryClipmapLevel& level, const Geo
         //std::cerr << "Uploading Vbo Data " << blockRect << std::endl;
         
         const int vboLineLength = sizeof( OpenGLTerrainVertex ) * blockRect.getWidth();
-        for( int y = blockRect.y0; y < blockRect.y1; ++y )
+        for( int y = blockRect._y0; y < blockRect._y1; ++y )
         {
-            const int index = y * levelSampleCount + blockRect.x0;
+            const int index = y * levelSampleCount + blockRect._x0;
             const int vboOffset = index * sizeof( OpenGLTerrainVertex );
             
             levelRenderData.vertexBuffer.uploadData( &levelRenderData.vertices[ index ], vboOffset, vboLineLength );
@@ -653,22 +665,22 @@ void CpuClipmapRenderer::createBlockIndices( GeometryClipmapLevel& level, const 
         return;
     }
 	
-    assert( blockRect.x0 >= 0 );
-    assert( blockRect.y0 >= 0 );
-    assert( blockRect.x1 > blockRect.x0 );
-    assert( blockRect.y1 > blockRect.y0 );
-    assert( blockRect.x0 < levelSampleCount );
-    assert( blockRect.y0 < levelSampleCount );
-    assert( blockRect.x1 < levelSampleCount );
-    assert( blockRect.y1 < levelSampleCount );
+    assert( blockRect._x0 >= 0 );
+    assert( blockRect._y0 >= 0 );
+    assert( blockRect._x1 > blockRect._x0 );
+    assert( blockRect._y1 > blockRect._y0 );
+    assert( blockRect._x0 < levelSampleCount );
+    assert( blockRect._y0 < levelSampleCount );
+    assert( blockRect._x1 < levelSampleCount );
+    assert( blockRect._y1 < levelSampleCount );
     
-    for( int y = blockRect.y0; y < blockRect.y1; ++y )
+    for( int y = blockRect._y0; y < blockRect._y1; ++y )
     {
         assert( y + 1 < levelSampleCount );
         const int row0 = ( level.blockOrigin[ 1 ] + y ) % levelSampleCount;
         const int row1 = ( level.blockOrigin[ 1 ] + y + 1 ) % levelSampleCount;
         
-        for( int x = blockRect.x0; x < blockRect.x1; ++x )
+        for( int x = blockRect._x0; x < blockRect._x1; ++x )
         {
             assert( x + 1 < levelSampleCount );
             const int col0 = ( level.blockOrigin[ 0 ] + x ) % levelSampleCount;
@@ -759,19 +771,19 @@ bool CpuClipmapRenderer::buildIndices( GeometryClipmapLevel& level,
         // clip rectangle to the world bounds:
         if( level.sampleOrigin[ 0 ] < 0 )
         {
-            blockRect.x0 = -level.sampleOrigin[ 0 ] / level.sampleSpacing;
+            blockRect._x0 = -level.sampleOrigin[ 0 ] / level.sampleSpacing;
         }
         if( level.sampleOrigin[ 1 ] < 0 )
         {
-            blockRect.y0 = -level.sampleOrigin[ 1 ] / level.sampleSpacing;
+            blockRect._y0 = -level.sampleOrigin[ 1 ] / level.sampleSpacing;
         }
         if( level.sampleOrigin[ 0 ] + levelSampleCoverage >= worldSampleCount[ 0 ] )
         {
-            blockRect.x1 = ( worldSampleCount[ 0 ] - level.sampleOrigin[ 0 ] - 1 ) / level.sampleSpacing;
+            blockRect._x1 = ( worldSampleCount[ 0 ] - level.sampleOrigin[ 0 ] - 1 ) / level.sampleSpacing;
         }
         if( level.sampleOrigin[ 1 ] + levelSampleCoverage >= worldSampleCount[ 1 ] )
         {
-            blockRect.y1 = ( worldSampleCount[ 1 ] - level.sampleOrigin[ 1 ] - 1 ) / level.sampleSpacing;
+            blockRect._y1 = ( worldSampleCount[ 1 ] - level.sampleOrigin[ 1 ] - 1 ) / level.sampleSpacing;
         }
         createBlockIndices( level, blockRect, levelSampleCount, renderData.indices );
     }

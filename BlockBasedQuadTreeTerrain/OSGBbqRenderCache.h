@@ -239,10 +239,20 @@ class BbqRenderCache
         {
         }
 
+        Entry(const Entry &other):
+            oData(other.oData),
+            pNext(other.pNext),
+            pPrev(other.pPrev),
+            pNode(other.pNode) {}
+
               T                   oData;
               Entry              *pNext;
               Entry              *pPrev;
         const BbqTerrainNodeBase *pNode;
+
+      private:
+
+        void operator =(const Entry &other);
     };
 
     std::vector<Entry>  _vEntries;
@@ -286,6 +296,10 @@ class BbqRenderCache
             _pLastEntry        = entry;         
         }
     }
+
+    BbqRenderCache(const BbqRenderCache &other);
+    void operator =(const BbqRenderCache &rhs);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
 };

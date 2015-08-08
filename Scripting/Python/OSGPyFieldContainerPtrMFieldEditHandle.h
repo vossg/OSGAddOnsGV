@@ -52,7 +52,8 @@ OSG_BEGIN_NAMESPACE
 
 class PythonScript;
 
-class OSG_SCRIPTING_DLLMAPPING PyFieldContainerPtrMFieldEditHandle : public PyFieldContainerPtrMFieldEditHandleBase
+class OSG_SCRIPTING_DLLMAPPING PyFieldContainerPtrMFieldEditHandle : 
+    public PyFieldContainerPtrMFieldEditHandleBase
 {
   protected:
 
@@ -116,7 +117,8 @@ class OSG_SCRIPTING_DLLMAPPING PyFieldContainerPtrMFieldEditHandle : public PyFi
     /*! \{                                                                 */
 
     PyFieldContainerPtrMFieldEditHandle(void);
-    PyFieldContainerPtrMFieldEditHandle(const PyFieldContainerPtrMFieldEditHandle &source);
+    PyFieldContainerPtrMFieldEditHandle(
+        const PyFieldContainerPtrMFieldEditHandle &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -147,7 +149,8 @@ class OSG_SCRIPTING_DLLMAPPING PyFieldContainerPtrMFieldEditHandle : public PyFi
     UInt32                                     _uiIterPos;
 };
 
-typedef PyFieldContainerPtrMFieldEditHandle *PyFieldContainerPtrMFieldEditHandleP;
+typedef PyFieldContainerPtrMFieldEditHandle *
+                                          PyFieldContainerPtrMFieldEditHandleP;
 
 OSG_END_NAMESPACE
 

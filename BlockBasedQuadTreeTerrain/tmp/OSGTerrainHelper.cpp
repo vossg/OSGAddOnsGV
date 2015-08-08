@@ -218,7 +218,11 @@ GeoReferenceAttachment *ImageBlockAccessorX::getGeoRef(void)
 //-----------------------------------------------------------------------------
 
 OpenGLGpuBuffer::OpenGLGpuBuffer(void) :
-    _uiBufferId(0)
+    _eGLType     (GL_NONE          ),
+    _eGLUsage    (GL_NONE          ),
+    _uiBufferId  (0                ),
+    _iBufferSize (0                ),
+    _eBufferUsage(BufferUsage_Count)
 {
 }
 

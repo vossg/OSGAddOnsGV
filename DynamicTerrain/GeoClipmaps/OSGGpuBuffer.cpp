@@ -112,7 +112,18 @@ int				g_VboFunctionRefCount = 0;
 VboFunctions*	g_VboFunctions;
 
 
-VboFunctions::VboFunctions()
+VboFunctions::VboFunctions():
+    bindBuffer          (NULL),
+    bufferData          (NULL),
+    bufferSubData       (NULL),
+    deleteBuffers       (NULL),
+    genBuffers          (NULL),
+    getBufferParameteriv(NULL),
+    getBufferPointerv   (NULL),
+    getBufferSubData    (NULL),
+    isBuffer            (NULL),
+    mapBuffer           (NULL),
+    unmapBuffer         (NULL)
 {
     // register extensions: (make this static/once only?!)
     if( extensionId_ == 0 )
@@ -248,7 +259,14 @@ UInt32 VboFunctions::getExtensionId()
 
 	
 	
-GpuBuffer::GpuBuffer()
+GpuBuffer::GpuBuffer() :
+    window_     (NULL             ),
+    glType_     (GL_NONE          ),
+    glUsage_    (GL_NONE          ),
+    bufferId_   (0                ),
+    bufferSize_ (0                ),
+    bufferUsage_(BufferUsage_Count),
+    isLocked_   (false            )
 {
     isLocked_		= false;
     bufferId_		= 0;
@@ -263,6 +281,16 @@ GpuBuffer::GpuBuffer()
     }
 }
 
+GpuBuffer::GpuBuffer(const GpuBuffer &other) :
+    window_     (other.window_     ),
+    glType_     (other.glType_     ),
+    glUsage_    (other.glUsage_    ),
+    bufferId_   (other.bufferId_   ),
+    bufferSize_ (other.bufferSize_ ),
+    bufferUsage_(other.bufferUsage_),
+    isLocked_   (other.isLocked_   ) 
+{
+}
 
 GpuBuffer::~GpuBuffer()
 {

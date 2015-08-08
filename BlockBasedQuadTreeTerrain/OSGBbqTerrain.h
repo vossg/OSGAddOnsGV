@@ -192,6 +192,9 @@ class BbqTerrainEngineBase
     /*==========================  PRIVATE  ================================*/
 
   private:
+
+    BbqTerrainEngineBase(const BbqTerrainEngineBase &other);
+    void operator =(const BbqTerrainEngineBase &rhs);
 };
 
 template<class HeightType, 
@@ -329,6 +332,9 @@ class BbqTerrainEngine : public BbqTerrainEngineBase
     /*==========================  PRIVATE  ================================*/
 
   private:
+
+    BbqTerrainEngine(const BbqTerrainEngine &other);
+    void operator =(const BbqTerrainEngine &rhs);
 };
     
 /*! \brief BbqTerrain class. See \ref

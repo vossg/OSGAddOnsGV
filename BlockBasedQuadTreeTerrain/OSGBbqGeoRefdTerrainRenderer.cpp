@@ -460,10 +460,10 @@ void BbqGeoRefdTerrainRenderer<HeightType,
             _oDatabaseInfo.heightSampleCount[1]);
 
     fprintf(stderr, "sr: %d %d %d %d | %d %d\n",
-            node->sampleRect.x0,
-            node->sampleRect.y0,
-            node->sampleRect.x1,
-            node->sampleRect.y1,
+            node->sampleRect._x0,
+            node->sampleRect._y0,
+            node->sampleRect._x1,
+            node->sampleRect._y1,
             node->sampleRect.getWidth(),
             node->sampleRect.getHeight());
 
@@ -484,10 +484,10 @@ void BbqGeoRefdTerrainRenderer<HeightType,
 //    fprintf(stderr, "scale %f\n", scale * _oDatabaseInfo.vPixelSize[0]);
 
     float originX = _oDatabaseInfo.vOrigin[0] + 
-        node->sampleRect.x0 * _oDatabaseInfo.vPixelSize[0];
+        node->sampleRect._x0 * _oDatabaseInfo.vPixelSize[0];
 
     float originY = _oDatabaseInfo.vOrigin[1] + 
-        node->sampleRect.y0 * _oDatabaseInfo.vPixelSize[1];
+        node->sampleRect._y0 * _oDatabaseInfo.vPixelSize[1];
 
 /*
     fprintf(stderr, "origin %f %f\n", originX, originY);
@@ -600,17 +600,17 @@ void BbqGeoRefdTerrainRenderer<HeightType,
     
     texCoordOffset.setValues( 
 
-        float(node->sampleRect.x0 - textureNode->sampleRect.x0 ) / 
+        float(node->sampleRect._x0 - textureNode->sampleRect._x0 ) / 
         float(textureNode->blockScale * ( _oDatabaseInfo.heightTileSize - 1)),
 
-        float(node->sampleRect.y0 - textureNode->sampleRect.y0 ) / 
+        float(node->sampleRect._y0 - textureNode->sampleRect._y0 ) / 
         float(textureNode->blockScale * ( _oDatabaseInfo.heightTileSize - 1)));
 
 #if 0
     fprintf(stderr, "x %d %d\n", 
-            node->sampleRect.x0, textureNode->sampleRect.x0);
+            node->sampleRect._x0, textureNode->sampleRect._x0);
     fprintf(stderr, "y %d %d\n", 
-            node->sampleRect.y0, textureNode->sampleRect.y0);
+            node->sampleRect._y0, textureNode->sampleRect._y0);
 
     fprintf(stderr, "bo t %f %f\n",
             node->blockOrigin[0], node->blockOrigin[1]);

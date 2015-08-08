@@ -598,10 +598,10 @@ bool BbqTerrainEngine<HeightType,
     assert(pNode                 );
     assert(pNode->isPreLeafNode());
     
-    int x0 = pNode->sampleRect.x0;
-    int y0 = pNode->sampleRect.y0;
-    int x1 = pNode->sampleRect.x1;
-    int y1 = pNode->sampleRect.y1;
+    int x0 = pNode->sampleRect._x0;
+    int y0 = pNode->sampleRect._y0;
+    int x1 = pNode->sampleRect._x1;
+    int y1 = pNode->sampleRect._y1;
     
     int xm = (x0 + x1 - 1) / 2;
     int ym = (y0 + y1 - 1) / 2;

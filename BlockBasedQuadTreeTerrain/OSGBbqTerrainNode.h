@@ -85,6 +85,7 @@ struct BbqTerrainNodeBase
     /*! \{                                                                 */
 
     BbqTerrainNodeBase(void);
+    BbqTerrainNodeBase(const BbqTerrainNodeBase &other);
     virtual ~BbqTerrainNodeBase(void);
 
     /*! \}                                                                 */
@@ -97,26 +98,26 @@ struct BbqTerrainNodeBase
     /*! \name                   formated output                            */
     /*! \{                                                                 */
 
-            BbqNodeId           id;
+    BbqNodeId           id;
 
-            // this gets only computed for the leaf nodes (loading/unloading)
-            BbqPriority         priority;           
+    // this gets only computed for the leaf nodes (loading/unloading)
+    BbqPriority         priority;           
     
-            // sample rect:
-            Rectangle2i         sampleRect;
+    // sample rect:
+    Rectangle2i         sampleRect;
     
-            // todo: do i really need these??
-            Vec2f               blockOrigin;
-            Real32              blockScale;
+    // todo: do i really need these??
+    Vec2f               blockOrigin;
+    Real32              blockScale;
     
-            Real32              geoMorphingFactor;
+    Real32              geoMorphingFactor;
 
-            // object space bounding box:
-            BoxVolume           boundingBox;
+    // object space bounding box:
+    BoxVolume           boundingBox;
     
 
-            // pointer to the 4 children and the parent:
-            Int32               treeLevel;
+    // pointer to the 4 children and the parent:
+    Int32               treeLevel;
          
     mutable void               *renderCache[BbqRenderCacheType_Count];
 
@@ -128,6 +129,8 @@ struct BbqTerrainNodeBase
     /*==========================  PRIVATE  ================================*/
 
   private:
+
+    void operator =(const BbqTerrainNodeBase &rhs); 
 };
 
 
@@ -143,6 +146,8 @@ struct BbqTerrainNode : public BbqTerrainNodeBase
     /*! \{                                                                 */
 
     BbqTerrainNode(void);
+    BbqTerrainNode(const BbqTerrainNode &other);
+
     virtual ~BbqTerrainNode(void);
 
     /*! \}                                                                 */
@@ -168,6 +173,8 @@ struct BbqTerrainNode : public BbqTerrainNodeBase
     {
         BbqHeightDataContainer  heightData;
         BbqTextureDataContainer textureData;
+
+        BbqTerrainNodeData(void) : heightData(), textureData() {}
     };
    
     HeightDeltaType     maxHeightError; // Int16
@@ -186,6 +193,8 @@ struct BbqTerrainNode : public BbqTerrainNodeBase
     /*==========================  PRIVATE  ================================*/
 
   private:
+
+    void operator =(const BbqTerrainNode &rhs); 
 };
 
 OSG_END_NAMESPACE

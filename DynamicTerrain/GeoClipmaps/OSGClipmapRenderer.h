@@ -80,6 +80,11 @@ struct ClipmapRenderParameters
     TextureEnvChunkUnrecPtr     globalTextureEnv;
     TextureObjChunkUnrecPtr     heightColorTexture;
     WorldTransformation         worldTransform;
+
+  private:
+
+    ClipmapRenderParameters(const OSG::ClipmapRenderParameters &other);
+    void operator =(const ClipmapRenderParameters &rhs);
 };
 
 
@@ -163,6 +168,12 @@ class ClipmapRenderer
     Window*                         window_;
     ClipmapRenderStatistics         stats_;
     //bool                          useVertexBuffers_;
+
+  private:
+
+    ClipmapRenderer(const ClipmapRenderer &other);
+    void operator =(const ClipmapRenderer &rhs);
+    
 };
 
 OSG_END_NAMESPACE

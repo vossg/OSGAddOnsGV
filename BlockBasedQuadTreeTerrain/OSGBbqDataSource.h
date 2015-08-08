@@ -79,6 +79,34 @@ struct BbqDataSourceInformation
     // geo ref to grid mapping
     Vec2f                  vScale;
     Vec2f                  vOffset;
+    
+    BbqDataSourceInformation(void) :
+        levelCount        (0                               ),
+        nodeCount         (0                               ),
+        heightFormat      (BbqFile::AbsoluteValues         ),
+        heightTileSize    (0                               ),
+        heightSampleCount (                                ),
+        heightType        (Image::OSG_INVALID_IMAGEDATATYPE),
+        textureType       (Image::OSG_INVALID_IMAGEDATATYPE),
+        textureFormat     (BbqFile::TexFormatNotSet        ),
+        textureTileSize   (0                               ),
+        textureSampleCount(                                ),
+
+        heightScale       (1.f                             ),
+        heightOffset      (0.f                             ),
+        sampleSpacing     (0.f                             ),
+
+        gridBBoxMin       (                                ),
+        gridBBoxMax       (                                ),
+
+        uiDatum           (0                               ),
+        vEllipsoidAxis    (                                ),
+        vOrigin           (                                ),
+        vPixelSize        (                                ),
+
+        vScale            (                                ),
+        vOffset           (                                ) {}
+
 };
 
 struct BbqTerrainNodeBase;

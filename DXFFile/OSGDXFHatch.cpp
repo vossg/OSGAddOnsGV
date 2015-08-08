@@ -505,7 +505,16 @@ DXFResult DXFHatch::endEntity(void)
 DXFHatch::DXFHatch(void) :
     Inherited(),
     _elevation(0.0),
-	_solidFillFlag(1)
+	_solidFillFlag(1),
+	_numOfBoundaryPath(0),
+	hatchBoundaryDataLoops(),
+
+	_numOfPatternLine(0),
+	hatchPatternData(),
+
+	_numSeedPoints(0),
+	_seedPntX(0),
+	_seedPntY(0)
 {
     _entityTypeName    = "HATCH";
 
@@ -627,8 +636,11 @@ DXFHatch::~DXFHatch(void)
 //	}
 //	return state;
 //}
-DXFHatchBoundaryPathData::DXFHatchBoundaryPathData()
+DXFHatchBoundaryPathData::DXFHatchBoundaryPathData() :
+    _pathTypeFlag (0),
+    _numOfEdge    (0),
+     polyLineEdges( ),
+     edges        ( )
+
 {
-	_pathTypeFlag = 0;
-	_numOfEdge = 0;
 }

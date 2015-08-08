@@ -81,6 +81,11 @@ struct BbqRenderOptions
     Real32         screenSpaceError;
     DrawEnv       *pDrawEnv;
     Real32         geoMorphFactor;
+
+  private:
+
+    BbqRenderOptions(const BbqRenderOptions &other);
+    void operator =(const BbqRenderOptions &rhs);
 };
 
 //-----------------------------------------------------------------------------
@@ -318,6 +323,14 @@ class BbqTerrainRenderer : public BbqTerrainRendererBase<HeightType,
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    BbqTerrainRenderer(const BbqTerrainRenderer &other);
+    void operator =(const BbqTerrainRenderer &rhs);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 };
 
 
@@ -427,6 +440,14 @@ class BbqGeoRefdTerrainRenderer : public BbqTerrainRendererBase<HeightType,
     OpenGLTexture          *texture0;
     OpenGLTexture          *texture1;
 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   formated output                            */
+    /*! \{                                                                 */
+
+    BbqGeoRefdTerrainRenderer(const BbqGeoRefdTerrainRenderer &other);
+    void operator =(const BbqGeoRefdTerrainRenderer &rhs);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

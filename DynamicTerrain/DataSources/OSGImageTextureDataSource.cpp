@@ -21,7 +21,9 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 
-	ImageTextureDataSource::ImageTextureDataSource( Image *image )
+	ImageTextureDataSource::ImageTextureDataSource( Image *image ) :
+        image_(),
+        size_ ()
 	{
 		setImage( image );
 	}
@@ -79,10 +81,10 @@ namespace OSG
 
 		Rectangle2i textureRect;
 
-		textureRect.x0 = int( float( targetRect.x0 ) * factorX );
-		textureRect.y0 = int( float( targetRect.y0 ) * factorY );
-		textureRect.x1 = int( float( targetRect.x1 - 1 ) * factorX ) + 1;
-		textureRect.y1 = int( float( targetRect.y1 - 1 ) * factorY ) + 1;
+		textureRect._x0 = int( float( targetRect._x0 ) * factorX );
+		textureRect._y0 = int( float( targetRect._y0 ) * factorY );
+		textureRect._x1 = int( float( targetRect._x1 - 1 ) * factorX ) + 1;
+		textureRect._y1 = int( float( targetRect._y1 - 1 ) * factorY ) + 1;
 
 		if( textureRect.isEmpty() )
 		{
@@ -100,11 +102,11 @@ namespace OSG
 			return;
 		}
 		
-		for( int y = textureRect.y0; y < textureRect.y1; ++y )
+		for( int y = textureRect._y0; y < textureRect._y1; ++y )
 		{
-			UInt8* dataPtr = imageData + y * imageStride + textureRect.x0;
+			UInt8* dataPtr = imageData + y * imageStride + textureRect._x0;
 
-			for( int x = textureRect.x0; x < textureRect.x1; ++x )
+			for( int x = textureRect._x0; x < textureRect._x1; ++x )
 			{
 				// get the nearest block position of this texel:
 				// todo: make this incremental

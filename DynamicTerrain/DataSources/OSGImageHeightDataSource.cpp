@@ -19,7 +19,11 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 
-	ImageHeightDataSource::ImageHeightDataSource( Image *image )
+	ImageHeightDataSource::ImageHeightDataSource( Image *image ) :
+		image_       (NULL),
+        size_        (    ),
+        heightScale_ (1.f ),
+        hegihtOffset_(0.f )
 	{
 		setImage( image );
 		heightScale_ = 1.0f;
@@ -92,11 +96,11 @@ namespace OSG
 		// iterate over the target pixels and fill them with the image height data:
 		Pnt2i samplePos;
 
-		for( int y = targetRect.y0; y < targetRect.y1; ++y )
+		for( int y = targetRect._y0; y < targetRect._y1; ++y )
 		{
 			float* targetPtr = &level.heightmap.samples[ y * level.heightmap.size ];
 
-			for( int x = targetRect.x0; x < targetRect.x1; ++x )
+			for( int x = targetRect._x0; x < targetRect._x1; ++x )
 			{
 				// todo: make this incremental:
 				samplePos = level.blockPosToSamplePos( Pnt2i( x, y ) );

@@ -51,7 +51,7 @@ OSG_BEGIN_NAMESPACE
 class OSG_SCRIPTING_DLLMAPPING PyFunction
 {
 public:
-    PyFunction();
+    PyFunction(void);
 
     bool        bind(const bp::object& dict, std::string funcname);
     bp::object& get();

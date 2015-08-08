@@ -77,7 +77,11 @@ template class SingletonHolder<LwoChunkFactoryBase>;
 
 std::map<UInt32, UInt32> LwoChunkHeader::_mTagLengthSizeMap;
 
-LwoChunkHeader::LwoChunkHeader(void)
+LwoChunkHeader::LwoChunkHeader(void) :
+    uiChunkTag  (0),
+    uiLength    (0),
+    uiLengthSize(0),
+    uiHeaderSize(0)
 {
     if(_mTagLengthSizeMap.size() == 0)
     {
@@ -1691,7 +1695,10 @@ LwoSurfChunk::LwoSurfChunk(const LwoChunkHeader &oHeader) :
      
     _fMaxSmoothingAngle(0.f    ),
 
-    _pMat              (NULL   )
+    _pMat              (NULL   ),
+     
+    _pActiveBlock      (NULL   ),
+    _vBlocks           (       )
 {
 }
 

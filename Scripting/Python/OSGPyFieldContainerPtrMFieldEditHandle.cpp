@@ -157,7 +157,8 @@ bool PyFieldContainerPtrMFieldEditHandle::init(PythonScript      *pythonScript,
 /*        iteration takes place. It resets the iterator and returns    */
 /*        itself as the container interface is directly handled by the */
 /*        class itself.                                                */
-PyFieldContainerPtrMFieldEditHandleTransitPtr PyFieldContainerPtrMFieldEditHandle::iter()
+PyFieldContainerPtrMFieldEditHandleTransitPtr 
+    PyFieldContainerPtrMFieldEditHandle::iter()
 {
     _uiIterPos = -1;
     return PyFieldContainerPtrMFieldEditHandleTransitPtr(this);
@@ -210,7 +211,8 @@ FieldContainerTransitPtr PyFieldContainerPtrMFieldEditHandle::getitem(int key)
 
 /*!\brief Python iterator interface: Sets an item. Negative key        */
 /*        indices are supported.                                       */
-void PyFieldContainerPtrMFieldEditHandle::setitem(int key, FieldContainer* value)
+void PyFieldContainerPtrMFieldEditHandle::setitem(int             key, 
+                                                  FieldContainer *value)
 {
     if(key < 0)
     {
@@ -254,12 +256,18 @@ void PyFieldContainerPtrMFieldEditHandle::append(FieldContainer *fc)
 /*----------------------- constructors & destructors ----------------------*/
 
 PyFieldContainerPtrMFieldEditHandle::PyFieldContainerPtrMFieldEditHandle(void) :
-    Inherited()
+     Inherited    (    ),
+    _pEditMFHandle(NULL),
+    _uiIterPos    (0   )
 {
 }
 
-PyFieldContainerPtrMFieldEditHandle::PyFieldContainerPtrMFieldEditHandle(const PyFieldContainerPtrMFieldEditHandle &source) :
-    Inherited(source)
+PyFieldContainerPtrMFieldEditHandle::PyFieldContainerPtrMFieldEditHandle(
+    const PyFieldContainerPtrMFieldEditHandle &source) :
+
+     Inherited    (source),
+    _pEditMFHandle(NULL  ),
+    _uiIterPos    (0     )
 {
 }
 

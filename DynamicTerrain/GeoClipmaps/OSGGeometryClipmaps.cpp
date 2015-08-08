@@ -56,9 +56,15 @@ void GeometryClipmaps::dumpIt(void)
     }
 }
 
-GeometryClipmaps::GeometryClipmaps()
+GeometryClipmaps::GeometryClipmaps() :
+    heightSource_        (NULL ),
+    textureSource_       (NULL ),
+    cpuRenderer_         (     ),
+    sampleUpdateBudget_  (0    ),
+    notFinishedLastFrame_(false),
+    levels_              (     )
 {
-    heightSource_ = 0;
+    heightSource_  = 0;
     textureSource_ = 0;
 }
 
@@ -380,13 +386,13 @@ int GeometryClipmaps::updateLevel( GeometryClipmapLevel& level,
         
         if( blockDelta[ 0 ] > 0 )
         {
-            region1.x0 = oldBlockOrigin[ 0 ];
-            region1.x1 = region1.x0 + blockDelta[ 0 ];
+            region1._x0 = oldBlockOrigin[ 0 ];
+            region1._x1 = region1._x0 + blockDelta[ 0 ];
         }
         else if( blockDelta[ 0 ] < 0 )
         {
-            region1.x0 = newBlockOrigin[ 0 ];
-            region1.x1 = region1.x0 - blockDelta[ 0 ];
+            region1._x0 = newBlockOrigin[ 0 ];
+            region1._x1 = region1._x0 - blockDelta[ 0 ];
         }
         else
         {
@@ -395,13 +401,13 @@ int GeometryClipmaps::updateLevel( GeometryClipmapLevel& level,
         }
         if( blockDelta[ 1 ] > 0 )
         {
-            region2.y0 = oldBlockOrigin[ 1 ];
-            region2.y1 = region2.y0 + blockDelta[ 1 ];
+            region2._y0 = oldBlockOrigin[ 1 ];
+            region2._y1 = region2._y0 + blockDelta[ 1 ];
         }
         else if( blockDelta[ 1 ] < 0 )
         {
-            region2.y0 = newBlockOrigin[ 1 ];
-            region2.y1 = region2.y0 - blockDelta[ 1 ];
+            region2._y0 = newBlockOrigin[ 1 ];
+            region2._y1 = region2._y0 - blockDelta[ 1 ];
         }
         else
         {
@@ -462,9 +468,9 @@ int GeometryClipmaps::updateLevel( GeometryClipmapLevel& level,
 //  const int levelSampleCount = level.heightmap.size;
 
 //  // compare the test data with the current data (should match)
-//  for( int y = targetRect.y0; y < targetRect.y1; ++y )
+//  for( int y = targetRect._y0; y < targetRect._y1; ++y )
 //  {
-//      for( int x = targetRect.x0; x < targetRect.x1; ++x )
+//      for( int x = targetRect._x0; x < targetRect._x1; ++x )
 //      {
 //          const float testSample = testData[ y * levelSampleCount + x ];
 //          const float currentSample = level.heightmap.getSample( x, y );
@@ -504,47 +510,47 @@ int GeometryClipmaps::updateBigLevelBlock( GeometryClipmapLevel& level, const Ge
     subRects[ 0 ] = targetRect;
     subRectCount++;
     
-    if( targetRect.x1 < targetRect.x0 )
+    if( targetRect._x1 < targetRect._x0 )
     {
         // split in X:              
-        subRects[ 0 ].x1 = levelSampleCount;
+        subRects[ 0 ]._x1 = levelSampleCount;
         subRects[ 1 ] = targetRect;
-        subRects[ 1 ].x0 = 0;
+        subRects[ 1 ]._x0 = 0;
         subRectCount++;
     }
-    else if( targetRect.x1 > levelSampleCount )
+    else if( targetRect._x1 > levelSampleCount )
     {
         // split in X:              
-        subRects[ 0 ].x1 = levelSampleCount;
+        subRects[ 0 ]._x1 = levelSampleCount;
         subRects[ 1 ] = targetRect;
-        subRects[ 1 ].x0 = 0;
-        subRects[ 1 ].x1 -= levelSampleCount;
+        subRects[ 1 ]._x0 = 0;
+        subRects[ 1 ]._x1 -= levelSampleCount;
         subRectCount++;
     }
     
     // ok.. we have 1 or 2 subRects already: split them on the Y axis:
-    if( targetRect.y1 < targetRect.y0 )
+    if( targetRect._y1 < targetRect._y0 )
     {
         // patch the existing ones:
         for( int i = 0; i < subRectCount; ++i )
         {
             subRects[ subRectCount + i ] = subRects[ i ];
             
-            subRects[ subRectCount + i ].y0 = 0;
-            subRects[ i ].y1 = levelSampleCount;
+            subRects[ subRectCount + i ]._y0 = 0;
+            subRects[ i ]._y1 = levelSampleCount;
         }
         subRectCount += subRectCount;
     }
-    else if( targetRect.y1 > levelSampleCount )
+    else if( targetRect._y1 > levelSampleCount )
     {
         // patch the existing ones:
         for( int i = 0; i < subRectCount; ++i )
         {
             subRects[ subRectCount + i ] = subRects[ i ];
             
-            subRects[ subRectCount + i ].y0 = 0;
-            subRects[ subRectCount + i ].y1 -= levelSampleCount;
-            subRects[ i ].y1 = levelSampleCount;
+            subRects[ subRectCount + i ]._y0 = 0;
+            subRects[ subRectCount + i ]._y1 -= levelSampleCount;
+            subRects[ i ]._y1 = levelSampleCount;
         }
         subRectCount += subRectCount;
     }

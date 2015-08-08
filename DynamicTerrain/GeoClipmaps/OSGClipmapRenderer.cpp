@@ -42,8 +42,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-WorldTransformation::WorldTransformation()
-{
+WorldTransformation::WorldTransformation() :
+    offset        (   ),
+    sampleDistance(0.f),
+    heightOffset  (0.f),
+    heightScale   (0.f)
+ {
     sampleDistance	= 1.0f;
     heightOffset	= 0.0f;
     heightScale		= 1.0f;
@@ -63,7 +67,18 @@ Pnt2i WorldTransformation::worldToSamplePos( const Pnt2f& pos ) const
 }
 
 
-ClipmapRenderParameters::ClipmapRenderParameters()
+ClipmapRenderParameters::ClipmapRenderParameters() :
+    drawEnv              (NULL ),
+    window               (NULL ),
+    viewFrustum          (     ),
+    showBoundingBoxes    (false),
+    enableFrustumCulling (false),
+    showTransitionRegions(false),
+    useVboExtension      (true ),
+    globalTextureObj     (NULL ),
+    globalTextureEnv     (NULL ),
+    heightColorTexture   (NULL ),
+    worldTransform       (     )
 {
     window					= 0;
     showBoundingBoxes		= false;
@@ -77,7 +92,12 @@ ClipmapRenderParameters::ClipmapRenderParameters()
 
 
 
-ClipmapRenderStatistics::ClipmapRenderStatistics()
+ClipmapRenderStatistics::ClipmapRenderStatistics() :
+    drawnLevelCount       (0),
+    drawnBlockCount       (0),
+    drawnTriangleCount    (0),
+    transformedVertexCount(0),
+    culledBlockCount      (0)
 {
     clear();
 }
@@ -176,7 +196,14 @@ const ClipmapRenderStatistics& ClipmapRenderer::getLastFrameStatistics() const
     return stats_;
 }
 
-ClipmapRenderer::ClipmapRenderer()
+ClipmapRenderer::ClipmapRenderer() :
+    geoClipmaps_    (NULL),
+    
+    viewerPosition_ (    ),
+    viewerSamplePos_(    ),
+    
+    window_         (NULL),
+    stats_          (    )
 {
     window_ = 0;
     viewerPosition_.setValues( 0, 0, 0 );

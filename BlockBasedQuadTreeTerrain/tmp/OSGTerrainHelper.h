@@ -131,6 +131,8 @@ class FixedAllocator
 
     typedef typename std::vector<T>::iterator StorageIt;
 
+    FixedAllocator(void) : _vStorage(), _vFreeStorage() {}
+
     void setSize(UInt32 iSize)
     {
         _vStorage.resize(iSize);

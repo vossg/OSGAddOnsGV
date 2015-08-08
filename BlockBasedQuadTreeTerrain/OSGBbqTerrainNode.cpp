@@ -55,9 +55,24 @@ BbqTerrainNodeBase::BbqTerrainNodeBase(void):
     blockOrigin      (0.f, 0.f  ),
     blockScale       (0.f       ),
     geoMorphingFactor(0.5f      ),
+    boundingBox      (          ),
     treeLevel        (0         )
 {
     renderCache[0] = renderCache[1] = NULL;
+}
+
+BbqTerrainNodeBase::BbqTerrainNodeBase(const BbqTerrainNodeBase &other):
+    id               (other.id               ),
+    priority         (other.priority         ),
+    sampleRect       (other.sampleRect       ),
+    blockOrigin      (other.blockOrigin      ),
+    blockScale       (other.blockScale       ),
+    geoMorphingFactor(other.geoMorphingFactor),
+    boundingBox      (other.boundingBox      ),
+    treeLevel        (other.treeLevel        )
+{
+    renderCache[0] = other.renderCache[0];
+    renderCache[1] = other.renderCache[1];
 }
 
 BbqTerrainNodeBase::~BbqTerrainNodeBase(void)

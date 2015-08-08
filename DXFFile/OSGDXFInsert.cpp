@@ -352,6 +352,7 @@ DXFResult DXFInsert::endEntity(void)
  */
 DXFInsert::DXFInsert(void) :
     Inherited(),
+    _blockName(),
     _insertionPoint(0.0, 0.0, 0.0),
     _scaleFactor(1.0, 1.0, 1.0),
     _rotationAngle(0.0),

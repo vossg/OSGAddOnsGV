@@ -649,6 +649,8 @@ class OSG_CONTRIBLWOFILE_DLLMAPPING LwoLayrChunk : public LwoChunk
     {
         std::vector< std::vector <UInt32> > _vPolys;
         std::vector<               Int32  > _vPolyTags;  
+
+        PolySet(void) : _vPolys(), _vPolyTags() {}
     };
 
     GeoPnt3fPropertyUnrecPtr _pPnts;

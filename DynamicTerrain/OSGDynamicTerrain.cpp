@@ -112,7 +112,17 @@ void DynamicTerrain::initMethod(InitPhase ePhase)
 
 
 DynamicTerrain::DynamicTerrain(void) : 
-    Inherited()
+    Inherited          (    ),
+    
+    imageHeightSource_ (    ),
+    imageTextureSource_(    ),
+    
+    globalTextureObj_  (NULL),
+    globalTextureEnv_  (NULL),
+
+    geoClipmaps_       (    ),
+    
+    needInitialize_    (true)
 {
     needInitialize_   = true;
     globalTextureObj_ = NULL;
@@ -121,7 +131,17 @@ DynamicTerrain::DynamicTerrain(void) :
 
 
 DynamicTerrain::DynamicTerrain(const DynamicTerrain &source) : 
-    Inherited(source)
+    Inherited          (source),
+
+    imageHeightSource_ (      ),
+    imageTextureSource_(      ),
+    
+    globalTextureObj_  (NULL  ),
+    globalTextureEnv_  (NULL  ),
+
+    geoClipmaps_       (      ),
+    
+    needInitialize_    (true  )
 {
     needInitialize_   = true;
     globalTextureObj_ = NULL;

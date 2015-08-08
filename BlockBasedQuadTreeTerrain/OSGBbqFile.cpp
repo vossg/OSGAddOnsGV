@@ -51,24 +51,29 @@ OSG_BEGIN_NAMESPACE
 //  BbqFileBbqFileHeader
 //---------------------------------------------------------------------------
 
-BbqFile::BbqFileHeader::BbqFileHeader()
+BbqFile::BbqFileHeader::BbqFileHeader() :
+    _iHeightSampleCountX       (0                               ),
+    _iHeightSampleCountY       (0                               ),
+    _iTextureSampleCountX      (0                               ),
+    _iTextureSampleCountY      (0                               ),
+    _iLevelCount               (0                               ),
+    _iNodeCount                (0                               ),
+    _iHeightTileSize           (0                               ),
+    _iTextureTileSize          (0                               ),
+    _fSampleSpacing            (0                               ),
+    _fHeightScale              (0                               ),
+    _fHeightOffset             (0                               ),
+    _eHeightType               (Image::OSG_INVALID_IMAGEDATATYPE),
+    _eTextureType              (Image::OSG_INVALID_IMAGEDATATYPE),
+    _eHeightFormat             (AbsoluteValues                  ),
+    _eTextureFormat            (RGB8                            ),
+    _uiHeightCompressionQuality(1000                            ),
+
+    _uiDatum                   (0                               ),
+    _vEllipsoidAxis            (                                ),
+    _vOrigin                   (                                ),
+    _vPixelSize                (                                )
 {
-    _iHeightSampleCountX          = 0;
-    _iHeightSampleCountY          = 0;
-    _iTextureSampleCountX         = 0;
-    _iTextureSampleCountY         = 0;
-    _iLevelCount                  = 0;
-    _iNodeCount                   = 0;
-    _iHeightTileSize              = 0;
-    _iTextureTileSize             = 0;
-    _fSampleSpacing               = 0;
-    _fHeightScale                 = 0;
-    _fHeightOffset                = 0;
-    _eHeightType                  = Image::OSG_INVALID_IMAGEDATATYPE;
-    _eTextureType                 = Image::OSG_INVALID_IMAGEDATATYPE;
-    _eHeightFormat                = AbsoluteValues;
-    _eTextureFormat               = RGB8;
-    _uiHeightCompressionQuality   = 1000;
 }
 
 BbqFile::BbqFileHeader::~BbqFileHeader()

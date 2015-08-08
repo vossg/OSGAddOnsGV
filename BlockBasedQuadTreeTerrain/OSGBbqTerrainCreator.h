@@ -125,6 +125,9 @@ class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqCreateEngineBase
     /*==========================  PRIVATE  ================================*/
 
   private:
+
+    BbqCreateEngineBase(const BbqCreateEngineBase &other);
+    void operator =(const BbqCreateEngineBase &rhs);
 };
 
 template<class HeightType, class TextureType>
@@ -173,6 +176,12 @@ class BbqCreateEngine : public BbqCreateEngineBase
         
         std::vector<HeightType > heightData;
         std::vector<TextureType> textureData;
+
+        BbqCreationNodeData(void) :
+            heightDataValid (false),
+            textureDataValid(false),
+            heightData      (     ),
+            textureData     (     ) {}
     };
 
     struct BbqCreationNode
@@ -203,6 +212,42 @@ class BbqCreateEngine : public BbqCreateEngineBase
 
         BbqCreationNodeData                   *data;
         typename FileNode::TerrainDataPointer  fileDataPointer;    
+
+        BbqCreationNode(void) :
+            sampleOrigin   (     ),
+            sampleTarget   (     ),
+            treeLevel      (0    ),
+            sampleStepSize (0    ),
+        
+            hasTextureData (false),
+        
+            blockOrigin    (     ),
+            blockScale     (1.f  ),
+            maxHeightError (0    ),
+            minHeightSample(     ),  
+            maxHeightSample(     ),
+            data           (NULL ),
+            fileDataPointer(0    ) {}
+
+        BbqCreationNode(const BbqCreationNode &other) :
+            sampleOrigin   (other.sampleOrigin   ),
+            sampleTarget   (other.sampleTarget   ),
+            treeLevel      (other.treeLevel      ),
+            sampleStepSize (other.sampleStepSize ),
+        
+            hasTextureData (other.hasTextureData ),
+        
+            blockOrigin    (other.blockOrigin    ),
+            blockScale     (other.blockScale     ),
+            maxHeightError (other.maxHeightError ),
+            minHeightSample(other.minHeightSample),  
+            maxHeightSample(other.maxHeightSample),
+            data           (other.data           ),
+            fileDataPointer(other.fileDataPointer) {}
+
+      private:
+
+        void operator =(const BbqCreationNode &rhs);
     };
 
      /*! \}                                                                 */
@@ -291,6 +336,9 @@ class BbqCreateEngine : public BbqCreateEngineBase
     /*==========================  PRIVATE  ================================*/
 
   private:
+
+    BbqCreateEngine(const BbqCreateEngine &other);
+    void operator =(const BbqCreateEngine &rhs);
 };
 
 
@@ -346,6 +394,8 @@ class OSG_CONTRIBBBQTERRAIN_DLLMAPPING BbqTerrainCreator
 
   private:
 
+    BbqTerrainCreator(const BbqTerrainCreator &other);
+    void operator =(const BbqTerrainCreator &rhs);
 };
 
     

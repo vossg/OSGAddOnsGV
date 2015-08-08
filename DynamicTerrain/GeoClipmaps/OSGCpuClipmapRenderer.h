@@ -76,7 +76,11 @@ class CpuClipmapRenderer : public ClipmapRenderer
     struct OpenGLTerrainVertex
     {
         Pnt4f                   pos;        // x,y,z,coarse_y
-        Pnt2f                   uv;         
+        Pnt2f                   uv;  
+
+        OpenGLTerrainVertex(void) :
+            pos(),
+            uv () {}
     };
     
     typedef std::vector< OpenGLTerrainVertex >  OpenGLTerrainVertexList;
@@ -89,6 +93,13 @@ class CpuClipmapRenderer : public ClipmapRenderer
         IndexList               indices;
         GpuBuffer               vertexBuffer;
         TextureObjChunkUnrecPtr texture;
+
+        TerrainLevelRenderData(void) :
+            vertices      (    ),
+            rebuildIndices(true),
+            indices       (    ),
+            vertexBuffer  (    ),
+            texture       (NULL) {}
     };
     
     typedef std::vector< TerrainLevelRenderData >   TerrainLevelRenderDataList;

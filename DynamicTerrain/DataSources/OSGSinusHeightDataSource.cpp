@@ -19,7 +19,10 @@ namespace OSG
 	//-------------------------------------------------------------------------------------------------
 
 
-	SinusHeightDataSource::SinusHeightDataSource( const Pnt2i& size )
+	SinusHeightDataSource::SinusHeightDataSource( const Pnt2i& size ) :
+        size_       (size),
+        heightScale_(10.f),
+        frequency_  (0.1f)
 	{
 		heightScale_ = 10.0f;
 		frequency_ = 0.1f;
@@ -100,11 +103,11 @@ namespace OSG
 		Pnt2i samplePos;
 		//SLOG << ". SampleOrigin= " << sampleOrigin << "\n";
 
-		for( int y = targetRect.y0; y < targetRect.y1; ++y )
+		for( int y = targetRect._y0; y < targetRect._y1; ++y )
 		{
 			float* targetPtr = &level.heightmap.samples[ y * level.heightmap.size ];
 
-			for( int x = targetRect.x0; x < targetRect.x1; ++x )
+			for( int x = targetRect._x0; x < targetRect._x1; ++x )
 			{
 				// todo: make this incremental:
 				samplePos = level.blockPosToSamplePos( Pnt2i( x, y ) );

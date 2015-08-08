@@ -1445,17 +1445,17 @@ void BbqTerrainRenderer<HeightType,
     
     texCoordOffset.setValues( 
 
-        float(node->sampleRect.x0 - textureNode->sampleRect.x0 ) / 
+        float(node->sampleRect._x0 - textureNode->sampleRect._x0 ) / 
         float(textureNode->blockScale * ( _oDatabaseInfo.heightTileSize - 1)),
 
-        float(node->sampleRect.y0 - textureNode->sampleRect.y0 ) / 
+        float(node->sampleRect._y0 - textureNode->sampleRect._y0 ) / 
         float(textureNode->blockScale * ( _oDatabaseInfo.heightTileSize - 1)));
 
 #if 0
     fprintf(stderr, "x %d %d\n", 
-            node->sampleRect.x0, textureNode->sampleRect.x0);
+            node->sampleRect._x0, textureNode->sampleRect._x0);
     fprintf(stderr, "y %d %d\n", 
-            node->sampleRect.y0, textureNode->sampleRect.y0);
+            node->sampleRect._y0, textureNode->sampleRect._y0);
 
     fprintf(stderr, "bo t %f %f\n",
             node->blockOrigin[0], node->blockOrigin[1]);

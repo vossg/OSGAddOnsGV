@@ -226,12 +226,18 @@ void PyFieldContainerPtrMFieldGetHandle::setitem(int key, FieldContainer* value)
 /*----------------------- constructors & destructors ----------------------*/
 
 PyFieldContainerPtrMFieldGetHandle::PyFieldContainerPtrMFieldGetHandle(void) :
-    Inherited()
+     Inherited   (    ),
+    _pGetMFHandle(NULL),
+    _uiIterPos   (0   )
 {
 }
 
-PyFieldContainerPtrMFieldGetHandle::PyFieldContainerPtrMFieldGetHandle(const PyFieldContainerPtrMFieldGetHandle &source) :
-    Inherited(source)
+PyFieldContainerPtrMFieldGetHandle::PyFieldContainerPtrMFieldGetHandle(
+    const PyFieldContainerPtrMFieldGetHandle &source) :
+
+     Inherited   (source),
+    _pGetMFHandle(NULL  ),
+    _uiIterPos   (0     )
 {
 }
 

@@ -52,7 +52,8 @@ OSG_BEGIN_NAMESPACE
 
 class PythonScript;
 
-class OSG_SCRIPTING_DLLMAPPING PyFieldContainerPtrMFieldGetHandle : public PyFieldContainerPtrMFieldGetHandleBase
+class OSG_SCRIPTING_DLLMAPPING PyFieldContainerPtrMFieldGetHandle : 
+    public PyFieldContainerPtrMFieldGetHandleBase
 {
   protected:
 
@@ -112,7 +113,8 @@ class OSG_SCRIPTING_DLLMAPPING PyFieldContainerPtrMFieldGetHandle : public PyFie
     /*! \{                                                                 */
 
     PyFieldContainerPtrMFieldGetHandle(void);
-    PyFieldContainerPtrMFieldGetHandle(const PyFieldContainerPtrMFieldGetHandle &source);
+    PyFieldContainerPtrMFieldGetHandle(
+        const PyFieldContainerPtrMFieldGetHandle &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

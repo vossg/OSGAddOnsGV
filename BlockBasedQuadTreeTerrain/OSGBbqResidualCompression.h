@@ -218,6 +218,9 @@ class ResidualCompressor : public ResidualCompression
     /*==========================  PRIVATE  ================================*/
 
   private:
+
+    ResidualCompressor(const ResidualCompressor &other);
+    void operator =(const ResidualCompressor &rhs);
 };
 
 
@@ -275,6 +278,9 @@ class ResidualDecompressor : public ResidualCompression
     /*==========================  PRIVATE  ================================*/
 
   private:
+
+    ResidualDecompressor(const ResidualDecompressor &other);
+    void operator =(const ResidualDecompressor &rhs);
 };
     
 

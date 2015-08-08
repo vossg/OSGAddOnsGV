@@ -60,7 +60,16 @@ void GeometryClipmapLevel::dumpIt(void)
     ImageFileHandler::the()->write(textureData, tmp);    
 }
 
-GeometryClipmapLevel::GeometryClipmapLevel()
+GeometryClipmapLevel::GeometryClipmapLevel() :
+    index            (0    ),
+    isActive         (false),
+    sampleOrigin     (     ),
+    blockOrigin      (     ),
+
+    sampleSpacing    (0    ),
+    heightmap        (     ),
+    isSampleDataDirty(false),
+    textureData      (NULL )
 {
     index			= 0;
     isActive		= false;

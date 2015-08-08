@@ -368,12 +368,17 @@ PyFieldContainerPtrMFieldEditHandleTransitPtr PyFieldAccessHandler::changePointe
 /*                      Constructors & Destructors                         */
 
 PyFieldAccessHandler::PyFieldAccessHandler(void) :
-    Inherited()
+     Inherited     (    ),
+    _pPyInterpreter(NULL),
+    _pPythonScript (NULL)
+    
 {
 }
 
 PyFieldAccessHandler::PyFieldAccessHandler(const PyFieldAccessHandler &source) :
-    Inherited(source)
+     Inherited     (source),
+    _pPyInterpreter(NULL  ),
+    _pPythonScript (NULL  )
 {
 }
 

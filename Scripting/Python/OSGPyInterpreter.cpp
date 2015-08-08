@@ -97,6 +97,7 @@ namespace
 
 PyInterpreter::PyInterpreter()
     : _pPyInterpreter(Py_NewInterpreter())
+    , _pyGlobalDict  (                   )
     , _funcStore     (                   )
     , _isActive      (false              )
     , _refCount      (0                  )

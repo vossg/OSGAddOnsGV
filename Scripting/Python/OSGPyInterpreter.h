@@ -61,7 +61,7 @@ class PyFunction;
  */
 class OSG_SCRIPTING_DLLMAPPING PyInterpreter
 {
-public:
+  public:
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -158,7 +158,7 @@ public:
 
     /*! \}                                                                 */
 
-private:
+  private:
     typedef std::vector<PyFunction*> FunctionStore;
     typedef FunctionStore::iterator  FunctionStoreIter;
 
@@ -183,6 +183,10 @@ private:
                     long        &lineNo,
                     std::string &funcName);
 #endif
+
+    PyInterpreter(const PyInterpreter &other);
+    void operator =(const PyInterpreter &rhs);
+
 };
 
 OSG_END_NAMESPACE

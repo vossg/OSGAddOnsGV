@@ -63,8 +63,8 @@ class OSG_CONTRIBLABELING_DLLMAPPING Label : public LabelBase
     /*! \name                     Modes                                    */
     /*! \{                                                                 */
 
-    enum { Left=0, Center, Right  } HorizontalAlignE;
-    enum { Top=0,  Middle, Bottom } VerticalAlignE;
+    enum HorizontalAlignE { Left = 0, Center, Right  };
+    enum VerticalAlignE   { Top  = 0, Middle, Bottom };
 
 
     /*---------------------------------------------------------------------*/

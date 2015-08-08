@@ -70,6 +70,7 @@ class GpuBuffer
 {
   public:
     GpuBuffer();
+    GpuBuffer(const GpuBuffer &other);
     virtual				~GpuBuffer();
     
     bool				create(Window* window, 
@@ -107,6 +108,8 @@ class GpuBuffer
     int					bufferSize_;
     BufferUsage			bufferUsage_;
     bool				isLocked_;
+
+    void operator =(const GpuBuffer &rhs);
 };
 
 OSG_END_NAMESPACE

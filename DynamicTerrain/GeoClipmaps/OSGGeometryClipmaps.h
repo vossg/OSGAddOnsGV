@@ -119,6 +119,11 @@ class GeometryClipmaps
     int                         sampleUpdateBudget_;
     bool                        notFinishedLastFrame_;
     ClipmapLevelList            levels_;
+
+  private:
+
+    GeometryClipmaps(const GeometryClipmaps &other);
+    void operator=(const GeometryClipmaps &rhs);
 };
 
 

@@ -127,7 +127,8 @@ DXFResult DXFEntities::evalRecord(void)
  *  DXFFile).
  */
 DXFEntities::DXFEntities(void) :
-    Inherited()
+     Inherited    (),
+    _entityTypeMap()
 {
     _entityClassName = "SECTION";
     _entityTypeName  = "ENTITIES";

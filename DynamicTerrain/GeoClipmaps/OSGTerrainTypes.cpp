@@ -161,10 +161,10 @@ Rectangle2i alignRectangle( const Rectangle2i& rect, const Pnt2i& alignment )
     Rectangle2i alignedRect;
     
     // todo: adjust the active region so that the active region lies on "even" vertices.
-    alignedRect.x0 = getAlignedInt( rect.x0, alignment[ 0 ], true );
-    alignedRect.y0 = getAlignedInt( rect.y0, alignment[ 1 ], true );
-    alignedRect.x1 = getAlignedInt( rect.x1, alignment[ 0 ], false );
-    alignedRect.y1 = getAlignedInt( rect.y1, alignment[ 1 ], false );
+    alignedRect._x0 = getAlignedInt( rect._x0, alignment[ 0 ], true );
+    alignedRect._y0 = getAlignedInt( rect._y0, alignment[ 1 ], true );
+    alignedRect._x1 = getAlignedInt( rect._x1, alignment[ 0 ], false );
+    alignedRect._y1 = getAlignedInt( rect._y1, alignment[ 1 ], false );
     
     //if( alignedRect.x1 < rect.x1 )
     //{

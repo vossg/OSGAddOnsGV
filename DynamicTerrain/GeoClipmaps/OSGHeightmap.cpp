@@ -40,7 +40,11 @@
 
 OSG_BEGIN_NAMESPACE
 
-Heightmap::Heightmap()
+Heightmap::Heightmap() :
+    size          (0  ),
+    minSampleValue(0.f),
+    maxSampleValue(0.f),
+    samples       (   )
 {
     size			= 0;
     minSampleValue	= 0.0f;
