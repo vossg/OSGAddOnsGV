@@ -15,7 +15,7 @@ void dumpType(OSG::FieldContainerType &oType)
     {
         OSG::FieldDescriptionBase *pDesc = oType.getFieldDesc(i);
 
-        fprintf(stderr, "  [%d] : %p", i, pDesc);
+        fprintf(stderr, "  [%d] : %p", i, static_cast<void *>(pDesc));
         
         if(pDesc != NULL)
         {

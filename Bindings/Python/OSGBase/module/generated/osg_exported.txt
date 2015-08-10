@@ -12,8 +12,10 @@ ContainerMixinHardwareContextDataSlotDesc
 Vec2f
 Vec3f
 Vec4d
+PerfMonitor
 VecStorage2d
 VecStorage2f
+VecStorage4d
 FieldContainerFactory
 ConnectionFactory
 Quaternion
@@ -28,9 +30,7 @@ Vec4ub
 StatElemDesc_StatRealElem
 VecStorage3d
 VecStorage3f
-VecStorage4d
 VecStorage4f
-PerfMonitor
 Color3ub
 Color4ub
 VecStorage3ub
@@ -41,13 +41,11 @@ Matrix
 StatElemDesc_StatIntElem
 AttachmentContainer
 FieldContainerType
+PerfMonitorBase
 FieldContainerFactoryBase
 ConnectionFactoryBase
 StatElemDescBase
-PerfMonitorBase
 Attachment
-DataType
-ExceptionBinaryDataHandler
 MapHelperBase
 ConnectorAttachment
 ChangeList
@@ -56,6 +54,7 @@ ReflexiveContainer
 MapHelper
 MemoryObject
 FieldDescriptionBase
+ExceptionBinaryDataHandler
 HardwareContextBase
 ExternalThread
 NestedSampleInfo
@@ -77,6 +76,7 @@ Thread
 FieldType
 Line
 BoxVolume
+DataType
 Exception
 CylinderVolume
 SphereVolume

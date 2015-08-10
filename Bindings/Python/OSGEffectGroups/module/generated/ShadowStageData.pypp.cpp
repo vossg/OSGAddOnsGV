@@ -21,6 +21,7 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
+#pragma GCC diagnostic warning "-Wnon-virtual-dtor"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -59,12 +60,13 @@ void register_ShadowStageData_class(){
             ShadowMapElem_exposer.def( bp::self != bp::self );
             { //::OSG::ShadowStageData::ShadowMapElem::operator=
             
-                typedef void ( ::OSG::ShadowStageData::ShadowMapElem::*assign_function_type )( ::OSG::ShadowStageData::ShadowMapElem const & ) ;
+                typedef ::OSG::ShadowStageData::ShadowMapElem const & ( ::OSG::ShadowStageData::ShadowMapElem::*assign_function_type )( ::OSG::ShadowStageData::ShadowMapElem const & ) ;
                 
                 ShadowMapElem_exposer.def( 
                     "assign"
                     , assign_function_type( &::OSG::ShadowStageData::ShadowMapElem::operator= )
-                    , ( bp::arg("src") ) );
+                    , ( bp::arg("src") )
+                    , bp::return_value_policy< bp::copy_const_reference >() );
             
             }
             ShadowMapElem_exposer.def( bp::self == bp::self );

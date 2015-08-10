@@ -20,6 +20,7 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
+#pragma GCC diagnostic warning "-Wnon-virtual-dtor"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -56,6 +57,10 @@
 #include "generated/GradientBackground.pypp.hpp"
 
 #include "generated/GradientBackgroundBase.pypp.hpp"
+
+#include "generated/HeadTrackedStereoCameraDecorator.pypp.hpp"
+
+#include "generated/HeadTrackedStereoCameraDecoratorBase.pypp.hpp"
 
 #include "generated/ImageForeground.pypp.hpp"
 
@@ -162,6 +167,10 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
 
     register_GradientBackground_class();
 
+    register_HeadTrackedStereoCameraDecoratorBase_class();
+
+    register_HeadTrackedStereoCameraDecorator_class();
+
     register_ImageForegroundBase_class();
 
     register_ImageForeground_class();
@@ -261,6 +270,12 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SkyBackground, OSG::SkyBackground::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::SkyBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::HeadTrackedStereoCameraDecorator */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::HeadTrackedStereoCameraDecorator, OSG::HeadTrackedStereoCameraDecorator::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::HeadTrackedStereoCameraDecorator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::TileableBackground */
 

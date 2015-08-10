@@ -21,6 +21,7 @@
 #if __GNUC__ >= 4 || __GNUC_MINOR__ >=3
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
+#pragma GCC diagnostic warning "-Wnon-virtual-dtor"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -119,6 +120,9 @@ public:
 private:
    OSG::UInt8* mData;
    const size_t mSize;
+
+   ImageData(const ImageData &other);
+   void operator =(const ImageData &other);
 };
 
 typedef boost::shared_ptr<ImageData> ImageDataPtr;

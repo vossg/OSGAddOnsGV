@@ -16,6 +16,7 @@
 #include <OSGOrthographicCamera.h>
 #include <OSGOffCenterPerspectiveCamera.h>
 #include <OSGMatrixCameraDecorator.h>
+#include <OSGHeadTrackedStereoCameraDecorator.h>
 #include <OSGProjectionCameraDecorator.h>
 #include <OSGFileGrabForeground.h>
 #include <OSGGrabForeground.h>

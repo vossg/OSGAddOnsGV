@@ -1,2 +1,2 @@
-XWindow
 XWindowBase
+XWindow
