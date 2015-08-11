@@ -250,9 +250,22 @@ class BbqRenderCache
               Entry              *pPrev;
         const BbqTerrainNodeBase *pNode;
 
+#ifdef WIN32
+        const Entry &operator =(const Entry &other)
+        {
+            oData = other.oData;
+            pNext = other.pNext;
+            pPrev = other.pPrev;
+            pNode = other.pNode;
+
+        }
+#endif
+
       private:
 
+#ifndef WIN32
         void operator =(const Entry &other);
+#endif
     };
 
     std::vector<Entry>  _vEntries;

@@ -82,6 +82,27 @@ BbqTerrainNode<HeightType,
 {
 }
 
+#ifdef WIN32
+template<class HeightType, class HeightDeltaType, class TextureType> inline
+const BbqTerrainNode<HeightType, 
+                     HeightDeltaType,
+                     TextureType    > &
+    BbqTerrainNode::operator = (const BbqTerrainNode &other)
+{
+
+    maxHeightError = other.maxHeightError;
+    data           = other.data;
+    parent         = other.parent;
+
+    children[0]    = other.children[0];
+    children[1]    = other.children[1];
+    children[2]    = other.children[2];
+    children[3]    = other.children[3];
+
+    return this;
+}
+#endif
+
 //-----------------------------------------------------------------------------
 
 

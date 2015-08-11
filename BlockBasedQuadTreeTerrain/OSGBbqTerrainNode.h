@@ -185,6 +185,10 @@ struct BbqTerrainNode : public BbqTerrainNodeBase
     BbqTerrainNode     *parent;
     BbqTerrainNode     *children   [BbqChild_Count          ];
 
+#ifdef WIN32
+    const BbqTerrainNode &operator =(const BbqTerrainNode &rhs); 
+#endif
+    
     /*! \}                                                                 */
     /*==========================  PROTECTRED  =============================*/
 
@@ -194,7 +198,9 @@ struct BbqTerrainNode : public BbqTerrainNodeBase
 
   private:
 
+#ifndef WIN32
     void operator =(const BbqTerrainNode &rhs); 
+#endif
 };
 
 OSG_END_NAMESPACE

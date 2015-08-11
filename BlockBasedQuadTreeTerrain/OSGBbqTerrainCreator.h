@@ -245,9 +245,33 @@ class BbqCreateEngine : public BbqCreateEngineBase
             data           (other.data           ),
             fileDataPointer(other.fileDataPointer) {}
 
+#ifdef WIN32
+        const BbqCreationNode &operator =(const BbqCreationNode &rhs)
+        {
+            sampleOrigin    = other.sampleOrigin;
+            sampleTarget    = other.sampleTarget;
+            treeLevel       = other.treeLevel;
+            sampleStepSize  = other.sampleStepSize;
+        
+            hasTextureData  = other.hasTextureData;
+        
+            blockOrigin     = other.blockOrigin;
+            blockScale      = other.blockScale;
+            maxHeightError  = other.maxHeightError;
+            minHeightSample = other.minHeightSample;
+            maxHeightSample = other.maxHeightSample;
+            data            = other.data;
+            fileDataPointer = other.fileDataPointer;
+
+            return *this;
+        }
+#else
+
       private:
 
+#ifndef WIN32
         void operator =(const BbqCreationNode &rhs);
+#else
     };
 
      /*! \}                                                                 */

@@ -297,6 +297,18 @@ GpuBuffer::~GpuBuffer()
     destroy();		
 }
 
+#ifdef WIN32
+const GpuBuffer &GpuBuffer::operator =(const GpuBuffer &other)
+{
+    window_      = other.window_;
+    glType_      = other.glType_;
+    glUsage_     = other.glUsage_;
+    bufferId_    = other.bufferId_;
+    bufferSize_  = other.bufferSize_;
+    bufferUsage_ = other.bufferUsage_;
+    isLocked_    = other.isLocked_;
+}
+#endif
 
 
 bool GpuBuffer::create( Window* window, GLenum type, int size, BufferUsage usage )

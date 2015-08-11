@@ -99,6 +99,10 @@ class GpuBuffer
     
     void				activate();
     void				deactivate();
+
+#ifdef WIN32
+    const GpuBuffer &operator =(const GpuBuffer &rhs);
+#endif
     
   private:
     Window*				window_;
@@ -109,7 +113,9 @@ class GpuBuffer
     BufferUsage			bufferUsage_;
     bool				isLocked_;
 
+#ifndef WIN32
     void operator =(const GpuBuffer &rhs);
+#endif
 };
 
 OSG_END_NAMESPACE
