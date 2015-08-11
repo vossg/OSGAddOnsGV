@@ -101,7 +101,7 @@ const BbqTerrainNode<HeightType,
     children[2]    = other.children[2];
     children[3]    = other.children[3];
 
-    return this;
+    return *this;
 }
 #endif
 
