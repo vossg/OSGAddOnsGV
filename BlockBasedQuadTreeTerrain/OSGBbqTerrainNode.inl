@@ -87,7 +87,9 @@ template<class HeightType, class HeightDeltaType, class TextureType> inline
 const BbqTerrainNode<HeightType, 
                      HeightDeltaType,
                      TextureType    > &
-    BbqTerrainNode::operator = (const BbqTerrainNode &other)
+    BbqTerrainNode<HeightType, 
+                   HeightDeltaType,
+                   TextureType    >::operator = (const BbqTerrainNode &other)
 {
 
     maxHeightError = other.maxHeightError;

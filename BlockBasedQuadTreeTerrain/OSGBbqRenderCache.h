@@ -258,6 +258,7 @@ class BbqRenderCache
             pPrev = other.pPrev;
             pNode = other.pNode;
 
+            return *this;
         }
 #endif
 

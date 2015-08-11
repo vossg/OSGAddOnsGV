@@ -307,6 +307,8 @@ const GpuBuffer &GpuBuffer::operator =(const GpuBuffer &other)
     bufferSize_  = other.bufferSize_;
     bufferUsage_ = other.bufferUsage_;
     isLocked_    = other.isLocked_;
+
+    return *this;
 }
 #endif
 

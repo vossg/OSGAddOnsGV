@@ -248,30 +248,30 @@ class BbqCreateEngine : public BbqCreateEngineBase
 #ifdef WIN32
         const BbqCreationNode &operator =(const BbqCreationNode &rhs)
         {
-            sampleOrigin    = other.sampleOrigin;
-            sampleTarget    = other.sampleTarget;
-            treeLevel       = other.treeLevel;
-            sampleStepSize  = other.sampleStepSize;
+            sampleOrigin    = rhs.sampleOrigin;
+            sampleTarget    = rhs.sampleTarget;
+            treeLevel       = rhs.treeLevel;
+            sampleStepSize  = rhs.sampleStepSize;
         
-            hasTextureData  = other.hasTextureData;
+            hasTextureData  = rhs.hasTextureData;
         
-            blockOrigin     = other.blockOrigin;
-            blockScale      = other.blockScale;
-            maxHeightError  = other.maxHeightError;
-            minHeightSample = other.minHeightSample;
-            maxHeightSample = other.maxHeightSample;
-            data            = other.data;
-            fileDataPointer = other.fileDataPointer;
+            blockOrigin     = rhs.blockOrigin;
+            blockScale      = rhs.blockScale;
+            maxHeightError  = rhs.maxHeightError;
+            minHeightSample = rhs.minHeightSample;
+            maxHeightSample = rhs.maxHeightSample;
+            data            = rhs.data;
+            fileDataPointer = rhs.fileDataPointer;
 
             return *this;
         }
-#else
+#endif
 
       private:
 
 #ifndef WIN32
         void operator =(const BbqCreationNode &rhs);
-#else
+#endif
     };
 
      /*! \}                                                                 */
