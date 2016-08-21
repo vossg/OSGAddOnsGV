@@ -36,7 +36,7 @@ using namespace OSG;
 RenderActionRefPtr rentravact = NULL;
 
 NodeUnrecPtr  root = NULL;
-NodeUnrecPtr  file = NULL;
+//NodeUnrecPtr  file = NULL;
 
 PerspectiveCameraUnrecPtr cam = NULL;
 ViewportUnrecPtr          vp  = NULL;
@@ -52,8 +52,8 @@ BbqOutOfCoreDataSource *outOfCoreDataSource_  = NULL;
 BbqRenderOptions        terrainRenderOptions_;
 #endif
 
-BbqTerrainUnrecPtr             pTerrain = NULL;
-BbqOutOfCoreDataSourceUnrecPtr pSource  = NULL;
+BbqTerrainUnrecPtr             pTerrain    = NULL;
+BbqOutOfCoreDataSourceUnrecPtr pDataSource = NULL;
 
 Trackball tball;
 Trackball tcamball;
@@ -134,8 +134,8 @@ static float xPoints[][3] =
     {173.5, -43.5, 0.5}
 };
 
-static float tStep = 0.0004;
-static float t     = 0;
+static float fTStep = 0.0004;
+static float fT  = 0;
 
 void display(void)
 {
@@ -173,24 +173,24 @@ void display(void)
 #else
     m1c.setIdentity();
 
-    float fLat  = xPoints[0][1] + (xPoints[1][1] - xPoints[0][1]) * t;
-    float fLong = xPoints[0][0] + (xPoints[1][0] - xPoints[0][0]) * t;
+    float fLat  = xPoints[0][1] + (xPoints[1][1] - xPoints[0][1]) * fT;
+    float fLong = xPoints[0][0] + (xPoints[1][0] - xPoints[0][0]) * fT;
 
 //    fprintf(stderr, "%f %f\n", fLat, fLong);
 
     if(bAnimate == true)
     {
-        t += tStep;
+        fT += fTStep;
         
-        if(t > 1)
+        if(fT > 1)
         {
-            tStep = -tStep;
-            t     = 1;
+            fTStep = -fTStep;
+            fT     = 1;
         }
-        else if(t < 0)
+        else if(fT < 0)
         {
-            tStep = -tStep;
-            t     = 0;
+            fTStep = -fTStep;
+            fT     = 0;
         }
     }
 
@@ -224,7 +224,7 @@ void display(void)
 /* -285.728333 -285.728333 | 494.500488 494.500488 */
 
     const BbqDataSourceInformation &tInfo = 
-        pSource->getInformation();
+        pDataSource->getInformation();
 
     m4c.setIdentity();
 
@@ -383,15 +383,15 @@ void key(unsigned char key, int x, int y)
 #endif
 
             root = NULL;
-            file = NULL;
+//            file = NULL;
             cam = NULL;
             vp  = NULL;
             win = NULL;
             cam_trans   = NULL;
             scene_trans = NULL;
             ref_trans   = NULL;
-            pTerrain = NULL;
-            pSource  = NULL;
+            pTerrain    = NULL;
+            pDataSource = NULL;
 
 
             osgExit(); 
@@ -480,13 +480,13 @@ void key(unsigned char key, int x, int y)
             break;
 
         case ')':
-            tStep *= 2;
-            fprintf(stderr, "tst %f\n", tStep);
+            fTStep *= 2;
+            fprintf(stderr, "tst %f\n", fTStep);
             break;
 
         case '(':
-            tStep /= 2;
-            fprintf(stderr, "tst %f\n", tStep);
+            fTStep /= 2;
+            fprintf(stderr, "tst %f\n", fTStep);
             break;
 
 #ifdef OLD_BBQ
@@ -640,20 +640,20 @@ int main (int argc, char **argv)
     pAlgoStage->setAlgorithm(pAlgo);
 #endif
 
-    pSource = BbqOutOfCoreDataSource::create();
+    pDataSource = BbqOutOfCoreDataSource::create();
 
 //    pSource->setFilename("data/ps_com.bbq");
-    pSource->setFilename("data/ps.bbq");
+    pDataSource->setFilename("data/ps.bbq");
 //    pSource->setFilename("/home/gerrit/mtmp/ps.bbq");
 
-    pSource->setHeightScale  (6500.0f);
-    pSource->setHeightOffset (0.0f  );
-    pSource->setSampleSpacing(1.0f  );
+    pDataSource->setHeightScale  (6500.0f);
+    pDataSource->setHeightOffset (0.0f  );
+    pDataSource->setSampleSpacing(1.0f  );
 
     pTerrain = BbqTerrain::create();
 
-    pTerrain->setBeacon    (sceneTrN);
-    pTerrain->setDataSource(pSource );
+    pTerrain->setBeacon    (sceneTrN   );
+    pTerrain->setDataSource(pDataSource);
 
     pTerrain->setScreenSpaceError(6.0);
 
@@ -669,7 +669,7 @@ int main (int argc, char **argv)
     OSG::commitChanges();
 
     const BbqDataSourceInformation &tInfo = 
-        pSource->getInformation();
+        pDataSource->getInformation();
 
     fprintf(stderr, "%d %d\n",
             tInfo.heightSampleCount[0],

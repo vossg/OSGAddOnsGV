@@ -34,7 +34,7 @@ using namespace OSG;
 RenderActionRefPtr rentravact = NULL;
 
 NodeUnrecPtr  root = NULL;
-NodeUnrecPtr  file = NULL;
+//NodeUnrecPtr  file = NULL;
 
 PerspectiveCameraUnrecPtr cam = NULL;
 ViewportUnrecPtr          vp  = NULL;
@@ -284,7 +284,7 @@ void key(unsigned char key, int x, int y)
 #endif
 
             root = NULL;
-            file = NULL;
+//            file = NULL;
             cam = NULL;
             vp  = NULL;
             win = NULL;

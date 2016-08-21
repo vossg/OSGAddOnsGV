@@ -52,7 +52,7 @@ RenderActionRefPtr rentravact;
 
 NodeUnrecPtr  root;
 
-NodeUnrecPtr  file;
+//NodeUnrecPtr  file;
 
 PerspectiveCameraUnrecPtr cam;
 ViewportUnrecPtr vp;
@@ -224,7 +224,7 @@ void key(unsigned char key, int x, int y)
             rentravact = NULL;
 
             root = NULL;
-            file = NULL;
+//            file = NULL;
             cam = NULL;
             vp = NULL;
             win = NULL;
