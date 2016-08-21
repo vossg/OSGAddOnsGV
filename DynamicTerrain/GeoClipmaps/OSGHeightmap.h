@@ -51,7 +51,7 @@ class Heightmap
 
     Heightmap();
     
-    void                        initialize( int size );
+    void                        initialize( int initSize );
     
     inline 
     float               getSample( int x, int y ) const

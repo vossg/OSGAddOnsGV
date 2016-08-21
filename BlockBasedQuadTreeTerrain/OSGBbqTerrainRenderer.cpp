@@ -1258,7 +1258,7 @@ void BbqTerrainRenderer<HeightType,
             
             if( options.showSwitchDistance )
             {
-                Pnt3f bboxCenter;
+//                Pnt3f bboxCenter;
 
                 node->boundingBox.getCenter(bboxCenter);
 

@@ -127,12 +127,12 @@ struct LwoChunkHeader
         }
         else
         {
-            char szTag[5];
+            char szTmpTag[5];
 
-            lwo::int2tag(szTag, uiChunkTag);
+            lwo::int2tag(szTmpTag, uiChunkTag);
 
             fprintf(stderr, "unknown tag %s assume length 4\n", 
-                    szTag);       
+                    szTmpTag);       
         }
 
         uiHeaderSize = 4 + uiLengthSize;

@@ -247,9 +247,9 @@ void GeometryClipmaps::update( const Pnt3f& localViewerPos )
             
             for( int i = levelIdx + 1; i < levelCount; ++i )
             {
-                GeometryClipmapLevel& level = getLevel( i );
+                GeometryClipmapLevel& levelIA = getLevel( i );
                 
-                level.isActive = false;
+                levelIA.isActive = false;
             }
             // and stop updating here.
             notFinishedLastFrame_ = true;

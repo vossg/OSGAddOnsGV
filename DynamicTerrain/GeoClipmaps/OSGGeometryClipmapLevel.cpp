@@ -174,7 +174,7 @@ int	GeometryClipmapLevel::updateBlock( HeightDataSource* heightSource, TextureDa
     }
     
     // get the sample origin of the first point:
-    const Pnt2i sampleOrigin = blockPosToSamplePos( targetRect.getOrigin() );
+    /*const Pnt2i sampleOrigin =*/ blockPosToSamplePos(targetRect.getOrigin());
     
     // get the height data from the height data source:
     heightSource->fillHeightData( *this, targetRect );

@@ -52,10 +52,10 @@ Heightmap::Heightmap() :
 }
 
 
-void Heightmap::initialize( int size )
+void Heightmap::initialize( int initSize )
 {
-    this->size = size;
-    samples.resize( size * size );
+    this->size = initSize;
+    samples.resize( initSize * initSize );
     minSampleValue = 0.0f;
     maxSampleValue = 0.0f;
 }

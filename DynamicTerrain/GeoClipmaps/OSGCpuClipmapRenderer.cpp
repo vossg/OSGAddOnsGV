@@ -520,7 +520,7 @@ void CpuClipmapRenderer::onBuildVertices( GeometryClipmapLevel& level, const Geo
             for( int x = blockRect._x0; x < blockRect._x1; ++x, ++vertexPtr )
             {
                 // todo: make this incremental
-                Pnt2i samplePos = level.blockPosToSamplePos( Pnt2i( x, y ) );
+                samplePos = level.blockPosToSamplePos( Pnt2i( x, y ) );
                 Pnt2i blendWeights = componentModulo( samplePos, coarserLevelSpacing );
                 
                 if( blendWeights[ 0 ] == 0 && blendWeights[ 1 ] == 0 )

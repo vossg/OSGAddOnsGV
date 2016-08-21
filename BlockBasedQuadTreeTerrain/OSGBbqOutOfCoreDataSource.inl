@@ -163,7 +163,7 @@ bool BbqOutOfCoreEngine<HeightType,
     
     const FileNode &fileNode   = _oStaticNodeData[oNode.id];
     
-    const Int32 heightSampleCount = osgSqr(_oInformation.heightTileSize);
+    Int32 heightSampleCount = osgSqr(_oInformation.heightTileSize);
     
     pNode->data.heightData.resize(heightSampleCount);
     
@@ -172,7 +172,7 @@ bool BbqOutOfCoreEngine<HeightType,
 
     if(oNode.id == 0 || _oHeader._eHeightFormat == BbqFile::AbsoluteValues)
     {
-        const Int32 heightSampleCount = osgSqr(_oHeader._iHeightTileSize);
+        heightSampleCount = osgSqr(_oHeader._iHeightTileSize);
         
         if(!_oInput.readData(&(pNode->data.heightData[0]),
                               sizeof(UInt16) * heightSampleCount))

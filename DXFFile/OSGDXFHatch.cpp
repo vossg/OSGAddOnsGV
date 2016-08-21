@@ -117,7 +117,7 @@ DXFResult DXFHatch::evalRecord(void)
     DXFResult state = DXFStateContinue;
 	int index = hatchBoundaryDataLoops.size();
 	int edgeIndex=0;
-	//std::cout << DXFRecord::getGroupCode() << "  " << DXFRecord::getLineNumber() << std::endl;
+//	std::cout << DXFRecord::getGroupCode() << "  " << DXFRecord::getLineNumber() << std::endl;
     switch( DXFRecord::getGroupCode() )
     {
         case 30:
@@ -192,20 +192,23 @@ DXFResult DXFHatch::evalRecord(void)
 				}
 				else
 				{
-					edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
-					switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
-					{
-					case 1:
-						hatchBoundaryDataLoops[index-1].edges[edgeIndex].startX = DXFRecord::getValueDbl();
-						break;
-					case 2:
-						hatchBoundaryDataLoops[index-1].edges[edgeIndex].startX = DXFRecord::getValueDbl();
-						break;
-					case 3:
-						break;
-					case 4:
-						break;
-					}
+                    if(hatchBoundaryDataLoops[index-1].edges.size() > 0)
+                    {
+                        edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+                        switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
+                        {
+                            case 1:
+                                hatchBoundaryDataLoops[index-1].edges[edgeIndex].startX = DXFRecord::getValueDbl();
+                                break;
+                            case 2:
+                                hatchBoundaryDataLoops[index-1].edges[edgeIndex].startX = DXFRecord::getValueDbl();
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                        }
+                    }
 				}
 			}
 			break;
@@ -223,121 +226,142 @@ DXFResult DXFHatch::evalRecord(void)
 				}
 				else
 				{
-					edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
-					switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
-					{
-					case 1:
-						hatchBoundaryDataLoops[index-1].edges[edgeIndex].startY = DXFRecord::getValueDbl();
-						break;
-					case 2:
-						hatchBoundaryDataLoops[index-1].edges[edgeIndex].startY = DXFRecord::getValueDbl();
-						break;
-					case 3:
-						break;
-					case 4:
-						break;
-					}
+                    if(hatchBoundaryDataLoops[index-1].edges.size() > 0)
+                    {
+                        edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+                        switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
+                        {
+                            case 1:
+                                hatchBoundaryDataLoops[index-1].edges[edgeIndex].startY = DXFRecord::getValueDbl();
+                                break;
+                            case 2:
+                                hatchBoundaryDataLoops[index-1].edges[edgeIndex].startY = DXFRecord::getValueDbl();
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                        }
+                    }
 				}
 			}
 			break;
 		case 11:
 			
-			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
-			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
-			{
-			case 1:
-				hatchBoundaryDataLoops[index-1].edges[edgeIndex].endX = DXFRecord::getValueDbl();
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			}
-			break;
+            if(hatchBoundaryDataLoops[index-1].edges.size() > 0)
+            {
+                edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+                switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
+                {
+                    case 1:
+                        hatchBoundaryDataLoops[index-1].edges[edgeIndex].endX = DXFRecord::getValueDbl();
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            }
+            break;
 		case 21:
 			
-			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
-			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
-			{
-			case 1:
-				edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
-				hatchBoundaryDataLoops[index-1].edges[edgeIndex].endY = DXFRecord::getValueDbl();
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			}
+            if(hatchBoundaryDataLoops[index-1].edges.size() > 0)
+            {
+                edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+                switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
+                {
+                    case 1:
+                        edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+                        hatchBoundaryDataLoops[index-1].edges[edgeIndex].endY = DXFRecord::getValueDbl();
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            }
 			break;
 		case 40:
 			
-			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
-			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
-			{
-			case 1:
-				break;
-			case 2:
-				hatchBoundaryDataLoops[index-1].edges[edgeIndex].radius = DXFRecord::getValueDbl();
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			}
+            if(hatchBoundaryDataLoops[index-1].edges.size() > 0)
+            {
+                edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+                switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        hatchBoundaryDataLoops[index-1].edges[edgeIndex].radius = DXFRecord::getValueDbl();
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            }
 			break;
 		case 50:
 			
-			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
-			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
-			{
-			case 1:
-				
-				break;
-			case 2:
-				hatchBoundaryDataLoops[index-1].edges[edgeIndex].startAngle = DXFRecord::getValueDbl();
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			}
-			break;
+            if(hatchBoundaryDataLoops[index-1].edges.size() > 0)
+            {
+                edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+                switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
+                {
+                    case 1:
+                        
+                        break;
+                    case 2:
+                        hatchBoundaryDataLoops[index-1].edges[edgeIndex].startAngle = DXFRecord::getValueDbl();
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            }
+            break;
 		case 51:
-			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
-			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
-			{
-			case 1:
-				
-				break;
-			case 2:
-				edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
-				hatchBoundaryDataLoops[index-1].edges[edgeIndex].endAngle = DXFRecord::getValueDbl();
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			}
+            if(hatchBoundaryDataLoops[index-1].edges.size() > 0)
+            {
+                edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+                switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
+                {
+                    case 1:
+                        
+                        break;
+                    case 2:
+                        edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
+                        hatchBoundaryDataLoops[index-1].edges[edgeIndex].endAngle = DXFRecord::getValueDbl();
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            }
 			break;
 		case 73:
-			edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;
-			switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
-			{
-			case 1:
-				break;
-			case 2:
-				hatchBoundaryDataLoops[index].edges[edgeIndex].isCounterClockWise = DXFRecord::getValueDbl();
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			}
-			break;
+            if(hatchBoundaryDataLoops[index-1].edges.size() > 0)
+            {
+                edgeIndex = hatchBoundaryDataLoops[index-1].edges.size() -1;            
+                switch (hatchBoundaryDataLoops[index-1].edges[edgeIndex].edgeType_Or_hasBulgeFlag)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        hatchBoundaryDataLoops[index-1].edges[edgeIndex].isCounterClockWise = DXFRecord::getValueDbl();
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            }
+            break;
 	//=================================================
 		case 98:
 			_numSeedPoints = DXFRecord::getValueInt();
@@ -458,10 +482,10 @@ DXFResult DXFHatch::endEntity(void)
 					}
 					int div = 10;
 					int num = abs(tempEndAngle - tempStartAngle) / div;
-					for(int i=1;i<num-1;i++)
+					for(int k=1;k<num-1;k++)
 					{
-						x= pathData.edges.at(j).startX  + tempRadius * cos(osgDegree2Rad(tempStartAngle + div * i));
-						y= pathData.edges.at(j).startY + tempRadius * sin(osgDegree2Rad(tempStartAngle + div * i));
+						x= pathData.edges.at(j).startX  + tempRadius * cos(osgDegree2Rad(tempStartAngle + div * k));
+						y= pathData.edges.at(j).startY + tempRadius * sin(osgDegree2Rad(tempStartAngle + div * k));
 						z = 0;
 						_pointsP->push_back(OSG::Pnt3f(x,y,z));
 						verticesNum ++;

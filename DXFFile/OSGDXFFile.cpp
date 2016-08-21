@@ -221,8 +221,7 @@ void DXFFile::registerEntityType( const Char8 *entityParentTypeName,
 						   // ignore it!
 	{
 		// search for entityParentType
-		EntityTypeMap::iterator itr = 
-			_the->_entityTypes.find(entityParentTypeName);
+		itr = _the->_entityTypes.find(entityParentTypeName);
 		if (itr == _the->_entityTypes.end())
 		{
 			FDEBUGx(("DXFFile::registerEntityType: "
