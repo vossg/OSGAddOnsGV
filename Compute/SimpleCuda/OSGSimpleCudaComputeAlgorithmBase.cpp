@@ -53,6 +53,11 @@
 #include <cstdlib>
 #include <cstdio>
 
+#ifdef WIN32 
+#pragma warning(disable: 4355) // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable: 4290) // disable exception specification warning
+#endif
+
 #include "OSGAddOnsConfig.h"
 
 
@@ -63,10 +68,6 @@
 #include "OSGSimpleCudaComputeAlgorithm.h"
 
 #include <boost/bind.hpp>
-
-#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
-#pragma warning(disable:4355)
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -218,8 +219,8 @@ SimpleCudaComputeAlgorithmBase::TypeObject SimpleCudaComputeAlgorithmBase::_type
     "NULL",
     nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&SimpleCudaComputeAlgorithmBase::createEmptyLocal),
-    SimpleCudaComputeAlgorithm::initMethod,
-    SimpleCudaComputeAlgorithm::exitMethod,
+    reinterpret_cast<InitContainerF>(&SimpleCudaComputeAlgorithm::initMethod),
+    reinterpret_cast<ExitContainerF>(&SimpleCudaComputeAlgorithm::exitMethod),
     reinterpret_cast<InitalInsertDescFunc>(&SimpleCudaComputeAlgorithm::classDescInserter),
     false,
     0,

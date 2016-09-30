@@ -53,6 +53,11 @@
 #include <cstdlib>
 #include <cstdio>
 
+#ifdef WIN32 
+#pragma warning(disable: 4355) // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable: 4290) // disable exception specification warning
+#endif
+
 #include "OSGAddOnsConfig.h"
 
 
@@ -62,10 +67,6 @@
 #include "OSGPyFieldContainerPtrMFieldEditHandle.h"
 
 #include <boost/bind.hpp>
-
-#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
-#pragma warning(disable:4355)
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -121,8 +122,8 @@ PyFieldContainerPtrMFieldEditHandleBase::TypeObject PyFieldContainerPtrMFieldEdi
     "NULL",
     nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&PyFieldContainerPtrMFieldEditHandleBase::createEmptyLocal),
-    PyFieldContainerPtrMFieldEditHandle::initMethod,
-    PyFieldContainerPtrMFieldEditHandle::exitMethod,
+    reinterpret_cast<InitContainerF>(&PyFieldContainerPtrMFieldEditHandle::initMethod),
+    reinterpret_cast<ExitContainerF>(&PyFieldContainerPtrMFieldEditHandle::exitMethod),
     reinterpret_cast<InitalInsertDescFunc>(&PyFieldContainerPtrMFieldEditHandle::classDescInserter),
     false,
     0,

@@ -53,6 +53,11 @@
 #include <cstdlib>
 #include <cstdio>
 
+#ifdef WIN32 
+#pragma warning(disable: 4355) // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable: 4290) // disable exception specification warning
+#endif
+
 #include "OSGAddOnsConfig.h"
 
 
@@ -64,10 +69,6 @@
 #include "OSGDynamicTerrain.h"
 
 #include <boost/bind.hpp>
-
-#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
-#pragma warning(disable:4355)
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -387,8 +388,8 @@ DynamicTerrainBase::TypeObject DynamicTerrainBase::_type(
     "NULL",
     nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&DynamicTerrainBase::createEmptyLocal),
-    DynamicTerrain::initMethod,
-    DynamicTerrain::exitMethod,
+    reinterpret_cast<InitContainerF>(&DynamicTerrain::initMethod),
+    reinterpret_cast<ExitContainerF>(&DynamicTerrain::exitMethod),
     reinterpret_cast<InitalInsertDescFunc>(&DynamicTerrain::classDescInserter),
     false,
     0,

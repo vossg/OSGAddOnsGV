@@ -53,6 +53,11 @@
 #include <cstdlib>
 #include <cstdio>
 
+#ifdef WIN32 
+#pragma warning(disable: 4355) // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable: 4290) // disable exception specification warning
+#endif
+
 #include "OSGAddOnsConfig.h"
 
 
@@ -63,10 +68,6 @@
 #include "OSGIconLabel.h"
 
 #include <boost/bind.hpp>
-
-#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
-#pragma warning(disable:4355)
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -170,8 +171,8 @@ IconLabelBase::TypeObject IconLabelBase::_type(
     "NULL",
     nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&IconLabelBase::createEmptyLocal),
-    IconLabel::initMethod,
-    IconLabel::exitMethod,
+    reinterpret_cast<InitContainerF>(&IconLabel::initMethod),
+    reinterpret_cast<ExitContainerF>(&IconLabel::exitMethod),
     reinterpret_cast<InitalInsertDescFunc>(&IconLabel::classDescInserter),
     false,
     0,

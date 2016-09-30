@@ -53,6 +53,11 @@
 #include <cstdlib>
 #include <cstdio>
 
+#ifdef WIN32 
+#pragma warning(disable: 4355) // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable: 4290) // disable exception specification warning
+#endif
+
 #include "OSGAddOnsConfig.h"
 
 
@@ -62,10 +67,6 @@
 #include "OSGPythonScript.h"
 
 #include <boost/bind.hpp>
-
-#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
-#pragma warning(disable:4355)
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -119,8 +120,8 @@ PythonScriptBase::TypeObject PythonScriptBase::_type(
     "NULL",
     nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&PythonScriptBase::createEmptyLocal),
-    PythonScript::initMethod,
-    PythonScript::exitMethod,
+    reinterpret_cast<InitContainerF>(&PythonScript::initMethod),
+    reinterpret_cast<ExitContainerF>(&PythonScript::exitMethod),
     reinterpret_cast<InitalInsertDescFunc>(&PythonScript::classDescInserter),
     true,
     0,

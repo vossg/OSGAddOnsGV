@@ -53,6 +53,11 @@
 #include <cstdlib>
 #include <cstdio>
 
+#ifdef WIN32 
+#pragma warning(disable: 4355) // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable: 4290) // disable exception specification warning
+#endif
+
 #include "OSGAddOnsConfig.h"
 
 
@@ -62,10 +67,6 @@
 #include "OSGCudaBufferPnt3fInterpolator.h"
 
 #include <boost/bind.hpp>
-
-#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
-#pragma warning(disable:4355)
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -113,8 +114,8 @@ CudaBufferPnt3fInterpolatorBase::TypeObject CudaBufferPnt3fInterpolatorBase::_ty
     "NULL",
     nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&CudaBufferPnt3fInterpolatorBase::createEmptyLocal),
-    CudaBufferPnt3fInterpolator::initMethod,
-    CudaBufferPnt3fInterpolator::exitMethod,
+    reinterpret_cast<InitContainerF>(&CudaBufferPnt3fInterpolator::initMethod),
+    reinterpret_cast<ExitContainerF>(&CudaBufferPnt3fInterpolator::exitMethod),
     reinterpret_cast<InitalInsertDescFunc>(&CudaBufferPnt3fInterpolator::classDescInserter),
     false,
     0,

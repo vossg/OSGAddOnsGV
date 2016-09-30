@@ -53,6 +53,11 @@
 #include <cstdlib>
 #include <cstdio>
 
+#ifdef WIN32 
+#pragma warning(disable: 4355) // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable: 4290) // disable exception specification warning
+#endif
+
 #include "OSGAddOnsConfig.h"
 
 
@@ -62,10 +67,6 @@
 #include "OSGTextLabel.h"
 
 #include <boost/bind.hpp>
-
-#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
-#pragma warning(disable:4355)
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -169,8 +170,8 @@ TextLabelBase::TypeObject TextLabelBase::_type(
     "NULL",
     nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&TextLabelBase::createEmptyLocal),
-    TextLabel::initMethod,
-    TextLabel::exitMethod,
+    reinterpret_cast<InitContainerF>(&TextLabel::initMethod),
+    reinterpret_cast<ExitContainerF>(&TextLabel::exitMethod),
     reinterpret_cast<InitalInsertDescFunc>(&TextLabel::classDescInserter),
     false,
     0,

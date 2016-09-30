@@ -53,6 +53,11 @@
 #include <cstdlib>
 #include <cstdio>
 
+#ifdef WIN32 
+#pragma warning(disable: 4355) // turn off 'this' : used in base member initializer list warning
+#pragma warning(disable: 4290) // disable exception specification warning
+#endif
+
 #include "OSGAddOnsConfig.h"
 
 
@@ -63,10 +68,6 @@
 #include "OSGBufferPnt3fInterpolator.h"
 
 #include <boost/bind.hpp>
-
-#ifdef WIN32 // turn off 'this' : used in base member initializer list warning
-#pragma warning(disable:4355)
-#endif
 
 OSG_BEGIN_NAMESPACE
 
@@ -194,8 +195,8 @@ BufferPnt3fInterpolatorBase::TypeObject BufferPnt3fInterpolatorBase::_type(
     "NULL",
     nsOSG, //Namespace
     reinterpret_cast<PrototypeCreateF>(&BufferPnt3fInterpolatorBase::createEmptyLocal),
-    BufferPnt3fInterpolator::initMethod,
-    BufferPnt3fInterpolator::exitMethod,
+    reinterpret_cast<InitContainerF>(&BufferPnt3fInterpolator::initMethod),
+    reinterpret_cast<ExitContainerF>(&BufferPnt3fInterpolator::exitMethod),
     reinterpret_cast<InitalInsertDescFunc>(&BufferPnt3fInterpolator::classDescInserter),
     false,
     ResortIndexFieldMask,
