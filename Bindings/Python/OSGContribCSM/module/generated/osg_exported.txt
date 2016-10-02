@@ -5,6 +5,7 @@ CSMPerspectiveCamera
 CSMViewportBase
 CSMClusterWindow
 KeySensor
+CSMDrawer
 CSMStatisticsForegroundBase
 ImageFile
 MouseDataInterfaceSensorBase
@@ -13,7 +14,6 @@ InterfaceOptions
 CSMMultiWinOptions
 ComplexSceneManager
 CSMPassiveWinClearOpBase
-CSMDrawer
 CSMClusterWinOptions
 Counter
 CSMSceneParameterBase

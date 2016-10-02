@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -46,7 +47,7 @@ void register_Quaterniond_class(){
         bp::scope Quaterniond_scope( Quaterniond_exposer );
         Quaterniond_exposer.def( bp::init< double const * >(( bp::arg("values") )) );
         bp::implicitly_convertible< double const *, OSG::QuaternionBase< double > >();
-        Quaterniond_exposer.def( bp::init< double, double, double, double >(( bp::arg("x"), bp::arg("y"), bp::arg("z"), bp::arg("w") )) );
+        Quaterniond_exposer.def( bp::init< double, double, double, double >(( bp::arg("xVal"), bp::arg("yVal"), bp::arg("zVal"), bp::arg("wVal") )) );
         Quaterniond_exposer.def( bp::init< OSG::QuaternionBase< double > const & >(( bp::arg("source") )) );
         Quaterniond_exposer.def( bp::init< OSG::TransformationMatrix< double > const & >(( bp::arg("matrix") )) );
         bp::implicitly_convertible< OSG::TransformationMatrix< double > const &, OSG::QuaternionBase< double > >();
@@ -456,7 +457,7 @@ void register_Quaterniond_class(){
             Quaterniond_exposer.def( 
                 "setValueAsAxisDeg"
                 , setValueAsAxisDeg_function_type( &::OSG::QuaternionBase< double >::setValueAsAxisDeg )
-                , ( bp::arg("x"), bp::arg("y"), bp::arg("z"), bp::arg("w") ) );
+                , ( bp::arg("xVal"), bp::arg("yVal"), bp::arg("zVal"), bp::arg("wVal") ) );
         
         }
         { //::OSG::QuaternionBase< double >::setValueAsAxisDeg
@@ -500,7 +501,7 @@ void register_Quaterniond_class(){
             Quaterniond_exposer.def( 
                 "setValueAsAxisRad"
                 , setValueAsAxisRad_function_type( &::OSG::QuaternionBase< double >::setValueAsAxisRad )
-                , ( bp::arg("x"), bp::arg("y"), bp::arg("z"), bp::arg("w") ) );
+                , ( bp::arg("xVal"), bp::arg("yVal"), bp::arg("zVal"), bp::arg("wVal") ) );
         
         }
         { //::OSG::QuaternionBase< double >::setValueAsAxisRad
@@ -544,7 +545,7 @@ void register_Quaterniond_class(){
             Quaterniond_exposer.def( 
                 "setValueAsQuat"
                 , setValueAsQuat_function_type( &::OSG::QuaternionBase< double >::setValueAsQuat )
-                , ( bp::arg("x"), bp::arg("y"), bp::arg("z"), bp::arg("w") ) );
+                , ( bp::arg("xVal"), bp::arg("yVal"), bp::arg("zVal"), bp::arg("wVal") ) );
         
         }
         { //::OSG::QuaternionBase< double >::setValueAsQuat

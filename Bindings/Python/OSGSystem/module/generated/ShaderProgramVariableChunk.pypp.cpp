@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -126,6 +127,16 @@ void register_ShaderProgramVariableChunk_class(){
                 "addParent"
                 , addParent_function_type( &::OSG::ShaderProgramVariableChunk::addParent )
                 , ( bp::arg("pParent"), bp::arg("uiParentFieldId") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariableChunk::addShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariableChunk::*addShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            ShaderProgramVariableChunk_exposer.def( 
+                "addShaderStorageBlock"
+                , addShaderStorageBlock_function_type( &::OSG::ShaderProgramVariableChunk::addShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::ShaderProgramVariableChunk::addUniformBlock
@@ -285,6 +296,16 @@ void register_ShaderProgramVariableChunk_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::ShaderProgramVariableChunk::getShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariableChunk::*getShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 & ) ;
+            
+            ShaderProgramVariableChunk_exposer.def( 
+                "getShaderStorageBlock"
+                , getShaderStorageBlock_function_type( &::OSG::ShaderProgramVariableChunk::getShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
         { //::OSG::ShaderProgramVariableChunk::getStaticClass
         
             typedef ::OSG::StateChunkClass const * ( *getStaticClass_function_type )(  );
@@ -423,6 +444,16 @@ void register_ShaderProgramVariableChunk_class(){
                 , ( bp::arg("pParent") ) );
         
         }
+        { //::OSG::ShaderProgramVariableChunk::subShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariableChunk::*subShaderStorageBlock_function_type )( ::OSG::Char8 const * ) ;
+            
+            ShaderProgramVariableChunk_exposer.def( 
+                "subShaderStorageBlock"
+                , subShaderStorageBlock_function_type( &::OSG::ShaderProgramVariableChunk::subShaderStorageBlock )
+                , ( bp::arg("name") ) );
+        
+        }
         { //::OSG::ShaderProgramVariableChunk::subUniformBlock
         
             typedef bool ( ::OSG::ShaderProgramVariableChunk::*subUniformBlock_function_type )( ::OSG::Char8 const * ) ;
@@ -441,6 +472,16 @@ void register_ShaderProgramVariableChunk_class(){
                 "subUniformVariable"
                 , subUniformVariable_function_type( &::OSG::ShaderProgramVariableChunk::subUniformVariable )
                 , ( bp::arg("name") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariableChunk::updateShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariableChunk::*updateShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            ShaderProgramVariableChunk_exposer.def( 
+                "updateShaderStorageBlock"
+                , updateShaderStorageBlock_function_type( &::OSG::ShaderProgramVariableChunk::updateShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::ShaderProgramVariableChunk::updateUniformBlock

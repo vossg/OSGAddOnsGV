@@ -1,4 +1,3 @@
-SimpleStatisticsForegroundBase
 VerifyGraphOp
 MakeTransparentGraphOp
 SimpleSceneManager
@@ -16,3 +15,4 @@ GeoTypeGraphOp
 PruneGraphOp
 MergeGraphOp
 MaterialMergeGraphOp
+SimpleStatisticsForegroundBase

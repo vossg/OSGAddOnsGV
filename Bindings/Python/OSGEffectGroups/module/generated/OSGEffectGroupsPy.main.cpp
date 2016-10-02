@@ -21,6 +21,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -109,6 +110,14 @@
 #include "generated/FogStageData.pypp.hpp"
 
 #include "generated/FogStageDataBase.pypp.hpp"
+
+#include "generated/HDR2Stage.pypp.hpp"
+
+#include "generated/HDR2StageBase.pypp.hpp"
+
+#include "generated/HDR2StageData.pypp.hpp"
+
+#include "generated/HDR2StageDataBase.pypp.hpp"
 
 #include "generated/HDRStage.pypp.hpp"
 
@@ -236,6 +245,14 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
     register_FogStageDataBase_class();
 
     register_FogStageData_class();
+
+    register_HDR2StageBase_class();
+
+    register_HDR2Stage_class();
+
+    register_HDR2StageDataBase_class();
+
+    register_HDR2StageData_class();
 
     register_HDRStageBase_class();
 
@@ -389,11 +406,23 @@ BOOST_PYTHON_MODULE(OSGEffectGroupsPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ColorDisplayFilter::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::HDR2Stage */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::HDR2Stage, OSG::HDR2Stage::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::HDR2Stage::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::DepthPeelingStageData */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DepthPeelingStageData, OSG::DepthPeelingStageData::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::DepthPeelingStageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::HDR2StageData */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::HDR2StageData, OSG::HDR2StageData::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::HDR2StageData::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::ResolutionDisplayFilter */
 

@@ -4,6 +4,9 @@
 #include <OSGRenderActionBase.h>
 #include <OSGTextureObjChunk.h>
 #include <OSGPrimeMaterial.h>
+#include <OSGCallbackAlgorithm.h>
+#include <OSGFrameBufferObject.h>
+#include <OSGFBOBackground.h>
 #include <OSGDepthClearBackground.h>
 #include <OSGPolygonBackground.h>
 #include <OSGTileableBackground.h>
@@ -24,6 +27,8 @@
 #include <OSGSimpleTextForeground.h>
 #include <OSGPolygonForeground.h>
 #include <OSGImageForeground.h>
+#include <OSGCallbackAlgorithmForeground.h>
+#include <OSGFBOGrabForeground.h>
 #include <OSGStereoBufferViewport.h>
 #include <OSGColorBufferViewport.h>
 #include <OSGPassiveViewport.h>

@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -109,7 +110,7 @@ void register_GeoMultiPropertyData_class(){
             GeoMultiPropertyData_exposer.def( 
                 "resize"
                 , resize_function_type( &::OSG::GeoMultiPropertyData::resize )
-                , ( bp::arg("size") ) );
+                , ( bp::arg("newSize") ) );
         
         }
         { //::OSG::GeoMultiPropertyData::size

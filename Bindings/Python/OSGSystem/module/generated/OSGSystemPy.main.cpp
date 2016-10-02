@@ -21,6 +21,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -294,6 +295,14 @@
 
 #include "generated/ShaderProgramVariablesBase.pypp.hpp"
 
+#include "generated/ShaderStorageBufferObjChunk.pypp.hpp"
+
+#include "generated/ShaderStorageBufferObjChunkBase.pypp.hpp"
+
+#include "generated/ShaderStorageBufferObjStdLayoutChunk.pypp.hpp"
+
+#include "generated/ShaderStorageBufferObjStdLayoutChunkBase.pypp.hpp"
+
 #include "generated/ShaderValueVariable.pypp.hpp"
 
 #include "generated/ShaderValueVariableBase.pypp.hpp"
@@ -361,6 +370,10 @@
 #include "generated/ShaderVariableReal.pypp.hpp"
 
 #include "generated/ShaderVariableRealBase.pypp.hpp"
+
+#include "generated/ShaderVariableShaderStorageBlock.pypp.hpp"
+
+#include "generated/ShaderVariableShaderStorageBlockBase.pypp.hpp"
 
 #include "generated/ShaderVariableString.pypp.hpp"
 
@@ -747,6 +760,14 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     register_ShaderProgramVariables_class();
 
+    register_ShaderStorageBufferObjChunkBase_class();
+
+    register_ShaderStorageBufferObjChunk_class();
+
+    register_ShaderStorageBufferObjStdLayoutChunkBase_class();
+
+    register_ShaderStorageBufferObjStdLayoutChunk_class();
+
     register_ShaderValueVariableBase_class();
 
     register_ShaderValueVariable_class();
@@ -810,6 +831,10 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     register_ShaderVariableRealBase_class();
 
     register_ShaderVariableReal_class();
+
+    register_ShaderVariableShaderStorageBlockBase_class();
+
+    register_ShaderVariableShaderStorageBlock_class();
 
     register_ShaderVariableStringBase_class();
 
@@ -961,6 +986,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableMMatrix::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::ShaderStorageBufferObjStdLayoutChunk */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderStorageBufferObjStdLayoutChunk, OSG::ShaderStorageBufferObjStdLayoutChunk::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderStorageBufferObjStdLayoutChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::ColorMaskChunk */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ColorMaskChunk, OSG::ColorMaskChunk::ObjRecPtr>);
@@ -1009,11 +1040,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableVec4f::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::RootGroup */
+    /** Helpers for OSG::ShaderStorageBufferObjChunk */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::RootGroup, OSG::RootGroup::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderStorageBufferObjChunk, OSG::ShaderStorageBufferObjChunk::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::RootGroup::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderStorageBufferObjChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::PerspectiveCamera */
 
@@ -1105,6 +1136,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::MultiCore::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::ShaderVariableShaderStorageBlock */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderVariableShaderStorageBlock, OSG::ShaderVariableShaderStorageBlock::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderVariableShaderStorageBlock::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::UniformBufferObjChunk */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::UniformBufferObjChunk, OSG::UniformBufferObjChunk::ObjRecPtr>);
@@ -1153,11 +1190,11 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::Viewarea::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::ShaderProgramChunk */
+    /** Helpers for OSG::RootGroup */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderProgramChunk, OSG::ShaderProgramChunk::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::RootGroup, OSG::RootGroup::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderProgramChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::RootGroup::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::Image */
 
@@ -1326,6 +1363,12 @@ BOOST_PYTHON_MODULE(OSGSystemPy){
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::BlendChunk, OSG::BlendChunk::ObjRecPtr>);
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::BlendChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::ShaderProgramChunk */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ShaderProgramChunk, OSG::ShaderProgramChunk::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::ShaderProgramChunk::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::TextureBuffer */
 

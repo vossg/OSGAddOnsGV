@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -214,6 +215,16 @@ void register_ShaderProgram_class(){
                 "addParent"
                 , addParent_function_type( &::OSG::ShaderProgram::addParent )
                 , ( bp::arg("pParent"), bp::arg("uiParentFieldId") ) );
+        
+        }
+        { //::OSG::ShaderProgram::addShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgram::*addShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            ShaderProgram_exposer.def( 
+                "addShaderStorageBlock"
+                , addShaderStorageBlock_function_type( &::OSG::ShaderProgram::addShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::ShaderProgram::addUniformBlock
@@ -418,6 +429,15 @@ void register_ShaderProgram_class(){
                 , getExtIdGeometryShader4_function_type( &::OSG::ShaderProgram::getExtIdGeometryShader4 ) );
         
         }
+        { //::OSG::ShaderProgram::getExtIdProgramInterfaceQuery
+        
+            typedef ::OSG::UInt32 ( *getExtIdProgramInterfaceQuery_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getExtIdProgramInterfaceQuery"
+                , getExtIdProgramInterfaceQuery_function_type( &::OSG::ShaderProgram::getExtIdProgramInterfaceQuery ) );
+        
+        }
         { //::OSG::ShaderProgram::getExtIdSHL
         
             typedef ::OSG::UInt32 ( *getExtIdSHL_function_type )(  );
@@ -425,6 +445,15 @@ void register_ShaderProgram_class(){
             ShaderProgram_exposer.def( 
                 "getExtIdSHL"
                 , getExtIdSHL_function_type( &::OSG::ShaderProgram::getExtIdSHL ) );
+        
+        }
+        { //::OSG::ShaderProgram::getExtIdShaderStorageBufferObject
+        
+            typedef ::OSG::UInt32 ( *getExtIdShaderStorageBufferObject_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getExtIdShaderStorageBufferObject"
+                , getExtIdShaderStorageBufferObject_function_type( &::OSG::ShaderProgram::getExtIdShaderStorageBufferObject ) );
         
         }
         { //::OSG::ShaderProgram::getExtIdTransformFeedback2
@@ -553,6 +582,24 @@ void register_ShaderProgram_class(){
                 , getFuncIdGetProgramInfoLog_function_type( &::OSG::ShaderProgram::getFuncIdGetProgramInfoLog ) );
         
         }
+        { //::OSG::ShaderProgram::getFuncIdGetProgramResourceIndex
+        
+            typedef ::OSG::UInt32 ( *getFuncIdGetProgramResourceIndex_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdGetProgramResourceIndex"
+                , getFuncIdGetProgramResourceIndex_function_type( &::OSG::ShaderProgram::getFuncIdGetProgramResourceIndex ) );
+        
+        }
+        { //::OSG::ShaderProgram::getFuncIdGetProgramResourceiv
+        
+            typedef ::OSG::UInt32 ( *getFuncIdGetProgramResourceiv_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdGetProgramResourceiv"
+                , getFuncIdGetProgramResourceiv_function_type( &::OSG::ShaderProgram::getFuncIdGetProgramResourceiv ) );
+        
+        }
         { //::OSG::ShaderProgram::getFuncIdGetProgramiv
         
             typedef ::OSG::UInt32 ( *getFuncIdGetProgramiv_function_type )(  );
@@ -659,6 +706,15 @@ void register_ShaderProgram_class(){
             ShaderProgram_exposer.def( 
                 "getFuncIdShaderSource"
                 , getFuncIdShaderSource_function_type( &::OSG::ShaderProgram::getFuncIdShaderSource ) );
+        
+        }
+        { //::OSG::ShaderProgram::getFuncIdShaderStorageBlockBinding
+        
+            typedef ::OSG::UInt32 ( *getFuncIdShaderStorageBlockBinding_function_type )(  );
+            
+            ShaderProgram_exposer.def( 
+                "getFuncIdShaderStorageBlockBinding"
+                , getFuncIdShaderStorageBlockBinding_function_type( &::OSG::ShaderProgram::getFuncIdShaderStorageBlockBinding ) );
         
         }
         { //::OSG::ShaderProgram::getFuncIdTransformFeedbackVaryings
@@ -949,6 +1005,16 @@ void register_ShaderProgram_class(){
                 , getProgramId_function_type( &::OSG::ShaderProgram::getProgramId ) );
         
         }
+        { //::OSG::ShaderProgram::getShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgram::*getShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 & ) ;
+            
+            ShaderProgram_exposer.def( 
+                "getShaderStorageBlock"
+                , getShaderStorageBlock_function_type( &::OSG::ShaderProgram::getShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
         { //::OSG::ShaderProgram::getUniformBlock
         
             typedef bool ( ::OSG::ShaderProgram::*getUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 & ) ;
@@ -1127,6 +1193,16 @@ void register_ShaderProgram_class(){
                 , ( bp::arg("name") ) );
         
         }
+        { //::OSG::ShaderProgram::subShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgram::*subShaderStorageBlock_function_type )( ::OSG::Char8 const * ) ;
+            
+            ShaderProgram_exposer.def( 
+                "subShaderStorageBlock"
+                , subShaderStorageBlock_function_type( &::OSG::ShaderProgram::subShaderStorageBlock )
+                , ( bp::arg("name") ) );
+        
+        }
         { //::OSG::ShaderProgram::subUniformBlock
         
             typedef bool ( ::OSG::ShaderProgram::*subUniformBlock_function_type )( ::OSG::Char8 const * ) ;
@@ -1145,6 +1221,16 @@ void register_ShaderProgram_class(){
                 "subUniformVariable"
                 , subUniformVariable_function_type( &::OSG::ShaderProgram::subUniformVariable )
                 , ( bp::arg("name") ) );
+        
+        }
+        { //::OSG::ShaderProgram::updateShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgram::*updateShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            ShaderProgram_exposer.def( 
+                "updateShaderStorageBlock"
+                , updateShaderStorageBlock_function_type( &::OSG::ShaderProgram::updateShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::ShaderProgram::updateUniformBlock
@@ -1263,7 +1349,9 @@ void register_ShaderProgram_class(){
         ShaderProgram_exposer.staticmethod( "getExtIdCgShader" );
         ShaderProgram_exposer.staticmethod( "getExtIdGPUShader4" );
         ShaderProgram_exposer.staticmethod( "getExtIdGeometryShader4" );
+        ShaderProgram_exposer.staticmethod( "getExtIdProgramInterfaceQuery" );
         ShaderProgram_exposer.staticmethod( "getExtIdSHL" );
+        ShaderProgram_exposer.staticmethod( "getExtIdShaderStorageBufferObject" );
         ShaderProgram_exposer.staticmethod( "getExtIdTransformFeedback2" );
         ShaderProgram_exposer.staticmethod( "getExtIdUniformBufferObject" );
         ShaderProgram_exposer.staticmethod( "getFuncIdAttachShader" );
@@ -1278,6 +1366,8 @@ void register_ShaderProgram_class(){
         ShaderProgram_exposer.staticmethod( "getFuncIdEndTransformFeedback" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetActiveAttrib" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetProgramInfoLog" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdGetProgramResourceIndex" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdGetProgramResourceiv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetProgramiv" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetShaderInfoLog" );
         ShaderProgram_exposer.staticmethod( "getFuncIdGetShaderiv" );
@@ -1290,6 +1380,7 @@ void register_ShaderProgram_class(){
         ShaderProgram_exposer.staticmethod( "getFuncIdProgramParameteri" );
         ShaderProgram_exposer.staticmethod( "getFuncIdResumeTransformFeedback" );
         ShaderProgram_exposer.staticmethod( "getFuncIdShaderSource" );
+        ShaderProgram_exposer.staticmethod( "getFuncIdShaderStorageBlockBinding" );
         ShaderProgram_exposer.staticmethod( "getFuncIdTransformFeedbackVaryings" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform1f" );
         ShaderProgram_exposer.staticmethod( "getFuncIdUniform1fv" );

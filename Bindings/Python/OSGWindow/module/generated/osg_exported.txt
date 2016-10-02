@@ -1,11 +1,15 @@
 PassiveViewport
+CallbackAlgorithmForeground
 ImageForeground
 GrabForegroundBase
 FileGrabForegroundBase
+ProjectionCameraDecorator
+FBOGrabForeground
 StereoBufferViewportBase
 HeadTrackedStereoCameraDecoratorBase
 PassiveBackground
-HeadTrackedStereoCameraDecorator
+FBOGrabForegroundBase
+CallbackAlgorithmForegroundBase
 PolygonForegroundBase
 PassiveBackgroundBase
 TileableBackgroundBase
@@ -18,6 +22,7 @@ TileCameraDecorator
 SkyBackgroundBase
 DepthClearBackgroundBase
 GrabForeground
+FBOBackground
 FileGrabForeground
 OffCenterPerspectiveCamera
 ShearedStereoCameraDecorator
@@ -29,10 +34,11 @@ GradientBackground
 MatrixCameraDecorator
 DepthClearBackground
 PassiveWindow
+FBOBackgroundBase
+HeadTrackedStereoCameraDecorator
 OffCenterPerspectiveCameraBase
 StereoBufferViewport
 ImageForegroundBase
-ProjectionCameraDecorator
 PolygonForeground
 TextureGrabForeground
 MatrixCameraDecoratorBase

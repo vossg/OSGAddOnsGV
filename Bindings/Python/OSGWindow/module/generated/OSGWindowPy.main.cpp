@@ -21,6 +21,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -38,6 +39,10 @@
 
 #include "boost/python/suite/indexing/vector_indexing_suite.hpp"
 
+#include "generated/CallbackAlgorithmForeground.pypp.hpp"
+
+#include "generated/CallbackAlgorithmForegroundBase.pypp.hpp"
+
 #include "generated/ColorBufferViewport.pypp.hpp"
 
 #include "generated/ColorBufferViewportBase.pypp.hpp"
@@ -45,6 +50,14 @@
 #include "generated/DepthClearBackground.pypp.hpp"
 
 #include "generated/DepthClearBackgroundBase.pypp.hpp"
+
+#include "generated/FBOBackground.pypp.hpp"
+
+#include "generated/FBOBackgroundBase.pypp.hpp"
+
+#include "generated/FBOGrabForeground.pypp.hpp"
+
+#include "generated/FBOGrabForegroundBase.pypp.hpp"
 
 #include "generated/FileGrabForeground.pypp.hpp"
 
@@ -143,6 +156,10 @@ using namespace std;
 namespace bp = boost::python;
 
 BOOST_PYTHON_MODULE(OSGWindowPy){
+    register_CallbackAlgorithmForegroundBase_class();
+
+    register_CallbackAlgorithmForeground_class();
+
     register_ColorBufferViewportBase_class();
 
     register_ColorBufferViewport_class();
@@ -150,6 +167,14 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
     register_DepthClearBackgroundBase_class();
 
     register_DepthClearBackground_class();
+
+    register_FBOBackgroundBase_class();
+
+    register_FBOBackground_class();
+
+    register_FBOGrabForegroundBase_class();
+
+    register_FBOGrabForeground_class();
 
     register_GrabForegroundBase_class();
 
@@ -253,6 +278,18 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::TextureGrabForeground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::CallbackAlgorithmForeground */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::CallbackAlgorithmForeground, OSG::CallbackAlgorithmForeground::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::CallbackAlgorithmForeground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
+    /** Helpers for OSG::FBOBackground */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FBOBackground, OSG::FBOBackground::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FBOBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::FileGrabForeground */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FileGrabForeground, OSG::FileGrabForeground::ObjRecPtr>);
@@ -265,11 +302,11 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::ImageForeground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::SkyBackground */
+    /** Helpers for OSG::TileableBackground */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SkyBackground, OSG::SkyBackground::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TileableBackground, OSG::TileableBackground::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::SkyBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TileableBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::HeadTrackedStereoCameraDecorator */
 
@@ -277,11 +314,11 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::HeadTrackedStereoCameraDecorator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::TileableBackground */
+    /** Helpers for OSG::SkyBackground */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::TileableBackground, OSG::TileableBackground::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::SkyBackground, OSG::SkyBackground::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::TileableBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::SkyBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::PassiveViewport */
 
@@ -295,11 +332,11 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::MatrixCameraDecorator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::PassiveWindow */
+    /** Helpers for OSG::DepthClearBackground */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PassiveWindow, OSG::PassiveWindow::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DepthClearBackground, OSG::DepthClearBackground::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PassiveWindow::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DepthClearBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::GradientBackground */
 
@@ -343,6 +380,12 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::PassiveBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
+    /** Helpers for OSG::FBOGrabForeground */
+
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::FBOGrabForeground, OSG::FBOGrabForeground::ObjRecPtr>);
+
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::FBOGrabForeground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+
     /** Helpers for OSG::ProjectionCameraDecorator */
 
     bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::ProjectionCameraDecorator, OSG::ProjectionCameraDecorator::ObjRecPtr>);
@@ -379,11 +422,11 @@ BOOST_PYTHON_MODULE(OSGWindowPy){
 
     bp::def("CPtr", &pyopensg::ToCPtr<OSG::TileCameraDecorator::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
-    /** Helpers for OSG::DepthClearBackground */
+    /** Helpers for OSG::PassiveWindow */
 
-    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::DepthClearBackground, OSG::DepthClearBackground::ObjRecPtr>);
+    bp::def("RecPtr", &pyopensg::ToRefCountPtr<OSG::PassiveWindow, OSG::PassiveWindow::ObjRecPtr>);
 
-    bp::def("CPtr", &pyopensg::ToCPtr<OSG::DepthClearBackground::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
+    bp::def("CPtr", &pyopensg::ToCPtr<OSG::PassiveWindow::ObjRecPtr >, bp::return_value_policy<bp::reference_existing_object>());
 
     /** Helpers for OSG::TextureGrabBackground */
 

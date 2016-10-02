@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -148,6 +149,16 @@ void register_ShaderProgramVariables_class(){
                 "addProceduralVariable"
                 , addProceduralVariable_function_type( &::OSG::ShaderProgramVariables::addProceduralVariable )
                 , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariables::addShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariables::*addShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32,::OSG::MFInt32 *,::OSG::MFInt32 * ) ;
+            
+            ShaderProgramVariables_exposer.def( 
+                "addShaderStorageBlock"
+                , addShaderStorageBlock_function_type( &::OSG::ShaderProgramVariables::addShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value"), bp::arg("pVarLoc"), bp::arg("pProcVarLoc") ) );
         
         }
         { //::OSG::ShaderProgramVariables::addUniformBlock
@@ -387,6 +398,16 @@ void register_ShaderProgramVariables_class(){
                 , ( bp::arg("uiIndent")=(::OSG::UInt32)(0), bp::arg("bvFlags")=(long unsigned int const)(0) ) );
         
         }
+        { //::OSG::ShaderProgramVariables::getShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariables::*getShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 & ) ;
+            
+            ShaderProgramVariables_exposer.def( 
+                "getShaderStorageBlock"
+                , getShaderStorageBlock_function_type( &::OSG::ShaderProgramVariables::getShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
         { //::OSG::ShaderProgramVariables::getUniformBlock
         
             typedef bool ( ::OSG::ShaderProgramVariables::*getUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 & ) ;
@@ -607,6 +628,16 @@ void register_ShaderProgramVariables_class(){
                 , ( bp::arg("uiIndex") ) );
         
         }
+        { //::OSG::ShaderProgramVariables::subShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariables::*subShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::MFInt32 *,::OSG::MFInt32 * ) ;
+            
+            ShaderProgramVariables_exposer.def( 
+                "subShaderStorageBlock"
+                , subShaderStorageBlock_function_type( &::OSG::ShaderProgramVariables::subShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("pVarLoc"), bp::arg("pProcVarLoc") ) );
+        
+        }
         { //::OSG::ShaderProgramVariables::subUniformBlock
         
             typedef bool ( ::OSG::ShaderProgramVariables::*subUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::MFInt32 *,::OSG::MFInt32 * ) ;
@@ -635,6 +666,16 @@ void register_ShaderProgramVariables_class(){
                 "subVariable"
                 , subVariable_function_type( &::OSG::ShaderProgramVariables::subVariable )
                 , ( bp::arg("uiIndex") ) );
+        
+        }
+        { //::OSG::ShaderProgramVariables::updateShaderStorageBlock
+        
+            typedef bool ( ::OSG::ShaderProgramVariables::*updateShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            ShaderProgramVariables_exposer.def( 
+                "updateShaderStorageBlock"
+                , updateShaderStorageBlock_function_type( &::OSG::ShaderProgramVariables::updateShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::ShaderProgramVariables::updateUniformBlock

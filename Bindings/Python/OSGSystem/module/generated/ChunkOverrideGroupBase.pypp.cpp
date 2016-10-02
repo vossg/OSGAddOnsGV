@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -45,6 +46,7 @@ void register_ChunkOverrideGroupBase_class(){
         ChunkOverrideGroupBase_exposer_t ChunkOverrideGroupBase_exposer = ChunkOverrideGroupBase_exposer_t( "ChunkOverrideGroupBase", bp::no_init );
         bp::scope ChunkOverrideGroupBase_scope( ChunkOverrideGroupBase_exposer );
         bp::scope().attr("FallbackChunkBlockFieldId") = (int)OSG::ChunkOverrideGroupBase::FallbackChunkBlockFieldId;
+        bp::scope().attr("SubOverrideFieldId") = (int)OSG::ChunkOverrideGroupBase::SubOverrideFieldId;
         bp::scope().attr("NextFieldId") = (int)OSG::ChunkOverrideGroupBase::NextFieldId;
         { //::OSG::ChunkOverrideGroupBase::copyFromBin
         
@@ -162,6 +164,25 @@ void register_ChunkOverrideGroupBase_class(){
                 , bp::return_internal_reference< >() );
         
         }
+        { //::OSG::ChunkOverrideGroupBase::getSFSubOverride
+        
+            typedef ::OSG::SFBool const * ( ::OSG::ChunkOverrideGroupBase::*getSFSubOverride_function_type )(  ) const;
+            
+            ChunkOverrideGroupBase_exposer.def( 
+                "getSFSubOverride"
+                , getSFSubOverride_function_type( &::OSG::ChunkOverrideGroupBase::getSFSubOverride )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::OSG::ChunkOverrideGroupBase::getSubOverride
+        
+            typedef bool ( ::OSG::ChunkOverrideGroupBase::*getSubOverride_function_type )(  ) const;
+            
+            ChunkOverrideGroupBase_exposer.def( 
+                "getSubOverride"
+                , getSubOverride_function_type( &::OSG::ChunkOverrideGroupBase::getSubOverride ) );
+        
+        }
         { //::OSG::ChunkOverrideGroupBase::getType
         
             typedef ::OSG::FieldContainerType & ( ::OSG::ChunkOverrideGroupBase::*getType_function_type )(  ) ;
@@ -189,6 +210,16 @@ void register_ChunkOverrideGroupBase_class(){
             ChunkOverrideGroupBase_exposer.def( 
                 "setFallbackChunkBlock"
                 , setFallbackChunkBlock_function_type( &::OSG::ChunkOverrideGroupBase::setFallbackChunkBlock )
+                , ( bp::arg("value") ) );
+        
+        }
+        { //::OSG::ChunkOverrideGroupBase::setSubOverride
+        
+            typedef void ( ::OSG::ChunkOverrideGroupBase::*setSubOverride_function_type )( bool const ) ;
+            
+            ChunkOverrideGroupBase_exposer.def( 
+                "setSubOverride"
+                , setSubOverride_function_type( &::OSG::ChunkOverrideGroupBase::setSubOverride )
                 , ( bp::arg("value") ) );
         
         }

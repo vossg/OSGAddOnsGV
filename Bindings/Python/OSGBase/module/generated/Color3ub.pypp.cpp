@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -46,7 +47,7 @@ void register_Color3ub_class(){
         bp::scope Color3ub_scope( Color3ub_exposer );
         Color3ub_exposer.def( bp::init< OSG::Vector< unsigned char, 3u > const & >(( bp::arg("source") )) );
         bp::implicitly_convertible< OSG::Vector< unsigned char, 3u > const &, OSG::Color3< unsigned char > >();
-        Color3ub_exposer.def( bp::init< unsigned char, unsigned char, unsigned char >(( bp::arg("red"), bp::arg("green"), bp::arg("blue") )) );
+        Color3ub_exposer.def( bp::init< unsigned char, unsigned char, unsigned char >(( bp::arg("redVal"), bp::arg("greenVal"), bp::arg("blueVal") )) );
         { //::OSG::Color3< unsigned char >::blue
         
             typedef OSG::Color3< unsigned char > exported_class_t;
@@ -181,7 +182,7 @@ void register_Color3ub_class(){
             Color3ub_exposer.def( 
                 "setValuesRGB"
                 , setValuesRGB_function_type( &::OSG::Color3< unsigned char >::setValuesRGB )
-                , ( bp::arg("red"), bp::arg("green"), bp::arg("blue") ) );
+                , ( bp::arg("redVal"), bp::arg("greenVal"), bp::arg("blueVal") ) );
         
         }
         Color3ub_exposer.def_readonly( "Null", OSG::Color3< unsigned char >::Null );

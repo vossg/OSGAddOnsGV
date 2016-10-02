@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -227,6 +228,46 @@ void register_StateOverride_class(){
             StateOverride_exposer.def( 
                 "size32"
                 , size32_function_type( &::OSG::StateOverride::size32 ) );
+        
+        }
+        { //::OSG::StateOverride::subOverride
+        
+            typedef void ( ::OSG::StateOverride::*subOverride_function_type )( ::OSG::UInt32,::OSG::StateChunk * ) ;
+            
+            StateOverride_exposer.def( 
+                "subOverride"
+                , subOverride_function_type( &::OSG::StateOverride::subOverride )
+                , ( bp::arg("uiSlot"), bp::arg("pChunk") ) );
+        
+        }
+        { //::OSG::StateOverride::subOverride
+        
+            typedef void ( ::OSG::StateOverride::*subOverride_function_type )( ::OSG::UInt32,::OSG::SimpleSHLChunk * ) ;
+            
+            StateOverride_exposer.def( 
+                "subOverride"
+                , subOverride_function_type( &::OSG::StateOverride::subOverride )
+                , ( bp::arg("uiSlot"), bp::arg("pChunk") ) );
+        
+        }
+        { //::OSG::StateOverride::subOverride
+        
+            typedef void ( ::OSG::StateOverride::*subOverride_function_type )( ::OSG::UInt32,::OSG::ShaderProgramChunk * ) ;
+            
+            StateOverride_exposer.def( 
+                "subOverride"
+                , subOverride_function_type( &::OSG::StateOverride::subOverride )
+                , ( bp::arg("uiSlot"), bp::arg("pChunk") ) );
+        
+        }
+        { //::OSG::StateOverride::subOverride
+        
+            typedef void ( ::OSG::StateOverride::*subOverride_function_type )( ::OSG::UInt32,::OSG::ShaderProgramVariableChunk * ) ;
+            
+            StateOverride_exposer.def( 
+                "subOverride"
+                , subOverride_function_type( &::OSG::StateOverride::subOverride )
+                , ( bp::arg("uiSlot"), bp::arg("pChunk") ) );
         
         }
         { //::OSG::StateOverride::updateSortKey

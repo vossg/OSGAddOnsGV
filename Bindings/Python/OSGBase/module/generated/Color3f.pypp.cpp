@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -46,7 +47,7 @@ void register_Color3f_class(){
         bp::scope Color3f_scope( Color3f_exposer );
         Color3f_exposer.def( bp::init< OSG::Vector< float, 3u > const & >(( bp::arg("source") )) );
         bp::implicitly_convertible< OSG::Vector< float, 3u > const &, OSG::Color3< float > >();
-        Color3f_exposer.def( bp::init< float, float, float >(( bp::arg("red"), bp::arg("green"), bp::arg("blue") )) );
+        Color3f_exposer.def( bp::init< float, float, float >(( bp::arg("redVal"), bp::arg("greenVal"), bp::arg("blueVal") )) );
         { //::OSG::Color3< float >::blue
         
             typedef OSG::Color3< float > exported_class_t;
@@ -181,7 +182,7 @@ void register_Color3f_class(){
             Color3f_exposer.def( 
                 "setValuesRGB"
                 , setValuesRGB_function_type( &::OSG::Color3< float >::setValuesRGB )
-                , ( bp::arg("red"), bp::arg("green"), bp::arg("blue") ) );
+                , ( bp::arg("redVal"), bp::arg("greenVal"), bp::arg("blueVal") ) );
         
         }
         Color3f_exposer.def_readonly( "Null", OSG::Color3< float >::Null );

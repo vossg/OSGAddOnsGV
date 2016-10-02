@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -741,6 +742,16 @@ void register_RenderPartition_class(){
                 "setupViewing"
                 , setupViewing_function_type( &::OSG::RenderPartition::setupViewing )
                 , ( bp::arg("matrix") ) );
+        
+        }
+        { //::OSG::RenderPartition::subOverride
+        
+            typedef void ( ::OSG::RenderPartition::*subOverride_function_type )( ::OSG::UInt32,::OSG::StateChunk * ) ;
+            
+            RenderPartition_exposer.def( 
+                "subOverride"
+                , subOverride_function_type( &::OSG::RenderPartition::subOverride )
+                , ( bp::arg("uiSlot"), bp::arg("pChunk") ) );
         
         }
         { //::OSG::RenderPartition::subSetupMode

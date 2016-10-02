@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -176,6 +177,26 @@ void register_SimpleSHLChunk_class(){
                 "addOSGVariable"
                 , addOSGVariable_function_type( &::OSG::SimpleSHLChunk::addOSGVariable )
                 , ( bp::arg("name") ) );
+        
+        }
+        { //::OSG::SimpleSHLChunk::addShaderStorageBlock
+        
+            typedef bool ( ::OSG::SimpleSHLChunk::*addShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "addShaderStorageBlock"
+                , addShaderStorageBlock_function_type( &::OSG::SimpleSHLChunk::addShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::SimpleSHLChunk::addUniformBlock
+        
+            typedef bool ( ::OSG::SimpleSHLChunk::*addUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "addUniformBlock"
+                , addUniformBlock_function_type( &::OSG::SimpleSHLChunk::addUniformBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::SimpleSHLChunk::addUniformVariable
@@ -345,6 +366,16 @@ void register_SimpleSHLChunk_class(){
                 , ( bp::arg("name") ) );
         
         }
+        { //::OSG::SimpleSHLChunk::getShaderStorageBlock
+        
+            typedef bool ( ::OSG::SimpleSHLChunk::*getShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 & ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "getShaderStorageBlock"
+                , getShaderStorageBlock_function_type( &::OSG::SimpleSHLChunk::getShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
         { //::OSG::SimpleSHLChunk::getStaticClass
         
             typedef ::OSG::StateChunkClass const * ( *getStaticClass_function_type )(  );
@@ -362,6 +393,16 @@ void register_SimpleSHLChunk_class(){
             SimpleSHLChunk_exposer.def( 
                 "getStaticClassId"
                 , getStaticClassId_function_type( &::OSG::SimpleSHLChunk::getStaticClassId ) );
+        
+        }
+        { //::OSG::SimpleSHLChunk::getUniformBlock
+        
+            typedef bool ( ::OSG::SimpleSHLChunk::*getUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 & ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "getUniformBlock"
+                , getUniformBlock_function_type( &::OSG::SimpleSHLChunk::getUniformBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::SimpleSHLChunk::getUniformVariable
@@ -524,6 +565,26 @@ void register_SimpleSHLChunk_class(){
                 , ( bp::arg("name"), bp::arg("value") ) );
         
         }
+        { //::OSG::SimpleSHLChunk::subShaderStorageBlock
+        
+            typedef bool ( ::OSG::SimpleSHLChunk::*subShaderStorageBlock_function_type )( ::OSG::Char8 const * ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "subShaderStorageBlock"
+                , subShaderStorageBlock_function_type( &::OSG::SimpleSHLChunk::subShaderStorageBlock )
+                , ( bp::arg("name") ) );
+        
+        }
+        { //::OSG::SimpleSHLChunk::subUniformBlock
+        
+            typedef bool ( ::OSG::SimpleSHLChunk::*subUniformBlock_function_type )( ::OSG::Char8 const * ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "subUniformBlock"
+                , subUniformBlock_function_type( &::OSG::SimpleSHLChunk::subUniformBlock )
+                , ( bp::arg("name") ) );
+        
+        }
         { //::OSG::SimpleSHLChunk::subUniformVariable
         
             typedef bool ( ::OSG::SimpleSHLChunk::*subUniformVariable_function_type )( ::OSG::Char8 const * ) ;
@@ -552,6 +613,26 @@ void register_SimpleSHLChunk_class(){
                 "updateParameters"
                 , updateParameters_function_type( &::OSG::SimpleSHLChunk::updateParameters )
                 , ( bp::arg("win"), bp::arg("parameters"), bp::arg("useProgram")=(bool)(true), bp::arg("force")=(bool)(false), bp::arg("keepProgramActive")=(bool)(false) ) );
+        
+        }
+        { //::OSG::SimpleSHLChunk::updateShaderStorageBlock
+        
+            typedef bool ( ::OSG::SimpleSHLChunk::*updateShaderStorageBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "updateShaderStorageBlock"
+                , updateShaderStorageBlock_function_type( &::OSG::SimpleSHLChunk::updateShaderStorageBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
+        
+        }
+        { //::OSG::SimpleSHLChunk::updateUniformBlock
+        
+            typedef bool ( ::OSG::SimpleSHLChunk::*updateUniformBlock_function_type )( ::OSG::Char8 const *,::OSG::UInt32 ) ;
+            
+            SimpleSHLChunk_exposer.def( 
+                "updateUniformBlock"
+                , updateUniformBlock_function_type( &::OSG::SimpleSHLChunk::updateUniformBlock )
+                , ( bp::arg("name"), bp::arg("value") ) );
         
         }
         { //::OSG::SimpleSHLChunk::updateUniformVariable

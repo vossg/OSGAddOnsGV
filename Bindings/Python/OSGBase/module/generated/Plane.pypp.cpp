@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -228,7 +229,7 @@ void register_Plane_class(){
             Plane_exposer.def( 
                 "set"
                 , set_function_type( &::OSG::Plane::set )
-                , ( bp::arg("normal"), bp::arg("distance") ) );
+                , ( bp::arg("normal"), bp::arg("dist") ) );
         
         }
         { //::OSG::Plane::set
@@ -238,7 +239,7 @@ void register_Plane_class(){
             Plane_exposer.def( 
                 "set"
                 , set_function_type( &::OSG::Plane::set )
-                , ( bp::arg("x"), bp::arg("y"), bp::arg("z"), bp::arg("distance") ) );
+                , ( bp::arg("x"), bp::arg("y"), bp::arg("z"), bp::arg("dist") ) );
         
         }
         { //::OSG::Plane::set

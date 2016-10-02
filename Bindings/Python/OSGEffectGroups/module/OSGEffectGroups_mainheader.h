@@ -3,6 +3,7 @@
 #include <pypp_aliases.h>
 #include <OSGGeometry.h>
 #include <OSGForeground.h>
+#include <OSGUniformBufferObjStd140Chunk.h>
 #include <OSGDeferredShadingStage.h>
 #include <OSGDSLightChunk.h>
 #include <OSGDeferredShadingStageData.h>
@@ -23,7 +24,9 @@
 #include <OSGFogStage.h>
 #include <OSGFogStageData.h>
 #include <OSGPostShaderStageData.h>
+#include <OSGHDR2StageData.h>
 #include <OSGHDRStageData.h>
+#include <OSGHDR2Stage.h>
 #include <OSGHDRStage.h>
 #include <OSGDepthPeelingStageData.h>
 #include <OSGDepthPeelingStage.h>

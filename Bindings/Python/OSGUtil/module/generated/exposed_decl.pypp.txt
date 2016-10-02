@@ -34,7 +34,7 @@
 ~@typedef_t@__int16_t@::__int16_t
 ~@typedef_t@PFNGLMULTITEXCOORD1HNVPROC@::PFNGLMULTITEXCOORD1HNVPROC
 ~@typedef_t@PFNGLSTARTINSTRUMENTSSGIXPROC@::PFNGLSTARTINSTRUMENTSSGIXPROC
-~@typedef_t@PFNGLGETMULTITEXGENFVEXTPROC@::PFNGLGETMULTITEXGENFVEXTPROC
+~@typedef_t@PFNGLMULTITEXCOORD1DVARBPROC@::PFNGLMULTITEXCOORD1DVARBPROC
 ~@typedef_t@PFNGLVERTEXATTRIB4NBVARBPROC@::PFNGLVERTEXATTRIB4NBVARBPROC
 ~@typedef_t@PFNGLPIXELTRANSFORMPARAMETERIVEXTPROC@::PFNGLPIXELTRANSFORMPARAMETERIVEXTPROC
 ~@typedef_t@GLboolean@::GLboolean
@@ -51,7 +51,6 @@
 ~@typedef_t@in_port_t@::in_port_t
 ~@typedef_t@PFNGLVERTEXSTREAM2DATIPROC@::PFNGLVERTEXSTREAM2DATIPROC
 ~@typedef_t@uint_fast16_t@::uint_fast16_t
-~@typedef_t@PFNGLVERTEXWEIGHTHNVPROC@::PFNGLVERTEXWEIGHTHNVPROC
 ~@typedef_t@PFNGLRESETHISTOGRAMPROC@::PFNGLRESETHISTOGRAMPROC
 ~@typedef_t@PFNGLFRAMEBUFFERRENDERBUFFERPROC@::PFNGLFRAMEBUFFERRENDERBUFFERPROC
 ~@typedef_t@PFNGLBUFFERADDRESSRANGENVPROC@::PFNGLBUFFERADDRESSRANGENVPROC
@@ -87,7 +86,7 @@
 ~@typedef_t@PFNGLSHARPENTEXFUNCSGISPROC@::PFNGLSHARPENTEXFUNCSGISPROC
 ~@typedef_t@PFNGLNAMEDPROGRAMLOCALPARAMETER4DEXTPROC@::PFNGLNAMEDPROGRAMLOCALPARAMETER4DEXTPROC
 ~@typedef_t@PFNGLMINMAXPROC@::PFNGLMINMAXPROC
-~@typedef_t@PFNGLGETNAMEDFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC@::PFNGLGETNAMEDFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC
+~@typedef_t@PFNGLGENFRAMEBUFFERSEXTPROC@::PFNGLGENFRAMEBUFFERSEXTPROC
 ~@typedef_t@PFNGLMATRIXMULTTRANSPOSEDEXTPROC@::PFNGLMATRIXMULTTRANSPOSEDEXTPROC
 ~@typedef_t@PFNGLMATRIXINDEXUSVARBPROC@::PFNGLMATRIXINDEXUSVARBPROC
 ~@typedef_t@PFNGLISNAMEDBUFFERRESIDENTNVPROC@::PFNGLISNAMEDBUFFERRESIDENTNVPROC
@@ -119,7 +118,6 @@
 ~@typedef_t@PFNGLVERTEXATTRIBI4UIEXTPROC@::PFNGLVERTEXATTRIBI4UIEXTPROC
 ~@typedef_t@PFNGLMAKEBUFFERRESIDENTNVPROC@::PFNGLMAKEBUFFERRESIDENTNVPROC
 ~@typedef_t@PFNGLVERTEXATTRIB3SVARBPROC@::PFNGLVERTEXATTRIB3SVARBPROC
-~@typedef_t@PFNGLVERTEXATTRIBI4USVPROC@::PFNGLVERTEXATTRIBI4USVPROC
 ~@typedef_t@PFNGLVERTEXATTRIB4FVNVPROC@::PFNGLVERTEXATTRIB4FVNVPROC
 ~@typedef_t@PFNGLUNIFORMUI64NVPROC@::PFNGLUNIFORMUI64NVPROC
 ~@typedef_t@__u_int@::__u_int
@@ -135,7 +133,7 @@
 ~@typedef_t@PFNGLCOLORSUBTABLEEXTPROC@::PFNGLCOLORSUBTABLEEXTPROC
 ~@typedef_t@PFNGLMAPNAMEDBUFFEREXTPROC@::PFNGLMAPNAMEDBUFFEREXTPROC
 ~@typedef_t@PFNGLUNIFORM2IVPROC@::PFNGLUNIFORM2IVPROC
-~@typedef_t@blkcnt_t@::blkcnt_t
+~@typedef_t@PFNGLREPLACEMENTCODEUBVSUNPROC@::PFNGLREPLACEMENTCODEUBVSUNPROC
 ~@typedef_t@uint_least16_t@::uint_least16_t
 ~@typedef_t@PFNGLGETHISTOGRAMPARAMETERIVEXTPROC@::PFNGLGETHISTOGRAMPARAMETERIVEXTPROC
 ~@typedef_t@PFNGLSECONDARYCOLOR3BVEXTPROC@::PFNGLSECONDARYCOLOR3BVEXTPROC
@@ -145,7 +143,7 @@
 ~@typedef_t@uid_t@::uid_t
 ~@typedef_t@u_int64_t@::u_int64_t
 ~@typedef_t@u_int16_t@::u_int16_t
-~@typedef_t@PFNGLSECONDARYCOLOR3HVNVPROC@::PFNGLSECONDARYCOLOR3HVNVPROC
+~@typedef_t@PFNGLLINKPROGRAMPROC@::PFNGLLINKPROGRAMPROC
 ~@typedef_t@PFNGLPOLLINSTRUMENTSSGIXPROC@::PFNGLPOLLINSTRUMENTSSGIXPROC
 ~@typedef_t@PFNGLWINDOWPOS4SMESAPROC@::PFNGLWINDOWPOS4SMESAPROC
 ~@typedef_t@GLsizeiptr@::GLsizeiptr
@@ -405,6 +403,7 @@
 ~@typedef_t@PFNGLPROGRAMUNIFORM1UIVEXTPROC@::PFNGLPROGRAMUNIFORM1UIVEXTPROC
 ~@typedef_t@PFNGLWINDOWPOS2IARBPROC@::PFNGLWINDOWPOS2IARBPROC
 ~@typedef_t@PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC@::PFNGLRENDERBUFFERSTORAGEMULTISAMPLEEXTPROC
+~@typedef_t@PFNGLPROGRAMUNIFORMMATRIX4FVEXTPROC@::PFNGLPROGRAMUNIFORMMATRIX4FVEXTPROC
 ~@typedef_t@PFNGLENDOCCLUSIONQUERYNVPROC@::PFNGLENDOCCLUSIONQUERYNVPROC
 ~@typedef_t@PFNGLENDCONDITIONALRENDERNVPROC@::PFNGLENDCONDITIONALRENDERNVPROC
 ~@typedef_t@PFNGLTEXTUREPARAMETERFVEXTPROC@::PFNGLTEXTUREPARAMETERFVEXTPROC
@@ -436,7 +435,7 @@
 ~@typedef_t@PFNGLGETINVARIANTBOOLEANVEXTPROC@::PFNGLGETINVARIANTBOOLEANVEXTPROC
 ~@typedef_t@PFNGLVERTEXATTRIB3DNVPROC@::PFNGLVERTEXATTRIB3DNVPROC
 ~@typedef_t@PFNGLVERTEXATTRIB3FVARBPROC@::PFNGLVERTEXATTRIB3FVARBPROC
-~@typedef_t@PFNGLGENFRAMEBUFFERSEXTPROC@::PFNGLGENFRAMEBUFFERSEXTPROC
+~@typedef_t@PFNGLGETNAMEDFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC@::PFNGLGETNAMEDFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC
 ~@typedef_t@PFNGLFOGCOORDFEXTPROC@::PFNGLFOGCOORDFEXTPROC
 ~@typedef_t@PFNGLPROGRAMUNIFORM2IVEXTPROC@::PFNGLPROGRAMUNIFORM2IVEXTPROC
 ~@typedef_t@PFNGLSTENCILFUNCSEPARATEPROC@::PFNGLSTENCILFUNCSEPARATEPROC
@@ -521,7 +520,7 @@
 ~@typedef_t@PFNGLBINDBUFFERBASENVPROC@::PFNGLBINDBUFFERBASENVPROC
 ~@typedef_t@PFNGLPRESENTFRAMEDUALFILLNVPROC@::PFNGLPRESENTFRAMEDUALFILLNVPROC
 ~@typedef_t@PFNGLGETUNIFORMUIVPROC@::PFNGLGETUNIFORMUIVPROC
-~@typedef_t@PFNGLCREATESHADEROBJECTARBPROC@::PFNGLCREATESHADEROBJECTARBPROC
+~@typedef_t@PFNGLGETBUFFERPARAMETERUI64VNVPROC@::PFNGLGETBUFFERPARAMETERUI64VNVPROC
 ~@typedef_t@__int8_t@::__int8_t
 ~@typedef_t@PFNGLVARIANTUIVEXTPROC@::PFNGLVARIANTUIVEXTPROC
 ~@typedef_t@PFNGLDRAWELEMENTARRAYAPPLEPROC@::PFNGLDRAWELEMENTARRAYAPPLEPROC
@@ -530,7 +529,7 @@
 ~@typedef_t@PFNGLINDEXPOINTERLISTIBMPROC@::PFNGLINDEXPOINTERLISTIBMPROC
 ~@typedef_t@PFNGLPROGRAMNAMEDPARAMETER4DNVPROC@::PFNGLPROGRAMNAMEDPARAMETER4DNVPROC
 ~@typedef_t@PFNGLSECONDARYCOLOR3UBVPROC@::PFNGLSECONDARYCOLOR3UBVPROC
-~@typedef_t@PFNGLGETTEXPARAMETERIUIVPROC@::PFNGLGETTEXPARAMETERIUIVPROC
+~@typedef_t@PFNGLVERTEXATTRIBI4USVPROC@::PFNGLVERTEXATTRIBI4USVPROC
 ~@typedef_t@PFNGLMATRIXINDEXUIVARBPROC@::PFNGLMATRIXINDEXUIVARBPROC
 ~@typedef_t@PFNGLUNMAPOBJECTBUFFERATIPROC@::PFNGLUNMAPOBJECTBUFFERATIPROC
 ~@typedef_t@pthread_key_t@::pthread_key_t
@@ -589,6 +588,7 @@
 ~@typedef_t@PFNGLNAMEDFRAMEBUFFERRENDERBUFFEREXTPROC@::PFNGLNAMEDFRAMEBUFFERRENDERBUFFEREXTPROC
 ~@typedef_t@PFNGLVERTEX2HVNVPROC@::PFNGLVERTEX2HVNVPROC
 ~@typedef_t@PFNGLGETPROGRAMLOCALPARAMETERDVARBPROC@::PFNGLGETPROGRAMLOCALPARAMETERDVARBPROC
+~@typedef_t@GLint64@::GLint64
 ~@typedef_t@PFNGLDELETESHADERPROC@::PFNGLDELETESHADERPROC
 ~@typedef_t@sigset_t@::sigset_t
 ~@typedef_t@PFNGLVERTEXATTRIB2SVPROC@::PFNGLVERTEXATTRIB2SVPROC
@@ -615,13 +615,14 @@
 ~@typedef_t@PFNGLNORMALPOINTERLISTIBMPROC@::PFNGLNORMALPOINTERLISTIBMPROC
 ~@typedef_t@PFNGLGLOBALALPHAFACTORISUNPROC@::PFNGLGLOBALALPHAFACTORISUNPROC
 ~@typedef_t@GLintptrARB@::GLintptrARB
+~@typedef_t@PFNGLGETTEXPARAMETERIUIVPROC@::PFNGLGETTEXPARAMETERIUIVPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI1IEXTPROC@::PFNGLVERTEXATTRIBI1IEXTPROC
 ~@typedef_t@pthread_attr_t@::pthread_attr_t
 ~@typedef_t@PFNGLIGLOOINTERFACESGIXPROC@::PFNGLIGLOOINTERFACESGIXPROC
 ~@typedef_t@PFNGLVERTEXATTRIB2DVPROC@::PFNGLVERTEXATTRIB2DVPROC
 ~@typedef_t@PFNGLVALIDATEPROGRAMARBPROC@::PFNGLVALIDATEPROGRAMARBPROC
 ~@typedef_t@PFNGLBINDPROGRAMNVPROC@::PFNGLBINDPROGRAMNVPROC
-~@typedef_t@PFNGLBINORMALPOINTEREXTPROC@::PFNGLBINORMALPOINTEREXTPROC
+~@typedef_t@PFNGLVERTEXWEIGHTHNVPROC@::PFNGLVERTEXWEIGHTHNVPROC
 ~@typedef_t@PFNGLGETINTEGERUI64VNVPROC@::PFNGLGETINTEGERUI64VNVPROC
 ~@typedef_t@PFNGLSWIZZLEEXTPROC@::PFNGLSWIZZLEEXTPROC
 ~@typedef_t@PFNGLPOINTPARAMETERIPROC@::PFNGLPOINTPARAMETERIPROC
@@ -729,7 +730,7 @@
 ~@typedef_t@PFNGLPROGRAMUNIFORMUI64NVPROC@::PFNGLPROGRAMUNIFORMUI64NVPROC
 ~@typedef_t@PFNGLVERTEXATTRIB4UBVPROC@::PFNGLVERTEXATTRIB4UBVPROC
 ~@typedef_t@PFNGLCOLORMASKINDEXEDEXTPROC@::PFNGLCOLORMASKINDEXEDEXTPROC
-~@typedef_t@PFNGLREPLACEMENTCODEUBVSUNPROC@::PFNGLREPLACEMENTCODEUBVSUNPROC
+~@typedef_t@blkcnt_t@::blkcnt_t
 ~@typedef_t@PFNGLVERTEXATTRIBS1HVNVPROC@::PFNGLVERTEXATTRIBS1HVNVPROC
 ~@typedef_t@PFNGLVERTEXATTRIB3SVNVPROC@::PFNGLVERTEXATTRIB3SVNVPROC
 ~@typedef_t@PFNGLGETVERTEXATTRIBIVARBPROC@::PFNGLGETVERTEXATTRIBIVARBPROC
@@ -764,7 +765,7 @@
 ~@typedef_t@time_t@::time_t
 ~@typedef_t@PFNGLMAPPARAMETERIVNVPROC@::PFNGLMAPPARAMETERIVNVPROC
 ~@typedef_t@PFNGLVERTEXATTRIB4FVPROC@::PFNGLVERTEXATTRIB4FVPROC
-~@typedef_t@PFNGLPROGRAMUNIFORMMATRIX4FVEXTPROC@::PFNGLPROGRAMUNIFORMMATRIX4FVEXTPROC
+~@typedef_t@PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC@::PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC
 ~@typedef_t@PFNGLVERTEX4HNVPROC@::PFNGLVERTEX4HNVPROC
 ~@typedef_t@fsblkcnt64_t@::fsblkcnt64_t
 ~@typedef_t@PFNGLGETCOLORTABLEPARAMETERIVPROC@::PFNGLGETCOLORTABLEPARAMETERIVPROC
@@ -776,7 +777,7 @@
 ~@typedef_t@PFNGLENDTRANSFORMFEEDBACKPROC@::PFNGLENDTRANSFORMFEEDBACKPROC
 ~@typedef_t@PFNGLVERTEXATTRIB1DVPROC@::PFNGLVERTEXATTRIB1DVPROC
 ~@typedef_t@PFNGLVERTEXATTRIB2DPROC@::PFNGLVERTEXATTRIB2DPROC
-~@typedef_t@PFNGLMULTITEXCOORD3DVARBPROC@::PFNGLMULTITEXCOORD3DVARBPROC
+~@typedef_t@caddr_t@::caddr_t
 ~@typedef_t@PFNGLGETINSTRUMENTSSGIXPROC@::PFNGLGETINSTRUMENTSSGIXPROC
 ~@typedef_t@PFNGLVERTEXATTRIBS3SVNVPROC@::PFNGLVERTEXATTRIBS3SVNVPROC
 ~@typedef_t@PFNGLGETMAPPARAMETERIVNVPROC@::PFNGLGETMAPPARAMETERIVNVPROC
@@ -893,7 +894,7 @@
 ~@typedef_t@PFNGLMULTITEXCOORD4FVARBPROC@::PFNGLMULTITEXCOORD4FVARBPROC
 ~@typedef_t@PFNGLCONVOLUTIONPARAMETERFVEXTPROC@::PFNGLCONVOLUTIONPARAMETERFVEXTPROC
 ~@typedef_t@PFNGLACTIVESTENCILFACEEXTPROC@::PFNGLACTIVESTENCILFACEEXTPROC
-~@typedef_t@PFNGLMULTITEXCOORD1DVARBPROC@::PFNGLMULTITEXCOORD1DVARBPROC
+~@typedef_t@PFNGLGETMULTITEXGENFVEXTPROC@::PFNGLGETMULTITEXGENFVEXTPROC
 ~@typedef_t@PFNGLVERTEXATTRIBS2SVNVPROC@::PFNGLVERTEXATTRIBS2SVNVPROC
 ~@typedef_t@int_fast32_t@::int_fast32_t
 ~@typedef_t@PFNGLNORMALSTREAM3BATIPROC@::PFNGLNORMALSTREAM3BATIPROC
@@ -1022,7 +1023,7 @@
 ~@typedef_t@PFNGLUNIFORM3FPROC@::PFNGLUNIFORM3FPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI3IEXTPROC@::PFNGLVERTEXATTRIBI3IEXTPROC
 ~@typedef_t@PFNGLDRAWBUFFERSPROC@::PFNGLDRAWBUFFERSPROC
-~@typedef_t@PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC@::PFNGLTEXCOORD4FCOLOR4FNORMAL3FVERTEX4FVSUNPROC
+~@typedef_t@PFNGLBINORMALPOINTEREXTPROC@::PFNGLBINORMALPOINTEREXTPROC
 ~@typedef_t@PFNGLREPLACEMENTCODEUICOLOR4FNORMAL3FVERTEX3FVSUNPROC@::PFNGLREPLACEMENTCODEUICOLOR4FNORMAL3FVERTEX3FVSUNPROC
 ~@typedef_t@PFNGLFOGCOORDFVPROC@::PFNGLFOGCOORDFVPROC
 ~@typedef_t@PFNGLUNIFORMMATRIX4FVPROC@::PFNGLUNIFORMMATRIX4FVPROC
@@ -1212,6 +1213,7 @@
 ~@typedef_t@__io_write_fn@::__io_write_fn
 ~@typedef_t@PFNGLFOGCOORDPOINTERLISTIBMPROC@::PFNGLFOGCOORDPOINTERLISTIBMPROC
 ~@typedef_t@PFNGLVERTEXPOINTERLISTIBMPROC@::PFNGLVERTEXPOINTERLISTIBMPROC
+~@typedef_t@GLuint64@::GLuint64
 ~@typedef_t@PFNGLWINDOWPOS3SVPROC@::PFNGLWINDOWPOS3SVPROC
 ~@typedef_t@PFNGLUNIFORMMATRIX2X3FVPROC@::PFNGLUNIFORMMATRIX2X3FVPROC
 ~@typedef_t@PFNGLPROGRAMUNIFORM4UIEXTPROC@::PFNGLPROGRAMUNIFORM4UIEXTPROC
@@ -1304,10 +1306,11 @@
 ~@typedef_t@PFNGLMULTITEXSUBIMAGE2DEXTPROC@::PFNGLMULTITEXSUBIMAGE2DEXTPROC
 ~@typedef_t@PFNGLISQUERYARBPROC@::PFNGLISQUERYARBPROC
 ~@typedef_t@cookie_read_function_t@::cookie_read_function_t
+~@typedef_t@GLhalf@::GLhalf
 ~@typedef_t@blkcnt64_t@::blkcnt64_t
 ~@typedef_t@PFNGLNAMEDFRAMEBUFFERTEXTUREEXTPROC@::PFNGLNAMEDFRAMEBUFFERTEXTUREEXTPROC
 ~@typedef_t@PFNGLPROGRAMUNIFORM2IEXTPROC@::PFNGLPROGRAMUNIFORM2IEXTPROC
-~@typedef_t@PFNGLGETBUFFERPARAMETERUI64VNVPROC@::PFNGLGETBUFFERPARAMETERUI64VNVPROC
+~@typedef_t@PFNGLCREATESHADEROBJECTARBPROC@::PFNGLCREATESHADEROBJECTARBPROC
 ~@typedef_t@PFNGLPROGRAMUNIFORM3UIEXTPROC@::PFNGLPROGRAMUNIFORM3UIEXTPROC
 ~@typedef_t@PFNGLGETUNIFORMUIVEXTPROC@::PFNGLGETUNIFORMUIVEXTPROC
 ~@typedef_t@PFNGLGETCOLORTABLEPARAMETERFVPROC@::PFNGLGETCOLORTABLEPARAMETERFVPROC
@@ -1498,9 +1501,9 @@
 ~@typedef_t@PFNGLWEIGHTIVARBPROC@::PFNGLWEIGHTIVARBPROC
 ~@typedef_t@PFNGLASYNCMARKERSGIXPROC@::PFNGLASYNCMARKERSGIXPROC
 ~@typedef_t@PFNGLUNIFORMMATRIX2X4FVPROC@::PFNGLUNIFORMMATRIX2X4FVPROC
-~@typedef_t@PFNGLLINKPROGRAMPROC@::PFNGLLINKPROGRAMPROC
+~@typedef_t@PFNGLSECONDARYCOLOR3HVNVPROC@::PFNGLSECONDARYCOLOR3HVNVPROC
 ~@typedef_t@PFNGLGETUNIFORMLOCATIONPROC@::PFNGLGETUNIFORMLOCATIONPROC
-~@typedef_t@PFNGLVERTEXATTRIBI4IVEXTPROC@::PFNGLVERTEXATTRIBI4IVEXTPROC
+~@typedef_t@PFNGLGETDETAILTEXFUNCSGISPROC@::PFNGLGETDETAILTEXFUNCSGISPROC
 ~@typedef_t@PFNGLVERTEXATTRIBI4SVEXTPROC@::PFNGLVERTEXATTRIBI4SVEXTPROC
 ~@typedef_t@PFNGLDELETEBUFFERSARBPROC@::PFNGLDELETEBUFFERSARBPROC
 ~@typedef_t@PFNGLIMAGETRANSFORMPARAMETERFVHPPROC@::PFNGLIMAGETRANSFORMPARAMETERFVHPPROC
@@ -1569,6 +1572,7 @@
 ~@typedef_t@PFNGLMULTITEXCOORD3IPROC@::PFNGLMULTITEXCOORD3IPROC
 ~@typedef_t@PFNGLBEGINCONDITIONALRENDERPROC@::PFNGLBEGINCONDITIONALRENDERPROC
 ~@typedef_t@PFNGLGETSHARPENTEXFUNCSGISPROC@::PFNGLGETSHARPENTEXFUNCSGISPROC
+~@typedef_t@GLsync@::GLsync
 ~@typedef_t@PFNGLFLUSHPIXELDATARANGENVPROC@::PFNGLFLUSHPIXELDATARANGENVPROC
 ~@typedef_t@PFNGLPROGRAMENVPARAMETER4DARBPROC@::PFNGLPROGRAMENVPARAMETER4DARBPROC
 ~@typedef_t@PFNGLMAPBUFFERPROC@::PFNGLMAPBUFFERPROC
@@ -1584,7 +1588,7 @@
 ~@typedef_t@ushort@::ushort
 ~@typedef_t@PFNGLCOLOR4UBVERTEX3FVSUNPROC@::PFNGLCOLOR4UBVERTEX3FVSUNPROC
 ~@typedef_t@clockid_t@::clockid_t
-~@typedef_t@caddr_t@::caddr_t
+~@typedef_t@PFNGLMULTITEXCOORD3DVARBPROC@::PFNGLMULTITEXCOORD3DVARBPROC
 ~@typedef_t@PFNGLMAKEBUFFERNONRESIDENTNVPROC@::PFNGLMAKEBUFFERNONRESIDENTNVPROC
 ~@typedef_t@uint16_t@::uint16_t
 ~@typedef_t@PFNGLCONVOLUTIONFILTER2DPROC@::PFNGLCONVOLUTIONFILTER2DPROC
@@ -1714,7 +1718,7 @@
 ~@typedef_t@PFNGLMULTITEXENVFEXTPROC@::PFNGLMULTITEXENVFEXTPROC
 ~@typedef_t@__timezone_ptr_t@::__timezone_ptr_t
 ~@typedef_t@__gid_t@::__gid_t
-~@typedef_t@PFNGLGETDETAILTEXFUNCSGISPROC@::PFNGLGETDETAILTEXFUNCSGISPROC
+~@typedef_t@PFNGLVERTEXATTRIBI4IVEXTPROC@::PFNGLVERTEXATTRIBI4IVEXTPROC
 ~@typedef_t@PFNGLGETCOLORTABLEPARAMETERIVSGIPROC@::PFNGLGETCOLORTABLEPARAMETERIVSGIPROC
 ~@typedef_t@PFNGLGETCOMPRESSEDMULTITEXIMAGEEXTPROC@::PFNGLGETCOMPRESSEDMULTITEXIMAGEEXTPROC
 ~@typedef_t@__daddr_t@::__daddr_t
@@ -1761,7 +1765,6 @@
 ~@typedef_t@PFNGLVERTEXATTRIBI1UIVEXTPROC@::PFNGLVERTEXATTRIBI1UIVEXTPROC
 ~@namespace_t@std@::std
 ~@namespace_t@__gnu_cxx@::__gnu_cxx
-~@namespace_t@@::
 ~@namespace_t@boost@::boost
 ~@namespace_t@pyplusplus@::pyplusplus
 ~@namespace_t@__gnu_debug@::__gnu_debug
@@ -1777,7 +1780,7 @@
 ~@class_declaration_t@_IO_cookie_file@::_IO_cookie_file
 ~@class_declaration_t@__jmp_buf_tag@::__jmp_buf_tag
 ~@class_declaration_t@__locale_data@::__locale_data
-~@variable_t@_ZTIN10__cxxabiv117__array_type_infoE@::_ZTIN10__cxxabiv117__array_type_infoE
+~@class_declaration_t@__GLsync@::__GLsync
 ~@variable_t@_ZTISt15time_get_bynameIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt15time_get_bynameIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTIN3OSG9StateBaseE@::_ZTIN3OSG9StateBaseE
 ~@variable_t@_ZTIN3OSG19SemaphoreCommonBaseE@::_ZTIN3OSG19SemaphoreCommonBaseE
@@ -1787,9 +1790,7 @@
 ~@variable_t@_ZTIN3OSG20NamedSplitFinitePoolImNS_25RenderPropertiesSplitInfoENS_23RenderPropertiesPoolTagENS_16SingleLockPolicyEEE@::_ZTIN3OSG20NamedSplitFinitePoolImNS_25RenderPropertiesSplitInfoENS_23RenderPropertiesPoolTagENS_16SingleLockPolicyEEE
 ~@variable_t@_ZTIN5boost12bad_any_castE@::_ZTIN5boost12bad_any_castE
 ~@variable_t@_ZTIN3OSG20StatisticsForegroundE@::_ZTIN3OSG20StatisticsForegroundE
-~@variable_t@_ZTIN10__cxxabiv120__function_type_infoE@::_ZTIN10__cxxabiv120__function_type_infoE
 ~@variable_t@_ZTISt13basic_ostreamIwSt11char_traitsIwEE@::_ZTISt13basic_ostreamIwSt11char_traitsIwEE
-~@variable_t@_ZTIN3OSG17StatTimeStampElemE@::_ZTIN3OSG17StatTimeStampElemE
 ~@variable_t@_ZTISd@::_ZTISd
 ~@variable_t@_ZTIN3OSG6WindowE@::_ZTIN3OSG6WindowE
 ~@variable_t@_ZTIN3OSG15StatIntOnceElemE@::_ZTIN3OSG15StatIntOnceElemE
@@ -1827,7 +1828,6 @@
 ~@variable_t@_ZTISt8ios_base@::_ZTISt8ios_base
 ~@variable_t@_ZTISt14basic_ifstreamIcSt11char_traitsIcEE@::_ZTISt14basic_ifstreamIcSt11char_traitsIcEE
 ~@variable_t@_ZTIN3OSG10BackgroundE@::_ZTIN3OSG10BackgroundE
-~@variable_t@_ZTIN10__cxxabiv120__si_class_type_infoE@::_ZTIN10__cxxabiv120__si_class_type_infoE
 ~@variable_t@_ZTIN3OSG13MaterialGroupE@::_ZTIN3OSG13MaterialGroupE
 ~@variable_t@_ZTIN3OSG4LockE@::_ZTIN3OSG4LockE
 ~@variable_t@_ZTISt14codecvt_bynameIwc11__mbstate_tE@::_ZTISt14codecvt_bynameIwc11__mbstate_tE
@@ -1849,7 +1849,6 @@
 ~@variable_t@_ZTISt15basic_streambufIcSt11char_traitsIcEE@::_ZTISt15basic_streambufIcSt11char_traitsIcEE
 ~@variable_t@_ZTISt8numpunctIwE@::_ZTISt8numpunctIwE
 ~@variable_t@_ZTIN3OSG12CallbackTaskE@::_ZTIN3OSG12CallbackTaskE
-~@variable_t@_ZTIN10__cxxabiv116__enum_type_infoE@::_ZTIN10__cxxabiv116__enum_type_infoE
 ~@variable_t@_ZTIN3OSG14AttachmentBaseE@::_ZTIN3OSG14AttachmentBaseE
 ~@variable_t@_ZTISt15basic_stringbufIwSt11char_traitsIwESaIwEE@::_ZTISt15basic_stringbufIwSt11char_traitsIwESaIwEE
 ~@variable_t@_ZTIN3OSG14BackgroundBaseE@::_ZTIN3OSG14BackgroundBaseE
@@ -1864,7 +1863,7 @@
 ~@variable_t@_ZTISt12domain_error@::_ZTISt12domain_error
 ~@variable_t@_ZTIN3OSG14ExternalThreadE@::_ZTIN3OSG14ExternalThreadE
 ~@variable_t@_ZTIN3OSG17GetMapFieldHandleE@::_ZTIN3OSG17GetMapFieldHandleE
-~@variable_t@_ZTISt15time_put_bynameIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt15time_put_bynameIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE
+~@variable_t@stdin@::stdin
 ~@variable_t@_ZTIN3OSG26ExceptionBinaryDataHandler9ReadErrorE@::_ZTIN3OSG26ExceptionBinaryDataHandler9ReadErrorE
 ~@variable_t@environ@::environ
 ~@variable_t@_ZTIN3OSG12PruneGraphOpE@::_ZTIN3OSG12PruneGraphOpE
@@ -1901,12 +1900,11 @@
 ~@variable_t@_ZTIN3OSG10NoneEngineE@::_ZTIN3OSG10NoneEngineE
 ~@variable_t@_ZTIN3OSG20MaterialDrawableBaseE@::_ZTIN3OSG20MaterialDrawableBaseE
 ~@variable_t@_ZTIN3OSG11StatIntElemE@::_ZTIN3OSG11StatIntElemE
-~@variable_t@_ZTIN10__cxxabiv123__fundamental_type_infoE@::_ZTIN10__cxxabiv123__fundamental_type_infoE
+~@variable_t@_ZTIN3OSG17StatTimeStampElemE@::_ZTIN3OSG17StatTimeStampElemE
 ~@variable_t@_ZTIN3OSG9FieldTypeE@::_ZTIN3OSG9FieldTypeE
 ~@variable_t@_ZTISt15messages_bynameIwE@::_ZTISt15messages_bynameIwE
 ~@variable_t@_ZTINSt6locale5facetE@::_ZTINSt6locale5facetE
 ~@variable_t@_ZTISt7codecvtIcc11__mbstate_tE@::_ZTISt7codecvtIcc11__mbstate_tE
-~@variable_t@_ZTIN10__cxxabiv121__vmi_class_type_infoE@::_ZTIN10__cxxabiv121__vmi_class_type_infoE
 ~@variable_t@_ZTIN3OSG13PrimeMaterialE@::_ZTIN3OSG13PrimeMaterialE
 ~@variable_t@_ZTISt9basic_iosIwSt11char_traitsIwEE@::_ZTISt9basic_iosIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG12MPThreadTypeE@::_ZTIN3OSG12MPThreadTypeE
@@ -1957,19 +1955,18 @@
 ~@variable_t@_ZTIN3OSG21HardwareContextThreadE@::_ZTIN3OSG21HardwareContextThreadE
 ~@variable_t@_ZTIN3OSG26ExceptionBinaryDataHandler10WriteErrorE@::_ZTIN3OSG26ExceptionBinaryDataHandler10WriteErrorE
 ~@variable_t@__tzname@::__tzname
-~@variable_t@stdin@::stdin
+~@variable_t@_ZTISt15time_put_bynameIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt15time_put_bynameIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE
 ~@variable_t@_ZTIN3OSG10WalkEngineE@::_ZTIN3OSG10WalkEngineE
 ~@variable_t@_ZTIN3OSG25FieldContainerFactoryBaseE@::_ZTIN3OSG25FieldContainerFactoryBaseE
 ~@variable_t@_ZTIN3OSG7CondVarE@::_ZTIN3OSG7CondVarE
 ~@variable_t@_ZTIN3OSG17PrimeMaterialBaseE@::_ZTIN3OSG17PrimeMaterialBaseE
-~@variable_t@_ZTIN10__cxxabiv117__pbase_type_infoE@::_ZTIN10__cxxabiv117__pbase_type_infoE
 ~@variable_t@_ZTIN5boost6system12system_errorE@::_ZTIN5boost6system12system_errorE
 ~@variable_t@_ZTIN3OSG8TypeBaseE@::_ZTIN3OSG8TypeBaseE
 ~@variable_t@_ZTIN3OSG9ExceptionE@::_ZTIN3OSG9ExceptionE
 ~@variable_t@_ZTIN3OSG13MPCondVarTypeE@::_ZTIN3OSG13MPCondVarTypeE
 ~@variable_t@_ZTIN3OSG9LightBaseE@::_ZTIN3OSG9LightBaseE
 ~@variable_t@_ZTIN3OSG13FrustumVolumeE@::_ZTIN3OSG13FrustumVolumeE
-~@variable_t@_ZTISt16bad_array_length@::_ZTISt16bad_array_length
+~@variable_t@_ZTIN3OSG16EditSFieldHandleINS_17PointerSFieldBaseEEE@::_ZTIN3OSG16EditSFieldHandleINS_17PointerSFieldBaseEEE
 ~@variable_t@_ZTISt15numpunct_bynameIcE@::_ZTISt15numpunct_bynameIcE
 ~@variable_t@opterr@::opterr
 ~@variable_t@_ZTISt14codecvt_bynameIcc11__mbstate_tE@::_ZTISt14codecvt_bynameIcc11__mbstate_tE
@@ -1984,7 +1981,6 @@
 ~@variable_t@_ZTIN3OSG17BarrierCommonBaseE@::_ZTIN3OSG17BarrierCommonBaseE
 ~@variable_t@_IO_2_1_stdin_@::_IO_2_1_stdin_
 ~@variable_t@_ZTISt14overflow_error@::_ZTISt14overflow_error
-~@variable_t@_ZTIN10__cxxabiv119__foreign_exceptionE@::_ZTIN10__cxxabiv119__foreign_exceptionE
 ~@variable_t@_ZTIN3OSG10CameraBaseE@::_ZTIN3OSG10CameraBaseE
 ~@variable_t@_ZTISt14basic_ofstreamIwSt11char_traitsIwEE@::_ZTISt14basic_ofstreamIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG26ExceptionBinaryDataHandlerE@::_ZTIN3OSG26ExceptionBinaryDataHandlerE
@@ -2017,7 +2013,6 @@
 ~@variable_t@_ZTIN3OSG13NavballEngineE@::_ZTIN3OSG13NavballEngineE
 ~@variable_t@_ZTIN3OSG14SimplePoolBaseE@::_ZTIN3OSG14SimplePoolBaseE
 ~@variable_t@_ZTISt18basic_stringstreamIcSt11char_traitsIcESaIcEE@::_ZTISt18basic_stringstreamIcSt11char_traitsIcESaIcEE
-~@variable_t@_ZTIN10__cxxabiv129__pointer_to_member_type_infoE@::_ZTIN10__cxxabiv129__pointer_to_member_type_infoE
 ~@variable_t@_ZTIN3OSG3LogE@::_ZTIN3OSG3LogE
 ~@variable_t@_ZTIN3OSG8ViewportE@::_ZTIN3OSG8ViewportE
 ~@variable_t@_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE@::_ZTISt8time_getIcSt19istreambuf_iteratorIcSt11char_traitsIcEEE
@@ -2099,8 +2094,7 @@
 ~@variable_t@_ZTIN3OSG17ChunkMaterialBaseE@::_ZTIN3OSG17ChunkMaterialBaseE
 ~@variable_t@_ZTISt13basic_filebufIwSt11char_traitsIwEE@::_ZTISt13basic_filebufIwSt11char_traitsIwEE
 ~@variable_t@_ZTIN3OSG15IntersectActionE@::_ZTIN3OSG15IntersectActionE
-~@variable_t@_ZTIN9__gnu_cxx20recursive_init_errorE@::_ZTIN9__gnu_cxx20recursive_init_errorE
-~@variable_t@_ZTIN3OSG16EditSFieldHandleINS_17PointerSFieldBaseEEE@::_ZTIN3OSG16EditSFieldHandleINS_17PointerSFieldBaseEEE
+~@variable_t@_ZTISt16bad_array_length@::_ZTISt16bad_array_length
 ~@variable_t@_ZTIN5boost6assign20assignment_exceptionE@::_ZTIN5boost6assign20assignment_exceptionE
 ~@variable_t@_ZTIN3OSG11FactoryBaseE@::_ZTIN3OSG11FactoryBaseE
 ~@variable_t@_ZTIN3OSG13StripeGraphOpE@::_ZTIN3OSG13StripeGraphOpE
@@ -2108,7 +2102,7 @@
 ~@variable_t@_ZTIN3OSG6CameraE@::_ZTIN3OSG6CameraE
 ~@variable_t@_ZTIN3OSG12SphereVolumeE@::_ZTIN3OSG12SphereVolumeE
 ~@variable_t@_ZTIN3OSG13StateOverrideE@::_ZTIN3OSG13StateOverrideE
-~@variable_t@_ZTIN10__cxxabiv119__pointer_type_infoE@::_ZTIN10__cxxabiv119__pointer_type_infoE
+~@variable_t@sys_errlist@::sys_errlist
 ~@variable_t@_ZTISt15numpunct_bynameIwE@::_ZTISt15numpunct_bynameIwE
 ~@variable_t@signgam@::signgam
 ~@variable_t@_ZTISt8bad_cast@::_ZTISt8bad_cast
@@ -2145,13 +2139,11 @@
 ~@variable_t@_ZTIN3OSG11FieldHandleE@::_ZTIN3OSG11FieldHandleE
 ~@variable_t@_ZTISt15time_put_bynameIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt15time_put_bynameIwSt19ostreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@timezone@::timezone
-~@variable_t@_ZTIN10__cxxabiv117__class_type_infoE@::_ZTIN10__cxxabiv117__class_type_infoE
 ~@variable_t@_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE@::_ZTISt19basic_ostringstreamIwSt11char_traitsIwESaIwEE
 ~@variable_t@_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE@::_ZTISt8time_getIwSt19istreambuf_iteratorIwSt11char_traitsIwEEE
 ~@variable_t@_ZTISt10moneypunctIwLb1EE@::_ZTISt10moneypunctIwLb1EE
 ~@variable_t@_ZTISt17__timepunct_cacheIwE@::_ZTISt17__timepunct_cacheIwE
 ~@variable_t@_ZTIN3OSG16VerifyGeoGraphOpE@::_ZTIN3OSG16VerifyGeoGraphOpE
-~@variable_t@sys_errlist@::sys_errlist
 ~@variable_t@_ZTIN3OSG14LockCommonBaseE@::_ZTIN3OSG14LockCommonBaseE
 ~@variable_t@_ZTIN3OSG11GeoPropertyE@::_ZTIN3OSG11GeoPropertyE
 ~@variable_t@_ZTIN3OSG16EditSFieldHandleINS_6SFieldISt3mapIjPNS_10AttachmentESt4lessIjESaISt4pairIKjS4_EEELi0EEEEE@::_ZTIN3OSG16EditSFieldHandleINS_6SFieldISt3mapIjPNS_10AttachmentESt4lessIjESaISt4pairIKjS4_EEELi0EEEEE
@@ -2183,17 +2175,17 @@
 ~@class_t@__vmi_class_type_info_pseudo1@::__vmi_class_type_info_pseudo1
 ~@class_t@timezone@::timezone
 ~@class_t@random_data@::random_data
+~@class_t@pthread_rwlock_t@::pthread_rwlock_t
 ~@class_t@__vmi_class_type_info_pseudo2@::__vmi_class_type_info_pseudo2
 ~@class_t@__sigset_t@::__sigset_t
 ~@class_t@mmsghdr@::mmsghdr
-~@class_t@timeval@::timeval
 ~@class_t@drand48_data@::drand48_data
 ~@class_t@group_source_req@::group_source_req
 ~@class_t@imaxdiv_t@::imaxdiv_t
 ~@class_t@osockaddr@::osockaddr
 ~@class_t@fd_set@::fd_set
 ~@class_t@div_t@::div_t
-~@class_t@pthread_barrierattr_t@::pthread_barrierattr_t
+~@class_t@timeval@::timeval
 ~@class_t@_IO_marker@::_IO_marker
 ~@class_t@tm@::tm
 ~@class_t@__pthread_cleanup_class@::__pthread_cleanup_class
@@ -2206,7 +2198,7 @@
 ~@class_t@ipv6_mreq@::ipv6_mreq
 ~@class_t@group_req@::group_req
 ~@class_t@ucred@::ucred
-~@class_t@pthread_rwlock_t@::pthread_rwlock_t
+~@class_t@ip_mreq@::ip_mreq
 ~@class_t@in_addr@::in_addr
 ~@class_t@sockaddr_storage@::sockaddr_storage
 ~@class_t@__pthread_internal_list@::__pthread_internal_list
@@ -2234,7 +2226,7 @@
 ~@class_t@itimerspec@::itimerspec
 ~@class_t@_IO_FILE@::_IO_FILE
 ~@class_t@ip_mreqn@::ip_mreqn
-~@class_t@ip_mreq@::ip_mreq
+~@class_t@pthread_barrierattr_t@::pthread_barrierattr_t
 ~@class_t@cmsghdr@::cmsghdr
 ~@class_t@msghdr@::msghdr
 ~@class_t@ip_opts@::ip_opts
@@ -2346,7 +2338,7 @@
 ~@free_function_t@glIsEnabled@::GLboolean (*)( ::GLenum )::GLboolean (*)( ::GLenum )
 ~@free_function_t@glStencilOp@void (*)( ::GLenum,::GLenum,::GLenum )void (*)( ::GLenum,::GLenum,::GLenum )
 ~@free_function_t@__llrint@long long int (*)( double )long long int (*)( double )
-~@free_function_t@glTexCoord3sv@void (*)( ::GLshort const * )void (*)( ::GLshort const * )
+~@free_function_t@ftello64@::__off64_t (*)( ::FILE * )::__off64_t (*)( ::FILE * )
 ~@free_function_t@eaccess@int (*)( char const *,int )int (*)( char const *,int )
 ~@free_function_t@fwide@int (*)( ::__FILE *,int )int (*)( ::__FILE *,int )
 ~@free_function_t@wcstoll_l@long long int (*)( __restrict__ wchar_t const *,__restrict__ wchar_t * *,int,::__locale_t )long long int (*)( __restrict__ wchar_t const *,__restrict__ wchar_t * *,int,::__locale_t )
@@ -2381,7 +2373,7 @@
 ~@free_function_t@at_quick_exit@int (*)( void (*)(  ) * )int (*)( void (*)(  ) * )
 ~@free_function_t@pthread_rwlockattr_getpshared@int (*)( __restrict__ ::pthread_rwlockattr_t const *,__restrict__ int * )int (*)( __restrict__ ::pthread_rwlockattr_t const *,__restrict__ int * )
 ~@free_function_t@glFrustum@void (*)( ::GLdouble,::GLdouble,::GLdouble,::GLdouble,::GLdouble,::GLdouble )void (*)( ::GLdouble,::GLdouble,::GLdouble,::GLdouble,::GLdouble,::GLdouble )
-~@free_function_t@pthread_mutexattr_getprioceiling@int (*)( __restrict__ ::pthread_mutexattr_t const *,__restrict__ int * )int (*)( __restrict__ ::pthread_mutexattr_t const *,__restrict__ int * )
+~@free_function_t@funlockfile@void (*)( ::FILE * )void (*)( ::FILE * )
 ~@free_function_t@strerror_r@char * (*)( int,char *,::size_t )char * (*)( int,char *,::size_t )
 ~@free_function_t@__fdimf@float (*)( float,float )float (*)( float,float )
 ~@free_function_t@iscntrl@int (*)( int )int (*)( int )
@@ -2732,7 +2724,7 @@
 ~@free_function_t@wctype@::wctype_t (*)( char const * )::wctype_t (*)( char const * )
 ~@free_function_t@glVertex4iv@void (*)( ::GLint const * )void (*)( ::GLint const * )
 ~@free_function_t@initstate@char * (*)( unsigned int,char *,::size_t )char * (*)( unsigned int,char *,::size_t )
-~@free_function_t@ftello64@::__off64_t (*)( ::FILE * )::__off64_t (*)( ::FILE * )
+~@free_function_t@glTexCoord3sv@void (*)( ::GLshort const * )void (*)( ::GLshort const * )
 ~@free_function_t@__scalb@double (*)( double,double )double (*)( double,double )
 ~@free_function_t@posix_openpt@int (*)( int )int (*)( int )
 ~@free_function_t@floor@double (*)( double )double (*)( double )
@@ -2953,7 +2945,7 @@
 ~@free_function_t@j0@double (*)( double )double (*)( double )
 ~@free_function_t@glTexCoord3f@void (*)( ::GLfloat,::GLfloat,::GLfloat )void (*)( ::GLfloat,::GLfloat,::GLfloat )
 ~@free_function_t@glTexCoord3d@void (*)( ::GLdouble,::GLdouble,::GLdouble )void (*)( ::GLdouble,::GLdouble,::GLdouble )
-~@free_function_t@funlockfile@void (*)( ::FILE * )void (*)( ::FILE * )
+~@free_function_t@pthread_mutexattr_getprioceiling@int (*)( __restrict__ ::pthread_mutexattr_t const *,__restrict__ int * )int (*)( __restrict__ ::pthread_mutexattr_t const *,__restrict__ int * )
 ~@free_function_t@glTexCoord3s@void (*)( ::GLshort,::GLshort,::GLshort )void (*)( ::GLshort,::GLshort,::GLshort )
 ~@free_function_t@iswlower_l@int (*)( ::wint_t,::__locale_t )int (*)( ::wint_t,::__locale_t )
 ~@free_function_t@glGetIntegerv@void (*)( ::GLenum,::GLint * )void (*)( ::GLenum,::GLint * )
@@ -3148,7 +3140,7 @@
 ~@free_function_t@__builtin_asinf@float (*)( float )float (*)( float )
 ~@free_function_t@wmemmove@wchar_t * (*)( wchar_t *,wchar_t const *,::size_t )wchar_t * (*)( wchar_t *,wchar_t const *,::size_t )
 ~@free_function_t@glColor3usv@void (*)( ::GLushort const * )void (*)( ::GLushort const * )
-~@free_function_t@obstack_printf@int (*)( __restrict__ ::obstack *,__restrict__ char const *,... )int (*)( __restrict__ ::obstack *,__restrict__ char const *,... )
+~@free_function_t@setlocale@char * (*)( int,char const * )char * (*)( int,char const * )
 ~@free_function_t@__builtin_asinl@long double (*)( long double )long double (*)( long double )
 ~@free_function_t@wcscasecmp@int (*)( wchar_t const *,wchar_t const * )int (*)( wchar_t const *,wchar_t const * )
 ~@free_function_t@log@double (*)( double )double (*)( double )
@@ -3826,7 +3818,7 @@
 ~@free_function_t@execlp@int (*)( char const *,char const *,... )int (*)( char const *,char const *,... )
 ~@free_function_t@jnl@long double (*)( int,long double )long double (*)( int,long double )
 ~@free_function_t@wcstol_l@long int (*)( __restrict__ wchar_t const *,__restrict__ wchar_t * *,int,::__locale_t )long int (*)( __restrict__ wchar_t const *,__restrict__ wchar_t * *,int,::__locale_t )
-~@free_function_t@setlocale@char * (*)( int,char const * )char * (*)( int,char const * )
+~@free_function_t@obstack_printf@int (*)( __restrict__ ::obstack *,__restrict__ char const *,... )int (*)( __restrict__ ::obstack *,__restrict__ char const *,... )
 ~@free_function_t@inet6_rth_init@void * (*)( void *,::socklen_t,int,int )void * (*)( void *,::socklen_t,int,int )
 ~@free_function_t@__copysignl@long double (*)( long double,long double )long double (*)( long double,long double )
 ~@free_function_t@__copysignf@float (*)( float,float )float (*)( float,float )

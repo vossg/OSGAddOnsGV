@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -46,7 +47,7 @@ void register_Color4ub_class(){
         bp::scope Color4ub_scope( Color4ub_exposer );
         Color4ub_exposer.def( bp::init< OSG::Vector< unsigned char, 4u > const & >(( bp::arg("source") )) );
         bp::implicitly_convertible< OSG::Vector< unsigned char, 4u > const &, OSG::Color4< unsigned char > >();
-        Color4ub_exposer.def( bp::init< unsigned char, unsigned char, unsigned char, unsigned char >(( bp::arg("red"), bp::arg("green"), bp::arg("blue"), bp::arg("alpha") )) );
+        Color4ub_exposer.def( bp::init< unsigned char, unsigned char, unsigned char, unsigned char >(( bp::arg("redVal"), bp::arg("greenVal"), bp::arg("blueVal"), bp::arg("alphaVal") )) );
         { //::OSG::Color4< unsigned char >::alpha
         
             typedef OSG::Color4< unsigned char > exported_class_t;
@@ -158,7 +159,7 @@ void register_Color4ub_class(){
             Color4ub_exposer.def( 
                 "setValuesRGBA"
                 , setValuesRGBA_function_type( &::OSG::Color4< unsigned char >::setValuesRGBA )
-                , ( bp::arg("red"), bp::arg("green"), bp::arg("blue"), bp::arg("alpha") ) );
+                , ( bp::arg("redVal"), bp::arg("greenVal"), bp::arg("blueVal"), bp::arg("alphaVal") ) );
         
         }
         Color4ub_exposer.def_readonly( "Null", OSG::Color4< unsigned char >::Null );

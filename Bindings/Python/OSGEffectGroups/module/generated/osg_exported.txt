@@ -1,5 +1,8 @@
 PostShaderStageData
+ShadowStageDataBase
+DepthPeelingStageDataBase
 HDRStageData
+HDR2StageDataBase
 ResolutionDisplayFilterBase
 DSLightChunkBase
 FishEyeProjector
@@ -13,9 +16,11 @@ ShadowStage
 DisplayFilterStageData
 ResolutionDisplayFilter
 FishEyeProjectorData
+HDR2StageData
 FogStage
 DeferredShadingStage
 DepthPeelingStageBase
+HDR2StageBase
 HDRStage
 PostShaderStageBase
 HDRStageDataBase
@@ -25,7 +30,7 @@ CalibrationPatternFilter
 CheckerboardCalibFilter
 DSLightChunk
 DisplayFilterStageDataBase
-DepthPeelingStageDataBase
+HDR2Stage
 DisplayFilter
 DeferredShadingStageDataBase
 FishEyeProjectorDataBase
@@ -41,7 +46,6 @@ DistortionDisplayFilterBase
 CalibrationPatternFilterBase
 ShadowStageData
 DepthPeelingStage
-ShadowStageDataBase
 DistortionDisplayFilter
 ColorDisplayFilterBase
 PostShaderStageDataBase

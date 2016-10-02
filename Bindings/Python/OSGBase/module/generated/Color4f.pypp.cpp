@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -46,7 +47,7 @@ void register_Color4f_class(){
         bp::scope Color4f_scope( Color4f_exposer );
         Color4f_exposer.def( bp::init< OSG::Vector< float, 4u > const & >(( bp::arg("source") )) );
         bp::implicitly_convertible< OSG::Vector< float, 4u > const &, OSG::Color4< float > >();
-        Color4f_exposer.def( bp::init< float, float, float, float >(( bp::arg("red"), bp::arg("green"), bp::arg("blue"), bp::arg("alpha") )) );
+        Color4f_exposer.def( bp::init< float, float, float, float >(( bp::arg("redVal"), bp::arg("greenVal"), bp::arg("blueVal"), bp::arg("alphaVal") )) );
         { //::OSG::Color4< float >::alpha
         
             typedef OSG::Color4< float > exported_class_t;
@@ -158,7 +159,7 @@ void register_Color4f_class(){
             Color4f_exposer.def( 
                 "setValuesRGBA"
                 , setValuesRGBA_function_type( &::OSG::Color4< float >::setValuesRGBA )
-                , ( bp::arg("red"), bp::arg("green"), bp::arg("blue"), bp::arg("alpha") ) );
+                , ( bp::arg("redVal"), bp::arg("greenVal"), bp::arg("blueVal"), bp::arg("alphaVal") ) );
         
         }
         Color4f_exposer.def_readonly( "Null", OSG::Color4< float >::Null );

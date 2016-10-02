@@ -53,12 +53,12 @@ TypeBase
 ReflexiveContainer
 MapHelper
 MemoryObject
-FieldDescriptionBase
 ExceptionBinaryDataHandler
 HardwareContextBase
 ExternalThread
 NestedSampleInfo
 ConnectorAttachmentBase
+FieldDescriptionBase
 HardwareContext
 AttachmentBase
 FieldContainer

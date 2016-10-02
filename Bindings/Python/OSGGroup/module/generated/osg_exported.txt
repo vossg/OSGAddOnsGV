@@ -44,6 +44,7 @@ StageDataBase
 DynamicStateGeneratorStageData
 DoubleTransform
 ShaderShadowMapEngineData
+SkewTransformationElementBase
 ScreenTransform
 DistanceLODBase
 DistanceLOD
@@ -78,7 +79,6 @@ LookAtTransformationElementBase
 CubeMapGeneratorStageDataBase
 ProxyGroupBase
 CubeMapGeneratorStageData
-SkewTransformationElementBase
 SpotLightBase
 InverseTransformBase
 TransformationElement

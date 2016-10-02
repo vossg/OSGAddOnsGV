@@ -22,6 +22,7 @@
 #pragma GCC diagnostic warning "-Wold-style-cast"
 #pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #pragma GCC diagnostic warning "-Wnon-virtual-dtor"
+#pragma GCC diagnostic warning "-Wshadow"
 #endif
 #if WIN32
 #pragma warning(disable : 4267)
@@ -69,7 +70,7 @@ void register_PerfMonitorBase_class(){
             .value("LAST", OSG::PerfMonitorBase::LAST)
             .export_values()
             ;
-        bp::class_< OSG::PerfMonitorBase::SampleData >( "SampleData", bp::init< OSG::UInt64, OSG::Real64, OSG::PerfMonitorBase::SampleType, std::string const &, bp::optional< OSG::Real32, std::string const & > >(( bp::arg("tid"), bp::arg("timestamp"), bp::arg("type"), bp::arg("name"), bp::arg("metricValue")=0.0, bp::arg("desc")="" )) )    
+        bp::class_< OSG::PerfMonitorBase::SampleData >( "SampleData", bp::init< OSG::UInt64, OSG::Real64, OSG::PerfMonitorBase::SampleType, std::string const &, bp::optional< OSG::Real32, std::string const & > >(( bp::arg("tid"), bp::arg("rTimestamp"), bp::arg("eType"), bp::arg("szName"), bp::arg("metricValue")=0.0, bp::arg("szDesc")="" )) )    
             .def( bp::self == bp::self )    
             .def_readwrite( "desc", &OSG::PerfMonitorBase::SampleData::desc )    
             .def_readwrite( "metric_value", &OSG::PerfMonitorBase::SampleData::metric_value )    
