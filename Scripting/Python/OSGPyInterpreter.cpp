@@ -137,7 +137,7 @@ bool PyInterpreter::run(const std::string& cmd)
     {
         bp::exec(cmd.c_str(), _pyGlobalDict, _pyGlobalDict);
     }
-    catch(bp::error_already_set)
+    catch(bp::error_already_set &)
     {
         flag = false;
     }

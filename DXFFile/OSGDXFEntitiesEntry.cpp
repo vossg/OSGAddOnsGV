@@ -135,6 +135,7 @@ DXFResult DXFEntitiesEntry::evalRecord(void)
             break;
 		case 420:
 			_trueColor = DXFRecord::getValueInt();
+            break;
         default:
             state = DXFStateUnknown;
     }

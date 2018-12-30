@@ -124,7 +124,7 @@ bool FileStreamMixinX<ParentT>::isBad (void)
 template <class ParentT> inline
 FileStreamMixinX<ParentT>::operator bool (void) 
 {
-    return _oFileStream; 
+    return _oFileStream.good(); 
 }
 
 //---------------------------------------------------------------------------

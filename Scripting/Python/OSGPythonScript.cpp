@@ -430,7 +430,7 @@ bool PythonScript::callInitFunction()
         {
             _pyInitFunc->get()();
         }
-        catch(bp::error_already_set)
+        catch(bp::error_already_set &)
         {
             FWARNING(("PythonScript: Error calling init() function:\n"));
             pyDumpError();
@@ -462,7 +462,7 @@ bool PythonScript::callShutdownFunction()
         {
             _pyShutdownFunc->get()();
         }
-        catch(bp::error_already_set)
+        catch(bp::error_already_set &)
         {
             FWARNING(("PythonScript: Error calling shutdown() function:\n"));
             _pPyInterpreter->dumpError();
@@ -494,7 +494,7 @@ bool PythonScript::callFrameFunction(OSG::Time timeStamp, OSG::UInt32 frameCount
         {
             _pyFrameFunc->get()(timeStamp, frameCount);
         }
-        catch(bp::error_already_set)
+        catch(bp::error_already_set &)
         {
             FWARNING(("PythonScript: Error calling frame() function:\n"));
             _pPyInterpreter->dumpError();
@@ -528,7 +528,7 @@ bool PythonScript::callChangedFunction(ConstFieldMaskArg whichField,
         {
             _pyChangedFunc->get()(whichField, origin, details);
         }
-        catch(bp::error_already_set)
+        catch(bp::error_already_set &)
         {
             FWARNING(("PythonScript: Error calling changed() function:\n"));
             _pPyInterpreter->dumpError();

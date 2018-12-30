@@ -83,7 +83,7 @@ bool PyInterpreter::addGlobalVariable(const T& object, const std::string& name)
     {
         _pyGlobalDict[name] = object;
     }
-    catch(bp::error_already_set)
+    catch(bp::error_already_set &)
     {
         flag = false;
     }
