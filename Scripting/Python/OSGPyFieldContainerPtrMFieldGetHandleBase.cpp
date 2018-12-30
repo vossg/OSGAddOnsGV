@@ -123,7 +123,8 @@ PyFieldContainerPtrMFieldGetHandleBase::TypeObject PyFieldContainerPtrMFieldGetH
     reinterpret_cast<PrototypeCreateF>(&PyFieldContainerPtrMFieldGetHandleBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&PyFieldContainerPtrMFieldGetHandle::initMethod),
     reinterpret_cast<ExitContainerF>(&PyFieldContainerPtrMFieldGetHandle::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&PyFieldContainerPtrMFieldGetHandle::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&PyFieldContainerPtrMFieldGetHandle::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"

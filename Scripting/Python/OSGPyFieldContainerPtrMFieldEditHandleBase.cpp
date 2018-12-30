@@ -124,7 +124,8 @@ PyFieldContainerPtrMFieldEditHandleBase::TypeObject PyFieldContainerPtrMFieldEdi
     reinterpret_cast<PrototypeCreateF>(&PyFieldContainerPtrMFieldEditHandleBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&PyFieldContainerPtrMFieldEditHandle::initMethod),
     reinterpret_cast<ExitContainerF>(&PyFieldContainerPtrMFieldEditHandle::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&PyFieldContainerPtrMFieldEditHandle::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&PyFieldContainerPtrMFieldEditHandle::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"

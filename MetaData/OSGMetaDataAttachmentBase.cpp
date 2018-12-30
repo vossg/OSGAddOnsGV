@@ -153,7 +153,8 @@ MetaDataAttachmentBase::TypeObject MetaDataAttachmentBase::_type(
     reinterpret_cast<PrototypeCreateF>(&MetaDataAttachmentBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&MetaDataAttachment::initMethod),
     reinterpret_cast<ExitContainerF>(&MetaDataAttachment::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&MetaDataAttachment::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&MetaDataAttachment::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

@@ -221,7 +221,8 @@ SimpleCudaComputeAlgorithmBase::TypeObject SimpleCudaComputeAlgorithmBase::_type
     reinterpret_cast<PrototypeCreateF>(&SimpleCudaComputeAlgorithmBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&SimpleCudaComputeAlgorithm::initMethod),
     reinterpret_cast<ExitContainerF>(&SimpleCudaComputeAlgorithm::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&SimpleCudaComputeAlgorithm::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&SimpleCudaComputeAlgorithm::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

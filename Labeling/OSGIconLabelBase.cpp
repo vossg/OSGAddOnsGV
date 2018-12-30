@@ -173,7 +173,8 @@ IconLabelBase::TypeObject IconLabelBase::_type(
     reinterpret_cast<PrototypeCreateF>(&IconLabelBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&IconLabel::initMethod),
     reinterpret_cast<ExitContainerF>(&IconLabel::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&IconLabel::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&IconLabel::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"

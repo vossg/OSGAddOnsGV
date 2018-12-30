@@ -197,7 +197,8 @@ BufferPnt3fInterpolatorBase::TypeObject BufferPnt3fInterpolatorBase::_type(
     reinterpret_cast<PrototypeCreateF>(&BufferPnt3fInterpolatorBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&BufferPnt3fInterpolator::initMethod),
     reinterpret_cast<ExitContainerF>(&BufferPnt3fInterpolator::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&BufferPnt3fInterpolator::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&BufferPnt3fInterpolator::classDescInserter)),
     false,
     ResortIndexFieldMask,
     "<?xml version=\"1.0\"?>\n"

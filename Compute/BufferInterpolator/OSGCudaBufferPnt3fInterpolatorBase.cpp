@@ -116,7 +116,8 @@ CudaBufferPnt3fInterpolatorBase::TypeObject CudaBufferPnt3fInterpolatorBase::_ty
     reinterpret_cast<PrototypeCreateF>(&CudaBufferPnt3fInterpolatorBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&CudaBufferPnt3fInterpolator::initMethod),
     reinterpret_cast<ExitContainerF>(&CudaBufferPnt3fInterpolator::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&CudaBufferPnt3fInterpolator::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&CudaBufferPnt3fInterpolator::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

@@ -158,7 +158,8 @@ ScriptBase::TypeObject ScriptBase::_type(
     NULL,
     reinterpret_cast<InitContainerF>(&Script::initMethod),
     reinterpret_cast<ExitContainerF>(&Script::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&Script::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&Script::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"

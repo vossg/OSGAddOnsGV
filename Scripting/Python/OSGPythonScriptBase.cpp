@@ -122,7 +122,8 @@ PythonScriptBase::TypeObject PythonScriptBase::_type(
     reinterpret_cast<PrototypeCreateF>(&PythonScriptBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&PythonScript::initMethod),
     reinterpret_cast<ExitContainerF>(&PythonScript::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&PythonScript::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&PythonScript::classDescInserter)),
     true,
     0,
     "<?xml version=\"1.0\" ?>\n"

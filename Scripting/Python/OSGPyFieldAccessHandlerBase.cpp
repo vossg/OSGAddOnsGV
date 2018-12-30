@@ -123,7 +123,8 @@ PyFieldAccessHandlerBase::TypeObject PyFieldAccessHandlerBase::_type(
     reinterpret_cast<PrototypeCreateF>(&PyFieldAccessHandlerBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&PyFieldAccessHandler::initMethod),
     reinterpret_cast<ExitContainerF>(&PyFieldAccessHandler::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&PyFieldAccessHandler::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&PyFieldAccessHandler::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"

@@ -180,7 +180,8 @@ BbqOutOfCoreDataSourceBase::TypeObject BbqOutOfCoreDataSourceBase::_type(
     reinterpret_cast<PrototypeCreateF>(&BbqOutOfCoreDataSourceBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&BbqOutOfCoreDataSource::initMethod),
     reinterpret_cast<ExitContainerF>(&BbqOutOfCoreDataSource::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&BbqOutOfCoreDataSource::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&BbqOutOfCoreDataSource::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

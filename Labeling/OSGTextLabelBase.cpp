@@ -172,7 +172,8 @@ TextLabelBase::TypeObject TextLabelBase::_type(
     reinterpret_cast<PrototypeCreateF>(&TextLabelBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&TextLabel::initMethod),
     reinterpret_cast<ExitContainerF>(&TextLabel::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&TextLabel::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&TextLabel::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"

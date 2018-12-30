@@ -214,7 +214,8 @@ BbqTerrainBase::TypeObject BbqTerrainBase::_type(
     reinterpret_cast<PrototypeCreateF>(&BbqTerrainBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&BbqTerrain::initMethod),
     reinterpret_cast<ExitContainerF>(&BbqTerrain::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&BbqTerrain::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&BbqTerrain::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

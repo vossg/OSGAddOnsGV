@@ -184,7 +184,8 @@ LabelForegroundBase::TypeObject LabelForegroundBase::_type(
     reinterpret_cast<PrototypeCreateF>(&LabelForegroundBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&LabelForeground::initMethod),
     reinterpret_cast<ExitContainerF>(&LabelForeground::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&LabelForeground::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&LabelForeground::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

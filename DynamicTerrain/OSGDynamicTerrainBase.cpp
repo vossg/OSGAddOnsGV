@@ -390,7 +390,8 @@ DynamicTerrainBase::TypeObject DynamicTerrainBase::_type(
     reinterpret_cast<PrototypeCreateF>(&DynamicTerrainBase::createEmptyLocal),
     reinterpret_cast<InitContainerF>(&DynamicTerrain::initMethod),
     reinterpret_cast<ExitContainerF>(&DynamicTerrain::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&DynamicTerrain::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&DynamicTerrain::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\"?>\n"

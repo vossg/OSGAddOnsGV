@@ -359,7 +359,8 @@ LabelBase::TypeObject LabelBase::_type(
     NULL,
     reinterpret_cast<InitContainerF>(&Label::initMethod),
     reinterpret_cast<ExitContainerF>(&Label::exitMethod),
-    reinterpret_cast<InitalInsertDescFunc>(&Label::classDescInserter),
+    reinterpret_cast<InitalInsertDescFunc>(
+        reinterpret_cast<void *>(&Label::classDescInserter)),
     false,
     0,
     "<?xml version=\"1.0\" ?>\n"
