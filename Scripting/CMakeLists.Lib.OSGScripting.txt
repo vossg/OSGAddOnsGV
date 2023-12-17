@@ -1,6 +1,12 @@
 
+IF(NOT OSGBUILD_PYTHON_BINDINGS)
+  RETURN()
+ENDIF()
+
 OSG_ADD_PROJECT("OSGScripting")
+
 OSG_SELECT_PROJECT()
+
 
 ##############################################################################
 # dependencies

@@ -146,6 +146,9 @@ void CudaBufferPnt3fInterpolator::changed(ConstFieldMaskArg whichField,
                                           UInt32            origin,
                                           BitVector         details)
 {
+    using boost::placeholders::_1;
+    using boost::placeholders::_2;
+
     if(0x0000 != (whichField & (KeyFieldMask | KeyValueFieldMask)))
     {
         if(_sfOutValue.getValue() != NULL)
