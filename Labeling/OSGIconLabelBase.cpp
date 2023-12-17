@@ -67,7 +67,7 @@
 #include "OSGIconLabelBase.h"
 #include "OSGIconLabel.h"
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 OSG_BEGIN_NAMESPACE
 
@@ -569,6 +569,8 @@ EditFieldHandlePtr IconLabelBase::editHandleImage          (void)
              &_sfImage,
              this->getType().getFieldDesc(ImageFieldId),
              this));
+
+    using boost::placeholders::_1;
 
     returnValue->setSetMethod(
         boost::bind(&IconLabel::setImage,

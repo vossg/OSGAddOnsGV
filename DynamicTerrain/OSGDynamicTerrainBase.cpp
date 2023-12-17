@@ -68,7 +68,7 @@
 #include "OSGDynamicTerrainBase.h"
 #include "OSGDynamicTerrain.h"
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 OSG_BEGIN_NAMESPACE
 
@@ -1325,6 +1325,8 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleHeightData     (void)
              this->getType().getFieldDesc(HeightDataFieldId),
              this));
 
+    using boost::placeholders::_1;
+
     returnValue->setSetMethod(
         boost::bind(&DynamicTerrain::setHeightData,
                     static_cast<DynamicTerrain *>(this), _1));
@@ -1428,6 +1430,8 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleTextureData    (void)
              this->getType().getFieldDesc(TextureDataFieldId),
              this));
 
+    using boost::placeholders::_1;
+
     returnValue->setSetMethod(
         boost::bind(&DynamicTerrain::setTextureData,
                     static_cast<DynamicTerrain *>(this), _1));
@@ -1455,6 +1459,8 @@ EditFieldHandlePtr DynamicTerrainBase::editHandleHeightColorTexture(void)
              &_sfHeightColorTexture,
              this->getType().getFieldDesc(HeightColorTextureFieldId),
              this));
+
+    using boost::placeholders::_1;
 
     returnValue->setSetMethod(
         boost::bind(&DynamicTerrain::setHeightColorTexture,

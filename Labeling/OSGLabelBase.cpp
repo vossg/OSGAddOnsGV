@@ -67,7 +67,7 @@
 #include "OSGLabelBase.h"
 #include "OSGLabel.h"
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 OSG_BEGIN_NAMESPACE
 
@@ -1364,6 +1364,8 @@ EditFieldHandlePtr LabelBase::editHandleTextureObject  (void)
              &_sfTextureObject,
              this->getType().getFieldDesc(TextureObjectFieldId),
              this));
+
+    using boost::placeholders::_1;
 
     returnValue->setSetMethod(
         boost::bind(&Label::setTextureObject,

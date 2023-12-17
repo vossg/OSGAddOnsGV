@@ -67,7 +67,7 @@
 #include "OSGSimpleCudaComputeAlgorithmBase.h"
 #include "OSGSimpleCudaComputeAlgorithm.h"
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 OSG_BEGIN_NAMESPACE
 
@@ -824,6 +824,8 @@ EditFieldHandlePtr SimpleCudaComputeAlgorithmBase::editHandleTarget         (voi
              &_sfTarget,
              this->getType().getFieldDesc(TargetFieldId),
              this));
+
+    using boost::placeholders::_1;
 
     returnValue->setSetMethod(
         boost::bind(&SimpleCudaComputeAlgorithm::setTarget,

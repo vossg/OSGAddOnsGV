@@ -68,7 +68,7 @@
 #include "OSGBbqTerrainBase.h"
 #include "OSGBbqTerrain.h"
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 OSG_BEGIN_NAMESPACE
 
@@ -707,6 +707,8 @@ EditFieldHandlePtr BbqTerrainBase::editHandleBeacon         (void)
              this->getType().getFieldDesc(BeaconFieldId),
              this));
 
+    using boost::placeholders::_1;
+
     returnValue->setSetMethod(
         boost::bind(&BbqTerrain::setBeacon,
                     static_cast<BbqTerrain *>(this), _1));
@@ -734,6 +736,8 @@ EditFieldHandlePtr BbqTerrainBase::editHandleDataSource     (void)
              &_sfDataSource,
              this->getType().getFieldDesc(DataSourceFieldId),
              this));
+
+    using boost::placeholders::_1;
 
     returnValue->setSetMethod(
         boost::bind(&BbqTerrain::setDataSource,

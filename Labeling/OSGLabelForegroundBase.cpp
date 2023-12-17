@@ -68,7 +68,7 @@
 #include "OSGLabelForegroundBase.h"
 #include "OSGLabelForeground.h"
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 OSG_BEGIN_NAMESPACE
 
@@ -607,6 +607,8 @@ EditFieldHandlePtr LabelForegroundBase::editHandleRoot           (void)
              this->getType().getFieldDesc(RootFieldId),
              this));
 
+    using boost::placeholders::_1;
+
     returnValue->setSetMethod(
         boost::bind(&LabelForeground::setRoot,
                     static_cast<LabelForeground *>(this), _1));
@@ -634,6 +636,8 @@ EditFieldHandlePtr LabelForegroundBase::editHandleTextureEnvironment(void)
              &_sfTextureEnvironment,
              this->getType().getFieldDesc(TextureEnvironmentFieldId),
              this));
+
+    using boost::placeholders::_1;
 
     returnValue->setSetMethod(
         boost::bind(&LabelForeground::setTextureEnvironment,

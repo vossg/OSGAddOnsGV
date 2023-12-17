@@ -67,7 +67,7 @@
 #include "OSGBufferPnt3fInterpolatorBase.h"
 #include "OSGBufferPnt3fInterpolator.h"
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 OSG_BEGIN_NAMESPACE
 
@@ -722,6 +722,8 @@ EditFieldHandlePtr BufferPnt3fInterpolatorBase::editHandleOutValue       (void)
              &_sfOutValue,
              this->getType().getFieldDesc(OutValueFieldId),
              this));
+
+    using boost::placeholders::_1;
 
     returnValue->setSetMethod(
         boost::bind(&BufferPnt3fInterpolator::setOutValue,
